@@ -22,16 +22,16 @@
 - [x] Inspect base repository status.
 - [x] Create an isolated worktree from `origin/main`.
 - [x] Create `PROGRESS.MD` before any other tracked change.
-- [ ] Commit initial `PROGRESS.MD` checkpoint.
-- [ ] Confirm Cursor Agent CLI availability and model/auth status.
-- [ ] Delegate a read-only Phase 00A audit to Cursor Agent with Composer 2.5 or document the exact blocker.
-- [ ] Review Cursor Agent findings instead of trusting self-report.
-- [ ] Remediate documentation gaps only if the audit finds Phase 00A issues.
-- [ ] Verify all `phase-plans/*.md` files have the 10 required Phase 00A sections.
-- [ ] Verify every phase names dependencies, deliverables, tests/checks, and acceptance criteria.
-- [ ] Verify no phase requires forbidden MVP scope.
-- [ ] Confirm the diff is documentation-only and limited to Phase 00A execution artifacts.
-- [ ] Re-read Phase 00A acceptance criteria and confirm implementation matches the plan.
+- [x] Commit initial `PROGRESS.MD` checkpoint.
+- [x] Confirm Cursor Agent CLI availability and model/auth status.
+- [x] Delegate a read-only Phase 00A audit to Cursor Agent with Composer 2.5 or document the exact blocker.
+- [x] Review Cursor Agent findings instead of trusting self-report.
+- [x] Remediate documentation gaps only if the audit finds Phase 00A issues.
+- [x] Verify all `phase-plans/*.md` files have the 10 required Phase 00A sections.
+- [x] Verify every phase names dependencies, deliverables, tests/checks, and acceptance criteria.
+- [x] Verify no phase requires forbidden MVP scope.
+- [x] Confirm the diff is documentation-only and limited to Phase 00A execution artifacts.
+- [x] Re-read Phase 00A acceptance criteria and confirm implementation matches the plan.
 - [ ] Commit final validated state.
 - [ ] Push branch.
 - [ ] Open a pull request to `main`.
@@ -43,8 +43,17 @@
 - `agent --help`: succeeded; CLI supports `--print`, `--mode`, `--model`, and `--workspace`.
 - Existing branch `phase-00a-plan-standards` was not reused because it contains older unrelated changes relative to `origin/main`.
 - Created worktree `/private/tmp/dungeon-forge-phase-00a` on branch `phase-00a-plan-standards-impl` from `origin/main`.
+- Commit `aa0cc5f` created the initial `PROGRESS.MD` checkpoint.
+- `agent models` required elevated access to local Cursor auth/model configuration and succeeded; Composer 2.5 model id is `composer-2.5`.
+- Cursor Agent read-only audit with `--mode=plan` exited successfully but returned no usable text twice. A minimal `--mode=ask` sanity check returned `cursor-print-ok`, so the read-only audit was rerun in ask mode with explicit no-edit instructions.
+- Cursor Agent Composer 2.5 read-only audit in ask mode found no required phase-plan remediation: all 21 `phase-plans/*.md` files have exactly the 10 required sections, all name dependencies/deliverables/tests/acceptance criteria, and no phase requires forbidden MVP scope.
+- Local section-count check also confirmed every `phase-plans/*.md` file has all 10 required headings.
+- Local forbidden-scope keyword review found forbidden items only in out-of-scope, non-goal, guardrail, or handoff contexts; no phase-plan remediation was needed.
+- `git status --short --branch` after validation showed the branch ahead of `origin/main` with only `PROGRESS.MD` modified.
+- Phase 00A acceptance criteria were re-read and matched against actual state: standards are present, later phase docs can reference them, and the MVP loop remains small, finite, seedable, inspectable, and evidence-driven in the phase plans.
 
 ## Notes
 
 - Phase 00A is documentation-only.
 - There is no `package.json`; do not run install, test, typecheck, lint, or build commands that depend on a scaffold.
+- No app scaffold, package install, source code, generated run artifact, concept doc, or phase-plan edit was required.
