@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 17A — Human Play UI |
-| Goal | Add a minimal local human-play interface over the existing engine while preserving structured actions and harness/game protocol authority. |
-| Branch | `phase/phase-17a-human-play-ui` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-17a-human-play-ui-wt` |
-| Base | `origin/main` at `293964d` |
-| Status | `Functional complete; commit/PR pending` |
+| Phase | Phase 17B — Human Playtest Traces |
+| Goal | Capture human playtest sessions in the same evidence model as agent playthroughs. |
+| Branch | `phase/phase-17b-human-playtest-traces` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-17b-human-playtest-traces-wt` |
+| Base | `origin/main` at `f2b89ac` |
+| Status | `Queued; automation state advanced after Phase 17A merge` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-17A-HUMAN-PLAY-UI.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-17B-HUMAN-PLAYTEST-TRACES.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -52,14 +52,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Commit Phase 17A implementation, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
+- [~] 2026-05-23 orchestrator — Generate Phase 17B automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
 
 ### Open
 
-_(none)_
+- [ ] 2026-05-23 Cursor/composer-2.5 — Implement human trace capture path, human metadata fields, scorecard support for human traces, optional notes/post-run feedback artifact, and trace-shape tests.
+- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates, request Cursor read-only recheck, and re-read Phase 17B acceptance.
+- [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Phase 17A PR #41 merged at `f2b89aca67522422ce0226dba585fc37163c3817`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 17B.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 17A PASS; non-blocking interactive terminal E2E suggestion recorded in Future backlog; merge readiness pending commit/PR/CI only.
 - [x] 2026-05-23 orchestrator — Review Cursor diff; enforce ASCII-only divider and correct script-mode docs; rerun focused/full local gates and auto-play smoke.
 - [x] 2026-05-23 Cursor/composer-2.5 — Implement minimal local human-play interface, structured action selection, display state/status/inventory/log, documentation, and action-flow tests within Phase 17A scope.
@@ -154,20 +157,22 @@ _(none)_
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-17A-HUMAN-PLAY-UI.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-17B-HUMAN-PLAYTEST-TRACES.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 17A — Human Play UI
+### Phase 17B — Human Playtest Traces
 
-- [x] Local human-play interface exists.
-- [x] Interface starts a seeded game.
-- [x] UI action choices come from `getAvailableActions` structured actions.
-- [x] UI displays render output, recent log, HP, inventory, and terminal status.
-- [x] UI reaches and displays terminal states.
-- [x] Saveable play trace exists when practical, or blocker/defer is documented.
-- [x] Documentation explains how to run the interface.
-- [x] UI does not bypass game-state validation or make UI the source of truth.
-- [x] Text/ASCII play remains fully supported.
-- [x] Local final gates pass: `pnpm run check`, focused action-flow tests/smoke, and `git diff --check`.
+- [ ] Human trace capture path exists.
+- [ ] Human run metadata fields exist.
+- [ ] Scorecard support for human traces exists.
+- [ ] Optional human notes or post-run feedback artifact exists, or a defer/blocker is documented.
+- [ ] Human-like scripted fixture produces a valid trace.
+- [ ] Scorecard can be generated from a human trace.
+- [ ] Human run metadata appears in summaries.
+- [ ] Agent run behavior remains unchanged.
+- [ ] Human playtesting can be compared with agent playtesting.
+- [ ] Captured actions remain structured and replayable.
+- [ ] No private user data is required.
+- [ ] Local final gates pass: `pnpm run check`, focused trace-shape tests/smoke, and `git diff --check`.
 
 ---
 
@@ -408,12 +413,22 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 — Phase 17A implementation: added `src/human-play/**` terminal/auto/script session over `GameEngine`, `pnpm run human-play`, `docs/HUMAN-PLAY.md`, and `tests/human-play.test.ts`. Validation PASS: `pnpm test tests/human-play.test.ts` (6 tests); `pnpm run human-play -- --seed seed_001 --auto` (LOSS, 17 steps); `pnpm run check` (33 files, 322 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check` PASS. Re-read `phase-plans/PHASE-17A-HUMAN-PLAY-UI.md`; deliverables and acceptance criteria satisfied locally.
 - 2026-05-23 — orchestrator — Reviewed Phase 17A diff and applied small hardening: replaced the terminal divider with ASCII `-` and corrected docs so `--script` is shown without redundant `--auto`. Validation PASS: `pnpm test tests/human-play.test.ts` (6 tests); `pnpm run human-play -- --seed seed_001 --auto` (LOSS, 17 steps); `pnpm run check` (33 files, 322 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 17A PASS against the phase plan, local terminal UI, structured actions, display/status/log/inventory, terminal outcomes, trace saving, docs, no UI source-of-truth bypass, no forbidden scope, and game protocol invariants. Recheck noted only merge-readiness blockers plus optional interactive terminal E2E coverage, now recorded in Future backlog.
+- 2026-05-23 — orchestrator — Phase 17A PR #41 merged at `f2b89aca67522422ce0226dba585fc37163c3817` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-17A --evidence runs/phase-runner/PHASE-17A/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-17B`.
+- 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 17B with initial task queue and checklist from `phase-plans/PHASE-17B-HUMAN-PLAYTEST-TRACES.md`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 17A — Human Play UI
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-17a-human-play-ui` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/41
+- **Merge commit:** `f2b89aca67522422ce0226dba585fc37163c3817`
+- **Outcome:** Added a minimal terminal/auto/script human-play interface over `GameEngine`, structured action choices from `getAvailableActions`, display/status/log/inventory output, terminal-state handling, saveable `human_player` traces/scorecards, docs, package script, and focused action-flow tests.
+- **Key evidence:** Cursor/composer-2.5 implementation and read-only recheck; local `pnpm run check` passed with 33 files and 322 tests; `pnpm run human-play -- --seed seed_001 --auto` produced a terminal LOSS after 17 steps; `git diff --check` passed; PR #41 `Repo gates` passed before merge; phase-runner automerge gate returned `allow`.
 
 ### Phase 16D — Deterministic JSON Patching
 

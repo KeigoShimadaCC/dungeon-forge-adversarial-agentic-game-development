@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-17A",
+  "currentPhase": "PHASE-17B",
   "lastUpdated": "2026-05-23",
   "phases": {
     "PHASE-00A": {
@@ -157,7 +157,11 @@
       "status": "complete"
     },
     "PHASE-17A": {
-      "status": "queued"
+      "branch": "phase/phase-17a-human-play-ui",
+      "evidenceDir": "runs/phase-runner/PHASE-17A/planned",
+      "mergeCommit": "f2b89aca67522422ce0226dba585fc37163c3817",
+      "pr": 41,
+      "status": "complete"
     },
     "PHASE-17B": {
       "status": "queued"
