@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | _(none selected)_ |
-| Goal | Await next phase selection. |
-| Branch | `main` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development` |
-| Base | `origin/main` at `dc920ae` |
-| Status | `idle` |
+| Phase | PHASE-06B Reviewer Critic |
+| Goal | Generate trace-grounded reviewer critiques after actual playthroughs; write structured reviews under `runs/vXXX/reviews/` with observations, diagnoses, recommendations, and suggested next changes. |
+| Branch | `phase-06b-reviewer-critic` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-06b-reviewer-critic-wt` |
+| Base | `origin/main` at `ac573e5` |
+| Status | `in progress` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-XX...md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-06B-REVIEWER-CRITIC.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -48,18 +48,25 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 ## Task queue
 
-_Agents add and own granular tasks here. Prefer small, verifiable items. Include date and agent id when useful._
+_Agents add and own granular tasks here. Prefer small, verifiable items. Include date and agent when useful._
 
 ### In progress
 
 - _(none)_
 
 ### Open
-- _(none)_
+
+- [ ] Implement reviewer critic module/client boundary (`src/harness/**` or agreed boundary per phase plan).
+- [ ] Implement review output writer; persist reviews under `runs/vXXX/reviews/`.
+- [ ] Update reviewer prompt template for structured review JSON/Markdown (summary, scores, top issues, suggested next changes; trace citations).
+- [ ] Add mocked tests: review from trace input, top issues, suggested changes, trace evidence citations, missing trace data, no real API credentials.
+- [ ] Run validation: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, and harness regression seed if applicable.
+- [ ] Cursor read-only audit (`--mode=ask`); record PASS/FAIL and blockers in validation log.
+- [ ] PR prep: push branch, open PR to `main`, link evidence in summary.
 
 ### Done
 
-- _(none; previous phase archived)_
+- [x] Seed `PROGRESS.MD` for Phase 06B (active phase, task queue, checklist, initial validation log). — orchestrator, 2026-05-22
 
 ### Blocked / skipped
 
@@ -69,11 +76,30 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from the active phase plan: deliverables, tests/validation, acceptance criteria. Tick when verified, not when merely attempted._
+_Derived from `phase-plans/PHASE-06B-REVIEWER-CRITIC.md`. Tick when verified against the repo, not when merely attempted._
 
-### No Active Phase
+### Deliverables
 
-- [ ] Select the next phase plan before implementation work resumes.
+- [ ] Reviewer critic module/client boundary.
+- [ ] Reviewer prompt template (trace + scorecard + render context + persona; structured output shape).
+- [ ] Review output writer saving under `runs/vXXX/reviews/`.
+- [ ] Mocked tests for review generation and missing data.
+
+### Tests and validation
+
+- [ ] Review is generated from mocked trace input.
+- [ ] Review includes top issues (severity, observation, diagnosis, recommendation).
+- [ ] Review includes suggested next changes.
+- [ ] Review cites trace evidence (turn numbers, terminal result, invalid actions, render states, outcomes)—not design docs alone.
+- [ ] Review is saved under `runs/vXXX/reviews/`.
+- [ ] Missing trace data is handled gracefully.
+- [ ] Tests do not require real API credentials.
+
+### Acceptance criteria
+
+- [ ] Critique is grounded in actual playthrough evidence.
+- [ ] Observation, diagnosis, recommendation, and severity are distinct.
+- [ ] Generated review can become input to the developer-agent workflow.
 
 ---
 
@@ -93,6 +119,8 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 ## Validation log
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
+
+- 2026-05-22 — orchestrator — Phase 06B progress seed: Cursor Agent model preflight — `composer-2.5` available; main base `ac573e5`; worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-06b-reviewer-critic-wt` on branch `phase-06b-reviewer-critic`. Implementation validation not yet run (`pnpm test`, typecheck, lint pending).
 
 - 2026-05-22 — orchestrator — PR #10 merged at `dc920ae`; fast-forwarded local `main` to `origin/main`; removed registered worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness-wt`; deleted local branch `phase-05a-harness`. Verified `git worktree list` shows only the main worktree. Preserved the earlier dirty unregistered checkout `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness` per the Phase 05A execution plan.
 
