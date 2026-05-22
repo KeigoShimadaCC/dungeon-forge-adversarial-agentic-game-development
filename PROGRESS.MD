@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-09c-map-generation` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-09c-map-generation-wt` |
 | Base | `origin/main` at `f67e9e9` |
-| Status | `complete; PR open` |
+| Status | `complete; merged to main` |
 
 ### Contract (read before editing)
 
@@ -118,6 +118,9 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | F-08A-002 | Add a CLI option to write `patch_plan.md` and `changelog.md` templates alongside `developer_task.md`. | Developer workflow polish phase | Phase 08A exposes template renderers and writes the developer task; later workflow polish can decide whether the CLI should create/update the companion markdown templates in one command. | orchestrator, 2026-05-22 |
 | F-08A-003 | Add `--help` / usage output and more structured CLI argument errors for `pnpm run developer-task`. | CLI ergonomics phase | Phase 08A validates required arguments and fails clearly enough for tests, but a human-facing usage screen would make the handoff command easier to discover. | orchestrator, 2026-05-22 |
 | F-08A-004 | Expand developer-task validation with categorized diagnostics instead of first-error-only exceptions. | Validation ergonomics phase | Phase 08A blocks obvious protocol-breaking allowed/proposed changes; a later pass could report all detected issues at once and distinguish warning-level scope risks from hard invariant violations. | orchestrator, 2026-05-22 |
+| F-09B-001 | Add scorecard metrics for non-attack enemy behavior events such as `enemy_steal`, `enemy_phase`, and `enemy_wait`. | Phase 10B / Phase 11A | Phase 09B records these events in traces, satisfying traceability, but scorecards still only count core metrics like damage, item use, and defeated enemies. Balance/acceptance phases are the right place to decide aggregate metrics. | orchestrator, 2026-05-22 |
+| F-09B-002 | Polish enemy event messages so Bat, Slime, and other enemy movement are distinct from message text alone, not only payload fields. | Trace/reviewer readability polish phase | Phase 09B payloads include `enemyType`, `behavior`, reason, and positions, so reviewer traces are inspectable; clearer prose would improve human scanability without changing mechanics. | orchestrator, 2026-05-22 |
+| F-09B-003 | Add exhaustive behavior-dispatch hardening and a standalone combat-helper unit test. | Engine hardening phase | Phase 09B behavior values are already constrained by content validation and TypeScript types, and combat damage is covered through engine tests; a later hardening pass can add explicit dispatch defaults/assertions and isolated combat coverage. | orchestrator, 2026-05-22 |
 
 _Add rows as you go. Promote to Task queue when a phase plan or user explicitly schedules the work._
 
@@ -137,6 +140,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) produced no stdout for roughly two minutes and was interrupted; local acceptance audit and gates above are the verification evidence.
 - 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-09C-MAP-GENERATION.md` against implementation; acceptance criteria satisfied locally with documented smoke-command/audit blockers. Commit `d993687` added Phase 09C map generation, engine integration, floor scaling, tests, and progress updates.
 - 2026-05-22 — orchestrator — Pushed `phase-09c-map-generation` and opened PR #20: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/20.
+- 2026-05-22 — orchestrator — Post-merge gap review on `main`: Phase 09B has no required in-phase fixes remaining against `phase-plans/PHASE-09B-ENEMY-VARIETY.md`; added out-of-scope follow-ups `F-09B-001` through `F-09B-003` to Future backlog for scorecard metrics, trace-message polish, and hardening coverage. Verification: `pnpm test` passed (13 files, 135 tests).
 
 - 2026-05-22 — orchestrator — Fast-forwarded local `main` from `ac573e5` to `origin/main` at `9ccba4f`, then created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-07a-version-loop-wt` on branch `phase-07a-version-loop` tracking `origin/main`.
 - 2026-05-22 — orchestrator — Re-read `PROGRESS.MD` and `phase-plans/PHASE-07A-VERSION-LOOP.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.
