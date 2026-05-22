@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-07a-version-loop` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-07a-version-loop-wt` |
 | Base | `origin/main` at `9ccba4f` |
-| Status | `in progress` |
+| Status | `complete; ready for PR` |
 
 ### Contract (read before editing)
 
@@ -52,23 +52,24 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-22 orchestrator — Seed Phase 07A progress state and create checkpoint commit before implementation.
+- _(none)_
 
 ### Open
 
-- [ ] 2026-05-22 orchestrator — Implement version folder helpers and artifact path conventions under `src/harness/**`.
-- [ ] 2026-05-22 orchestrator — Add `new-version`, `run-version`, `summarize-version`, and `compare-versions` scripts.
-- [ ] 2026-05-22 orchestrator — Add focused tests for folder creation, preservation, default evidence generation, summary, comparison, and validation errors.
-- [ ] 2026-05-22 orchestrator — Run final local gates and Phase 07A smoke commands.
-- [ ] 2026-05-22 orchestrator — Run/read-only audit, recheck Phase 07A acceptance, update progress, commit, push, and open PR.
+- _(none)_
 
 ### Done
 
-- _(none yet for Phase 07A)_
+- [x] 2026-05-22 orchestrator — Seed Phase 07A progress state and create checkpoint commit before implementation (`06b4eeb`).
+- [x] 2026-05-22 orchestrator — Implement version folder helpers and Phase 07A artifact path conventions under `src/harness/**`.
+- [x] 2026-05-22 orchestrator — Add `new-version`, `run-version`, `summarize-version`, and `compare-versions` package scripts and CLI entrypoints.
+- [x] 2026-05-22 orchestrator — Add focused tests for folder creation, markdown preservation, default evidence generation, review linkage, summary, comparison, and invalid/missing versions.
+- [x] 2026-05-22 orchestrator — Run final local gates and Phase 07A smoke commands.
+- [x] 2026-05-22 orchestrator — Re-read Phase 07A acceptance and confirm scope excludes `src/game/**`, `content/**`, concept docs, phase plans, secrets, and tracked generated evidence.
 
 ### Blocked / skipped
 
-- _(use `[!]` or `[-]` with a one-line reason)_
+- [!] Cursor implementation and read-only audit passes — both `agent --print` runs stalled without output and were interrupted; local implementation, diff review, and validation gates completed instead.
 
 ---
 
@@ -78,15 +79,15 @@ _Derived from `phase-plans/PHASE-07A-VERSION-LOOP.md`. Tick when verified agains
 
 ### Phase 07A — Version Loop
 
-- [ ] Version folder helper creates `runs/vXXX/` with `traces/`, `reviews/`, `scorecards/`, `patch_plan.md`, `changelog.md`, `developer_notes.md`, and `acceptance.md`.
-- [ ] Version helper validates `v001`-style IDs and preserves existing markdown stubs/evidence.
-- [ ] Artifact paths use Phase 07A names such as `seed_001_careful_player.json`.
-- [ ] `new-version`, `run-version`, `summarize-version`, and `compare-versions` commands are available from `package.json`.
-- [ ] Default version run writes three traces, three reviews, and three enriched scorecards for `seed_001/careful_player`, `seed_002/naive_player`, and `seed_003/bug_hunter`.
-- [ ] Summary report includes artifact coverage, run outcomes, scorecard metrics, and links/status for patch plan, changelog, developer notes, and acceptance.
-- [ ] Comparison report includes base/target versions, counts, objective metric deltas, reviewer-score deltas, missing artifacts, and interpretation.
-- [ ] Tests cover output paths, preservation, default evidence generation, summary shape, comparison shape, and malformed/missing version failures.
-- [ ] Local final gates and smoke commands pass, or blockers are recorded.
+- [x] Version folder helper creates `runs/vXXX/` with `traces/`, `reviews/`, `scorecards/`, `patch_plan.md`, `changelog.md`, `developer_notes.md`, and `acceptance.md`.
+- [x] Version helper validates `v001`-style IDs and preserves existing markdown stubs/evidence.
+- [x] Artifact paths use Phase 07A names such as `seed_001_careful_player.json`.
+- [x] `new-version`, `run-version`, `summarize-version`, and `compare-versions` commands are available from `package.json`.
+- [x] Default version run writes three traces, three reviews, and three enriched scorecards for `seed_001/careful_player`, `seed_002/naive_player`, and `seed_003/bug_hunter`.
+- [x] Summary report includes artifact coverage, run outcomes, scorecard metrics, and links/status for patch plan, changelog, developer notes, and acceptance.
+- [x] Comparison report includes base/target versions, counts, objective metric deltas, reviewer-score deltas, missing artifacts, and interpretation.
+- [x] Tests cover output paths, preservation, default evidence generation, summary shape, comparison shape, and malformed/missing version failures.
+- [x] Local final gates and smoke commands pass, or blockers are recorded.
 
 ---
 
@@ -117,6 +118,14 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 
 - 2026-05-22 — orchestrator — Fast-forwarded local `main` from `ac573e5` to `origin/main` at `9ccba4f`, then created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-07a-version-loop-wt` on branch `phase-07a-version-loop` tracking `origin/main`.
 - 2026-05-22 — orchestrator — Re-read `PROGRESS.MD` and `phase-plans/PHASE-07A-VERSION-LOOP.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.
+- 2026-05-22 — orchestrator — Commit `06b4eeb` seeded Phase 07A progress state before implementation.
+- 2026-05-22 — orchestrator — Cursor implementation pass (`agent --print --trust --model composer-2.5 --workspace ...`) stalled without output for several minutes and was interrupted with `kill -INT`; a partial unreported version-loop tree was inspected and removed before local implementation continued.
+- 2026-05-22 — orchestrator — `pnpm test tests/version-loop.test.ts` initially failed because `node_modules` was missing; `pnpm install` completed from the local store with lockfile up to date.
+- 2026-05-22 — orchestrator — Focused validation PASS after parser fix: `pnpm test tests/version-loop.test.ts` (7 tests), `pnpm run typecheck`, and `pnpm run lint`.
+- 2026-05-22 — orchestrator — Full validation PASS: `pnpm test` (11 files, 114 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- 2026-05-22 — orchestrator — Phase 07A smoke PASS using `/tmp/df-version-loop-smoke.2WFCWr`: `pnpm run new-version -- --version v001 --runs-root ...`; `pnpm run run-version -- --version v001 --runs-root ...` wrote three traces/reviews/enriched scorecards; `pnpm run summarize-version -- --version v001 --runs-root ...` reported complete coverage and pending acceptance; `pnpm run run-version -- --version v002 --runs-root ...`; `pnpm run compare-versions -- --base v001 --target v002 --runs-root ...` reported 3 vs 3 runs and zero missing artifacts.
+- 2026-05-22 — orchestrator — Scope audit PASS: `git diff -- src/game content concept-and-ideas phase-plans` produced no output; `git status --short --ignored runs` produced no tracked or ignored repo-local generated evidence. Code/test commit `8626336` added Phase 07A version-loop helpers, scripts, tests, and artifact-name updates.
+- 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) also stalled without output for about 90 seconds and was interrupted with `kill -INT`; local audit and gates above are the verification evidence.
 
 ---
 
