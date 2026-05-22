@@ -5,7 +5,7 @@ Phase 16D adds bounded, auditable JSON/Markdown patching for approved local arti
 ## Command
 
 ```bash
-pnpm run json-patch -- --help
+pnpm run build && node dist/src/harness/json-patch.js -- --help
 ```
 
 Required flags:

@@ -17,7 +17,7 @@ import {
 } from './structured-patch-proposal.js';
 
 export const JSON_PATCH_CLI_USAGE = `Usage:
-  pnpm run json-patch -- --patch <path> --proposal <path> [options]
+  pnpm run build && node dist/src/harness/json-patch.js -- --patch <path> --proposal <path> [options]
 
 Required:
   --patch <path>            Deterministic JSON patch document (repo-relative or absolute)
