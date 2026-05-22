@@ -134,7 +134,7 @@ export const writeReviewerDrivenHandoff = async (
     review,
     scorecard,
   );
-  const task = generateDeveloperTask(input);
+  const task = generateDeveloperTask(input, { repoRoot: runsRoot });
   const targetPaths = getVersionPaths(runsRoot, targetVersion);
   await mkdir(targetPaths.versionDir, { recursive: true });
   await writeFile(

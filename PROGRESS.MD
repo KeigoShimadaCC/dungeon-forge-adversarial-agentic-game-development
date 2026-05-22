@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-14a-developer-workflow-polish` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-14a-developer-workflow-polish-wt` |
 | Base | `origin/main` at `9977d16` |
-| Status | `Seeded; Cursor implementation pending` |
+| Status | `Local validation and Cursor recheck passed; commit and PR pending` |
 
 ### Contract (read before editing)
 
@@ -52,7 +52,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Start Phase 14A automation: create prompt bundle/worktree, seed progress, delegate implementation to Cursor/composer-2.5, then verify locally.
+- [~] 2026-05-23 orchestrator — Commit Phase 14A, push branch, open PR, verify CI, merge, and clean up if validation remains clean.
 
 ### Open
 
@@ -60,6 +60,9 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Done
 
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck — Functional Phase 14A PASS; remaining blockers are commit/PR/CI readiness only.
+- [x] 2026-05-23 orchestrator — Review Cursor diff, harden validate-only diagnostics and repo-root defaults, run focused/full gates.
+- [x] 2026-05-23 Cursor/composer-2.5 — Implement Phase 14A developer-workflow polish: repo-relative handoff paths, `--help` / `--write-templates` / `--validate-only`, categorized multi-diagnostic validation, `docs/DEVELOPER-WORKFLOW.md`, and focused tests.
 - [x] 2026-05-23 orchestrator — Merge Phase 13C PR #30, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 14A.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 13C PASS; addressed non-blocking test-strength gaps with targeted assertions.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, harden placement-order diagnostics and deterministic metadata test coverage, run focused/full gates and diagnostic balance smoke.
@@ -106,13 +109,13 @@ _Derived from `phase-plans/PHASE-14A-DEVELOPER-WORKFLOW-POLISH.md`. Tick when ve
 
 ### Phase 14A — Developer Workflow Polish
 
-- [ ] Developer-task output uses repo-relative paths when the runs root is inside the repository.
-- [ ] Optional companion template generation can write expected `patch_plan.md` and `changelog.md` files.
-- [ ] Help/usage output documents required and optional developer-workflow flags.
-- [ ] Validation reports multiple categorized diagnostics without hiding hard blockers.
-- [ ] Forbidden changes are visible before implementation.
-- [ ] Workflow remains human-governed and evidence-backed; no automatic code patching or autonomous merge loop is added in this phase.
-- [ ] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [x] Developer-task output uses repo-relative paths when the runs root is inside the repository.
+- [x] Optional companion template generation can write expected `patch_plan.md` and `changelog.md` files.
+- [x] Help/usage output documents required and optional developer-workflow flags.
+- [x] Validation reports multiple categorized diagnostics without hiding hard blockers.
+- [x] Forbidden changes are visible before implementation.
+- [x] Workflow remains human-governed and evidence-backed; no automatic code patching or autonomous merge loop is added in this phase.
+- [x] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -136,10 +139,10 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | F-07A-003 | Add a no-clobber or archive mode for rerunning `run-version` when JSON evidence already exists. | Evidence retention / acceptance hardening phase | Phase 07A creates deterministic evidence and preserves markdown stubs, but rerunning the same version currently regenerates same-path trace/review/scorecard JSON. A later phase should decide whether to fail, archive, or require an explicit overwrite flag. | orchestrator, 2026-05-22 |
 | F-07A-004 | Persist summary and comparison reports as generated artifacts, not only stdout JSON. | Reporting / acceptance phase | Phase 07A can generate summaries/comparisons from commands, but it does not save canonical report files such as `runs/v001/summary.json` or `runs/comparisons/v001_vs_v002.json`. | orchestrator, 2026-05-22 |
 | F-07A-005 | Add typed CLI options for non-default evidence matrices or selected runs. | Harness ergonomics phase | Phase 07A intentionally ships the default three-run matrix; later work may need targeted reruns, custom seeds, or persona subsets without changing code. | orchestrator, 2026-05-22 |
-| F-08A-001 | Render developer-task artifact paths as repo-relative paths when possible. | Handoff polish phase | Phase 08A is functionally correct, but absolute `--runs-root` values produce absolute patch/changelog paths in `developer_task.md`; repo-relative paths would be cleaner for copyable human handoff. | orchestrator, 2026-05-22 |
-| F-08A-002 | Add a CLI option to write `patch_plan.md` and `changelog.md` templates alongside `developer_task.md`. | Developer workflow polish phase | Phase 08A exposes template renderers and writes the developer task; later workflow polish can decide whether the CLI should create/update the companion markdown templates in one command. | orchestrator, 2026-05-22 |
-| F-08A-003 | Add `--help` / usage output and more structured CLI argument errors for `pnpm run developer-task`. | CLI ergonomics phase | Phase 08A validates required arguments and fails clearly enough for tests, but a human-facing usage screen would make the handoff command easier to discover. | orchestrator, 2026-05-22 |
-| F-08A-004 | Expand developer-task validation with categorized diagnostics instead of first-error-only exceptions. | Validation ergonomics phase | Phase 08A blocks obvious protocol-breaking allowed/proposed changes; a later pass could report all detected issues at once and distinguish warning-level scope risks from hard invariant violations. | orchestrator, 2026-05-22 |
+| F-08A-001 | Implemented in Phase 14A: render developer-task artifact paths as repo-relative paths when possible. | Phase 14A | Closed by `toHandoffDisplayPath` and repo-relative developer-task path tests. | orchestrator, 2026-05-23 |
+| F-08A-002 | Implemented in Phase 14A: add a CLI option to write `patch_plan.md` and `changelog.md` templates alongside `developer_task.md`. | Phase 14A | Closed by `--write-templates` and companion-template integration tests. | orchestrator, 2026-05-23 |
+| F-08A-003 | Implemented in Phase 14A: add `--help` / usage output and more structured CLI argument errors for `pnpm run developer-task`. | Phase 14A | Closed by `DEVELOPER_TASK_CLI_USAGE`, `--help`, and help-output tests. | orchestrator, 2026-05-23 |
+| F-08A-004 | Implemented in Phase 14A: expand developer-task validation with categorized diagnostics instead of first-error-only exceptions. | Phase 14A | Closed by `collectDeveloperTaskDiagnostics`, `--validate-only`, and multi-diagnostic tests. | orchestrator, 2026-05-23 |
 | F-09B-001 | Add scorecard metrics for non-attack enemy behavior events such as `enemy_steal`, `enemy_phase`, and `enemy_wait`. | Phase 10B / Phase 11A | Phase 09B records these events in traces, satisfying traceability, but scorecards still only count core metrics like damage, item use, and defeated enemies. Balance/acceptance phases are the right place to decide aggregate metrics. | orchestrator, 2026-05-22 |
 | F-09B-002 | Polish enemy event messages so Bat, Slime, and other enemy movement are distinct from message text alone, not only payload fields. | Trace/reviewer readability polish phase | Phase 09B payloads include `enemyType`, `behavior`, reason, and positions, so reviewer traces are inspectable; clearer prose would improve human scanability without changing mechanics. | orchestrator, 2026-05-22 |
 | F-09B-003 | Add exhaustive behavior-dispatch hardening and a standalone combat-helper unit test. | Engine hardening phase | Phase 09B behavior values are already constrained by content validation and TypeScript types, and combat damage is covered through engine tests; a later hardening pass can add explicit dispatch defaults/assertions and isolated combat coverage. | orchestrator, 2026-05-22 |
@@ -267,6 +270,9 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Final pre-commit validation PASS after recheck hardening: `pnpm run check` (23 files, 212 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass) and `git diff --check`.
 - 2026-05-23 — orchestrator — Phase 13C merged and cleaned up: automation gate allowed merge, PR #30 `Repo gates` passed in 32s, PR #30 was squash-merged at `eca1ddae10ef4bdd3f5745dc67411537b2bd1fbb`, clean worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-13c-trace-scorecard-diagnostics-wt` was removed, local branch `phase/phase-13c-trace-scorecard-diagnostics` was deleted, remote branch was deleted manually, and `automation/phase-state.json` advanced current phase to `PHASE-14A`.
 - 2026-05-23 — orchestrator — Phase 14A automation start: `pnpm run phase -- status` selected `PHASE-14A`; read `PROGRESS.MD` and `phase-plans/PHASE-14A-DEVELOPER-WORKFLOW-POLISH.md`; `pnpm run phase -- bundle --phase PHASE-14A --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-14A/planned`; Cursor preflight `agent --list-models` confirmed `composer-2.5`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-14a-developer-workflow-polish-wt` on branch `phase/phase-14a-developer-workflow-polish` from `origin/main` at `9977d16`.
+- 2026-05-23 — Cursor/composer-2.5 — Phase 14A implementation: added `toHandoffDisplayPath`, `collectDeveloperTaskDiagnostics` with `blocker`/`forbidden`/`allowed`/`proposed`/`warning` categories, CLI `--help`, `--write-templates`, `--validate-only`, `--repo-root`, `docs/DEVELOPER-WORKFLOW.md`, and expanded `tests/developer-workflow.test.ts`. Validation PASS: `pnpm test tests/developer-workflow.test.ts` (8 tests); `pnpm run check` (23 files, 216 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
+- 2026-05-23 — orchestrator — Reviewed and hardened the Phase 14A diff: proposed changes that match global forbidden rules now produce blocker diagnostics, `--validate-only` on valid handoffs prints visible forbidden-rule diagnostics, and CLI `--repo-root` defaults to the current working directory so a repo subdirectory `--runs-root` still yields repo-relative handoff paths. Validation PASS: `pnpm test tests/developer-workflow.test.ts` (9 tests), `pnpm run check` (23 files, 217 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 14A PASS against the phase plan, local validation, protocol invariants, forbidden-scope review, and secrets scan. Recheck validation PASS: `pnpm test tests/developer-workflow.test.ts` (9 tests), `pnpm run check` (23 files, 217 tests), `git diff -- src/game content concept-and-ideas phase-plans` empty, and no `.env` or credential material in the diff. Merge readiness remains pending only for commit, PR, and GitHub CI.
 
 ---
 

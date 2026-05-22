@@ -100,18 +100,27 @@ export {
 } from './reviewer-client.js';
 export {
   DEFAULT_DEVELOPER_TEST_COMMANDS,
+  collectDeveloperTaskDiagnostics,
   DeveloperTaskValidationError,
+  formatDeveloperTaskValidationMessage,
   GLOBAL_FORBIDDEN_CHANGES,
   generateDeveloperTask,
   getDeveloperTaskOutputPath,
   renderChangelogTemplate,
   renderDeveloperTaskMarkdown,
   renderPatchPlanTemplate,
+  toHandoffDisplayPath,
   validateDeveloperTaskInput,
   type DeveloperTask,
+  type DeveloperTaskDiagnostic,
+  type DeveloperTaskDiagnosticCategory,
   type DeveloperTaskInput,
+  type DeveloperTaskValidationResult,
 } from './developer-workflow.js';
-export { runDeveloperTaskCli } from './developer-workflow-cli.js';
+export {
+  DEVELOPER_TASK_CLI_USAGE,
+  runDeveloperTaskCli,
+} from './developer-workflow-cli.js';
 export {
   ACCEPTANCE_CHECK_STATUSES,
   COMMAND_CHECK_IDS,
