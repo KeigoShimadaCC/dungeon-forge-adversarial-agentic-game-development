@@ -213,6 +213,36 @@ export {
   runPatchProposalCli,
 } from './patch-proposal-cli.js';
 export {
+  JSON_PATCH_SCHEMA_VERSION,
+  JSON_PATCH_GLOBAL_ALLOWED_SURFACES,
+  JsonPatchValidationError,
+  applyDeterministicJsonPatch,
+  assertJsonPatchStructurallyValid,
+  collectJsonPatchDiagnostics,
+  formatJsonPatchValidationMessage,
+  getJsonPatchAuditLogPath,
+  getJsonPatchReportPath,
+  getJsonPatchRollbackDir,
+  isGloballyAllowedPatchTarget,
+  parseJsonPointer,
+  pathMatchesAllowedPrefix,
+  validateDeterministicJsonPatch,
+  type ApplyDeterministicJsonPatchOptions,
+  type DeterministicJsonPatch,
+  type JsonPatchApplicationReport,
+  type JsonPatchDiagnostic,
+  type JsonPatchDiagnosticCategory,
+  type JsonPatchFileSummary,
+  type JsonPatchMode,
+  type JsonPatchOperation,
+  type JsonPatchOperationKind,
+  type JsonPatchValidationResult,
+} from './deterministic-json-patch.js';
+export {
+  JSON_PATCH_CLI_USAGE,
+  runJsonPatchCli,
+} from './json-patch-cli.js';
+export {
   DEFAULT_AUDIT_FORBIDDEN_ACTIONS,
   DEFAULT_CONTEXT_EXCLUSIONS,
   DEFAULT_FORBIDDEN_CONTEXT_PATHS,
