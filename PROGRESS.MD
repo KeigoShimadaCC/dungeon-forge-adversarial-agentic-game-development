@@ -55,7 +55,6 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - _(none)_
 
 ### Open
-- [ ] Cursor read-only audit of Phase 04B implementation against plan and invariants.
 - [ ] Push `phase-04b-baseline-players` and open PR to `main`.
 
 ### Done
@@ -65,6 +64,8 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-22 — cursor-agent — Deterministic policy RNG via `createSeededRng` in `createRandomValidActionPolicy`; all policies return members of `getAvailableActions`.
 - [x] 2026-05-22 — cursor-agent — `tests/baseline-players.test.ts` (valid action, no mutation, reproducibility, canonical seeds `seed_001`–`seed_005`).
 - [x] 2026-05-22 — cursor-agent — Validation: `pnpm install`; `pnpm test` exit 0 (6 files, 51 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0.
+- [x] 2026-05-22 — cursor-agent — Read-only Phase 04B audit against plan and invariants: PASS; no blocking findings.
+- [x] 2026-05-22 — orchestrator — Re-read Phase 04B acceptance criteria against actual repo state after audit follow-up.
 
 ### Blocked / skipped
 
@@ -99,7 +100,7 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 - [x] Cheap crash and softlock detection before LLM costs are introduced (acceptance).
 - [x] Baseline players do not mutate game state directly (acceptance).
 - [x] Gameplay remains structured-action based (acceptance).
-- [ ] Re-read acceptance criteria against actual repo state.
+- [x] Re-read acceptance criteria against actual repo state.
 - [ ] Push branch and open PR when implemented.
 
 ---
@@ -125,6 +126,8 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — Phase 04B progress seed: read `phase-plans/PHASE-04B-BASELINE-PLAYERS.md` and `PROGRESS.MD`; user explicitly chose Phase 04B over stale Active Phase 04A. Preflight: `origin/main` baseline clean for worktree setup; `composer-2.5` available for delegated passes; branch `phase-04b-baseline-players` and worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-04b` created from `origin/main`. Updated Active Phase, task queue, and Phase 04B checklist only (no source/tests/package changes in this slice).
 - 2026-05-22 — cursor-agent — Phase 04B implementation: `src/harness/baseline-players/**` (policy interface, four policies, shared helpers, `runBaselinePolicyPlaythrough`); `tests/baseline-players.test.ts`. `pnpm install`; `pnpm test` exit 0 (6 files, 51 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0. No `src/game/**` or package changes.
 - 2026-05-22 — orchestrator — Reviewed Cursor implementation and tightened runner/test contract so policies must return the exact `PlayerAction` object from the supplied `availableActions` list. Local validation: initial `pnpm test` failed after stricter assertion because the test helper compared against a fresh action array; fixed helper. Final local validation: `pnpm test` exit 0 (6 files, 51 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `git diff --check` exit 0; `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
+- 2026-05-22 — cursor-agent — Read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace /Users/keigoshimada/Documents/dungeon-forge-phase-04b`): PASS. Audit noted test-hardening gaps around explicit action reference identity and cloned-action rejection; orchestrator added `tests/baseline-players.test.ts` coverage for both.
+- 2026-05-22 — orchestrator — Final Phase 04B validation after audit follow-up: `pnpm test` exit 0 (6 files, 52 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `git diff --check` exit 0; `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`. Acceptance re-read: cheap baseline crash/softlock smoke coverage exists, policies do not mutate game state directly, and gameplay remains structured-action based with no `src/game/**` contract changes.
 
 ---
 

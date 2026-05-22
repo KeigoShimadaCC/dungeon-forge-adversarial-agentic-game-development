@@ -55,7 +55,7 @@ describe('Phase 04B baseline players', () => {
     for (const policy of BASELINE_POLICIES) {
       const availableActions = getAvailableActions(state);
       const choice = policyChoiceFromActions(state, policy, availableActions);
-      expect(availableActions).toContain(choice);
+      expect(availableActions.find((action) => action === choice)).toBe(choice);
       expect(
         availableActions.some(
           (action) => action.id === choice.id && action.type === choice.type,
@@ -131,5 +131,15 @@ describe('Phase 04B baseline players', () => {
       const result = runBaselinePolicyPlaythrough(policy, seed);
       expect(['WIN', 'LOSS', 'ABORTED']).toContain(result.terminalStatus);
     }
+  });
+
+  it('rejects policies that clone an available action instead of returning the exact action object', () => {
+    const cloningPolicy: BaselinePlayerPolicy = ({ availableActions }) => ({
+      ...availableActions[0],
+    });
+
+    expect(() => runBaselinePolicyPlaythrough(cloningPolicy, 'seed_001')).toThrow(
+      'baseline policy must return an action reference from availableActions',
+    );
   });
 });
