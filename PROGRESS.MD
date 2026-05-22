@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Add credential-gated real LLM player and reviewer runs while keeping default gameplay, tests, CI, and validation credential-free. |
 | Branch | `phase/phase-14b-real-llm-runs` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-14b-real-llm-runs-wt` |
-| Base | `origin/main` at `c852196` |
-| Status | `Queued; automation start pending` |
+| Base | `origin/main` at `6b650e6` |
+| Status | `Seeded; Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -52,11 +52,11 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-23 orchestrator — Start Phase 14B automation: create prompt bundle/worktree, seed progress, delegate implementation to Cursor/composer-2.5, then verify locally.
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Start Phase 14B automation: create prompt bundle/worktree, seed progress, delegate implementation to Cursor/composer-2.5, then verify locally.
+- _(none)_
 
 ### Done
 
@@ -276,6 +276,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Reviewed and hardened the Phase 14A diff: proposed changes that match global forbidden rules now produce blocker diagnostics, `--validate-only` on valid handoffs prints visible forbidden-rule diagnostics, and CLI `--repo-root` defaults to the current working directory so a repo subdirectory `--runs-root` still yields repo-relative handoff paths. Validation PASS: `pnpm test tests/developer-workflow.test.ts` (9 tests), `pnpm run check` (23 files, 217 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 14A PASS against the phase plan, local validation, protocol invariants, forbidden-scope review, and secrets scan. Recheck validation PASS: `pnpm test tests/developer-workflow.test.ts` (9 tests), `pnpm run check` (23 files, 217 tests), `git diff -- src/game content concept-and-ideas phase-plans` empty, and no `.env` or credential material in the diff. Merge readiness remains pending only for commit, PR, and GitHub CI.
 - 2026-05-23 — orchestrator — Phase 14A merged and cleaned up: automation gate allowed merge, PR #31 `Repo gates` passed in 39s, PR #31 was squash-merged at `c8521967c93248d69f5196f1854f30156ba29329`, clean worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-14a-developer-workflow-polish-wt` was removed, local branch `phase/phase-14a-developer-workflow-polish` was deleted, remote branch was deleted manually, and `automation/phase-state.json` advanced current phase to `PHASE-14B`.
+- 2026-05-23 — orchestrator — Phase 14B automation start: `pnpm run phase -- status` selected `PHASE-14B`; read `PROGRESS.MD` and `phase-plans/PHASE-14B-REAL-LLM-RUNS.md`; `pnpm run phase -- bundle --phase PHASE-14B --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-14B/planned`; Cursor preflight `agent --list-models` confirmed `composer-2.5`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-14b-real-llm-runs-wt` on branch `phase/phase-14b-real-llm-runs` from `origin/main` at `6b650e6`.
 
 ---
 
