@@ -127,6 +127,9 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — composer-2.5 — Scope review: no GameEngine contract, harness playthroughs, LLM, browser UI, DB, Docker, or generated `runs/**` evidence; placeholders only.
 - 2026-05-22 — orchestrator — Independent validation after Cursor scaffold: `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0.
 - 2026-05-22 — orchestrator — Re-read `PHASE-01A-PROJECT-STRUCTURE.md` acceptance criteria against repo state: scaffold installs/checks locally, folder boundaries match planned architecture, no forbidden MVP feature or external gameplay service introduced, and Phase 02A can proceed without restructuring.
+- 2026-05-22 — composer-2.5 verifier — Read-only verification found no blocking Phase 01A issues. Low-severity hygiene: stale top-level agent docs and pre-existing `untitled folder/.gitkeep`.
+- 2026-05-22 — orchestrator — Remediated verifier hygiene items: updated `AGENTS.md` and `CLAUDE.md` command/setup notes for the Phase 01A scaffold; removed pre-existing `untitled folder/.gitkeep` so tracked folder boundaries match the planned architecture.
+- 2026-05-22 — orchestrator — Post-remediation validation: `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0.
 
 ---
 

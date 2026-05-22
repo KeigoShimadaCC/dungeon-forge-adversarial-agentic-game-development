@@ -6,13 +6,12 @@ This repo defines and will implement a bounded adversarial game-development loop
 
 ## Setup
 
-No app scaffold exists yet. Do not run install commands until `package.json` exists.
-
-Planned Phase 01A setup:
+Phase 01A scaffold exists:
 - TypeScript
 - Node.js
 - pnpm
 - Vitest
+- ESLint
 
 ## Progress Coordination (`PROGRESS.MD`)
 
@@ -35,13 +34,14 @@ Current:
 - `git status --short --branch`
 - `rg "<term>" concept-and-ideas phase-plans`
 - `find . -maxdepth 3 -type f -print | sort`
-
-Planned after scaffold:
 - `pnpm test`
-- `pnpm run typecheck` if present
+- `pnpm run typecheck`
+- `pnpm run lint`
+
+Planned after later phases:
 - harness regression seed command once Phase 03A defines it
 
-No canonical lint, build, e2e, Docker, or CI command exists yet.
+No canonical build, e2e, Docker, or CI command exists yet.
 
 ## Architecture
 
