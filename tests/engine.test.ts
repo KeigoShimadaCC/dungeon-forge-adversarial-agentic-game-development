@@ -521,7 +521,7 @@ describe('Phase 03A minimal dungeon', () => {
     expect(repeatedSnapshots).toEqual(snapshots);
   });
 
-  it('lets Bat move up to two deterministic chase steps without a same-turn post-move attack', () => {
+  it('lets bat move up to two deterministic chase steps without a same-turn post-move attack', () => {
     const base = start('bat-seed');
     const linear = findLinearPositionFromPlayer(base, 2);
     const state: GameState = {
@@ -549,7 +549,7 @@ describe('Phase 03A minimal dungeon', () => {
     );
   });
 
-  it('lets Shell wait at range and attack only when adjacent', () => {
+  it('lets shell wait at range and attack only when adjacent', () => {
     const base = start('shell-wait-seed');
     const linear = findLinearPositionFromPlayer(base, 3);
     const ranged: GameState = {
@@ -602,7 +602,7 @@ describe('Phase 03A minimal dungeon', () => {
     );
   });
 
-  it('lets Thief seek and steal the nearest loose item before pursuing weakly', () => {
+  it('lets thief seek and steal the nearest loose item before pursuing weakly', () => {
     const base = start('thief-seed');
     const linear = findLinearPositionFromPlayer(base, 3);
     const itemPosition = {
@@ -677,7 +677,7 @@ describe('Phase 03A minimal dungeon', () => {
     );
   });
 
-  it('lets Ghost phase through bounded interior walls deterministically', () => {
+  it('lets ghost phase through bounded interior walls deterministically', () => {
     const base = start('ghost-seed');
     const linear = findLinearPositionFromPlayer(base, 2);
     const phaseDestination = {
