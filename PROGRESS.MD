@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-06c-scorecard-prep` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-06c-scorecard-wt` |
 | Base | `origin/main` at `ac573e5` |
-| Status | `in progress` |
+| Status | `prep complete; PR open` |
 
 ### Contract (read before editing)
 
@@ -52,21 +52,23 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-22 orchestrator — Review implementation diff for phase scope and no `src/game/**` changes.
+- _(none)_
 
 ### Open
-- [ ] Run local verification: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001-prep`.
-- [ ] Delegate Cursor read-only audit for canonical fields, trace linkage, determinism, and no Phase 06B implementation.
-- [ ] Re-read `phase-plans/PHASE-06C-SCORECARD.md`, update final prep notes, commit, push, and open PR.
+- _(none)_
 
 ### Done
 
 - [x] 2026-05-22 orchestrator — Seed Phase 06C Prep progress state and commit before implementation (`e8a57ee`).
 - [x] 2026-05-22 orchestrator — Implement scorecard schema, mocked review merge, validator, public exports, and focused tests locally after Cursor implementation was blocked by host policy.
+- [x] 2026-05-22 orchestrator — Review implementation diff for phase scope and no `src/game/**` changes.
+- [x] 2026-05-22 orchestrator — Run local verification: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001-prep`.
+- [x] 2026-05-22 orchestrator — Re-read `phase-plans/PHASE-06C-SCORECARD.md`, update final prep notes, commit, push, and open PR.
 
 ### Blocked / skipped
 
 - [!] Full Phase 06C acceptance — blocked until Phase 06B provides real reviewer-critic output; this branch may only add mocked review-score merge support.
+- [!] Cursor read-only audit — blocked by host policy against transmitting workspace code to the external Cursor service; local scope audit completed instead.
 
 ---
 
@@ -76,14 +78,14 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 
 ### Phase 06C Prep — Scorecard
 
-- [ ] Scorecard type includes canonical objective fields, `reviewer_scores`, trace linkage, and optional review source linkage.
-- [ ] Trace-only scorecard generation keeps objective metrics and normalizes subjective scores to `null`.
-- [ ] Mocked review-score input can enrich scorecards without implementing Phase 06B reviewer generation.
-- [ ] Required-field validation fails on missing objective fields while allowing null subjective scores.
-- [ ] Scorecard writer preserves deterministic `runs/vXXX/scorecards/` paths.
-- [ ] Public harness exports include updated scorecard types and validator.
-- [ ] Focused tests cover trace-only, trace-plus-review, partial subjective scores, validation failure, deterministic JSON, and saved file shape.
-- [ ] Local validation commands pass or blockers are logged.
+- [x] Scorecard type includes canonical objective fields, `reviewer_scores`, trace linkage, and optional review source linkage.
+- [x] Trace-only scorecard generation keeps objective metrics and normalizes subjective scores to `null`.
+- [x] Mocked review-score input can enrich scorecards without implementing Phase 06B reviewer generation.
+- [x] Required-field validation fails on missing objective fields while allowing null subjective scores.
+- [x] Scorecard writer preserves deterministic `runs/vXXX/scorecards/` paths.
+- [x] Public harness exports include updated scorecard types and validator.
+- [x] Focused tests cover trace-only, trace-plus-review, partial subjective scores, validation failure, deterministic JSON, and saved file shape.
+- [x] Local validation commands pass or blockers are logged.
 - [!] Full Phase 06C acceptance with real reviewer output remains blocked on Phase 06B.
 
 ---
@@ -111,6 +113,12 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Cursor implementation pass blocked by host policy: escalating `agent --print --trust --model composer-2.5 --workspace ...` was rejected because it would transmit workspace code to an external Cursor service. Proceeded with local implementation in the same scoped files.
 - 2026-05-22 — orchestrator — Installed dependencies with `pnpm install` after first `pnpm test` failed because `node_modules` was missing; lockfile was already up to date and packages were reused from local store.
 - 2026-05-22 — orchestrator — Local implementation smoke gates: `pnpm test` PASS (8 files, 82 tests); `pnpm run typecheck` PASS after validator cast fix; `pnpm run lint` PASS.
+- 2026-05-22 — orchestrator — Commit `f4aeb35` added Phase 06C prep scorecard schema, mocked review-score merge input, validator, exports, and tests.
+- 2026-05-22 — orchestrator — Final validation PASS: `pnpm test` (8 files, 82 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001-prep`. Simulation wrote ignored evidence under `runs/v001-prep/` and produced a scorecard with canonical nullable `reviewer_scores` and trace linkage.
+- 2026-05-22 — orchestrator — Local scope audit PASS: `git diff --name-only origin/main...HEAD` is limited to `PROGRESS.MD`, `src/harness/index.ts`, `src/harness/runner.ts`, `src/harness/scorecard.ts`, `src/harness/types.ts`, and `tests/harness.test.ts`; no `src/game/**`, `content/**`, phase-plan, concept-doc, or tracked `runs/**` changes.
+- 2026-05-22 — orchestrator — Cursor read-only audit was not run because the host policy rejected external Cursor workspace-code transmission. Local audit covered canonical fields, trace linkage, determinism tests, and absence of Phase 06B reviewer generation.
+- 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-06C-SCORECARD.md` before finalization: implemented prep deliverables for scorecard generation/schema/writer/tests and mocked subjective-score merge; full Phase 06C acceptance remains blocked until Phase 06B supplies real reviewer output.
+- 2026-05-22 — orchestrator — Pushed `phase-06c-scorecard-prep` and opened prep PR #11: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/11.
 
 ---
 
