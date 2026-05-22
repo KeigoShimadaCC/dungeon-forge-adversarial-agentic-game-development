@@ -52,20 +52,20 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-22 orchestrator — Seed Phase 08A progress state and checkpoint before implementation.
+- _(none)_
 
 ### Open
 
-- [ ] 2026-05-22 orchestrator — Delegate bounded developer-workflow implementation to Cursor Agent and verify any edits locally.
-- [ ] 2026-05-22 orchestrator — Add deterministic developer task generator, renderer, validation, templates, exports, and CLI.
-- [ ] 2026-05-22 orchestrator — Replace developer prompt placeholder with Phase 08A human-governed workflow template.
-- [ ] 2026-05-22 orchestrator — Add unit and CLI-smoke coverage for generated task shape and validation failures.
-- [ ] 2026-05-22 orchestrator — Run local gates and Phase 08A CLI smoke.
-- [ ] 2026-05-22 orchestrator — Run Cursor read-only acceptance audit or record blocker.
 - [ ] 2026-05-22 orchestrator — Re-read Phase 08A acceptance and finalize progress, commits, push, and PR.
 
 ### Done
 
+- [x] 2026-05-22 orchestrator — Seed Phase 08A progress state and checkpoint before implementation (`599b76b`).
+- [x] 2026-05-22 orchestrator — Delegate bounded developer-workflow implementation to Cursor Agent, inspect partial unreported diff, and harden it locally.
+- [x] 2026-05-22 orchestrator — Add deterministic developer task generator, renderer, validation, templates, exports, and CLI.
+- [x] 2026-05-22 orchestrator — Replace developer prompt placeholder with Phase 08A human-governed workflow template.
+- [x] 2026-05-22 orchestrator — Add unit and CLI-smoke coverage for generated task shape and validation failures.
+- [x] 2026-05-22 orchestrator — Run local gates and Phase 08A CLI smoke.
 - [x] 2026-05-22 orchestrator — Seed Phase 07A progress state and create checkpoint commit before implementation (`06b4eeb`).
 - [x] 2026-05-22 orchestrator — Implement version folder helpers and Phase 07A artifact path conventions under `src/harness/**`.
 - [x] 2026-05-22 orchestrator — Add `new-version`, `run-version`, `summarize-version`, and `compare-versions` package scripts and CLI entrypoints.
@@ -75,7 +75,8 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Blocked / skipped
 
-- [!] Cursor implementation and read-only audit passes — both `agent --print` runs stalled without output and were interrupted; local implementation, diff review, and validation gates completed instead.
+- [!] 2026-05-22 orchestrator — Cursor implementation pass stalled without output and was interrupted; it left a partial unreported diff that was reviewed, corrected, and verified locally.
+- [!] 2026-05-22 orchestrator — Cursor read-only audit pass stalled without output and was interrupted; local acceptance audit and gates are the verification evidence.
 
 ---
 
@@ -85,15 +86,15 @@ _Derived from `phase-plans/PHASE-08A-DEVELOPER-AGENT-WORKFLOW.md`. Tick when ver
 
 ### Phase 08A — Developer Agent Workflow
 
-- [ ] Developer task can be generated from review/scorecard inputs.
-- [ ] Generated task includes previous review path, previous scorecard path, target version, target scope, allowed changes, forbidden changes, required test commands, required patch plan path, required changelog path, and expected implementation summary.
-- [ ] Workflow blocks protocol-breaking requests such as changing `GameEngine`, removing seed determinism, removing terminal states, or adding infinite floors.
-- [ ] Patch plan template records review issues, one to three scoped changes, expected files/modules, tests/checks, non-goals, and forbidden changes.
-- [ ] Changelog template records implemented changes, tests/evidence, invariants, and residual risks.
-- [ ] Developer prompt under `src/agents/prompts/**` reflects the Phase 08A human-governed workflow.
-- [ ] Package script and CLI can print or write a developer task to `runs/<targetVersion>/developer_task.md`.
-- [ ] Tests cover generated task shape and validation failures.
-- [ ] Local final gates and CLI smoke pass, or blockers are recorded.
+- [x] Developer task can be generated from review/scorecard inputs.
+- [x] Generated task includes previous review path, previous scorecard path, target version, target scope, allowed changes, forbidden changes, required test commands, required patch plan path, required changelog path, and expected implementation summary.
+- [x] Workflow blocks protocol-breaking requests such as changing `GameEngine`, removing seed determinism, removing terminal states, or adding infinite floors.
+- [x] Patch plan template records review issues, one to three scoped changes, expected files/modules, tests/checks, non-goals, and forbidden changes.
+- [x] Changelog template records implemented changes, tests/evidence, invariants, and residual risks.
+- [x] Developer prompt under `src/agents/prompts/**` reflects the Phase 08A human-governed workflow.
+- [x] Package script and CLI can print or write a developer task to `runs/<targetVersion>/developer_task.md`.
+- [x] Tests cover generated task shape and validation failures.
+- [x] Local final gates and CLI smoke pass, or blockers are recorded.
 
 ---
 
@@ -137,6 +138,13 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Phase 08A preflight: `git fetch origin` passed; `git status --short --branch` on main showed clean `## main...origin/main`; `git log --oneline --decorate --max-count=10 --all` showed Phase 07A PR #17 merged into `origin/main` at `4c36e5d`.
 - 2026-05-22 — orchestrator — Created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-08a-developer-agent-workflow-wt` on branch `phase-08a-developer-agent-workflow` from `origin/main` at `4c36e5d`; worktree status clean.
 - 2026-05-22 — orchestrator — Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.
+- 2026-05-22 — orchestrator — Commit `599b76b` seeded Phase 08A progress state before implementation.
+- 2026-05-22 — orchestrator — Cursor implementation pass (`agent --print --trust --model composer-2.5 --workspace ...`) produced no stdout for about 90 seconds and was interrupted with `kill -INT`; partial files were inspected and completed locally.
+- 2026-05-22 — orchestrator — `pnpm test tests/developer-workflow.test.ts` initially failed because fresh worktree `node_modules` was missing; `pnpm install` completed from local store with lockfile up to date. Focused Phase 08A test then passed (4 tests).
+- 2026-05-22 — orchestrator — Local validation PASS: `pnpm test` (12 files, 118 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- 2026-05-22 — orchestrator — Phase 08A CLI smoke PASS using `/tmp/df-phase08a-smoke-20260522-2118`: `pnpm run run-version -- --version v001 --runs-root ...` generated real Phase 07A review/scorecard evidence; `pnpm run developer-task -- --runs-root ... --review runs/v001/reviews/seed_001_careful_player.json --scorecard runs/v001/scorecards/seed_001_careful_player.json --target-version v002 ... --write` wrote `/tmp/df-phase08a-smoke-20260522-2118/runs/v002/developer_task.md` with evidence-backed issues, allowed/forbidden changes, required artifact paths, and test command.
+- 2026-05-22 — orchestrator — Scope audit PASS: `git diff -- src/game content concept-and-ideas phase-plans` produced no output; `git status --short --ignored runs` produced no tracked or ignored repo-local generated evidence.
+- 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) produced no stdout for about 90 seconds and was interrupted with `kill -INT`; local acceptance audit and gates above are the verification evidence.
 
 ---
 
