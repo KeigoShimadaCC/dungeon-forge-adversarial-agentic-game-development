@@ -1,10 +1,8 @@
 import path from 'node:path';
 
 import type { PlaythroughReview } from './reviewer-client.js';
-import {
-  isScorecardStructurallyUsable,
-  isReviewerPersona,
-} from './reviewer-client.js';
+import { isScorecardStructurallyUsable } from './reviewer-client.js';
+import { isReviewStructurallyUsable } from './review-validation.js';
 import type { PlaythroughScorecard } from './types.js';
 import { getVersionPaths, validateVersionId } from './version-loop.js';
 
@@ -137,20 +135,6 @@ export class DeveloperTaskValidationError extends Error {
   }
 }
 
-const isReviewStructurallyUsable = (review: PlaythroughReview): boolean =>
-  typeof review.version === 'string' &&
-  review.version.length > 0 &&
-  typeof review.seed === 'string' &&
-  review.seed.length > 0 &&
-  typeof review.persona === 'string' &&
-  isReviewerPersona(review.persona) &&
-  typeof review.summary === 'string' &&
-  review.summary.trim().length > 0 &&
-  Array.isArray(review.top_issues) &&
-  Array.isArray(review.suggested_next_changes) &&
-  typeof review.scores === 'object' &&
-  review.scores !== null;
-
 const collectProtocolBreakingDiagnostics = (
   entries: string[],
   field: 'allowedChanges' | 'proposedChanges',
@@ -246,7 +230,7 @@ export const collectDeveloperTaskDiagnostics = (
       category: 'blocker',
       field: 'review',
       message:
-        'Review JSON is structurally unusable. Require version, seed, persona, summary, scores, top_issues, and suggested_next_changes.',
+        'Review JSON is structurally unusable. Require version, seed, persona, summary, evidence_quality, scores, top_issues, and suggested_next_changes.',
     });
   }
 

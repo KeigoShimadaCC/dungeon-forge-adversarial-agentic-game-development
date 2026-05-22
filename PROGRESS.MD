@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Improve reviewer persona configuration and human-readable review reports while keeping JSON as the authoritative contract artifact. |
 | Branch | `phase/phase-14c-reviewer-persona-reporting` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-14c-reviewer-persona-reporting-wt` |
-| Base | `origin/main` at `c102ec9` |
-| Status | `Queued; automation start pending` |
+| Base | `origin/main` at `8358ab8` |
+| Status | `Local validation and Cursor recheck passed; commit and PR pending` |
 
 ### Contract (read before editing)
 
@@ -56,10 +56,13 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Start Phase 14C automation: create prompt bundle/worktree, seed progress, delegate implementation to Cursor/composer-2.5, then verify locally.
+- _(none)_
 
 ### Done
 
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 14C PASS; addressed non-blocking diagnostic text gap for `evidence_quality`, reran focused/full gates, and left only commit/PR/CI readiness.
+- [x] 2026-05-23 orchestrator — Review Cursor diff, require `evidence_quality`, add scorecard result/turns to Markdown run facts, run focused/full gates.
+- [x] 2026-05-23 Cursor/composer-2.5 — Implement Phase 14C: persona metadata, review validation diagnostics, Markdown reports from JSON, artifact save wiring, `docs/REVIEWER-ARTIFACTS.md`, and `tests/reviewer-persona-reporting.test.ts`; re-read acceptance criteria locally.
 - [x] 2026-05-23 orchestrator — Merge Phase 14B PR #32, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 14C.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck — Functional Phase 14B PASS; remaining blockers are commit/PR/CI readiness only.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, harden injected-client credential bypass and reviewer JSON enum validation, run focused/full gates.
@@ -114,13 +117,13 @@ _Derived from `phase-plans/PHASE-14C-REVIEWER-PERSONA-REPORTING.md`. Tick when v
 
 ### Phase 14C — Reviewer Persona Reporting
 
-- [ ] Persona metadata format exists and is surfaced in reviewer artifacts.
-- [ ] Markdown review renderer is generated from validated JSON review data.
-- [ ] Reports include persona, result, top issues, recommendations, and evidence references to trace turns, scorecard metrics, or notable events.
-- [ ] Malformed or incomplete reviewer output diagnostics are rejected or reported without corrupting artifacts.
-- [ ] JSON remains the authoritative review contract; Markdown is supporting evidence only.
-- [ ] Documentation explains JSON-vs-Markdown artifact roles.
-- [ ] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [x] Persona metadata format exists and is surfaced in reviewer artifacts.
+- [x] Markdown review renderer is generated from validated JSON review data.
+- [x] Reports include persona, result, top issues, recommendations, and evidence references to trace turns, scorecard metrics, or notable events.
+- [x] Malformed or incomplete reviewer output diagnostics are rejected or reported without corrupting artifacts.
+- [x] JSON remains the authoritative review contract; Markdown is supporting evidence only.
+- [x] Documentation explains JSON-vs-Markdown artifact roles.
+- [x] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -140,7 +143,7 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | F-06A-003 | Implemented in Phase 14B: preserve the model's original invalid `reason` in fallback trace metadata. | Phase 14B | Closed by `decision_metadata.model_reason` coverage for fallback paths. | orchestrator, 2026-05-23 |
 | F-06A-004 | Implemented in Phase 14B: tighten LLM action lookup to validate `id` plus `type`, not `id` alone. | Phase 14B | Closed by `resolveAvailableActionFromModel` and wrong/missing `action_type` tests. | orchestrator, 2026-05-23 |
 | F-06A-005 | Add GitHub CI or equivalent PR checks for tests, typecheck, lint, build, and simulation smoke. | Phase 11A or repo infrastructure pass | Local gates pass, but PR #12 reports no GitHub checks; later acceptance-gate work covers evidence checks but not CI enforcement explicitly. | orchestrator, 2026-05-22 |
-| F-06B-001 | Add optional Markdown rendering/writing for reviewer critiques alongside the JSON contract artifact. | Docs/reporting polish phase | PHASE-06B made JSON the contract and Markdown optional; Phase 07A writes matching JSON reviews but not Markdown review narratives. | orchestrator, 2026-05-22 |
+| F-06B-001 | Implemented in Phase 14C: Markdown review reports generated from validated JSON alongside the JSON contract artifact. | Phase 14C | Closed by `review-report.ts`, `savePlaythroughReview`, and `docs/REVIEWER-ARTIFACTS.md`. | Cursor/composer-2.5, 2026-05-23 |
 | F-07A-003 | Add a no-clobber or archive mode for rerunning `run-version` when JSON evidence already exists. | Evidence retention / acceptance hardening phase | Phase 07A creates deterministic evidence and preserves markdown stubs, but rerunning the same version currently regenerates same-path trace/review/scorecard JSON. A later phase should decide whether to fail, archive, or require an explicit overwrite flag. | orchestrator, 2026-05-22 |
 | F-07A-004 | Persist summary and comparison reports as generated artifacts, not only stdout JSON. | Reporting / acceptance phase | Phase 07A can generate summaries/comparisons from commands, but it does not save canonical report files such as `runs/v001/summary.json` or `runs/comparisons/v001_vs_v002.json`. | orchestrator, 2026-05-22 |
 | F-07A-005 | Add typed CLI options for non-default evidence matrices or selected runs. | Harness ergonomics phase | Phase 07A intentionally ships the default three-run matrix; later work may need targeted reruns, custom seeds, or persona subsets without changing code. | orchestrator, 2026-05-22 |
@@ -284,6 +287,10 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Reviewed and hardened the Phase 14B diff: injected `playerClient`/`reviewerClient` no longer require real credentials when explicitly supplied, and LLM reviewer JSON now rejects invalid severity, evidence kind, and evidence quality enum values instead of casting them. Validation PASS: `pnpm test tests/llm-provider.test.ts tests/llm-player.test.ts tests/reviewer-critic.test.ts` (35 tests), `pnpm run check` (24 files, 230 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 14B PASS against the phase plan, local validation, protocol invariants, forbidden-scope review, and secrets scan. Recheck validation PASS: `pnpm run check` (24 files, 230 tests), `git diff --check`, `git diff -- src/game content concept-and-ideas phase-plans` empty, and no `.env` or credential material in the diff. Merge readiness remains pending only for commit, PR, and GitHub CI. Live API smoke remains out-of-scope/operational because it requires user credentials.
 - 2026-05-23 — orchestrator — Phase 14B merged and cleaned up: automation gate allowed merge, PR #32 `Repo gates` passed in 32s, PR #32 was squash-merged at `c102ec93b349b8e1a07f8ba0814c4c84f5f6b70c`, clean worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-14b-real-llm-runs-wt` was removed, local branch `phase/phase-14b-real-llm-runs` was deleted, remote branch was deleted manually, and `automation/phase-state.json` advanced current phase to `PHASE-14C`.
+- 2026-05-23 — orchestrator — Phase 14C automation start: `pnpm run phase -- status` selected `PHASE-14C`; read `PROGRESS.MD` and `phase-plans/PHASE-14C-REVIEWER-PERSONA-REPORTING.md`; `pnpm run phase -- bundle --phase PHASE-14C --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-14C/planned`; Cursor preflight `agent --list-models` confirmed `composer-2.5`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-14c-reviewer-persona-reporting-wt` on branch `phase/phase-14c-reviewer-persona-reporting` from `origin/main` at `8358ab8`.
+- 2026-05-23 — Cursor/composer-2.5 — Phase 14C implementation: added `reviewer-personas.ts`, `review-validation.ts`, `review-report.ts`, enriched saved review JSON with `persona_metadata` and `review_markdown_path`, paired `.md` reports under `runs/<version>/reviews/`, wired `run-version`/`savePlaythroughReview`, shared validation with developer workflow, and `docs/REVIEWER-ARTIFACTS.md`. Validation PASS: `pnpm run check` (25 files, 235 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check` passed. Re-read `phase-plans/PHASE-14C-REVIEWER-PERSONA-REPORTING.md`; deliverables and acceptance criteria satisfied locally. Merge readiness pending commit, PR, and GitHub CI.
+- 2026-05-23 — orchestrator — Reviewed and hardened the Phase 14C diff: review validation now requires `evidence_quality`, saved/version-loop reviews can carry scorecard result and turn count, and Markdown run facts include result/turns alongside trace and scorecard evidence paths. Validation PASS: `pnpm test tests/reviewer-persona-reporting.test.ts tests/reviewer-critic.test.ts tests/developer-workflow.test.ts` (25 tests), `pnpm run check` (25 files, 235 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 14C PASS against the phase plan, protocol invariants, local validation, forbidden-scope review, and secrets scan. Recheck was blocked only on expected merge readiness: untracked/uncommitted implementation, no PR, and no GitHub CI yet. Non-blocking note about developer-task review-field text was fixed by adding `evidence_quality` to the diagnostic message and assertion coverage. Validation PASS after fix: `pnpm test tests/developer-workflow.test.ts tests/reviewer-persona-reporting.test.ts tests/reviewer-critic.test.ts` (25 tests), `pnpm run check` (25 files, 235 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`.
 
 ---
 

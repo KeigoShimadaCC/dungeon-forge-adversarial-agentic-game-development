@@ -86,6 +86,7 @@ export interface VersionRunResult {
   turns: number;
   tracePath: string;
   reviewPath: string;
+  reviewMarkdownPath: string;
   scorecardPath: string;
   reviewerScores: ReviewerScores;
 }
@@ -351,12 +352,14 @@ export const runVersion = async (
       },
     );
 
-    await savePlaythroughReview(
+    const { reviewPath: savedReviewPath, reviewMarkdownPath } = await savePlaythroughReview(
       runsRoot,
       {
         ...review,
         trace_path: tracePath,
         scorecard_path: buildScorecardRelativePath(resolvedVersion, spec.seed, spec.persona),
+        scorecard_result: traceOnlyScorecard.result,
+        scorecard_turns: traceOnlyScorecard.turns,
       },
       saveOptions,
     );
@@ -367,7 +370,8 @@ export const runVersion = async (
       result: playthrough.trace.result,
       turns: playthrough.trace.turns,
       tracePath: playthrough.artifacts.tracePath,
-      reviewPath: path.join(runsRoot, reviewPath),
+      reviewPath: savedReviewPath,
+      reviewMarkdownPath,
       scorecardPath: playthrough.artifacts.scorecardPath,
       reviewerScores: scorecard.reviewer_scores,
     });

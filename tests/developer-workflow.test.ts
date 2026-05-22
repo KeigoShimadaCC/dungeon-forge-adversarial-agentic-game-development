@@ -171,6 +171,16 @@ describe('Phase 14A developer workflow polish', () => {
   });
 
   it('reports multiple blocker diagnostics without stopping at the first error', () => {
+    const malformedReview = { ...makeReview(), evidence_quality: undefined };
+    const malformedReviewResult = collectDeveloperTaskDiagnostics(
+      makeInput({ review: malformedReview as unknown as ReturnType<typeof makeReview> }),
+    );
+    expect(
+      malformedReviewResult.blockers.some(
+        (entry) => entry.field === 'review' && entry.message.includes('evidence_quality'),
+      ),
+    ).toBe(true);
+
     const result = collectDeveloperTaskDiagnostics(
       makeInput({
         targetVersion: 'v2',

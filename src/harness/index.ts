@@ -116,8 +116,27 @@ export {
   buildTraceRelativePath,
   savePlaythroughArtifacts,
   savePlaythroughReview,
+  ReviewValidationError,
   type SavePlaythroughArtifactOptions,
 } from './artifacts.js';
+export {
+  buildReviewMarkdownRelativePath,
+  enrichPlaythroughReview,
+  renderReviewMarkdown,
+} from './review-report.js';
+export {
+  assertValidPlaythroughReview,
+  collectReviewValidationDiagnostics,
+  formatReviewValidationMessage,
+  isReviewStructurallyUsable,
+  type ReviewValidationDiagnostic,
+  type ReviewValidationDiagnosticCategory,
+  type ReviewValidationResult,
+} from './review-validation.js';
+export {
+  getReviewerPersonaMetadata,
+  listReviewerPersonaMetadata,
+} from './reviewer-personas.js';
 export {
   REVIEWER_PERSONA_IDS,
   ReviewGenerationError,
@@ -136,6 +155,7 @@ export {
   type ReviewerCriticInput,
   type ReviewerCriticProvider,
   type ReviewerPersona,
+  type ReviewerPersonaMetadata,
   type ReviewerScores,
 } from './reviewer-client.js';
 export {
