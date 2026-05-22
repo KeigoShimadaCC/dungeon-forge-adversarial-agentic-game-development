@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 14B — Real LLM Runs |
-| Goal | Add credential-gated real LLM player and reviewer runs while keeping default gameplay, tests, CI, and validation credential-free. |
-| Branch | `phase/phase-14b-real-llm-runs` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-14b-real-llm-runs-wt` |
-| Base | `origin/main` at `6b650e6` |
-| Status | `Local validation and Cursor recheck passed; commit and PR pending` |
+| Phase | Phase 14C — Reviewer Persona Reporting |
+| Goal | Improve reviewer persona configuration and human-readable review reports while keeping JSON as the authoritative contract artifact. |
+| Branch | `phase/phase-14c-reviewer-persona-reporting` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-14c-reviewer-persona-reporting-wt` |
+| Base | `origin/main` at `c102ec9` |
+| Status | `Queued; automation start pending` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-14B-REAL-LLM-RUNS.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-14C-REVIEWER-PERSONA-REPORTING.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -52,14 +52,15 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Commit Phase 14B, push branch, open PR, verify CI, merge, and clean up if validation remains clean.
+- _(none)_
 
 ### Open
 
-- _(none)_
+- [ ] 2026-05-23 orchestrator — Start Phase 14C automation: create prompt bundle/worktree, seed progress, delegate implementation to Cursor/composer-2.5, then verify locally.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Merge Phase 14B PR #32, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 14C.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck — Functional Phase 14B PASS; remaining blockers are commit/PR/CI readiness only.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, harden injected-client credential bypass and reviewer JSON enum validation, run focused/full gates.
 - [x] 2026-05-23 Cursor/composer-2.5 — Implement Phase 14B real LLM runs: provider adapter/config, id+type player validation, LLM reviewer with fallback, CLI flags, `.env.example`, `docs/REAL-LLM-RUNS.md`, and focused tests; re-read acceptance criteria locally.
@@ -109,18 +110,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-14B-REAL-LLM-RUNS.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-14C-REVIEWER-PERSONA-REPORTING.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 14B — Real LLM Runs
+### Phase 14C — Reviewer Persona Reporting
 
-- [x] Provider adapter boundary and configuration docs exist behind existing LLM client interfaces.
-- [x] Environment variable names are documented in `.env.example` if credentials are introduced.
-- [x] Optional CLI flags support selected real LLM player/reviewer runs without changing default credential-free behavior.
-- [x] Model action validation checks both action `id` and action `type`.
-- [x] Invalid or fallback model output diagnostics are preserved in trace metadata.
-- [x] Missing credentials produce a clear skip/blocker, not a crash.
-- [x] Mocked-provider tests cover valid output, invalid JSON, invalid action ID, wrong action type, and timeout fallback paths.
-- [x] Local final gates pass without credentials: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [ ] Persona metadata format exists and is surfaced in reviewer artifacts.
+- [ ] Markdown review renderer is generated from validated JSON review data.
+- [ ] Reports include persona, result, top issues, recommendations, and evidence references to trace turns, scorecard metrics, or notable events.
+- [ ] Malformed or incomplete reviewer output diagnostics are rejected or reported without corrupting artifacts.
+- [ ] JSON remains the authoritative review contract; Markdown is supporting evidence only.
+- [ ] Documentation explains JSON-vs-Markdown artifact roles.
+- [ ] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -283,12 +283,21 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 — Phase 14B implementation: added OpenAI-compatible provider adapter (`llm-provider-config`, `llm-provider`), LLM reviewer client with validation/fallback, `action_id`+`action_type` player validation with `model_reason` trace metadata, CLI flags (`--use-llm-player`, `--use-llm-reviewer`, `--use-llm`), `.env.example`, `docs/REAL-LLM-RUNS.md`, and tests (`tests/llm-provider.test.ts`, expanded `tests/llm-player.test.ts`). Validation PASS: `pnpm run check` (24 files, 228 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check` passed. Re-read `phase-plans/PHASE-14B-REAL-LLM-RUNS.md`; deliverables and acceptance criteria satisfied locally without live API credentials.
 - 2026-05-23 — orchestrator — Reviewed and hardened the Phase 14B diff: injected `playerClient`/`reviewerClient` no longer require real credentials when explicitly supplied, and LLM reviewer JSON now rejects invalid severity, evidence kind, and evidence quality enum values instead of casting them. Validation PASS: `pnpm test tests/llm-provider.test.ts tests/llm-player.test.ts tests/reviewer-critic.test.ts` (35 tests), `pnpm run check` (24 files, 230 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 14B PASS against the phase plan, local validation, protocol invariants, forbidden-scope review, and secrets scan. Recheck validation PASS: `pnpm run check` (24 files, 230 tests), `git diff --check`, `git diff -- src/game content concept-and-ideas phase-plans` empty, and no `.env` or credential material in the diff. Merge readiness remains pending only for commit, PR, and GitHub CI. Live API smoke remains out-of-scope/operational because it requires user credentials.
+- 2026-05-23 — orchestrator — Phase 14B merged and cleaned up: automation gate allowed merge, PR #32 `Repo gates` passed in 32s, PR #32 was squash-merged at `c102ec93b349b8e1a07f8ba0814c4c84f5f6b70c`, clean worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-14b-real-llm-runs-wt` was removed, local branch `phase/phase-14b-real-llm-runs` was deleted, remote branch was deleted manually, and `automation/phase-state.json` advanced current phase to `PHASE-14C`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 14B — Real LLM Runs
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-14b-real-llm-runs` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/32
+- **Merge commit:** `c102ec93b349b8e1a07f8ba0814c4c84f5f6b70c`
+- **Outcome:** Added optional credential-gated OpenAI-compatible provider configuration, LLM player/reviewer wiring, strong `action_id` + `action_type` validation, fallback trace diagnostics, validated reviewer JSON parsing, real-LLM CLI flags, `.env.example`, docs, and mocked provider tests while keeping default gates credential-free.
+- **Key evidence:** Cursor/composer-2.5 implementation and read-only recheck; local `pnpm run check` passed with 24 files and 230 tests; `git diff --check` passed; PR #32 `Repo gates` passed before merge. No live API smoke was run because credentials are intentionally optional and not required for phase acceptance.
 
 ### Phase 14A — Developer Workflow Polish
 

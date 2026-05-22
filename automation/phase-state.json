@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-14B",
+  "currentPhase": "PHASE-14C",
   "lastUpdated": "2026-05-23",
   "phases": {
     "PHASE-00A": {
@@ -94,7 +94,11 @@
       "status": "complete"
     },
     "PHASE-14B": {
-      "status": "queued"
+      "branch": "phase/phase-14b-real-llm-runs",
+      "evidenceDir": "runs/phase-runner/PHASE-14B/planned",
+      "mergeCommit": "c102ec93b349b8e1a07f8ba0814c4c84f5f6b70c",
+      "pr": 32,
+      "status": "complete"
     },
     "PHASE-14C": {
       "status": "queued"
