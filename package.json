@@ -12,7 +12,11 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "simulate-seed": "pnpm run build && node dist/src/harness/run-playthrough.js"
+    "simulate-seed": "pnpm run build && node dist/src/harness/run-playthrough.js",
+    "new-version": "pnpm run build && node dist/src/harness/new-version.js",
+    "run-version": "pnpm run build && node dist/src/harness/run-version.js",
+    "summarize-version": "pnpm run build && node dist/src/harness/summarize-version.js",
+    "compare-versions": "pnpm run build && node dist/src/harness/compare-versions.js"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",

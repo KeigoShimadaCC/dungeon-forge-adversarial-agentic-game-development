@@ -241,7 +241,7 @@ describe('Phase 05A harness', () => {
           tactical_depth: 2,
           replay_value: 4,
         },
-        review_path: 'runs/v001-test/reviews/seed_001__stairs-seeking.json',
+        review_path: 'runs/v001-test/reviews/seed_001_stairs-seeking.json',
         review_id: 'mock-review-001',
       });
 
@@ -256,7 +256,7 @@ describe('Phase 05A harness', () => {
         tactical_depth: 2,
         replay_value: 4,
       });
-      expect(reviewed.review_path).toBe('runs/v001-test/reviews/seed_001__stairs-seeking.json');
+      expect(reviewed.review_path).toBe('runs/v001-test/reviews/seed_001_stairs-seeking.json');
       expect(reviewed.review_id).toBe('mock-review-001');
       validateScorecard(reviewed);
     } finally {
@@ -457,7 +457,7 @@ describe('Phase 05A harness', () => {
       expect(savedScorecard.reviewer_scores).toEqual(review.scores);
       expect(savedScorecard.review_path).toBe(reviewPath);
       expect(savedScorecard.review_id).toBe('review:bug_hunter:seed_001');
-      expect(artifacts.scorecardPath.endsWith('runs/v001-test/scorecards/seed_001__stairs-seeking.json')).toBe(true);
+      expect(artifacts.scorecardPath.endsWith('runs/v001-test/scorecards/seed_001_stairs-seeking.json')).toBe(true);
       validateScorecard(savedScorecard);
     } finally {
       await rm(runsRoot, { recursive: true, force: true });
@@ -542,10 +542,10 @@ describe('Phase 05A harness', () => {
 
   it('uses stable relative artifact paths', () => {
     expect(buildTraceRelativePath('v001', 'seed_001', 'stairs-seeking')).toBe(
-      'runs/v001/traces/seed_001__stairs-seeking.json',
+      'runs/v001/traces/seed_001_stairs-seeking.json',
     );
     expect(buildScorecardRelativePath('v001', 'seed_001', 'stairs-seeking')).toBe(
-      'runs/v001/scorecards/seed_001__stairs-seeking.json',
+      'runs/v001/scorecards/seed_001_stairs-seeking.json',
     );
   });
 });
