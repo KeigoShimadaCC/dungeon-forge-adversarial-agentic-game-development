@@ -118,7 +118,7 @@ export interface VersionSummary {
     developer_notes: string;
     acceptance: string;
   };
-  acceptance_status: 'accepted' | 'rejected' | 'pending' | 'unknown';
+  acceptance_status: 'accepted' | 'rejected' | 'pending' | 'blocked' | 'unknown';
 }
 
 export interface MetricDelta {
@@ -379,20 +379,63 @@ const listScorecards = async (paths: VersionPaths): Promise<PlaythroughScorecard
   return Promise.all(names.map((name) => readJsonFile<PlaythroughScorecard>(path.join(paths.scorecardsDir, name))));
 };
 
+const extractSection = (contents: string, heading: string): string => {
+  const pattern = new RegExp(`## ${heading}\\s*\\n([\\s\\S]*?)(?=\\n## |$)`, 'i');
+  const match = pattern.exec(contents);
+  return match?.[1]?.toLowerCase() ?? '';
+};
+
+const readStatusFromSection = (section: string): VersionSummary['acceptance_status'] | null => {
+  if (section.includes('status: accepted')) {
+    return 'accepted';
+  }
+  if (section.includes('status: rejected')) {
+    return 'rejected';
+  }
+  if (section.includes('status: blocked')) {
+    return 'blocked';
+  }
+  if (section.includes('status: pending')) {
+    return 'pending';
+  }
+  return null;
+};
+
 const inferAcceptanceStatus = async (
   acceptancePath: string,
 ): Promise<VersionSummary['acceptance_status']> => {
   if (!(await fileExists(acceptancePath))) {
     return 'unknown';
   }
-  const contents = (await readFile(acceptancePath, 'utf8')).toLowerCase();
-  if (contents.includes('status: accepted')) {
-    return 'accepted';
+  const contents = await readFile(acceptancePath, 'utf8');
+  const lower = contents.toLowerCase();
+  const humanSection = extractSection(contents, 'Human decision');
+  const humanStatus = readStatusFromSection(humanSection);
+  if (humanStatus === 'accepted' || humanStatus === 'rejected') {
+    return humanStatus;
   }
-  if (contents.includes('status: rejected')) {
+  if (humanStatus === 'blocked') {
+    return 'blocked';
+  }
+
+  const machineSection = extractSection(contents, 'Machine recommendation');
+  if (machineSection.includes('status: blocked')) {
+    return 'blocked';
+  }
+  if (machineSection.includes('status: fail')) {
     return 'rejected';
   }
-  if (contents.includes('status: pending')) {
+
+  if (lower.includes('status: accepted')) {
+    return 'accepted';
+  }
+  if (lower.includes('status: rejected')) {
+    return 'rejected';
+  }
+  if (lower.includes('status: blocked')) {
+    return 'blocked';
+  }
+  if (lower.includes('status: pending')) {
     return 'pending';
   }
   return 'unknown';
