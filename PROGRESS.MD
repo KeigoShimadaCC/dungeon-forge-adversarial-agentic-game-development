@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-09b-enemy-variety` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-09b-enemy-variety-wt` |
 | Base | `origin/main` at `f67e9e9` |
-| Status | `in progress; progress seeded before implementation` |
+| Status | `acceptance audit passed; finalizing PR` |
 
 ### Contract (read before editing)
 
@@ -52,11 +52,11 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-22 orchestrator — Run final local gates, Phase 09B smoke evidence commands, and acceptance audit.
+- [~] 2026-05-22 orchestrator — Finalize progress, commits, push, and PR.
 
 ### Open
 
-- [ ] 2026-05-22 orchestrator — Finalize progress, commits, push, and PR.
+- _(none)_
 
 ### Done
 
@@ -66,6 +66,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-22 orchestrator — Implement behavior-dispatched enemy turns while preserving Slime semantics and the public `GameEngine` interface.
 - [x] 2026-05-22 orchestrator — Update combat, rendering, logs, and trace events so enemy behavior is inspectable.
 - [x] 2026-05-22 orchestrator — Add content, engine, render, and trace coverage for enemy variety and deterministic behavior.
+- [x] 2026-05-22 orchestrator — Run local gates, Phase 09B smoke evidence commands, Cursor read-only audit, and acceptance audit.
 - [x] 2026-05-22 orchestrator — Seed Phase 08A progress state and checkpoint before implementation (`599b76b`).
 - [x] 2026-05-22 orchestrator — Delegate bounded developer-workflow implementation to Cursor Agent, inspect partial unreported diff, and harden it locally.
 - [x] 2026-05-22 orchestrator — Add deterministic developer task generator, renderer, validation, templates, exports, and CLI.
@@ -94,15 +95,15 @@ _Derived from `phase-plans/PHASE-09B-ENEMY-VARIETY.md`. Tick when verified again
 
 ### Phase 09B — Enemy Variety
 
-- [ ] Enemy content includes Slime, Bat, Shell, Thief, and Ghost with stable IDs, glyphs, stats, and behavior rules.
-- [ ] Floor rules spawn every Phase 09B enemy somewhere while keeping floor 1 Slime-only.
-- [ ] Each new enemy has a simple deterministic behavior and can act without increasing player action protocol complexity.
-- [ ] Slime chase/attack behavior and existing combat semantics remain compatible.
-- [ ] Player damage respects enemy defense with minimum 1 damage.
-- [ ] Renderer and legend show all enemy glyphs.
-- [ ] Enemy action events include enough type/behavior/reason/position/damage detail for trace review.
-- [ ] Tests cover content validation, spawning, behavior, determinism, rendering, trace preservation, and regression seeds.
-- [ ] Local final gates and Phase 09B smoke commands pass, or blockers are recorded.
+- [x] Enemy content includes Slime, Bat, Shell, Thief, and Ghost with stable IDs, glyphs, stats, and behavior rules.
+- [x] Floor rules spawn every Phase 09B enemy somewhere while keeping floor 1 Slime-only.
+- [x] Each new enemy has a simple deterministic behavior and can act without increasing player action protocol complexity.
+- [x] Slime chase/attack behavior and existing combat semantics remain compatible.
+- [x] Player damage respects enemy defense with minimum 1 damage.
+- [x] Renderer and legend show all enemy glyphs.
+- [x] Enemy action events include enough type/behavior/reason/position/damage detail for trace review.
+- [x] Tests cover content validation, spawning, behavior, determinism, rendering, trace preservation, and regression seeds.
+- [x] Local final gates and Phase 09B smoke commands pass, or blockers are recorded.
 
 ---
 
@@ -166,6 +167,9 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Focused validation PASS after local completion: `pnpm test tests/content.test.ts tests/engine.test.ts tests/render.test.ts tests/harness.test.ts` (61 tests), then after adjacent Thief/Ghost attack fix `pnpm test tests/engine.test.ts tests/harness.test.ts` (40 tests), `pnpm run typecheck`, and `pnpm run lint`.
 - 2026-05-22 — orchestrator — Interim full validation PASS: `pnpm test` (12 files, 128 tests), `pnpm run build`, `git diff --check`, and `rg "Math\\.random" src tests` with only the existing guidance comment in `src/game/rng.ts`.
 - 2026-05-22 — orchestrator — Phase 09B smoke PASS using `/tmp/df-phase09b-evidence`: `pnpm run run-version -- --version v009 --runs-root /tmp/df-phase09b-evidence` wrote three traces/reviews/scorecards; `pnpm run summarize-version -- --version v009 --runs-root /tmp/df-phase09b-evidence` reported complete artifact coverage and pending acceptance. All three baseline runs still aborted on floor 1, which is retained as balance/agent-policy evidence for later tuning rather than treated as a Phase 09B implementation blocker.
+- 2026-05-22 — orchestrator — Commit `d1c0d49` added Phase 09B enemy variety implementation, tests, and progress updates.
+- 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) reported PASS with no blockers. Non-blocking notes: checklist needed closing, `enemy-ai` has no switch default but is content/type validated, Bat move message shares Slime wording, combat helper has engine-level rather than standalone coverage, scorecard does not count non-attack enemy events, and Ghost boundary assertion is intentionally broad.
+- 2026-05-22 — orchestrator — Final local gates PASS after checklist closure: `pnpm test` (12 files, 128 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `rg "Math\\.random" src tests` with only the existing guidance comment in `src/game/rng.ts`.
 
 ---
 
