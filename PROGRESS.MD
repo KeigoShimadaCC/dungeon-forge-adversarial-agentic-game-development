@@ -55,16 +55,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - _(none)_
 
 ### Open
-- [ ] 2026-05-22 — cursor-agent — Implement canonical trace/scorecard types, runner, policy registry, artifact saving, and CLI under allowed Phase 05A paths.
-- [ ] 2026-05-22 — cursor-agent — Add harness tests for saved artifacts, deterministic traces, canonical fields, terminal recording, invalid action metrics, max-step stops, and canonical seeds.
-- [ ] 2026-05-22 — orchestrator — Review Cursor implementation diff for scope, GameEngine protocol usage, deterministic JSON output, and generated-evidence handling.
-- [ ] 2026-05-22 — orchestrator — Run local validation gates: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001`.
 - [ ] 2026-05-22 — cursor-agent — Run read-only Phase 05A audit after implementation.
 - [ ] 2026-05-22 — orchestrator — Fix validated audit gaps, re-run relevant gates, finalize `PROGRESS.MD`, push branch, and open PR.
 
 ### Done
 
 - [x] 2026-05-22 — orchestrator — Seed Phase 05A progress state, checklist, and validation log before source changes.
+- [x] 2026-05-22 — cursor-agent — Implement canonical trace/scorecard types, runner, policy registry, artifact saving, and CLI under allowed Phase 05A paths.
+- [x] 2026-05-22 — cursor-agent — Add harness tests for saved artifacts, deterministic traces, canonical fields, terminal recording, invalid action metrics, max-step stops, and canonical seeds.
+- [x] 2026-05-22 — orchestrator — Review Cursor implementation diff for scope, GameEngine protocol usage, deterministic JSON output, and generated-evidence handling.
+- [x] 2026-05-22 — orchestrator — Run local validation gates: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001`.
 
 ### Blocked / skipped
 
@@ -79,29 +79,29 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 ### Phase 05A — Harness
 
 - [x] Read Phase 05A plan and confirm scope boundaries (no LLM calls, reviewer critique generation, developer orchestration, dashboard, or database storage).
-- [ ] Harness runner module under `src/harness/**`.
-- [ ] CLI/script entry point such as `run-playthrough` or `simulate-seed`.
-- [ ] Trace writer that saves versioned evidence under `runs/v001/traces/`.
-- [ ] Basic scorecard writer that derives metrics from trace facts only and saves under `runs/v001/scorecards/`.
-- [ ] Canonical trace JSON includes `version`, `seed`, `persona`, `result`, `turns`, and `steps[]`.
-- [ ] Each step includes `turn`, `state_summary`, `render`, `available_actions`, `chosen_action`, optional `reason`, `valid`, `events`, and `terminalStatus`.
-- [ ] Runner uses only the public `GameEngine` protocol: `start`, `render`, `getAvailableActions`, `step`, and `isTerminal`.
-- [ ] Policy registry maps baseline policy IDs: `random`, `stairs-seeking`, `cautious-low-hp`, and `greedy-item-picker`.
-- [ ] Invalid policy output is recorded as an invalid harness step and terminates the trace as `ABORTED`.
-- [ ] Trace file is saved.
-- [ ] Scorecard file is saved.
-- [ ] Fixed seed and fixed policy produce reproducible trace output.
-- [ ] Trace files contain all canonical fields.
-- [ ] Terminal status is recorded.
-- [ ] Invalid action count is recorded.
-- [ ] Harness stops at terminal status or configured max turns.
-- [ ] Canonical regression seeds `seed_001` through `seed_005` can be simulated with at least one baseline policy.
-- [ ] `pnpm test` passes.
-- [ ] `pnpm run typecheck` passes.
-- [ ] `pnpm run lint` passes.
-- [ ] `git diff --check` passes.
-- [ ] `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` writes inspectable evidence.
-- [ ] Generated `runs/**` evidence is ignored by git but inspectable on disk.
+- [x] Harness runner module under `src/harness/**`.
+- [x] CLI/script entry point such as `run-playthrough` or `simulate-seed`.
+- [x] Trace writer that saves versioned evidence under `runs/v001/traces/`.
+- [x] Basic scorecard writer that derives metrics from trace facts only and saves under `runs/v001/scorecards/`.
+- [x] Canonical trace JSON includes `version`, `seed`, `persona`, `result`, `turns`, and `steps[]`.
+- [x] Each step includes `turn`, `state_summary`, `render`, `available_actions`, `chosen_action`, optional `reason`, `valid`, `events`, and `terminalStatus`.
+- [x] Runner uses only the public `GameEngine` protocol: `start`, `render`, `getAvailableActions`, `step`, and `isTerminal`.
+- [x] Policy registry maps baseline policy IDs: `random`, `stairs-seeking`, `cautious-low-hp`, and `greedy-item-picker`.
+- [x] Invalid policy output is recorded as an invalid harness step and terminates the trace as `ABORTED`.
+- [x] Trace file is saved.
+- [x] Scorecard file is saved.
+- [x] Fixed seed and fixed policy produce reproducible trace output.
+- [x] Trace files contain all canonical fields.
+- [x] Terminal status is recorded.
+- [x] Invalid action count is recorded.
+- [x] Harness stops at terminal status or configured max turns.
+- [x] Canonical regression seeds `seed_001` through `seed_005` can be simulated with at least one baseline policy.
+- [x] `pnpm test` passes.
+- [x] `pnpm run typecheck` passes.
+- [x] `pnpm run lint` passes.
+- [x] `git diff --check` passes.
+- [x] `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` writes inspectable evidence.
+- [x] Generated `runs/**` evidence is ignored by git but inspectable on disk.
 - [ ] Re-read acceptance criteria against actual repo state.
 - [ ] Push branch and open PR when implemented.
 
@@ -126,6 +126,10 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 
 - 2026-05-22 — orchestrator — Phase 05A preflight: read `PROGRESS.MD`, `phase-plans/PHASE-05A-HARNESS.md`, Phase 00A invariants, north star, examples/workflows, and technical specs. `git status --short --branch` on root worktree: clean `main...origin/main`. `git fetch origin` exit 0. `agent --list-models` initially failed inside sandbox with `SecItemCopyMatching failed -50`; escalated preflight exit 0 and confirmed `composer-2.5` is available. Preserved dirty unregistered checkout at `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness`; created registered worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness-wt` on branch `phase-05a-harness` from `main` at `bec1d1a`.
 - 2026-05-22 — orchestrator — Seeded Phase 05A progress state only in `PROGRESS.MD`: Active Phase rotated to `PHASE-05A-HARNESS.md`, Phase 05A task queue/checklist added, Phase 04B archived as merged PR #9, and implementation work left untouched for the next commit.
+- 2026-05-22 — cursor-agent — Implemented Phase 05A harness under `src/harness/**`: canonical trace/scorecard types, deterministic JSON writer, policy registry (`random`, `stairs-seeking`, `cautious-low-hp`, `greedy-item-picker`), `runPlaythrough` runner (GameEngine public API only), invalid-policy `ABORTED` handling, `simulate-seed` CLI via `dist/src/harness/run-playthrough.js`, `tsconfig.build.json`, and `tests/harness.test.ts`. Added `build` and `simulate-seed` package scripts.
+- 2026-05-22 — cursor-agent — `pnpm install` (deps present), `pnpm test` exit 0 (8 files, 75 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `pnpm run build` exit 0, `git diff --check` exit 0, `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` exit 0 → `runs/v001/traces/seed_001__stairs-seeking.json`, `runs/v001/scorecards/seed_001__stairs-seeking.json` (result `ABORTED`, 280 turns). Phase acceptance re-check, read-only audit, push, and PR remain open for orchestrator.
+- 2026-05-22 — orchestrator — Reviewed implementation diff: changed paths stayed within allowed Phase 05A paths (`src/harness/**`, `tests/**`, `package.json`, `tsconfig.build.json`, `PROGRESS.MD`); no `src/game/**`, `concept-and-ideas/**`, `phase-plans/**`, secrets, or env files changed. Tightened trace events from strings to serializable `GameEvent` objects so scorecards derive `damage_taken`, `items_used`, and `enemies_defeated` from typed trace facts instead of message counting. Confirmed `runs/v001/**` is ignored by git and inspectable on disk.
+- 2026-05-22 — orchestrator — Local validation after tightening: `pnpm test` exit 0 (8 files, 75 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `pnpm run build` exit 0; `git diff --check` exit 0; `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` exit 0 and wrote `runs/v001/traces/seed_001__stairs-seeking.json` plus `runs/v001/scorecards/seed_001__stairs-seeking.json` (result `ABORTED`, 280 turns, scorecard `damage_taken: 2`, `softlocks: 1`).
 
 ---
 
