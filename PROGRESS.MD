@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-01a-project-structure` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-01a-project-structure` |
 | Base | `origin/main` |
-| Status | `in_progress` |
+| Status | `ready_for_review` |
 
 ### Contract (read before editing)
 
@@ -56,7 +56,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- [ ] T-01A-008 PR: push branch and open PR to `main` (orchestrator, 2026-05-22)
+- _(none)_
 
 ### Done
 
@@ -68,6 +68,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] T-01A-006 Run validation: `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` if lint script exists (composer-2.5, 2026-05-22)
 - [x] T-01A-007 Review diff against Phase 01A scope (no gameplay depth, LLM, browser UI, or forbidden MVP features) (composer-2.5, 2026-05-22)
 - [x] T-01A-008A Final acceptance: re-read acceptance criteria against actual repo state (orchestrator, 2026-05-22)
+- [x] T-01A-008 PR: push branch and open PR to `main` (orchestrator, 2026-05-22)
 - [x] T-001 Write comprehensive project README from concept and phase docs (Codex, 2026-05-22)
 
 ### Blocked / skipped
@@ -98,7 +99,7 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 - [x] No forbidden MVP feature or external gameplay service introduced (acceptance).
 - [x] Later game contract work can proceed without restructuring (acceptance).
 - [x] Re-read acceptance criteria against actual repo state.
-- [ ] Commit / PR only when user asks.
+- [x] Commit / PR only when user asks.
 
 ---
 
@@ -133,6 +134,8 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — Post-remediation validation: `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0.
 - 2026-05-22 Codex — Created `README.md` from `concept-and-ideas/*` and `phase-plans/*`; ran `git diff --check` (pass). No package/test commands run because no `package.json` scaffold exists yet.
 - 2026-05-22 — orchestrator — Merged updated `origin/main` (`d80a684`) into `phase-01a-project-structure`, resolved `PROGRESS.MD` by preserving Phase 01A evidence and the main-branch README task, then reran `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
+- 2026-05-22 — orchestrator — Pushed `phase-01a-project-structure` to origin and opened PR #2: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/2. Phase status set to `ready_for_review`.
+- 2026-05-22 — orchestrator — Final PR-progress validation after setting status: `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0.
 
 ---
 
