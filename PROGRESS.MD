@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 09C — Map Generation |
-| Goal | Add deterministic seeded room/corridor map generation with reachable spawn, stairs, enemies, items, validation helpers, bounded fallback, and regression seed coverage. |
-| Branch | `phase-09c-map-generation` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-09c-map-generation-wt` |
-| Base | `origin/main` at `f67e9e9` |
-| Status | `complete; merged to main` |
+| Phase | Phase 09A — Tactical Items |
+| Goal | Add finite tactical item effects with valid-use conditions, state changes, render/log feedback, trace-visible events, and deterministic seeded behavior. |
+| Branch | `phase-09a-tactical-items` |
+| Worktree | `/private/tmp/dungeon-forge-phase-09a-tactical-items-wt` |
+| Base | `origin/main` at `923f12c` |
+| Status | `in progress` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-09C-MAP-GENERATION.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-09A-TACTICAL-ITEMS.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -52,48 +52,40 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-22 orchestrator — Seed Phase 09A progress state and checkpoint before implementation.
 
 ### Open
 
-- _(none)_
+- [ ] 2026-05-22 Cursor/composer-2.5 — Implement four tactical items: Smoke Bomb, Swap Scroll, Fire Seed, and Warp Feather.
+- [ ] 2026-05-22 orchestrator — Review Cursor diff, correct drift, and add focused tests as needed.
+- [ ] 2026-05-22 orchestrator — Run focused tests, full gates, and version-loop smoke.
+- [ ] 2026-05-22 orchestrator — Re-read Phase 09A acceptance, finalize progress, push branch, and open PR.
 
 ### Done
 
-- [x] 2026-05-22 orchestrator — Seed Phase 09C progress state and checkpoint before implementation (`6822036`).
-- [x] 2026-05-22 Cursor/composer-2.5 — Implement deterministic map generation helpers and bounded fallback in `src/game/map.ts`; Cursor produced no report, diff verified locally.
-- [x] 2026-05-22 Cursor/composer-2.5 + orchestrator — Integrate generated player spawn, stairs, enemy placement, and item placement into `src/game/engine.ts` without changing the public `GameEngine` API.
-- [x] 2026-05-22 orchestrator — Update floor scaling in `content/floor-rules.json`.
-- [x] 2026-05-22 orchestrator — Add and update regression tests for deterministic maps, reachability, placement validation, fallback, and changed engine assumptions.
-- [x] 2026-05-22 orchestrator — Review Cursor diff, harden locally, and run focused tests.
-- [x] 2026-05-22 orchestrator — Run final gates: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and version-loop smoke with blocker noted for the invalid requested version ID.
-- [x] 2026-05-22 orchestrator — Attempt Cursor read-only audit and verify locally after audit stall.
-- [x] 2026-05-22 orchestrator — Re-read Phase 09C acceptance, finalize PR metadata, push branch, and open PR #20.
+- _(none yet)_
 
 ### Blocked / skipped
 
-- [!] 2026-05-22 orchestrator — Cursor implementation pass produced no stdout/report; it left a partial diff that was reviewed, completed, and verified locally.
-- [!] 2026-05-22 orchestrator — Requested smoke command `pnpm run run-version -- --version v09c-smoke --runs-root /tmp/df-phase09c-smoke-20260522` failed because the existing version-loop CLI only accepts `v001`-style IDs; equivalent smoke passed with `v009`.
-- [!] 2026-05-22 orchestrator — Cursor read-only audit pass produced no stdout for roughly two minutes and was interrupted; local diff review and gates are the verification evidence.
+- _(none)_
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-09C-MAP-GENERATION.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-09A-TACTICAL-ITEMS.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 09C — Map Generation
+### Phase 09A — Tactical Items
 
-- [x] Seeded room/corridor map generation module exists under `src/game/map.ts`.
-- [x] Reachability helpers and validation helpers cover player spawn, stairs, enemies, items, overlap, and walkability.
-- [x] Generated floor layout is deterministic by seed and floor.
-- [x] Stairs are reachable from player spawn.
-- [x] Player, enemies, and items spawn on valid reachable tiles.
-- [x] Entity placement avoids overlaps.
-- [x] Floor sizes scale through `content/floor-rules.json` as 9x9, 10x10, 10x10, 11x11, and 12x12.
-- [x] Generation has a bounded retry/fallback path that cannot loop forever.
-- [x] `GameEngine` public API remains `start`, `getAvailableActions`, `step`, `render`, and `isTerminal`.
-- [x] Descend behavior preserves HP, inventory, turn, log, finite terminal semantics, and seed reproducibility.
-- [x] Regression seed tests cover canonical seeds and fallback behavior.
-- [x] Local final gates and version-loop smoke pass, or blockers are recorded.
+- [ ] New finite tactical item content records exist.
+- [ ] Item definitions include stable ID, display name, description, valid-use condition, effect, trace event shape, and tests.
+- [ ] Smoke Bomb, Swap Scroll, Fire Seed, and Warp Feather have deterministic effect handlers.
+- [ ] Each tactical item exposes valid `use_item` actions only when usable.
+- [ ] Invalid/unavailable item use is handled safely through existing structured-action validation.
+- [ ] Render output shows item descriptions/names/glyphs and clear log feedback.
+- [ ] Item use emits trace-visible `use_item` events with effect payloads.
+- [ ] Potion behavior and core inventory semantics still work.
+- [ ] Fixed seeds remain reproducible.
+- [ ] Version-loop artifacts can show item changes.
+- [ ] Local final gates and version-loop smoke pass, or blockers are recorded.
 
 ---
 
