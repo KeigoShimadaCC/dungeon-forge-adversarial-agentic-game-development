@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-09c-map-generation` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-09c-map-generation-wt` |
 | Base | `origin/main` at `f67e9e9` |
-| Status | `local validation passed; Cursor audit blocked` |
+| Status | `complete; PR open` |
 
 ### Contract (read before editing)
 
@@ -56,7 +56,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- [ ] 2026-05-22 orchestrator — Re-read Phase 09C acceptance, finalize PR metadata, push branch, and open PR.
+- _(none)_
 
 ### Done
 
@@ -68,6 +68,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-22 orchestrator — Review Cursor diff, harden locally, and run focused tests.
 - [x] 2026-05-22 orchestrator — Run final gates: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and version-loop smoke with blocker noted for the invalid requested version ID.
 - [x] 2026-05-22 orchestrator — Attempt Cursor read-only audit and verify locally after audit stall.
+- [x] 2026-05-22 orchestrator — Re-read Phase 09C acceptance, finalize PR metadata, push branch, and open PR #20.
 
 ### Blocked / skipped
 
@@ -134,6 +135,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Full local validation PASS: `pnpm test` (13 files, 125 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and direct RNG search found only the existing guidance comment in `src/game/rng.ts`.
 - 2026-05-22 — orchestrator — Requested smoke command `pnpm run run-version -- --version v09c-smoke --runs-root /tmp/df-phase09c-smoke-20260522` failed after build with `Invalid version id "v09c-smoke". Expected v001-style format.`; equivalent valid smoke `pnpm run run-version -- --version v009 --runs-root /tmp/df-phase09c-smoke-20260522` passed and wrote three trace/review/scorecard sets.
 - 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) produced no stdout for roughly two minutes and was interrupted; local acceptance audit and gates above are the verification evidence.
+- 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-09C-MAP-GENERATION.md` against implementation; acceptance criteria satisfied locally with documented smoke-command/audit blockers. Commit `d993687` added Phase 09C map generation, engine integration, floor scaling, tests, and progress updates.
+- 2026-05-22 — orchestrator — Pushed `phase-09c-map-generation` and opened PR #20: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/20.
 
 - 2026-05-22 — orchestrator — Fast-forwarded local `main` from `ac573e5` to `origin/main` at `9ccba4f`, then created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-07a-version-loop-wt` on branch `phase-07a-version-loop` tracking `origin/main`.
 - 2026-05-22 — orchestrator — Re-read `PROGRESS.MD` and `phase-plans/PHASE-07A-VERSION-LOOP.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.
