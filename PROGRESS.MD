@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-09c-map-generation` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-09c-map-generation-wt` |
 | Base | `origin/main` at `f67e9e9` |
-| Status | `in progress; progress seeded` |
+| Status | `local validation passed; Cursor audit blocked` |
 
 ### Contract (read before editing)
 
@@ -52,26 +52,28 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-22 orchestrator — Seed Phase 09C progress state and checkpoint before implementation.
+- _(none)_
 
 ### Open
 
-- [ ] 2026-05-22 Cursor/composer-2.5 — Implement deterministic map generation helpers and bounded fallback in `src/game/map.ts`.
-- [ ] 2026-05-22 Cursor/composer-2.5 — Integrate generated player spawn, stairs, enemy placement, and item placement into `src/game/engine.ts` without changing the public `GameEngine` API.
-- [ ] 2026-05-22 Cursor/composer-2.5 — Update floor scaling in `content/floor-rules.json`.
-- [ ] 2026-05-22 Cursor/composer-2.5 — Add and update regression tests for deterministic maps, reachability, placement validation, fallback, and changed engine assumptions.
-- [ ] 2026-05-22 orchestrator — Review Cursor diff, harden locally if needed, and run focused tests.
-- [ ] 2026-05-22 orchestrator — Run final gates: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run run-version -- --version v09c-smoke --runs-root <tmp>`.
-- [ ] 2026-05-22 orchestrator — Run Cursor read-only audit and verify findings against the diff.
-- [ ] 2026-05-22 orchestrator — Re-read Phase 09C acceptance, finalize `PROGRESS.MD`, commit, push, and open PR.
+- [ ] 2026-05-22 orchestrator — Re-read Phase 09C acceptance, finalize PR metadata, push branch, and open PR.
 
 ### Done
 
-- _(none yet for Phase 09C)_
+- [x] 2026-05-22 orchestrator — Seed Phase 09C progress state and checkpoint before implementation (`6822036`).
+- [x] 2026-05-22 Cursor/composer-2.5 — Implement deterministic map generation helpers and bounded fallback in `src/game/map.ts`; Cursor produced no report, diff verified locally.
+- [x] 2026-05-22 Cursor/composer-2.5 + orchestrator — Integrate generated player spawn, stairs, enemy placement, and item placement into `src/game/engine.ts` without changing the public `GameEngine` API.
+- [x] 2026-05-22 orchestrator — Update floor scaling in `content/floor-rules.json`.
+- [x] 2026-05-22 orchestrator — Add and update regression tests for deterministic maps, reachability, placement validation, fallback, and changed engine assumptions.
+- [x] 2026-05-22 orchestrator — Review Cursor diff, harden locally, and run focused tests.
+- [x] 2026-05-22 orchestrator — Run final gates: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and version-loop smoke with blocker noted for the invalid requested version ID.
+- [x] 2026-05-22 orchestrator — Attempt Cursor read-only audit and verify locally after audit stall.
 
 ### Blocked / skipped
 
-- _(none)_
+- [!] 2026-05-22 orchestrator — Cursor implementation pass produced no stdout/report; it left a partial diff that was reviewed, completed, and verified locally.
+- [!] 2026-05-22 orchestrator — Requested smoke command `pnpm run run-version -- --version v09c-smoke --runs-root /tmp/df-phase09c-smoke-20260522` failed because the existing version-loop CLI only accepts `v001`-style IDs; equivalent smoke passed with `v009`.
+- [!] 2026-05-22 orchestrator — Cursor read-only audit pass produced no stdout for roughly two minutes and was interrupted; local diff review and gates are the verification evidence.
 
 ## Phase checklist
 
@@ -79,18 +81,18 @@ _Derived from `phase-plans/PHASE-09C-MAP-GENERATION.md`. Tick when verified agai
 
 ### Phase 09C — Map Generation
 
-- [ ] Seeded room/corridor map generation module exists under `src/game/map.ts`.
-- [ ] Reachability helpers and validation helpers cover player spawn, stairs, enemies, items, overlap, and walkability.
-- [ ] Generated floor layout is deterministic by seed and floor.
-- [ ] Stairs are reachable from player spawn.
-- [ ] Player, enemies, and items spawn on valid reachable tiles.
-- [ ] Entity placement avoids overlaps.
-- [ ] Floor sizes scale through `content/floor-rules.json` as 9x9, 10x10, 10x10, 11x11, and 12x12.
-- [ ] Generation has a bounded retry/fallback path that cannot loop forever.
-- [ ] `GameEngine` public API remains `start`, `getAvailableActions`, `step`, `render`, and `isTerminal`.
-- [ ] Descend behavior preserves HP, inventory, turn, log, finite terminal semantics, and seed reproducibility.
-- [ ] Regression seed tests cover canonical seeds and fallback behavior.
-- [ ] Local final gates and version-loop smoke pass, or blockers are recorded.
+- [x] Seeded room/corridor map generation module exists under `src/game/map.ts`.
+- [x] Reachability helpers and validation helpers cover player spawn, stairs, enemies, items, overlap, and walkability.
+- [x] Generated floor layout is deterministic by seed and floor.
+- [x] Stairs are reachable from player spawn.
+- [x] Player, enemies, and items spawn on valid reachable tiles.
+- [x] Entity placement avoids overlaps.
+- [x] Floor sizes scale through `content/floor-rules.json` as 9x9, 10x10, 10x10, 11x11, and 12x12.
+- [x] Generation has a bounded retry/fallback path that cannot loop forever.
+- [x] `GameEngine` public API remains `start`, `getAvailableActions`, `step`, `render`, and `isTerminal`.
+- [x] Descend behavior preserves HP, inventory, turn, log, finite terminal semantics, and seed reproducibility.
+- [x] Regression seed tests cover canonical seeds and fallback behavior.
+- [x] Local final gates and version-loop smoke pass, or blockers are recorded.
 
 ---
 
@@ -126,6 +128,12 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 
 - 2026-05-22 — orchestrator — Created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-09c-map-generation-wt` on branch `phase-09c-map-generation` from `origin/main` at `f67e9e9`; worktree status clean.
 - 2026-05-22 — orchestrator — Re-read `PROGRESS.MD`, `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md`, and `phase-plans/PHASE-09C-MAP-GENERATION.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.
+- 2026-05-22 — orchestrator — Commit `6822036` seeded Phase 09C progress state before implementation.
+- 2026-05-22 — orchestrator — Cursor implementation pass (`agent --print --trust --model composer-2.5 --workspace ...`) produced no stdout/report after about 90 seconds; subsequent status showed modified `src/game/engine.ts` and `src/game/map.ts`, which were reviewed and completed locally.
+- 2026-05-22 — orchestrator — Focused validation PASS: `pnpm test tests/map-generation.test.ts tests/engine.test.ts tests/content.test.ts` (27 tests), then map-only refinement PASS with `pnpm test tests/map-generation.test.ts` (7 tests), and `pnpm run typecheck`.
+- 2026-05-22 — orchestrator — Full local validation PASS: `pnpm test` (13 files, 125 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and direct RNG search found only the existing guidance comment in `src/game/rng.ts`.
+- 2026-05-22 — orchestrator — Requested smoke command `pnpm run run-version -- --version v09c-smoke --runs-root /tmp/df-phase09c-smoke-20260522` failed after build with `Invalid version id "v09c-smoke". Expected v001-style format.`; equivalent valid smoke `pnpm run run-version -- --version v009 --runs-root /tmp/df-phase09c-smoke-20260522` passed and wrote three trace/review/scorecard sets.
+- 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) produced no stdout for roughly two minutes and was interrupted; local acceptance audit and gates above are the verification evidence.
 
 - 2026-05-22 — orchestrator — Fast-forwarded local `main` from `ac573e5` to `origin/main` at `9ccba4f`, then created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-07a-version-loop-wt` on branch `phase-07a-version-loop` tracking `origin/main`.
 - 2026-05-22 — orchestrator — Re-read `PROGRESS.MD` and `phase-plans/PHASE-07A-VERSION-LOOP.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.

@@ -5,8 +5,13 @@ import {
   type FloorRuleDefinition,
   type ItemDefinition,
 } from './content.js';
+import {
+  chooseEntityPositions,
+  generateFloorLayout,
+  getTile as getMapTile,
+  isWalkableTile,
+} from './map.js';
 import { render } from './render.js';
-import { createSeededRng } from './rng.js';
 import type {
   GameConfig,
   GameEvent,
@@ -29,31 +34,9 @@ export interface GameEngine {
 
 const DEFAULT_VERSION = '0.3.0-minimal-dungeon';
 const DEFAULT_OBJECTIVE = 'Reach the final stairs and escape the dawn dungeon.';
-const PLAYER_START: Position = { x: 1, y: 1 };
 const PLAYER_MAX_HP = 20;
 const PLAYER_ATTACK = 4;
 const RECENT_LOG_LIMIT = 8;
-
-const FLOOR_TILE: Tile = {
-  type: 'floor',
-  glyph: '.',
-  walkable: true,
-  description: 'plain stone floor',
-};
-
-const WALL_TILE: Tile = {
-  type: 'wall',
-  glyph: '#',
-  walkable: false,
-  description: 'solid dungeon wall',
-};
-
-const STAIRS_TILE: Tile = {
-  type: 'stairs',
-  glyph: '>',
-  walkable: true,
-  description: 'stairs to the next floor',
-};
 
 const DIRECTIONS = [
   { name: 'north', dx: 0, dy: -1 },
@@ -114,85 +97,30 @@ const normalizePositiveInteger = (
   return fallback;
 };
 
-const createMap = (rule: FloorRuleDefinition): GameMap => {
-  const stairs = getStairsPosition(rule);
-  const tiles = Array.from({ length: rule.height }, (_, y) =>
-    Array.from({ length: rule.width }, (_, x): Tile => {
-      if (x === 0 || y === 0 || x === rule.width - 1 || y === rule.height - 1) {
-        return { ...WALL_TILE };
-      }
-      if (x === stairs.x && y === stairs.y) {
-        return { ...STAIRS_TILE };
-      }
-      return { ...FLOOR_TILE };
-    }),
-  );
-
-  return {
-    width: rule.width,
-    height: rule.height,
-    tiles,
-  };
-};
-
-const getStairsPosition = (rule: FloorRuleDefinition): Position => ({
-  x: rule.width - 2,
-  y: rule.height - 2,
-});
-
 const getTile = (map: GameMap, position: Position): Tile | undefined =>
-  map.tiles[position.y]?.[position.x];
+  getMapTile(map, position);
 
 const isWalkable = (map: GameMap, position: Position): boolean =>
-  getTile(map, position)?.walkable === true;
-
-const interiorPositions = (rule: FloorRuleDefinition): Position[] => {
-  const positions: Position[] = [];
-  const stairs = getStairsPosition(rule);
-  for (let y = 1; y < rule.height - 1; y += 1) {
-    for (let x = 1; x < rule.width - 1; x += 1) {
-      const position = { x, y };
-      if (!samePosition(position, PLAYER_START) && !samePosition(position, stairs)) {
-        positions.push(position);
-      }
-    }
-  }
-  return positions;
-};
-
-const choosePositions = (
-  seed: string,
-  floor: number,
-  rule: FloorRuleDefinition,
-  count: number,
-  occupied: Set<string>,
-  options: { safeFromPlayer?: boolean } = {},
-): Position[] => {
-  const rng = createSeededRng(`${seed}:floor:${floor}:${occupied.size}:${count}`);
-  const allCandidates = interiorPositions(rule).filter(
-    (position) => !occupied.has(positionKey(position)),
-  );
-  const preferredCandidates = options.safeFromPlayer
-    ? allCandidates.filter(
-        (position) => manhattanDistance(position, PLAYER_START) > 2,
-      )
-    : allCandidates;
-  const candidates =
-    preferredCandidates.length >= count ? preferredCandidates : allCandidates;
-  return rng.shuffle(candidates).slice(0, count);
-};
+  isWalkableTile(map, position);
 
 const placeEnemies = (
   seed: string,
   floor: number,
   rule: FloorRuleDefinition,
+  layout: ReturnType<typeof generateFloorLayout>,
   occupied: Set<string>,
 ): GameState['enemies'] => {
   if (rule.enemyIds.length === 0 || rule.enemySpawnCount === 0) {
     return [];
   }
 
-  const positions = choosePositions(seed, floor, rule, rule.enemySpawnCount, occupied, {
+  const positions = chooseEntityPositions({
+    seed,
+    floor,
+    layout,
+    count: rule.enemySpawnCount,
+    occupied,
+    slot: 'enemy',
     safeFromPlayer: true,
   });
 
@@ -217,13 +145,21 @@ const placeItems = (
   seed: string,
   floor: number,
   rule: FloorRuleDefinition,
+  layout: ReturnType<typeof generateFloorLayout>,
   occupied: Set<string>,
 ): ItemInstance[] => {
   if (rule.itemIds.length === 0 || rule.itemSpawnCount === 0) {
     return [];
   }
 
-  const positions = choosePositions(seed, floor, rule, rule.itemSpawnCount, occupied);
+  const positions = chooseEntityPositions({
+    seed,
+    floor,
+    layout,
+    count: rule.itemSpawnCount,
+    occupied,
+    slot: 'item',
+  });
 
   return positions.map((position, index) => {
     const definition = getItemDefinition(rule.itemIds[index % rule.itemIds.length]);
@@ -251,9 +187,17 @@ const createFloorState = (params: {
   log: string[];
 }): GameState => {
   const rule = getFloorRule(params.floor);
-  const occupied = new Set<string>([positionKey(PLAYER_START), positionKey(getStairsPosition(rule))]);
-  const enemies = placeEnemies(params.seed, params.floor, rule, occupied);
-  const items = placeItems(params.seed, params.floor, rule, occupied);
+  const layout = generateFloorLayout({
+    seed: params.seed,
+    floor: params.floor,
+    rule,
+  });
+  const occupied = new Set<string>([
+    positionKey(layout.playerSpawn),
+    positionKey(layout.stairs),
+  ]);
+  const enemies = placeEnemies(params.seed, params.floor, rule, layout, occupied);
+  const items = placeItems(params.seed, params.floor, rule, layout, occupied);
 
   return {
     version: params.version,
@@ -262,12 +206,12 @@ const createFloorState = (params: {
     floor: params.floor,
     terminalStatus: 'ACTIVE',
     player: {
-      ...PLAYER_START,
+      ...layout.playerSpawn,
       hp: params.playerHp ?? PLAYER_MAX_HP,
       maxHp: PLAYER_MAX_HP,
       inventory: [...(params.inventory ?? [])],
     },
-    map: createMap(rule),
+    map: layout.map,
     enemies,
     items,
     log: [...params.log],

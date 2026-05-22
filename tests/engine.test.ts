@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 
 import { getAvailableActions, start, step } from '../src/game/engine.js';
 import { POTION_ITEM_ID } from '../src/game/content.js';
-import type { GameState, PlayerAction } from '../src/game/types.js';
+import { getReachableTiles, isWalkableTile } from '../src/game/map.js';
+import type { GameState, PlayerAction, Position } from '../src/game/types.js';
 
 function requireAction(
   state: GameState,
@@ -11,6 +12,13 @@ function requireAction(
   const action = getAvailableActions(state).find(predicate);
   expect(action).toBeDefined();
   return action as PlayerAction;
+}
+
+function adjacentPositionFromMove(state: GameState): Position {
+  const move = getAvailableActions(state).find((action) => action.type === 'move');
+  const dx = typeof move?.payload?.dx === 'number' ? move.payload.dx : 1;
+  const dy = typeof move?.payload?.dy === 'number' ? move.payload.dy : 0;
+  return { x: state.player.x + dx, y: state.player.y + dy };
 }
 
 function slimeAt(x: number, y: number): GameState['enemies'][number] {
@@ -28,9 +36,29 @@ function slimeAt(x: number, y: number): GameState['enemies'][number] {
 }
 
 function stairsPosition(state: GameState): { x: number; y: number } {
+  for (let y = 0; y < state.map.height; y += 1) {
+    for (let x = 0; x < state.map.width; x += 1) {
+      if (state.map.tiles[y]?.[x]?.type === 'stairs') {
+        return { x, y };
+      }
+    }
+  }
+  throw new Error('stairs not found on map');
+}
+
+function movePlayerToStairs(state: GameState): GameState {
+  const stairs = stairsPosition(state);
+  const reachable = getReachableTiles(state.map, state.player);
+  if (!reachable.some((position) => position.x === stairs.x && position.y === stairs.y)) {
+    throw new Error('stairs unreachable in test setup');
+  }
+
   return {
-    x: state.map.width - 2,
-    y: state.map.height - 2,
+    ...state,
+    player: {
+      ...state.player,
+      ...stairs,
+    },
   };
 }
 
@@ -43,9 +71,10 @@ describe('Phase 03A minimal dungeon', () => {
     expect(first.version).toBe('0.3.0-minimal-dungeon');
     expect(first.floor).toBe(1);
     expect(first.meta.totalFloors).toBe(5);
-    expect(first.map.width).toBe(8);
-    expect(first.map.height).toBe(8);
+    expect(first.map.width).toBe(9);
+    expect(first.map.height).toBe(9);
     expect(first.map.tiles[0].every((tile) => tile.type === 'wall')).toBe(true);
+    expect(isWalkableTile(first.map, first.player)).toBe(true);
     expect(first.enemies).toHaveLength(1);
     expect(first.enemies[0].type).toBe('slime');
     expect(first.items).toHaveLength(1);
@@ -55,49 +84,53 @@ describe('Phase 03A minimal dungeon', () => {
 
   it('moves the player to valid tiles through structured actions', () => {
     const state = start('move-seed');
-    const moveEast = requireAction(state, (action) => action.id === 'move_east');
+    const move = requireAction(state, (action) => action.type === 'move');
 
-    const result = step(state, moveEast);
+    const result = step(state, move);
 
     expect(result.valid).toBe(true);
-    expect(result.state.player.x).toBe(2);
-    expect(result.state.player.y).toBe(1);
+    expect(isWalkableTile(result.state.map, result.state.player)).toBe(true);
     expect(result.events.some((event) => event.type === 'move')).toBe(true);
   });
 
   it('does not expose wall movement and rejects wall moves safely', () => {
     const state = start('wall-seed');
     const actions = getAvailableActions(state);
+    const blockedDirection = [
+      { name: 'north', dx: 0, dy: -1 },
+      { name: 'south', dx: 0, dy: 1 },
+      { name: 'west', dx: -1, dy: 0 },
+      { name: 'east', dx: 1, dy: 0 },
+    ].find((direction) => !actions.some((action) => action.id === `move_${direction.name}`));
 
-    expect(actions.some((action) => action.id === 'move_west')).toBe(false);
+    expect(blockedDirection).toBeDefined();
 
     const invalidWallMove: PlayerAction = {
-      id: 'move_west',
+      id: `move_${blockedDirection?.name}`,
       type: 'move',
-      label: 'Move west into a wall',
-      payload: { dx: -1, dy: 0 },
+      label: `Move ${blockedDirection?.name} into a wall`,
+      payload: { dx: blockedDirection?.dx ?? 0, dy: blockedDirection?.dy ?? 0 },
     };
 
     const result = step(state, invalidWallMove);
 
     expect(result.valid).toBe(false);
-    expect(result.error).toContain('move_west');
+    expect(result.error).toContain(invalidWallMove.id);
     expect(result.state).toEqual(state);
   });
 
   it('uses canonical available-action payloads instead of caller mutations', () => {
     const state = start('payload-seed');
-    const moveEast = requireAction(state, (action) => action.id === 'move_east');
+    const move = requireAction(state, (action) => action.type === 'move');
     const tamperedMove: PlayerAction = {
-      ...moveEast,
+      ...move,
       payload: { dx: 99, dy: 0 },
     };
 
     const result = step(state, tamperedMove);
 
     expect(result.valid).toBe(true);
-    expect(result.state.player.x).toBe(2);
-    expect(result.state.player.y).toBe(1);
+    expect(isWalkableTile(result.state.map, result.state.player)).toBe(true);
   });
 
   it('returns invalid StepResult errors instead of throwing', () => {
@@ -165,9 +198,13 @@ describe('Phase 03A minimal dungeon', () => {
   });
 
   it('lets Slime act and damage the player', () => {
+    const base = start('slime-seed');
     const state: GameState = {
-      ...start('slime-seed'),
-      enemies: [slimeAt(2, 1)],
+      ...base,
+      enemies: (() => {
+        const adjacent = adjacentPositionFromMove(base);
+        return [slimeAt(adjacent.x, adjacent.y)];
+      })(),
       items: [],
     };
     const wait = requireAction(state, (action) => action.id === 'wait');
@@ -180,9 +217,13 @@ describe('Phase 03A minimal dungeon', () => {
   });
 
   it('supports melee attacks that change enemy HP', () => {
+    const base = start('combat-seed');
     const state: GameState = {
-      ...start('combat-seed'),
-      enemies: [slimeAt(2, 1)],
+      ...base,
+      enemies: (() => {
+        const adjacent = adjacentPositionFromMove(base);
+        return [slimeAt(adjacent.x, adjacent.y)];
+      })(),
       items: [],
     };
     const attack = requireAction(state, (action) => action.type === 'attack');
@@ -195,8 +236,9 @@ describe('Phase 03A minimal dungeon', () => {
   });
 
   it('supports Potion pickup and use without overhealing', () => {
+    const base = start('potion-seed');
     const state: GameState = {
-      ...start('potion-seed'),
+      ...base,
       enemies: [],
       items: [
         {
@@ -204,12 +246,12 @@ describe('Phase 03A minimal dungeon', () => {
           type: POTION_ITEM_ID,
           label: 'Healing Potion',
           glyph: '!',
-          x: 1,
-          y: 1,
+          x: base.player.x,
+          y: base.player.y,
         },
       ],
       player: {
-        ...start('potion-seed').player,
+        ...base.player,
         hp: 15,
       },
     };
@@ -229,40 +271,27 @@ describe('Phase 03A minimal dungeon', () => {
   });
 
   it('descends stairs and wins from the final floor', () => {
-    const floorOne: GameState = {
+    let state: GameState = {
       ...start('stairs-seed'),
       enemies: [],
       items: [],
     };
-    floorOne.player = {
-      ...floorOne.player,
-      ...stairsPosition(floorOne),
-    };
-    const descendFloorOne = requireAction(
-      floorOne,
-      (action) => action.id === 'descend_stairs',
-    );
 
-    const floorTwo = step(floorOne, descendFloorOne).state;
+    for (let floor = 1; floor < 5; floor += 1) {
+      state = movePlayerToStairs(state);
+      const descend = requireAction(state, (action) => action.id === 'descend_stairs');
+      state = step(state, descend).state;
+      expect(state.floor).toBe(floor + 1);
+      expect(state.terminalStatus).toBe('ACTIVE');
+      expect(isWalkableTile(state.map, state.player)).toBe(true);
+    }
 
-    expect(floorTwo.terminalStatus).toBe('ACTIVE');
-    expect(floorTwo.floor).toBe(2);
-    expect(floorTwo.player.x).toBe(1);
-    expect(floorTwo.player.y).toBe(1);
-
-    const finalFloor: GameState = {
-      ...floorOne,
-      floor: 5,
-      player: {
-        ...floorOne.player,
-        ...stairsPosition(floorOne),
-      },
-    };
+    state = movePlayerToStairs(state);
     const finalDescend = requireAction(
-      finalFloor,
+      state,
       (action) => action.id === 'descend_stairs',
     );
-    const result = step(finalFloor, finalDescend);
+    const result = step(state, finalDescend);
 
     expect(result.valid).toBe(true);
     expect(result.state.terminalStatus).toBe('WIN');
@@ -270,12 +299,16 @@ describe('Phase 03A minimal dungeon', () => {
   });
 
   it('produces LOSS when HP reaches zero', () => {
+    const base = start('loss-seed');
     const state: GameState = {
-      ...start('loss-seed'),
-      enemies: [slimeAt(2, 1)],
+      ...base,
+      enemies: (() => {
+        const adjacent = adjacentPositionFromMove(base);
+        return [slimeAt(adjacent.x, adjacent.y)];
+      })(),
       items: [],
       player: {
-        ...start('loss-seed').player,
+        ...base.player,
         hp: 1,
       },
     };
