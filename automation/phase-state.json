@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-14A",
+  "currentPhase": "PHASE-14B",
   "lastUpdated": "2026-05-23",
   "phases": {
     "PHASE-00A": {
@@ -87,7 +87,11 @@
       "status": "complete"
     },
     "PHASE-14A": {
-      "status": "queued"
+      "branch": "phase/phase-14a-developer-workflow-polish",
+      "evidenceDir": "runs/phase-runner/PHASE-14A/planned",
+      "mergeCommit": "c8521967c93248d69f5196f1854f30156ba29329",
+      "pr": 31,
+      "status": "complete"
     },
     "PHASE-14B": {
       "status": "queued"

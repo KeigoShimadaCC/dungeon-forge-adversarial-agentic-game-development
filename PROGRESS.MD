@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 14A — Developer Workflow Polish |
-| Goal | Make developer-agent handoffs easier to use, validate, and audit while preserving the human-governed workflow model. |
-| Branch | `phase/phase-14a-developer-workflow-polish` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-14a-developer-workflow-polish-wt` |
-| Base | `origin/main` at `9977d16` |
-| Status | `Local validation and Cursor recheck passed; commit and PR pending` |
+| Phase | Phase 14B — Real LLM Runs |
+| Goal | Add credential-gated real LLM player and reviewer runs while keeping default gameplay, tests, CI, and validation credential-free. |
+| Branch | `phase/phase-14b-real-llm-runs` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-14b-real-llm-runs-wt` |
+| Base | `origin/main` at `c852196` |
+| Status | `Queued; automation start pending` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-14A-DEVELOPER-WORKFLOW-POLISH.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-14B-REAL-LLM-RUNS.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -52,14 +52,15 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Commit Phase 14A, push branch, open PR, verify CI, merge, and clean up if validation remains clean.
+- _(none)_
 
 ### Open
 
-- _(none)_
+- [ ] 2026-05-23 orchestrator — Start Phase 14B automation: create prompt bundle/worktree, seed progress, delegate implementation to Cursor/composer-2.5, then verify locally.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Merge Phase 14A PR #31, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 14B.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck — Functional Phase 14A PASS; remaining blockers are commit/PR/CI readiness only.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, harden validate-only diagnostics and repo-root defaults, run focused/full gates.
 - [x] 2026-05-23 Cursor/composer-2.5 — Implement Phase 14A developer-workflow polish: repo-relative handoff paths, `--help` / `--write-templates` / `--validate-only`, categorized multi-diagnostic validation, `docs/DEVELOPER-WORKFLOW.md`, and focused tests.
@@ -105,17 +106,18 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-14A-DEVELOPER-WORKFLOW-POLISH.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-14B-REAL-LLM-RUNS.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 14A — Developer Workflow Polish
+### Phase 14B — Real LLM Runs
 
-- [x] Developer-task output uses repo-relative paths when the runs root is inside the repository.
-- [x] Optional companion template generation can write expected `patch_plan.md` and `changelog.md` files.
-- [x] Help/usage output documents required and optional developer-workflow flags.
-- [x] Validation reports multiple categorized diagnostics without hiding hard blockers.
-- [x] Forbidden changes are visible before implementation.
-- [x] Workflow remains human-governed and evidence-backed; no automatic code patching or autonomous merge loop is added in this phase.
-- [x] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [ ] Provider adapter boundary and configuration docs exist behind existing LLM client interfaces.
+- [ ] Environment variable names are documented in `.env.example` if credentials are introduced.
+- [ ] Optional CLI flags support selected real LLM player/reviewer runs without changing default credential-free behavior.
+- [ ] Model action validation checks both action `id` and action `type`.
+- [ ] Invalid or fallback model output diagnostics are preserved in trace metadata.
+- [ ] Missing credentials produce a clear skip/blocker, not a crash.
+- [ ] Mocked-provider tests cover valid output, invalid JSON, invalid action ID, wrong action type, and timeout fallback paths.
+- [ ] Local final gates pass without credentials: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -273,12 +275,21 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 — Phase 14A implementation: added `toHandoffDisplayPath`, `collectDeveloperTaskDiagnostics` with `blocker`/`forbidden`/`allowed`/`proposed`/`warning` categories, CLI `--help`, `--write-templates`, `--validate-only`, `--repo-root`, `docs/DEVELOPER-WORKFLOW.md`, and expanded `tests/developer-workflow.test.ts`. Validation PASS: `pnpm test tests/developer-workflow.test.ts` (8 tests); `pnpm run check` (23 files, 216 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
 - 2026-05-23 — orchestrator — Reviewed and hardened the Phase 14A diff: proposed changes that match global forbidden rules now produce blocker diagnostics, `--validate-only` on valid handoffs prints visible forbidden-rule diagnostics, and CLI `--repo-root` defaults to the current working directory so a repo subdirectory `--runs-root` still yields repo-relative handoff paths. Validation PASS: `pnpm test tests/developer-workflow.test.ts` (9 tests), `pnpm run check` (23 files, 217 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 14A PASS against the phase plan, local validation, protocol invariants, forbidden-scope review, and secrets scan. Recheck validation PASS: `pnpm test tests/developer-workflow.test.ts` (9 tests), `pnpm run check` (23 files, 217 tests), `git diff -- src/game content concept-and-ideas phase-plans` empty, and no `.env` or credential material in the diff. Merge readiness remains pending only for commit, PR, and GitHub CI.
+- 2026-05-23 — orchestrator — Phase 14A merged and cleaned up: automation gate allowed merge, PR #31 `Repo gates` passed in 39s, PR #31 was squash-merged at `c8521967c93248d69f5196f1854f30156ba29329`, clean worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-14a-developer-workflow-polish-wt` was removed, local branch `phase/phase-14a-developer-workflow-polish` was deleted, remote branch was deleted manually, and `automation/phase-state.json` advanced current phase to `PHASE-14B`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 14A — Developer Workflow Polish
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-14a-developer-workflow-polish` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/31
+- **Merge commit:** `c8521967c93248d69f5196f1854f30156ba29329`
+- **Outcome:** Polished developer-agent handoffs with repo-relative artifact paths, `--help`, `--write-templates`, `--validate-only`, `--repo-root`, categorized multi-diagnostic validation, visible forbidden-rule diagnostics, docs, exports, and focused tests while preserving the human-governed workflow model.
+- **Key evidence:** Cursor/composer-2.5 implementation and read-only recheck; local `pnpm run check` passed with 23 files and 217 tests; `git diff --check` passed; PR #31 `Repo gates` passed before merge.
 
 ### Phase 13C — Trace Scorecard Diagnostics
 
