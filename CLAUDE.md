@@ -37,16 +37,13 @@ This repo builds an agentic adversarial game-development testbed: a developer ag
 
 ## Commands
 
-Current repo has no app scaffold or canonical test/build commands.
-
 Use now:
 - `git status --short --branch`
 - `rg "<term>" concept-and-ideas phase-plans`
 - `find . -maxdepth 3 -type f -print | sort`
-
-Use after Phase 01A creates the TypeScript scaffold:
 - `pnpm test`
-- `pnpm run typecheck` if present
+- `pnpm run typecheck`
+- `pnpm run lint`
 
 Use after Phase 03A creates harness scripts:
 - Run the documented regression seed simulation command before claiming harness/game changes complete.

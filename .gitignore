@@ -1,1 +1,32 @@
 .DS_Store
+
+# Dependencies and build output
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Test and tool caches
+coverage/
+.nyc_output/
+.vitest/
+.eslintcache
+
+# Logs and transient artifacts
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Editor / OS (keep planning docs tracked)
+.idea/
+*.swp
+*~
+
+# Generated run evidence (design truth is src/, not runs/)
+runs/**/*
+!runs/.gitkeep
