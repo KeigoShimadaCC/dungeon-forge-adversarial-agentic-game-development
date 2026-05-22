@@ -9,6 +9,7 @@ import {
   buildReviewRelativePath,
   buildScorecardRelativePath,
   buildTraceRelativePath,
+  savePlaythroughArtifacts,
 } from '../src/harness/artifacts.js';
 import { stringifyDeterministicJson } from '../src/harness/json.js';
 import { generateDeterministicReview } from '../src/harness/reviewer-client.js';
@@ -345,6 +346,34 @@ describe('Phase 05A harness', () => {
     }
   });
 
+  it('fails validation when optional review source fields are malformed', async () => {
+    const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-harness-'));
+    try {
+      const { scorecard } = await runPlaythrough({
+        seed: 'seed_001',
+        policyId: 'stairs-seeking',
+        version: 'v001-test',
+        runsRoot,
+      });
+
+      expect(() =>
+        validateScorecard({
+          ...scorecard,
+          review_path: '',
+        }),
+      ).toThrow('Scorecard optional review source must be a non-empty string: review_path');
+
+      expect(() =>
+        validateScorecard({
+          ...scorecard,
+          review_id: 42 as unknown as string,
+        }),
+      ).toThrow('Scorecard optional review source must be a non-empty string: review_id');
+    } finally {
+      await rm(runsRoot, { recursive: true, force: true });
+    }
+  });
+
   it('serializes deterministically for the same trace and mocked review input', async () => {
     const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-harness-'));
     try {
@@ -390,6 +419,45 @@ describe('Phase 05A harness', () => {
         expect(savedScorecard).toHaveProperty(field);
       }
       expect(savedScorecard.reviewer_scores).toEqual(NULL_REVIEWER_SCORES);
+      validateScorecard(savedScorecard);
+    } finally {
+      await rm(runsRoot, { recursive: true, force: true });
+    }
+  });
+
+  it('saves enriched scorecard files with Phase 06B reviewer scores and source linkage', async () => {
+    const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-harness-'));
+    try {
+      const { trace } = await runPlaythrough({
+        seed: 'seed_001',
+        policyId: 'stairs-seeking',
+        version: 'v001-test',
+        runsRoot: path.join(runsRoot, 'source'),
+      });
+      const tracePath = buildTraceRelativePath(trace.version, trace.seed, trace.persona);
+      const traceOnly = deriveScorecardFromTrace(trace, tracePath);
+      const review = generateDeterministicReview({
+        trace,
+        scorecard: traceOnly,
+        persona: 'bug_hunter',
+      });
+      const reviewPath = buildReviewRelativePath(review.version, review.seed, review.persona);
+      const enrichedScorecard = deriveScorecardFromTrace(trace, tracePath, {
+        scores: review.scores,
+        review_path: reviewPath,
+        review_id: `review:${review.persona}:${review.seed}`,
+      });
+
+      validateScorecard(enrichedScorecard);
+      const artifacts = await savePlaythroughArtifacts(runsRoot, trace, enrichedScorecard);
+      const savedScorecard = JSON.parse(
+        await readFile(artifacts.scorecardPath, 'utf8'),
+      ) as PlaythroughScorecard;
+
+      expect(savedScorecard.reviewer_scores).toEqual(review.scores);
+      expect(savedScorecard.review_path).toBe(reviewPath);
+      expect(savedScorecard.review_id).toBe('review:bug_hunter:seed_001');
+      expect(artifacts.scorecardPath.endsWith('runs/v001-test/scorecards/seed_001__stairs-seeking.json')).toBe(true);
       validateScorecard(savedScorecard);
     } finally {
       await rm(runsRoot, { recursive: true, force: true });
