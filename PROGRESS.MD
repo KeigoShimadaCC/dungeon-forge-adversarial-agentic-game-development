@@ -67,6 +67,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] T-03A-005 Validation: run `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `git diff --check`, and `rg "Math\\.random" src tests` (orchestrator, 2026-05-22).
 - [x] T-03A-007 Acceptance review: re-read Phase 03A plan and concept constraints against repo state (orchestrator, 2026-05-22).
 - [x] T-03A-008 Publish: commit checkpoints, push `phase-03a-minimal-dungeon`, and open PR #7 to `main` (orchestrator, 2026-05-22).
+- [x] T-03A-009 Follow-up hardening: add explicit invalid-state `ABORTED` handling and tests after plan recheck (orchestrator, 2026-05-22).
 
 ### Blocked / skipped
 
@@ -93,7 +94,7 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 - [x] Implement stairs and finite floor progression.
 - [x] Implement `WIN` on final floor completion.
 - [x] Implement `LOSS` when HP reaches 0.
-- [x] Preserve max-turn `ABORTED`.
+- [x] Preserve max-turn `ABORTED` and abort active invalid state with a traceable event.
 - [x] Invalid actions are handled safely through `StepResult.valid === false`.
 - [x] Add engine tests for movement, walls, invalid actions, Slime behavior, combat, Potion healing, stairs, `WIN`, `LOSS`, and `ABORTED`.
 - [x] `pnpm test` passes.
@@ -114,6 +115,7 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | ID | Idea | Suggested phase | Why deferred | Noted |
 | --- | --- | --- | --- | --- |
 | F-001 | _(add ideas here)_ | _(phase)_ | _(why deferred)_ | _(agent, date)_ |
+| F-03A-001 | Extract engine-local map/combat helpers into dedicated modules when those systems grow. | Phase 09B / Phase 09C | Phase 03A permits modules as needed; richer enemy variety and procedural map generation are explicitly scheduled later. | orchestrator, 2026-05-22 |
 
 _Add rows as you go. Promote to Task queue when a phase plan or user explicitly schedules the work._
 
@@ -132,6 +134,7 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — Validation after implementation: `pnpm test` exit 0 (5 files, 41 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0, and `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
 - 2026-05-22 — orchestrator — Acceptance review: re-read Phase 03A and Phase 00A; changed paths are limited to `PROGRESS.MD`, `src/game/engine.ts`, `src/game/types.ts`, and `tests/engine.test.ts`; no `src/harness/**`, `runs/**`, content, docs, package, UI, LLM, external-service, image/audio, real-time, infinite-floor, or free-text gameplay scope was introduced. Forbidden-scope scan only matched invalid-action test labels and the existing RNG guidance comment.
 - 2026-05-22 — orchestrator — Pushed `phase-03a-minimal-dungeon` and opened PR #7: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/7
+- 2026-05-22 — orchestrator — Plan recheck follow-up: `PHASE-09C-MAP-GENERATION.md` owns future map generation and map-failure handling, while no later phase clearly owns Phase 03A's invalid-state abort wording. Added active-state validation in `src/game/engine.ts` so malformed map dimensions, impossible actor/item placement, unknown inventory/item types, or out-of-range floors abort with an `invalid_state` event; added two tests in `tests/engine.test.ts`. Validation: `pnpm test` exit 0 (5 files, 43 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, and `git diff --check origin/main...HEAD` exit 0.
 
 ---
 

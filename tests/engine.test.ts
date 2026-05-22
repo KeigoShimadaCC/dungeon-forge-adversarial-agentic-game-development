@@ -121,6 +121,54 @@ describe('Phase 03A minimal dungeon', () => {
     expect(result.state.terminalStatus).toBe('ACTIVE');
   });
 
+  it('aborts when active state has an impossible player position', () => {
+    const state: GameState = {
+      ...start('invalid-position-seed'),
+      player: {
+        ...start('invalid-position-seed').player,
+        x: 0,
+        y: 0,
+      },
+    };
+
+    const result = step(state, {
+      id: 'wait',
+      type: 'wait',
+      label: 'Wait',
+    });
+
+    expect(result.valid).toBe(true);
+    expect(result.state.terminalStatus).toBe('ABORTED');
+    expect(result.events).toEqual([
+      expect.objectContaining({
+        type: 'invalid_state',
+        message: expect.stringContaining('player is not on a walkable tile'),
+      }),
+    ]);
+    expect(getAvailableActions(result.state)).toEqual([]);
+  });
+
+  it('aborts when active state has malformed map dimensions', () => {
+    const state: GameState = {
+      ...start('invalid-map-seed'),
+      map: {
+        ...start('invalid-map-seed').map,
+        width: 99,
+      },
+    };
+
+    const result = step(state, {
+      id: 'wait',
+      type: 'wait',
+      label: 'Wait',
+    });
+
+    expect(result.valid).toBe(true);
+    expect(result.state.terminalStatus).toBe('ABORTED');
+    expect(result.events[0]?.type).toBe('invalid_state');
+    expect(result.events[0]?.message).toContain('map dimensions');
+  });
+
   it('lets Slime act and damage the player', () => {
     const state: GameState = {
       ...start('slime-seed'),

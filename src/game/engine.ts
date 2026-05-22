@@ -405,6 +405,81 @@ const event = (
   payload,
 });
 
+const isKnownItemType = (id: string): boolean =>
+  content.items.items.some((candidate) => candidate.id === id);
+
+const getInvalidStateReason = (state: GameState): string | undefined => {
+  if (state.floor < 1 || state.floor > state.meta.totalFloors) {
+    return `floor ${state.floor} is outside 1-${state.meta.totalFloors}`;
+  }
+
+  if (
+    state.map.width <= 0 ||
+    state.map.height <= 0 ||
+    state.map.tiles.length !== state.map.height ||
+    state.map.tiles.some((row) => row.length !== state.map.width)
+  ) {
+    return 'map dimensions do not match tile data';
+  }
+
+  if (!isWalkable(state.map, state.player)) {
+    return `player is not on a walkable tile at ${positionKey(state.player)}`;
+  }
+
+  const occupied = new Set<string>([positionKey(state.player)]);
+  for (const enemy of state.enemies) {
+    const key = positionKey(enemy);
+    if (enemy.hp <= 0 || enemy.maxHp <= 0) {
+      return `enemy ${enemy.id} has invalid HP`;
+    }
+    if (!isWalkable(state.map, enemy)) {
+      return `enemy ${enemy.id} is not on a walkable tile`;
+    }
+    if (occupied.has(key)) {
+      return `enemy ${enemy.id} overlaps another actor`;
+    }
+    occupied.add(key);
+  }
+
+  for (const item of state.items) {
+    if (!isKnownItemType(item.type)) {
+      return `item ${item.id} references unknown type ${item.type}`;
+    }
+    if (!isWalkable(state.map, item)) {
+      return `item ${item.id} is not on a walkable tile`;
+    }
+  }
+
+  for (const itemType of state.player.inventory) {
+    if (!isKnownItemType(itemType)) {
+      return `inventory references unknown item type ${itemType}`;
+    }
+  }
+
+  return undefined;
+};
+
+const abortInvalidState = (state: GameState, reason: string): StepResult => {
+  const nextState = cloneState(state);
+  const nextTurn = nextState.turn + 1;
+  const invalidStateEvent = event(
+    nextTurn,
+    'invalid_state',
+    `The run aborted after detecting invalid state: ${reason}.`,
+    { terminalStatus: 'ABORTED', reason },
+  );
+
+  nextState.turn = nextTurn;
+  nextState.terminalStatus = 'ABORTED';
+  appendEventsToLog(nextState, [invalidStateEvent]);
+
+  return {
+    state: nextState,
+    events: [invalidStateEvent],
+    valid: true,
+  };
+};
+
 const directionFromAction = (action: PlayerAction): Position => {
   const dx = action.payload?.dx;
   const dy = action.payload?.dy;
@@ -547,6 +622,11 @@ const descend = (state: GameState, events: GameEvent[]): GameState => {
 };
 
 export const step = (state: GameState, action: PlayerAction): StepResult => {
+  const invalidStateReason = getInvalidStateReason(state);
+  if (!isTerminal(state) && invalidStateReason) {
+    return abortInvalidState(state, invalidStateReason);
+  }
+
   const availableActions = getAvailableActions(state);
   const matchedAction = findMatchingAction(availableActions, action);
 
