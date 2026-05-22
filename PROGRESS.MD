@@ -8,10 +8,10 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | `phase-plans/PHASE-02A-GAME-CONTRACT.md` |
-| Goal | `GameEngine` and core types exist, compile, and support start, render, available-action lookup, stepping, and terminal-state checks. |
-| Branch | `phase-02a-game-contract` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-02a-game-contract` |
+| Phase | `phase-plans/PHASE-02B-SEEDED-RNG.md` |
+| Goal | Add deterministic seeded randomness helpers for reproducible floats, integers, shuffles, and weighted choices. |
+| Branch | `phase-02b-seeded-rng` |
+| Worktree | `./` |
 | Base | `origin/main` |
 | Status | `ready_for_review` |
 
@@ -60,6 +60,13 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Done
 
+- [x] T-02B-003 Implementation: `src/game/rng.ts` Mulberry32 helpers (`createSeededRng`, `restoreSeededRng`, float/int/shuffle/weightedChoice/snapshot) and `tests/rng.test.ts` (Composer, 2026-05-22)
+- [x] T-02B-004 Review Cursor output: inspected changed files/diff; scope limited to `PROGRESS.MD`, `src/game/rng.ts`, and `tests/rng.test.ts` with no engine/harness/content/run changes (orchestrator, 2026-05-22)
+- [x] T-02B-005 Validation: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `rg "Math\\.random" src tests`, and `git diff --check` passed or matched only the guidance comment (orchestrator, 2026-05-22)
+- [x] T-02B-006 Acceptance review: re-read Phase 02B plan and concept constraints against repo state; implementation satisfies scoped RNG requirements (orchestrator, 2026-05-22)
+- [x] T-02B-007 Publish: committed checkpoints, pushed `phase-02b-seeded-rng`, and opened PR #3 (orchestrator, 2026-05-22)
+- [x] T-02B-001 Progress setup: rotate `PROGRESS.MD` to Phase 02B and add task queue/checklist before implementation (orchestrator, 2026-05-22)
+- [x] T-02B-002 Preflight: confirmed branch/worktree, `agent` CLI, Phase 02B plan, and placeholder `src/game/rng.ts`; `node_modules` missing in worktree before validation (orchestrator, 2026-05-22)
 - [x] T-02A-001 Preflight: confirm phase contract, branch/worktree, Cursor CLI availability, and baseline scope (orchestrator, 2026-05-22)
 - [x] T-02A-003 Review and implement Phase 02A contract locally after Cursor CLI policy blocker (orchestrator, 2026-05-22)
 - [x] T-02A-004 Run local validation: `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` (orchestrator, 2026-05-22)
@@ -77,25 +84,26 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 _Derived from the active phase plan: deliverables, tests/validation, acceptance criteria. Tick when verified, not when merely attempted._
 
-### Phase 02A — Game contract
+### Phase 02B — Seeded RNG
 
-- [x] Read phase plan and confirm scope boundaries (no full dungeon mechanics, procedural generation, LLM player/reviewer behavior, or arbitrary free-text gameplay).
-- [x] `src/game/types.ts` defines JSON-serializable `GameState`, `PlayerAction`, `StepResult`, `GameEvent`, `TerminalStatus`, and `GameConfig`.
-- [x] `src/game/engine.ts` exposes the stable `GameEngine` contract or minimal implementation.
-- [x] Terminal statuses are exactly `ACTIVE`, `WIN`, `LOSS`, and `ABORTED`.
-- [x] Invalid actions are represented through `StepResult.valid === false` and an error instead of normal-flow throws.
-- [x] Contract tests cover `start(seed)` returning a valid `GameState`.
-- [x] Contract tests cover `render(state)` returning a non-empty string.
-- [x] Contract tests cover `getAvailableActions(state)` returning explicit actions.
-- [x] Contract tests cover every available action passing through `step(state, action)` without crashing.
-- [x] Contract tests cover `isTerminal(state)` matching `terminalStatus`.
-- [x] Contract tests cover `StepResult` JSON serialization round trip.
+- [x] Read phase plan and confirm scope boundaries (no map generation, cryptographic randomness, direct game-logic `Math.random()`, or nondeterministic content loading).
+- [x] `src/game/rng.ts` provides seed-to-RNG initialization.
+- [x] RNG API provides deterministic float helper.
+- [x] RNG API provides deterministic bounded integer helper.
+- [x] RNG API provides deterministic shuffle helper.
+- [x] RNG API provides deterministic weighted-choice helper.
+- [x] RNG guidance documents that game logic must not call `Math.random()` directly.
+- [x] Tests prove same seed produces the same float sequence.
+- [x] Tests prove same seed produces the same integer sequence.
+- [x] Tests prove different seeds usually produce different sequences.
+- [x] Tests prove shuffle is deterministic.
+- [x] Tests prove weighted choice is deterministic for a fixed seed and weights.
 - [x] `pnpm test` passes.
 - [x] `pnpm run typecheck` passes.
 - [x] `pnpm run lint` passes.
-- [x] Stable protocol can support both human and agent play (acceptance).
-- [x] No state requires functions, classes, sockets, credentials, or external handles to serialize (acceptance).
-- [x] Later phases can add mechanics without casually changing the public engine contract (acceptance).
+- [x] Search confirms no game module introduced in this phase uses `Math.random()` directly (only guidance comment in `rng.ts`).
+- [x] RNG helpers are easy to inject into later game systems (acceptance).
+- [x] Re-running a fixed seed can reproduce procedural decisions (acceptance).
 - [x] Re-read acceptance criteria against actual repo state.
 - [x] Commit / PR only when user asks.
 
@@ -108,6 +116,7 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | ID | Idea | Suggested phase | Why deferred | Noted |
 | --- | --- | --- | --- | --- |
 | F-001 | _(add ideas here)_ | _(phase)_ | _(why deferred)_ | _(agent, date)_ |
+| F-02B-001 | Complete the stable `GameEngine` contract from `PHASE-02A-GAME-CONTRACT.md`. | Phase 02A | User requested Phase 02B next; 02A remains not implemented. | orchestrator, 2026-05-22 |
 
 _Add rows as you go. Promote to Task queue when a phase plan or user explicitly schedules the work._
 
@@ -119,6 +128,27 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 
 - 2026-05-22 — orchestrator — Rotated active phase from merged Phase 01A to Phase 02A after PR #2 merge (`e17e843`). Phase 02A not started.
 - 2026-05-22 — orchestrator — Post-merge main validation: initial `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` failed because `node_modules` was missing in the main checkout; ran `pnpm install` exit 0, then `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
+- 2026-05-22 — orchestrator — User requested implementing `phase-plans/PHASE-02B-SEEDED-RNG.md` next. Created branch checkout `phase-02b-seeded-rng` from `origin/main`; Phase 02A remained deferred at that time.
+- 2026-05-22 — orchestrator — Preflight: `git status --short --branch` showed `phase-02b-seeded-rng...origin/main [ahead 1]`; `command -v agent` found `/Users/keigoshimada/.local/bin/agent`; `src/game/rng.ts` was still the Phase 01A placeholder; `node_modules` was missing in the worktree.
+- 2026-05-22 — Composer — Phase 02B implementation: replaced `src/game/rng.ts` placeholder with Mulberry32 `createSeededRng` / `restoreSeededRng` API; added `tests/rng.test.ts` (10 tests).
+- 2026-05-22 — Composer — `pnpm install` exit 0 (worktree had no `node_modules`).
+- 2026-05-22 — Composer — `pnpm test` exit 0 (2 files, 13 tests).
+- 2026-05-22 — Composer — `pnpm run typecheck` exit 0.
+- 2026-05-22 — Composer — `pnpm run lint` exit 0.
+- 2026-05-22 — Composer — `rg "Math\\.random" src tests` → one match: guidance comment in `src/game/rng.ts` (no runtime `Math.random()` usage).
+- 2026-05-22 — orchestrator — Diff review: changed files are `PROGRESS.MD`, `src/game/rng.ts`, and `tests/rng.test.ts`; no Phase 02A engine/types work, dungeon mechanics, harness behavior, content changes, or generated `runs/**` artifacts.
+- 2026-05-22 — orchestrator — `pnpm test` exit 0 (2 files, 13 tests).
+- 2026-05-22 — orchestrator — `pnpm run typecheck` exit 0.
+- 2026-05-22 — orchestrator — `pnpm run lint` exit 0.
+- 2026-05-22 — orchestrator — `rg "Math\\.random" src tests` found one match: guidance comment in `src/game/rng.ts`; no runtime game/test use.
+- 2026-05-22 — orchestrator — `git diff --check` exit 0.
+- 2026-05-22 — orchestrator — Acceptance re-read against Phase 02B, north-star seeded-randomness invariant, and technical spec: RNG is deterministic, injectable, locally tested, and limited to Phase 02B scope; Phase 02A remains deferred.
+- 2026-05-22 — orchestrator — Post-cleanup validation rerun: `pnpm test` exit 0 (2 files, 13 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `rg "Math\\.random" src tests` matched only the guidance comment, and `git diff --check` exit 0.
+- 2026-05-22 — orchestrator — Commits: `1be9b39` (`chore(progress): start phase 02b`) and `41fde0a` (`feat(game): add seeded rng utilities`).
+- 2026-05-22 — orchestrator — Pushed branch `phase-02b-seeded-rng` and opened PR #3: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/3
+- 2026-05-22 — orchestrator — Double-check audit: re-read `PHASE-02B-SEEDED-RNG.md`, `PROGRESS.MD`, `src/game/rng.ts`, `tests/rng.test.ts`, `git diff origin/main...HEAD`, and PR #3 metadata. Changed files remain limited to `PROGRESS.MD`, `src/game/rng.ts`, and `tests/rng.test.ts`; PR #3 is open and mergeable with no configured status checks.
+- 2026-05-22 — orchestrator — Double-check validation: `pnpm test` exit 0 (2 files, 13 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check origin/main...HEAD` exit 0, and nondeterminism search found only the `Math.random()` guidance comment in `src/game/rng.ts`.
+- 2026-05-22 — orchestrator — Cursor read-only audit attempt was rejected by approval policy because it would send repo contents/diff context to Cursor; no workaround attempted.
 - 2026-05-22 — orchestrator — Phase 02A preflight: created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-02a-game-contract` on branch `phase-02a-game-contract` from `origin/main`; confirmed Cursor Agent CLI at `/Users/keigoshimada/.local/bin/agent`; re-read `PHASE-02A-GAME-CONTRACT.md` and global invariants.
 - 2026-05-22 — orchestrator — Cursor Agent CLI implementation attempt was blocked by sandbox reviewer policy because it would send local repo context to an external service; proceeding with local orchestrator implementation while preserving the same Phase 02A scope and validation gates.
 - 2026-05-22 — orchestrator — Implemented Phase 02A contract locally: replaced `src/game/types.ts` and `src/game/engine.ts` placeholders with serializable public types, stable `GameEngine` interface, minimal `wait`/`inspect` implementation, invalid-action `StepResult` errors, text render, and max-turn abort support; added `tests/contract.test.ts` and adjusted scaffold tests.
