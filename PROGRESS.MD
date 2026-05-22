@@ -55,18 +55,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - _(none)_
 
 ### Open
-
-- [ ] Implement baseline player modules (random valid-action, stairs-seeking, cautious low-HP, greedy item-picker) under `src/harness/**` or another clear non-game-engine boundary.
-- [ ] Add deterministic policy RNG where needed; policies choose only from `getAvailableActions(state)`.
-- [ ] Add tests proving valid action selection, terminal completion (`WIN` / `LOSS` / `ABORTED`), reproducibility, and canonical regression seeds `seed_001`–`seed_005`.
-- [ ] Add minimal runner helper for policy smoke tests if needed.
-- [ ] Run validation: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`.
 - [ ] Cursor read-only audit of Phase 04B implementation against plan and invariants.
 - [ ] Push `phase-04b-baseline-players` and open PR to `main`.
 
 ### Done
 
 - [x] 2026-05-22 — orchestrator — Seed PROGRESS.MD for Phase 04B baseline players (user chose 04B over stale 04A Active Phase).
+- [x] 2026-05-22 — cursor-agent — Baseline player modules under `src/harness/baseline-players/**` (random, stairs-seeking, cautious low-HP, greedy item-picker) plus `runBaselinePolicyPlaythrough` helper.
+- [x] 2026-05-22 — cursor-agent — Deterministic policy RNG via `createSeededRng` in `createRandomValidActionPolicy`; all policies return members of `getAvailableActions`.
+- [x] 2026-05-22 — cursor-agent — `tests/baseline-players.test.ts` (valid action, no mutation, reproducibility, canonical seeds `seed_001`–`seed_005`).
+- [x] 2026-05-22 — cursor-agent — Validation: `pnpm install`; `pnpm test` exit 0 (6 files, 51 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0.
 
 ### Blocked / skipped
 
@@ -80,27 +78,27 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 
 ### Phase 04B — Baseline players
 
-- [ ] Read Phase 04B plan and confirm scope boundaries (no LLM player integration, optimal pathfinding requirements, human UI, or game engine contract changes for policy convenience).
-- [ ] Baseline player modules under `src/harness/**` or another clear non-game-engine boundary.
-- [ ] Random valid-action player.
-- [ ] Stairs-seeking player.
-- [ ] Cautious low-HP player.
-- [ ] Greedy item-picker player.
-- [ ] Deterministic policy RNG where needed; policies choose only from `getAvailableActions(state)` and are deterministic for a fixed seed and state sequence.
-- [ ] Tests proving valid action selection.
-- [ ] Minimal runner helper for policy smoke tests if needed.
-- [ ] Each baseline player can run.
-- [ ] Baseline players only choose valid actions.
-- [ ] A game driven by a baseline player reaches `WIN`, `LOSS`, or `ABORTED`.
-- [ ] Baseline runs do not crash.
-- [ ] Fixed policy seed produces reproducible choices.
-- [ ] Canonical regression seeds `seed_001` through `seed_005` complete without undefined terminal states.
-- [ ] `pnpm test` passes.
-- [ ] `pnpm run typecheck` passes.
-- [ ] `pnpm run lint` passes.
-- [ ] Cheap crash and softlock detection before LLM costs are introduced (acceptance).
-- [ ] Baseline players do not mutate game state directly (acceptance).
-- [ ] Gameplay remains structured-action based (acceptance).
+- [x] Read Phase 04B plan and confirm scope boundaries (no LLM player integration, optimal pathfinding requirements, human UI, or game engine contract changes for policy convenience).
+- [x] Baseline player modules under `src/harness/**` or another clear non-game-engine boundary.
+- [x] Random valid-action player.
+- [x] Stairs-seeking player.
+- [x] Cautious low-HP player.
+- [x] Greedy item-picker player.
+- [x] Deterministic policy RNG where needed; policies choose only from `getAvailableActions(state)` and are deterministic for a fixed seed and state sequence.
+- [x] Tests proving valid action selection.
+- [x] Minimal runner helper for policy smoke tests if needed.
+- [x] Each baseline player can run.
+- [x] Baseline players only choose valid actions.
+- [x] A game driven by a baseline player reaches `WIN`, `LOSS`, or `ABORTED`.
+- [x] Baseline runs do not crash.
+- [x] Fixed policy seed produces reproducible choices.
+- [x] Canonical regression seeds `seed_001` through `seed_005` complete without undefined terminal states.
+- [x] `pnpm test` passes.
+- [x] `pnpm run typecheck` passes.
+- [x] `pnpm run lint` passes.
+- [x] Cheap crash and softlock detection before LLM costs are introduced (acceptance).
+- [x] Baseline players do not mutate game state directly (acceptance).
+- [x] Gameplay remains structured-action based (acceptance).
 - [ ] Re-read acceptance criteria against actual repo state.
 - [ ] Push branch and open PR when implemented.
 
@@ -125,6 +123,8 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 
 - 2026-05-22 — orchestrator — PR #7 merged at `2fdc283`; rebased local `main` onto `origin/main` while preserving local docs commit `6b9d787`; rotated active phase to `PHASE-04A-ASCII-RENDERER.md` and archived Phase 03A summary. Post-merge validation: `pnpm test` exit 0 (5 files, 43 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0, and `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
 - 2026-05-22 — orchestrator — Phase 04B progress seed: read `phase-plans/PHASE-04B-BASELINE-PLAYERS.md` and `PROGRESS.MD`; user explicitly chose Phase 04B over stale Active Phase 04A. Preflight: `origin/main` baseline clean for worktree setup; `composer-2.5` available for delegated passes; branch `phase-04b-baseline-players` and worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-04b` created from `origin/main`. Updated Active Phase, task queue, and Phase 04B checklist only (no source/tests/package changes in this slice).
+- 2026-05-22 — cursor-agent — Phase 04B implementation: `src/harness/baseline-players/**` (policy interface, four policies, shared helpers, `runBaselinePolicyPlaythrough`); `tests/baseline-players.test.ts`. `pnpm install`; `pnpm test` exit 0 (6 files, 51 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0. No `src/game/**` or package changes.
+- 2026-05-22 — orchestrator — Reviewed Cursor implementation and tightened runner/test contract so policies must return the exact `PlayerAction` object from the supplied `availableActions` list. Local validation: initial `pnpm test` failed after stricter assertion because the test helper compared against a fresh action array; fixed helper. Final local validation: `pnpm test` exit 0 (6 files, 51 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `git diff --check` exit 0; `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
 
 ---
 
