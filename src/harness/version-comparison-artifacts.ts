@@ -29,12 +29,25 @@ export const renderComparisonMarkdown = (comparison: VersionComparison): string 
       `- ${metric}: ${delta.base} -> ${delta.target} (delta ${delta.delta >= 0 ? '+' : ''}${delta.delta})`,
   );
 
+  const challengeLines =
+    comparison.challenge_mode &&
+    (comparison.challenge_mode.base || comparison.challenge_mode.target)
+      ? [
+          '## Challenge mode',
+          '',
+          `- Base: \`${comparison.challenge_mode.base ?? 'default'}\``,
+          `- Target: \`${comparison.challenge_mode.target ?? 'default'}\``,
+          '',
+        ]
+      : [];
+
   return [
     '# Version Comparison',
     '',
     `Base: \`${comparison.baseVersion}\``,
     `Target: \`${comparison.targetVersion}\``,
     '',
+    ...challengeLines,
     '## Interpretation',
     '',
     comparison.interpretation,

@@ -5,7 +5,10 @@ import {
   start,
   step,
 } from '../game/engine.js';
-import { resolveGameConfigForVersion } from '../game/version-profiles.js';
+import {
+  normalizeChallengeModeId,
+  resolveGameConfigForRun,
+} from '../game/challenge-modes.js';
 import type { GameEvent, GameState, JsonObject, TerminalStatus } from '../game/types.js';
 import { findMatchingAvailableAction } from './baseline-players/helpers.js';
 import type { BaselinePlayerInput } from './baseline-players/types.js';
@@ -50,6 +53,8 @@ export interface RunPlaythroughOptions {
   policy?: HarnessPlayerPolicy;
   onExisting?: ArtifactWriteMode;
   policyContext?: ArtifactWritePolicyContext;
+  /** Explicit finite challenge preset id (omit for default gameplay). */
+  challengeMode?: string;
   /** When true, run the harness loop without writing trace/scorecard artifacts. */
   dryRun?: boolean;
 }
@@ -115,8 +120,10 @@ export const runPlaythrough = async (
             );
           })());
 
-  let state = start(seed, resolveGameConfigForVersion(version));
-  const baseMetadata = buildTraceMetadata(seed, version);
+  const challengeMode = normalizeChallengeModeId(options.challengeMode);
+  const gameConfig = resolveGameConfigForRun(version, challengeMode);
+  let state = start(seed, gameConfig);
+  const baseMetadata = buildTraceMetadata(seed, version, challengeMode);
   const steps: TraceStep[] = [];
   const maxSteps = resolveMaxSteps(state, options.maxSteps);
   let stepsTaken = 0;
@@ -129,6 +136,7 @@ export const runPlaythrough = async (
     result: 'ACTIVE',
     turns: 0,
     steps,
+    ...(challengeMode ? { challenge_mode: challengeMode } : {}),
     metadata: baseMetadata,
   };
 
@@ -320,12 +328,14 @@ export const parseSimulateSeedArgs = (
   policyId: HarnessPolicyId;
   version: string;
   maxSteps?: number;
+  challengeMode?: string;
   policy?: HarnessPlayerPolicy;
 } => {
   let seed: string | undefined;
   let policyId: string | undefined;
   let version = 'v001';
   let maxSteps: number | undefined;
+  let challengeMode: string | undefined;
   const llm = parseHarnessLlmCliArgs(argv);
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -357,6 +367,11 @@ export const parseSimulateSeedArgs = (
     if (token === '--max-steps' && argv[index + 1]) {
       maxSteps = Number(argv[index + 1]);
       index += 1;
+      continue;
+    }
+    if (token === '--challenge-mode' && argv[index + 1]) {
+      challengeMode = normalizeChallengeModeId(argv[index + 1]);
+      index += 1;
     }
   }
 
@@ -385,6 +400,7 @@ export const parseSimulateSeedArgs = (
       policyId,
       version,
       maxSteps,
+      challengeMode,
       policy: createPersonaPolicyForRun(
         policyId,
         seed,
@@ -400,7 +416,7 @@ export const parseSimulateSeedArgs = (
     );
   }
 
-  return { seed, policyId, version, maxSteps };
+  return { seed, policyId, version, maxSteps, challengeMode };
 };
 
 export { isBaselinePolicyId, BASELINE_POLICY_IDS, isLlmPlayerPersona, LLM_PLAYER_PERSONA_IDS } from './policy-registry.js';

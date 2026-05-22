@@ -106,6 +106,7 @@ export interface ArtifactCoverage {
 export interface VersionSummaryRun {
   seed: string;
   persona: string;
+  challenge_mode?: string;
   result: PlaythroughScorecard['result'];
   turns: number;
   metrics: Pick<
@@ -126,6 +127,8 @@ export interface VersionSummaryRun {
 export interface VersionSummary {
   version: string;
   versionDir: string;
+  /** Present when version evidence was produced with an explicit challenge preset. */
+  challenge_mode?: string;
   status: 'complete' | 'partial';
   artifact_coverage: ArtifactCoverage;
   runs: VersionSummaryRun[];
@@ -147,6 +150,10 @@ export interface MetricDelta {
 export interface VersionComparison {
   baseVersion: string;
   targetVersion: string;
+  challenge_mode?: {
+    base?: string;
+    target?: string;
+  };
   counts: {
     baseRuns: number;
     targetRuns: number;
@@ -239,6 +246,7 @@ export interface RunVersionOptions {
   onExisting?: ArtifactWriteOptions['onExisting'];
   policyContext?: ArtifactWritePolicyContext;
   llm?: RunVersionLlmOptions;
+  challengeMode?: string;
 }
 
 export type { RunVersionLlmOptions } from './llm-run-options.js';
@@ -313,6 +321,7 @@ export const runVersion = async (
       policyId: spec.persona,
       version: resolvedVersion,
       runsRoot,
+      ...(options.challengeMode ? { challengeMode: options.challengeMode } : {}),
       policy: createPersonaPolicyForRun(
         spec.persona,
         spec.seed,
@@ -574,6 +583,7 @@ export const summarizeVersion = async (
   const runs = scorecards.map((scorecard) => ({
     seed: scorecard.seed,
     persona: scorecard.persona,
+    ...(scorecard.challenge_mode ? { challenge_mode: scorecard.challenge_mode } : {}),
     result: scorecard.result,
     turns: scorecard.turns,
     metrics: {
@@ -594,9 +604,12 @@ export const summarizeVersion = async (
     artifact_coverage.reviews.missing.length +
     artifact_coverage.scorecards.missing.length;
 
+  const challengeMode = scorecards.find((scorecard) => scorecard.challenge_mode)?.challenge_mode;
+
   return {
     version,
     versionDir: paths.versionDir,
+    ...(challengeMode ? { challenge_mode: challengeMode } : {}),
     status: missingCount === 0 ? 'complete' : 'partial',
     artifact_coverage,
     runs,
@@ -714,9 +727,18 @@ export const compareVersions = async (
                 ? balance_comparison.interpretation
                 : 'Target version has complete evidence coverage with no clear reviewer-score improvement.';
 
+  const challenge_mode =
+    base.challenge_mode || target.challenge_mode
+      ? {
+          ...(base.challenge_mode ? { base: base.challenge_mode } : {}),
+          ...(target.challenge_mode ? { target: target.challenge_mode } : {}),
+        }
+      : undefined;
+
   return {
     baseVersion,
     targetVersion,
+    ...(challenge_mode ? { challenge_mode } : {}),
     counts: {
       baseRuns: base.runs.length,
       targetRuns: target.runs.length,

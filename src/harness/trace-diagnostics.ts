@@ -5,7 +5,7 @@ import {
   generateFloorLayout,
   type FloorLayout,
 } from '../game/map.js';
-import { resolveGameConfigForVersion } from '../game/version-profiles.js';
+import { resolveGameConfigForRun } from '../game/challenge-modes.js';
 import type { GameConfig } from '../game/types.js';
 import type {
   EnemyBehaviorMetrics,
@@ -234,8 +234,12 @@ const deriveTrapResourceProblemCategories = (
   return categories;
 };
 
-export const buildTraceMetadata = (seed: string, version: string): TraceMetadata => {
-  const config = resolveGameConfigForVersion(version);
+export const buildTraceMetadata = (
+  seed: string,
+  version: string,
+  challengeMode?: string,
+): TraceMetadata => {
+  const config = resolveGameConfigForRun(version, challengeMode);
   const placementShortfalls = buildPlacementShortfalls(seed, config);
 
   return {
