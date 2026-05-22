@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 09C — Map Generation |
-| Goal | Add deterministic seeded room/corridor map generation with reachable spawn, stairs, enemies, items, validation helpers, bounded fallback, and regression seed coverage. |
-| Branch | `phase-09c-map-generation` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-09c-map-generation-wt` |
-| Base | `origin/main` at `f67e9e9` |
-| Status | `complete; merged into main; phase worktree cleanup recorded` |
+| Phase | Phase 09A — Tactical Items |
+| Goal | Add finite tactical item effects with valid-use conditions, state changes, render/log feedback, trace-visible events, and deterministic seeded behavior. |
+| Branch | `phase-09a-tactical-items` |
+| Worktree | `/private/tmp/dungeon-forge-phase-09a-tactical-items-wt` |
+| Base | `origin/main` at `2ee6cc2` after merge sync |
+| Status | `ready for PR` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-09C-MAP-GENERATION.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-09A-TACTICAL-ITEMS.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,39 +60,33 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Done
 
-- [x] 2026-05-22 orchestrator — Seed Phase 09C progress state and checkpoint before implementation (`6822036`).
-- [x] 2026-05-22 Cursor/composer-2.5 — Implement deterministic map generation helpers and bounded fallback in `src/game/map.ts`; Cursor produced no report, diff verified locally.
-- [x] 2026-05-22 Cursor/composer-2.5 + orchestrator — Integrate generated player spawn, stairs, enemy placement, and item placement into `src/game/engine.ts` without changing the public `GameEngine` API.
-- [x] 2026-05-22 orchestrator — Update floor scaling in `content/floor-rules.json`.
-- [x] 2026-05-22 orchestrator — Add and update regression tests for deterministic maps, reachability, placement validation, fallback, and changed engine assumptions.
-- [x] 2026-05-22 orchestrator — Review Cursor diff, harden locally, and run focused tests.
-- [x] 2026-05-22 orchestrator — Run final gates: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and version-loop smoke with blocker noted for the invalid requested version ID.
-- [x] 2026-05-22 orchestrator — Attempt Cursor read-only audit and verify locally after audit stall.
-- [x] 2026-05-22 orchestrator — Re-read Phase 09C acceptance, finalize PR metadata, push branch, open PR #20, verify merge, and remove temporary worktree.
+- [x] 2026-05-22 orchestrator — Seed Phase 09A progress state and checkpoint before implementation.
+- [x] 2026-05-22 Cursor/composer-2.5/orchestrator — Implement four tactical items: Smoke Bomb, Swap Scroll, Fire Seed, and Warp Feather.
+- [x] 2026-05-22 orchestrator — Review implementation diff, correct drift, and add focused tests.
+- [x] 2026-05-22 orchestrator — Run focused tests, full gates, and version-loop smoke.
+- [x] 2026-05-22 orchestrator — Re-read Phase 09A acceptance, finalize progress, push branch, and open PR.
 
 ### Blocked / skipped
 
-- [!] 2026-05-22 orchestrator — Cursor implementation pass produced no stdout/report; it left a partial diff that was reviewed, completed, and verified locally.
-- [!] 2026-05-22 orchestrator — Requested smoke command `pnpm run run-version -- --version v09c-smoke --runs-root /tmp/df-phase09c-smoke-20260522` failed because the existing version-loop CLI only accepts `v001`-style IDs; equivalent smoke passed with `v009`.
-- [!] 2026-05-22 orchestrator — Cursor read-only audit pass produced no stdout for roughly two minutes and was interrupted; local diff review and gates are the verification evidence.
+- [!] 2026-05-22 orchestrator — Cursor implementation pass produced no stdout/report for several minutes and was interrupted; local review and implementation completed the partial diff.
+- [!] 2026-05-22 orchestrator — Cursor read-only audit pass produced no stdout for about one minute and was interrupted; local acceptance audit and gates are the verification evidence.
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-09C-MAP-GENERATION.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-09A-TACTICAL-ITEMS.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 09C — Map Generation
+### Phase 09A — Tactical Items
 
-- [x] Seeded room/corridor map generation module exists under `src/game/map.ts`.
-- [x] Reachability helpers and validation helpers cover player spawn, stairs, enemies, items, overlap, and walkability.
-- [x] Generated floor layout is deterministic by seed and floor.
-- [x] Stairs are reachable from player spawn.
-- [x] Player, enemies, and items spawn on valid reachable tiles.
-- [x] Entity placement avoids overlaps.
-- [x] Floor sizes scale through `content/floor-rules.json` as 9x9, 10x10, 10x10, 11x11, and 12x12.
-- [x] Generation has a bounded retry/fallback path that cannot loop forever.
-- [x] `GameEngine` public API remains `start`, `getAvailableActions`, `step`, `render`, and `isTerminal`.
-- [x] Descend behavior preserves HP, inventory, turn, log, finite terminal semantics, and seed reproducibility.
-- [x] Regression seed tests cover canonical seeds and fallback behavior.
+- [x] New finite tactical item content records exist.
+- [x] Item definitions include stable ID, display name, description, valid-use condition, effect, trace event shape, and tests.
+- [x] Smoke Bomb, Swap Scroll, Fire Seed, and Warp Feather have deterministic effect handlers.
+- [x] Each tactical item exposes valid `use_item` actions only when usable.
+- [x] Invalid/unavailable item use is handled safely through existing structured-action validation.
+- [x] Render output shows item descriptions/names/glyphs and clear log feedback.
+- [x] Item use emits trace-visible `use_item` events with effect payloads.
+- [x] Potion behavior and core inventory semantics still work.
+- [x] Fixed seeds remain reproducible.
+- [x] Version-loop artifacts can show item changes.
 - [x] Local final gates and version-loop smoke pass, or blockers are recorded.
 
 ---
@@ -121,6 +115,8 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | F-09B-001 | Add scorecard metrics for non-attack enemy behavior events such as `enemy_steal`, `enemy_phase`, and `enemy_wait`. | Phase 10B / Phase 11A | Phase 09B records these events in traces, satisfying traceability, but scorecards still only count core metrics like damage, item use, and defeated enemies. Balance/acceptance phases are the right place to decide aggregate metrics. | orchestrator, 2026-05-22 |
 | F-09B-002 | Polish enemy event messages so Bat, Slime, and other enemy movement are distinct from message text alone, not only payload fields. | Trace/reviewer readability polish phase | Phase 09B payloads include `enemyType`, `behavior`, reason, and positions, so reviewer traces are inspectable; clearer prose would improve human scanability without changing mechanics. | orchestrator, 2026-05-22 |
 | F-09B-003 | Add exhaustive behavior-dispatch hardening and a standalone combat-helper unit test. | Engine hardening phase | Phase 09B behavior values are already constrained by content validation and TypeScript types, and combat damage is covered through engine tests; a later hardening pass can add explicit dispatch defaults/assertions and isolated combat coverage. | orchestrator, 2026-05-22 |
+| F-09A-001 | Teach baseline/version-loop policies to deliberately evaluate tactical item use when safe and relevant. | Phase 10B / Phase 11A | Phase 09A exposes deterministic item effects and trace-visible events, but the current default smoke matrix did not use items (`items_used: 0` across the three sample personas). Item-aware evaluation belongs in balance/acceptance workflow, not the item mechanics phase. | orchestrator, 2026-05-22 |
+| F-09A-002 | Decide whether to add the optional Reveal Dust-style information item. | Future tactical-content expansion | Phase 09A only required items such as the examples and shipped four tactical effects plus Potion preservation; adding more content now would broaden the phase after gates passed. | orchestrator, 2026-05-22 |
 | F-09C-001 | Persist map-generation metadata such as `usedFallback`, generation attempt, and maybe layout summary into trace/evidence metadata. | Phase 11A / evidence hardening | Phase 09C makes map generation deterministic and reproducible by seed, but fallback/attempt details are not surfaced in `GameState` or trace artifacts. This is useful evidence polish, not required for the Phase 09C map validity contract. | orchestrator, 2026-05-22 |
 | F-09C-002 | Harden impossible placement configurations so requested enemy/item spawn counts either fully place or produce an explicit validation/abort diagnostic. | Engine/content hardening phase | Current Phase 09C production floor rules have enough reachable space and tests cover canonical seeds, but `chooseEntityPositions` can return fewer than requested for pathological future content. A later hardening pass should make that failure mode explicit. | orchestrator, 2026-05-22 |
 | F-09C-003 | Standardize version-loop smoke IDs or add CLI support for descriptive smoke aliases. | Harness ergonomics phase | Phase 09C validation exposed that `v09c-smoke` is rejected because the version-loop CLI only accepts `v001`-style IDs. The phase was validated with `v009`; a later harness pass can align docs/plans/CLI behavior. | orchestrator, 2026-05-22 |
@@ -169,6 +165,13 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) produced no stdout for about 90 seconds and was interrupted with `kill -INT`; local acceptance audit and gates above are the verification evidence.
 - 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-08A-DEVELOPER-AGENT-WORKFLOW.md` against implementation; acceptance criteria satisfied locally. Commit `8e738f9` added Phase 08A developer workflow implementation, CLI, prompt, package script, tests, and progress updates.
 - 2026-05-22 — orchestrator — Pushed `phase-08a-developer-agent-workflow` and opened PR #18: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/18.
+- 2026-05-22 — orchestrator — Cursor implementation pass (`agent --print --trust --model composer-2.5 --workspace ...`) produced no stdout/report for several minutes and was interrupted; local review completed the partial diff.
+- 2026-05-22 — orchestrator — Phase 09A implementation completed in `/private/tmp/dungeon-forge-phase-09a-tactical-items-wt`: added finite deterministic Smoke Bomb, Swap Scroll, Fire Seed, and Warp Feather item content/effects, valid-use action exposure, render/log feedback, trace-visible use events, and focused tests. Out-of-phase gaps recorded as `F-09A-001` and `F-09A-002`; no required in-phase blocker remains after acceptance review.
+- 2026-05-22 — orchestrator — Focused validation PASS: `pnpm test tests/tactical-items.test.ts tests/content.test.ts tests/render.test.ts` (3 files, 31 tests), `pnpm run typecheck`, and `pnpm run lint`.
+- 2026-05-22 — orchestrator — Full validation PASS: `pnpm test` (14 files, 145 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- 2026-05-22 — orchestrator — Phase 09A smoke PASS: `pnpm run run-version -- --version v010 --runs-root /tmp/df-phase09a-smoke-20260522-final` wrote three trace/review/scorecard sets, and `pnpm run summarize-version -- --version v010 --runs-root /tmp/df-phase09a-smoke-20260522-final` reported `status: complete`, full artifact coverage, and acceptance status pending. The default smoke matrix did not use items (`items_used: 0`), so item-aware policy evaluation was deferred as `F-09A-001`.
+- 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) produced no stdout for about one minute and was interrupted; local acceptance audit and gates above are the verification evidence.
+- 2026-05-22 — orchestrator — Pushed `phase-09a-tactical-items` and opened PR #22: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/22.
 
 ---
 

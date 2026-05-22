@@ -1,3 +1,4 @@
+import { isEnemyTrackingDisabled } from './item-effects.js';
 import type {
   EnemyInstance,
   GameEvent,
@@ -199,6 +200,14 @@ const runChaseTurn = (
     attackPlayer(state, enemy, events);
     return;
   }
+  if (isEnemyTrackingDisabled(state)) {
+    events.push(
+      makeEvent(state.turn, 'enemy_wait', `${enemy.label} loses your trail in the smoke.`, enemy, {
+        reason: 'blinded',
+      }),
+    );
+    return;
+  }
   tryChaseMove(state, enemy, state.player, occupied, events, canSlimeEnter);
 };
 
@@ -210,6 +219,14 @@ const runBatTurn = (
 ): void => {
   if (isAdjacent(enemy, state.player)) {
     attackPlayer(state, enemy, events);
+    return;
+  }
+  if (isEnemyTrackingDisabled(state)) {
+    events.push(
+      makeEvent(state.turn, 'enemy_wait', `${enemy.label} flutters blindly in the smoke.`, enemy, {
+        reason: 'blinded',
+      }),
+    );
     return;
   }
   for (let step = 0; step < 2; step += 1) {
@@ -268,6 +285,15 @@ const runThiefTurn = (
     return;
   }
 
+  if (isEnemyTrackingDisabled(state)) {
+    events.push(
+      makeEvent(state.turn, 'enemy_wait', `${enemy.label} cannot find you in the smoke.`, enemy, {
+        reason: 'blinded',
+      }),
+    );
+    return;
+  }
+
   tryChaseMove(state, enemy, state.player, occupied, events, canSlimeEnter);
 };
 
@@ -279,6 +305,15 @@ const runGhostTurn = (
 ): void => {
   if (isAdjacent(enemy, state.player)) {
     attackPlayer(state, enemy, events);
+    return;
+  }
+
+  if (isEnemyTrackingDisabled(state)) {
+    events.push(
+      makeEvent(state.turn, 'enemy_wait', `${enemy.label} drifts without your scent.`, enemy, {
+        reason: 'blinded',
+      }),
+    );
     return;
   }
 

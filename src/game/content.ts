@@ -5,6 +5,26 @@ import itemsJson from '../../content/items.json' with { type: 'json' };
 export const CONTENT_SCHEMA_VERSION = '02C' as const;
 
 export const POTION_ITEM_ID = 'potion' as const;
+export const SMOKE_BOMB_ITEM_ID = 'smoke_bomb' as const;
+export const SWAP_SCROLL_ITEM_ID = 'swap_scroll' as const;
+export const FIRE_SEED_ITEM_ID = 'fire_seed' as const;
+export const WARP_FEATHER_ITEM_ID = 'warp_feather' as const;
+
+export const ITEM_EFFECTS = [
+  'heal',
+  'blind_enemies',
+  'swap_position',
+  'area_damage',
+  'warp',
+] as const;
+export type ItemEffectId = (typeof ITEM_EFFECTS)[number];
+
+export const PHASE_09A_ITEM_IDS = [
+  SMOKE_BOMB_ITEM_ID,
+  SWAP_SCROLL_ITEM_ID,
+  FIRE_SEED_ITEM_ID,
+  WARP_FEATHER_ITEM_ID,
+] as const;
 export const SLIME_ENEMY_ID = 'slime' as const;
 export const BAT_ENEMY_ID = 'bat' as const;
 export const SHELL_ENEMY_ID = 'shell' as const;
@@ -28,9 +48,16 @@ export interface ItemDefinition {
   displayName: string;
   description: string;
   kind: string;
-  effect: string;
-  healAmount: number;
+  effect: ItemEffectId;
+  validUse: string;
   stackable: boolean;
+  glyph: string;
+  healAmount?: number;
+  duration?: number;
+  damage?: number;
+  damageRange?: number;
+  swapRange?: number;
+  warpRange?: number;
 }
 
 export interface EnemyDefinition {
@@ -189,21 +216,110 @@ function assertUniqueIds(ids: string[], path: string): void {
   }
 }
 
+function optionalNumber(
+  record: Record<string, unknown>,
+  key: string,
+  path: string,
+  options?: { integer?: boolean; min?: number },
+): number | undefined {
+  if (!(key in record)) {
+    return undefined;
+  }
+  return requireNumber(record, key, path, options);
+}
+
 function parseItemDefinition(value: unknown, path: string): ItemDefinition {
   const record = requireRecord(value, path);
-  return {
-    id: requireString(record, 'id', path),
-    name: requireString(record, 'name', path),
-    displayName: requireString(record, 'displayName', path),
-    description: requireString(record, 'description', path),
-    kind: requireString(record, 'kind', path),
-    effect: requireString(record, 'effect', path),
-    healAmount: requireNumber(record, 'healAmount', path, {
+  const id = requireString(record, 'id', path);
+  const name = requireString(record, 'name', path);
+  const displayName = requireString(record, 'displayName', path);
+  const description = requireString(record, 'description', path);
+  const kind = requireString(record, 'kind', path);
+  const effect = requireString(record, 'effect', path);
+  if (!ITEM_EFFECTS.includes(effect as ItemEffectId)) {
+    fail(path, `effect must be one of: ${ITEM_EFFECTS.join(', ')}`);
+  }
+  const validUse = requireString(record, 'validUse', path);
+  const stackable = requireBoolean(record, 'stackable', path);
+  const glyph = requireString(record, 'glyph', path);
+  if (glyph.length !== 1) {
+    fail(path, 'glyph must be a single character');
+  }
+  const item: ItemDefinition = {
+    id,
+    name,
+    displayName,
+    description,
+    kind,
+    effect: effect as ItemEffectId,
+    validUse,
+    stackable,
+    glyph,
+    healAmount: optionalNumber(record, 'healAmount', path, {
       integer: true,
       min: 1,
     }),
-    stackable: requireBoolean(record, 'stackable', path),
+    duration: optionalNumber(record, 'duration', path, {
+      integer: true,
+      min: 1,
+    }),
+    damage: optionalNumber(record, 'damage', path, {
+      integer: true,
+      min: 1,
+    }),
+    damageRange: optionalNumber(record, 'damageRange', path, {
+      integer: true,
+      min: 1,
+    }),
+    swapRange: optionalNumber(record, 'swapRange', path, {
+      integer: true,
+      min: 1,
+    }),
+    warpRange: optionalNumber(record, 'warpRange', path, {
+      integer: true,
+      min: 1,
+    }),
   };
+
+  switch (item.effect) {
+    case 'heal':
+      if (item.healAmount === undefined) {
+        fail(path, 'healAmount is required for heal items');
+      }
+      break;
+    case 'blind_enemies':
+      if (item.duration === undefined) {
+        fail(path, 'duration is required for blind_enemies items');
+      }
+      break;
+    case 'area_damage':
+      if (item.damage === undefined || item.damageRange === undefined) {
+        fail(path, 'damage and damageRange are required for area_damage items');
+      }
+      break;
+    case 'swap_position':
+      if (item.swapRange === undefined) {
+        fail(path, 'swapRange is required for swap_position items');
+      }
+      break;
+    case 'warp':
+      if (item.warpRange === undefined) {
+        fail(path, 'warpRange is required for warp items');
+      }
+      break;
+    default:
+      break;
+  }
+
+  return item;
+}
+
+export function getItemDefinition(id: string): ItemDefinition {
+  const item = loadGameContent().items.items.find((candidate) => candidate.id === id);
+  if (!item) {
+    throw new Error(`Missing item content: ${id}`);
+  }
+  return item;
 }
 
 function parseEnemyDefinition(value: unknown, path: string): EnemyDefinition {

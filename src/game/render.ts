@@ -1,4 +1,5 @@
 import { loadGameContent } from './content.js';
+import { defaultTacticalEffects } from './item-effects.js';
 import type { GameState, ItemInstance, Position } from './types.js';
 
 const content = loadGameContent();
@@ -9,6 +10,14 @@ const getItemDisplayName = (itemType: string): string => {
     throw new Error(`Missing item content: ${itemType}`);
   }
   return item.displayName;
+};
+
+const getItemDescription = (itemType: string): string => {
+  const item = content.items.items.find((candidate) => candidate.id === itemType);
+  if (!item) {
+    throw new Error(`Missing item content: ${itemType}`);
+  }
+  return `${item.glyph} ${item.displayName}: ${item.description}`;
 };
 
 const RECENT_LOG_DISPLAY_LIMIT = 3;
@@ -32,6 +41,14 @@ const inventoryLabel = (inventory: string[]): string => {
   return inventory
     .map((itemType) => getItemDisplayName(itemType))
     .join(', ');
+};
+
+const visibleItemDescriptions = (state: GameState): string => {
+  const itemTypes = [...new Set(state.items.map((item) => item.type))];
+  if (itemTypes.length === 0) {
+    return 'Visible items: (none)';
+  }
+  return `Visible items: ${itemTypes.map((itemType) => getItemDescription(itemType)).join(' | ')}`;
 };
 
 const terminalSummary = (state: GameState): string => {
@@ -73,6 +90,7 @@ const renderMapRows = (state: GameState): string[] =>
  */
 export const render = (state: GameState): string => {
   const renderedRows = renderMapRows(state);
+  const tactical = state.tactical ?? defaultTacticalEffects();
 
   return [
     `Seven Floors to Dawn ${state.version}`,
@@ -82,7 +100,11 @@ export const render = (state: GameState): string => {
     `Objective: ${state.meta.objective}`,
     ...renderedRows,
     `Inventory: ${inventoryLabel(state.player.inventory)}`,
-    'Legend: @ You, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, > Stairs, # Wall, . Floor',
+    visibleItemDescriptions(state),
+    tactical.enemyTrackingDisabledUntilTurn > state.turn
+      ? `Tactical: enemy pursuit blinded until turn ${tactical.enemyTrackingDisabledUntilTurn}.`
+      : 'Tactical: none active.',
+    'Legend: @ You, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor',
     'Log:',
     ...state.log.slice(-RECENT_LOG_DISPLAY_LIMIT).map((entry) => `- ${entry}`),
   ].join('\n');

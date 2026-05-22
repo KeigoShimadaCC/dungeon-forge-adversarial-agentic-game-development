@@ -22,9 +22,9 @@
       "width": 10,
       "height": 10,
       "enemyIds": ["slime", "bat"],
-      "itemIds": ["potion"],
+      "itemIds": ["potion", "smoke_bomb"],
       "enemySpawnCount": 2,
-      "itemSpawnCount": 1,
+      "itemSpawnCount": 2,
       "maxTurns": 52
     },
     {
@@ -33,9 +33,9 @@
       "width": 10,
       "height": 10,
       "enemyIds": ["slime", "shell"],
-      "itemIds": [],
+      "itemIds": ["swap_scroll"],
       "enemySpawnCount": 2,
-      "itemSpawnCount": 0,
+      "itemSpawnCount": 1,
       "maxTurns": 56
     },
     {
@@ -44,9 +44,9 @@
       "width": 11,
       "height": 11,
       "enemyIds": ["slime", "thief", "bat"],
-      "itemIds": ["potion"],
+      "itemIds": ["potion", "fire_seed"],
       "enemySpawnCount": 3,
-      "itemSpawnCount": 1,
+      "itemSpawnCount": 2,
       "maxTurns": 60
     },
     {
@@ -55,9 +55,9 @@
       "width": 12,
       "height": 12,
       "enemyIds": ["slime", "ghost"],
-      "itemIds": [],
+      "itemIds": ["warp_feather"],
       "enemySpawnCount": 2,
-      "itemSpawnCount": 0,
+      "itemSpawnCount": 1,
       "maxTurns": 64
     }
   ]
