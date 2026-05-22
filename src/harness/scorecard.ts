@@ -184,4 +184,12 @@ export const validateScorecard = (scorecard: PlaythroughScorecard): void => {
       throw new Error(`Scorecard reviewer score must be a finite number or null: ${field}`);
     }
   }
+
+  const optionalSourceFields: readonly (keyof PlaythroughScorecard)[] = ['review_path', 'review_id'];
+  for (const field of optionalSourceFields) {
+    const value = record[field];
+    if (value !== undefined && (typeof value !== 'string' || value.length === 0)) {
+      throw new Error(`Scorecard optional review source must be a non-empty string: ${field}`);
+    }
+  }
 };
