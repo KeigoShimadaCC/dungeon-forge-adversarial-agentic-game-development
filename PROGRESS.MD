@@ -8,12 +8,12 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | `phase-plans/PHASE-02B-SEEDED-RNG.md` |
-| Goal | Add deterministic seeded randomness helpers for reproducible floats, integers, shuffles, and weighted choices. |
-| Branch | `phase-02b-seeded-rng` |
-| Worktree | `./` |
+| Phase | `phase-plans/PHASE-02C-CONTENT-DATA.md` |
+| Goal | Initial JSON content files exist, load through typed helpers, and validate required fields. |
+| Branch | `phase-02c-content-data` |
+| Worktree | `/private/tmp/dungeon-forge-phase-02c-content-data` |
 | Base | `origin/main` |
-| Status | `ready_for_review` |
+| Status | `complete` |
 
 ### Contract (read before editing)
 
@@ -73,6 +73,14 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] T-02A-005 Run local read-only acceptance audit against Phase 02A checklist (orchestrator, 2026-05-22)
 - [x] T-02A-006 Re-read acceptance criteria against repo state, update checklist/log, and commit final progress (orchestrator, 2026-05-22)
 - [x] T-02A-007 Push branch and open PR to `main` with validation evidence (orchestrator, 2026-05-22)
+- [x] 2026-05-22 — orchestrator — Prepare Phase 02C progress plan, branch/worktree, Cursor delegation prompt, and validation cadence.
+- [x] 2026-05-22 — Cursor Agent — Replace placeholder `content/items.json`, `content/enemies.json`, and `content/floor-rules.json` with finite initial records for Potion, Slime, and basic floor rules.
+- [x] 2026-05-22 — Cursor Agent — Add a lightweight local content loader/validator with typed records for items, enemies, and floor rules.
+- [x] 2026-05-22 — Cursor Agent — Add tests that parse content, validate required fields, reject malformed content, and expose Potion/Slime records by ID.
+- [x] 2026-05-22 — orchestrator — Review Cursor diffs for scope, determinism, serializability, and no external-service dependency.
+- [x] 2026-05-22 — orchestrator — Run `pnpm test`, `pnpm run typecheck`, and `pnpm run lint`; record results.
+- [x] 2026-05-22 — orchestrator — Re-read Phase 02C acceptance criteria against implementation and run completion audit.
+- [x] 2026-05-22 — orchestrator — Push branch and open draft PR #5.
 
 ### Blocked / skipped
 
@@ -84,28 +92,27 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 _Derived from the active phase plan: deliverables, tests/validation, acceptance criteria. Tick when verified, not when merely attempted._
 
-### Phase 02B — Seeded RNG
+### Phase 02C — Content data
 
-- [x] Read phase plan and confirm scope boundaries (no map generation, cryptographic randomness, direct game-logic `Math.random()`, or nondeterministic content loading).
-- [x] `src/game/rng.ts` provides seed-to-RNG initialization.
-- [x] RNG API provides deterministic float helper.
-- [x] RNG API provides deterministic bounded integer helper.
-- [x] RNG API provides deterministic shuffle helper.
-- [x] RNG API provides deterministic weighted-choice helper.
-- [x] RNG guidance documents that game logic must not call `Math.random()` directly.
-- [x] Tests prove same seed produces the same float sequence.
-- [x] Tests prove same seed produces the same integer sequence.
-- [x] Tests prove different seeds usually produce different sequences.
-- [x] Tests prove shuffle is deterministic.
-- [x] Tests prove weighted choice is deterministic for a fixed seed and weights.
+- [x] Read Phase 02C plan and confirm dependency/scope boundaries.
+- [x] Keep scope limited to static local content files, typed helpers, and lightweight validation tests.
+- [x] `content/items.json` contains an initial Potion record with stable ID, display name, description, and minimal gameplay fields.
+- [x] `content/enemies.json` contains an initial Slime record with stable ID, display name, description, and minimal gameplay fields.
+- [x] `content/floor-rules.json` contains initial finite floor-rule records with stable IDs and basic playable defaults.
+- [x] Add or update a content loader/validator module that loads local JSON deterministically.
+- [x] Validation fails clearly when required fields are missing or malformed.
+- [x] Tests confirm content files parse.
+- [x] Tests confirm required fields exist.
+- [x] Tests confirm invalid content fails validation.
+- [x] Tests confirm Potion and Slime records are available to game logic by ID.
 - [x] `pnpm test` passes.
 - [x] `pnpm run typecheck` passes.
 - [x] `pnpm run lint` passes.
-- [x] Search confirms no game module introduced in this phase uses `Math.random()` directly (only guidance comment in `rng.ts`).
-- [x] RNG helpers are easy to inject into later game systems (acceptance).
-- [x] Re-running a fixed seed can reproduce procedural decisions (acceptance).
+- [x] Future phases can add content without changing the core contract (acceptance).
+- [x] Static content is finite, versionable, and inspectable (acceptance).
+- [x] No runtime external service is required to fetch gameplay content (acceptance).
 - [x] Re-read acceptance criteria against actual repo state.
-- [x] Commit / PR only when user asks.
+- [x] Push branch and open PR.
 
 ---
 
@@ -116,7 +123,6 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | ID | Idea | Suggested phase | Why deferred | Noted |
 | --- | --- | --- | --- | --- |
 | F-001 | _(add ideas here)_ | _(phase)_ | _(why deferred)_ | _(agent, date)_ |
-| F-02B-001 | Complete the stable `GameEngine` contract from `PHASE-02A-GAME-CONTRACT.md`. | Phase 02A | User requested Phase 02B next; 02A remains not implemented. | orchestrator, 2026-05-22 |
 
 _Add rows as you go. Promote to Task queue when a phase plan or user explicitly schedules the work._
 
@@ -158,6 +164,17 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — Final pre-PR validation after progress update: `pnpm test` exit 0 (2 files, 12 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0.
 - 2026-05-22 — orchestrator — Pushed `phase-02a-game-contract` and opened PR #4: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/4.
 - 2026-05-22 — orchestrator — User-requested double-check: re-read `PHASE-02A-GAME-CONTRACT.md`, global invariants, `AGENTS.md`, `PROGRESS.MD`, `src/game/types.ts`, `src/game/engine.ts`, and `tests/contract.test.ts`; reran `pnpm test` exit 0 (2 files, 12 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, and `git diff --check origin/main...HEAD` exit 0; PR #4 is open and mergeable.
+- 2026-05-22 — orchestrator — User requested `phase-plans/PHASE-02C-CONTENT-DATA.md`. Created worktree `/private/tmp/dungeon-forge-phase-02c-content-data` on branch `phase-02c-content-data` from `origin/main`; Phase 02A remains unexecuted and tracked as deferred.
+- 2026-05-22 — orchestrator — Commit `cba6f52` recorded the Phase 02C progress plan before implementation.
+- 2026-05-22 — Cursor Agent — Implemented Phase 02C content data: `content/items.json`, `content/enemies.json`, `content/floor-rules.json`, `src/game/content.ts`, `src/game/items.ts`, `src/game/enemies.ts`, `tests/content.test.ts`, and updated `tests/scaffold.test.ts`.
+- 2026-05-22 — Cursor Agent — Follow-up test-only pass added malformed floor-rule validation and loaded floor-rule progression coverage in `tests/content.test.ts`.
+- 2026-05-22 — orchestrator — Validation after Cursor implementation: `pnpm test` exit 0 (2 files, 10 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0.
+- 2026-05-22 — Cursor Agent read-only audit — No blocking issues found against Phase 02C. Non-blocking follow-ups noted for later phases: exact schema-version enforcement, shared content cache/floor helper, spawn-count consistency rules, and duplicate-floor-number error wording.
+- 2026-05-22 — orchestrator — Phase completion check before PR: Phase 02C deliverables, tests, and acceptance criteria match implementation; out-of-scope Phase 02A/02B mechanics remain untouched.
+- 2026-05-22 — orchestrator — Pushed `phase-02c-content-data` to origin and opened draft PR #5: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/5
+- 2026-05-22 — orchestrator double-check — Re-read `phase-plans/PHASE-02C-CONTENT-DATA.md`, inspected branch diff/files, confirmed only expected Phase 02C files changed, confirmed no external-service/framework keyword matches in `src`, `content`, `tests`, or `package.json`, and reran `pnpm test` exit 0 (2 files, 10 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
+- 2026-05-22 — orchestrator — Merged current `origin/main` (`3094915`, containing merged Phase 02A and 02B) into `phase-02c-content-data` to resolve PR #5 conflicts; resolved `PROGRESS.MD` by keeping Phase 02C active-complete and preserving Phase 02A/02B history, and resolved `tests/scaffold.test.ts` by keeping the Phase 02A harness-placeholder expectation plus the Phase 02C content-loader smoke check.
+- 2026-05-22 — orchestrator — Post-conflict validation: `git diff --check` exit 0, conflict marker search found none, `pnpm test` exit 0 (4 files, 29 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
 
 ---
 
