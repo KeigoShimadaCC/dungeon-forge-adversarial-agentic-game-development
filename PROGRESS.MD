@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | `PHASE-06A - LLM Player` |
-| Goal | Add an injectable LLM player policy/client boundary that selects only explicit available actions, records trace evidence, and falls back deterministically without requiring credentials. |
-| Branch | `phase-06a-llm-player` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-06a-llm-player-wt` |
-| Base | `origin/main` at `ac573e5` |
-| Status | `ready_for_review` |
+| Phase | PHASE-06B Reviewer Critic |
+| Goal | Generate trace-grounded reviewer critiques after actual playthroughs; write structured reviews under `runs/vXXX/reviews/` with observations, diagnoses, recommendations, and suggested next changes. |
+| Branch | `phase-06b-reviewer-critic` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-06b-reviewer-critic-wt` |
+| Base | `origin/main` merged through `028185c` |
+| Status | `PR opened` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-XX...md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-06B-REVIEWER-CRITIC.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -48,28 +48,26 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 ## Task queue
 
-_Agents add and own granular tasks here. Prefer small, verifiable items. Include date and agent id when useful._
+_Agents add and own granular tasks here. Prefer small, verifiable items. Include date and agent when useful._
 
 ### In progress
 
 - _(none)_
 
 ### Open
+
 - _(none)_
 
 ### Done
 
-- [x] 2026-05-22 — composer — Read Phase 06A, global invariants, north star, tech spec, and current harness.
-- [x] 2026-05-22 — composer — Add async-capable LLM player policy/client boundary.
-- [x] 2026-05-22 — composer — Add prompt/input builder with personas.
-- [x] 2026-05-22 — composer — Add JSON validation and deterministic fallback behavior.
-- [x] 2026-05-22 — composer — Extend trace metadata for LLM reason/persona/fallback evidence.
-- [x] 2026-05-22 — composer — Add mocked tests for valid, invalid, malformed, missing, and timeout/error responses.
-- [x] 2026-05-22 — orchestrator — Verify baseline harness still works without credentials.
-- [x] 2026-05-22 — orchestrator — Run full validation gates.
-- [x] 2026-05-22 — orchestrator — Run Cursor read-only audit.
-- [x] 2026-05-22 — orchestrator — Re-check Phase 06A acceptance criteria.
-- [x] 2026-05-22 — orchestrator — Push branch and open PR.
+- [x] Seed `PROGRESS.MD` for Phase 06B (active phase, task queue, checklist, initial validation log). — orchestrator, 2026-05-22
+- [x] Implement reviewer critic module/client boundary (`src/harness/reviewer-client.ts`, `createReviewerCritic`, `generateDeterministicReview`). — agent, 2026-05-22
+- [x] Implement review output writer (`buildReviewRelativePath`, `savePlaythroughReview` under `runs/<version>/reviews/`). — agent, 2026-05-22
+- [x] Update reviewer prompt template (`src/agents/prompts/reviewer.md`). — agent, 2026-05-22
+- [x] Add mocked tests (`tests/reviewer-critic.test.ts`). — agent, 2026-05-22
+- [x] Run validation: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001`. — orchestrator, 2026-05-22
+- [x] Cursor read-only audit (`--mode=ask`) reported PASS with low/non-blocking notes. — orchestrator, 2026-05-22
+- [x] PR prep: pushed branch and opened PR #13 to `main`. — orchestrator, 2026-05-22
 
 ### Blocked / skipped
 
@@ -79,18 +77,30 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from the active phase plan: deliverables, tests/validation, acceptance criteria. Tick when verified, not when merely attempted._
+_Derived from `phase-plans/PHASE-06B-REVIEWER-CRITIC.md`. Tick when verified against the repo, not when merely attempted._
 
-### PHASE-06A - LLM Player
+### Deliverables
 
-- [x] LLM player adapter/client boundary exists and is injectable.
-- [x] Prompt/input shape includes render, available actions, recent log, state summary, and persona.
-- [x] Model JSON is parsed and validated before use.
-- [x] Invalid JSON, missing action IDs, unavailable actions, timeouts, and client errors use deterministic fallback.
-- [x] Trace steps capture selected action, reason, persona, fallback usage, and failure metadata.
-- [x] Mock-based tests cover valid and invalid responses without real API credentials.
-- [x] Baseline harness players still run without API credentials.
-- [x] Phase 06A acceptance criteria rechecked against repo state.
+- [x] Reviewer critic module/client boundary.
+- [x] Reviewer prompt template (trace + scorecard + render context + persona; structured output shape).
+- [x] Review output writer saving under `runs/vXXX/reviews/`.
+- [x] Mocked tests for review generation and missing data.
+
+### Tests and validation
+
+- [x] Review is generated from mocked trace input.
+- [x] Review includes top issues (severity, observation, diagnosis, recommendation).
+- [x] Review includes suggested next changes (bounded to ≤3).
+- [x] Review cites trace evidence (turn numbers, terminal result, invalid actions, render states, outcomes)—not design docs alone.
+- [x] Review is saved under `runs/vXXX/reviews/`.
+- [x] Missing trace data is handled gracefully.
+- [x] Tests do not require real API credentials.
+
+### Acceptance criteria
+
+- [x] Critique is grounded in actual playthrough evidence.
+- [x] Observation, diagnosis, recommendation, and severity are distinct.
+- [x] Generated review can become input to the developer-agent workflow.
 
 ---
 
@@ -107,6 +117,8 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | F-06A-003 | Preserve the model's original invalid `reason` in fallback trace metadata. | Phase 06B or Phase 07A | Current fallback records failure category and invalid action ID, but replaces the model reason with a deterministic fallback reason; richer diagnostics can improve trace review. | orchestrator, 2026-05-22 |
 | F-06A-004 | Tighten LLM action lookup to validate `id` plus `type`, not `id` alone. | Phase 06A follow-up or Phase 07A | Action IDs are currently unique per turn, but the stable action protocol already treats `id` and `type` as the stronger match. | orchestrator, 2026-05-22 |
 | F-06A-005 | Add GitHub CI or equivalent PR checks for tests, typecheck, lint, build, and simulation smoke. | Phase 11A or repo infrastructure pass | Local gates pass, but PR #12 reports no GitHub checks; later acceptance-gate work covers evidence checks but not CI enforcement explicitly. | orchestrator, 2026-05-22 |
+| F-06B-001 | Add optional Markdown rendering/writing for reviewer critiques alongside the JSON contract artifact. | Phase 07A or docs/reporting polish phase | PHASE-06B made JSON the contract and Markdown optional; concept examples mention `.md` reviews, but no later phase explicitly requires Markdown rendering. | orchestrator, 2026-05-22 |
+| F-07A-001 | Wire reviewer critic generation into the version/evaluation loop, either through the Phase 07A command or an explicit `simulate-seed --review`/review command. | Phase 07A | PHASE-07A requires matching review artifacts for version bundles, but current `simulate-seed` still writes only trace and scorecard. This should be integrated when the complete version loop is defined. | orchestrator, 2026-05-22 |
 
 _Add rows as you go. Promote to Task queue when a phase plan or user explicitly schedules the work._
 
@@ -115,6 +127,17 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 ## Validation log
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
+
+- 2026-05-22 — orchestrator — Phase 06B progress seed: Cursor Agent model preflight — `composer-2.5` available; main base `ac573e5`; worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-06b-reviewer-critic-wt` on branch `phase-06b-reviewer-critic`. Implementation validation not yet run (`pnpm test`, typecheck, lint pending).
+
+- 2026-05-22 — agent — Phase 06B implementation: `src/harness/reviewer-client.ts` (deterministic critic, personas, structured review + evidence), `src/harness/artifacts.ts` (`buildReviewRelativePath`, `savePlaythroughReview`), `src/harness/index.ts` exports, `src/agents/prompts/reviewer.md`, `tests/reviewer-critic.test.ts`. `pnpm test tests/reviewer-critic.test.ts` **not run** — `node_modules` missing; install skipped per task constraints.
+
+- 2026-05-22 — orchestrator — Installed dependencies in isolated worktree with `pnpm install --frozen-lockfile` (lockfile unchanged; reused local store). Patched reviewer credential test to verify injected-provider behavior without depending on ambient API env vars. Committed implementation as `9e26db0` (`feat: add trace-grounded reviewer critic`). Validation passed after the final test-strengthening patch: `pnpm test tests/reviewer-critic.test.ts` (11 tests), `pnpm test` (9 files, 87 tests), `pnpm run typecheck`, `pnpm run lint`, `git diff --check`, `pnpm run build`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` (saved trace/scorecard; result `ABORTED`, 280 turns, 280 steps).
+
+- 2026-05-22 — Cursor Agent (`--mode=ask`, `composer-2.5`) — Read-only Phase 06B audit result: PASS. Confirmed branch diff is limited to `PROGRESS.MD`, `src/agents/prompts/reviewer.md`, `src/harness/artifacts.ts`, `src/harness/index.ts`, `src/harness/reviewer-client.ts`, and `tests/reviewer-critic.test.ts`; `src/game/**` unchanged; reviewer critic is trace/scorecard-grounded, handles thin data, writes required review JSON path, and preserves Phase 00A invariants. Low/non-blocking notes: CLI does not auto-write reviews yet, JSON-only review artifacts, heuristic critic remains templated until a future provider integration.
+
+- 2026-05-22 — orchestrator — Pushed `phase-06b-reviewer-critic` to origin and opened PR #13: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/13.
+- 2026-05-22 — orchestrator — Resolved PR #13 merge conflict after `origin/main` advanced to `028185c` with Phase 06A. Kept Phase 06B as active phase, preserved Phase 06A validation log and future backlog rows, and merged Phase 06A source additions from main. Post-resolution validation passed: `pnpm test` (10 files, 98 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` (saved trace/scorecard; result `ABORTED`, 280 turns, 280 steps).
 
 - 2026-05-22 — orchestrator — PR #10 merged at `dc920ae`; fast-forwarded local `main` to `origin/main`; removed registered worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness-wt`; deleted local branch `phase-05a-harness`. Verified `git worktree list` shows only the main worktree. Preserved the earlier dirty unregistered checkout `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness` per the Phase 05A execution plan.
 - 2026-05-22 — orchestrator — Started Phase 06A on branch `phase-06a-llm-player` in worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-06a-llm-player-wt` from `origin/main` at `ac573e5`. Preflight: `git status --short --branch` clean on `main`; `git fetch origin` passed; `git worktree list` showed main plus unrelated Phase 06B worktree; `command -v agent` found `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`, escalated rerun passed and confirmed `composer-2.5`.

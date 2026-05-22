@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
+import type { PlaythroughReview } from './reviewer-client.js';
 import type { PlaythroughScorecard, PlaythroughTrace } from './types.js';
 import { stringifyDeterministicJson } from './json.js';
 
@@ -20,9 +21,19 @@ export const buildScorecardRelativePath = (
 ): string =>
   path.join('runs', version, 'scorecards', `${buildArtifactBasename(seed, policyId)}.json`);
 
+export const buildReviewRelativePath = (
+  version: string,
+  seed: string,
+  persona: string,
+): string => path.join('runs', version, 'reviews', `${buildArtifactBasename(seed, persona)}.json`);
+
 export interface SavedArtifacts {
   tracePath: string;
   scorecardPath: string;
+}
+
+export interface SavedReviewArtifact {
+  reviewPath: string;
 }
 
 export const savePlaythroughArtifacts = async (
@@ -47,4 +58,17 @@ export const savePlaythroughArtifacts = async (
   await writeFile(scorecardPath, stringifyDeterministicJson(scorecard), 'utf8');
 
   return { tracePath, scorecardPath };
+};
+
+export const savePlaythroughReview = async (
+  runsRoot: string,
+  review: PlaythroughReview,
+): Promise<SavedReviewArtifact> => {
+  const reviewRelative = buildReviewRelativePath(review.version, review.seed, review.persona);
+  const reviewPath = path.join(runsRoot, reviewRelative);
+
+  await mkdir(path.dirname(reviewPath), { recursive: true });
+  await writeFile(reviewPath, stringifyDeterministicJson(review), 'utf8');
+
+  return { reviewPath };
 };
