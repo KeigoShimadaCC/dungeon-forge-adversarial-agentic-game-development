@@ -52,12 +52,10 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] T-03A-001 Progress setup: confirm Phase 03A worktree and seed live implementation tasks before coding (orchestrator, 2026-05-22).
+- [~] T-03A-003 Cursor implementation: implement minimal dungeon mechanics under `src/game/**` and focused tests under `tests/**`.
 
 ### Open
 
-- [ ] T-03A-002 Preflight: confirm Phase 03A contract, dependencies, Cursor CLI, and baseline repo state.
-- [ ] T-03A-003 Cursor implementation: implement minimal dungeon mechanics under `src/game/**` and focused tests under `tests/**`.
 - [ ] T-03A-004 Orchestrator review: inspect Cursor diffs for phase scope, contract stability, determinism, and forbidden MVP scope.
 - [ ] T-03A-005 Validation: run `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `git diff --check`, and `rg "Math\\.random" src tests`.
 - [ ] T-03A-006 Cursor read-only audit: ask Composer to audit implementation against Phase 03A and global invariants.
@@ -66,7 +64,8 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Done
 
-- _(move completed queue items here with `[x]`)_
+- [x] T-03A-001 Progress setup: confirm Phase 03A worktree and seed live implementation tasks before coding (orchestrator, 2026-05-22).
+- [x] T-03A-002 Preflight: confirm Phase 03A contract, dependencies, Cursor CLI, and baseline repo state (orchestrator, 2026-05-22).
 
 ### Blocked / skipped
 
@@ -125,6 +124,7 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — Rotated active phase from merged Phase 01A to Phase 02A after PR #2 merge (`e17e843`). Phase 02A not started.
 - 2026-05-22 — orchestrator — PR #5 merged at `8893bb6`; fast-forwarded `main` from `3094915` to `8893bb6`, rotated active phase to `PHASE-03A-MINIMAL-DUNGEON.md`, and archived Phase 02C summary. Post-pull validation: `pnpm test` exit 0 (4 files, 29 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
 - 2026-05-22 — orchestrator — Created worktree `/private/tmp/dungeon-forge-phase-03a-minimal-dungeon` on branch `phase-03a-minimal-dungeon` from `origin/main`; Phase 03A progress tasks seeded before implementation.
+- 2026-05-22 — orchestrator — Preflight: `agent --help` exit 0; initial checks failed because `node_modules` was missing, `pnpm install` exit 0, then `pnpm test` exit 0 (4 files, 29 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
 
 ---
 
