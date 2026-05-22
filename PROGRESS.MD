@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-14b-real-llm-runs` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-14b-real-llm-runs-wt` |
 | Base | `origin/main` at `6b650e6` |
-| Status | `Seeded; Cursor implementation pending` |
+| Status | `Local validation and Cursor recheck passed; commit and PR pending` |
 
 ### Contract (read before editing)
 
@@ -52,7 +52,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Start Phase 14B automation: create prompt bundle/worktree, seed progress, delegate implementation to Cursor/composer-2.5, then verify locally.
+- [~] 2026-05-23 orchestrator — Commit Phase 14B, push branch, open PR, verify CI, merge, and clean up if validation remains clean.
 
 ### Open
 
@@ -60,6 +60,9 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Done
 
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck — Functional Phase 14B PASS; remaining blockers are commit/PR/CI readiness only.
+- [x] 2026-05-23 orchestrator — Review Cursor diff, harden injected-client credential bypass and reviewer JSON enum validation, run focused/full gates.
+- [x] 2026-05-23 Cursor/composer-2.5 — Implement Phase 14B real LLM runs: provider adapter/config, id+type player validation, LLM reviewer with fallback, CLI flags, `.env.example`, `docs/REAL-LLM-RUNS.md`, and focused tests; re-read acceptance criteria locally.
 - [x] 2026-05-23 orchestrator — Merge Phase 14A PR #31, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 14B.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck — Functional Phase 14A PASS; remaining blockers are commit/PR/CI readiness only.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, harden validate-only diagnostics and repo-root defaults, run focused/full gates.
@@ -110,14 +113,14 @@ _Derived from `phase-plans/PHASE-14B-REAL-LLM-RUNS.md`. Tick when verified again
 
 ### Phase 14B — Real LLM Runs
 
-- [ ] Provider adapter boundary and configuration docs exist behind existing LLM client interfaces.
-- [ ] Environment variable names are documented in `.env.example` if credentials are introduced.
-- [ ] Optional CLI flags support selected real LLM player/reviewer runs without changing default credential-free behavior.
-- [ ] Model action validation checks both action `id` and action `type`.
-- [ ] Invalid or fallback model output diagnostics are preserved in trace metadata.
-- [ ] Missing credentials produce a clear skip/blocker, not a crash.
-- [ ] Mocked-provider tests cover valid output, invalid JSON, invalid action ID, wrong action type, and timeout fallback paths.
-- [ ] Local final gates pass without credentials: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [x] Provider adapter boundary and configuration docs exist behind existing LLM client interfaces.
+- [x] Environment variable names are documented in `.env.example` if credentials are introduced.
+- [x] Optional CLI flags support selected real LLM player/reviewer runs without changing default credential-free behavior.
+- [x] Model action validation checks both action `id` and action `type`.
+- [x] Invalid or fallback model output diagnostics are preserved in trace metadata.
+- [x] Missing credentials produce a clear skip/blocker, not a crash.
+- [x] Mocked-provider tests cover valid output, invalid JSON, invalid action ID, wrong action type, and timeout fallback paths.
+- [x] Local final gates pass without credentials: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -132,10 +135,10 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | F-13A-002 | Expand retention tests for `accept-version`, summary/comparison no-clobber reruns, and review-specific overwrite/archive diagnostics. | Evidence retention hardening follow-up | Phase 13A covers core no-clobber, archive, overwrite, balance summary, persisted summary, and comparison paths; broader matrix coverage can be added later without changing the policy contract. | orchestrator, 2026-05-23 |
 | F-AUTO-001 | Add the command-execution layer that actually runs generated worktree, Cursor, validation, PR, merge, and cleanup commands behind an explicit autopilot mode. | Automation runner follow-up / Phase 15B-15C acceleration | Current pass implements deterministic planning, bundle generation, merge gating, and state updates; direct command execution should be added after this core is reviewed. | orchestrator, 2026-05-23 |
 | F-03A-001 | Extract engine-local map/combat helpers into dedicated modules when those systems grow. | Phase 09B / Phase 09C | Phase 03A permits modules as needed; richer enemy variety and procedural map generation are explicitly scheduled later. | orchestrator, 2026-05-22 |
-| F-06A-001 | Add a real provider adapter behind `LlmPlayerClient` with explicit credential configuration. | Phase 10B or provider-integration phase | Phase 06A intentionally added only the injectable boundary and mocked tests; Phase 07A keeps version evidence local and credential-free. | orchestrator, 2026-05-22 |
-| F-06A-002 | Add CLI support for real LLM persona playthroughs, gated by explicit provider/client configuration. | Phase 10B or provider-integration phase | Phase 07A now provides deterministic local persona evidence; real provider-backed personas remain separate from the local version loop. | orchestrator, 2026-05-22 |
-| F-06A-003 | Preserve the model's original invalid `reason` in fallback trace metadata. | LLM-player follow-up | Current fallback records failure category and invalid action ID, but replaces the model reason with a deterministic fallback reason. Richer diagnostics can improve trace review later. | orchestrator, 2026-05-22 |
-| F-06A-004 | Tighten LLM action lookup to validate `id` plus `type`, not `id` alone. | LLM-player follow-up | Action IDs are currently unique per turn, but the stable action protocol already treats `id` and `type` as the stronger match. | orchestrator, 2026-05-22 |
+| F-06A-001 | Implemented in Phase 14B: add a real provider adapter behind `LlmPlayerClient` with explicit credential configuration. | Phase 14B | Closed by `llm-provider-config`, `llm-provider`, `.env.example`, and mocked provider tests. | orchestrator, 2026-05-23 |
+| F-06A-002 | Implemented in Phase 14B: add CLI support for real LLM persona playthroughs, gated by explicit provider/client configuration. | Phase 14B | Closed by `--use-llm-player`, `--use-llm-reviewer`, `--use-llm`, and missing-credential blocker behavior. | orchestrator, 2026-05-23 |
+| F-06A-003 | Implemented in Phase 14B: preserve the model's original invalid `reason` in fallback trace metadata. | Phase 14B | Closed by `decision_metadata.model_reason` coverage for fallback paths. | orchestrator, 2026-05-23 |
+| F-06A-004 | Implemented in Phase 14B: tighten LLM action lookup to validate `id` plus `type`, not `id` alone. | Phase 14B | Closed by `resolveAvailableActionFromModel` and wrong/missing `action_type` tests. | orchestrator, 2026-05-23 |
 | F-06A-005 | Add GitHub CI or equivalent PR checks for tests, typecheck, lint, build, and simulation smoke. | Phase 11A or repo infrastructure pass | Local gates pass, but PR #12 reports no GitHub checks; later acceptance-gate work covers evidence checks but not CI enforcement explicitly. | orchestrator, 2026-05-22 |
 | F-06B-001 | Add optional Markdown rendering/writing for reviewer critiques alongside the JSON contract artifact. | Docs/reporting polish phase | PHASE-06B made JSON the contract and Markdown optional; Phase 07A writes matching JSON reviews but not Markdown review narratives. | orchestrator, 2026-05-22 |
 | F-07A-003 | Add a no-clobber or archive mode for rerunning `run-version` when JSON evidence already exists. | Evidence retention / acceptance hardening phase | Phase 07A creates deterministic evidence and preserves markdown stubs, but rerunning the same version currently regenerates same-path trace/review/scorecard JSON. A later phase should decide whether to fail, archive, or require an explicit overwrite flag. | orchestrator, 2026-05-22 |
@@ -277,6 +280,9 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 14A PASS against the phase plan, local validation, protocol invariants, forbidden-scope review, and secrets scan. Recheck validation PASS: `pnpm test tests/developer-workflow.test.ts` (9 tests), `pnpm run check` (23 files, 217 tests), `git diff -- src/game content concept-and-ideas phase-plans` empty, and no `.env` or credential material in the diff. Merge readiness remains pending only for commit, PR, and GitHub CI.
 - 2026-05-23 — orchestrator — Phase 14A merged and cleaned up: automation gate allowed merge, PR #31 `Repo gates` passed in 39s, PR #31 was squash-merged at `c8521967c93248d69f5196f1854f30156ba29329`, clean worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-14a-developer-workflow-polish-wt` was removed, local branch `phase/phase-14a-developer-workflow-polish` was deleted, remote branch was deleted manually, and `automation/phase-state.json` advanced current phase to `PHASE-14B`.
 - 2026-05-23 — orchestrator — Phase 14B automation start: `pnpm run phase -- status` selected `PHASE-14B`; read `PROGRESS.MD` and `phase-plans/PHASE-14B-REAL-LLM-RUNS.md`; `pnpm run phase -- bundle --phase PHASE-14B --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-14B/planned`; Cursor preflight `agent --list-models` confirmed `composer-2.5`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-14b-real-llm-runs-wt` on branch `phase/phase-14b-real-llm-runs` from `origin/main` at `6b650e6`.
+- 2026-05-23 — Cursor/composer-2.5 — Phase 14B implementation: added OpenAI-compatible provider adapter (`llm-provider-config`, `llm-provider`), LLM reviewer client with validation/fallback, `action_id`+`action_type` player validation with `model_reason` trace metadata, CLI flags (`--use-llm-player`, `--use-llm-reviewer`, `--use-llm`), `.env.example`, `docs/REAL-LLM-RUNS.md`, and tests (`tests/llm-provider.test.ts`, expanded `tests/llm-player.test.ts`). Validation PASS: `pnpm run check` (24 files, 228 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check` passed. Re-read `phase-plans/PHASE-14B-REAL-LLM-RUNS.md`; deliverables and acceptance criteria satisfied locally without live API credentials.
+- 2026-05-23 — orchestrator — Reviewed and hardened the Phase 14B diff: injected `playerClient`/`reviewerClient` no longer require real credentials when explicitly supplied, and LLM reviewer JSON now rejects invalid severity, evidence kind, and evidence quality enum values instead of casting them. Validation PASS: `pnpm test tests/llm-provider.test.ts tests/llm-player.test.ts tests/reviewer-critic.test.ts` (35 tests), `pnpm run check` (24 files, 230 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 14B PASS against the phase plan, local validation, protocol invariants, forbidden-scope review, and secrets scan. Recheck validation PASS: `pnpm run check` (24 files, 230 tests), `git diff --check`, `git diff -- src/game content concept-and-ideas phase-plans` empty, and no `.env` or credential material in the diff. Merge readiness remains pending only for commit, PR, and GitHub CI. Live API smoke remains out-of-scope/operational because it requires user credentials.
 
 ---
 

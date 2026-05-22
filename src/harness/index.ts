@@ -31,13 +31,53 @@ export {
   createLlmPlayerPolicy,
   findAvailableActionById,
   parseLlmPlayerModelOutput,
+  resolveAvailableActionFromModel,
   resolveLlmPlayerDecision,
   type CreateLlmPlayerPolicyOptions,
   type LlmPlayerClient,
   type LlmPlayerClientResponse,
   type LlmPlayerModelOutput,
+  type ResolveAvailableActionResult,
 } from './llm-player.js';
 export { buildLlmPlayerModelInput, buildLlmPlayerPrompt, type LlmPlayerModelInput } from '../agents/prompts/llm-player.js';
+export { buildLlmReviewerModelInput, buildLlmReviewerPrompt, type LlmReviewerModelInput } from '../agents/prompts/llm-reviewer.js';
+export {
+  assertRealLlmRunAllowed,
+  createPersonaPolicyForRun,
+  createReviewerForRun,
+  isRealLlmRunRequested,
+  type RunVersionLlmOptions,
+} from './llm-run-options.js';
+export {
+  createLlmPlayerClientFromChat,
+  createLlmPlayerClientFromConfig,
+  createOpenAiCompatibleChatClient,
+  type LlmChatCompletionClient,
+  type LlmChatCompletionRequest,
+} from './llm-provider.js';
+export {
+  LLM_API_KEY_ALT_ENV,
+  LLM_API_KEY_ENV,
+  LLM_BASE_URL_ENV,
+  LLM_MODEL_ENV,
+  DEFAULT_LLM_BASE_URL,
+  DEFAULT_LLM_MODEL,
+  LlmCredentialsMissingError,
+  hasLlmProviderCredentials,
+  requireLlmProviderConfig,
+  resolveLlmProviderConfig,
+  type LlmCredentialResolution,
+  type LlmProviderConfig,
+} from './llm-provider-config.js';
+export {
+  createLlmReviewerProvider,
+  parseLlmReviewerModelOutput,
+  resolveLlmReview,
+  type LlmReviewGenerationMetadata,
+  type LlmReviewerFallbackReason,
+  type PlaythroughReviewWithMetadata,
+} from './llm-reviewer.js';
+export { parseHarnessLlmCliArgs, type HarnessLlmCliArgs } from './cli-args.js';
 export { runPlaythrough, parseSimulateSeedArgs, type RunPlaythroughOptions } from './runner.js';
 export { deriveScorecardFromTrace, validateScorecard } from './scorecard.js';
 export {

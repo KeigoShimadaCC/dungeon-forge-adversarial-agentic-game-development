@@ -552,10 +552,12 @@ export const generateDeterministicReview = (input: ReviewerCriticInput): Playthr
   };
 };
 
-export type ReviewerCriticProvider = (input: ReviewerCriticInput) => PlaythroughReview;
+export type ReviewerCriticProvider = (
+  input: ReviewerCriticInput,
+) => PlaythroughReview | Promise<PlaythroughReview>;
 
 export interface ReviewerCritic {
-  generateReview(input: ReviewerCriticInput): PlaythroughReview;
+  generateReview(input: ReviewerCriticInput): PlaythroughReview | Promise<PlaythroughReview>;
 }
 
 export const createReviewerCritic = (provider?: ReviewerCriticProvider): ReviewerCritic => ({

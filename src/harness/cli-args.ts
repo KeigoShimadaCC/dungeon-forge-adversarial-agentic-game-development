@@ -5,6 +5,38 @@ export interface HarnessCliCommonArgs {
   onExisting: ArtifactWriteMode;
 }
 
+export interface HarnessLlmCliArgs {
+  useLlmPlayer: boolean;
+  useLlmReviewer: boolean;
+}
+
+export const parseHarnessLlmCliArgs = (
+  argv: string[],
+  base: Partial<HarnessLlmCliArgs> = {},
+): HarnessLlmCliArgs => {
+  const args: HarnessLlmCliArgs = {
+    useLlmPlayer: base.useLlmPlayer ?? false,
+    useLlmReviewer: base.useLlmReviewer ?? false,
+  };
+
+  for (const token of argv) {
+    if (token === '--use-llm-player' || token === '--llm-player') {
+      args.useLlmPlayer = true;
+      continue;
+    }
+    if (token === '--use-llm-reviewer' || token === '--llm-reviewer') {
+      args.useLlmReviewer = true;
+      continue;
+    }
+    if (token === '--use-llm') {
+      args.useLlmPlayer = true;
+      args.useLlmReviewer = true;
+    }
+  }
+
+  return args;
+};
+
 export const parseHarnessCliCommonArgs = (
   argv: string[],
   base: Partial<HarnessCliCommonArgs> = {},

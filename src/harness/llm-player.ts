@@ -24,6 +24,7 @@ export { LLM_PLAYER_PERSONA_IDS } from './types.js';
 
 export interface LlmPlayerModelOutput {
   action_id: string;
+  action_type?: string;
   reason?: string;
 }
 
@@ -52,6 +53,45 @@ export const findAvailableActionById = (
     return undefined;
   }
   return sortActionsById(matches)[0];
+};
+
+export type ResolveAvailableActionResult =
+  | { ok: true; action: PlayerAction }
+  | {
+      ok: false;
+      reason: 'invalid_action_id' | 'invalid_action_type' | 'missing_action_type';
+      invalidActionId?: string;
+      invalidActionType?: string;
+    };
+
+export const resolveAvailableActionFromModel = (
+  availableActions: readonly PlayerAction[],
+  actionId: string,
+  actionType?: string,
+): ResolveAvailableActionResult => {
+  const matched = findAvailableActionById(availableActions, actionId);
+  if (!matched) {
+    return {
+      ok: false,
+      reason: 'invalid_action_id',
+      invalidActionId: actionId,
+    };
+  }
+
+  if (actionType === undefined || actionType.length === 0) {
+    return { ok: false, reason: 'missing_action_type', invalidActionId: actionId };
+  }
+
+  if (matched.type !== actionType) {
+    return {
+      ok: false,
+      reason: 'invalid_action_type',
+      invalidActionId: actionId,
+      invalidActionType: actionType,
+    };
+  }
+
+  return { ok: true, action: matched };
 };
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
@@ -83,6 +123,11 @@ export const parseLlmPlayerModelOutput = (
     return { ok: false, reason: 'missing_action_id' };
   }
 
+  const actionType = raw.action_type;
+  if (actionType !== undefined && typeof actionType !== 'string') {
+    return { ok: false, reason: 'malformed_json' };
+  }
+
   const reason = raw.reason;
   if (reason !== undefined && typeof reason !== 'string') {
     return { ok: false, reason: 'malformed_json' };
@@ -92,6 +137,7 @@ export const parseLlmPlayerModelOutput = (
     ok: true,
     output: {
       action_id: actionId,
+      ...(typeof actionType === 'string' ? { action_type: actionType } : {}),
       ...(typeof reason === 'string' ? { reason } : {}),
     },
   };
@@ -101,14 +147,14 @@ const buildFallbackDecision = (
   availableActions: readonly PlayerAction[],
   persona: LlmPlayerPersona,
   fallbackReason: LlmFallbackReason,
-  invalidActionId?: string,
+  extras: Partial<TraceDecisionMetadata> = {},
 ): PolicyDecision => {
   const metadata: TraceDecisionMetadata = {
     persona,
     fallback_used: true,
     fallback_reason: fallbackReason,
     error_category: fallbackReason,
-    ...(invalidActionId ? { invalid_action_id: invalidActionId } : {}),
+    ...extras,
   };
 
   return {
@@ -173,22 +219,32 @@ export const resolveLlmPlayerDecision = async (
     return buildFallbackDecision(availableActions, persona, parsed.reason);
   }
 
-  const matched = findAvailableActionById(availableActions, parsed.output.action_id);
-  if (!matched) {
-    return buildFallbackDecision(
-      availableActions,
-      persona,
-      'invalid_action_id',
-      parsed.output.action_id,
-    );
+  const modelReason = parsed.output.reason;
+  const resolved = resolveAvailableActionFromModel(
+    availableActions,
+    parsed.output.action_id,
+    parsed.output.action_type,
+  );
+
+  if (!resolved.ok) {
+    const fallbackReason: LlmFallbackReason =
+      resolved.reason === 'missing_action_type'
+        ? 'missing_action_type'
+        : resolved.reason;
+    return buildFallbackDecision(availableActions, persona, fallbackReason, {
+      ...(resolved.invalidActionId ? { invalid_action_id: resolved.invalidActionId } : {}),
+      ...(resolved.invalidActionType ? { invalid_action_type: resolved.invalidActionType } : {}),
+      ...(modelReason ? { model_reason: modelReason } : {}),
+    });
   }
 
-  const canonical = findMatchingAvailableAction(availableActions, matched) ?? matched;
+  const canonical =
+    findMatchingAvailableAction(availableActions, resolved.action) ?? resolved.action;
   const metadata: TraceDecisionMetadata = { persona };
 
   return {
     action: canonical,
-    ...(parsed.output.reason ? { reason: parsed.output.reason } : {}),
+    ...(modelReason ? { reason: modelReason } : {}),
     decision_metadata: metadata,
   };
 };

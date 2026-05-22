@@ -402,7 +402,7 @@ describe('Phase 06B reviewer critic', () => {
     ).toThrow(ReviewGenerationError);
   });
 
-  it('does not read API credentials and supports mock providers', () => {
+  it('does not read API credentials and supports mock providers', async () => {
     const trace: PlaythroughTrace = {
       version: 'v001',
       seed: 'seed_mock',
@@ -439,7 +439,7 @@ describe('Phase 06B reviewer critic', () => {
     };
 
     const critic = createReviewerCritic(mockProvider);
-    const review = critic.generateReview({
+    const review = await critic.generateReview({
       trace,
       scorecard,
       persona: 'naive_player',

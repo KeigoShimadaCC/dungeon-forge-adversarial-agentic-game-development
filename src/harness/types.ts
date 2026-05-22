@@ -31,7 +31,9 @@ export type LlmPlayerPersona = (typeof LLM_PLAYER_PERSONA_IDS)[number];
 export type LlmFallbackReason =
   | 'malformed_json'
   | 'missing_action_id'
+  | 'missing_action_type'
   | 'invalid_action_id'
+  | 'invalid_action_type'
   | 'timeout'
   | 'client_error';
 
@@ -40,6 +42,8 @@ export interface TraceDecisionMetadata {
   fallback_used?: boolean;
   fallback_reason?: LlmFallbackReason;
   invalid_action_id?: string;
+  invalid_action_type?: string;
+  model_reason?: string;
   error_category?: LlmFallbackReason;
 }
 

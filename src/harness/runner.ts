@@ -19,9 +19,15 @@ import {
 } from './artifacts.js';
 import { resolveVersionId } from './artifact-write-policy.js';
 import { deriveScorecardFromTrace, validateScorecard } from './scorecard.js';
+import { parseHarnessLlmCliArgs } from './cli-args.js';
+import {
+  assertRealLlmRunAllowed,
+  createPersonaPolicyForRun,
+} from './llm-run-options.js';
 import {
   awaitPolicyDecision,
   isBaselinePolicyId,
+  isLlmPlayerPersona,
   resolveBaselinePolicy,
   type HarnessPolicyId,
 } from './policy-registry.js';
@@ -97,11 +103,17 @@ export const runPlaythrough = async (
     options.policy ??
     (isBaselinePolicyId(policyId)
       ? resolveBaselinePolicy(policyId, seed)
-      : (() => {
-          throw new Error(
-            `Policy "${policyId}" is not a baseline policy. Supply options.policy (for example createLlmPlayerPolicy).`,
-          );
-        })());
+      : isLlmPlayerPersona(policyId)
+        ? (() => {
+            throw new Error(
+              `Policy "${policyId}" is an LLM persona. Supply options.policy (createLlmPlayerPolicy) or run simulate-seed with --use-llm-player.`,
+            );
+          })()
+        : (() => {
+            throw new Error(
+              `Policy "${policyId}" is not a baseline policy. Supply options.policy (for example createLlmPlayerPolicy).`,
+            );
+          })());
 
   let state = start(seed, resolveGameConfigForVersion(version));
   const baseMetadata = buildTraceMetadata(seed, version);
@@ -295,16 +307,38 @@ export const runPlaythrough = async (
   return { trace, scorecard, artifacts };
 };
 
+const PERSONA_BASELINE_FOR_SIMULATE = {
+  careful_player: 'cautious-low-hp',
+  naive_player: 'random',
+  bug_hunter: 'stairs-seeking',
+} as const;
+
 export const parseSimulateSeedArgs = (
   argv: string[],
-): { seed: string; policyId: import('./policy-registry.js').BaselinePolicyId; version: string; maxSteps?: number } => {
+): {
+  seed: string;
+  policyId: HarnessPolicyId;
+  version: string;
+  maxSteps?: number;
+  policy?: HarnessPlayerPolicy;
+} => {
   let seed: string | undefined;
   let policyId: string | undefined;
   let version = 'v001';
   let maxSteps: number | undefined;
+  const llm = parseHarnessLlmCliArgs(argv);
 
   for (let index = 0; index < argv.length; index += 1) {
     const token = argv[index];
+    if (
+      token === '--use-llm-player' ||
+      token === '--llm-player' ||
+      token === '--use-llm-reviewer' ||
+      token === '--llm-reviewer' ||
+      token === '--use-llm'
+    ) {
+      continue;
+    }
     if (token === '--seed' && argv[index + 1]) {
       seed = argv[index + 1];
       index += 1;
@@ -332,9 +366,37 @@ export const parseSimulateSeedArgs = (
   if (!policyId) {
     throw new Error('Missing required --policy argument.');
   }
+
+  if (llm.useLlmReviewer) {
+    throw new Error(
+      'simulate-seed supports --use-llm-player only. Use run-version --use-llm-reviewer for reviewer-backed evidence.',
+    );
+  }
+
+  if (llm.useLlmPlayer) {
+    if (!isLlmPlayerPersona(policyId)) {
+      throw new Error(
+        `With --use-llm-player, --policy must be an LLM persona: careful_player, naive_player, or bug_hunter.`,
+      );
+    }
+    assertRealLlmRunAllowed({ usePlayer: true });
+    return {
+      seed,
+      policyId,
+      version,
+      maxSteps,
+      policy: createPersonaPolicyForRun(
+        policyId,
+        seed,
+        PERSONA_BASELINE_FOR_SIMULATE,
+        { usePlayer: true },
+      ),
+    };
+  }
+
   if (!isBaselinePolicyId(policyId)) {
     throw new Error(
-      `Unknown policy "${policyId}". Expected one of: random, stairs-seeking, cautious-low-hp, greedy-item-picker.`,
+      `Unknown policy "${policyId}". Expected one of: random, stairs-seeking, cautious-low-hp, greedy-item-picker, or use --use-llm-player with an LLM persona.`,
     );
   }
 
