@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 08A — Developer Agent Workflow |
-| Goal | Turn prior review and scorecard evidence into a bounded, human-governed developer-agent task with patch/changelog templates and test expectations. |
-| Branch | `phase-08a-developer-agent-workflow` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-08a-developer-agent-workflow-wt` |
-| Base | `origin/main` at `4c36e5d` |
-| Status | `complete; PR open` |
+| Phase | Phase 09C — Map Generation |
+| Goal | Add deterministic seeded room/corridor map generation with reachable spawn, stairs, enemies, items, validation helpers, bounded fallback, and regression seed coverage. |
+| Branch | `phase-09c-map-generation` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-09c-map-generation-wt` |
+| Base | `origin/main` at `f67e9e9` |
+| Status | `in progress; progress seeded` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-08A-DEVELOPER-AGENT-WORKFLOW.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-09C-MAP-GENERATION.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -52,50 +52,45 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-22 orchestrator — Seed Phase 09C progress state and checkpoint before implementation.
 
 ### Open
 
-- _(none)_
+- [ ] 2026-05-22 Cursor/composer-2.5 — Implement deterministic map generation helpers and bounded fallback in `src/game/map.ts`.
+- [ ] 2026-05-22 Cursor/composer-2.5 — Integrate generated player spawn, stairs, enemy placement, and item placement into `src/game/engine.ts` without changing the public `GameEngine` API.
+- [ ] 2026-05-22 Cursor/composer-2.5 — Update floor scaling in `content/floor-rules.json`.
+- [ ] 2026-05-22 Cursor/composer-2.5 — Add and update regression tests for deterministic maps, reachability, placement validation, fallback, and changed engine assumptions.
+- [ ] 2026-05-22 orchestrator — Review Cursor diff, harden locally if needed, and run focused tests.
+- [ ] 2026-05-22 orchestrator — Run final gates: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run run-version -- --version v09c-smoke --runs-root <tmp>`.
+- [ ] 2026-05-22 orchestrator — Run Cursor read-only audit and verify findings against the diff.
+- [ ] 2026-05-22 orchestrator — Re-read Phase 09C acceptance, finalize `PROGRESS.MD`, commit, push, and open PR.
 
 ### Done
 
-- [x] 2026-05-22 orchestrator — Seed Phase 08A progress state and checkpoint before implementation (`599b76b`).
-- [x] 2026-05-22 orchestrator — Delegate bounded developer-workflow implementation to Cursor Agent, inspect partial unreported diff, and harden it locally.
-- [x] 2026-05-22 orchestrator — Add deterministic developer task generator, renderer, validation, templates, exports, and CLI.
-- [x] 2026-05-22 orchestrator — Replace developer prompt placeholder with Phase 08A human-governed workflow template.
-- [x] 2026-05-22 orchestrator — Add unit and CLI-smoke coverage for generated task shape and validation failures.
-- [x] 2026-05-22 orchestrator — Run local gates and Phase 08A CLI smoke.
-- [x] 2026-05-22 orchestrator — Re-read Phase 08A acceptance and finalize progress, commits, push, and PR.
-- [x] 2026-05-22 orchestrator — Seed Phase 07A progress state and create checkpoint commit before implementation (`06b4eeb`).
-- [x] 2026-05-22 orchestrator — Implement version folder helpers and Phase 07A artifact path conventions under `src/harness/**`.
-- [x] 2026-05-22 orchestrator — Add `new-version`, `run-version`, `summarize-version`, and `compare-versions` package scripts and CLI entrypoints.
-- [x] 2026-05-22 orchestrator — Add focused tests for folder creation, markdown preservation, default evidence generation, review linkage, summary, comparison, and invalid/missing versions.
-- [x] 2026-05-22 orchestrator — Run final local gates and Phase 07A smoke commands.
-- [x] 2026-05-22 orchestrator — Re-read Phase 07A acceptance and confirm scope excludes `src/game/**`, `content/**`, concept docs, phase plans, secrets, and tracked generated evidence.
+- _(none yet for Phase 09C)_
 
 ### Blocked / skipped
 
-- [!] 2026-05-22 orchestrator — Cursor implementation pass stalled without output and was interrupted; it left a partial unreported diff that was reviewed, corrected, and verified locally.
-- [!] 2026-05-22 orchestrator — Cursor read-only audit pass stalled without output and was interrupted; local acceptance audit and gates are the verification evidence.
-
----
+- _(none)_
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-08A-DEVELOPER-AGENT-WORKFLOW.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-09C-MAP-GENERATION.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 08A — Developer Agent Workflow
+### Phase 09C — Map Generation
 
-- [x] Developer task can be generated from review/scorecard inputs.
-- [x] Generated task includes previous review path, previous scorecard path, target version, target scope, allowed changes, forbidden changes, required test commands, required patch plan path, required changelog path, and expected implementation summary.
-- [x] Workflow blocks protocol-breaking requests such as changing `GameEngine`, removing seed determinism, removing terminal states, or adding infinite floors.
-- [x] Patch plan template records review issues, one to three scoped changes, expected files/modules, tests/checks, non-goals, and forbidden changes.
-- [x] Changelog template records implemented changes, tests/evidence, invariants, and residual risks.
-- [x] Developer prompt under `src/agents/prompts/**` reflects the Phase 08A human-governed workflow.
-- [x] Package script and CLI can print or write a developer task to `runs/<targetVersion>/developer_task.md`.
-- [x] Tests cover generated task shape and validation failures.
-- [x] Local final gates and CLI smoke pass, or blockers are recorded.
+- [ ] Seeded room/corridor map generation module exists under `src/game/map.ts`.
+- [ ] Reachability helpers and validation helpers cover player spawn, stairs, enemies, items, overlap, and walkability.
+- [ ] Generated floor layout is deterministic by seed and floor.
+- [ ] Stairs are reachable from player spawn.
+- [ ] Player, enemies, and items spawn on valid reachable tiles.
+- [ ] Entity placement avoids overlaps.
+- [ ] Floor sizes scale through `content/floor-rules.json` as 9x9, 10x10, 10x10, 11x11, and 12x12.
+- [ ] Generation has a bounded retry/fallback path that cannot loop forever.
+- [ ] `GameEngine` public API remains `start`, `getAvailableActions`, `step`, `render`, and `isTerminal`.
+- [ ] Descend behavior preserves HP, inventory, turn, log, finite terminal semantics, and seed reproducibility.
+- [ ] Regression seed tests cover canonical seeds and fallback behavior.
+- [ ] Local final gates and version-loop smoke pass, or blockers are recorded.
 
 ---
 
@@ -128,6 +123,9 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 ## Validation log
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
+
+- 2026-05-22 — orchestrator — Created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-09c-map-generation-wt` on branch `phase-09c-map-generation` from `origin/main` at `f67e9e9`; worktree status clean.
+- 2026-05-22 — orchestrator — Re-read `PROGRESS.MD`, `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md`, and `phase-plans/PHASE-09C-MAP-GENERATION.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.
 
 - 2026-05-22 — orchestrator — Fast-forwarded local `main` from `ac573e5` to `origin/main` at `9ccba4f`, then created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-07a-version-loop-wt` on branch `phase-07a-version-loop` tracking `origin/main`.
 - 2026-05-22 — orchestrator — Re-read `PROGRESS.MD` and `phase-plans/PHASE-07A-VERSION-LOOP.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.
