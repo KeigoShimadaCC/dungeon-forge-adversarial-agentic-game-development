@@ -2,8 +2,10 @@ import {
   getTrapDefinition,
   loadGameContent,
   type FloorRuleDefinition,
+  type GameContent,
   type TrapDefinition,
 } from './content.js';
+import { getContentForRun } from './run-content.js';
 import { chooseEntityPositions } from './map.js';
 import type { FloorLayout } from './map.js';
 import type { GameEvent, GameState, Position, TrapInstance } from './types.js';
@@ -50,6 +52,7 @@ export const placeTraps = (params: {
   rule: FloorRuleDefinition;
   layout: FloorLayout;
   occupied: Set<string>;
+  content?: GameContent;
 }): TrapInstance[] => {
   const trapIds = params.rule.trapIds ?? [];
   const count = resolveTrapSpawnCount(params.seed, params.rule);
@@ -68,7 +71,7 @@ export const placeTraps = (params: {
   });
 
   return positions.map((position, index) => {
-    const definition = getTrapDefinition(trapIds[index % trapIds.length]!);
+    const definition = getTrapDefinition(trapIds[index % trapIds.length]!, params.content);
     params.occupied.add(positionKey(position));
     return {
       id: `${definition.id}-${params.floor}-${index + 1}`,
@@ -113,7 +116,10 @@ export const applyTrapOnEntry = (
   }
 
   const trap = state.traps[trapIndex] as TrapInstance;
-  const definition = getTrapDefinition(trap.type);
+  const definition = getTrapDefinition(
+    trap.type,
+    getContentForRun(state.meta.scenarioPackId),
+  );
   trap.armed = false;
   state.player.hp = Math.max(0, state.player.hp - definition.damage);
   events.push(

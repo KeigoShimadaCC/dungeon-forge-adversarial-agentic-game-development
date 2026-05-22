@@ -132,6 +132,10 @@ export interface PlaythroughTrace {
   steps: TraceStep[];
   /** Set when an explicit finite challenge preset was selected for the run. */
   challenge_mode?: string;
+  /** Set when an explicit bounded scenario content pack was selected for the run. */
+  scenario_pack?: string;
+  /** Human-readable label for scenario_pack when available. */
+  scenario_pack_label?: string;
   metadata?: TraceMetadata;
 }
 
@@ -164,6 +168,9 @@ export interface PlaythroughScorecard {
   persona: string;
   /** Mirrors trace challenge_mode when a finite challenge preset was selected. */
   challenge_mode?: string;
+  /** Mirrors trace scenario_pack when a bounded scenario pack was selected. */
+  scenario_pack?: string;
+  scenario_pack_label?: string;
   result: TerminalStatus;
   turns: number;
   floors_reached: number;

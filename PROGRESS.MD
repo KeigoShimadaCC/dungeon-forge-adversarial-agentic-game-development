@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Support bounded local scenario/content packs for finite events, NPCs, items, enemies, and floor rules. |
 | Branch | `phase/phase-16c-scenario-content-packs` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-16c-scenario-content-packs-wt` |
-| Base | `origin/main` at `2756e3c` |
-| Status | `Ready to start; automation state advanced and progress rotated` |
+| Base | `origin/main` at `5a51322` |
+| Status | `Local gates and Cursor read-only recheck passed; commit/PR pending` |
 
 ### Contract (read before editing)
 
@@ -52,16 +52,18 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-23 orchestrator — Commit Phase 16C implementation, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Open
 
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement local scenario pack manifest, loader/validator, example pack, explicit pack selection, evidence metadata, and focused tests within Phase 16C scope.
-- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 16C acceptance, and request Cursor read-only recheck.
-- [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
+_(none)_
 
 ### Done
 
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 16C PASS; addressed cheap non-blocking duplicate-manifest-id test coverage, reran focused/full gates, and left only commit/PR/CI readiness.
+- [x] 2026-05-23 orchestrator — Harden pack-local item/enemy support after first recheck: added `Trial Tonic`/`Trial Wisp`, made render/use-item paths scenario-pack aware, reran focused/full gates, and regenerated deterministic acceptance evidence.
+- [x] 2026-05-23 orchestrator — Review Cursor diff, harden manifest `gameConfig` validation and floor-descent run-config coverage, run focused/full local gates, re-read Phase 16C acceptance, and confirm smoke evidence includes scenario labels.
+- [x] 2026-05-23 Cursor/composer-2.5 — Implement local scenario pack manifest, loader/validator, example `shrine_trial` pack, `--scenario-pack` harness selection, trace/scorecard/summary/comparison/acceptance labels, floor-descent `runConfig` persistence, docs, and `tests/scenario-packs.test.ts`.
 - [x] 2026-05-23 orchestrator — Merge Phase 16B PR #38, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 16C.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 16B PASS; addressed non-blocking hardening notes for direct default run labels, malformed preset validation coverage, acceptance markdown labels, and scorecard `challenge_mode` validation.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, harden explicit `default` challenge-mode behavior, run focused/full local gates, re-read Phase 16B acceptance, and confirm smoke evidence includes challenge labels.
@@ -145,16 +147,16 @@ _Derived from `phase-plans/PHASE-16C-SCENARIO-CONTENT-PACKS.md`. Tick when verif
 
 ### Phase 16C — Scenario Content Packs
 
-- [ ] Scenario pack manifest format exists.
-- [ ] Loader and validator exist.
-- [ ] Example local content pack exists.
-- [ ] Pack selection is explicit through config or harness options.
-- [ ] Valid pack loads and affects a deterministic run.
-- [ ] Invalid references fail with clear diagnostics.
-- [ ] Selected pack appears in traces and scorecards.
-- [ ] Default content remains playable without packs.
-- [ ] Gameplay remains finite and inspectable.
-- [ ] Local final gates pass: `pnpm run check`, focused tests, deterministic scenario-pack smoke evidence, and `git diff --check`.
+- [x] Scenario pack manifest format exists.
+- [x] Loader and validator exist.
+- [x] Example local content pack exists.
+- [x] Pack selection is explicit through config or harness options.
+- [x] Valid pack loads and affects a deterministic run.
+- [x] Invalid references fail with clear diagnostics.
+- [x] Selected pack appears in traces and scorecards.
+- [x] Default content remains playable without packs.
+- [x] Gameplay remains finite and inspectable.
+- [x] Local final gates pass: `pnpm run check`, focused tests, deterministic scenario-pack smoke evidence, and `git diff --check`.
 
 ---
 
@@ -365,6 +367,15 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Addressed cheap recheck hardening: normalized direct default run labels before trace/scorecard metadata, added malformed challenge bundle tests, added acceptance Markdown label coverage, and validated optional scorecard `challenge_mode`. Validation PASS: `pnpm test tests/challenge-modes.test.ts` (10 tests); `pnpm run check` (30 files, 293 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
 - 2026-05-23 — orchestrator — Phase 16B PR #38 merged at `2756e3c8e18dcfede48192b702bdc2913997fbfa` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-16B --evidence runs/phase-runner/PHASE-16B/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-16C`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 16C with initial task queue and checklist from `phase-plans/PHASE-16C-SCENARIO-CONTENT-PACKS.md`.
+- 2026-05-23 — orchestrator — Phase 16C automation start: `pnpm run phase -- status` selected `PHASE-16C`; `pnpm run phase -- bundle --phase PHASE-16C --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-16C/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-16c-scenario-content-packs-wt` on branch `phase/phase-16c-scenario-content-packs` from `origin/main` at `5a51322`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
+- 2026-05-23 — Cursor/composer-2.5 — Phase 16C implementation: added `content/scenario-packs.json`, example `content/packs/shrine-trial.json`, `src/game/scenario-packs.ts` merge/validation, `src/game/run-content.ts`, engine floor-descent `runConfig` persistence, harness `--scenario-pack` wiring, trace/scorecard/summary/comparison/acceptance labels, `docs/SCENARIO-PACKS.md`, and `tests/scenario-packs.test.ts`. Validation PASS: `pnpm test tests/scenario-packs.test.ts` (11 tests); `pnpm test tests/challenge-modes.test.ts` (10 tests); `pnpm run check` (31 files, 304 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `pnpm run run-version -- --version v016 --scenario-pack shrine_trial --runs-root /private/tmp/df-phase16c-smoke` wrote terminal evidence with `scenario_pack` / `scenario_pack_label` in traces and scorecards; `git diff --check` PASS. Re-read `phase-plans/PHASE-16C-SCENARIO-CONTENT-PACKS.md`; deliverables and acceptance criteria satisfied locally.
+- 2026-05-23 — orchestrator — Reviewed Phase 16C diff and hardened manifest/config behavior: scenario-pack manifest `gameConfig` now validates positive integer fields and non-empty strings/arrays instead of casting, and the focused descent test proves preserved `runConfig` affects floor-two enemy selection after stairs descent. Validation PASS: `pnpm test tests/scenario-packs.test.ts` (11 tests); `pnpm run check` (31 files, 304 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
+- 2026-05-23 — orchestrator — Scenario-pack smoke PASS: `pnpm run run-version -- --version v016 --scenario-pack shrine_trial --runs-root /private/tmp/df-phase16c-smoke-final`; `summarize-version` showed `scenario_pack: shrine_trial` and `scenario_pack_label: Shrine Trial`; `rg 'scenario_pack|scenario_pack_label|Scenario pack'` found trace/scorecard/summary evidence; after replacing temp placeholder notes, `accept-version --on-existing overwrite` returned machine pass and `rg 'Scenario pack|shrine_trial|Shrine Trial' acceptance.md` confirmed the acceptance label.
+- 2026-05-23 — orchestrator — Addressed post-recheck pack-content hardening: example pack now includes pack-local `Trial Tonic` item and `Trial Wisp` enemy; render, terminal summary, opening text, dialogue text, visible item text, and inventory/use-item actions resolve content through `state.meta.scenarioPackId`; focused tests now prove pack-added item pickup/use/render behavior and preserved floor-two pack enemy selection. Validation PASS: `pnpm test tests/scenario-packs.test.ts` (12 tests); `pnpm run check` (31 files, 305 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`; `pnpm run run-version -- --version v016 --scenario-pack shrine_trial --runs-root /private/tmp/df-phase16c-smoke-final2`; `pnpm run summarize-version -- --version v016 --runs-root /private/tmp/df-phase16c-smoke-final2`; `pnpm run accept-version -- --version v016 --runs-root /private/tmp/df-phase16c-smoke-final2 --on-existing overwrite --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass` returned machine pass with acceptance label `Scenario pack: shrine_trial (Shrine Trial)`.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional PASS against Phase 16C plan, global invariants, explicit selection, pack validation, pack-local runtime content, render/action paths, floor-descent `runConfig`, evidence labels, default-content parity, no secrets, and forbidden-scope rules. Recheck noted only merge-readiness blockers plus non-blocking test-strength suggestions.
+- 2026-05-23 — orchestrator — Addressed cheap recheck hardening with duplicate manifest-id coverage, then reran validation PASS: `pnpm test tests/scenario-packs.test.ts` (12 tests); `pnpm run check` (31 files, 305 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
+- 2026-05-23 — orchestrator — Phase plan completion check PASS: re-read `phase-plans/PHASE-16C-SCENARIO-CONTENT-PACKS.md` and `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` against the staged diff. Local static packaging, validation, explicit selection, evidence metadata, default-content behavior, finite structured gameplay, and no forbidden plugin/remote/LLM scope are satisfied.
 
 ---
 

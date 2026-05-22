@@ -41,6 +41,18 @@ export const renderComparisonMarkdown = (comparison: VersionComparison): string 
         ]
       : [];
 
+  const scenarioPackLines =
+    comparison.scenario_pack &&
+    (comparison.scenario_pack.base || comparison.scenario_pack.target)
+      ? [
+          '## Scenario pack',
+          '',
+          `- Base: \`${comparison.scenario_pack.base ?? 'default'}\``,
+          `- Target: \`${comparison.scenario_pack.target ?? 'default'}\``,
+          '',
+        ]
+      : [];
+
   return [
     '# Version Comparison',
     '',
@@ -48,6 +60,7 @@ export const renderComparisonMarkdown = (comparison: VersionComparison): string 
     `Target: \`${comparison.targetVersion}\``,
     '',
     ...challengeLines,
+    ...scenarioPackLines,
     '## Interpretation',
     '',
     comparison.interpretation,

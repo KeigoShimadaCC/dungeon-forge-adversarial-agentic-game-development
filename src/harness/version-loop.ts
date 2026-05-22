@@ -107,6 +107,8 @@ export interface VersionSummaryRun {
   seed: string;
   persona: string;
   challenge_mode?: string;
+  scenario_pack?: string;
+  scenario_pack_label?: string;
   result: PlaythroughScorecard['result'];
   turns: number;
   metrics: Pick<
@@ -129,6 +131,9 @@ export interface VersionSummary {
   versionDir: string;
   /** Present when version evidence was produced with an explicit challenge preset. */
   challenge_mode?: string;
+  /** Present when version evidence was produced with an explicit scenario pack. */
+  scenario_pack?: string;
+  scenario_pack_label?: string;
   status: 'complete' | 'partial';
   artifact_coverage: ArtifactCoverage;
   runs: VersionSummaryRun[];
@@ -151,6 +156,10 @@ export interface VersionComparison {
   baseVersion: string;
   targetVersion: string;
   challenge_mode?: {
+    base?: string;
+    target?: string;
+  };
+  scenario_pack?: {
     base?: string;
     target?: string;
   };
@@ -247,6 +256,7 @@ export interface RunVersionOptions {
   policyContext?: ArtifactWritePolicyContext;
   llm?: RunVersionLlmOptions;
   challengeMode?: string;
+  scenarioPack?: string;
 }
 
 export type { RunVersionLlmOptions } from './llm-run-options.js';
@@ -322,6 +332,7 @@ export const runVersion = async (
       version: resolvedVersion,
       runsRoot,
       ...(options.challengeMode ? { challengeMode: options.challengeMode } : {}),
+      ...(options.scenarioPack ? { scenarioPack: options.scenarioPack } : {}),
       policy: createPersonaPolicyForRun(
         spec.persona,
         spec.seed,
@@ -584,6 +595,10 @@ export const summarizeVersion = async (
     seed: scorecard.seed,
     persona: scorecard.persona,
     ...(scorecard.challenge_mode ? { challenge_mode: scorecard.challenge_mode } : {}),
+    ...(scorecard.scenario_pack ? { scenario_pack: scorecard.scenario_pack } : {}),
+    ...(scorecard.scenario_pack_label
+      ? { scenario_pack_label: scorecard.scenario_pack_label }
+      : {}),
     result: scorecard.result,
     turns: scorecard.turns,
     metrics: {
@@ -605,11 +620,17 @@ export const summarizeVersion = async (
     artifact_coverage.scorecards.missing.length;
 
   const challengeMode = scorecards.find((scorecard) => scorecard.challenge_mode)?.challenge_mode;
+  const scenarioPack = scorecards.find((scorecard) => scorecard.scenario_pack)?.scenario_pack;
+  const scenarioPackLabel = scorecards.find(
+    (scorecard) => scorecard.scenario_pack_label,
+  )?.scenario_pack_label;
 
   return {
     version,
     versionDir: paths.versionDir,
     ...(challengeMode ? { challenge_mode: challengeMode } : {}),
+    ...(scenarioPack ? { scenario_pack: scenarioPack } : {}),
+    ...(scenarioPackLabel ? { scenario_pack_label: scenarioPackLabel } : {}),
     status: missingCount === 0 ? 'complete' : 'partial',
     artifact_coverage,
     runs,
@@ -735,10 +756,19 @@ export const compareVersions = async (
         }
       : undefined;
 
+  const scenario_pack =
+    base.scenario_pack || target.scenario_pack
+      ? {
+          ...(base.scenario_pack ? { base: base.scenario_pack } : {}),
+          ...(target.scenario_pack ? { target: target.scenario_pack } : {}),
+        }
+      : undefined;
+
   return {
     baseVersion,
     targetVersion,
     ...(challenge_mode ? { challenge_mode } : {}),
+    ...(scenario_pack ? { scenario_pack } : {}),
     counts: {
       baseRuns: base.runs.length,
       targetRuns: target.runs.length,

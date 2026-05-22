@@ -1,11 +1,11 @@
-import { loadGameContent, PHASE_09A_ITEM_IDS, type FloorRuleDefinition } from '../game/content.js';
+import { PHASE_09A_ITEM_IDS, type FloorRuleDefinition, type GameContent } from '../game/content.js';
+import { getGameContentForRun, resolveGameConfigForRun } from '../game/scenario-packs.js';
 import { resolveTrapSpawnCount } from '../game/traps-resources.js';
 import {
   chooseEntityPositions,
   generateFloorLayout,
   type FloorLayout,
 } from '../game/map.js';
-import { resolveGameConfigForRun } from '../game/challenge-modes.js';
 import type { GameConfig } from '../game/types.js';
 import type {
   EnemyBehaviorMetrics,
@@ -46,8 +46,8 @@ const filterContentIds = (
   return ids.filter((id) => allowedSet.has(id));
 };
 
-const getFloorRule = (floor: number): FloorRuleDefinition => {
-  const floors = [...loadGameContent().floors.floors].sort((a, b) => a.floor - b.floor);
+const getFloorRule = (floor: number, content: GameContent): FloorRuleDefinition => {
+  const floors = [...content.floors.floors].sort((a, b) => a.floor - b.floor);
   const rule = floors.find((candidate) => candidate.floor === floor);
   if (!rule) {
     throw new Error(`No floor rule for floor ${floor}`);
@@ -59,12 +59,12 @@ export const buildMapGenerationMetadata = (
   seed: string,
   config: GameConfig = {},
 ): TraceMetadata['map_generation'] => {
-  const content = loadGameContent();
+  const content = getGameContentForRun(config.scenarioPackId);
   const totalFloors = config.totalFloors ?? content.floors.floors.length;
   const floors: MapFloorGenerationRecord[] = [];
 
   for (let floor = 1; floor <= totalFloors; floor += 1) {
-    const rule = getFloorRule(floor);
+    const rule = getFloorRule(floor, content);
     const layout = generateFloorLayout({ seed, floor, rule });
     floors.push({
       floor,
@@ -126,12 +126,12 @@ export const buildPlacementShortfalls = (
   seed: string,
   config: GameConfig = {},
 ): PlacementShortfall[] => {
-  const content = loadGameContent();
+  const content = getGameContentForRun(config.scenarioPackId);
   const totalFloors = config.totalFloors ?? content.floors.floors.length;
   const shortfalls: PlacementShortfall[] = [];
 
   for (let floor = 1; floor <= totalFloors; floor += 1) {
-    const rule = getFloorRule(floor);
+    const rule = getFloorRule(floor, content);
     const layout = generateFloorLayout({ seed, floor, rule });
     const occupied = new Set<string>([
       positionKey(layout.playerSpawn),
@@ -238,8 +238,9 @@ export const buildTraceMetadata = (
   seed: string,
   version: string,
   challengeMode?: string,
+  scenarioPack?: string,
 ): TraceMetadata => {
-  const config = resolveGameConfigForRun(version, challengeMode);
+  const config = resolveGameConfigForRun(version, challengeMode, scenarioPack);
   const placementShortfalls = buildPlacementShortfalls(seed, config);
 
   return {

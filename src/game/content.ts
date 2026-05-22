@@ -388,8 +388,8 @@ function parseItemDefinition(value: unknown, path: string): ItemDefinition {
   return item;
 }
 
-export function getItemDefinition(id: string): ItemDefinition {
-  const item = loadGameContent().items.items.find((candidate) => candidate.id === id);
+export function getItemDefinition(id: string, content: GameContent = loadGameContent()): ItemDefinition {
+  const item = content.items.items.find((candidate) => candidate.id === id);
   if (!item) {
     throw new Error(`Missing item content: ${id}`);
   }
@@ -502,8 +502,8 @@ export function validateTrapsBundle(raw: unknown): TrapsContentBundle {
   return { schemaVersion, traps };
 }
 
-export function getTrapDefinition(id: string): TrapDefinition {
-  const trap = loadGameContent().traps.traps.find((candidate) => candidate.id === id);
+export function getTrapDefinition(id: string, content: GameContent = loadGameContent()): TrapDefinition {
+  const trap = content.traps.traps.find((candidate) => candidate.id === id);
   if (!trap) {
     throw new Error(`Missing trap content: ${id}`);
   }

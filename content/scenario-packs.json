@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "16C",
+  "packs": [
+    {
+      "id": "shrine_trial",
+      "label": "Shrine Trial",
+      "description": "A two-floor shrine-focused trial with the keeper on floor 1 and tighter enemy pressure.",
+      "recommendedSeeds": ["seed_002", "seed_004"],
+      "contentFile": "packs/shrine-trial.json",
+      "gameConfig": {
+        "totalFloors": 2,
+        "objective": "Complete the shrine trial: reach floor 2 stairs with the keeper's warning in mind.",
+        "openingLog": [
+          "Scenario pack: Shrine Trial — a bounded two-floor trial around the shrine keeper."
+        ]
+      }
+    }
+  ]
+}
