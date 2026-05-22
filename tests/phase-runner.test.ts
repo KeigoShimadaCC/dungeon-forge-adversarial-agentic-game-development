@@ -29,19 +29,19 @@ const withTempDir = async (fn: (dir: string) => Promise<void>): Promise<void> =>
 };
 
 describe('phase runner automation core', () => {
-  it('loads the phase graph and finds PHASE-13A as the next Codex orchestration job', async () => {
+  it('loads the phase graph and finds PHASE-13B as the next Codex orchestration job', async () => {
     const config = await loadPhaseRunnerConfig(repoRoot);
     expect(validatePhaseGraph(config.graph)).toEqual([]);
 
     const runnable = getRunnablePhases(config, {
       repoRoot,
-      from: 'PHASE-13A',
+      from: 'PHASE-13B',
       parallel: 2,
       runId: 'test-run',
     });
 
     expect(runnable).toHaveLength(1);
-    expect(runnable[0]?.phase.id).toBe('PHASE-13A');
+    expect(runnable[0]?.phase.id).toBe('PHASE-13B');
     expect(runnable[0]?.codexOrchestrator).toMatchObject({
       role: 'codex',
       canUseCursor: true,

@@ -21,7 +21,11 @@
     "developer-task": "pnpm run build && node dist/src/harness/developer-task.js",
     "accept-version": "pnpm run build && node dist/src/harness/accept-version.js",
     "demo-loop": "pnpm run build && node dist/src/harness/demo-loop-cli.js",
-    "phase": "pnpm run build && node dist/src/harness/phase-runner-cli.js"
+    "phase": "pnpm run build && node dist/src/harness/phase-runner-cli.js",
+    "ci-smoke": "pnpm run build && node dist/src/harness/ci-smoke-cli.js",
+    "verify-acceptance-evidence": "pnpm run build && node dist/src/harness/verify-acceptance-evidence-cli.js",
+    "repo-checks": "pnpm run build && node dist/src/harness/repo-checks-cli.js",
+    "check": "pnpm test && pnpm run typecheck && pnpm run lint && pnpm run build && pnpm run ci-smoke && pnpm run verify-acceptance-evidence"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",

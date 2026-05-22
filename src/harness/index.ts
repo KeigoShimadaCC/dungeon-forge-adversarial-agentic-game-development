@@ -140,6 +140,22 @@ export {
   type VersionProfile,
 } from '../game/version-profiles.js';
 export {
+  buildCiSmokeSpecs,
+  DEFAULT_CI_SMOKE_VERSION,
+  runCiSmoke,
+  type CiSmokeFailedRun,
+  type CiSmokeResult,
+  type CiSmokeRunSpec,
+} from './ci-smoke.js';
+export {
+  discoverVersionsWithAcceptanceEvidence,
+  verifyAcceptanceEvidence,
+  versionHasAcceptanceEvidence,
+  type AcceptanceEvidenceCheckResult,
+  type AcceptanceEvidenceVersionResult,
+} from './acceptance-evidence-check.js';
+export { runRepoChecks, type RepoChecksResult } from './repo-checks.js';
+export {
   VERSION_ARTIFACT_DIRS,
   VERSION_ID_PATTERN,
   VERSION_MARKDOWN_FILES,
