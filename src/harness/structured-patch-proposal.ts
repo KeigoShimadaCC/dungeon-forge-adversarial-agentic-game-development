@@ -244,7 +244,10 @@ const collectForbiddenFeatureDiagnostics = (
         });
       }
     }
-    const conflict = matchesForbiddenPattern(entry);
+    const preservesStructuredActions =
+      /\b(preserv|keep|maintain|without (removing|changing)|not replace)\b/i.test(entry) &&
+      /\bstructured actions\b/i.test(entry);
+    const conflict = preservesStructuredActions ? undefined : matchesForbiddenPattern(entry);
     if (conflict) {
       diagnostics.push({
         category: 'blocker',

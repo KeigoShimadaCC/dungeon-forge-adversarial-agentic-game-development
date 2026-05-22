@@ -1,3 +1,4 @@
+import { deriveTrapResourceMetricsFromEvents } from '../game/traps-resources.js';
 import {
   deriveEnemyBehaviorMetrics,
   deriveItemEvaluationMetrics,
@@ -127,6 +128,7 @@ export const deriveScorecardFromTrace = (
   const resolvedMetadata = metadata ?? trace.metadata;
   const enemy_behaviors = deriveEnemyBehaviorMetrics(trace);
   const item_evaluation = deriveItemEvaluationMetrics(trace);
+  const trap_resources = deriveTrapResourceMetricsFromEvents(trace.steps);
 
   const baseScorecard: PlaythroughScorecard = {
     version: trace.version,
@@ -144,6 +146,7 @@ export const deriveScorecardFromTrace = (
     trace_path: tracePath,
     enemy_behaviors,
     item_evaluation,
+    trap_resources,
     ...(reviewInput?.review_path ? { review_path: reviewInput.review_path } : {}),
     ...(reviewInput?.review_id ? { review_id: reviewInput.review_id } : {}),
   };
@@ -220,6 +223,27 @@ export const validateScorecard = (scorecard: PlaythroughScorecard): void => {
   if (record.item_evaluation !== undefined) {
     if (typeof record.item_evaluation !== 'object' || record.item_evaluation === null) {
       throw new Error('Scorecard item_evaluation must be an object when present');
+    }
+  }
+
+  if (record.trap_resources !== undefined) {
+    if (typeof record.trap_resources !== 'object' || record.trap_resources === null) {
+      throw new Error('Scorecard trap_resources must be an object when present');
+    }
+    const trapResources = record.trap_resources as Record<string, unknown>;
+    for (const field of [
+      'traps_triggered',
+      'trap_damage_taken',
+      'hunger_damage_taken',
+      'resource_pressure_events',
+    ] as const) {
+      const value = trapResources[field];
+      if (typeof value !== 'number' || !Number.isFinite(value)) {
+        throw new Error(`Scorecard trap_resources.${field} must be a finite number when present`);
+      }
+      if (!Number.isInteger(value) || value < 0) {
+        throw new Error(`Scorecard trap_resources.${field} must be a non-negative integer`);
+      }
     }
   }
 

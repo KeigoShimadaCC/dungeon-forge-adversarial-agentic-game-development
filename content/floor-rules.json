@@ -14,6 +14,8 @@
       ],
       "enemySpawnCount": 1,
       "itemSpawnCount": 1,
+      "trapIds": ["spike"],
+      "trapSpawnCount": 1,
       "maxTurns": 48
     },
     {
@@ -25,6 +27,8 @@
       "itemIds": ["potion", "smoke_bomb"],
       "enemySpawnCount": 2,
       "itemSpawnCount": 2,
+      "trapIds": ["spike", "needle"],
+      "trapSpawnCount": 1,
       "maxTurns": 52
     },
     {
@@ -36,6 +40,8 @@
       "itemIds": ["swap_scroll"],
       "enemySpawnCount": 2,
       "itemSpawnCount": 1,
+      "trapIds": ["needle"],
+      "trapSpawnCount": 1,
       "maxTurns": 56
     },
     {
@@ -47,6 +53,8 @@
       "itemIds": ["potion", "fire_seed"],
       "enemySpawnCount": 3,
       "itemSpawnCount": 2,
+      "trapIds": ["spike", "needle"],
+      "trapSpawnCount": 2,
       "maxTurns": 60
     },
     {
@@ -58,6 +66,8 @@
       "itemIds": ["warp_feather"],
       "enemySpawnCount": 2,
       "itemSpawnCount": 1,
+      "trapIds": ["spike"],
+      "trapSpawnCount": 1,
       "maxTurns": 64
     }
   ]

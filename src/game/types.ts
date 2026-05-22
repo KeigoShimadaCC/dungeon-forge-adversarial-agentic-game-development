@@ -36,11 +36,23 @@ export interface Tile {
   description: string;
 }
 
+export interface ResourceState {
+  hunger: number;
+  torch: number;
+}
+
 export interface PlayerState extends Position {
   hp: number;
   maxHp: number;
-  hunger?: number;
   inventory: string[];
+}
+
+export interface TrapInstance extends Position {
+  id: string;
+  type: string;
+  label: string;
+  glyph: string;
+  armed: boolean;
 }
 
 export interface GameMap {
@@ -104,6 +116,8 @@ export interface GameState {
   map: GameMap;
   enemies: EnemyInstance[];
   items: ItemInstance[];
+  traps: TrapInstance[];
+  resources: ResourceState;
   log: string[];
   npcs: NpcInstance[];
   dialogue?: DialogueState;

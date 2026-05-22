@@ -1,7 +1,8 @@
 import { loadGameContent } from './content.js';
 import { getEndingText, getOpeningText } from './dialogue.js';
 import { defaultTacticalEffects } from './item-effects.js';
-import type { GameState, ItemInstance, Position } from './types.js';
+import { formatResourceStatus, isTrapVisible, trapRenderGlyph } from './traps-resources.js';
+import type { GameState, ItemInstance, Position, TrapInstance } from './types.js';
 
 const content = loadGameContent();
 
@@ -40,6 +41,12 @@ const npcAt = (
 
 const itemsAt = (state: GameState, position: Position): ItemInstance[] =>
   state.items.filter((item) => samePosition(item, position));
+
+const trapAt = (
+  state: GameState,
+  position: Position,
+): TrapInstance | undefined =>
+  state.traps.find((trap) => trap.armed && samePosition(trap, position));
 
 const inventoryLines = (inventory: string[]): string[] => {
   if (inventory.length === 0) {
@@ -93,6 +100,10 @@ const renderMapRows = (state: GameState): string[] =>
         if (item) {
           return item.glyph;
         }
+        const trap = trapAt(state, position);
+        if (trap) {
+          return trapRenderGlyph(state, trap);
+        }
         return tile.glyph;
       })
       .join(''),
@@ -125,6 +136,7 @@ export const render = (state: GameState): string => {
     `Seven Floors to Dawn ${state.version}`,
     `Seed: ${state.seed} | Floor: ${state.floor}/${state.meta.totalFloors} | Turn: ${state.turn}/${state.meta.maxTurns}`,
     `Status: ${state.terminalStatus} | HP: ${state.player.hp}/${state.player.maxHp}`,
+    formatResourceStatus(state),
     terminalSummary(state),
     `Objective: ${state.meta.objective}`,
     `Opening: ${getOpeningText()}`,
@@ -135,7 +147,8 @@ export const render = (state: GameState): string => {
       ? `Tactical: enemy pursuit blinded until turn ${tactical.enemyTrackingDisabledUntilTurn}.`
       : 'Tactical: none active.',
     ...dialogueLines,
-    'Legend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor',
+    `Traps armed: ${state.traps.filter((trap) => trap.armed).length} (${state.traps.filter((trap) => trap.armed && isTrapVisible(state, trap)).length} visible)`,
+    'Legend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor',
     'Log:',
     ...state.log.slice(-RECENT_LOG_DISPLAY_LIMIT).map((entry) => `- ${entry}`),
   ].join('\n');
