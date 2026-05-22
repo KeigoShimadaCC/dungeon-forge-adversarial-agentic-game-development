@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "defaultStartPhase": "PHASE-13A",
+  "defaultParallelism": 2,
+  "globalValidationCommands": [
+    "pnpm test",
+    "pnpm run typecheck",
+    "pnpm run lint",
+    "pnpm run build",
+    "git diff --check"
+  ],
+  "phases": [
+    {
+      "id": "PHASE-13A",
+      "plan": "phase-plans/PHASE-13A-EVIDENCE-RETENTION.md",
+      "dependsOn": ["PHASE-12A"],
+      "allowedPaths": ["src/harness/**", "tests/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "13-evidence",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-13B",
+      "plan": "phase-plans/PHASE-13B-CI-AND-ACCEPTANCE-CHECKS.md",
+      "dependsOn": ["PHASE-13A"],
+      "allowedPaths": [".github/**", "src/harness/**", "tests/**", "package.json", "docs/**", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "13-checks",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-13C",
+      "plan": "phase-plans/PHASE-13C-TRACE-SCORECARD-DIAGNOSTICS.md",
+      "dependsOn": ["PHASE-13A"],
+      "allowedPaths": ["src/harness/**", "tests/**", "docs/**", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "13-diagnostics",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-14A",
+      "plan": "phase-plans/PHASE-14A-DEVELOPER-WORKFLOW-POLISH.md",
+      "dependsOn": ["PHASE-13B", "PHASE-13C"],
+      "allowedPaths": ["src/harness/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "14-workflow",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-14B",
+      "plan": "phase-plans/PHASE-14B-REAL-LLM-RUNS.md",
+      "dependsOn": ["PHASE-13B"],
+      "allowedPaths": ["src/harness/**", "src/agents/**", "tests/**", "docs/**", ".env.example", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "14-llm",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-14C",
+      "plan": "phase-plans/PHASE-14C-REVIEWER-PERSONA-REPORTING.md",
+      "dependsOn": ["PHASE-14B"],
+      "allowedPaths": ["src/harness/**", "src/agents/**", "tests/**", "docs/**", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "14-reporting",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-15A",
+      "plan": "phase-plans/PHASE-15A-STRUCTURED-PATCH-PROPOSALS.md",
+      "dependsOn": ["PHASE-14A", "PHASE-14C"],
+      "allowedPaths": ["src/harness/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "15-proposals",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-15B",
+      "plan": "phase-plans/PHASE-15B-WORKTREE-AGENT-ORCHESTRATION.md",
+      "dependsOn": ["PHASE-15A"],
+      "allowedPaths": ["automation/**", "src/harness/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "15-orchestration",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-15C",
+      "plan": "phase-plans/PHASE-15C-LOOP-COORDINATOR.md",
+      "dependsOn": ["PHASE-15B"],
+      "allowedPaths": ["automation/**", "src/harness/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "15-coordinator",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-16A",
+      "plan": "phase-plans/PHASE-16A-TRAPS-AND-RESOURCES.md",
+      "dependsOn": ["PHASE-15C"],
+      "allowedPaths": ["src/game/**", "content/**", "tests/**", "docs/**", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "16-gameplay-a",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-16B",
+      "plan": "phase-plans/PHASE-16B-CHALLENGE-MODES.md",
+      "dependsOn": ["PHASE-16A"],
+      "allowedPaths": ["src/game/**", "src/harness/**", "content/**", "tests/**", "docs/**", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "16-gameplay-b",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-16C",
+      "plan": "phase-plans/PHASE-16C-SCENARIO-CONTENT-PACKS.md",
+      "dependsOn": ["PHASE-16B"],
+      "allowedPaths": ["src/game/**", "src/harness/**", "content/**", "tests/**", "docs/**", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "16-content",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-16D",
+      "plan": "phase-plans/PHASE-16D-DETERMINISTIC-JSON-PATCHING.md",
+      "dependsOn": ["PHASE-16C"],
+      "allowedPaths": ["src/harness/**", "content/**", "tests/**", "docs/**", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "16-patching",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-17A",
+      "plan": "phase-plans/PHASE-17A-HUMAN-PLAY-UI.md",
+      "dependsOn": ["PHASE-16D"],
+      "allowedPaths": ["src/**", "content/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "17-ui",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-17B",
+      "plan": "phase-plans/PHASE-17B-HUMAN-PLAYTEST-TRACES.md",
+      "dependsOn": ["PHASE-17A"],
+      "allowedPaths": ["src/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "17-traces",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-17C",
+      "plan": "phase-plans/PHASE-17C-TRACE-REPLAY-AND-UX.md",
+      "dependsOn": ["PHASE-17B"],
+      "allowedPaths": ["src/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "17-replay",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-18A",
+      "plan": "phase-plans/PHASE-18A-VERSION-DASHBOARD.md",
+      "dependsOn": ["PHASE-17C"],
+      "allowedPaths": ["src/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "18-dashboard",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-18B",
+      "plan": "phase-plans/PHASE-18B-BALANCE-ANALYTICS.md",
+      "dependsOn": ["PHASE-18A"],
+      "allowedPaths": ["src/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "18-analytics",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-18C",
+      "plan": "phase-plans/PHASE-18C-STATIC-DEMO-PUBLISHING.md",
+      "dependsOn": ["PHASE-18A"],
+      "allowedPaths": ["src/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "18-publishing",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-19A",
+      "plan": "phase-plans/PHASE-19A-EXTENSION-PACKS.md",
+      "dependsOn": ["PHASE-18B", "PHASE-18C"],
+      "allowedPaths": ["src/**", "content/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "19-extensions",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-19B",
+      "plan": "phase-plans/PHASE-19B-CONTENT-GOVERNANCE.md",
+      "dependsOn": ["PHASE-19A"],
+      "allowedPaths": ["src/**", "content/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "19-governance",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-19C",
+      "plan": "phase-plans/PHASE-19C-OPTIONAL-MEDIA-EXPERIMENTS.md",
+      "dependsOn": ["PHASE-19B"],
+      "allowedPaths": ["src/**", "content/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "19-media",
+      "automerge": true
+    }
+  ]
+}
