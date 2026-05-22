@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 15C — Loop Coordinator |
-| Goal | Create a human-governed coordinator for the adversarial loop from run evidence through proposal, task, validation, and acceptance. |
-| Branch | `phase/phase-15c-loop-coordinator` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-15c-loop-coordinator-wt` |
-| Base | `origin/main` at `5a13a55` |
-| Status | `Functional PASS after Cursor read-only recheck; commit/PR pending` |
+| Phase | Phase 16A — Traps And Resources |
+| Goal | Add bounded tactical pressure through finite traps and lightweight resource systems while preserving finite, seedable, turn-based structured gameplay. |
+| Branch | `phase/phase-16a-traps-and-resources` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-16a-traps-and-resources-wt` |
+| Base | `origin/main` at `b622d47` |
+| Status | `Planned; worktree not created` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-15C-LOOP-COORDINATOR.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-16A-TRAPS-AND-RESOURCES.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -56,10 +56,14 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
+- [ ] 2026-05-23 orchestrator — Generate Phase 16A automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
+- [ ] 2026-05-23 Cursor/composer-2.5 — Implement finite traps/resources, engine/render/log/trace/scorecard integration, focused tests, and deterministic smoke evidence within Phase 16A scope.
+- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 16A acceptance, and request Cursor read-only recheck.
 - [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Merge Phase 15C PR #36, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 16A.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 15C PASS; addressed cheap non-blocking test gaps for governance flags, accepted/rejected outcomes, and negative ready-without-statuses behavior.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, patch `ready_for_acceptance` outcome logic so acceptance itself does not make the state unreachable, add focused coverage, run focused/full local gates, and re-read Phase 15C acceptance.
 - [x] 2026-05-23 Cursor/composer-2.5 — Implement loop coordinator runbook/command, decision checkpoints, dry-run coverage, docs, and focused tests within Phase 15C scope.
@@ -128,21 +132,20 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-15C-LOOP-COORDINATOR.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-16A-TRAPS-AND-RESOURCES.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 15C — Loop Coordinator
+### Phase 16A — Traps And Resources
 
-- [x] Loop coordinator runbook or command exists.
-- [x] Decision-checkpoint format exists for blockers and required human decisions.
-- [x] Ordered steps cover run, review, proposal, developer task, validation, and acceptance.
-- [x] Coordinator detects missing run evidence.
-- [x] Coordinator detects missing proposal or developer task where required.
-- [x] Coordinator records validation blockers without fabricating success.
-- [x] Credential-free deterministic baseline path works.
-- [x] Documentation covers blocked, partial, accepted, and rejected loop outcomes.
-- [x] Trace, review, scorecard, changelog, and acceptance artifacts remain preserved.
-- [x] Human decisions remain explicit; no automatic code editing or merging is introduced.
-- [x] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [ ] Trap/resource content definitions exist.
+- [ ] Engine integration and render/log feedback are implemented.
+- [ ] Trace-visible trap/resource events are recorded.
+- [ ] Scorecard metrics capture trap/resource impact.
+- [ ] Same seed produces same trap/resource placements and outcomes.
+- [ ] Available actions remain structured and valid.
+- [ ] Game still reaches `WIN`, `LOSS`, or `ABORTED`.
+- [ ] New systems create observable tactical choices without invisible reviewer-confusing rules.
+- [ ] Core `GameEngine` protocol remains stable.
+- [ ] Local final gates pass: `pnpm run check`, focused tests, deterministic smoke evidence, and `git diff --check`.
 
 ---
 
@@ -335,12 +338,22 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Validation PASS after hardening: `pnpm test tests/loop-coordinator.test.ts` (8 tests); `pnpm run check` (28 files, 261 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `pnpm run loop-coordinator -- --base-version v001 --target-version v002 --runs-root . --stdout-only` returned `partial` until command statuses are supplied; `pnpm run loop-coordinator -- --base-version v001 --target-version v002 --runs-root . --stdout-only --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass` returned `ready_for_acceptance`; `git diff --check` PASS. Re-read `phase-plans/PHASE-15C-LOOP-COORDINATOR.md`; acceptance criteria satisfied locally.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 15C PASS against the phase plan, ordered loop steps, missing evidence detection, missing proposal/task detection, honest validation previews, human-governance flags, artifact preservation, `ready_for_acceptance` gating, and no game-engine scope changes. Recheck noted only merge-readiness blockers plus non-blocking test-strength gaps.
 - 2026-05-23 — orchestrator — Addressed non-blocking audit gaps with focused tests for explicit governance flags, accepted/rejected acceptance outcomes, and negative `ready_for_acceptance` behavior without command statuses. Final validation PASS: `pnpm test tests/loop-coordinator.test.ts` (10 tests); `pnpm run check` (28 files, 263 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `pnpm run loop-coordinator -- --base-version v001 --target-version v002 --runs-root . --stdout-only --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass` returned `ready_for_acceptance`; `git diff --check` PASS.
+- 2026-05-23 — orchestrator — Phase 15C PR #36 merged at `b622d47cbeb6d87ce42e990ba5a6c79c56636b05` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-15C --evidence runs/phase-runner/PHASE-15C/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-16A`.
+- 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 16A with initial task queue and checklist from `phase-plans/PHASE-16A-TRAPS-AND-RESOURCES.md`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 15C — Loop Coordinator
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-15c-loop-coordinator` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/36
+- **Merge commit:** `b622d47cbeb6d87ce42e990ba5a6c79c56636b05`
+- **Outcome:** Added a human-governed `pnpm run loop-coordinator` command, ordered loop assessment, decision-checkpoint JSON/Markdown output, validation previews that require explicit command statuses, outcome docs, exports, and focused tests while keeping code edits, gates, merging, and final acceptance outside coordinator authority.
+- **Key evidence:** Cursor/composer-2.5 implementation and read-only recheck; local `pnpm run check` passed with 28 files and 263 tests; explicit coordinator smoke returned `ready_for_acceptance` only with pass statuses; `git diff --check` passed; PR #36 `Repo gates` passed before merge; phase-runner automerge gate returned `allow`.
 
 ### Phase 15B — Worktree Agent Orchestration
 
