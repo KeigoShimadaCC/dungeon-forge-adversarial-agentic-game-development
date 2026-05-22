@@ -112,6 +112,8 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | --- | --- | --- | --- | --- |
 | F-001 | _(add ideas here)_ | _(phase)_ | _(why deferred)_ | _(agent, date)_ |
 | F-03A-001 | Extract engine-local map/combat helpers into dedicated modules when those systems grow. | Phase 09B / Phase 09C | Phase 03A permits modules as needed; richer enemy variety and procedural map generation are explicitly scheduled later. | orchestrator, 2026-05-22 |
+| F-06B-001 | Add optional Markdown rendering/writing for reviewer critiques alongside the JSON contract artifact. | Phase 07A or docs/reporting polish phase | PHASE-06B made JSON the contract and Markdown optional; concept examples mention `.md` reviews, but no later phase explicitly requires Markdown rendering. | orchestrator, 2026-05-22 |
+| F-07A-001 | Wire reviewer critic generation into the version/evaluation loop, either through the Phase 07A command or an explicit `simulate-seed --review`/review command. | Phase 07A | PHASE-07A requires matching review artifacts for version bundles, but current `simulate-seed` still writes only trace and scorecard. This should be integrated when the complete version loop is defined. | orchestrator, 2026-05-22 |
 
 _Add rows as you go. Promote to Task queue when a phase plan or user explicitly schedules the work._
 
