@@ -52,24 +52,22 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] T-02A-005 Run local read-only acceptance audit against Phase 02A checklist (orchestrator, 2026-05-22)
 
 ### Open
 
-- [ ] T-02A-002 Delegate bounded Cursor implementation for `src/game/types.ts`, `src/game/engine.ts`, and contract tests (composer-2.5, 2026-05-22)
-- [ ] T-02A-003 Review Cursor diff for Phase 02A scope, serializability, stable protocol, and invalid-action behavior (orchestrator, 2026-05-22)
-- [ ] T-02A-004 Run local validation: `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` (orchestrator, 2026-05-22)
-- [ ] T-02A-005 Run Cursor read-only audit against Phase 02A checklist and verify any findings from files/diffs/tests (composer-2.5 + orchestrator, 2026-05-22)
 - [ ] T-02A-006 Re-read acceptance criteria against repo state, update checklist/log, and commit final progress (orchestrator, 2026-05-22)
 - [ ] T-02A-007 Push branch and open PR to `main` with validation evidence (orchestrator, 2026-05-22)
 
 ### Done
 
 - [x] T-02A-001 Preflight: confirm phase contract, branch/worktree, Cursor CLI availability, and baseline scope (orchestrator, 2026-05-22)
+- [x] T-02A-003 Review and implement Phase 02A contract locally after Cursor CLI policy blocker (orchestrator, 2026-05-22)
+- [x] T-02A-004 Run local validation: `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` (orchestrator, 2026-05-22)
 
 ### Blocked / skipped
 
-- _(use `[!]` or `[-]` with a one-line reason)_
+- [!] T-02A-002 Delegate bounded Cursor implementation for `src/game/types.ts`, `src/game/engine.ts`, and contract tests — sandbox reviewer rejected Cursor Agent CLI because it would send local repository context to an external service (2026-05-22)
 
 ---
 
@@ -80,19 +78,19 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 ### Phase 02A — Game contract
 
 - [x] Read phase plan and confirm scope boundaries (no full dungeon mechanics, procedural generation, LLM player/reviewer behavior, or arbitrary free-text gameplay).
-- [ ] `src/game/types.ts` defines JSON-serializable `GameState`, `PlayerAction`, `StepResult`, `GameEvent`, `TerminalStatus`, and `GameConfig`.
-- [ ] `src/game/engine.ts` exposes the stable `GameEngine` contract or minimal implementation.
-- [ ] Terminal statuses are exactly `ACTIVE`, `WIN`, `LOSS`, and `ABORTED`.
-- [ ] Invalid actions are represented through `StepResult.valid === false` and an error instead of normal-flow throws.
-- [ ] Contract tests cover `start(seed)` returning a valid `GameState`.
-- [ ] Contract tests cover `render(state)` returning a non-empty string.
-- [ ] Contract tests cover `getAvailableActions(state)` returning explicit actions.
-- [ ] Contract tests cover every available action passing through `step(state, action)` without crashing.
-- [ ] Contract tests cover `isTerminal(state)` matching `terminalStatus`.
-- [ ] Contract tests cover `StepResult` JSON serialization round trip.
-- [ ] `pnpm test` passes.
-- [ ] `pnpm run typecheck` passes.
-- [ ] `pnpm run lint` passes.
+- [x] `src/game/types.ts` defines JSON-serializable `GameState`, `PlayerAction`, `StepResult`, `GameEvent`, `TerminalStatus`, and `GameConfig`.
+- [x] `src/game/engine.ts` exposes the stable `GameEngine` contract or minimal implementation.
+- [x] Terminal statuses are exactly `ACTIVE`, `WIN`, `LOSS`, and `ABORTED`.
+- [x] Invalid actions are represented through `StepResult.valid === false` and an error instead of normal-flow throws.
+- [x] Contract tests cover `start(seed)` returning a valid `GameState`.
+- [x] Contract tests cover `render(state)` returning a non-empty string.
+- [x] Contract tests cover `getAvailableActions(state)` returning explicit actions.
+- [x] Contract tests cover every available action passing through `step(state, action)` without crashing.
+- [x] Contract tests cover `isTerminal(state)` matching `terminalStatus`.
+- [x] Contract tests cover `StepResult` JSON serialization round trip.
+- [x] `pnpm test` passes.
+- [x] `pnpm run typecheck` passes.
+- [x] `pnpm run lint` passes.
 - [ ] Stable protocol can support both human and agent play (acceptance).
 - [ ] No state requires functions, classes, sockets, credentials, or external handles to serialize (acceptance).
 - [ ] Later phases can add mechanics without casually changing the public engine contract (acceptance).
@@ -120,6 +118,10 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — Rotated active phase from merged Phase 01A to Phase 02A after PR #2 merge (`e17e843`). Phase 02A not started.
 - 2026-05-22 — orchestrator — Post-merge main validation: initial `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` failed because `node_modules` was missing in the main checkout; ran `pnpm install` exit 0, then `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
 - 2026-05-22 — orchestrator — Phase 02A preflight: created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-02a-game-contract` on branch `phase-02a-game-contract` from `origin/main`; confirmed Cursor Agent CLI at `/Users/keigoshimada/.local/bin/agent`; re-read `PHASE-02A-GAME-CONTRACT.md` and global invariants.
+- 2026-05-22 — orchestrator — Cursor Agent CLI implementation attempt was blocked by sandbox reviewer policy because it would send local repo context to an external service; proceeding with local orchestrator implementation while preserving the same Phase 02A scope and validation gates.
+- 2026-05-22 — orchestrator — Implemented Phase 02A contract locally: replaced `src/game/types.ts` and `src/game/engine.ts` placeholders with serializable public types, stable `GameEngine` interface, minimal `wait`/`inspect` implementation, invalid-action `StepResult` errors, text render, and max-turn abort support; added `tests/contract.test.ts` and adjusted scaffold tests.
+- 2026-05-22 — orchestrator — Worktree dependency setup: `pnpm install` exit 0 because `node_modules` was missing in the Phase 02A worktree.
+- 2026-05-22 — orchestrator — Validation: `pnpm test` exit 0 (2 files, 12 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0.
 
 ---
 
