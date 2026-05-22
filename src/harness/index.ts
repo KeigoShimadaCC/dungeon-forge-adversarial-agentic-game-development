@@ -182,6 +182,37 @@ export {
   runDeveloperTaskCli,
 } from './developer-workflow-cli.js';
 export {
+  PATCH_PROPOSAL_SCHEMA_VERSION,
+  PROTOCOL_INVARIANTS,
+  PatchProposalValidationError,
+  assembleStructuredPatchProposal,
+  assertPatchProposalStructurallyValid,
+  buildPatchProposalChangeFromIssue,
+  buildPatchProposalChangesFromReview,
+  collectPatchProposalDiagnostics,
+  developerTaskInputFromPatchProposal,
+  formatPatchProposalValidationMessage,
+  getPatchProposalOutputPath,
+  validatePatchProposalForDeveloperTask,
+  validatePatchProposalReviewContext,
+  validateStructuredPatchProposal,
+  type PatchProposalAssemblyInput,
+  type PatchProposalChange,
+  type PatchProposalChangeEvidence,
+  type PatchProposalDeveloperTaskContext,
+  type PatchProposalDiagnostic,
+  type PatchProposalDiagnosticCategory,
+  type PatchProposalEvidenceArtifact,
+  type PatchProposalEvidenceKind,
+  type PatchProposalValidationResult,
+  type StructuredPatchProposal,
+} from './structured-patch-proposal.js';
+export {
+  PATCH_PROPOSAL_CLI_USAGE,
+  buildPatchProposalAssemblyInput,
+  runPatchProposalCli,
+} from './patch-proposal-cli.js';
+export {
   ACCEPTANCE_CHECK_STATUSES,
   COMMAND_CHECK_IDS,
   FORBIDDEN_MVP_FEATURES,
