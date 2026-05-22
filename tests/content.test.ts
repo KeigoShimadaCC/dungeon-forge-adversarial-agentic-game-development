@@ -1,11 +1,16 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  BAT_ENEMY_ID,
   CONTENT_SCHEMA_VERSION,
   ContentValidationError,
+  GHOST_ENEMY_ID,
   loadGameContent,
+  PHASE_09B_ENEMY_IDS,
   POTION_ITEM_ID,
+  SHELL_ENEMY_ID,
   SLIME_ENEMY_ID,
+  THIEF_ENEMY_ID,
   validateContentReferences,
   validateEnemiesBundle,
   validateFloorRulesBundle,
@@ -22,7 +27,7 @@ describe('Phase 02C content data', () => {
     expect(content.enemies.schemaVersion).toBe(CONTENT_SCHEMA_VERSION);
     expect(content.floors.schemaVersion).toBe(CONTENT_SCHEMA_VERSION);
     expect(content.items.items).toHaveLength(1);
-    expect(content.enemies.enemies).toHaveLength(1);
+    expect(content.enemies.enemies).toHaveLength(5);
     expect(content.floors.floors).toHaveLength(5);
   });
 
@@ -67,6 +72,58 @@ describe('Phase 02C content data', () => {
         enemies: [{ id: 'slime', name: 'Slime' }],
       }),
     ).toThrow(ContentValidationError);
+  });
+
+  it('validates glyph and behavior fields for every enemy', () => {
+    const { enemies } = loadGameContent();
+
+    expect(enemies.enemies.map((enemy) => enemy.id)).toEqual([
+      SLIME_ENEMY_ID,
+      BAT_ENEMY_ID,
+      SHELL_ENEMY_ID,
+      THIEF_ENEMY_ID,
+      GHOST_ENEMY_ID,
+    ]);
+    expect(enemies.enemies.map((enemy) => enemy.glyph)).toEqual(['s', 'b', 'S', 't', 'g']);
+    expect(enemies.enemies.map((enemy) => enemy.behavior)).toEqual([
+      'chase',
+      'bat',
+      'shell',
+      'thief',
+      'ghost',
+    ]);
+    expect(getEnemyById(SHELL_ENEMY_ID)?.defense).toBe(2);
+  });
+
+  it('rejects enemies with invalid glyph or behavior values', () => {
+    const baseEnemy = {
+      id: SLIME_ENEMY_ID,
+      name: 'Slime',
+      displayName: 'Green Slime',
+      description: 'Blob.',
+      glyph: 's',
+      behavior: 'chase',
+      hp: 6,
+      attack: 2,
+      defense: 0,
+      xp: 3,
+      goldReward: 1,
+      itemDropIds: [],
+    };
+
+    expect(() =>
+      validateEnemiesBundle({
+        schemaVersion: CONTENT_SCHEMA_VERSION,
+        enemies: [{ ...baseEnemy, glyph: 'slime' }],
+      }),
+    ).toThrow(/glyph must be a single character/);
+
+    expect(() =>
+      validateEnemiesBundle({
+        schemaVersion: CONTENT_SCHEMA_VERSION,
+        enemies: [{ ...baseEnemy, behavior: 'hover' }],
+      }),
+    ).toThrow(/behavior must be one of/);
   });
 
   it('rejects malformed floor rule bundles with clear errors', () => {
@@ -147,17 +204,22 @@ describe('Phase 02C content data', () => {
     ]);
     expect(floors.floors.map((rule) => rule.enemyIds)).toEqual([
       [SLIME_ENEMY_ID],
-      [SLIME_ENEMY_ID],
-      [SLIME_ENEMY_ID],
-      [SLIME_ENEMY_ID],
-      [SLIME_ENEMY_ID],
+      [SLIME_ENEMY_ID, BAT_ENEMY_ID],
+      [SLIME_ENEMY_ID, SHELL_ENEMY_ID],
+      [SLIME_ENEMY_ID, THIEF_ENEMY_ID, BAT_ENEMY_ID],
+      [SLIME_ENEMY_ID, GHOST_ENEMY_ID],
     ]);
+    expect(floors.floors[0].enemyIds).toEqual([SLIME_ENEMY_ID]);
     expect(floors.floors[2].itemIds).toEqual([]);
     expect(floors.floors[4].itemIds).toEqual([]);
     expect(floors.floors.map((rule) => rule.maxTurns)).toEqual([48, 52, 56, 60, 64]);
     expect(floors.floors.map((rule) => rule.enemySpawnCount)).toEqual([
       1, 2, 2, 3, 2,
     ]);
+    const spawnedEnemyIds = new Set(floors.floors.flatMap((rule) => rule.enemyIds));
+    expect([...spawnedEnemyIds].sort()).toEqual(
+      [...PHASE_09B_ENEMY_IDS].sort(),
+    );
   });
 
   it('rejects floor rules that reference unknown content ids', () => {
@@ -184,6 +246,8 @@ describe('Phase 02C content data', () => {
           name: 'Slime',
           displayName: 'Green Slime',
           description: 'Blob.',
+          glyph: 's',
+          behavior: 'chase',
           hp: 6,
           attack: 2,
           defense: 0,

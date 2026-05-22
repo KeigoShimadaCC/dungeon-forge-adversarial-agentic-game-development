@@ -1,3 +1,4 @@
+import { calcPlayerDamageToEnemy } from './combat.js';
 import {
   loadGameContent,
   POTION_ITEM_ID,
@@ -11,6 +12,7 @@ import {
   getTile as getMapTile,
   isWalkableTile,
 } from './map.js';
+import { runEnemyTurns } from './enemy-ai.js';
 import { render } from './render.js';
 import type {
   GameConfig,
@@ -135,7 +137,9 @@ const placeEnemies = (
       hp: definition.hp,
       maxHp: definition.hp,
       attack: definition.attack,
-      glyph: 's',
+      defense: definition.defense,
+      behavior: definition.behavior,
+      glyph: definition.glyph,
       ...position,
     };
   });
@@ -377,8 +381,18 @@ const getInvalidStateReason = (state: GameState): string | undefined => {
     if (enemy.hp <= 0 || enemy.maxHp <= 0) {
       return `enemy ${enemy.id} has invalid HP`;
     }
-    if (!isWalkable(state.map, enemy)) {
-      return `enemy ${enemy.id} is not on a walkable tile`;
+    if (enemy.defense < 0) {
+      return `enemy ${enemy.id} has invalid defense`;
+    }
+    if (!enemy.behavior) {
+      return `enemy ${enemy.id} is missing behavior`;
+    }
+    const tile = getTile(state.map, enemy);
+    const onValidTile =
+      tile?.walkable === true ||
+      (tile?.type === 'wall' && enemy.behavior === 'ghost');
+    if (!onValidTile) {
+      return `enemy ${enemy.id} is not on a valid tile`;
     }
     if (occupied.has(key)) {
       return `enemy ${enemy.id} overlaps another actor`;
@@ -447,66 +461,6 @@ const removeFirstInventoryItem = (inventory: string[], itemType: string): string
     nextInventory.splice(index, 1);
   }
   return nextInventory;
-};
-
-const moveSlimes = (state: GameState, events: GameEvent[]): void => {
-  const occupied = new Set(
-    state.enemies.map((enemy) => positionKey(enemy)),
-  );
-
-  for (const enemy of state.enemies) {
-    occupied.delete(positionKey(enemy));
-
-    if (manhattanDistance(enemy, state.player) === 1) {
-      state.player.hp = Math.max(0, state.player.hp - enemy.attack);
-      events.push(
-        event(state.turn, 'enemy_attack', `${enemy.label} hits you for ${enemy.attack}.`, {
-          enemyId: enemy.id,
-          damage: enemy.attack,
-        }),
-      );
-      occupied.add(positionKey(enemy));
-      continue;
-    }
-
-    const horizontalStep = Math.sign(state.player.x - enemy.x);
-    const verticalStep = Math.sign(state.player.y - enemy.y);
-    const preferredMoves =
-      Math.abs(state.player.x - enemy.x) >= Math.abs(state.player.y - enemy.y)
-        ? [
-            { x: horizontalStep, y: 0 },
-            { x: 0, y: verticalStep },
-          ]
-        : [
-            { x: 0, y: verticalStep },
-            { x: horizontalStep, y: 0 },
-          ];
-
-    for (const move of preferredMoves) {
-      if (move.x === 0 && move.y === 0) {
-        continue;
-      }
-      const destination = { x: enemy.x + move.x, y: enemy.y + move.y };
-      if (
-        isWalkable(state.map, destination) &&
-        !samePosition(destination, state.player) &&
-        !occupied.has(positionKey(destination))
-      ) {
-        enemy.x = destination.x;
-        enemy.y = destination.y;
-        events.push(
-          event(state.turn, 'enemy_move', `${enemy.label} shuffles closer.`, {
-            enemyId: enemy.id,
-            x: enemy.x,
-            y: enemy.y,
-          }),
-        );
-        break;
-      }
-    }
-
-    occupied.add(positionKey(enemy));
-  }
 };
 
 const finalizeTerminalState = (state: GameState, events: GameEvent[]): void => {
@@ -603,11 +557,13 @@ export const step = (state: GameState, action: PlayerAction): StepResult => {
     const enemyIndex = nextState.enemies.findIndex((enemy) => enemy.id === targetId);
     const enemy = nextState.enemies[enemyIndex];
     if (enemy) {
-      enemy.hp = Math.max(0, enemy.hp - PLAYER_ATTACK);
+      const damage = calcPlayerDamageToEnemy(PLAYER_ATTACK, enemy.defense);
+      enemy.hp = Math.max(0, enemy.hp - damage);
       events.push(
-        event(nextState.turn, 'attack', `You hit ${enemy.label} for ${PLAYER_ATTACK}.`, {
+        event(nextState.turn, 'attack', `You hit ${enemy.label} for ${damage}.`, {
           targetId: enemy.id,
-          damage: PLAYER_ATTACK,
+          enemyType: enemy.type,
+          damage,
         }),
       );
       if (enemy.hp <= 0) {
@@ -669,7 +625,7 @@ export const step = (state: GameState, action: PlayerAction): StepResult => {
   }
 
   if (nextState.terminalStatus === 'ACTIVE') {
-    moveSlimes(nextState, events);
+    runEnemyTurns(nextState, events);
   }
 
   finalizeTerminalState(nextState, events);

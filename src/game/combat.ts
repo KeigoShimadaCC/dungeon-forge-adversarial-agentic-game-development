@@ -1,2 +1,7 @@
-/** Phase 01A placeholder — combat logic lands in later phases. */
-export const GAME_COMBAT_PLACEHOLDER = true as const;
+/** Player melee damage against an enemy, respecting defense with a minimum of 1. */
+export function calcPlayerDamageToEnemy(
+  playerAttack: number,
+  enemyDefense: number,
+): number {
+  return Math.max(1, playerAttack - enemyDefense);
+}

@@ -6,6 +6,21 @@ export const CONTENT_SCHEMA_VERSION = '02C' as const;
 
 export const POTION_ITEM_ID = 'potion' as const;
 export const SLIME_ENEMY_ID = 'slime' as const;
+export const BAT_ENEMY_ID = 'bat' as const;
+export const SHELL_ENEMY_ID = 'shell' as const;
+export const THIEF_ENEMY_ID = 'thief' as const;
+export const GHOST_ENEMY_ID = 'ghost' as const;
+
+export const ENEMY_BEHAVIORS = ['chase', 'bat', 'shell', 'thief', 'ghost'] as const;
+export type EnemyBehaviorId = (typeof ENEMY_BEHAVIORS)[number];
+
+export const PHASE_09B_ENEMY_IDS = [
+  SLIME_ENEMY_ID,
+  BAT_ENEMY_ID,
+  SHELL_ENEMY_ID,
+  THIEF_ENEMY_ID,
+  GHOST_ENEMY_ID,
+] as const;
 
 export interface ItemDefinition {
   id: string;
@@ -23,6 +38,8 @@ export interface EnemyDefinition {
   name: string;
   displayName: string;
   description: string;
+  glyph: string;
+  behavior: EnemyBehaviorId;
   hp: number;
   attack: number;
   defense: number;
@@ -191,11 +208,24 @@ function parseItemDefinition(value: unknown, path: string): ItemDefinition {
 
 function parseEnemyDefinition(value: unknown, path: string): EnemyDefinition {
   const record = requireRecord(value, path);
+  const glyph = requireString(record, 'glyph', path);
+  if (glyph.length !== 1) {
+    fail(path, 'glyph must be a single character');
+  }
+  const behavior = requireString(record, 'behavior', path);
+  if (!ENEMY_BEHAVIORS.includes(behavior as EnemyBehaviorId)) {
+    fail(
+      path,
+      `behavior must be one of: ${ENEMY_BEHAVIORS.join(', ')}`,
+    );
+  }
   return {
     id: requireString(record, 'id', path),
     name: requireString(record, 'name', path),
     displayName: requireString(record, 'displayName', path),
     description: requireString(record, 'description', path),
+    glyph,
+    behavior: behavior as EnemyBehaviorId,
     hp: requireNumber(record, 'hp', path, { integer: true, min: 1 }),
     attack: requireNumber(record, 'attack', path, { integer: true, min: 0 }),
     defense: requireNumber(record, 'defense', path, { integer: true, min: 0 }),
