@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 15B — Worktree Agent Orchestration |
-| Goal | Package bounded coding-agent tasks for isolated worktrees and collect results without granting automatic merge authority. |
-| Branch | `phase/phase-15b-worktree-agent-orchestration` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-15b-worktree-agent-orchestration-wt` |
-| Base | `origin/main` at `e3d2856` |
-| Status | `Local validation and Cursor recheck passed; commit and PR pending` |
+| Phase | Phase 15C — Loop Coordinator |
+| Goal | Create a human-governed coordinator for the adversarial loop from run evidence through proposal, task, validation, and acceptance. |
+| Branch | `phase/phase-15c-loop-coordinator` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-15c-loop-coordinator-wt` |
+| Base | `origin/main` at `2f0c713` |
+| Status | `Planned; worktree not created` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-15B-WORKTREE-AGENT-ORCHESTRATION.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-15C-LOOP-COORDINATOR.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -55,10 +55,15 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - _(none)_
 
 ### Open
+
+- [ ] 2026-05-23 orchestrator — Generate Phase 15C automation bundle, create isolated worktree, and seed progress before implementation.
+- [ ] 2026-05-23 Cursor/composer-2.5 — Implement loop coordinator runbook/command, decision checkpoints, dry-run coverage, docs, and focused tests within Phase 15C scope.
+- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 15C acceptance, and request Cursor read-only recheck.
 - [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Merge Phase 15B PR #35, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 15C.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 15B PASS; addressed non-blocking read-only auditor CLI smoke coverage and reran focused/full gates.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, harden deterministic bundle IDs and not-run result-summary inference, run focused/full local gates, and re-read Phase 15B acceptance.
 - [x] 2026-05-23 Cursor/composer-2.5 — Implement worktree task bundle/result summary/auditor formats, `pnpm run worktree-task`, docs, exports, and `tests/worktree-agent-orchestration.test.ts`.
@@ -122,20 +127,21 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-15B-WORKTREE-AGENT-ORCHESTRATION.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-15C-LOOP-COORDINATOR.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 15B — Worktree Agent Orchestration
+### Phase 15C — Loop Coordinator
 
-- [x] Worktree task bundle format exists.
-- [x] Result summary format exists for diffs, tests, blockers, and risks.
-- [x] Read-only auditor task format exists.
-- [x] Task packages include phase, evidence, allowed paths, forbidden paths, and validation commands.
-- [x] Missing scope or evidence blocks package validation.
-- [x] Result summaries distinguish pass, fail, blocked, and not-run checks.
-- [x] Documentation covers implementation and read-only audit passes while keeping agent reports advisory.
-- [x] Secrets and unrelated private files are excluded from task context.
-- [x] Local repo gates remain outside delegated agent authority.
-- [x] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [ ] Loop coordinator runbook or command exists.
+- [ ] Decision-checkpoint format exists for blockers and required human decisions.
+- [ ] Ordered steps cover run, review, proposal, developer task, validation, and acceptance.
+- [ ] Coordinator detects missing run evidence.
+- [ ] Coordinator detects missing proposal or developer task where required.
+- [ ] Coordinator records validation blockers without fabricating success.
+- [ ] Credential-free deterministic baseline path works.
+- [ ] Documentation covers blocked, partial, accepted, and rejected loop outcomes.
+- [ ] Trace, review, scorecard, changelog, and acceptance artifacts remain preserved.
+- [ ] Human decisions remain explicit; no automatic code editing or merging is introduced.
+- [ ] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -318,12 +324,22 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 — Validation PASS: `pnpm test tests/worktree-agent-orchestration.test.ts` (8 tests); `pnpm run worktree-task -- --phase PHASE-15B --target-scope "Worktree orchestration harness" --validate-only` (ok); `pnpm run check` (27 files, 252 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`; `git diff -- src/game content concept-and-ideas phase-plans` empty. Re-read `phase-plans/PHASE-15B-WORKTREE-AGENT-ORCHESTRATION.md`; deliverables and acceptance criteria satisfied locally. Merge readiness pending orchestrator review, commit, PR, and GitHub CI.
 - 2026-05-23 — orchestrator — Reviewed and hardened the Phase 15B diff: bundle IDs are now deterministic by default for reproducibility, result summaries infer `blocked` from `not_run` diff/check states, and validation blocks mismatched `overall_status`. Validation PASS: `pnpm test tests/worktree-agent-orchestration.test.ts` (8 tests), `pnpm run check` (27 files, 252 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 15B PASS against the phase plan, local validation, protocol invariants, forbidden-scope review, and secrets scan. Recheck was blocked only on expected merge readiness: untracked/uncommitted implementation, no PR, and no GitHub CI yet. Non-blocking note about end-to-end `--kind read_only_audit` CLI coverage was fixed with a validate-only smoke test. Validation PASS after fix: `pnpm test tests/worktree-agent-orchestration.test.ts` (9 tests), `pnpm run check` (27 files, 253 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`.
+- 2026-05-23 — orchestrator — Phase 15B PR #35 merged at `2f0c7134d7c7a8cf4139af19940b3da5ea7111f6` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-15B --evidence runs/phase-runner/PHASE-15B/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-15C`.
+- 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 15C with initial task queue and checklist from `phase-plans/PHASE-15C-LOOP-COORDINATOR.md`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 15B — Worktree Agent Orchestration
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-15b-worktree-agent-orchestration` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/35
+- **Merge commit:** `2f0c7134d7c7a8cf4139af19940b3da5ea7111f6`
+- **Outcome:** Added worktree task-bundle and result-summary schemas, read-only auditor bundle support, `pnpm run worktree-task`, docs, exports, and tests while keeping agent reports advisory and merge/push authority outside delegated agents.
+- **Key evidence:** Cursor/composer-2.5 implementation and read-only recheck; local `pnpm run check` passed with 27 files and 253 tests; `git diff --check` passed; PR #35 `Repo gates` passed before merge; phase-runner automerge gate returned `allow`.
 
 ### Phase 15A — Structured Patch Proposals
 

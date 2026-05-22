@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-15B",
+  "currentPhase": "PHASE-15C",
   "lastUpdated": "2026-05-23",
   "phases": {
     "PHASE-00A": {
@@ -115,7 +115,11 @@
       "status": "complete"
     },
     "PHASE-15B": {
-      "status": "queued"
+      "branch": "phase/phase-15b-worktree-agent-orchestration",
+      "evidenceDir": "runs/phase-runner/PHASE-15B/planned",
+      "mergeCommit": "2f0c7134d7c7a8cf4139af19940b3da5ea7111f6",
+      "pr": 35,
+      "status": "complete"
     },
     "PHASE-15C": {
       "status": "queued"
