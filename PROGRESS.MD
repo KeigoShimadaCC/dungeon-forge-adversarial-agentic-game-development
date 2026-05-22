@@ -60,7 +60,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Done
 
-- _(move completed queue items here with `[x]`)_
+- [x] T-001 Write comprehensive project README from concept and phase docs (Codex, 2026-05-22)
 
 ### Blocked / skipped
 
@@ -100,6 +100,7 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
 - _(YYYY-MM-DD) agent-id — what was run and outcome_
+- 2026-05-22 Codex — Created `README.md` from `concept-and-ideas/*` and `phase-plans/*`; ran `git diff --check` (pass). No package/test commands run because no `package.json` scaffold exists yet.
 
 ---
 

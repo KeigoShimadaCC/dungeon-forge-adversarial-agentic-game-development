@@ -29,6 +29,28 @@ Read `PROGRESS.MD` at the start of every phase-related session. It is the live h
 
 When a phase finishes: archive summary, clear queue/log, update Active Phase and checklist per `PROGRESS.MD` → “Rotating to a new phase”.
 
+## Cursor Agent CLI
+
+Use Cursor Agent CLI as a delegated worker or auditor when the user requests Cursor, Composer, or maximum automation.
+
+Default model:
+- `composer-2.5`
+
+Default non-interactive pattern:
+
+```bash
+agent --print --trust --model composer-2.5 --workspace <worktree-path> "<bounded prompt>"
+```
+
+For read-only audits, prefer `--mode=ask` with explicit instructions not to edit, install, or commit. In this environment, `--mode=plan` may exit successfully with empty output; if that happens, sanity-check `--print` with a tiny prompt and rerun the audit in `--mode=ask`.
+
+Cursor delegation rules:
+- Give Cursor one bounded task with clear ownership, allowed paths, forbidden paths, and verification expectations.
+- Keep the orchestrator responsible for reviewing Cursor output, inspecting diffs, running checks, updating `PROGRESS.MD`, committing, pushing, and opening PRs.
+- Treat Cursor's report as advisory until verified from files, diffs, command output, or tests.
+- `agent status` or `agent models` may require elevated access because macOS keychain access can fail inside the sandbox.
+- After a PR is merged, remove temporary worktrees and verify `git worktree list`.
+
 ## Common Commands
 
 Current:
