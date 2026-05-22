@@ -49,6 +49,8 @@ export interface GameMap {
   tiles: Tile[][];
 }
 
+export type EnemyBehavior = 'chase' | 'bat' | 'shell' | 'thief' | 'ghost';
+
 export interface EnemyInstance extends Position {
   id: string;
   type: string;
@@ -56,6 +58,8 @@ export interface EnemyInstance extends Position {
   hp: number;
   maxHp: number;
   attack: number;
+  defense: number;
+  behavior: EnemyBehavior;
   glyph: string;
 }
 

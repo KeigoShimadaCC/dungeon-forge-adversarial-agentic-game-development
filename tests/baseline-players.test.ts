@@ -176,6 +176,8 @@ describe('Phase 04B baseline players', () => {
         hp: 6,
         maxHp: 6,
         attack: 2,
+        defense: 0,
+        behavior: 'chase',
         glyph: 's',
         x: 4,
         y: 3,
