@@ -32,6 +32,11 @@ When a phase finishes: archive summary, clear queue/log, update Active Phase and
 
 Use Cursor Agent CLI as a delegated worker or auditor when the user requests Cursor, Composer, or maximum automation.
 
+Standing user approval:
+- The user has explicitly approved sending this repository/worktree context to Cursor Agent / Composer 2.5 for bounded repo tasks.
+- This approval is limited to this project and does not allow sending secrets, local `.env` files, credentials, or unrelated private files.
+- Still obey the host sandbox/approval system. If escalation is required, request it with a persistent prefix rule for the Cursor command instead of treating this note as a sandbox override.
+
 Default model:
 - `composer-2.5`
 

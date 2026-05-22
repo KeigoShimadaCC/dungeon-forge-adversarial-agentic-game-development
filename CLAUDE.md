@@ -98,6 +98,7 @@ Risky changes require confirmation first:
 
 When the user requests Cursor Agent, Composer, or maximum automation, use Cursor Agent CLI as a bounded delegate and keep final responsibility in this orchestrator.
 
+- Standing user approval: the user has explicitly approved sending this repository/worktree context to Cursor Agent / Composer 2.5 for bounded repo tasks. This approval is limited to this project and does not include secrets, local `.env` files, credentials, or unrelated private files. It does not override the host sandbox/approval system; if escalation is required, request it with a persistent prefix rule for the Cursor command.
 - Default model: `composer-2.5`.
 - Default command shape: `agent --print --trust --model composer-2.5 --workspace <worktree-path> "<bounded prompt>"`.
 - Use isolated worktrees for phase work when practical, and remove them after merged PRs.
