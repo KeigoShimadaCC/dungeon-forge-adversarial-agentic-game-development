@@ -1,9 +1,11 @@
 export type {
   HarnessPlayerPolicy,
+  MockReviewScoreInput,
   LlmPlayerPersona,
   PlaythroughScorecard,
   PlaythroughTrace,
   PolicyDecision,
+  ScorecardReviewInput,
   StateSummary,
   TraceDecisionMetadata,
   TraceStep,
@@ -29,7 +31,7 @@ export {
 } from './llm-player.js';
 export { buildLlmPlayerModelInput, buildLlmPlayerPrompt, type LlmPlayerModelInput } from '../agents/prompts/llm-player.js';
 export { runPlaythrough, parseSimulateSeedArgs, type RunPlaythroughOptions } from './runner.js';
-export { deriveScorecardFromTrace } from './scorecard.js';
+export { deriveScorecardFromTrace, validateScorecard } from './scorecard.js';
 export { stringifyDeterministicJson } from './json.js';
 export {
   buildArtifactBasename,

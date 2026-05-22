@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-06B Reviewer Critic |
-| Goal | Generate trace-grounded reviewer critiques after actual playthroughs; write structured reviews under `runs/vXXX/reviews/` with observations, diagnoses, recommendations, and suggested next changes. |
-| Branch | `phase-06b-reviewer-critic` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-06b-reviewer-critic-wt` |
-| Base | `origin/main` merged through `028185c` |
-| Status | `PR opened` |
+| Phase | Phase 06C — Scorecard schema and review-score merge |
+| Goal | Upgrade scorecards to the canonical Phase 06C shape and merge Phase 06B reviewer scores when supplied. |
+| Branch | `phase-06c-scorecard-prep` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-06c-scorecard-wt` |
+| Base | `origin/main` at `01b126a` |
+| Status | `conflict resolved; validation passed` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-06B-REVIEWER-CRITIC.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-06C-SCORECARD.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,47 +60,34 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Done
 
-- [x] Seed `PROGRESS.MD` for Phase 06B (active phase, task queue, checklist, initial validation log). — orchestrator, 2026-05-22
-- [x] Implement reviewer critic module/client boundary (`src/harness/reviewer-client.ts`, `createReviewerCritic`, `generateDeterministicReview`). — agent, 2026-05-22
-- [x] Implement review output writer (`buildReviewRelativePath`, `savePlaythroughReview` under `runs/<version>/reviews/`). — agent, 2026-05-22
-- [x] Update reviewer prompt template (`src/agents/prompts/reviewer.md`). — agent, 2026-05-22
-- [x] Add mocked tests (`tests/reviewer-critic.test.ts`). — agent, 2026-05-22
-- [x] Run validation: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001`. — orchestrator, 2026-05-22
-- [x] Cursor read-only audit (`--mode=ask`) reported PASS with low/non-blocking notes. — orchestrator, 2026-05-22
-- [x] PR prep: pushed branch and opened PR #13 to `main`. — orchestrator, 2026-05-22
+- [x] 2026-05-22 orchestrator — Seed Phase 06C Prep progress state and commit before implementation (`e8a57ee`).
+- [x] 2026-05-22 orchestrator — Implement scorecard schema, mocked review merge, validator, public exports, and focused tests locally after Cursor implementation was blocked by host policy.
+- [x] 2026-05-22 orchestrator — Review implementation diff for phase scope and no `src/game/**` changes.
+- [x] 2026-05-22 orchestrator — Run local verification: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001-prep`.
+- [x] 2026-05-22 orchestrator — Re-read `phase-plans/PHASE-06C-SCORECARD.md`, update final prep notes, commit, push, and open PR.
+- [x] 2026-05-22 orchestrator — Merge `origin/main` containing Phase 06A and merged Phase 06B, then resolve conflicts in `PROGRESS.MD` and `src/harness/index.ts`.
+- [x] 2026-05-22 orchestrator — Remove stale Phase 06B blocker and add real Phase 06B reviewer-output score merge coverage.
 
 ### Blocked / skipped
 
-- _(use `[!]` or `[-]` with a one-line reason)_
+- [!] Cursor read-only audit — blocked by host policy against transmitting workspace code to the external Cursor service; local scope audit completed instead.
 
 ---
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-06B-REVIEWER-CRITIC.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-06C-SCORECARD.md`. Tick when verified against the repo, not when merely attempted._
 
-### Deliverables
+### Phase 06C — Scorecard
 
-- [x] Reviewer critic module/client boundary.
-- [x] Reviewer prompt template (trace + scorecard + render context + persona; structured output shape).
-- [x] Review output writer saving under `runs/vXXX/reviews/`.
-- [x] Mocked tests for review generation and missing data.
-
-### Tests and validation
-
-- [x] Review is generated from mocked trace input.
-- [x] Review includes top issues (severity, observation, diagnosis, recommendation).
-- [x] Review includes suggested next changes (bounded to ≤3).
-- [x] Review cites trace evidence (turn numbers, terminal result, invalid actions, render states, outcomes)—not design docs alone.
-- [x] Review is saved under `runs/vXXX/reviews/`.
-- [x] Missing trace data is handled gracefully.
-- [x] Tests do not require real API credentials.
-
-### Acceptance criteria
-
-- [x] Critique is grounded in actual playthrough evidence.
-- [x] Observation, diagnosis, recommendation, and severity are distinct.
-- [x] Generated review can become input to the developer-agent workflow.
+- [x] Scorecard type includes canonical objective fields, `reviewer_scores`, trace linkage, and optional review source linkage.
+- [x] Trace-only scorecard generation keeps objective metrics and normalizes subjective scores to `null`.
+- [x] Review-score input can enrich scorecards from mocked inputs and real Phase 06B reviewer output.
+- [x] Required-field validation fails on missing objective fields while allowing null subjective scores.
+- [x] Scorecard writer preserves deterministic `runs/vXXX/scorecards/` paths.
+- [x] Public harness exports include updated scorecard types and validator.
+- [x] Focused tests cover trace-only, trace-plus-review, real reviewer output, partial subjective scores, validation failure, deterministic JSON, and saved file shape.
+- [x] Local validation commands pass after merge conflict resolution.
 
 ---
 
@@ -128,24 +115,21 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
-- 2026-05-22 — orchestrator — Phase 06B progress seed: Cursor Agent model preflight — `composer-2.5` available; main base `ac573e5`; worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-06b-reviewer-critic-wt` on branch `phase-06b-reviewer-critic`. Implementation validation not yet run (`pnpm test`, typecheck, lint pending).
-
-- 2026-05-22 — agent — Phase 06B implementation: `src/harness/reviewer-client.ts` (deterministic critic, personas, structured review + evidence), `src/harness/artifacts.ts` (`buildReviewRelativePath`, `savePlaythroughReview`), `src/harness/index.ts` exports, `src/agents/prompts/reviewer.md`, `tests/reviewer-critic.test.ts`. `pnpm test tests/reviewer-critic.test.ts` **not run** — `node_modules` missing; install skipped per task constraints.
-
-- 2026-05-22 — orchestrator — Installed dependencies in isolated worktree with `pnpm install --frozen-lockfile` (lockfile unchanged; reused local store). Patched reviewer credential test to verify injected-provider behavior without depending on ambient API env vars. Committed implementation as `9e26db0` (`feat: add trace-grounded reviewer critic`). Validation passed after the final test-strengthening patch: `pnpm test tests/reviewer-critic.test.ts` (11 tests), `pnpm test` (9 files, 87 tests), `pnpm run typecheck`, `pnpm run lint`, `git diff --check`, `pnpm run build`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` (saved trace/scorecard; result `ABORTED`, 280 turns, 280 steps).
-
-- 2026-05-22 — Cursor Agent (`--mode=ask`, `composer-2.5`) — Read-only Phase 06B audit result: PASS. Confirmed branch diff is limited to `PROGRESS.MD`, `src/agents/prompts/reviewer.md`, `src/harness/artifacts.ts`, `src/harness/index.ts`, `src/harness/reviewer-client.ts`, and `tests/reviewer-critic.test.ts`; `src/game/**` unchanged; reviewer critic is trace/scorecard-grounded, handles thin data, writes required review JSON path, and preserves Phase 00A invariants. Low/non-blocking notes: CLI does not auto-write reviews yet, JSON-only review artifacts, heuristic critic remains templated until a future provider integration.
-
-- 2026-05-22 — orchestrator — Pushed `phase-06b-reviewer-critic` to origin and opened PR #13: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/13.
-- 2026-05-22 — orchestrator — Resolved PR #13 merge conflict after `origin/main` advanced to `028185c` with Phase 06A. Kept Phase 06B as active phase, preserved Phase 06A validation log and future backlog rows, and merged Phase 06A source additions from main. Post-resolution validation passed: `pnpm test` (10 files, 98 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` (saved trace/scorecard; result `ABORTED`, 280 turns, 280 steps).
-
-- 2026-05-22 — orchestrator — PR #10 merged at `dc920ae`; fast-forwarded local `main` to `origin/main`; removed registered worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness-wt`; deleted local branch `phase-05a-harness`. Verified `git worktree list` shows only the main worktree. Preserved the earlier dirty unregistered checkout `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness` per the Phase 05A execution plan.
-- 2026-05-22 — orchestrator — Started Phase 06A on branch `phase-06a-llm-player` in worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-06a-llm-player-wt` from `origin/main` at `ac573e5`. Preflight: `git status --short --branch` clean on `main`; `git fetch origin` passed; `git worktree list` showed main plus unrelated Phase 06B worktree; `command -v agent` found `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`, escalated rerun passed and confirmed `composer-2.5`.
-- 2026-05-22 — composer — Implementation slice: async `HarnessPlayerPolicy`, `createLlmPlayerPolicy` + injectable `LlmPlayerClient`, prompt builder under `src/agents/prompts/llm-player.ts`, trace `decision_metadata`, `tests/llm-player.test.ts`. `pnpm install`; `pnpm test` (9 files, 86 tests) pass; `pnpm run typecheck` and `pnpm run lint` pass.
-- 2026-05-22 — orchestrator — Reviewed Cursor implementation diff and confirmed scope stayed within `src/harness/**`, `src/agents/prompts/**`, `tests/**`, and `PROGRESS.MD`. Local gates passed: `pnpm test` (9 files, 86 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `git diff --check`; `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` (saved ignored trace/scorecard, result `ABORTED`, 280 turns/steps).
-- 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5`) returned PASS with no blocking findings. Added one extra trace integration assertion for valid LLM reason/persona metadata and deterministic invalid-action fallback reference; reran local gates after the change: `pnpm test` (9 files, 87 tests); `pnpm run typecheck`; `pnpm run lint`; `git diff --check`; `pnpm run build`; `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` (result `ABORTED`, 280 turns/steps). Re-read Phase 06A acceptance criteria; confirmed LLM choices are validated against available actions, policy output cannot mutate game state directly, baseline harness runs with no API key, and all three personas use the same stable action protocol. Scan for provider/env/network dependencies returned no matches.
-- 2026-05-22 — orchestrator — Pushed branch `phase-06a-llm-player` and opened PR #12: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/12.
-- 2026-05-22 — orchestrator — Cross-checked Phase 06A follow-up gaps against `phase-plans/`. Reviewer critique, scorecards, version loop, acceptance reports, and generated evidence artifacts are already covered by Phase 06B/06C/07A/11A/12A. Added future backlog rows for provider adapter, LLM persona CLI support, original invalid-reason trace metadata, `id` + `type` action lookup, and PR CI checks because those are not explicitly scheduled.
+- 2026-05-22 — orchestrator — Phase 06A/06B history from `origin/main`: PR #12 added LLM player policy support; PR #13 added trace-grounded reviewer critic, review JSON writer, prompt updates, and reviewer tests; both are now merged into `origin/main` at `01b126a`.
+- 2026-05-22 — orchestrator — Created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-06c-scorecard-wt` from `origin/main` at `ac573e5` on branch `phase-06c-scorecard-prep`.
+- 2026-05-22 — orchestrator — Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; `agent --list-models` confirmed `composer-2.5` available/current; `git status --short --branch` showed clean `phase-06c-scorecard-prep...origin/main`.
+- 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-06C-SCORECARD.md`. Full acceptance depends on `PHASE-06B-REVIEWER-CRITIC`; this prep branch must use only mocked review-score input and must not implement reviewer generation.
+- 2026-05-22 — orchestrator — Cursor implementation pass blocked by host policy: escalating `agent --print --trust --model composer-2.5 --workspace ...` was rejected because it would transmit workspace code to an external Cursor service. Proceeded with local implementation in the same scoped files.
+- 2026-05-22 — orchestrator — Installed dependencies with `pnpm install` after first `pnpm test` failed because `node_modules` was missing; lockfile was already up to date and packages were reused from local store.
+- 2026-05-22 — orchestrator — Local implementation smoke gates: `pnpm test` PASS (8 files, 82 tests); `pnpm run typecheck` PASS after validator cast fix; `pnpm run lint` PASS.
+- 2026-05-22 — orchestrator — Commit `f4aeb35` added Phase 06C prep scorecard schema, mocked review-score merge input, validator, exports, and tests.
+- 2026-05-22 — orchestrator — Final validation PASS: `pnpm test` (8 files, 82 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001-prep`. Simulation wrote ignored evidence under `runs/v001-prep/` and produced a scorecard with canonical nullable `reviewer_scores` and trace linkage.
+- 2026-05-22 — orchestrator — Local scope audit PASS: `git diff --name-only origin/main...HEAD` is limited to `PROGRESS.MD`, `src/harness/index.ts`, `src/harness/runner.ts`, `src/harness/scorecard.ts`, `src/harness/types.ts`, and `tests/harness.test.ts`; no `src/game/**`, `content/**`, phase-plan, concept-doc, or tracked `runs/**` changes.
+- 2026-05-22 — orchestrator — Cursor read-only audit was not run because the host policy rejected external Cursor workspace-code transmission. Local audit covered canonical fields, trace linkage, determinism tests, and absence of Phase 06B reviewer generation.
+- 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-06C-SCORECARD.md` before finalization: implemented prep deliverables for scorecard generation/schema/writer/tests and mocked subjective-score merge; full Phase 06C acceptance remains blocked until Phase 06B supplies real reviewer output.
+- 2026-05-22 — orchestrator — Pushed `phase-06c-scorecard-prep` and opened prep PR #11: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/11.
+- 2026-05-22 — orchestrator — After user reported conflicts and noted Phase 06B was merged, fetched `origin/main` (`01b126a`) and merged it into `phase-06c-scorecard-prep`. Resolved conflicts by preserving Phase 06A/06B merged source, keeping Phase 06C scorecard schema/validator, removing stale Phase 06B blocker language, and adding real reviewer-output score merge coverage.
+- 2026-05-22 — orchestrator — Post-conflict validation PASS: `pnpm run typecheck`, `pnpm run lint`, `pnpm test` (10 files, 105 tests), `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001-prep` (saved ignored trace/scorecard; result `ABORTED`, 280 turns, 280 steps).
 
 ---
 

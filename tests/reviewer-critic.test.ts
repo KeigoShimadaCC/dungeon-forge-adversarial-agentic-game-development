@@ -19,6 +19,14 @@ import {
 import { runPlaythrough } from '../src/harness/runner.js';
 import type { PlaythroughScorecard, PlaythroughTrace } from '../src/harness/types.js';
 
+const NULL_REVIEWER_SCORES = {
+  fun: null,
+  clarity: null,
+  fairness: null,
+  tactical_depth: null,
+  replay_value: null,
+};
+
 const makeMinimalStep = (
   overrides: Partial<PlaythroughTrace['steps'][number]> = {},
 ): PlaythroughTrace['steps'][number] => ({
@@ -119,6 +127,7 @@ describe('Phase 06B reviewer critic', () => {
       enemies_defeated: 0,
       invalid_actions: 2,
       softlocks: 0,
+      reviewer_scores: NULL_REVIEWER_SCORES,
       trace_path: 'runs/v001/traces/seed_test__stairs-seeking.json',
     };
 
@@ -186,6 +195,7 @@ describe('Phase 06B reviewer critic', () => {
       enemies_defeated: 0,
       invalid_actions: 1,
       softlocks: 1,
+      reviewer_scores: NULL_REVIEWER_SCORES,
       trace_path: 'runs/v001/traces/seed_evidence__bug-hunter-policy.json',
     };
 
@@ -272,6 +282,7 @@ describe('Phase 06B reviewer critic', () => {
       enemies_defeated: 0,
       invalid_actions: 1,
       softlocks: 2,
+      reviewer_scores: NULL_REVIEWER_SCORES,
       trace_path: 'runs/v001/traces/seed_sparse__random.json',
     };
 
@@ -340,6 +351,7 @@ describe('Phase 06B reviewer critic', () => {
       enemies_defeated: 0,
       invalid_actions: 0,
       softlocks: 0,
+      reviewer_scores: NULL_REVIEWER_SCORES,
       trace_path: 'runs/v001/traces/seed_thin__random.json',
     };
 
