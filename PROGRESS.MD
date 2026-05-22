@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 16A — Traps And Resources |
-| Goal | Add bounded tactical pressure through finite traps and lightweight resource systems while preserving finite, seedable, turn-based structured gameplay. |
-| Branch | `phase/phase-16a-traps-and-resources` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-16a-traps-and-resources-wt` |
-| Base | `origin/main` at `b622d47` |
-| Status | `Functional PASS after Cursor read-only recheck; commit/PR pending` |
+| Phase | Phase 16B — Challenge Modes |
+| Goal | Add finite challenge configurations and bounded replayability without introducing endless play. |
+| Branch | `phase/phase-16b-challenge-modes` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-16b-challenge-modes-wt` |
+| Base | `origin/main` at `81c8813` |
+| Status | `Planned; worktree not created` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-16A-TRAPS-AND-RESOURCES.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-16B-CHALLENGE-MODES.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -55,10 +55,15 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - _(none)_
 
 ### Open
+
+- [ ] 2026-05-23 orchestrator — Generate Phase 16B automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
+- [ ] 2026-05-23 Cursor/composer-2.5 — Implement finite challenge mode config/presets, explicit selection, trace/scorecard/summary labels, focused tests, and deterministic terminal smoke evidence within Phase 16B scope.
+- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 16B acceptance, and request Cursor read-only recheck.
 - [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Merge Phase 16A PR #37, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 16B.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 16A PASS; addressed non-blocking test-strength gaps for resource event traces and deterministic full-run outcomes, then reran focused/full gates.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 16A acceptance, and request Cursor read-only recheck.
 - [x] 2026-05-23 Cursor/composer-2.5 — Implement finite traps/resources, engine/render/log/trace/scorecard integration, focused tests, and deterministic smoke evidence within Phase 16A scope.
@@ -132,20 +137,20 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-16A-TRAPS-AND-RESOURCES.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-16B-CHALLENGE-MODES.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 16A — Traps And Resources
+### Phase 16B — Challenge Modes
 
-- [x] Trap/resource content definitions exist.
-- [x] Engine integration and render/log feedback are implemented.
-- [x] Trace-visible trap/resource events are recorded.
-- [x] Scorecard metrics capture trap/resource impact.
-- [x] Same seed produces same trap/resource placements and outcomes.
-- [x] Available actions remain structured and valid.
-- [x] Game still reaches `WIN`, `LOSS`, or `ABORTED`.
-- [x] New systems create observable tactical choices without invisible reviewer-confusing rules.
-- [x] Core `GameEngine` protocol remains stable.
-- [x] Local final gates pass: `pnpm run check`, focused tests, deterministic smoke evidence, and `git diff --check`.
+- [ ] Challenge mode config format exists.
+- [ ] At least two finite challenge presets exist.
+- [ ] Challenge mode selection is explicit through config or CLI options.
+- [ ] Challenge mode is recorded in trace, scorecard, summary, and acceptance artifacts.
+- [ ] Each challenge mode reaches an explicit terminal state.
+- [ ] Same seed and challenge mode reproduce the same initial setup.
+- [ ] Summary and comparison artifacts include challenge mode labels.
+- [ ] Default mode remains unchanged unless explicitly selected.
+- [ ] No infinite/no-ending mode is introduced.
+- [ ] Local final gates pass: `pnpm run check`, focused tests, deterministic challenge smoke evidence, and `git diff --check`.
 
 ---
 
@@ -346,12 +351,22 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Validation PASS after hardening: `pnpm test tests/patch-proposals.test.ts tests/traps-resources.test.ts tests/content.test.ts` (38 tests); `pnpm run check` (29 files, 281 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `pnpm run run-version -- --version v016 --runs-root /private/tmp/df-phase16a-smoke-20260523` wrote three deterministic trace/review/scorecard sets with terminal outcomes; `rg "trap_resources|trap_triggered|resource_hunger|resource_torch" /private/tmp/df-phase16a-smoke-20260523/runs/v016 -n` found trace/scorecard evidence; `git diff --check` PASS. Re-read `phase-plans/PHASE-16A-TRAPS-AND-RESOURCES.md`; acceptance criteria satisfied locally.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 16A PASS against trap/resource content, engine/render/log integration, trace events, scorecard metrics, deterministic placement, structured actions, terminal outcomes, observable rules, `GameEngine` protocol stability, forbidden-scope guardrails, and justified `src/harness/**` phase-graph scope. Recheck noted only merge-readiness blockers plus non-blocking test-strength gaps.
 - 2026-05-23 — orchestrator — Addressed non-blocking audit gaps with focused tests for `resource_hunger`/`resource_torch` events and same-seed/same-policy terminal + trap-resource metrics. Final validation PASS: `pnpm test tests/traps-resources.test.ts` (19 tests); `pnpm run check` (29 files, 283 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check` PASS.
+- 2026-05-23 — orchestrator — Phase 16A PR #37 merged at `81c8813d92326348464f963ae2bec0582a7096e6` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-16A --evidence runs/phase-runner/PHASE-16A/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-16B`.
+- 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 16B with initial task queue and checklist from `phase-plans/PHASE-16B-CHALLENGE-MODES.md`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 16A — Traps And Resources
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-16a-traps-and-resources` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/37
+- **Merge commit:** `81c8813d92326348464f963ae2bec0582a7096e6`
+- **Outcome:** Added finite seeded spike/needle traps, hunger/torch resource pressure, render/log/inspect feedback, trace-visible trap/resource events, scorecard `trap_resources`, trap/resource diagnostics, docs, content validation, and focused tests while preserving the stable `GameEngine` protocol and structured actions.
+- **Key evidence:** Cursor/composer-2.5 implementation and read-only recheck; local `pnpm run check` passed with 29 files and 283 tests; deterministic `v016` smoke wrote three terminal trace/review/scorecard sets with trap/resource evidence; `git diff --check` passed; PR #37 `Repo gates` passed before merge; phase-runner automerge gate returned `allow`.
 
 ### Phase 15C — Loop Coordinator
 

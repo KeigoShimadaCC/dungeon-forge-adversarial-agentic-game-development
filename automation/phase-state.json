@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-16A",
+  "currentPhase": "PHASE-16B",
   "lastUpdated": "2026-05-23",
   "phases": {
     "PHASE-00A": {
@@ -129,7 +129,11 @@
       "status": "complete"
     },
     "PHASE-16A": {
-      "status": "queued"
+      "branch": "phase/phase-16a-traps-and-resources",
+      "evidenceDir": "runs/phase-runner/PHASE-16A/planned",
+      "mergeCommit": "81c8813d92326348464f963ae2bec0582a7096e6",
+      "pr": 37,
+      "status": "complete"
     },
     "PHASE-16B": {
       "status": "queued"
