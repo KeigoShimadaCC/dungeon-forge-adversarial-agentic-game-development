@@ -12,8 +12,16 @@ import { stringifyDeterministicJson } from './json.js';
 import { BASELINE_POLICY_IDS, type BaselinePolicyId } from './policy-registry.js';
 import { runPlaythrough } from './runner.js';
 import { deriveScorecardFromTrace, validateScorecard } from './scorecard.js';
+import {
+  attachRepeatedFailureCategories,
+  collectBalanceProblemCategories,
+  collectBalanceProblemReasons,
+  findRepeatedProblemSeeds,
+  isBalanceProblemRun,
+  summarizeProblemCategoryCounts,
+} from './trace-diagnostics.js';
 import type { TerminalStatus } from '../game/types.js';
-import type { PlaythroughScorecard } from './types.js';
+import type { PlaythroughScorecard, ProblemRunCategory } from './types.js';
 import {
   ensureVersionFolder,
   getVersionPaths,
@@ -48,6 +56,7 @@ export interface BalanceRunRecord {
   scorecard_path: string;
   problem: boolean;
   problem_reasons: string[];
+  problem_categories: ProblemRunCategory[];
 }
 
 export interface BalanceFailedRun {
@@ -55,6 +64,7 @@ export interface BalanceFailedRun {
   policy: BaselinePolicyId;
   result: TerminalStatus;
   problem_reasons: string[];
+  problem_categories: ProblemRunCategory[];
   metrics: BalanceRunMetrics;
   trace_path: string;
 }
@@ -82,6 +92,8 @@ export interface BalanceSummary {
   policies: readonly BaselinePolicyId[];
   total_runs: number;
   problem_run_count: number;
+  problem_category_counts: Record<string, number>;
+  repeated_problem_seeds: string[];
   aggregates: BalanceAggregateMetrics;
   aggregates_by_policy: Record<BaselinePolicyId, BalanceAggregateMetrics>;
   failed_runs: BalanceFailedRun[];
@@ -146,22 +158,11 @@ const scorecardToRunMetrics = (scorecard: PlaythroughScorecard): BalanceRunMetri
   softlocks: scorecard.softlocks,
 });
 
-export const collectBalanceProblemReasons = (scorecard: PlaythroughScorecard): string[] => {
-  const reasons: string[] = [];
-  if (scorecard.result === 'ABORTED') {
-    reasons.push('aborted');
-  }
-  if (scorecard.invalid_actions > 0) {
-    reasons.push('invalid_actions');
-  }
-  if (scorecard.softlocks > 0) {
-    reasons.push('softlock');
-  }
-  return reasons;
+export {
+  collectBalanceProblemCategories,
+  collectBalanceProblemReasons,
+  isBalanceProblemRun,
 };
-
-export const isBalanceProblemRun = (scorecard: PlaythroughScorecard): boolean =>
-  collectBalanceProblemReasons(scorecard).length > 0;
 
 const average = (values: readonly number[]): number => {
   if (values.length === 0) {
@@ -205,6 +206,7 @@ const toFailedRun = (record: BalanceRunRecord): BalanceFailedRun => ({
   policy: record.policy,
   result: record.result,
   problem_reasons: record.problem_reasons,
+  problem_categories: record.problem_categories,
   metrics: record.metrics,
   trace_path: record.trace_path,
 });
@@ -216,6 +218,9 @@ export const buildBalanceSummary = (
   runs: readonly BalanceRunRecord[],
 ): BalanceSummary => {
   const failed_runs = runs.filter((run) => run.problem).map(toFailedRun);
+  const repeated_problem_seeds = findRepeatedProblemSeeds(failed_runs);
+  const mutableRuns = [...runs];
+  attachRepeatedFailureCategories({ failed_runs, runs: mutableRuns }, repeated_problem_seeds);
   const aggregates = aggregateBalanceMetrics(runs);
   const aggregates_by_policy = {} as Record<BaselinePolicyId, BalanceAggregateMetrics>;
 
@@ -232,6 +237,8 @@ export const buildBalanceSummary = (
     policies,
     total_runs: runs.length,
     problem_run_count: failed_runs.length,
+    problem_category_counts: summarizeProblemCategoryCounts(runs),
+    repeated_problem_seeds,
     aggregates,
     aggregates_by_policy,
     failed_runs,
@@ -265,6 +272,7 @@ export const runBalanceBatch = async (
     const tracePath = buildTraceRelativePath(version, spec.seed, spec.policy);
     const scorecard = deriveScorecardFromTrace(playthrough.trace, tracePath);
     validateScorecard(scorecard);
+    const problem_categories = collectBalanceProblemCategories(scorecard);
     const problem_reasons = collectBalanceProblemReasons(scorecard);
 
     runs.push({
@@ -276,6 +284,7 @@ export const runBalanceBatch = async (
       scorecard_path: buildScorecardRelativePath(version, spec.seed, spec.policy),
       problem: problem_reasons.length > 0,
       problem_reasons,
+      problem_categories,
     });
   }
 

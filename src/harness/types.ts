@@ -56,6 +56,67 @@ export interface TraceStep {
   terminalStatus: TerminalStatus;
 }
 
+export interface MapFloorGenerationRecord {
+  floor: number;
+  used_fallback: boolean;
+  generation_attempt: number;
+  width: number;
+  height: number;
+}
+
+export interface PlacementShortfall {
+  floor: number;
+  slot: 'enemy' | 'item' | 'npc';
+  requested: number;
+  placed: number;
+}
+
+export type ProblemRunCategoryKind =
+  | 'aborted'
+  | 'softlock'
+  | 'invalid_actions'
+  | 'impossible_placement'
+  | 'repeated_failure';
+
+export interface ProblemRunCategory {
+  category: ProblemRunCategoryKind;
+  code: string;
+  message?: string;
+  detail?: JsonObject;
+}
+
+export interface ProblemRunDiagnostics {
+  categories: ProblemRunCategory[];
+  primary_category: ProblemRunCategoryKind | 'none';
+  abort_cause?: string;
+}
+
+export interface TraceMetadata {
+  map_generation: {
+    floors: MapFloorGenerationRecord[];
+  };
+  placement?: {
+    shortfalls: PlacementShortfall[];
+  };
+  problem_run?: ProblemRunDiagnostics;
+}
+
+export interface EnemyBehaviorMetrics {
+  enemy_attack: number;
+  enemy_move: number;
+  enemy_wait: number;
+  enemy_steal: number;
+  enemy_phase: number;
+  enemy_defeated: number;
+}
+
+export interface ItemEvaluationMetrics {
+  use_item_turns_available: number;
+  items_used: number;
+  tactical_items_used: number;
+  item_pickup_actions: number;
+}
+
 export interface PlaythroughTrace {
   version: string;
   seed: string;
@@ -63,6 +124,7 @@ export interface PlaythroughTrace {
   result: TerminalStatus;
   turns: number;
   steps: TraceStep[];
+  metadata?: TraceMetadata;
 }
 
 export interface ReviewerScores {
@@ -97,6 +159,9 @@ export interface PlaythroughScorecard {
   trace_path: string;
   review_path?: string;
   review_id?: string;
+  enemy_behaviors?: EnemyBehaviorMetrics;
+  item_evaluation?: ItemEvaluationMetrics;
+  diagnostics?: ProblemRunDiagnostics;
 }
 
 export interface PolicyDecision {
