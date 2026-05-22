@@ -20,6 +20,7 @@
     "run-balance": "pnpm run build && node dist/src/harness/run-balance.js",
     "developer-task": "pnpm run build && node dist/src/harness/developer-task.js",
     "patch-proposal": "pnpm run build && node dist/src/harness/patch-proposal.js",
+    "worktree-task": "pnpm run build && node dist/src/harness/worktree-agent.js",
     "accept-version": "pnpm run build && node dist/src/harness/accept-version.js",
     "demo-loop": "pnpm run build && node dist/src/harness/demo-loop-cli.js",
     "phase": "pnpm run build && node dist/src/harness/phase-runner-cli.js",

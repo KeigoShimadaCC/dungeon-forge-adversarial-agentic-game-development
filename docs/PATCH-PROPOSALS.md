@@ -56,4 +56,4 @@ Proposals remain separate from implementation authority. The harness still valid
 
 Use `developerTaskInputFromPatchProposal` (exported from `src/harness/index.ts`) with the proposal plus the authoritative review and scorecard JSON. A valid proposal should pass both proposal diagnostics and developer-task diagnostics before generating `developer_task.md`.
 
-See also [DEVELOPER-WORKFLOW.md](./DEVELOPER-WORKFLOW.md) for markdown handoff details.
+See also [DEVELOPER-WORKFLOW.md](./DEVELOPER-WORKFLOW.md) for markdown handoff details and [WORKTREE-AGENT-ORCHESTRATION.md](./WORKTREE-AGENT-ORCHESTRATION.md) for isolated worktree task bundles.
