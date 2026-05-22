@@ -8,12 +8,12 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | _(none selected)_ |
-| Goal | Await next phase selection. |
-| Branch | `main` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development` |
-| Base | `origin/main` at `dc920ae` |
-| Status | `idle` |
+| Phase | Phase 06C Prep — Scorecard schema and review-score merge |
+| Goal | Upgrade Phase 05A scorecards to the canonical Phase 06C shape while leaving real reviewer integration blocked on Phase 06B. |
+| Branch | `phase-06c-scorecard-prep` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-06c-scorecard-wt` |
+| Base | `origin/main` at `ac573e5` |
+| Status | `in progress` |
 
 ### Contract (read before editing)
 
@@ -52,18 +52,22 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-22 orchestrator — Seed Phase 06C Prep progress state and commit before implementation.
 
 ### Open
-- _(none)_
+- [ ] Delegate bounded Cursor implementation for scorecard schema, mocked review merge, validator, exports, and tests.
+- [ ] Review implementation diff for phase scope and no `src/game/**` changes.
+- [ ] Run local verification: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001-prep`.
+- [ ] Delegate Cursor read-only audit for canonical fields, trace linkage, determinism, and no Phase 06B implementation.
+- [ ] Re-read `phase-plans/PHASE-06C-SCORECARD.md`, update final prep notes, commit, push, and open PR.
 
 ### Done
 
-- _(none; previous phase archived)_
+- _(none yet)_
 
 ### Blocked / skipped
 
-- _(use `[!]` or `[-]` with a one-line reason)_
+- [!] Full Phase 06C acceptance — blocked until Phase 06B provides real reviewer-critic output; this branch may only add mocked review-score merge support.
 
 ---
 
@@ -71,9 +75,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 _Derived from the active phase plan: deliverables, tests/validation, acceptance criteria. Tick when verified, not when merely attempted._
 
-### No Active Phase
+### Phase 06C Prep — Scorecard
 
-- [ ] Select the next phase plan before implementation work resumes.
+- [ ] Scorecard type includes canonical objective fields, `reviewer_scores`, trace linkage, and optional review source linkage.
+- [ ] Trace-only scorecard generation keeps objective metrics and normalizes subjective scores to `null`.
+- [ ] Mocked review-score input can enrich scorecards without implementing Phase 06B reviewer generation.
+- [ ] Required-field validation fails on missing objective fields while allowing null subjective scores.
+- [ ] Scorecard writer preserves deterministic `runs/vXXX/scorecards/` paths.
+- [ ] Public harness exports include updated scorecard types and validator.
+- [ ] Focused tests cover trace-only, trace-plus-review, partial subjective scores, validation failure, deterministic JSON, and saved file shape.
+- [ ] Local validation commands pass or blockers are logged.
+- [!] Full Phase 06C acceptance with real reviewer output remains blocked on Phase 06B.
 
 ---
 
@@ -94,7 +106,9 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
-- 2026-05-22 — orchestrator — PR #10 merged at `dc920ae`; fast-forwarded local `main` to `origin/main`; removed registered worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness-wt`; deleted local branch `phase-05a-harness`. Verified `git worktree list` shows only the main worktree. Preserved the earlier dirty unregistered checkout `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness` per the Phase 05A execution plan.
+- 2026-05-22 — orchestrator — Created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-06c-scorecard-wt` from `origin/main` at `ac573e5` on branch `phase-06c-scorecard-prep`.
+- 2026-05-22 — orchestrator — Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; `agent --list-models` confirmed `composer-2.5` available/current; `git status --short --branch` showed clean `phase-06c-scorecard-prep...origin/main`.
+- 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-06C-SCORECARD.md`. Full acceptance depends on `PHASE-06B-REVIEWER-CRITIC`; this prep branch must use only mocked review-score input and must not implement reviewer generation.
 
 ---
 
