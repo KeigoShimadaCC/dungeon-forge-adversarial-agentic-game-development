@@ -2,6 +2,8 @@
 
 Human-governed handoff from reviewer evidence to a bounded coding-agent task. The harness generates markdown artifacts; it does not apply patches, commit, merge, or open pull requests.
 
+For machine-readable planning before coding, see [PATCH-PROPOSALS.md](./PATCH-PROPOSALS.md). A validated `patch_proposal.json` can be translated into developer-task input after a human owner accepts the scoped changes.
+
 ## Command
 
 ```bash

@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Introduce structured, validated patch proposals that translate reviewer critique into bounded candidate changes before any code is edited. |
 | Branch | `phase/phase-15a-structured-patch-proposals` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-15a-structured-patch-proposals-wt` |
-| Base | `origin/main` at `7612182` |
-| Status | `Planned; worktree not created` |
+| Base | `origin/main` at `29fd8ca` |
+| Status | `Local validation and Cursor recheck passed; commit and PR pending` |
 
 ### Contract (read before editing)
 
@@ -56,13 +56,14 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Generate Phase 15A automation bundle, create isolated worktree, and seed progress before implementation.
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement structured patch-proposal schema, validation, generator/helper, docs, and focused tests within Phase 15A scope.
-- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 15A acceptance, and request Cursor read-only recheck.
 - [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 15A PASS; addressed non-blocking context-validation test-strength note and reran focused/full gates.
+- [x] 2026-05-23 orchestrator — Review Cursor diff, harden per-change evidence-entry validation, run focused/full local gates, and re-read Phase 15A acceptance.
+- [x] 2026-05-23 Cursor/composer-2.5 — Implement structured patch-proposal schema, validation, generator/helper, docs, and focused tests within Phase 15A scope.
+- [x] 2026-05-23 orchestrator — Generate Phase 15A automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
 - [x] 2026-05-23 orchestrator — Merge Phase 14C PR #33, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 15A.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 14C PASS; addressed non-blocking diagnostic text gap for `evidence_quality`, reran focused/full gates, and left only commit/PR/CI readiness.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, require `evidence_quality`, add scorecard result/turns to Markdown run facts, run focused/full gates.
@@ -121,15 +122,15 @@ _Derived from `phase-plans/PHASE-15A-STRUCTURED-PATCH-PROPOSALS.md`. Tick when v
 
 ### Phase 15A — Structured Patch Proposals
 
-- [ ] Patch-proposal schema and validator exist.
-- [ ] Non-mutating proposal generation or assembly command/helper exists.
-- [ ] Valid proposals reference trace, review, scorecard, and/or acceptance evidence artifacts.
-- [ ] Forbidden features are rejected or flagged as blockers.
-- [ ] Missing or incomplete evidence prevents proposal acceptance.
-- [ ] Generated developer task can consume a valid proposal.
-- [ ] Documentation explains how proposals feed developer tasks and human governance.
-- [ ] Protocol and gameplay invariants remain explicit; no automatic patch application is introduced.
-- [ ] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [x] Patch-proposal schema and validator exist.
+- [x] Non-mutating proposal generation or assembly command/helper exists.
+- [x] Valid proposals reference trace, review, scorecard, and/or acceptance evidence artifacts.
+- [x] Forbidden features are rejected or flagged as blockers.
+- [x] Missing or incomplete evidence prevents proposal acceptance.
+- [x] Generated developer task can consume a valid proposal.
+- [x] Documentation explains how proposals feed developer tasks and human governance.
+- [x] Protocol and gameplay invariants remain explicit; no automatic patch application is introduced.
+- [x] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -299,6 +300,11 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 14C PASS against the phase plan, protocol invariants, local validation, forbidden-scope review, and secrets scan. Recheck was blocked only on expected merge readiness: untracked/uncommitted implementation, no PR, and no GitHub CI yet. Non-blocking note about developer-task review-field text was fixed by adding `evidence_quality` to the diagnostic message and assertion coverage. Validation PASS after fix: `pnpm test tests/developer-workflow.test.ts tests/reviewer-persona-reporting.test.ts tests/reviewer-critic.test.ts` (25 tests), `pnpm run check` (25 files, 235 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`.
 - 2026-05-23 — orchestrator — Phase 14C PR #33 merged at `761218212e7c0e54ac9690565f45d35700696fe9` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-14C --evidence runs/phase-runner/PHASE-14C/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-15A`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 15A with initial task queue and checklist from `phase-plans/PHASE-15A-STRUCTURED-PATCH-PROPOSALS.md`.
+- 2026-05-23 — orchestrator — Phase 15A automation start: `pnpm run phase -- status` selected `PHASE-15A`; `pnpm run phase -- bundle --phase PHASE-15A --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-15A/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-15a-structured-patch-proposals-wt` on branch `phase/phase-15a-structured-patch-proposals` from `origin/main` at `29fd8ca`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
+- 2026-05-23 — Cursor/composer-2.5 — Phase 15A implementation: added `structured-patch-proposal.ts` schema/validator/assembly, `patch-proposal-cli.ts` + `pnpm run patch-proposal`, `developerTaskInputFromPatchProposal`, `docs/PATCH-PROPOSALS.md`, developer-workflow doc link, harness exports, and `tests/patch-proposals.test.ts`. Validation PASS: `pnpm test tests/patch-proposals.test.ts` (7 tests); `pnpm run check` (26 files, 242 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`. Scope limited to harness/tests/docs/package.json; no `src/game/**` edits and no automatic patch application.
+- 2026-05-23 — orchestrator — Reviewed and hardened the Phase 15A diff: per-change proposal evidence entries now require supported kinds, non-empty details, and finite turns when present. Validation PASS: `pnpm test tests/patch-proposals.test.ts` (8 tests), `pnpm run check` (26 files, 243 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), `git diff --check`, and `git diff -- src/game content concept-and-ideas phase-plans` empty. Re-read `phase-plans/PHASE-15A-STRUCTURED-PATCH-PROPOSALS.md`; deliverables and acceptance criteria are satisfied locally.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 15A PASS against the phase plan, local validation, protocol invariants, forbidden-scope review, and secrets scan. Recheck was blocked only on expected merge readiness: untracked/uncommitted implementation, no PR, and no GitHub CI yet. Non-blocking note about `validatePatchProposalReviewContext` coverage was fixed with a context-mismatch regression test. Validation PASS after fix: `pnpm test tests/patch-proposals.test.ts` (9 tests), `pnpm run check` (26 files, 244 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`.
 
 ---
 
