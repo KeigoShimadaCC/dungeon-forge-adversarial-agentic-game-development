@@ -68,6 +68,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-22 — orchestrator — Re-read Phase 04B acceptance criteria against actual repo state after audit follow-up.
 - [x] 2026-05-22 — orchestrator — Pushed `phase-04b-baseline-players` and opened PR #9 to `main`.
 - [x] 2026-05-22 — orchestrator — Re-audited Phase 04B plan implementation at user request; fixed heuristic-test coverage and stairs lookup robustness.
+- [x] 2026-05-22 — orchestrator — Rebased PR #9 on merged Phase 04A `origin/main`, resolved `PROGRESS.MD` conflict, and preserved Phase 04A in the archive.
 
 ### Blocked / skipped
 
@@ -132,12 +133,21 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — Final Phase 04B validation after audit follow-up: `pnpm test` exit 0 (6 files, 52 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `git diff --check` exit 0; `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`. Acceptance re-read: cheap baseline crash/softlock smoke coverage exists, policies do not mutate game state directly, and gameplay remains structured-action based with no `src/game/**` contract changes.
 - 2026-05-22 — orchestrator — Pushed branch with `git push -u origin phase-04b-baseline-players` and opened PR #9: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/9
 - 2026-05-22 — orchestrator — User-requested implementation-plan recheck: confirmed scope stayed limited to `PROGRESS.MD`, `src/harness/baseline-players/**`, and `tests/baseline-players.test.ts`; no `src/game/**`, package, content, runs, or docs diff. Fixed one robustness gap by making `findStairsPosition` scan the map for the stairs tile before falling back to the current convention. Added direct heuristic tests for `stairsSeeking`, `cautiousLowHp`, and `greedyItemPicker`. Validation after fixes: `pnpm test` exit 0 (6 files, 55 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `git diff --check` exit 0; `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
+- 2026-05-22 — orchestrator — PR #9 conflict fix: fetched `origin/main` at `b6d87c5` (merged Phase 04A), rebased `phase-04b-baseline-players`, resolved `PROGRESS.MD` conflict by keeping Phase 04B active and adding Phase 04A to the phase archive. Post-rebase validation: `pnpm test` exit 0 (7 files, 65 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `git diff --check` exit 0; `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 04A — ASCII renderer
+
+- **Status:** `done`
+- **Branch / PR:** `phase-04a-ascii-renderer` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/8
+- **Merge commit:** `b6d87c5`
+- **Outcome:** Deterministic text/ASCII rendering moved into `src/game/render.ts` with `GameEngine.render(state)` preserved through the stable engine interface. Render output includes map symbols, floor/turn, HP, inventory, legend, recent log, and explicit terminal outcome text while remaining pure from the caller perspective.
+- **Key evidence:** `tests/render.test.ts`; Phase 04A validation passed with `pnpm test` (6 files, 53 tests), `pnpm run typecheck`, `pnpm run lint`, and `git diff --check`; Cursor read-only audit reported PASS before merge.
 
 ### Phase 03A — Minimal dungeon
 
