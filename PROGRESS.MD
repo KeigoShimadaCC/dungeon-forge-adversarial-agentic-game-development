@@ -67,6 +67,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-22 — cursor-agent — Read-only Phase 04B audit against plan and invariants: PASS; no blocking findings.
 - [x] 2026-05-22 — orchestrator — Re-read Phase 04B acceptance criteria against actual repo state after audit follow-up.
 - [x] 2026-05-22 — orchestrator — Pushed `phase-04b-baseline-players` and opened PR #9 to `main`.
+- [x] 2026-05-22 — orchestrator — Re-audited Phase 04B plan implementation at user request; fixed heuristic-test coverage and stairs lookup robustness.
 
 ### Blocked / skipped
 
@@ -130,6 +131,7 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — cursor-agent — Read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace /Users/keigoshimada/Documents/dungeon-forge-phase-04b`): PASS. Audit noted test-hardening gaps around explicit action reference identity and cloned-action rejection; orchestrator added `tests/baseline-players.test.ts` coverage for both.
 - 2026-05-22 — orchestrator — Final Phase 04B validation after audit follow-up: `pnpm test` exit 0 (6 files, 52 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `git diff --check` exit 0; `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`. Acceptance re-read: cheap baseline crash/softlock smoke coverage exists, policies do not mutate game state directly, and gameplay remains structured-action based with no `src/game/**` contract changes.
 - 2026-05-22 — orchestrator — Pushed branch with `git push -u origin phase-04b-baseline-players` and opened PR #9: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/9
+- 2026-05-22 — orchestrator — User-requested implementation-plan recheck: confirmed scope stayed limited to `PROGRESS.MD`, `src/harness/baseline-players/**`, and `tests/baseline-players.test.ts`; no `src/game/**`, package, content, runs, or docs diff. Fixed one robustness gap by making `findStairsPosition` scan the map for the stairs tile before falling back to the current convention. Added direct heuristic tests for `stairsSeeking`, `cautiousLowHp`, and `greedyItemPicker`. Validation after fixes: `pnpm test` exit 0 (6 files, 55 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `git diff --check` exit 0; `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
 
 ---
 

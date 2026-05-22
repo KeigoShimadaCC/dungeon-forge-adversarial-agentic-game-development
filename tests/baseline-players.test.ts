@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { getAvailableActions, render, start } from '../src/game/engine.js';
+import { POTION_ITEM_ID } from '../src/game/content.js';
 import {
   TERMINAL_STATUSES,
   type GameState,
@@ -10,7 +11,9 @@ import {
   CANONICAL_REGRESSION_SEEDS,
   cautiousLowHp,
   createRandomValidActionPolicy,
+  findStairsPosition,
   greedyItemPicker,
+  manhattanDistance,
   randomValidAction,
   runBaselinePolicyPlaythrough,
   stairsSeeking,
@@ -46,6 +49,18 @@ function policyChoiceFromActions(
     availableActions,
     turn: state.turn,
   });
+}
+
+function emptyActiveState(seed: string): GameState {
+  return {
+    ...start(seed),
+    enemies: [],
+    items: [],
+  };
+}
+
+function choose(policy: BaselinePlayerPolicy, state: GameState): PlayerAction {
+  return policyChoiceFromActions(state, policy, getAvailableActions(state));
 }
 
 describe('Phase 04B baseline players', () => {
@@ -105,6 +120,107 @@ describe('Phase 04B baseline players', () => {
 
     const repeats = Array.from({ length: 6 }, () => policyA(input).id);
     expect(new Set(repeats).size).toBe(1);
+  });
+
+  it('stairsSeeking descends when possible and otherwise moves closer to stairs', () => {
+    const onStairs = emptyActiveState('stairs-descend');
+    onStairs.player = {
+      ...onStairs.player,
+      ...findStairsPosition(onStairs),
+    };
+    expect(choose(stairsSeeking, onStairs).id).toBe('descend_stairs');
+
+    const approaching = emptyActiveState('stairs-move');
+    approaching.player = {
+      ...approaching.player,
+      x: 4,
+      y: 5,
+    };
+
+    const stairs = findStairsPosition(approaching);
+    const choice = choose(stairsSeeking, approaching);
+    expect(choice.type).toBe('move');
+    const dx = choice.payload?.dx;
+    const dy = choice.payload?.dy;
+    expect(typeof dx).toBe('number');
+    expect(typeof dy).toBe('number');
+    const destination = {
+      x: approaching.player.x + (dx as number),
+      y: approaching.player.y + (dy as number),
+    };
+    expect(manhattanDistance(destination, stairs)).toBeLessThan(
+      manhattanDistance(approaching.player, stairs),
+    );
+  });
+
+  it('cautiousLowHp uses a potion at low HP and otherwise prefers safe movement', () => {
+    const lowHp = emptyActiveState('cautious-potion');
+    lowHp.player = {
+      ...lowHp.player,
+      hp: 8,
+      inventory: [POTION_ITEM_ID],
+    };
+    expect(choose(cautiousLowHp, lowHp).id).toBe(`use_${POTION_ITEM_ID}`);
+
+    const threatened = emptyActiveState('cautious-safe-move');
+    threatened.player = {
+      ...threatened.player,
+      x: 3,
+      y: 3,
+    };
+    threatened.enemies = [
+      {
+        id: 'slime-cautious-test',
+        type: 'slime',
+        label: 'Green Slime',
+        hp: 6,
+        maxHp: 6,
+        attack: 2,
+        glyph: 's',
+        x: 4,
+        y: 3,
+      },
+    ];
+
+    const choice = choose(cautiousLowHp, threatened);
+    expect(choice.type).toBe('move');
+    expect(choice.id).not.toBe('move_east');
+  });
+
+  it('greedyItemPicker picks up current-tile items and otherwise moves toward the nearest item', () => {
+    const standingOnItem = emptyActiveState('greedy-pickup');
+    standingOnItem.items = [
+      {
+        id: 'potion-greedy-current',
+        type: POTION_ITEM_ID,
+        label: 'Healing Potion',
+        glyph: '!',
+        x: standingOnItem.player.x,
+        y: standingOnItem.player.y,
+      },
+    ];
+    expect(choose(greedyItemPicker, standingOnItem).id).toBe(
+      'pickup_potion-greedy-current',
+    );
+
+    const movingToItem = emptyActiveState('greedy-move');
+    movingToItem.player = {
+      ...movingToItem.player,
+      x: 2,
+      y: 2,
+    };
+    movingToItem.items = [
+      {
+        id: 'potion-greedy-near',
+        type: POTION_ITEM_ID,
+        label: 'Healing Potion',
+        glyph: '!',
+        x: 2,
+        y: 4,
+      },
+    ];
+
+    expect(choose(greedyItemPicker, movingToItem).id).toBe('move_south');
   });
 
   it.each([

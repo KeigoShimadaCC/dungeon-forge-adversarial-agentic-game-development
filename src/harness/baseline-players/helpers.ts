@@ -13,11 +13,18 @@ const LOW_HP_FRACTION = 0.4;
 export const manhattanDistance = (a: Position, b: Position): number =>
   Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 
-/** Stairs tile on the current floor (engine places stairs at width-2, height-2). */
-export const findStairsPosition = (state: GameState): Position => ({
-  x: state.map.width - 2,
-  y: state.map.height - 2,
-});
+export const findStairsPosition = (state: GameState): Position => {
+  for (let y = 0; y < state.map.tiles.length; y += 1) {
+    const row = state.map.tiles[y];
+    for (let x = 0; x < row.length; x += 1) {
+      if (row[x]?.type === 'stairs') {
+        return { x, y };
+      }
+    }
+  }
+
+  return { x: state.map.width - 2, y: state.map.height - 2 };
+};
 
 export const isLowHp = (state: GameState): boolean =>
   state.player.hp <= Math.max(1, Math.floor(state.player.maxHp * LOW_HP_FRACTION));
