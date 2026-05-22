@@ -20,9 +20,9 @@ This repo builds an agentic adversarial game-development testbed: a developer ag
 2. `phase-plans/PHASE-00A...` = global invariants.
 3. Active phase file = implementation contract.
 4. `PROGRESS.MD` = live coordination (tasks, checklist, evidence, backlog)—not product design.
-4. Future `src/game/**` = canonical game rules and `GameEngine`.
-5. Future `src/harness/**` = canonical playthrough, trace, scorecard, and acceptance logic.
-6. Future `runs/**` = derived evidence, not source design truth.
+5. Future `src/game/**` = canonical game rules and `GameEngine`.
+6. Future `src/harness/**` = canonical playthrough, trace, scorecard, and acceptance logic.
+7. Future `runs/**` = derived evidence, not source design truth.
 
 ## Non-Negotiable Rules
 
@@ -93,6 +93,18 @@ Risky changes require confirmation first:
 - Use `game-protocol-reviewer` when `src/game/**`, `src/harness/**`, actions, terminal states, traces, or scorecards change.
 - Use `test-verifier` before claiming a phase is complete.
 - Keep subagents read/review focused unless the user asks for implementation.
+
+## Cursor Agent Orchestration
+
+When the user requests Cursor Agent, Composer, or maximum automation, use Cursor Agent CLI as a bounded delegate and keep final responsibility in this orchestrator.
+
+- Default model: `composer-2.5`.
+- Default command shape: `agent --print --trust --model composer-2.5 --workspace <worktree-path> "<bounded prompt>"`.
+- Use isolated worktrees for phase work when practical, and remove them after merged PRs.
+- Give Cursor specific ownership, constraints, forbidden changes, and verification commands in the prompt.
+- For read-only audits, prefer `--mode=ask` with explicit no-edit instructions if `--mode=plan` returns empty output.
+- If `agent status` or `agent models` fails with macOS keychain errors, rerun with the required elevated access and record the result in `PROGRESS.MD`.
+- Never accept Cursor output as proof by itself; inspect diffs and rerun relevant validation before committing or claiming completion.
 
 ## When Unsure
 
