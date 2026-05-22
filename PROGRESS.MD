@@ -8,12 +8,12 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | `phase-plans/PHASE-04A-ASCII-RENDERER.md` |
-| Goal | Make the game readable through a plain text/ASCII render that both humans and reviewer agents can inspect. |
-| Branch | `phase-04a-ascii-renderer` |
-| Worktree | `../dungeon-forge-phase-04a-ascii-renderer` |
+| Phase | `phase-plans/PHASE-04B-BASELINE-PLAYERS.md` |
+| Goal | Add deterministic non-LLM automated baseline players for cheap smoke testing before reviewer agents exist. |
+| Branch | `phase-04b-baseline-players` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-04b` |
 | Base | `origin/main` |
-| Status | `pr_open` |
+| Status | `in_progress` |
 
 ### Contract (read before editing)
 
@@ -56,19 +56,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- _(none)_
+- [ ] Implement baseline player modules (random valid-action, stairs-seeking, cautious low-HP, greedy item-picker) under `src/harness/**` or another clear non-game-engine boundary.
+- [ ] Add deterministic policy RNG where needed; policies choose only from `getAvailableActions(state)`.
+- [ ] Add tests proving valid action selection, terminal completion (`WIN` / `LOSS` / `ABORTED`), reproducibility, and canonical regression seeds `seed_001`–`seed_005`.
+- [ ] Add minimal runner helper for policy smoke tests if needed.
+- [ ] Run validation: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`.
+- [ ] Cursor read-only audit of Phase 04B implementation against plan and invariants.
+- [ ] Push `phase-04b-baseline-players` and open PR to `main`.
 
 ### Done
 
-- _(move completed queue items here with `[x]`)_
-- [x] 2026-05-22 — orchestrator — Set up Phase 04A worktree/progress tracking and confirm Cursor preflight.
-- [x] 2026-05-22 — orchestrator/Cursor — Implement deterministic ASCII renderer in `src/game/render.ts` with minimal `GameEngine.render` integration.
-- [x] 2026-05-22 — orchestrator/Cursor — Add render-focused tests for map/HUD/inventory/legend/log/determinism/purity/terminal states.
-- [x] 2026-05-22 — orchestrator — Inspect diff for unexpected gameplay/protocol changes.
-- [x] 2026-05-22 — orchestrator — Run `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, and `git diff --check`.
-- [x] 2026-05-22 — orchestrator/Cursor — Run read-only Cursor audit against Phase 04A and invariants.
-- [x] 2026-05-22 — orchestrator — Re-read Phase 04A acceptance criteria against actual repo state.
-- [x] 2026-05-22 — orchestrator — Commit, push, and open PR.
+- [x] 2026-05-22 — orchestrator — Seed PROGRESS.MD for Phase 04B baseline players (user chose 04B over stale 04A Active Phase).
 
 ### Blocked / skipped
 
@@ -80,24 +78,31 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 _Derived from the active phase plan: deliverables, tests/validation, acceptance criteria. Tick when verified, not when merely attempted._
 
-### Phase 04A — ASCII renderer
+### Phase 04B — Baseline players
 
-- [x] Read Phase 04A plan and confirm scope boundaries (no image/sprite renderer, browser-only UI, animation, audio, real-time input, or render-time state mutation).
-- [x] Ensure `render(state)` includes ASCII map symbols for player, floors, walls, stairs, enemies, and items.
-- [x] Ensure `render(state)` includes floor and turn display.
-- [x] Ensure `render(state)` includes HP and inventory display.
-- [x] Ensure `render(state)` includes a legend.
-- [x] Ensure `render(state)` includes recent event log information.
-- [x] Ensure `render(state)` works for `ACTIVE`, `WIN`, `LOSS`, and `ABORTED` states.
-- [x] Keep rendering pure from the caller perspective and deterministic for the same state.
-- [x] Add or update render tests for non-empty output, player symbol, floor/turn, HP, inventory, legend, recent log, and terminal states.
-- [x] `pnpm test` passes.
-- [x] `pnpm run typecheck` passes.
-- [x] `pnpm run lint` passes.
-- [x] A reviewer can make tactical decisions from render plus available actions (acceptance).
-- [x] Renderer remains text/ASCII first and requires no media assets (acceptance).
-- [x] Re-read acceptance criteria against actual repo state.
-- [x] Push branch and open PR when implemented.
+- [ ] Read Phase 04B plan and confirm scope boundaries (no LLM player integration, optimal pathfinding requirements, human UI, or game engine contract changes for policy convenience).
+- [ ] Baseline player modules under `src/harness/**` or another clear non-game-engine boundary.
+- [ ] Random valid-action player.
+- [ ] Stairs-seeking player.
+- [ ] Cautious low-HP player.
+- [ ] Greedy item-picker player.
+- [ ] Deterministic policy RNG where needed; policies choose only from `getAvailableActions(state)` and are deterministic for a fixed seed and state sequence.
+- [ ] Tests proving valid action selection.
+- [ ] Minimal runner helper for policy smoke tests if needed.
+- [ ] Each baseline player can run.
+- [ ] Baseline players only choose valid actions.
+- [ ] A game driven by a baseline player reaches `WIN`, `LOSS`, or `ABORTED`.
+- [ ] Baseline runs do not crash.
+- [ ] Fixed policy seed produces reproducible choices.
+- [ ] Canonical regression seeds `seed_001` through `seed_005` complete without undefined terminal states.
+- [ ] `pnpm test` passes.
+- [ ] `pnpm run typecheck` passes.
+- [ ] `pnpm run lint` passes.
+- [ ] Cheap crash and softlock detection before LLM costs are introduced (acceptance).
+- [ ] Baseline players do not mutate game state directly (acceptance).
+- [ ] Gameplay remains structured-action based (acceptance).
+- [ ] Re-read acceptance criteria against actual repo state.
+- [ ] Push branch and open PR when implemented.
 
 ---
 
@@ -119,13 +124,7 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
 - 2026-05-22 — orchestrator — PR #7 merged at `2fdc283`; rebased local `main` onto `origin/main` while preserving local docs commit `6b9d787`; rotated active phase to `PHASE-04A-ASCII-RENDERER.md` and archived Phase 03A summary. Post-merge validation: `pnpm test` exit 0 (5 files, 43 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0, and `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
-- 2026-05-22 — orchestrator — Phase 04A start: created worktree `../dungeon-forge-phase-04a-ascii-renderer` on branch `phase-04a-ascii-renderer` from `origin/main`; `agent --list-models` required escalated keychain access and confirmed `composer-2.5` is available; main checkout was clean before worktree creation.
-- 2026-05-22 — Cursor Agent (composer-2.5) — Implementation pass moved ASCII rendering into `src/game/render.ts`, kept `GameEngine.render(state)` via engine re-export, added `tests/render.test.ts`, and reported `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` passing.
-- 2026-05-22 — orchestrator — Diff review found changes limited to `src/game/render.ts`, minimal `src/game/engine.ts` import/re-export, `tests/render.test.ts`, and removal of duplicate render assertions from `tests/engine.test.ts`; no action, turn, seeded setup, content, or terminal-state logic changes found.
-- 2026-05-22 — orchestrator — Local validation passed: `pnpm test` exit 0 (6 files, 53 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0.
-- 2026-05-22 — Cursor Agent (composer-2.5, read-only audit) — Overall PASS against Phase 04A and invariants; low-severity notes included terminal rendering being status-line only and `tests/render.test.ts` still untracked before commit. Orchestrator addressed terminal clarity by adding explicit `Outcome:` text for `ACTIVE`, `WIN`, `LOSS`, and `ABORTED`.
-- 2026-05-22 — orchestrator — Post-audit validation passed after terminal outcome text: `pnpm test` exit 0 (6 files, 53 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0. Manual acceptance re-read confirms render is text/ASCII only, deterministic for same state, pure from caller perspective, and sufficient for tactical review with available actions.
-- 2026-05-22 — orchestrator — Committed Phase 04A implementation (`92733af`), pushed branch `phase-04a-ascii-renderer`, and opened PR #8: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/8.
+- 2026-05-22 — orchestrator — Phase 04B progress seed: read `phase-plans/PHASE-04B-BASELINE-PLAYERS.md` and `PROGRESS.MD`; user explicitly chose Phase 04B over stale Active Phase 04A. Preflight: `origin/main` baseline clean for worktree setup; `composer-2.5` available for delegated passes; branch `phase-04b-baseline-players` and worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-04b` created from `origin/main`. Updated Active Phase, task queue, and Phase 04B checklist only (no source/tests/package changes in this slice).
 
 ---
 
