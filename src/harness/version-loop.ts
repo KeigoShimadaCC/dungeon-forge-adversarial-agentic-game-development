@@ -25,12 +25,16 @@ import {
   savePlaythroughReview,
 } from './artifacts.js';
 import { stringifyDeterministicJson } from './json.js';
-import { awaitPolicyDecision, resolveBaselinePolicy } from './policy-registry.js';
-import { generateDeterministicReview, type ReviewerPersona } from './reviewer-client.js';
+import {
+  assertRealLlmRunAllowed,
+  createPersonaPolicyForRun,
+  createReviewerForRun,
+  type RunVersionLlmOptions,
+} from './llm-run-options.js';
+import type { ReviewerPersona } from './reviewer-client.js';
 import { runPlaythrough } from './runner.js';
 import { deriveScorecardFromTrace, validateScorecard } from './scorecard.js';
 import type {
-  HarnessPlayerPolicy,
   LlmPlayerPersona,
   PlaythroughScorecard,
   PlaythroughTrace,
@@ -233,7 +237,10 @@ export const buildVersionSummaryRelativePath = (version: string): string =>
 export interface RunVersionOptions {
   onExisting?: ArtifactWriteOptions['onExisting'];
   policyContext?: ArtifactWritePolicyContext;
+  llm?: RunVersionLlmOptions;
 }
+
+export type { RunVersionLlmOptions } from './llm-run-options.js';
 
 export interface PersistVersionSummaryOptions {
   onExisting?: ArtifactWriteOptions['onExisting'];
@@ -282,22 +289,6 @@ export const ensureVersionFolder = async (
   return { paths, createdMarkdown, preservedMarkdown };
 };
 
-const createPersonaPolicy = (persona: LlmPlayerPersona, seed: string): HarnessPlayerPolicy => {
-  const baselinePolicy = resolveBaselinePolicy(PERSONA_BASELINE_POLICY[persona], seed);
-  return async (input) => {
-    const decision = await awaitPolicyDecision(baselinePolicy(input));
-    return {
-      ...decision,
-      reason: decision.reason ?? `${persona} deterministic local policy.`,
-      decision_metadata: {
-        ...decision.decision_metadata,
-        persona,
-        fallback_used: false,
-      },
-    };
-  };
-};
-
 export const runVersion = async (
   runsRoot: string,
   version: string,
@@ -306,12 +297,14 @@ export const runVersion = async (
 ): Promise<VersionRunOutput> => {
   const resolvedVersion = resolveVersionId(version);
   validateVersionId(version);
+  assertRealLlmRunAllowed(options.llm);
   await ensureVersionFolder(runsRoot, resolvedVersion);
   const runs: VersionRunResult[] = [];
   const saveOptions = {
     write: { onExisting: options.onExisting },
     policyContext: options.policyContext,
   };
+  const reviewer = createReviewerForRun(options.llm);
 
   for (const spec of specs) {
     const playthrough = await runPlaythrough({
@@ -319,13 +312,18 @@ export const runVersion = async (
       policyId: spec.persona,
       version: resolvedVersion,
       runsRoot,
-      policy: createPersonaPolicy(spec.persona, spec.seed),
+      policy: createPersonaPolicyForRun(
+        spec.persona,
+        spec.seed,
+        PERSONA_BASELINE_POLICY,
+        options.llm,
+      ),
       onExisting: options.onExisting,
       policyContext: options.policyContext,
     });
     const tracePath = buildTraceRelativePath(resolvedVersion, spec.seed, spec.persona);
     const traceOnlyScorecard = deriveScorecardFromTrace(playthrough.trace, tracePath);
-    const review = generateDeterministicReview({
+    const review = await reviewer.generateReview({
       trace: playthrough.trace,
       scorecard: traceOnlyScorecard,
       persona: spec.persona as ReviewerPersona,

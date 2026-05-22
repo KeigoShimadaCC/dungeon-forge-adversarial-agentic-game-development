@@ -51,6 +51,7 @@ describe('Phase 06A LLM player', () => {
       client: mockClient(
         JSON.stringify({
           action_id: target!.id,
+          action_type: target!.type,
           reason: 'East corridor looks safer.',
         }),
       ),
@@ -70,6 +71,7 @@ describe('Phase 06A LLM player', () => {
       client: mockClient(
         JSON.stringify({
           action_id: 'not_a_real_action',
+          action_type: 'move',
           reason: 'Trying a bogus move.',
         }),
       ),
@@ -119,7 +121,11 @@ describe('Phase 06A LLM player', () => {
       persona: 'careful_player',
       timeoutMs: 5,
       client: mockClient(
-        JSON.stringify({ action_id: input.availableActions[0].id, reason: 'too late' }),
+        JSON.stringify({
+          action_id: input.availableActions[0].id,
+          action_type: input.availableActions[0].type,
+          reason: 'too late',
+        }),
         50,
       ),
     });
@@ -146,6 +152,7 @@ describe('Phase 06A LLM player', () => {
   it('parses object responses from the client', () => {
     const parsed = parseLlmPlayerModelOutput({
       action_id: 'wait',
+      action_type: 'wait',
       reason: 'hold position',
     });
     expect(parsed.ok).toBe(true);
@@ -166,7 +173,50 @@ describe('Phase 06A LLM player', () => {
     const prompt = buildLlmPlayerPrompt(input);
     expect(prompt).toContain('bug_hunter');
     expect(prompt).toContain('action_id');
+    expect(prompt).toContain('action_type');
     expect(prompt).toContain('available_actions');
+  });
+
+  it('rejects wrong action_type and preserves model_reason in fallback metadata', async () => {
+    const input = policyInputFromSeed('seed_001');
+    const target = input.availableActions.find((action) => action.type === 'move');
+    expect(target).toBeDefined();
+
+    const decision = await resolveLlmPlayerDecision(input, {
+      persona: 'careful_player',
+      client: mockClient(
+        JSON.stringify({
+          action_id: target!.id,
+          action_type: 'attack',
+          reason: 'Mismatch type on purpose.',
+        }),
+      ),
+    });
+
+    expect(decision.decision_metadata).toMatchObject({
+      fallback_used: true,
+      fallback_reason: 'invalid_action_type',
+      invalid_action_id: target!.id,
+      invalid_action_type: 'attack',
+      model_reason: 'Mismatch type on purpose.',
+    });
+  });
+
+  it('rejects missing action_type with deterministic fallback', async () => {
+    const input = policyInputFromSeed('seed_002');
+    const target = input.availableActions[0];
+    const decision = await resolveLlmPlayerDecision(input, {
+      persona: 'naive_player',
+      client: mockClient(
+        JSON.stringify({
+          action_id: target.id,
+          reason: 'Missing type field.',
+        }),
+      ),
+    });
+
+    expect(decision.decision_metadata?.fallback_reason).toBe('missing_action_type');
+    expect(decision.decision_metadata?.model_reason).toBe('Missing type field.');
   });
 
   it('records LLM reason, persona, and fallback metadata in trace steps', async () => {
@@ -214,6 +264,7 @@ describe('Phase 06A LLM player', () => {
       persona: 'bug_hunter',
       client: mockClient({
         action_id: move!.id,
+        action_type: move!.type,
         reason: 'Probe the legal movement action.',
       }),
     });
@@ -248,7 +299,11 @@ describe('Phase 06A LLM player', () => {
 
     const policy = createLlmPlayerPolicy({
       persona: 'naive_player',
-      client: mockClient({ action_id: move!.id, reason: 'go' }),
+      client: mockClient({
+        action_id: move!.id,
+        action_type: move!.type,
+        reason: 'go',
+      }),
     });
 
     const decision = await awaitPolicyDecision(policy(input));

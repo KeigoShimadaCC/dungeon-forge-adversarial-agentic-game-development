@@ -1,4 +1,4 @@
-import { parseHarnessCliCommonArgs } from './cli-args.js';
+import { parseHarnessCliCommonArgs, parseHarnessLlmCliArgs } from './cli-args.js';
 import { stringifyDeterministicJson } from './json.js';
 import {
   ensureVersionFolder,
@@ -14,19 +14,32 @@ interface ParsedArgs {
   runsRoot: string;
   onExisting: import('./artifact-write-policy.js').ArtifactWriteMode;
   stdoutOnly: boolean;
+  useLlmPlayer: boolean;
+  useLlmReviewer: boolean;
 }
 
 const parseArgs = (argv: string[]): ParsedArgs => {
   const common = parseHarnessCliCommonArgs(argv);
+  const llm = parseHarnessLlmCliArgs(argv);
   const args: ParsedArgs = {
     runsRoot: common.runsRoot,
     onExisting: common.onExisting,
     stdoutOnly: false,
+    useLlmPlayer: llm.useLlmPlayer,
+    useLlmReviewer: llm.useLlmReviewer,
   };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     const next = argv[index + 1];
     if (arg === '--') {
+      continue;
+    } else if (
+      arg === '--use-llm-player' ||
+      arg === '--llm-player' ||
+      arg === '--use-llm-reviewer' ||
+      arg === '--llm-reviewer' ||
+      arg === '--use-llm'
+    ) {
       continue;
     } else if (arg === '--version' && next) {
       args.version = next;
@@ -69,6 +82,10 @@ export const runRunVersionCli = async (argv: string[] = process.argv.slice(2)): 
   writeJson(
     await runVersion(args.runsRoot, requireArg(args.version, 'version'), undefined, {
       onExisting: args.onExisting,
+      llm: {
+        usePlayer: args.useLlmPlayer,
+        useReviewer: args.useLlmReviewer,
+      },
     }),
   );
 };
