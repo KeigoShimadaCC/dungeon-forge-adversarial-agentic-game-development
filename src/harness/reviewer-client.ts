@@ -43,6 +43,14 @@ export interface ReviewerScores {
 
 export type ReviewEvidenceQuality = 'full' | 'partial' | 'minimal';
 
+export interface ReviewerPersonaMetadata {
+  id: ReviewerPersona;
+  display_name: string;
+  description: string;
+  emphasis: string[];
+  player_policy_hint: string;
+}
+
 export interface PlaythroughReview {
   version: string;
   seed: string;
@@ -53,7 +61,17 @@ export interface PlaythroughReview {
   suggested_next_changes: string[];
   trace_path?: string;
   scorecard_path?: string;
+  scorecard_result?: PlaythroughScorecard['result'];
+  scorecard_turns?: number;
+  review_markdown_path?: string;
+  persona_metadata?: ReviewerPersonaMetadata;
   evidence_quality: ReviewEvidenceQuality;
+  review_metadata?: {
+    generation?: 'llm' | 'deterministic';
+    fallback_used?: boolean;
+    fallback_reason?: string;
+    model_summary?: string;
+  };
 }
 
 export interface ReviewerCriticInput {
