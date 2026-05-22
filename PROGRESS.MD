@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Capture human playtest sessions in the same evidence model as agent playthroughs. |
 | Branch | `phase/phase-17b-human-playtest-traces` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-17b-human-playtest-traces-wt` |
-| Base | `origin/main` at `f2b89ac` |
-| Status | `Queued; automation state advanced after Phase 17A merge` |
+| Base | `origin/main` at `454353f` |
+| Status | `Seed checkpoint complete; Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -52,16 +52,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Generate Phase 17B automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
+- [~] 2026-05-23 Cursor/composer-2.5 — Implement human trace capture path, human metadata fields, scorecard support for human traces, optional notes/post-run feedback artifact, and trace-shape tests.
 
 ### Open
 
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement human trace capture path, human metadata fields, scorecard support for human traces, optional notes/post-run feedback artifact, and trace-shape tests.
 - [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates, request Cursor read-only recheck, and re-read Phase 17B acceptance.
 - [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Generated Phase 17B automation bundle under `runs/phase-runner/PHASE-17B/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-17b-human-playtest-traces-wt`, confirmed `composer-2.5`, and seeded progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 17A PR #41 merged at `f2b89aca67522422ce0226dba585fc37163c3817`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 17B.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 17A PASS; non-blocking interactive terminal E2E suggestion recorded in Future backlog; merge readiness pending commit/PR/CI only.
 - [x] 2026-05-23 orchestrator — Review Cursor diff; enforce ASCII-only divider and correct script-mode docs; rerun focused/full local gates and auto-play smoke.
@@ -415,6 +415,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 17A PASS against the phase plan, local terminal UI, structured actions, display/status/log/inventory, terminal outcomes, trace saving, docs, no UI source-of-truth bypass, no forbidden scope, and game protocol invariants. Recheck noted only merge-readiness blockers plus optional interactive terminal E2E coverage, now recorded in Future backlog.
 - 2026-05-23 — orchestrator — Phase 17A PR #41 merged at `f2b89aca67522422ce0226dba585fc37163c3817` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-17A --evidence runs/phase-runner/PHASE-17A/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-17B`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 17B with initial task queue and checklist from `phase-plans/PHASE-17B-HUMAN-PLAYTEST-TRACES.md`.
+- 2026-05-23 — orchestrator — Phase 17B automation start: main handoff commit `454353f` passed GitHub `Repo gates`; `pnpm run phase -- bundle --phase PHASE-17B --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-17B/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-17b-human-playtest-traces-wt` on branch `phase/phase-17b-human-playtest-traces` from `origin/main` at `454353f`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: sandboxed `agent --list-models` hit expected macOS keychain `SecItemCopyMatching failed -50`, and escalated rerun confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
 
 ---
 
