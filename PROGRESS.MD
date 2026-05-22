@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-13a-evidence-retention` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-13a-evidence-retention-wt` |
 | Base | `origin/main` at `685b619` |
-| Status | `In progress` |
+| Status | `Validation passed; ready for PR` |
 
 ### Contract (read before editing)
 
@@ -52,17 +52,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Seed Phase 13A progress state, inspect current artifact-writing code, and delegate bounded implementation to Cursor/composer-2.5.
+- _(none)_
 
 ### Open
 
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement artifact write policy for version-loop, balance, summary, and comparison outputs.
-- [ ] 2026-05-23 Cursor/composer-2.5 — Persist version summary and comparison artifacts in deterministic locations.
-- [ ] 2026-05-23 Cursor/composer-2.5 — Add tests proving reruns do not silently replace evidence and explicit overwrite/archive behavior is honored.
-- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates, and recheck Phase 13A acceptance.
+- _(none)_
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Review Cursor diff, fix recheck blocker for demo-loop CLI default overwrite behavior, run focused/full gates, and recheck Phase 13A acceptance.
+- [x] 2026-05-23 Cursor/composer-2.5 — Implement artifact write policy, persisted summaries/comparisons, CLI `--on-existing`, version-id alias, and `tests/evidence-retention.test.ts`.
 - [x] 2026-05-23 orchestrator — Implement Codex-led phase automation core with DAG/status CLI, phase bundle generation, Cursor/composer-2.5 prompt wiring, automerge gate evaluation, and phase-state completion/blocking updates.
 - [x] 2026-05-23 orchestrator — Double-check Phase 12A implementation against the plan; fixed acceptance-report regeneration timestamp churn, test artifact leakage into committed `runs/`, and rerun instructions for final `v003` acceptance.
 - [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Run read-only Phase 12A audit against invariants, evidence, and tests; address artifact/progress/gate close-out findings.
@@ -98,14 +97,14 @@ _Derived from `phase-plans/PHASE-13A-EVIDENCE-RETENTION.md`. Tick when verified 
 
 ### Phase 13A — Evidence Retention
 
-- [ ] Explicit artifact write policy exists for version-loop commands.
-- [ ] Rerunning a version cannot silently replace trace, review, scorecard, summary, comparison, or markdown evidence.
-- [ ] Explicit overwrite and/or archive behavior is implemented and documented through CLI flags or typed options.
-- [ ] Version summaries are persisted under deterministic version-scoped paths.
-- [ ] Version comparisons are persisted under deterministic comparison paths.
-- [ ] Tests cover no-clobber/archive/overwrite behavior and comparison output paths.
-- [ ] Version-id behavior is documented and consistent across smoke/version-loop commands.
-- [ ] Local final gates pass: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [x] Explicit artifact write policy exists for version-loop commands.
+- [x] Rerunning a version cannot silently replace trace, review, scorecard, summary, comparison, or markdown evidence.
+- [x] Explicit overwrite and/or archive behavior is implemented and documented through CLI flags or typed options.
+- [x] Version summaries are persisted under deterministic version-scoped paths.
+- [x] Version comparisons are persisted under deterministic comparison paths.
+- [x] Tests cover no-clobber/archive/overwrite behavior and comparison output paths.
+- [x] Version-id behavior is documented and consistent across smoke/version-loop commands.
+- [x] Local final gates pass: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -116,6 +115,8 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | ID | Idea | Suggested phase | Why deferred | Noted |
 | --- | --- | --- | --- | --- |
 | F-001 | _(add ideas here)_ | _(phase)_ | _(why deferred)_ | _(agent, date)_ |
+| F-13A-001 | Add README or command reference documentation for `--on-existing`, `--stdout-only`, persisted summary/comparison paths, and archive behavior. | Documentation polish / Phase 14A | Phase 13A records behavior in the phase plan and CLI errors; broader README-style docs are useful but not required for artifact retention acceptance. | orchestrator, 2026-05-23 |
+| F-13A-002 | Expand retention tests for `accept-version`, summary/comparison no-clobber reruns, and review-specific overwrite/archive diagnostics. | Evidence retention hardening follow-up | Phase 13A covers core no-clobber, archive, overwrite, balance summary, persisted summary, and comparison paths; broader matrix coverage can be added later without changing the policy contract. | orchestrator, 2026-05-23 |
 | F-AUTO-001 | Add the command-execution layer that actually runs generated worktree, Cursor, validation, PR, merge, and cleanup commands behind an explicit autopilot mode. | Automation runner follow-up / Phase 15B-15C acceleration | Current pass implements deterministic planning, bundle generation, merge gating, and state updates; direct command execution should be added after this core is reviewed. | orchestrator, 2026-05-23 |
 | F-03A-001 | Extract engine-local map/combat helpers into dedicated modules when those systems grow. | Phase 09B / Phase 09C | Phase 03A permits modules as needed; richer enemy variety and procedural map generation are explicitly scheduled later. | orchestrator, 2026-05-22 |
 | F-06A-001 | Add a real provider adapter behind `LlmPlayerClient` with explicit credential configuration. | Phase 10B or provider-integration phase | Phase 06A intentionally added only the injectable boundary and mocked tests; Phase 07A keeps version evidence local and credential-free. | orchestrator, 2026-05-22 |
@@ -239,6 +240,9 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Implemented Codex-led phase automation core: `automation/` DAG/state/policy/prompts, `pnpm run phase` CLI, prompt bundle writer, automerge gate evaluator, and phase-state complete/block commands. Cursor preflight: `agent --list-models` required escalation due macOS keychain sandbox and confirmed `composer-2.5`. Validation PASS: `pnpm test tests/phase-runner.test.ts` (6 tests), `pnpm test` (20 files, 191 tests), `pnpm run typecheck`, `pnpm run build`, `pnpm run lint`, `git diff --check`, `pnpm run phase -- status`, `pnpm run phase -- next --from PHASE-13A --parallel 2`, and `pnpm run phase -- bundle --phase PHASE-13A --output /tmp/df-phase-runner-bundle-check --run-id cli-check`.
 - 2026-05-23 — orchestrator — Cursor read-only audit attempt for the automation diff was started with `agent --print --trust --mode=ask --model composer-2.5 --workspace ...` but produced no output for the bounded wait and was interrupted with `kill -INT 37705`; local deterministic gates above are the verification evidence.
 - 2026-05-23 — orchestrator — Phase 13A automation start: `pnpm run phase -- status` selected `PHASE-13A`; `pnpm run phase -- bundle --phase PHASE-13A --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-13A/planned`; `git fetch origin` passed; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-13a-evidence-retention-wt` on branch `phase/phase-13a-evidence-retention` from `origin/main` at `685b619`; `agent --list-models` required escalation due macOS keychain sandbox and confirmed `composer-2.5`.
+- 2026-05-23 — Cursor/composer-2.5 — Phase 13A implementation: added `artifact-write-policy` (`fail` default, `overwrite`, `archive` to `runs/_archive/<label>/...`), shared CLI `--on-existing`, persisted `runs/<version>/version_summary.json` and `runs/comparisons/<base>_vs_<target>.{json,md}` from `summarize-version`/`compare-versions` CLIs, wired policy through `run-version`, `run-balance`, `accept-version`, and `demo-loop` (demo defaults to `overwrite`), and version alias `v09c-smoke→v009`. Validation PASS: `pnpm test` (21 files, 197 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `git diff --check`.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck — BLOCKED before merge on `demo-loop` CLI default: shared parser passed `fail` instead of letting `runDemoLoop` default to intentional `overwrite`; also noted implementation was uncommitted and progress still in progress. No files were changed by recheck.
+- 2026-05-23 — orchestrator — Fixed `parseDemoLoopArgs` so CLI omits `onExisting` unless `--on-existing` is explicitly supplied; added test coverage for explicit `--on-existing fail`; hardened alias paths for balance summary and comparison artifacts. Focused validation PASS: `pnpm test tests/demo-loop.test.ts tests/evidence-retention.test.ts`; `pnpm test tests/evidence-retention.test.ts tests/version-loop.test.ts tests/balance-tuning.test.ts`; `pnpm run typecheck`; `pnpm run lint`. CLI smoke PASS using `/tmp/df-phase13a-smoke-TYn2fE`: first `run-version` wrote v001, default rerun failed with artifact-exists error, `--on-existing archive` rerun succeeded, `summarize-version` persisted `runs/v001/version_summary.json`, v002 run succeeded, and `compare-versions` persisted `runs/comparisons/v001_vs_v002.{json,md}`. Demo-loop CLI smoke PASS using `/tmp/df-phase13a-demo-cli-LGd7po`: two consecutive `pnpm run demo-loop -- --runs-root ... --versions v001` commands passed, proving default intentional overwrite. Final local gates PASS: `pnpm test` (21 files, 197 tests), `pnpm run typecheck`, `pnpm run build`, `pnpm run lint`, and `git diff --check`.
 
 ---
 

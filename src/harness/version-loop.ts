@@ -2,17 +2,29 @@ import { mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import {
+  type ArtifactWriteOptions,
+  type ArtifactWritePolicyContext,
+  fileExists,
+  resolveVersionId,
+  writeArtifactFile,
+  VERSION_ID_ALIAS_ENTRIES,
+} from './artifact-write-policy.js';
+import {
   compareBalanceSummaries,
   loadBalanceSummary,
   type BalanceSummaryComparison,
 } from './balance-tuning.js';
 import {
+  buildComparisonRelativePaths,
+  renderComparisonMarkdown,
+} from './version-comparison-artifacts.js';
+import {
   buildReviewRelativePath,
   buildScorecardRelativePath,
   buildTraceRelativePath,
-  savePlaythroughArtifacts,
   savePlaythroughReview,
 } from './artifacts.js';
+import { stringifyDeterministicJson } from './json.js';
 import { awaitPolicyDecision, resolveBaselinePolicy } from './policy-registry.js';
 import { generateDeterministicReview, type ReviewerPersona } from './reviewer-client.js';
 import { runPlaythrough } from './runner.js';
@@ -173,16 +185,24 @@ export const getDefaultVersionRuns = (): VersionRunSpec[] =>
   DEFAULT_VERSION_RUNS.map((run) => ({ ...run }));
 
 export const validateVersionId = (version: string): void => {
-  if (!VERSION_ID_PATTERN.test(version)) {
-    throw new Error(`Invalid version id "${version}". Expected v001-style format.`);
+  const resolved = resolveVersionId(version);
+  if (!VERSION_ID_PATTERN.test(resolved)) {
+    const aliasHint =
+      VERSION_ID_ALIAS_ENTRIES.length > 0
+        ? ` Known aliases: ${VERSION_ID_ALIAS_ENTRIES.map(([alias, target]) => `${alias}→${target}`).join(', ')}.`
+        : '';
+    throw new Error(
+      `Invalid version id "${version}". Expected v001-style format (v + three digits).${aliasHint}`,
+    );
   }
 };
 
 export const getVersionPaths = (runsRoot: string, version: string): VersionPaths => {
+  const resolvedVersion = resolveVersionId(version);
   validateVersionId(version);
-  const versionDir = path.join(runsRoot, 'runs', version);
+  const versionDir = path.join(runsRoot, 'runs', resolvedVersion);
   return {
-    version,
+    version: resolvedVersion,
     versionDir,
     tracesDir: path.join(versionDir, 'traces'),
     reviewsDir: path.join(versionDir, 'reviews'),
@@ -207,17 +227,23 @@ const markdownPath = (paths: VersionPaths, file: VersionMarkdownFile): string =>
   }
 };
 
-const fileExists = async (filePath: string): Promise<boolean> => {
-  try {
-    const stats = await stat(filePath);
-    return stats.isFile();
-  } catch (error: unknown) {
-    if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
-      return false;
-    }
-    throw error;
-  }
-};
+export const buildVersionSummaryRelativePath = (version: string): string =>
+  path.join('runs', resolveVersionId(version), 'version_summary.json');
+
+export interface RunVersionOptions {
+  onExisting?: ArtifactWriteOptions['onExisting'];
+  policyContext?: ArtifactWritePolicyContext;
+}
+
+export interface PersistVersionSummaryOptions {
+  onExisting?: ArtifactWriteOptions['onExisting'];
+  policyContext?: ArtifactWritePolicyContext;
+}
+
+export interface PersistVersionComparisonOptions {
+  onExisting?: ArtifactWriteOptions['onExisting'];
+  policyContext?: ArtifactWritePolicyContext;
+}
 
 const directoryExists = async (dirPath: string): Promise<boolean> => {
   try {
@@ -276,26 +302,35 @@ export const runVersion = async (
   runsRoot: string,
   version: string,
   specs: readonly VersionRunSpec[] = DEFAULT_VERSION_RUNS,
+  options: RunVersionOptions = {},
 ): Promise<VersionRunOutput> => {
-  await ensureVersionFolder(runsRoot, version);
+  const resolvedVersion = resolveVersionId(version);
+  validateVersionId(version);
+  await ensureVersionFolder(runsRoot, resolvedVersion);
   const runs: VersionRunResult[] = [];
+  const saveOptions = {
+    write: { onExisting: options.onExisting },
+    policyContext: options.policyContext,
+  };
 
   for (const spec of specs) {
     const playthrough = await runPlaythrough({
       seed: spec.seed,
       policyId: spec.persona,
-      version,
+      version: resolvedVersion,
       runsRoot,
       policy: createPersonaPolicy(spec.persona, spec.seed),
+      onExisting: options.onExisting,
+      policyContext: options.policyContext,
     });
-    const tracePath = buildTraceRelativePath(version, spec.seed, spec.persona);
+    const tracePath = buildTraceRelativePath(resolvedVersion, spec.seed, spec.persona);
     const traceOnlyScorecard = deriveScorecardFromTrace(playthrough.trace, tracePath);
     const review = generateDeterministicReview({
       trace: playthrough.trace,
       scorecard: traceOnlyScorecard,
       persona: spec.persona as ReviewerPersona,
     });
-    const reviewPath = buildReviewRelativePath(version, spec.seed, spec.persona);
+    const reviewPath = buildReviewRelativePath(resolvedVersion, spec.seed, spec.persona);
     const scorecard = deriveScorecardFromTrace(playthrough.trace, tracePath, {
       scores: review.scores,
       review_path: reviewPath,
@@ -303,26 +338,106 @@ export const runVersion = async (
     });
     validateScorecard(scorecard);
 
-    await savePlaythroughReview(runsRoot, {
-      ...review,
-      trace_path: tracePath,
-      scorecard_path: buildScorecardRelativePath(version, spec.seed, spec.persona),
-    });
-    const artifacts = await savePlaythroughArtifacts(runsRoot, playthrough.trace, scorecard);
+    const scorecardAbsolutePath = path.join(
+      runsRoot,
+      buildScorecardRelativePath(resolvedVersion, spec.seed, spec.persona),
+    );
+    await writeArtifactFile(
+      scorecardAbsolutePath,
+      stringifyDeterministicJson(scorecard),
+      { onExisting: 'overwrite' },
+      {
+        runsRoot,
+        policyContext: options.policyContext,
+        artifactLabel: buildScorecardRelativePath(resolvedVersion, spec.seed, spec.persona),
+      },
+    );
+
+    await savePlaythroughReview(
+      runsRoot,
+      {
+        ...review,
+        trace_path: tracePath,
+        scorecard_path: buildScorecardRelativePath(resolvedVersion, spec.seed, spec.persona),
+      },
+      saveOptions,
+    );
 
     runs.push({
       seed: spec.seed,
       persona: spec.persona,
       result: playthrough.trace.result,
       turns: playthrough.trace.turns,
-      tracePath: artifacts.tracePath,
+      tracePath: playthrough.artifacts.tracePath,
       reviewPath: path.join(runsRoot, reviewPath),
-      scorecardPath: artifacts.scorecardPath,
+      scorecardPath: playthrough.artifacts.scorecardPath,
       reviewerScores: scorecard.reviewer_scores,
     });
   }
 
-  return { version, runs };
+  return { version: resolvedVersion, runs };
+};
+
+export const persistVersionSummary = async (
+  runsRoot: string,
+  version: string,
+  specs: readonly VersionRunSpec[] = DEFAULT_VERSION_RUNS,
+  options: PersistVersionSummaryOptions = {},
+): Promise<{ summary: VersionSummary; summaryPath: string }> => {
+  const summary = await summarizeVersion(runsRoot, version, specs);
+  const summaryRelative = buildVersionSummaryRelativePath(summary.version);
+  const summaryAbsolute = path.join(runsRoot, summaryRelative);
+  await writeArtifactFile(
+    summaryAbsolute,
+    stringifyDeterministicJson(summary),
+    { onExisting: options.onExisting },
+    {
+      runsRoot,
+      policyContext: options.policyContext,
+      artifactLabel: summaryRelative,
+    },
+  );
+  return { summary, summaryPath: summaryAbsolute };
+};
+
+export const persistVersionComparison = async (
+  runsRoot: string,
+  baseVersion: string,
+  targetVersion: string,
+  options: PersistVersionComparisonOptions = {},
+): Promise<{
+  comparison: VersionComparison;
+  jsonPath: string;
+  markdownPath: string;
+}> => {
+  const comparison = await compareVersions(runsRoot, baseVersion, targetVersion);
+  const { jsonPath, markdownPath } = buildComparisonRelativePaths(
+    comparison.baseVersion,
+    comparison.targetVersion,
+  );
+  const writeOpts = { onExisting: options.onExisting };
+  const context = {
+    runsRoot,
+    policyContext: options.policyContext,
+  };
+  await mkdir(path.join(runsRoot, 'runs', 'comparisons'), { recursive: true });
+  await writeArtifactFile(
+    path.join(runsRoot, jsonPath),
+    stringifyDeterministicJson(comparison),
+    writeOpts,
+    { ...context, artifactLabel: jsonPath },
+  );
+  await writeArtifactFile(
+    path.join(runsRoot, markdownPath),
+    renderComparisonMarkdown(comparison),
+    writeOpts,
+    { ...context, artifactLabel: markdownPath },
+  );
+  return {
+    comparison,
+    jsonPath,
+    markdownPath,
+  };
 };
 
 const expectedArtifactPaths = (

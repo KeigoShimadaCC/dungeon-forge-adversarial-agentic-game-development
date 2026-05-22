@@ -9,36 +9,25 @@ import {
   type DeveloperTask,
   type DeveloperTaskInput,
 } from './developer-workflow.js';
-import { stringifyDeterministicJson } from './json.js';
 import type { PlaythroughReview } from './reviewer-client.js';
 import type { PlaythroughScorecard } from './types.js';
+import type { ArtifactWriteOptions } from './artifact-write-policy.js';
 import {
-  compareVersions,
   getDefaultVersionRuns,
   getVersionPaths,
-  type VersionComparison,
+  persistVersionComparison,
   type VersionRunSpec,
 } from './version-loop.js';
+
+export {
+  buildComparisonArtifactBasename,
+  buildComparisonRelativePaths,
+  renderComparisonMarkdown,
+} from './version-comparison-artifacts.js';
 
 const DEFAULT_HANDOFF_RUN: VersionRunSpec = {
   seed: 'seed_001',
   persona: 'careful_player',
-};
-
-export const buildComparisonArtifactBasename = (
-  baseVersion: string,
-  targetVersion: string,
-): string => `${baseVersion}_vs_${targetVersion}`;
-
-export const buildComparisonRelativePaths = (
-  baseVersion: string,
-  targetVersion: string,
-): { jsonPath: string; markdownPath: string } => {
-  const basename = buildComparisonArtifactBasename(baseVersion, targetVersion);
-  return {
-    jsonPath: path.join('runs', 'comparisons', `${basename}.json`),
-    markdownPath: path.join('runs', 'comparisons', `${basename}.md`),
-  };
 };
 
 const loadJsonFile = async <T>(filePath: string): Promise<T> => {
@@ -158,67 +147,19 @@ export const writeReviewerDrivenHandoff = async (
   return task;
 };
 
-export const renderComparisonMarkdown = (comparison: VersionComparison): string => {
-  const metricLines = Object.entries(comparison.objective_metric_deltas).map(
-    ([metric, delta]) =>
-      `- ${metric}: ${delta.base} -> ${delta.target} (delta ${delta.delta >= 0 ? '+' : ''}${delta.delta})`,
-  );
-  const reviewerLines = Object.entries(comparison.reviewer_score_deltas).map(
-    ([metric, delta]) =>
-      `- ${metric}: ${delta.base} -> ${delta.target} (delta ${delta.delta >= 0 ? '+' : ''}${delta.delta})`,
-  );
-
-  return [
-    '# Version Comparison',
-    '',
-    `Base: \`${comparison.baseVersion}\``,
-    `Target: \`${comparison.targetVersion}\``,
-    '',
-    '## Interpretation',
-    '',
-    comparison.interpretation,
-    '',
-    '## Objective metric deltas',
-    '',
-    ...metricLines,
-    '',
-    '## Reviewer score deltas (persona-run averages)',
-    '',
-    ...reviewerLines,
-    '',
-    '## Artifact coverage',
-    '',
-    `- Base missing artifacts: ${comparison.counts.baseMissingArtifacts}`,
-    `- Target missing artifacts: ${comparison.counts.targetMissingArtifacts}`,
-    ...(comparison.balance_comparison
-      ? [
-          '',
-          '## Balance comparison',
-          '',
-          comparison.balance_comparison.interpretation,
-        ]
-      : []),
-    '',
-  ].join('\n');
-};
-
 export const writeVersionComparisonArtifacts = async (
   runsRoot: string,
   baseVersion: string,
   targetVersion: string,
-): Promise<{ comparison: VersionComparison; jsonPath: string; markdownPath: string }> => {
-  const comparison = await compareVersions(runsRoot, baseVersion, targetVersion);
-  const { jsonPath, markdownPath } = buildComparisonRelativePaths(baseVersion, targetVersion);
-  const comparisonsDir = path.join(runsRoot, 'runs', 'comparisons');
-  await mkdir(comparisonsDir, { recursive: true });
-  await writeFile(
-    path.join(runsRoot, jsonPath),
-    stringifyDeterministicJson(comparison),
-    'utf8',
-  );
-  await writeFile(path.join(runsRoot, markdownPath), renderComparisonMarkdown(comparison), 'utf8');
-  return { comparison, jsonPath, markdownPath };
-};
+  write?: ArtifactWriteOptions,
+): Promise<{
+  comparison: import('./version-loop.js').VersionComparison;
+  jsonPath: string;
+  markdownPath: string;
+}> =>
+  persistVersionComparison(runsRoot, baseVersion, targetVersion, {
+    onExisting: write?.onExisting,
+  });
 
 export const writeImplementedVersionMarkdown = async (
   runsRoot: string,

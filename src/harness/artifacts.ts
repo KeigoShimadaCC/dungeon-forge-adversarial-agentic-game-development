@@ -1,6 +1,10 @@
-import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
+import {
+  type ArtifactWriteOptions,
+  type ArtifactWritePolicyContext,
+  writeArtifactFile,
+} from './artifact-write-policy.js';
 import type { PlaythroughReview } from './reviewer-client.js';
 import type { PlaythroughScorecard, PlaythroughTrace } from './types.js';
 import { stringifyDeterministicJson } from './json.js';
@@ -36,10 +40,16 @@ export interface SavedReviewArtifact {
   reviewPath: string;
 }
 
+export interface SavePlaythroughArtifactOptions {
+  write?: ArtifactWriteOptions;
+  policyContext?: ArtifactWritePolicyContext;
+}
+
 export const savePlaythroughArtifacts = async (
   runsRoot: string,
   trace: PlaythroughTrace,
   scorecard: PlaythroughScorecard,
+  options: SavePlaythroughArtifactOptions = {},
 ): Promise<SavedArtifacts> => {
   const traceRelative = buildTraceRelativePath(trace.version, trace.seed, trace.persona);
   const scorecardRelative = buildScorecardRelativePath(
@@ -50,12 +60,23 @@ export const savePlaythroughArtifacts = async (
 
   const tracePath = path.join(runsRoot, traceRelative);
   const scorecardPath = path.join(runsRoot, scorecardRelative);
+  const writeContext = {
+    runsRoot,
+    policyContext: options.policyContext,
+  };
 
-  await mkdir(path.dirname(tracePath), { recursive: true });
-  await mkdir(path.dirname(scorecardPath), { recursive: true });
-
-  await writeFile(tracePath, stringifyDeterministicJson(trace), 'utf8');
-  await writeFile(scorecardPath, stringifyDeterministicJson(scorecard), 'utf8');
+  await writeArtifactFile(
+    tracePath,
+    stringifyDeterministicJson(trace),
+    options.write,
+    { ...writeContext, artifactLabel: traceRelative },
+  );
+  await writeArtifactFile(
+    scorecardPath,
+    stringifyDeterministicJson(scorecard),
+    options.write,
+    { ...writeContext, artifactLabel: scorecardRelative },
+  );
 
   return { tracePath, scorecardPath };
 };
@@ -63,12 +84,21 @@ export const savePlaythroughArtifacts = async (
 export const savePlaythroughReview = async (
   runsRoot: string,
   review: PlaythroughReview,
+  options: SavePlaythroughArtifactOptions = {},
 ): Promise<SavedReviewArtifact> => {
   const reviewRelative = buildReviewRelativePath(review.version, review.seed, review.persona);
   const reviewPath = path.join(runsRoot, reviewRelative);
 
-  await mkdir(path.dirname(reviewPath), { recursive: true });
-  await writeFile(reviewPath, stringifyDeterministicJson(review), 'utf8');
+  await writeArtifactFile(
+    reviewPath,
+    stringifyDeterministicJson(review),
+    options.write,
+    {
+      runsRoot,
+      policyContext: options.policyContext,
+      artifactLabel: reviewRelative,
+    },
+  );
 
   return { reviewPath };
 };

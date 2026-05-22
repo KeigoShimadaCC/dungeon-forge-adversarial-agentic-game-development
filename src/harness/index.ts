@@ -34,12 +34,29 @@ export { runPlaythrough, parseSimulateSeedArgs, type RunPlaythroughOptions } fro
 export { deriveScorecardFromTrace, validateScorecard } from './scorecard.js';
 export { stringifyDeterministicJson } from './json.js';
 export {
+  ARTIFACT_WRITE_MODES,
+  DEFAULT_ARTIFACT_WRITE_MODE,
+  archiveExistingFile,
+  assertArtifactWritable,
+  buildArchiveDestination,
+  fileExists,
+  parseArtifactWriteMode,
+  resolveVersionId,
+  writeArtifactFile,
+  VERSION_ID_ALIAS_ENTRIES,
+  type ArtifactWriteMode,
+  type ArtifactWriteOptions,
+  type ArtifactWritePolicyContext,
+} from './artifact-write-policy.js';
+export { parseHarnessCliCommonArgs, type HarnessCliCommonArgs } from './cli-args.js';
+export {
   buildArtifactBasename,
   buildReviewRelativePath,
   buildScorecardRelativePath,
   buildTraceRelativePath,
   savePlaythroughArtifacts,
   savePlaythroughReview,
+  type SavePlaythroughArtifactOptions,
 } from './artifacts.js';
 export {
   REVIEWER_PERSONA_IDS,
@@ -126,10 +143,13 @@ export {
   VERSION_ARTIFACT_DIRS,
   VERSION_ID_PATTERN,
   VERSION_MARKDOWN_FILES,
+  buildVersionSummaryRelativePath,
   compareVersions,
   ensureVersionFolder,
   getDefaultVersionRuns,
   getVersionPaths,
+  persistVersionComparison,
+  persistVersionSummary,
   runVersion,
   summarizeVersion,
   validateVersionId,
@@ -142,6 +162,9 @@ export {
   type VersionPaths,
   type VersionRunOutput,
   type VersionRunResult,
+  type PersistVersionComparisonOptions,
+  type PersistVersionSummaryOptions,
+  type RunVersionOptions,
   type VersionRunSpec,
   type VersionSummary,
   type VersionSummaryRun,

@@ -9,11 +9,14 @@ import { resolveGameConfigForVersion } from '../game/version-profiles.js';
 import type { GameEvent, GameState, JsonObject, TerminalStatus } from '../game/types.js';
 import { findMatchingAvailableAction } from './baseline-players/helpers.js';
 import type { BaselinePlayerInput } from './baseline-players/types.js';
+import type { ArtifactWritePolicyContext } from './artifact-write-policy.js';
+import type { ArtifactWriteMode } from './artifact-write-policy.js';
 import {
   buildTraceRelativePath,
   savePlaythroughArtifacts,
   type SavedArtifacts,
 } from './artifacts.js';
+import { resolveVersionId } from './artifact-write-policy.js';
 import { deriveScorecardFromTrace, validateScorecard } from './scorecard.js';
 import {
   awaitPolicyDecision,
@@ -34,6 +37,8 @@ export interface RunPlaythroughOptions {
   maxSteps?: number;
   runsRoot?: string;
   policy?: HarnessPlayerPolicy;
+  onExisting?: ArtifactWriteMode;
+  policyContext?: ArtifactWritePolicyContext;
 }
 
 export interface RunPlaythroughResult {
@@ -78,7 +83,8 @@ const harnessEvent = (
 export const runPlaythrough = async (
   options: RunPlaythroughOptions,
 ): Promise<RunPlaythroughResult> => {
-  const { seed, policyId, version } = options;
+  const { seed, policyId, onExisting, policyContext } = options;
+  const version = resolveVersionId(options.version);
   const runsRoot = options.runsRoot ?? process.cwd();
   const policy =
     options.policy ??
@@ -255,7 +261,10 @@ export const runPlaythrough = async (
   const traceRelative = buildTraceRelativePath(version, seed, policyId);
   const scorecard = deriveScorecardFromTrace(trace, traceRelative);
   validateScorecard(scorecard);
-  const artifacts = await savePlaythroughArtifacts(runsRoot, trace, scorecard);
+  const artifacts = await savePlaythroughArtifacts(runsRoot, trace, scorecard, {
+    write: { onExisting },
+    policyContext,
+  });
 
   return { trace, scorecard, artifacts };
 };

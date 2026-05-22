@@ -1,3 +1,4 @@
+import { parseHarnessCliCommonArgs } from './cli-args.js';
 import { handleCliError, writeJson } from './balance-cli-shared.js';
 import {
   parseCommandStatusArg,
@@ -13,15 +14,19 @@ const parseArgs = (
   runsRoot: string;
   commandStatuses: Partial<Record<CommandCheckId, CommandCheckStatus>>;
   reviewerDriven?: boolean;
+  onExisting: import('./artifact-write-policy.js').ArtifactWriteMode;
 } => {
+  const common = parseHarnessCliCommonArgs(argv);
   const args: {
     version?: string;
     runsRoot: string;
     commandStatuses: Partial<Record<CommandCheckId, CommandCheckStatus>>;
     reviewerDriven?: boolean;
+    onExisting: import('./artifact-write-policy.js').ArtifactWriteMode;
   } = {
-    runsRoot: process.cwd(),
+    runsRoot: common.runsRoot,
     commandStatuses: {},
+    onExisting: common.onExisting,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -32,8 +37,7 @@ const parseArgs = (
     } else if (arg === '--version' && next) {
       args.version = next;
       index += 1;
-    } else if (arg === '--runs-root' && next) {
-      args.runsRoot = next;
+    } else if (arg === '--runs-root' || arg === '--on-existing') {
       index += 1;
     } else if (arg === '--command-status' && next) {
       const parsed = parseCommandStatusArg(next);
@@ -64,6 +68,7 @@ export const runAcceptVersionCli = async (argv: string[] = process.argv.slice(2)
     runsRoot: args.runsRoot,
     version: requireArg(args.version, 'version'),
     commandStatuses: args.commandStatuses,
+    onExisting: args.onExisting,
     ...(args.reviewerDriven !== undefined ? { reviewerDriven: args.reviewerDriven } : {}),
   });
   writeJson({
