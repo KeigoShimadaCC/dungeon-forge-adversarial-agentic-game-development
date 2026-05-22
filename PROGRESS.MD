@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-04a-ascii-renderer` |
 | Worktree | `../dungeon-forge-phase-04a-ascii-renderer` |
 | Base | `origin/main` |
-| Status | `implementation_complete_validation_passed` |
+| Status | `pr_open` |
 
 ### Contract (read before editing)
 
@@ -52,7 +52,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-22 — orchestrator — Commit, push, and open PR.
+- _(none)_
 
 ### Open
 
@@ -68,6 +68,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-22 — orchestrator — Run `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, and `git diff --check`.
 - [x] 2026-05-22 — orchestrator/Cursor — Run read-only Cursor audit against Phase 04A and invariants.
 - [x] 2026-05-22 — orchestrator — Re-read Phase 04A acceptance criteria against actual repo state.
+- [x] 2026-05-22 — orchestrator — Commit, push, and open PR.
 
 ### Blocked / skipped
 
@@ -96,7 +97,7 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 - [x] A reviewer can make tactical decisions from render plus available actions (acceptance).
 - [x] Renderer remains text/ASCII first and requires no media assets (acceptance).
 - [x] Re-read acceptance criteria against actual repo state.
-- [ ] Push branch and open PR when implemented.
+- [x] Push branch and open PR when implemented.
 
 ---
 
@@ -124,6 +125,7 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — Local validation passed: `pnpm test` exit 0 (6 files, 53 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0.
 - 2026-05-22 — Cursor Agent (composer-2.5, read-only audit) — Overall PASS against Phase 04A and invariants; low-severity notes included terminal rendering being status-line only and `tests/render.test.ts` still untracked before commit. Orchestrator addressed terminal clarity by adding explicit `Outcome:` text for `ACTIVE`, `WIN`, `LOSS`, and `ABORTED`.
 - 2026-05-22 — orchestrator — Post-audit validation passed after terminal outcome text: `pnpm test` exit 0 (6 files, 53 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0. Manual acceptance re-read confirms render is text/ASCII only, deterministic for same state, pure from caller perspective, and sufficient for tactical review with available actions.
+- 2026-05-22 — orchestrator — Committed Phase 04A implementation (`92733af`), pushed branch `phase-04a-ascii-renderer`, and opened PR #8: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/8.
 
 ---
 
