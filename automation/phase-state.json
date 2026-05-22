@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-13B",
+  "currentPhase": "PHASE-13C",
   "lastUpdated": "2026-05-23",
   "phases": {
     "PHASE-00A": {
@@ -73,7 +73,11 @@
       "status": "complete"
     },
     "PHASE-13B": {
-      "status": "queued"
+      "branch": "phase/phase-13b-ci-and-acceptance-checks",
+      "evidenceDir": "runs/phase-runner/PHASE-13B/planned",
+      "mergeCommit": "0f5bbfec202a8ffe1925008b2fddfb68a62c0011",
+      "pr": 29,
+      "status": "complete"
     },
     "PHASE-13C": {
       "status": "queued"
