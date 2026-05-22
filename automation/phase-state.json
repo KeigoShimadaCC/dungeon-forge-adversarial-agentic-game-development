@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-15A",
+  "currentPhase": "PHASE-15B",
   "lastUpdated": "2026-05-23",
   "phases": {
     "PHASE-00A": {
@@ -108,7 +108,11 @@
       "status": "complete"
     },
     "PHASE-15A": {
-      "status": "queued"
+      "branch": "phase/phase-15a-structured-patch-proposals",
+      "evidenceDir": "runs/phase-runner/PHASE-15A/planned",
+      "mergeCommit": "f5d7b9a03d0c20606301edbc74855dd35ed884e3",
+      "pr": 34,
+      "status": "complete"
     },
     "PHASE-15B": {
       "status": "queued"
