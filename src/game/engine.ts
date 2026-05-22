@@ -1,6 +1,7 @@
 import { calcPlayerDamageToEnemy } from './combat.js';
 import {
   getItemDefinition,
+  getTrapDefinition,
   loadGameContent,
   SMOKE_BOMB_ITEM_ID,
   type EnemyDefinition,
@@ -32,6 +33,13 @@ import {
 } from './dialogue.js';
 import { runEnemyTurns } from './enemy-ai.js';
 import { render } from './render.js';
+import {
+  applyResourcePressure,
+  applyTrapOnEntry,
+  defaultResources,
+  formatResourceStatus,
+  placeTraps,
+} from './traps-resources.js';
 import { resolveGameConfigForVersion } from './version-profiles.js';
 import type {
   GameConfig,
@@ -219,6 +227,7 @@ const createFloorState = (params: {
   allowedItemIds?: readonly string[];
   playerHp?: number;
   inventory?: string[];
+  resources?: GameState['resources'];
   log: string[];
   narrative?: GameState['narrative'];
   floorEventsOut?: GameEvent[];
@@ -255,6 +264,13 @@ const createFloorState = (params: {
     layout,
     occupied,
   });
+  const traps = placeTraps({
+    seed: params.seed,
+    floor: params.floor,
+    rule,
+    layout,
+    occupied,
+  });
 
   const state: GameState = {
     version: params.version,
@@ -271,6 +287,8 @@ const createFloorState = (params: {
     map: layout.map,
     enemies,
     items,
+    traps,
+    resources: params.resources ?? defaultResources(),
     npcs,
     log: [...params.log],
     narrative: params.narrative ?? defaultNarrativeState(),
@@ -488,6 +506,32 @@ const getInvalidStateReason = (state: GameState): string | undefined => {
     }
   }
 
+  for (const trap of state.traps) {
+    try {
+      getTrapDefinition(trap.type);
+    } catch {
+      return `trap ${trap.id} references unknown type ${trap.type}`;
+    }
+    if (!isWalkable(state.map, trap)) {
+      return `trap ${trap.id} is not on a walkable tile`;
+    }
+    const key = positionKey(trap);
+    if (occupied.has(key)) {
+      return `trap ${trap.id} overlaps another actor`;
+    }
+    occupied.add(key);
+  }
+
+  if (
+    !state.resources ||
+    state.resources.hunger < 0 ||
+    state.resources.hunger > 100 ||
+    state.resources.torch < 0 ||
+    state.resources.torch > 100
+  ) {
+    return 'resources are missing or out of range';
+  }
+
   for (const itemType of state.player.inventory) {
     if (!isKnownItemType(itemType)) {
       return `inventory references unknown item type ${itemType}`;
@@ -600,6 +644,7 @@ const descend = (state: GameState, events: GameEvent[]): GameState => {
     allowedItemIds: profileConfig.allowedItemIds,
     playerHp: state.player.hp,
     inventory: state.player.inventory,
+    resources: state.resources,
     log: state.log,
     narrative: state.narrative,
     floorEventsOut: events,
@@ -638,6 +683,7 @@ export const step = (state: GameState, action: PlayerAction): StepResult => {
         y: nextState.player.y,
       }),
     );
+    applyTrapOnEntry(nextState, event, events);
   } else if (matchedAction.type === 'attack') {
     const targetId = matchedAction.payload?.targetId;
     const enemyIndex = nextState.enemies.findIndex((enemy) => enemy.id === targetId);
@@ -712,10 +758,18 @@ export const step = (state: GameState, action: PlayerAction): StepResult => {
     };
   } else if (matchedAction.type === 'inspect') {
     events.push(
-      event(nextState.turn, 'inspect', 'You inspect the dungeon state.', {
-        floor: nextState.floor,
-        hp: nextState.player.hp,
-      }),
+      event(
+        nextState.turn,
+        'inspect',
+        `You inspect the dungeon state. ${formatResourceStatus(nextState)}`,
+        {
+          floor: nextState.floor,
+          hp: nextState.player.hp,
+          hunger: nextState.resources.hunger,
+          torch: nextState.resources.torch,
+          trapCount: nextState.traps.filter((trap) => trap.armed).length,
+        },
+      ),
     );
   } else if (matchedAction.type === 'talk') {
     events.push(...applyTalkAction(nextState, matchedAction, event));
@@ -724,6 +778,7 @@ export const step = (state: GameState, action: PlayerAction): StepResult => {
   }
 
   if (nextState.terminalStatus === 'ACTIVE' && !isInDialogue(nextState)) {
+    applyResourcePressure(nextState, event, events);
     runEnemyTurns(nextState, events);
   }
 

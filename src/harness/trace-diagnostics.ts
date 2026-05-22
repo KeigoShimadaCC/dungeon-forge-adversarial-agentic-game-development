@@ -1,4 +1,5 @@
 import { loadGameContent, PHASE_09A_ITEM_IDS, type FloorRuleDefinition } from '../game/content.js';
+import { resolveTrapSpawnCount } from '../game/traps-resources.js';
 import {
   chooseEntityPositions,
   generateFloorLayout,
@@ -83,7 +84,7 @@ const countPlacement = (
   rule: FloorRuleDefinition,
   layout: FloorLayout,
   occupied: Set<string>,
-  slot: 'enemy' | 'item' | 'npc',
+  slot: 'enemy' | 'item' | 'npc' | 'trap',
   requested: number,
   allowedIds: readonly string[],
   config: GameConfig,
@@ -97,9 +98,11 @@ const countPlacement = (
       ? filterContentIds(rule.enemyIds, config.allowedEnemyIds ?? allowedIds)
       : slot === 'item'
         ? filterContentIds(rule.itemIds, config.allowedItemIds ?? allowedIds)
-        : [];
+        : slot === 'trap'
+          ? filterContentIds(rule.trapIds ?? [], allowedIds)
+          : [];
 
-  if (filtered.length === 0) {
+  if (filtered.length === 0 && slot !== 'trap') {
     return { requested, placed: 0 };
   }
 
@@ -110,7 +113,7 @@ const countPlacement = (
     count: requested,
     occupied,
     slot,
-    safeFromPlayer: slot === 'enemy',
+    safeFromPlayer: slot === 'enemy' || slot === 'trap',
   });
   for (const position of positions) {
     occupied.add(positionKey(position));
@@ -174,9 +177,61 @@ export const buildPlacementShortfalls = (
         placed: itemPlacement.placed,
       });
     }
+
+    const trapRequested = resolveTrapSpawnCount(seed, rule);
+    if (trapRequested > 0) {
+      const trapPlacement = countPlacement(
+        seed,
+        floor,
+        rule,
+        layout,
+        occupied,
+        'trap',
+        trapRequested,
+        rule.trapIds ?? [],
+        config,
+      );
+      if (trapPlacement.placed < trapPlacement.requested) {
+        shortfalls.push({
+          floor,
+          slot: 'trap',
+          requested: trapPlacement.requested,
+          placed: trapPlacement.placed,
+        });
+      }
+    }
   }
 
   return shortfalls;
+};
+
+const deriveTrapResourceProblemCategories = (
+  scorecard: Pick<PlaythroughScorecard, 'trap_resources'>,
+): ProblemRunCategory[] => {
+  const metrics = scorecard.trap_resources;
+  if (!metrics) {
+    return [];
+  }
+
+  const categories: ProblemRunCategory[] = [];
+  if (metrics.traps_triggered > 0 || metrics.trap_damage_taken > 0) {
+    categories.push({
+      category: 'trap_pressure',
+      code:
+        metrics.trap_damage_taken >= 6 ? 'high_trap_damage' : 'trap_encountered',
+      message: `Trap pressure recorded (${metrics.traps_triggered} triggers, ${metrics.trap_damage_taken} damage).`,
+      detail: { ...metrics },
+    });
+  }
+  if (metrics.hunger_damage_taken > 0) {
+    categories.push({
+      category: 'resource_pressure',
+      code: 'starvation_damage',
+      message: `Hunger pressure dealt ${metrics.hunger_damage_taken} damage.`,
+      detail: { ...metrics },
+    });
+  }
+  return categories;
 };
 
 export const buildTraceMetadata = (seed: string, version: string): TraceMetadata => {
@@ -341,6 +396,12 @@ export const deriveProblemRunDiagnostics = (
     });
   }
 
+  categories.push(
+    ...deriveTrapResourceProblemCategories(
+      scorecard as Pick<PlaythroughScorecard, 'trap_resources'>,
+    ),
+  );
+
   const abortCause = findAbortCause(trace);
 
   return {
@@ -355,9 +416,14 @@ export const collectBalanceProblemCategories = (
 ): ProblemRunCategory[] => {
   if (scorecard.diagnostics?.categories && scorecard.diagnostics.categories.length > 0) {
     return scorecard.diagnostics.categories.filter((entry) =>
-      ['aborted', 'softlock', 'invalid_actions', 'impossible_placement'].includes(
-        entry.category,
-      ),
+      [
+        'aborted',
+        'softlock',
+        'invalid_actions',
+        'impossible_placement',
+        'trap_pressure',
+        'resource_pressure',
+      ].includes(entry.category),
     );
   }
 

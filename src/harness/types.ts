@@ -70,7 +70,7 @@ export interface MapFloorGenerationRecord {
 
 export interface PlacementShortfall {
   floor: number;
-  slot: 'enemy' | 'item' | 'npc';
+  slot: 'enemy' | 'item' | 'npc' | 'trap';
   requested: number;
   placed: number;
 }
@@ -80,7 +80,9 @@ export type ProblemRunCategoryKind =
   | 'softlock'
   | 'invalid_actions'
   | 'impossible_placement'
-  | 'repeated_failure';
+  | 'repeated_failure'
+  | 'trap_pressure'
+  | 'resource_pressure';
 
 export interface ProblemRunCategory {
   category: ProblemRunCategoryKind;
@@ -147,6 +149,13 @@ export interface ScorecardReviewInput {
 
 export type MockReviewScoreInput = ScorecardReviewInput;
 
+export interface TrapResourceMetrics {
+  traps_triggered: number;
+  trap_damage_taken: number;
+  hunger_damage_taken: number;
+  resource_pressure_events: number;
+}
+
 export interface PlaythroughScorecard {
   version: string;
   seed: string;
@@ -165,6 +174,7 @@ export interface PlaythroughScorecard {
   review_id?: string;
   enemy_behaviors?: EnemyBehaviorMetrics;
   item_evaluation?: ItemEvaluationMetrics;
+  trap_resources?: TrapResourceMetrics;
   diagnostics?: ProblemRunDiagnostics;
 }
 

@@ -178,7 +178,8 @@ export const validatePlacementCapacity = (
   const required =
     1 +
     rule.enemySpawnCount +
-    rule.itemSpawnCount;
+    rule.itemSpawnCount +
+    (rule.trapSpawnCount ?? 0);
   if (reachable.length < required) {
     return {
       valid: false,
@@ -471,7 +472,7 @@ export const chooseEntityPositions = (params: {
   layout: FloorLayout;
   count: number;
   occupied: Set<string>;
-  slot: 'enemy' | 'item' | 'npc';
+  slot: 'enemy' | 'item' | 'npc' | 'trap';
   safeFromPlayer?: boolean;
 }): Position[] => {
   if (params.count <= 0) {
