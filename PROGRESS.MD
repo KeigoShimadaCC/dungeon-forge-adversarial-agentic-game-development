@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-06b-reviewer-critic` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-06b-reviewer-critic-wt` |
 | Base | `origin/main` at `ac573e5` |
-| Status | `implemented; PR prep` |
+| Status | `PR opened` |
 
 ### Contract (read before editing)
 
@@ -52,7 +52,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] PR prep: push branch, open PR to `main`, link evidence in summary.
+- _(none)_
 
 ### Open
 
@@ -67,6 +67,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] Add mocked tests (`tests/reviewer-critic.test.ts`). — agent, 2026-05-22
 - [x] Run validation: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001`. — orchestrator, 2026-05-22
 - [x] Cursor read-only audit (`--mode=ask`) reported PASS with low/non-blocking notes. — orchestrator, 2026-05-22
+- [x] PR prep: pushed branch and opened PR #13 to `main`. — orchestrator, 2026-05-22
 
 ### Blocked / skipped
 
@@ -127,6 +128,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Installed dependencies in isolated worktree with `pnpm install --frozen-lockfile` (lockfile unchanged; reused local store). Patched reviewer credential test to verify injected-provider behavior without depending on ambient API env vars. Committed implementation as `9e26db0` (`feat: add trace-grounded reviewer critic`). Validation passed after the final test-strengthening patch: `pnpm test tests/reviewer-critic.test.ts` (11 tests), `pnpm test` (9 files, 87 tests), `pnpm run typecheck`, `pnpm run lint`, `git diff --check`, `pnpm run build`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` (saved trace/scorecard; result `ABORTED`, 280 turns, 280 steps).
 
 - 2026-05-22 — Cursor Agent (`--mode=ask`, `composer-2.5`) — Read-only Phase 06B audit result: PASS. Confirmed branch diff is limited to `PROGRESS.MD`, `src/agents/prompts/reviewer.md`, `src/harness/artifacts.ts`, `src/harness/index.ts`, `src/harness/reviewer-client.ts`, and `tests/reviewer-critic.test.ts`; `src/game/**` unchanged; reviewer critic is trace/scorecard-grounded, handles thin data, writes required review JSON path, and preserves Phase 00A invariants. Low/non-blocking notes: CLI does not auto-write reviews yet, JSON-only review artifacts, heuristic critic remains templated until a future provider integration.
+
+- 2026-05-22 — orchestrator — Pushed `phase-06b-reviewer-critic` to origin and opened PR #13: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/13.
 
 - 2026-05-22 — orchestrator — PR #10 merged at `dc920ae`; fast-forwarded local `main` to `origin/main`; removed registered worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness-wt`; deleted local branch `phase-05a-harness`. Verified `git worktree list` shows only the main worktree. Preserved the earlier dirty unregistered checkout `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness` per the Phase 05A execution plan.
 
