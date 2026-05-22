@@ -8,12 +8,12 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | _(none selected)_ |
-| Goal | Await next phase selection. |
-| Branch | `main` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development` |
-| Base | `origin/main` at `dc920ae` |
-| Status | `idle` |
+| Phase | `PHASE-06A - LLM Player` |
+| Goal | Add an injectable LLM player policy/client boundary that selects only explicit available actions, records trace evidence, and falls back deterministically without requiring credentials. |
+| Branch | `phase-06a-llm-player` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-06a-llm-player-wt` |
+| Base | `origin/main` at `ac573e5` |
+| Status | `in_progress` |
 
 ### Contract (read before editing)
 
@@ -52,14 +52,23 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-22 — orchestrator — Read Phase 06A, global invariants, north star, tech spec, and current harness.
 
 ### Open
-- _(none)_
+- [ ] 2026-05-22 — orchestrator — Add async-capable LLM player policy/client boundary.
+- [ ] 2026-05-22 — orchestrator — Add prompt/input builder with personas.
+- [ ] 2026-05-22 — orchestrator — Add JSON validation and deterministic fallback behavior.
+- [ ] 2026-05-22 — orchestrator — Extend trace metadata for LLM reason/persona/fallback evidence.
+- [ ] 2026-05-22 — orchestrator — Add mocked tests for valid, invalid, malformed, missing, and timeout/error responses.
+- [ ] 2026-05-22 — orchestrator — Verify baseline harness still works without credentials.
+- [ ] 2026-05-22 — orchestrator — Run full validation gates.
+- [ ] 2026-05-22 — orchestrator — Run Cursor read-only audit.
+- [ ] 2026-05-22 — orchestrator — Re-check Phase 06A acceptance criteria.
+- [ ] 2026-05-22 — orchestrator — Push branch and open PR.
 
 ### Done
 
-- _(none; previous phase archived)_
+- _(none yet)_
 
 ### Blocked / skipped
 
@@ -71,9 +80,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 _Derived from the active phase plan: deliverables, tests/validation, acceptance criteria. Tick when verified, not when merely attempted._
 
-### No Active Phase
+### PHASE-06A - LLM Player
 
-- [ ] Select the next phase plan before implementation work resumes.
+- [ ] LLM player adapter/client boundary exists and is injectable.
+- [ ] Prompt/input shape includes render, available actions, recent log, state summary, and persona.
+- [ ] Model JSON is parsed and validated before use.
+- [ ] Invalid JSON, missing action IDs, unavailable actions, timeouts, and client errors use deterministic fallback.
+- [ ] Trace steps capture selected action, reason, persona, fallback usage, and failure metadata.
+- [ ] Mock-based tests cover valid and invalid responses without real API credentials.
+- [ ] Baseline harness players still run without API credentials.
+- [ ] Phase 06A acceptance criteria rechecked against repo state.
 
 ---
 
@@ -95,6 +111,7 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
 - 2026-05-22 — orchestrator — PR #10 merged at `dc920ae`; fast-forwarded local `main` to `origin/main`; removed registered worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness-wt`; deleted local branch `phase-05a-harness`. Verified `git worktree list` shows only the main worktree. Preserved the earlier dirty unregistered checkout `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness` per the Phase 05A execution plan.
+- 2026-05-22 — orchestrator — Started Phase 06A on branch `phase-06a-llm-player` in worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-06a-llm-player-wt` from `origin/main` at `ac573e5`. Preflight: `git status --short --branch` clean on `main`; `git fetch origin` passed; `git worktree list` showed main plus unrelated Phase 06B worktree; `command -v agent` found `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`, escalated rerun passed and confirmed `composer-2.5`.
 
 ---
 
