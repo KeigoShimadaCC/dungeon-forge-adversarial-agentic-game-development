@@ -52,11 +52,11 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] T-03A-007 Acceptance review: re-read Phase 03A plan and concept constraints against repo state.
+- [~] T-03A-008 Publish: commit checkpoints, push `phase-03a-minimal-dungeon`, and open PR to `main`.
 
 ### Open
 
-- [ ] T-03A-008 Publish: commit checkpoints, push `phase-03a-minimal-dungeon`, and open PR to `main`.
+- _(none)_
 
 ### Done
 
@@ -65,6 +65,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] T-03A-003A Local fallback implementation: implement minimal dungeon mechanics under `src/game/**` and focused tests under `tests/**` after Cursor policy blocker (orchestrator, 2026-05-22).
 - [x] T-03A-004 Orchestrator review: inspect local diffs for phase scope, contract stability, determinism, and forbidden MVP scope (orchestrator, 2026-05-22).
 - [x] T-03A-005 Validation: run `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `git diff --check`, and `rg "Math\\.random" src tests` (orchestrator, 2026-05-22).
+- [x] T-03A-007 Acceptance review: re-read Phase 03A plan and concept constraints against repo state (orchestrator, 2026-05-22).
 
 ### Blocked / skipped
 
@@ -97,10 +98,10 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 - [x] `pnpm test` passes.
 - [x] `pnpm run typecheck` passes.
 - [x] `pnpm run lint` passes.
-- [ ] Dungeon is complete, finite, playable, seedable, and testable (acceptance).
-- [ ] `GameEngine` contract remains stable (acceptance).
-- [ ] No forbidden MVP scope is introduced (acceptance).
-- [ ] Re-read acceptance criteria against actual repo state.
+- [x] Dungeon is complete, finite, playable, seedable, and testable (acceptance).
+- [x] `GameEngine` contract remains stable (acceptance).
+- [x] No forbidden MVP scope is introduced (acceptance).
+- [x] Re-read acceptance criteria against actual repo state.
 - [ ] Push branch and open PR when implemented.
 
 ---
@@ -128,6 +129,7 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — Cursor implementation attempt rejected by sandbox reviewer because it would send private repo context to external Cursor service; no workaround attempted, proceeding with local fallback inside the same file/scope boundaries.
 - 2026-05-22 — orchestrator — Local fallback implementation: `src/game/engine.ts` now starts a deterministic 5-floor dungeon with walls/floors/stairs, Potion, Slime, structured movement/attack/wait/pickup/use/descend/inspect actions, enemy turns, and `WIN`/`LOSS`/`ABORTED`; `src/game/types.ts` adds serializable dungeon fields; `tests/engine.test.ts` covers Phase 03A mechanics.
 - 2026-05-22 — orchestrator — Validation after implementation: `pnpm test` exit 0 (5 files, 41 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0, and `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
+- 2026-05-22 — orchestrator — Acceptance review: re-read Phase 03A and Phase 00A; changed paths are limited to `PROGRESS.MD`, `src/game/engine.ts`, `src/game/types.ts`, and `tests/engine.test.ts`; no `src/harness/**`, `runs/**`, content, docs, package, UI, LLM, external-service, image/audio, real-time, infinite-floor, or free-text gameplay scope was introduced. Forbidden-scope scan only matched invalid-action test labels and the existing RNG guidance comment.
 
 ---
 
