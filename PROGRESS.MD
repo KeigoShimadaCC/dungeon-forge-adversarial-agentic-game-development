@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Create a human-governed coordinator for the adversarial loop from run evidence through proposal, task, validation, and acceptance. |
 | Branch | `phase/phase-15c-loop-coordinator` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-15c-loop-coordinator-wt` |
-| Base | `origin/main` at `2f0c713` |
-| Status | `Planned; worktree not created` |
+| Base | `origin/main` at `5a13a55` |
+| Status | `In progress; seed checkpoint complete and Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -56,13 +56,13 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Generate Phase 15C automation bundle, create isolated worktree, and seed progress before implementation.
 - [ ] 2026-05-23 Cursor/composer-2.5 — Implement loop coordinator runbook/command, decision checkpoints, dry-run coverage, docs, and focused tests within Phase 15C scope.
 - [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 15C acceptance, and request Cursor read-only recheck.
 - [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Generate Phase 15C automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
 - [x] 2026-05-23 orchestrator — Merge Phase 15B PR #35, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 15C.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 15B PASS; addressed non-blocking read-only auditor CLI smoke coverage and reran focused/full gates.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, harden deterministic bundle IDs and not-run result-summary inference, run focused/full local gates, and re-read Phase 15B acceptance.
@@ -326,6 +326,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 15B PASS against the phase plan, local validation, protocol invariants, forbidden-scope review, and secrets scan. Recheck was blocked only on expected merge readiness: untracked/uncommitted implementation, no PR, and no GitHub CI yet. Non-blocking note about end-to-end `--kind read_only_audit` CLI coverage was fixed with a validate-only smoke test. Validation PASS after fix: `pnpm test tests/worktree-agent-orchestration.test.ts` (9 tests), `pnpm run check` (27 files, 253 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`.
 - 2026-05-23 — orchestrator — Phase 15B PR #35 merged at `2f0c7134d7c7a8cf4139af19940b3da5ea7111f6` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-15B --evidence runs/phase-runner/PHASE-15B/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-15C`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 15C with initial task queue and checklist from `phase-plans/PHASE-15C-LOOP-COORDINATOR.md`.
+- 2026-05-23 — orchestrator — Phase 15C automation start: `pnpm run phase -- status` selected `PHASE-15C`; `pnpm run phase -- bundle --phase PHASE-15C --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-15C/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-15c-loop-coordinator-wt` on branch `phase/phase-15c-loop-coordinator` from `origin/main` at `5a13a55`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
 
 ---
 
