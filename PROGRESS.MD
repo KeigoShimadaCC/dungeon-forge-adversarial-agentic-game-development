@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-13b-ci-and-acceptance-checks` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-13b-ci-and-acceptance-checks-wt` |
 | Base | `origin/main` at `b6fe332` |
-| Status | `Remote CI passed; automation gate pending` |
+| Status | `Merged; post-merge CI repair passed locally; next phase PHASE-13C` |
 
 ### Contract (read before editing)
 
@@ -55,10 +55,12 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - _(none)_
 
 ### Open
-- [ ] 2026-05-23 orchestrator — Run automation gate, merge, update phase state, and clean up if validation passes.
+
+- _(none)_
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Repair post-merge main CI by making phase-runner tests independent of live `automation/phase-state.json` current phase.
 - [x] 2026-05-23 orchestrator — Push Phase 13B branch, open PR #29, and verify GitHub Actions `Repo gates` pass.
 - [x] 2026-05-23 orchestrator — Perform read-only Cursor recheck, add ci-smoke protocol-failure regression test, re-run full gates, and re-read Phase 13B acceptance criteria.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, remove out-of-scope `AGENTS.md` edit, harden explicit missing-evidence verification, run focused tests, and rerun full `pnpm run check`.
@@ -253,6 +255,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 13B PASS; merge readiness BLOCKED only because implementation files were still untracked/uncommitted and no PR/CI existed yet. Non-blocking suggestion: add ci-smoke protocol-failure unit coverage. No files were changed by recheck.
 - 2026-05-23 — orchestrator — Added ci-smoke protocol-failure regression coverage and re-ran final local gates. Validation PASS: `pnpm test tests/ci-checks.test.ts` (8 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run check` (22 files, 205 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`. Re-read `phase-plans/PHASE-13B-CI-AND-ACCEPTANCE-CHECKS.md`; deliverables and acceptance criteria are satisfied locally.
 - 2026-05-23 — orchestrator — Commit `40cfd70` added Phase 13B validation gates after seed commit `5f20b69`; pushed branch `phase/phase-13b-ci-and-acceptance-checks`; opened PR #29: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/29. GitHub Actions run `26307323748` passed `Repo gates` in 30s. Non-blocking annotation: GitHub reported Node.js 20 action-runtime deprecation for `actions/checkout@v4`, `actions/setup-node@v4`, and `pnpm/action-setup@v4`; job still passed.
+- 2026-05-23 — orchestrator — PR #29 merged at `0f5bbfec202a8ffe1925008b2fddfb68a62c0011`; worktree removed, local branch deleted, remote branch deleted manually after local `gh pr merge` cleanup failed on the main worktree checkout. Automation state commit `7d5d3af` marked `PHASE-13B` complete and advanced current phase to `PHASE-13C`, but main CI run `26307598499` failed because `tests/phase-runner.test.ts` expected live state current phase `PHASE-13B` after state had correctly advanced to `PHASE-13C`.
+- 2026-05-23 — orchestrator — Fixed post-merge CI by making `tests/phase-runner.test.ts` construct explicit queued state fixtures instead of depending on live `automation/phase-state.json`. Local validation PASS: `pnpm test tests/phase-runner.test.ts` (6 tests), `pnpm run typecheck`, `pnpm run lint`, and `pnpm run check` (22 files, 205 tests; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass).
 
 ---
 
