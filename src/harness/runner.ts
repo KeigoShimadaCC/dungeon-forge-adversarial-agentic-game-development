@@ -5,10 +5,12 @@ import {
   start,
   step,
 } from '../game/engine.js';
+import { normalizeChallengeModeId } from '../game/challenge-modes.js';
 import {
-  normalizeChallengeModeId,
+  getScenarioPackLabel,
+  normalizeScenarioPackId,
   resolveGameConfigForRun,
-} from '../game/challenge-modes.js';
+} from '../game/scenario-packs.js';
 import type { GameEvent, GameState, JsonObject, TerminalStatus } from '../game/types.js';
 import { findMatchingAvailableAction } from './baseline-players/helpers.js';
 import type { BaselinePlayerInput } from './baseline-players/types.js';
@@ -55,6 +57,8 @@ export interface RunPlaythroughOptions {
   policyContext?: ArtifactWritePolicyContext;
   /** Explicit finite challenge preset id (omit for default gameplay). */
   challengeMode?: string;
+  /** Explicit bounded scenario content pack id (omit for default gameplay). */
+  scenarioPack?: string;
   /** When true, run the harness loop without writing trace/scorecard artifacts. */
   dryRun?: boolean;
 }
@@ -121,9 +125,10 @@ export const runPlaythrough = async (
           })());
 
   const challengeMode = normalizeChallengeModeId(options.challengeMode);
-  const gameConfig = resolveGameConfigForRun(version, challengeMode);
+  const scenarioPack = normalizeScenarioPackId(options.scenarioPack);
+  const gameConfig = resolveGameConfigForRun(version, challengeMode, scenarioPack);
   let state = start(seed, gameConfig);
-  const baseMetadata = buildTraceMetadata(seed, version, challengeMode);
+  const baseMetadata = buildTraceMetadata(seed, version, challengeMode, scenarioPack);
   const steps: TraceStep[] = [];
   const maxSteps = resolveMaxSteps(state, options.maxSteps);
   let stepsTaken = 0;
@@ -137,6 +142,14 @@ export const runPlaythrough = async (
     turns: 0,
     steps,
     ...(challengeMode ? { challenge_mode: challengeMode } : {}),
+    ...(scenarioPack
+      ? {
+          scenario_pack: scenarioPack,
+          ...(getScenarioPackLabel(scenarioPack)
+            ? { scenario_pack_label: getScenarioPackLabel(scenarioPack) }
+            : {}),
+        }
+      : {}),
     metadata: baseMetadata,
   };
 
@@ -329,6 +342,7 @@ export const parseSimulateSeedArgs = (
   version: string;
   maxSteps?: number;
   challengeMode?: string;
+  scenarioPack?: string;
   policy?: HarnessPlayerPolicy;
 } => {
   let seed: string | undefined;
@@ -336,6 +350,7 @@ export const parseSimulateSeedArgs = (
   let version = 'v001';
   let maxSteps: number | undefined;
   let challengeMode: string | undefined;
+  let scenarioPack: string | undefined;
   const llm = parseHarnessLlmCliArgs(argv);
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -372,6 +387,11 @@ export const parseSimulateSeedArgs = (
     if (token === '--challenge-mode' && argv[index + 1]) {
       challengeMode = normalizeChallengeModeId(argv[index + 1]);
       index += 1;
+      continue;
+    }
+    if (token === '--scenario-pack' && argv[index + 1]) {
+      scenarioPack = normalizeScenarioPackId(argv[index + 1]);
+      index += 1;
     }
   }
 
@@ -401,6 +421,7 @@ export const parseSimulateSeedArgs = (
       version,
       maxSteps,
       challengeMode,
+      scenarioPack,
       policy: createPersonaPolicyForRun(
         policyId,
         seed,
@@ -416,7 +437,7 @@ export const parseSimulateSeedArgs = (
     );
   }
 
-  return { seed, policyId, version, maxSteps, challengeMode };
+  return { seed, policyId, version, maxSteps, challengeMode, scenarioPack };
 };
 
 export { isBaselinePolicyId, BASELINE_POLICY_IDS, isLlmPlayerPersona, LLM_PLAYER_PERSONA_IDS } from './policy-registry.js';

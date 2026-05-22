@@ -1,21 +1,23 @@
-import { loadGameContent } from './content.js';
 import { getEndingText, getOpeningText } from './dialogue.js';
 import { defaultTacticalEffects } from './item-effects.js';
+import { getContentForRun } from './run-content.js';
 import { formatResourceStatus, isTrapVisible, trapRenderGlyph } from './traps-resources.js';
 import type { GameState, ItemInstance, Position, TrapInstance } from './types.js';
 
-const content = loadGameContent();
-
-const getItemDisplayName = (itemType: string): string => {
-  const item = content.items.items.find((candidate) => candidate.id === itemType);
+const getItemDisplayName = (state: GameState, itemType: string): string => {
+  const item = getContentForRun(state.meta.scenarioPackId).items.items.find(
+    (candidate) => candidate.id === itemType,
+  );
   if (!item) {
     throw new Error(`Missing item content: ${itemType}`);
   }
   return item.displayName;
 };
 
-const getItemDescription = (itemType: string): string => {
-  const item = content.items.items.find((candidate) => candidate.id === itemType);
+const getItemDescription = (state: GameState, itemType: string): string => {
+  const item = getContentForRun(state.meta.scenarioPackId).items.items.find(
+    (candidate) => candidate.id === itemType,
+  );
   if (!item) {
     throw new Error(`Missing item content: ${itemType}`);
   }
@@ -48,14 +50,14 @@ const trapAt = (
 ): TrapInstance | undefined =>
   state.traps.find((trap) => trap.armed && samePosition(trap, position));
 
-const inventoryLines = (inventory: string[]): string[] => {
-  if (inventory.length === 0) {
+const inventoryLines = (state: GameState): string[] => {
+  if (state.player.inventory.length === 0) {
     return ['Inventory: (empty)'];
   }
-  const held = [...new Set(inventory)];
+  const held = [...new Set(state.player.inventory)];
   return [
-    `Inventory: ${held.map((itemType) => getItemDisplayName(itemType)).join(', ')}`,
-    ...held.map((itemType) => `  - ${getItemDescription(itemType)}`),
+    `Inventory: ${held.map((itemType) => getItemDisplayName(state, itemType)).join(', ')}`,
+    ...held.map((itemType) => `  - ${getItemDescription(state, itemType)}`),
   ];
 };
 
@@ -64,13 +66,13 @@ const visibleItemDescriptions = (state: GameState): string => {
   if (itemTypes.length === 0) {
     return 'Visible items: (none)';
   }
-  return `Visible items: ${itemTypes.map((itemType) => getItemDescription(itemType)).join(' | ')}`;
+  return `Visible items: ${itemTypes.map((itemType) => getItemDescription(state, itemType)).join(' | ')}`;
 };
 
 const terminalSummary = (state: GameState): string => {
   switch (state.terminalStatus) {
     case 'WIN':
-      return `Outcome: WIN - ${getEndingText()}`;
+      return `Outcome: WIN - ${getEndingText(state.meta.scenarioPackId)}`;
     case 'LOSS':
       return 'Outcome: LOSS - You fell in the dungeon.';
     case 'ABORTED':
@@ -121,7 +123,7 @@ export const render = (state: GameState): string => {
       ? [
           `Dialogue (${state.dialogue.npcId} @ ${state.dialogue.nodeId}):`,
           ...(() => {
-            const tree = loadGameContent().events.dialogueTrees.find(
+            const tree = getContentForRun(state.meta.scenarioPackId).events.dialogueTrees.find(
               (candidate) => candidate.id === state.dialogue?.treeId,
             );
             const node = tree?.nodes.find(
@@ -139,9 +141,9 @@ export const render = (state: GameState): string => {
     formatResourceStatus(state),
     terminalSummary(state),
     `Objective: ${state.meta.objective}`,
-    `Opening: ${getOpeningText()}`,
+    `Opening: ${getOpeningText(state.meta.scenarioPackId)}`,
     ...renderedRows,
-    ...inventoryLines(state.player.inventory),
+    ...inventoryLines(state),
     visibleItemDescriptions(state),
     tactical.enemyTrackingDisabledUntilTurn > state.turn
       ? `Tactical: enemy pursuit blinded until turn ${tactical.enemyTrackingDisabledUntilTurn}.`

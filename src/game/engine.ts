@@ -2,11 +2,12 @@ import { calcPlayerDamageToEnemy } from './combat.js';
 import {
   getItemDefinition,
   getTrapDefinition,
-  loadGameContent,
   SMOKE_BOMB_ITEM_ID,
   type EnemyDefinition,
   type FloorRuleDefinition,
+  type GameContent,
 } from './content.js';
+import { getContentForRun } from './run-content.js';
 import {
   applyItemEffect,
   buildInventoryUseItemActions,
@@ -40,7 +41,6 @@ import {
   formatResourceStatus,
   placeTraps,
 } from './traps-resources.js';
-import { resolveGameConfigForVersion } from './version-profiles.js';
 import type {
   GameConfig,
   GameEvent,
@@ -49,6 +49,7 @@ import type {
   ItemInstance,
   PlayerAction,
   Position,
+  RunConfigOverlay,
   StepResult,
   Tile,
 } from './types.js';
@@ -74,8 +75,30 @@ const DIRECTIONS = [
   { name: 'east', dx: 1, dy: 0 },
 ] as const;
 
-const content = loadGameContent();
-const floorRules = [...content.floors.floors].sort((a, b) => a.floor - b.floor);
+const contentForState = (state: GameState): GameContent =>
+  getContentForRun(state.meta.scenarioPackId);
+
+const sortedFloorRules = (content: GameContent): FloorRuleDefinition[] =>
+  [...content.floors.floors].sort((a, b) => a.floor - b.floor);
+
+const toRunConfigOverlay = (
+  config: GameConfig,
+  totalFloorsFallback: number,
+): RunConfigOverlay => ({
+  totalFloors: config.totalFloors ?? totalFloorsFallback,
+  ...(config.maxTurns !== undefined ? { maxTurns: config.maxTurns } : {}),
+  ...(config.objective !== undefined ? { objective: config.objective } : {}),
+  ...(config.allowedEnemyIds !== undefined
+    ? { allowedEnemyIds: [...config.allowedEnemyIds] }
+    : {}),
+  ...(config.allowedItemIds !== undefined
+    ? { allowedItemIds: [...config.allowedItemIds] }
+    : {}),
+  ...(config.openingLog !== undefined ? { openingLog: [...config.openingLog] } : {}),
+  ...(config.initialInventory !== undefined
+    ? { initialInventory: [...config.initialInventory] }
+    : {}),
+});
 
 const cloneState = (state: GameState): GameState =>
   JSON.parse(JSON.stringify(state)) as GameState;
@@ -88,15 +111,15 @@ const samePosition = (a: Position, b: Position): boolean =>
 const manhattanDistance = (a: Position, b: Position): number =>
   Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 
-const getFloorRule = (floor: number): FloorRuleDefinition => {
-  const rule = floorRules.find((candidate) => candidate.floor === floor);
+const getFloorRule = (floor: number, content: GameContent): FloorRuleDefinition => {
+  const rule = sortedFloorRules(content).find((candidate) => candidate.floor === floor);
   if (!rule) {
     throw new Error(`Missing floor rule for floor ${floor}`);
   }
   return rule;
 };
 
-const getEnemyDefinition = (id: string): EnemyDefinition => {
+const getEnemyDefinition = (id: string, content: GameContent): EnemyDefinition => {
   const enemy = content.enemies.enemies.find((candidate) => candidate.id === id);
   if (!enemy) {
     throw new Error(`Missing enemy content: ${id}`);
@@ -104,8 +127,8 @@ const getEnemyDefinition = (id: string): EnemyDefinition => {
   return enemy;
 };
 
-const maxTurnsForFloors = (totalFloors: number): number =>
-  floorRules
+const maxTurnsForFloors = (totalFloors: number, content: GameContent): number =>
+  sortedFloorRules(content)
     .filter((rule) => rule.floor <= totalFloors)
     .reduce((total, rule) => total + rule.maxTurns, 0);
 
@@ -143,6 +166,7 @@ const placeEnemies = (
   rule: FloorRuleDefinition,
   layout: ReturnType<typeof generateFloorLayout>,
   occupied: Set<string>,
+  content: GameContent,
   allowedEnemyIds?: readonly string[],
 ): GameState['enemies'] => {
   const enemyIds = filterContentIds(rule.enemyIds, allowedEnemyIds);
@@ -161,7 +185,7 @@ const placeEnemies = (
   });
 
   return positions.map((position, index) => {
-    const definition = getEnemyDefinition(enemyIds[index % enemyIds.length]!);
+    const definition = getEnemyDefinition(enemyIds[index % enemyIds.length]!, content);
     occupied.add(positionKey(position));
 
     return {
@@ -185,6 +209,7 @@ const placeItems = (
   rule: FloorRuleDefinition,
   layout: ReturnType<typeof generateFloorLayout>,
   occupied: Set<string>,
+  content: GameContent,
   allowedItemIds?: readonly string[],
 ): ItemInstance[] => {
   const itemIds = filterContentIds(rule.itemIds, allowedItemIds);
@@ -202,7 +227,7 @@ const placeItems = (
   });
 
   return positions.map((position, index) => {
-    const definition = getItemDefinition(itemIds[index % itemIds.length]!);
+    const definition = getItemDefinition(itemIds[index % itemIds.length]!, content);
     occupied.add(positionKey(position));
 
     return {
@@ -231,8 +256,11 @@ const createFloorState = (params: {
   log: string[];
   narrative?: GameState['narrative'];
   floorEventsOut?: GameEvent[];
+  scenarioPackId?: string;
+  runConfig?: RunConfigOverlay;
+  content: GameContent;
 }): GameState => {
-  const rule = getFloorRule(params.floor);
+  const rule = getFloorRule(params.floor, params.content);
   const layout = generateFloorLayout({
     seed: params.seed,
     floor: params.floor,
@@ -248,6 +276,7 @@ const createFloorState = (params: {
     rule,
     layout,
     occupied,
+    params.content,
     params.allowedEnemyIds,
   );
   const items = placeItems(
@@ -256,6 +285,7 @@ const createFloorState = (params: {
     rule,
     layout,
     occupied,
+    params.content,
     params.allowedItemIds,
   );
   const npcs = placeNpcsForFloor({
@@ -263,6 +293,7 @@ const createFloorState = (params: {
     floor: params.floor,
     layout,
     occupied,
+    scenarioPackId: params.scenarioPackId,
   });
   const traps = placeTraps({
     seed: params.seed,
@@ -270,6 +301,7 @@ const createFloorState = (params: {
     rule,
     layout,
     occupied,
+    content: params.content,
   });
 
   const state: GameState = {
@@ -297,6 +329,8 @@ const createFloorState = (params: {
       maxTurns: params.maxTurns,
       objective: params.objective,
       totalFloors: params.totalFloors,
+      ...(params.scenarioPackId ? { scenarioPackId: params.scenarioPackId } : {}),
+      ...(params.runConfig ? { runConfig: params.runConfig } : {}),
     },
   };
 
@@ -310,8 +344,11 @@ const createFloorState = (params: {
 };
 
 export const start = (seed: string, config: GameConfig = {}): GameState => {
+  const content = getContentForRun(config.scenarioPackId);
+  const floorRules = sortedFloorRules(content);
   const totalFloors = normalizePositiveInteger(config.totalFloors, floorRules.length);
-  const defaultMaxTurnsForProfile = config.maxTurns ?? maxTurnsForFloors(totalFloors);
+  const defaultMaxTurnsForProfile = config.maxTurns ?? maxTurnsForFloors(totalFloors, content);
+  const runConfig = toRunConfigOverlay(config, totalFloors);
 
   return createFloorState({
     seed,
@@ -324,7 +361,10 @@ export const start = (seed: string, config: GameConfig = {}): GameState => {
     allowedEnemyIds: config.allowedEnemyIds,
     allowedItemIds: config.allowedItemIds,
     inventory: config.initialInventory ? [...config.initialInventory] : [],
-    log: [getOpeningText(), ...(config.openingLog ?? [])],
+    log: [getOpeningText(config.scenarioPackId), ...(config.openingLog ?? [])],
+    scenarioPackId: config.scenarioPackId,
+    runConfig,
+    content,
   });
 };
 
@@ -451,10 +491,11 @@ const event = (
   payload,
 });
 
-const isKnownItemType = (id: string): boolean =>
+const isKnownItemType = (id: string, content: GameContent): boolean =>
   content.items.items.some((candidate) => candidate.id === id);
 
 const getInvalidStateReason = (state: GameState): string | undefined => {
+  const content = contentForState(state);
   if (state.floor < 1 || state.floor > state.meta.totalFloors) {
     return `floor ${state.floor} is outside 1-${state.meta.totalFloors}`;
   }
@@ -498,7 +539,7 @@ const getInvalidStateReason = (state: GameState): string | undefined => {
   }
 
   for (const item of state.items) {
-    if (!isKnownItemType(item.type)) {
+    if (!isKnownItemType(item.type, content)) {
       return `item ${item.id} references unknown type ${item.type}`;
     }
     if (!isWalkable(state.map, item)) {
@@ -508,7 +549,7 @@ const getInvalidStateReason = (state: GameState): string | undefined => {
 
   for (const trap of state.traps) {
     try {
-      getTrapDefinition(trap.type);
+      getTrapDefinition(trap.type, content);
     } catch {
       return `trap ${trap.id} references unknown type ${trap.type}`;
     }
@@ -533,7 +574,7 @@ const getInvalidStateReason = (state: GameState): string | undefined => {
   }
 
   for (const itemType of state.player.inventory) {
-    if (!isKnownItemType(itemType)) {
+    if (!isKnownItemType(itemType, content)) {
       return `inventory references unknown item type ${itemType}`;
     }
   }
@@ -616,7 +657,7 @@ const descend = (state: GameState, events: GameEvent[]): GameState => {
   if (state.floor >= state.meta.totalFloors) {
     state.terminalStatus = 'WIN';
     events.push(
-      event(state.turn, 'win', getEndingText(), {
+      event(state.turn, 'win', getEndingText(state.meta.scenarioPackId), {
         terminalStatus: 'WIN',
       }),
     );
@@ -631,7 +672,8 @@ const descend = (state: GameState, events: GameEvent[]): GameState => {
   );
   appendEventsToLog(state, events);
 
-  const profileConfig = resolveGameConfigForVersion(state.version);
+  const runConfig = state.meta.runConfig;
+  const content = getContentForRun(state.meta.scenarioPackId);
   return createFloorState({
     seed: state.seed,
     version: state.version,
@@ -640,14 +682,17 @@ const descend = (state: GameState, events: GameEvent[]): GameState => {
     maxTurns: state.meta.maxTurns,
     objective: state.meta.objective,
     totalFloors: state.meta.totalFloors,
-    allowedEnemyIds: profileConfig.allowedEnemyIds,
-    allowedItemIds: profileConfig.allowedItemIds,
+    allowedEnemyIds: runConfig?.allowedEnemyIds,
+    allowedItemIds: runConfig?.allowedItemIds,
     playerHp: state.player.hp,
     inventory: state.player.inventory,
     resources: state.resources,
     log: state.log,
     narrative: state.narrative,
     floorEventsOut: events,
+    scenarioPackId: state.meta.scenarioPackId,
+    runConfig,
+    content,
   });
 };
 
@@ -740,7 +785,7 @@ export const step = (state: GameState, action: PlayerAction): StepResult => {
         error: 'use_item action is missing itemType',
       };
     }
-    const definition = getItemDefinition(itemType);
+    const definition = getItemDefinition(itemType, contentForState(nextState));
     events.push(
       ...applyItemEffect({
         state: nextState,

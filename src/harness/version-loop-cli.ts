@@ -14,6 +14,7 @@ interface ParsedArgs {
   runsRoot: string;
   onExisting: import('./artifact-write-policy.js').ArtifactWriteMode;
   challengeMode?: string;
+  scenarioPack?: string;
   stdoutOnly: boolean;
   useLlmPlayer: boolean;
   useLlmReviewer: boolean;
@@ -26,6 +27,7 @@ const parseArgs = (argv: string[]): ParsedArgs => {
     runsRoot: common.runsRoot,
     onExisting: common.onExisting,
     challengeMode: common.challengeMode,
+    scenarioPack: common.scenarioPack,
     stdoutOnly: false,
     useLlmPlayer: llm.useLlmPlayer,
     useLlmReviewer: llm.useLlmReviewer,
@@ -54,7 +56,12 @@ const parseArgs = (argv: string[]): ParsedArgs => {
       index += 1;
     } else if (arg === '--stdout-only') {
       args.stdoutOnly = true;
-    } else if (arg === '--runs-root' || arg === '--on-existing' || arg === '--challenge-mode') {
+    } else if (
+      arg === '--runs-root' ||
+      arg === '--on-existing' ||
+      arg === '--challenge-mode' ||
+      arg === '--scenario-pack'
+    ) {
       index += 1;
     } else {
       throw new Error(`Unknown or incomplete argument: ${arg}`);
@@ -85,6 +92,7 @@ export const runRunVersionCli = async (argv: string[] = process.argv.slice(2)): 
     await runVersion(args.runsRoot, requireArg(args.version, 'version'), undefined, {
       onExisting: args.onExisting,
       ...(args.challengeMode ? { challengeMode: args.challengeMode } : {}),
+      ...(args.scenarioPack ? { scenarioPack: args.scenarioPack } : {}),
       llm: {
         usePlayer: args.useLlmPlayer,
         useReviewer: args.useLlmReviewer,

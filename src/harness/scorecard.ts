@@ -135,6 +135,8 @@ export const deriveScorecardFromTrace = (
     seed: trace.seed,
     persona: trace.persona,
     ...(trace.challenge_mode ? { challenge_mode: trace.challenge_mode } : {}),
+    ...(trace.scenario_pack ? { scenario_pack: trace.scenario_pack } : {}),
+    ...(trace.scenario_pack_label ? { scenario_pack_label: trace.scenario_pack_label } : {}),
     result: trace.result,
     turns: trace.turns,
     floors_reached: floorsReached,
@@ -220,6 +222,20 @@ export const validateScorecard = (scorecard: PlaythroughScorecard): void => {
     (typeof record.challenge_mode !== 'string' || record.challenge_mode.length === 0)
   ) {
     throw new Error('Scorecard challenge_mode must be a non-empty string when present');
+  }
+
+  if (
+    record.scenario_pack !== undefined &&
+    (typeof record.scenario_pack !== 'string' || record.scenario_pack.length === 0)
+  ) {
+    throw new Error('Scorecard scenario_pack must be a non-empty string when present');
+  }
+
+  if (
+    record.scenario_pack_label !== undefined &&
+    (typeof record.scenario_pack_label !== 'string' || record.scenario_pack_label.length === 0)
+  ) {
+    throw new Error('Scorecard scenario_pack_label must be a non-empty string when present');
   }
 
   if (record.enemy_behaviors !== undefined) {

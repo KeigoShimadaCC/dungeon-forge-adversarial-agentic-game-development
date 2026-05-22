@@ -1,9 +1,9 @@
 import {
   getItemDefinition,
-  POTION_ITEM_ID,
   type ItemDefinition,
   type ItemEffectId,
 } from './content.js';
+import { getContentForRun } from './run-content.js';
 import { isWalkableTile } from './map.js';
 import type {
   EnemyInstance,
@@ -117,7 +117,7 @@ export function canUseItem(
 ): boolean {
   switch (definition.effect) {
     case 'heal':
-      return state.player.inventory.includes(POTION_ITEM_ID);
+      return state.player.inventory.includes(definition.id);
     case 'blind_enemies':
       return state.enemies.length > 0;
     case 'swap_position':
@@ -223,12 +223,13 @@ export function buildUseItemActions(
 export function buildInventoryUseItemActions(state: GameState): PlayerAction[] {
   const actions: PlayerAction[] = [];
   const seen = new Set<string>();
+  const content = getContentForRun(state.meta.scenarioPackId);
   for (const itemType of state.player.inventory) {
     if (seen.has(itemType)) {
       continue;
     }
     seen.add(itemType);
-    const definition = getItemDefinition(itemType);
+    const definition = getItemDefinition(itemType, content);
     actions.push(...buildUseItemActions(state, definition));
   }
   return actions;
