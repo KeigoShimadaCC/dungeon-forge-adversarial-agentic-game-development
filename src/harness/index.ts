@@ -62,6 +62,20 @@ export {
   type ReviewerScores,
 } from './reviewer-client.js';
 export {
+  DEFAULT_DEVELOPER_TEST_COMMANDS,
+  DeveloperTaskValidationError,
+  GLOBAL_FORBIDDEN_CHANGES,
+  generateDeveloperTask,
+  getDeveloperTaskOutputPath,
+  renderChangelogTemplate,
+  renderDeveloperTaskMarkdown,
+  renderPatchPlanTemplate,
+  validateDeveloperTaskInput,
+  type DeveloperTask,
+  type DeveloperTaskInput,
+} from './developer-workflow.js';
+export { runDeveloperTaskCli } from './developer-workflow-cli.js';
+export {
   VERSION_ARTIFACT_DIRS,
   VERSION_ID_PATTERN,
   VERSION_MARKDOWN_FILES,
