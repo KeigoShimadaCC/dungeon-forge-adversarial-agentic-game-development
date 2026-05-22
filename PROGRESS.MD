@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-04b-baseline-players` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-04b` |
 | Base | `origin/main` |
-| Status | `in_progress` |
+| Status | `pr_open` |
 
 ### Contract (read before editing)
 
@@ -55,7 +55,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - _(none)_
 
 ### Open
-- [ ] Push `phase-04b-baseline-players` and open PR to `main`.
+- _(none)_
 
 ### Done
 
@@ -66,6 +66,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-22 — cursor-agent — Validation: `pnpm install`; `pnpm test` exit 0 (6 files, 51 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0.
 - [x] 2026-05-22 — cursor-agent — Read-only Phase 04B audit against plan and invariants: PASS; no blocking findings.
 - [x] 2026-05-22 — orchestrator — Re-read Phase 04B acceptance criteria against actual repo state after audit follow-up.
+- [x] 2026-05-22 — orchestrator — Pushed `phase-04b-baseline-players` and opened PR #9 to `main`.
 
 ### Blocked / skipped
 
@@ -101,7 +102,7 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 - [x] Baseline players do not mutate game state directly (acceptance).
 - [x] Gameplay remains structured-action based (acceptance).
 - [x] Re-read acceptance criteria against actual repo state.
-- [ ] Push branch and open PR when implemented.
+- [x] Push branch and open PR when implemented.
 
 ---
 
@@ -128,6 +129,7 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — Reviewed Cursor implementation and tightened runner/test contract so policies must return the exact `PlayerAction` object from the supplied `availableActions` list. Local validation: initial `pnpm test` failed after stricter assertion because the test helper compared against a fresh action array; fixed helper. Final local validation: `pnpm test` exit 0 (6 files, 51 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `git diff --check` exit 0; `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
 - 2026-05-22 — cursor-agent — Read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace /Users/keigoshimada/Documents/dungeon-forge-phase-04b`): PASS. Audit noted test-hardening gaps around explicit action reference identity and cloned-action rejection; orchestrator added `tests/baseline-players.test.ts` coverage for both.
 - 2026-05-22 — orchestrator — Final Phase 04B validation after audit follow-up: `pnpm test` exit 0 (6 files, 52 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `git diff --check` exit 0; `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`. Acceptance re-read: cheap baseline crash/softlock smoke coverage exists, policies do not mutate game state directly, and gameplay remains structured-action based with no `src/game/**` contract changes.
+- 2026-05-22 — orchestrator — Pushed branch with `git push -u origin phase-04b-baseline-players` and opened PR #9: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/9
 
 ---
 
