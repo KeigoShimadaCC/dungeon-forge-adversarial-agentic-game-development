@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-16d-deterministic-json-patching` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-16d-deterministic-json-patching-wt` |
 | Base | `origin/main` at `cdc1f81` |
-| Status | `Seed checkpoint complete; Cursor implementation pending` |
+| Status | `Functional complete; commit/PR pending` |
 
 ### Contract (read before editing)
 
@@ -52,15 +52,18 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 Cursor/composer-2.5 — Implement deterministic JSON patch schema/validator, dry-run/apply command or module, application report, and focused tests within Phase 16D scope.
+- [~] 2026-05-23 orchestrator — Commit Phase 16D implementation, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 16D acceptance, and request Cursor read-only recheck.
-- [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
+_(none)_
 
 ### Done
 
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 16D PASS; non-blocking test-strength suggestions recorded in Future backlog; merge readiness pending commit/PR/CI only.
+- [x] 2026-05-23 orchestrator — Addressed Cursor recheck non-blocking hardening: Markdown CLI apply/report/audit/rollback coverage, forbidden-MVP text rejection, CLI apply smoke, and stricter nested patch structural validation; reran focused/full gates.
+- [x] 2026-05-23 orchestrator — Review Cursor diff; harden unsafe `..` target-path traversal, structurally invalid patch CLI handling, and JSON Pointer/Markdown validation; rerun focused/full local gates.
+- [x] 2026-05-23 Cursor/composer-2.5 — Implement deterministic JSON patch schema/validator, `pnpm run json-patch` dry-run/apply CLI, application report/audit/rollback artifacts, `docs/JSON-PATCHING.md`, exports, and `tests/json-patching.test.ts`.
 - [x] 2026-05-23 orchestrator — Generate Phase 16D automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 16C PR #39 merged at `db2599df9bf497fc6b5639a591ff6e48e2a6bf24`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 16D.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 16C PASS; addressed cheap non-blocking duplicate-manifest-id test coverage, reran focused/full gates, and left only commit/PR/CI readiness.
@@ -150,16 +153,16 @@ _Derived from `phase-plans/PHASE-16D-DETERMINISTIC-JSON-PATCHING.md`. Tick when 
 
 ### Phase 16D — Deterministic JSON Patching
 
-- [ ] JSON patch schema and validator exist.
-- [ ] Dry-run/apply command or module exists.
-- [ ] Patch application report format exists.
-- [ ] Valid patch applies only to allowlisted JSON or Markdown-like artifacts.
-- [ ] Invalid path, schema failure, or forbidden feature blocks application.
-- [ ] Dry-run produces no file changes.
-- [ ] Applied patch records before/after summary and links back to proposal evidence.
-- [ ] Human governance and acceptance gates remain authoritative.
-- [ ] Feature cannot mutate game state directly during play.
-- [ ] Local final gates pass: `pnpm run check`, focused tests, deterministic patch smoke evidence, and `git diff --check`.
+- [x] JSON patch schema and validator exist.
+- [x] Dry-run/apply command or module exists.
+- [x] Patch application report format exists.
+- [x] Valid patch applies only to allowlisted JSON or Markdown-like artifacts.
+- [x] Invalid path, schema failure, or forbidden feature blocks application.
+- [x] Dry-run produces no file changes.
+- [x] Applied patch records before/after summary and links back to proposal evidence.
+- [x] Human governance and acceptance gates remain authoritative.
+- [x] Feature cannot mutate game state directly during play.
+- [x] Local final gates pass: `pnpm run check`, focused tests, deterministic patch validation/apply smoke coverage, and `git diff --check`.
 
 ---
 
@@ -172,6 +175,8 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | F-001 | _(add ideas here)_ | _(phase)_ | _(why deferred)_ | _(agent, date)_ |
 | F-13A-001 | Add README or command reference documentation for `--on-existing`, `--stdout-only`, persisted summary/comparison paths, and archive behavior. | Documentation polish / Phase 14A | Phase 13A records behavior in the phase plan and CLI errors; broader README-style docs are useful but not required for artifact retention acceptance. | orchestrator, 2026-05-23 |
 | F-13A-002 | Expand retention tests for `accept-version`, summary/comparison no-clobber reruns, and review-specific overwrite/archive diagnostics. | Evidence retention hardening follow-up | Phase 13A covers core no-clobber, archive, overwrite, balance summary, persisted summary, and comparison paths; broader matrix coverage can be added later without changing the policy contract. | orchestrator, 2026-05-23 |
+| F-16D-001 | Add a scenario-pack JSON overlay patch test that exercises `content/packs/*.json` through the deterministic patch flow. | Patch testing hardening | Phase 16D validates scenario overlays through `validateScenarioPackContentOverlay`; recheck classified dedicated overlay-apply coverage as non-blocking test-strength work. | Cursor/composer-2.5 recheck, 2026-05-23 |
+| F-16D-002 | Add a dedicated CLI dry-run smoke test in addition to module dry-run and CLI validate/apply coverage. | Patch testing hardening | Phase 16D covers module dry-run and CLI validate/apply paths; recheck classified a CLI dry-run smoke as optional hardening. | Cursor/composer-2.5 recheck, 2026-05-23 |
 | F-AUTO-001 | Add the command-execution layer that actually runs generated worktree, Cursor, validation, PR, merge, and cleanup commands behind an explicit autopilot mode. | Automation runner follow-up / Phase 15B-15C acceleration | Current pass implements deterministic planning, bundle generation, merge gating, and state updates; direct command execution should be added after this core is reviewed. | orchestrator, 2026-05-23 |
 | F-03A-001 | Extract engine-local map/combat helpers into dedicated modules when those systems grow. | Phase 09B / Phase 09C | Phase 03A permits modules as needed; richer enemy variety and procedural map generation are explicitly scheduled later. | orchestrator, 2026-05-22 |
 | F-06A-001 | Implemented in Phase 14B: add a real provider adapter behind `LlmPlayerClient` with explicit credential configuration. | Phase 14B | Closed by `llm-provider-config`, `llm-provider`, `.env.example`, and mocked provider tests. | orchestrator, 2026-05-23 |
@@ -383,6 +388,11 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 16D with initial task queue and checklist from `phase-plans/PHASE-16D-DETERMINISTIC-JSON-PATCHING.md`.
 - 2026-05-23 — orchestrator — Phase 16D automation start: `pnpm run phase -- status` selected `PHASE-16D`; `pnpm run phase -- bundle --phase PHASE-16D --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-16D/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-16d-deterministic-json-patching-wt` on branch `phase/phase-16d-deterministic-json-patching` from `origin/main` at `cdc1f81`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
 - 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
+- 2026-05-23 — Cursor/composer-2.5 — Phase 16D implementation: added `src/harness/deterministic-json-patch.ts`, `json-patch-cli.ts`, `json-patch.ts`, `docs/JSON-PATCHING.md`, `tests/json-patching.test.ts`, `pnpm run json-patch`, harness exports, and PATCH-PROPOSALS cross-link. Validation PASS: `pnpm test tests/json-patching.test.ts` (8 tests); `pnpm run check` (32 files, 313 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check` PASS. Re-read `phase-plans/PHASE-16D-DETERMINISTIC-JSON-PATCHING.md`; deliverables and acceptance criteria satisfied locally.
+- 2026-05-23 — orchestrator — Reviewed Phase 16D diff and hardened validation before recheck: blocked unsafe repo-relative target paths such as `content/../package.json`, added explicit CLI rejection for structurally invalid patch JSON, and moved invalid JSON Pointer / Markdown operation-shape failures into validation diagnostics. Validation PASS: `pnpm test tests/json-patching.test.ts` (9 tests); `pnpm run check` (32 files, 314 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional PASS against Phase 16D plan, bounded surfaces, dry-run/apply behavior, rollback/report evidence, proposal validation, human governance, forbidden scope, no secrets, and game protocol invariants. Recheck noted only merge-readiness blockers plus non-blocking test-strength suggestions.
+- 2026-05-23 — orchestrator — Addressed cheap recheck hardening: added end-to-end Markdown CLI apply smoke with report/audit/rollback file assertions, forbidden-MVP text rejection, and stricter nested `DeterministicJsonPatch` structural validation before CLI validation. Validation PASS: `pnpm test tests/json-patching.test.ts` (11 tests); `pnpm run check` (32 files, 316 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 16D PASS against the phase plan, bounded surfaces, dry-run/apply behavior, rollback/report evidence, proposal validation, human governance, forbidden scope, no secrets, and game protocol invariants. Recheck noted only merge-readiness blockers plus non-blocking scenario-pack overlay and CLI dry-run test-strength suggestions, now recorded in Future backlog.
 
 ---
 
