@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { start } from '../src/game/engine.js';
-import { SLIME_ENEMY_ID } from '../src/game/content.js';
+import { POTION_ITEM_ID, SLIME_ENEMY_ID, SMOKE_BOMB_ITEM_ID } from '../src/game/content.js';
 import {
   DEMO_VERSION_IDS,
   resolveGameConfigForVersion,
@@ -10,13 +10,17 @@ import {
 import { runPlaythrough } from '../src/harness/runner.js';
 
 describe('demo version profiles', () => {
-  it('defines bounded v001–v003 profiles with only v001 implemented', () => {
+  it('defines bounded v001–v003 profiles with v001 and v002 implemented', () => {
     expect(DEMO_VERSION_IDS).toEqual(['v001', 'v002', 'v003']);
     expect(VERSION_PROFILES.v001.implemented).toBe(true);
-    expect(VERSION_PROFILES.v002.implemented).toBe(false);
+    expect(VERSION_PROFILES.v002.implemented).toBe(true);
     expect(VERSION_PROFILES.v003.implemented).toBe(false);
     expect(VERSION_PROFILES.v001.gameConfig.totalFloors).toBe(2);
     expect(VERSION_PROFILES.v001.gameConfig.allowedEnemyIds).toEqual([SLIME_ENEMY_ID]);
+    expect(VERSION_PROFILES.v002.gameConfig.allowedItemIds).toEqual([
+      POTION_ITEM_ID,
+      SMOKE_BOMB_ITEM_ID,
+    ]);
   });
 
   it('starts v001 with shallow Slime/Potion-focused state', () => {
@@ -26,6 +30,14 @@ describe('demo version profiles', () => {
     expect(state.meta.totalFloors).toBe(2);
     expect(state.enemies.every((enemy) => enemy.type === SLIME_ENEMY_ID)).toBe(true);
     expect(state.items.every((item) => item.type === 'potion')).toBe(true);
+  });
+
+  it('starts v002 with Smoke Bomb guidance and tactical inventory', () => {
+    const state = start('seed_001', resolveGameConfigForVersion('v002'));
+
+    expect(state.version).toBe('v002');
+    expect(state.player.inventory).toContain(SMOKE_BOMB_ITEM_ID);
+    expect(state.log.some((entry) => entry.includes('Smoke Bomb starts'))).toBe(true);
   });
 
   it('propagates harness version into playthrough traces', async () => {

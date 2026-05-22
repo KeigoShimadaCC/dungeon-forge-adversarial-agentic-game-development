@@ -1,0 +1,21 @@
+{
+  "damage_taken": 2,
+  "enemies_defeated": 0,
+  "floors_reached": 1,
+  "invalid_actions": 0,
+  "items_used": 1,
+  "persona": "cautious-low-hp",
+  "result": "ABORTED",
+  "reviewer_scores": {
+    "clarity": null,
+    "fairness": null,
+    "fun": null,
+    "replay_value": null,
+    "tactical_depth": null
+  },
+  "seed": "seed_001",
+  "softlocks": 1,
+  "trace_path": "runs/v002/traces/seed_001_cautious-low-hp.json",
+  "turns": 100,
+  "version": "v002"
+}

@@ -1,4 +1,9 @@
-import { POTION_ITEM_ID, SLIME_ENEMY_ID } from './content.js';
+import {
+  BAT_ENEMY_ID,
+  POTION_ITEM_ID,
+  SLIME_ENEMY_ID,
+  SMOKE_BOMB_ITEM_ID,
+} from './content.js';
 import type { GameConfig } from './types.js';
 
 export const DEMO_VERSION_IDS = ['v001', 'v002', 'v003'] as const;
@@ -27,10 +32,19 @@ const V001_PROFILE: VersionProfile = {
 
 const V002_PROFILE: VersionProfile = {
   version: 'v002',
-  implemented: false,
-  label: 'Reserved: reviewer-driven tactical/clarity improvement',
+  implemented: true,
+  label: 'Smoke Bomb tactical clarity demo dungeon',
   gameConfig: {
     version: 'v002',
+    totalFloors: 2,
+    allowedEnemyIds: [SLIME_ENEMY_ID, BAT_ENEMY_ID],
+    allowedItemIds: [POTION_ITEM_ID, SMOKE_BOMB_ITEM_ID],
+    initialInventory: [SMOKE_BOMB_ITEM_ID],
+    objective: 'Use Smoke Bombs to break pursuit, then reach the dawn stairs.',
+    openingLog: [
+      'Smoke Bomb starts in your pack: use it when enemies close in to break pursuit.',
+      'Legend reminder: ~ marks Smoke Bombs, ! marks Healing Potions, > marks stairs.',
+    ],
   },
 };
 

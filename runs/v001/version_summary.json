@@ -257,7 +257,7 @@
     },
     {
       "metrics": {
-        "damage_taken": 2,
+        "damage_taken": 4,
         "enemies_defeated": 0,
         "floors_reached": 2,
         "invalid_actions": 0,
@@ -276,7 +276,7 @@
       "scorecard_path": "runs/v001/scorecards/seed_002_stairs-seeking.json",
       "seed": "seed_002",
       "trace_path": "runs/v001/traces/seed_002_stairs-seeking.json",
-      "turns": 19
+      "turns": 20
     },
     {
       "metrics": {
@@ -557,7 +557,7 @@
     },
     {
       "metrics": {
-        "damage_taken": 22,
+        "damage_taken": 20,
         "enemies_defeated": 0,
         "floors_reached": 2,
         "invalid_actions": 0,

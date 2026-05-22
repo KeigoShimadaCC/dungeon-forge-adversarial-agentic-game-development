@@ -1,0 +1,585 @@
+{
+  "acceptance_status": "pending",
+  "artifact_coverage": {
+    "markdown": {
+      "acceptance.md": {
+        "nonEmpty": true,
+        "path": "runs/v002/acceptance.md",
+        "present": true
+      },
+      "changelog.md": {
+        "nonEmpty": true,
+        "path": "runs/v002/changelog.md",
+        "present": true
+      },
+      "developer_notes.md": {
+        "nonEmpty": true,
+        "path": "runs/v002/developer_notes.md",
+        "present": true
+      },
+      "patch_plan.md": {
+        "nonEmpty": true,
+        "path": "runs/v002/patch_plan.md",
+        "present": true
+      }
+    },
+    "reviews": {
+      "expected": 3,
+      "missing": [],
+      "present": 3
+    },
+    "scorecards": {
+      "expected": 3,
+      "missing": [],
+      "present": 3
+    },
+    "traces": {
+      "expected": 3,
+      "missing": [],
+      "present": 3
+    }
+  },
+  "links": {
+    "acceptance": "runs/v002/acceptance.md",
+    "changelog": "runs/v002/changelog.md",
+    "developer_notes": "runs/v002/developer_notes.md",
+    "patch_plan": "runs/v002/patch_plan.md"
+  },
+  "runs": [
+    {
+      "metrics": {
+        "damage_taken": 2,
+        "enemies_defeated": 0,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 1
+      },
+      "persona": "careful_player",
+      "result": "ABORTED",
+      "review_path": "runs/v002/reviews/seed_001_careful_player.json",
+      "reviewer_scores": {
+        "clarity": 5,
+        "fairness": 4,
+        "fun": 3,
+        "replay_value": 4,
+        "tactical_depth": 5
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_001_careful_player.json",
+      "seed": "seed_001",
+      "trace_path": "runs/v002/traces/seed_001_careful_player.json",
+      "turns": 100
+    },
+    {
+      "metrics": {
+        "damage_taken": 2,
+        "enemies_defeated": 0,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 1
+      },
+      "persona": "cautious-low-hp",
+      "result": "ABORTED",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_001_cautious-low-hp.json",
+      "seed": "seed_001",
+      "trace_path": "runs/v002/traces/seed_001_cautious-low-hp.json",
+      "turns": 100
+    },
+    {
+      "metrics": {
+        "damage_taken": 0,
+        "enemies_defeated": 0,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 1
+      },
+      "persona": "greedy-item-picker",
+      "result": "ABORTED",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_001_greedy-item-picker.json",
+      "seed": "seed_001",
+      "trace_path": "runs/v002/traces/seed_001_greedy-item-picker.json",
+      "turns": 100
+    },
+    {
+      "metrics": {
+        "damage_taken": 6,
+        "enemies_defeated": 1,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 2,
+        "softlocks": 1
+      },
+      "persona": "random",
+      "result": "ABORTED",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_001_random.json",
+      "seed": "seed_001",
+      "trace_path": "runs/v002/traces/seed_001_random.json",
+      "turns": 100
+    },
+    {
+      "metrics": {
+        "damage_taken": 4,
+        "enemies_defeated": 0,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 1
+      },
+      "persona": "stairs-seeking",
+      "result": "ABORTED",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_001_stairs-seeking.json",
+      "seed": "seed_001",
+      "trace_path": "runs/v002/traces/seed_001_stairs-seeking.json",
+      "turns": 100
+    },
+    {
+      "metrics": {
+        "damage_taken": 4,
+        "enemies_defeated": 0,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 1
+      },
+      "persona": "cautious-low-hp",
+      "result": "ABORTED",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_002_cautious-low-hp.json",
+      "seed": "seed_002",
+      "trace_path": "runs/v002/traces/seed_002_cautious-low-hp.json",
+      "turns": 100
+    },
+    {
+      "metrics": {
+        "damage_taken": 4,
+        "enemies_defeated": 0,
+        "floors_reached": 2,
+        "invalid_actions": 0,
+        "items_used": 2,
+        "softlocks": 0
+      },
+      "persona": "greedy-item-picker",
+      "result": "WIN",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_002_greedy-item-picker.json",
+      "seed": "seed_002",
+      "trace_path": "runs/v002/traces/seed_002_greedy-item-picker.json",
+      "turns": 24
+    },
+    {
+      "metrics": {
+        "damage_taken": 20,
+        "enemies_defeated": 0,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 0
+      },
+      "persona": "naive_player",
+      "result": "LOSS",
+      "review_path": "runs/v002/reviews/seed_002_naive_player.json",
+      "reviewer_scores": {
+        "clarity": 5,
+        "fairness": 4,
+        "fun": 4,
+        "replay_value": 5,
+        "tactical_depth": 5
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_002_naive_player.json",
+      "seed": "seed_002",
+      "trace_path": "runs/v002/traces/seed_002_naive_player.json",
+      "turns": 24
+    },
+    {
+      "metrics": {
+        "damage_taken": 20,
+        "enemies_defeated": 0,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 0
+      },
+      "persona": "random",
+      "result": "LOSS",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_002_random.json",
+      "seed": "seed_002",
+      "trace_path": "runs/v002/traces/seed_002_random.json",
+      "turns": 24
+    },
+    {
+      "metrics": {
+        "damage_taken": 2,
+        "enemies_defeated": 0,
+        "floors_reached": 2,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 0
+      },
+      "persona": "stairs-seeking",
+      "result": "WIN",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_002_stairs-seeking.json",
+      "seed": "seed_002",
+      "trace_path": "runs/v002/traces/seed_002_stairs-seeking.json",
+      "turns": 21
+    },
+    {
+      "metrics": {
+        "damage_taken": 13,
+        "enemies_defeated": 0,
+        "floors_reached": 2,
+        "invalid_actions": 0,
+        "items_used": 2,
+        "softlocks": 0
+      },
+      "persona": "bug_hunter",
+      "result": "WIN",
+      "review_path": "runs/v002/reviews/seed_003_bug_hunter.json",
+      "reviewer_scores": {
+        "clarity": 7,
+        "fairness": 6,
+        "fun": 7,
+        "replay_value": 6,
+        "tactical_depth": 6
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_003_bug_hunter.json",
+      "seed": "seed_003",
+      "trace_path": "runs/v002/traces/seed_003_bug_hunter.json",
+      "turns": 29
+    },
+    {
+      "metrics": {
+        "damage_taken": 2,
+        "enemies_defeated": 0,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 1
+      },
+      "persona": "cautious-low-hp",
+      "result": "ABORTED",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_003_cautious-low-hp.json",
+      "seed": "seed_003",
+      "trace_path": "runs/v002/traces/seed_003_cautious-low-hp.json",
+      "turns": 100
+    },
+    {
+      "metrics": {
+        "damage_taken": 2,
+        "enemies_defeated": 0,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 1
+      },
+      "persona": "greedy-item-picker",
+      "result": "ABORTED",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_003_greedy-item-picker.json",
+      "seed": "seed_003",
+      "trace_path": "runs/v002/traces/seed_003_greedy-item-picker.json",
+      "turns": 100
+    },
+    {
+      "metrics": {
+        "damage_taken": 10,
+        "enemies_defeated": 1,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 2,
+        "softlocks": 1
+      },
+      "persona": "random",
+      "result": "ABORTED",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_003_random.json",
+      "seed": "seed_003",
+      "trace_path": "runs/v002/traces/seed_003_random.json",
+      "turns": 100
+    },
+    {
+      "metrics": {
+        "damage_taken": 13,
+        "enemies_defeated": 0,
+        "floors_reached": 2,
+        "invalid_actions": 0,
+        "items_used": 2,
+        "softlocks": 0
+      },
+      "persona": "stairs-seeking",
+      "result": "WIN",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_003_stairs-seeking.json",
+      "seed": "seed_003",
+      "trace_path": "runs/v002/traces/seed_003_stairs-seeking.json",
+      "turns": 29
+    },
+    {
+      "metrics": {
+        "damage_taken": 2,
+        "enemies_defeated": 0,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 1
+      },
+      "persona": "cautious-low-hp",
+      "result": "ABORTED",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_004_cautious-low-hp.json",
+      "seed": "seed_004",
+      "trace_path": "runs/v002/traces/seed_004_cautious-low-hp.json",
+      "turns": 100
+    },
+    {
+      "metrics": {
+        "damage_taken": 2,
+        "enemies_defeated": 0,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 1
+      },
+      "persona": "greedy-item-picker",
+      "result": "ABORTED",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_004_greedy-item-picker.json",
+      "seed": "seed_004",
+      "trace_path": "runs/v002/traces/seed_004_greedy-item-picker.json",
+      "turns": 100
+    },
+    {
+      "metrics": {
+        "damage_taken": 16,
+        "enemies_defeated": 1,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 1
+      },
+      "persona": "random",
+      "result": "ABORTED",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_004_random.json",
+      "seed": "seed_004",
+      "trace_path": "runs/v002/traces/seed_004_random.json",
+      "turns": 100
+    },
+    {
+      "metrics": {
+        "damage_taken": 7,
+        "enemies_defeated": 0,
+        "floors_reached": 2,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 0
+      },
+      "persona": "stairs-seeking",
+      "result": "WIN",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_004_stairs-seeking.json",
+      "seed": "seed_004",
+      "trace_path": "runs/v002/traces/seed_004_stairs-seeking.json",
+      "turns": 21
+    },
+    {
+      "metrics": {
+        "damage_taken": 2,
+        "enemies_defeated": 0,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 1
+      },
+      "persona": "cautious-low-hp",
+      "result": "ABORTED",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_005_cautious-low-hp.json",
+      "seed": "seed_005",
+      "trace_path": "runs/v002/traces/seed_005_cautious-low-hp.json",
+      "turns": 100
+    },
+    {
+      "metrics": {
+        "damage_taken": 22,
+        "enemies_defeated": 0,
+        "floors_reached": 2,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 0
+      },
+      "persona": "greedy-item-picker",
+      "result": "LOSS",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_005_greedy-item-picker.json",
+      "seed": "seed_005",
+      "trace_path": "runs/v002/traces/seed_005_greedy-item-picker.json",
+      "turns": 19
+    },
+    {
+      "metrics": {
+        "damage_taken": 14,
+        "enemies_defeated": 1,
+        "floors_reached": 1,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 1
+      },
+      "persona": "random",
+      "result": "ABORTED",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_005_random.json",
+      "seed": "seed_005",
+      "trace_path": "runs/v002/traces/seed_005_random.json",
+      "turns": 100
+    },
+    {
+      "metrics": {
+        "damage_taken": 21,
+        "enemies_defeated": 0,
+        "floors_reached": 2,
+        "invalid_actions": 0,
+        "items_used": 1,
+        "softlocks": 0
+      },
+      "persona": "stairs-seeking",
+      "result": "LOSS",
+      "reviewer_scores": {
+        "clarity": null,
+        "fairness": null,
+        "fun": null,
+        "replay_value": null,
+        "tactical_depth": null
+      },
+      "scorecard_path": "runs/v002/scorecards/seed_005_stairs-seeking.json",
+      "seed": "seed_005",
+      "trace_path": "runs/v002/traces/seed_005_stairs-seeking.json",
+      "turns": 18
+    }
+  ],
+  "status": "complete",
+  "version": "v002",
+  "versionDir": "runs/v002"
+}

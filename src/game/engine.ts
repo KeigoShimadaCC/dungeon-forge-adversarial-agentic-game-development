@@ -2,6 +2,7 @@ import { calcPlayerDamageToEnemy } from './combat.js';
 import {
   getItemDefinition,
   loadGameContent,
+  SMOKE_BOMB_ITEM_ID,
   type EnemyDefinition,
   type FloorRuleDefinition,
 } from './content.js';
@@ -304,7 +305,8 @@ export const start = (seed: string, config: GameConfig = {}): GameState => {
     totalFloors,
     allowedEnemyIds: config.allowedEnemyIds,
     allowedItemIds: config.allowedItemIds,
-    log: [getOpeningText()],
+    inventory: config.initialInventory ? [...config.initialInventory] : [],
+    log: [getOpeningText(), ...(config.openingLog ?? [])],
   });
 };
 
@@ -671,6 +673,16 @@ export const step = (state: GameState, action: PlayerAction): StepResult => {
         itemType: item.type,
       });
       events.push(pickupEvent);
+      if (item.type === SMOKE_BOMB_ITEM_ID) {
+        events.push(
+          event(
+            nextState.turn,
+            'guidance',
+            'Tip: Smoke Bomb breaks enemy pursuit for a few turns when slimes press you.',
+            { itemType: item.type },
+          ),
+        );
+      }
     }
   } else if (matchedAction.type === 'use_item') {
     const itemType = matchedAction.payload?.itemType;

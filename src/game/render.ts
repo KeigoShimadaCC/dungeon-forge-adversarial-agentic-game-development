@@ -21,7 +21,7 @@ const getItemDescription = (itemType: string): string => {
   return `${item.glyph} ${item.displayName}: ${item.description}`;
 };
 
-const RECENT_LOG_DISPLAY_LIMIT = 3;
+const RECENT_LOG_DISPLAY_LIMIT = 4;
 
 const samePosition = (a: Position, b: Position): boolean =>
   a.x === b.x && a.y === b.y;
@@ -41,13 +41,15 @@ const npcAt = (
 const itemsAt = (state: GameState, position: Position): ItemInstance[] =>
   state.items.filter((item) => samePosition(item, position));
 
-const inventoryLabel = (inventory: string[]): string => {
+const inventoryLines = (inventory: string[]): string[] => {
   if (inventory.length === 0) {
-    return '(empty)';
+    return ['Inventory: (empty)'];
   }
-  return inventory
-    .map((itemType) => getItemDisplayName(itemType))
-    .join(', ');
+  const held = [...new Set(inventory)];
+  return [
+    `Inventory: ${held.map((itemType) => getItemDisplayName(itemType)).join(', ')}`,
+    ...held.map((itemType) => `  - ${getItemDescription(itemType)}`),
+  ];
 };
 
 const visibleItemDescriptions = (state: GameState): string => {
@@ -127,7 +129,7 @@ export const render = (state: GameState): string => {
     `Objective: ${state.meta.objective}`,
     `Opening: ${getOpeningText()}`,
     ...renderedRows,
-    `Inventory: ${inventoryLabel(state.player.inventory)}`,
+    ...inventoryLines(state.player.inventory),
     visibleItemDescriptions(state),
     tactical.enemyTrackingDisabledUntilTurn > state.turn
       ? `Tactical: enemy pursuit blinded until turn ${tactical.enemyTrackingDisabledUntilTurn}.`

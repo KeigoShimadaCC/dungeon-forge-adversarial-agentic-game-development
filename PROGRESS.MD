@@ -56,13 +56,13 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- [ ] 2026-05-23 Cursor/composer-2.5 — Generate reviewer-driven `v002` task/patch evidence, implement bounded tactical/clarity improvement, generate `v002` evidence, and compare `v001`/`v002`.
 - [ ] 2026-05-23 Cursor/composer-2.5 — Generate reviewer-driven `v003` task/patch evidence, implement balance/clarity tuning, generate `v003` evidence, and compare all versions.
 - [ ] 2026-05-23 Cursor/composer-2.5 — Run read-only Phase 12A audit against invariants, evidence, and tests.
 - [ ] 2026-05-23 orchestrator — Review diffs, rerun local gates/demo commands, force-add required `runs/v001`-`v003` evidence, finalize progress, push, and open PR.
 
 ### Done
 
+- [x] 2026-05-23 Cursor/composer-2.5 — Generate reviewer-driven `v002` task/patch evidence from `v001` review/scorecard, implement Smoke Bomb tactical/clarity profile, extend `demo-loop` handoff/comparison artifacts, regenerate `v002` evidence, and compare `v001`/`v002`.
 - [x] 2026-05-23 Cursor/composer-2.5 — Implement version-profile support, `demo-loop` command, focused tests, and baseline `v001` evidence.
 - [x] 2026-05-23 orchestrator — Seed Phase 11A progress state and checkpoint before implementation.
 - [x] 2026-05-23 Cursor/composer-2.5 — Implement deterministic acceptance checker/report generator, CLI script, package script, and focused tests.
@@ -94,7 +94,7 @@ _Derived from `phase-plans/PHASE-12A-DEMO-LOOP.md`. Tick when verified against t
 
 - [ ] `v001`, `v002`, and `v003` evidence folders are complete and committed as explicit Phase 12A evidence.
 - [ ] Reviewer play and critique are grounded in actual traces for all three versions.
-- [ ] `v002` implements a reviewer-driven tactical/clarity improvement with trace-visible evidence.
+- [x] `v002` implements a reviewer-driven tactical/clarity improvement with trace-visible evidence.
 - [ ] `v003` implements reviewer-driven balance, clarity, or story tuning with a concrete signal or documented regression.
 - [ ] Patch plans, changelogs, developer notes, acceptance reports, and comparison summaries exist for required versions.
 - [ ] `pnpm run demo-loop` reruns the full demo sequence from final `HEAD`.
@@ -143,7 +143,9 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
+- 2026-05-23 — Cursor/composer-2.5 + orchestrator — Phase 12A Pass 2: implemented `v002` profile with starting Smoke Bomb inventory/opening guidance, inventory/tactical render clarity, baseline policy smoke use, `demo-loop-handoff` (reviewer-driven `developer_task.md`/`patch_plan.md` from `v001` seed_001 careful_player), comparison artifacts under `runs/comparisons/`, generated acceptance reports from `demo-loop`, and regenerated `runs/v001`/`runs/v002` through commands. Concrete signal: v001→v002 comparison shows `items_used` 2→28, tactical-depth average 4→5.33, clarity average 5.33→5.67, and softlocks 15→14; comparison also records newly problematic balance runs for v003 tuning. Validation PASS: focused tests (36); `pnpm run typecheck`; `pnpm run lint`; `pnpm run demo-loop -- --runs-root . --versions v001,v002`; `pnpm run compare-versions -- --base v001 --target v002 --runs-root .`; `pnpm run accept-version -- --version v002 --runs-root . --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass --reviewer-driven`.
 - 2026-05-23 — Cursor/composer-2.5 — Phase 12A Pass 1: added demo version profiles (`v001` shallow Slime/Potion, `v002`/`v003` placeholders), wired `resolveGameConfigForVersion` through `runPlaythrough`, added `pnpm run demo-loop` with `--runs-root` and `--versions`, persisted `runs/<version>/version_summary.json`, and generated committed-path `runs/v001` evidence (3 persona traces/reviews/scorecards, 20-run balance batch, markdown stubs). Validation PASS: `pnpm test tests/version-profiles.test.ts tests/demo-loop.test.ts tests/version-loop.test.ts` (16 tests); `pnpm test` (19 files, 181 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run demo-loop -- --runs-root . --versions v001`.
+- 2026-05-23 — orchestrator — Merged latest `origin/main` (`30eda10`, docs-only post-12 roadmap plans) into `phase-12a-demo-loop` after Pass 1 commit; no conflicts. Phase 12A active progress state preserved.
 - 2026-05-23 — orchestrator — Phase 12A preflight: preserved dirty detached main checkout with unresolved `PROGRESS.MD` conflict and untracked Phase 13+ docs; fetched `origin`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-12a-demo-loop-wt` on branch `phase-12a-demo-loop` from `origin/main` at `5e71091`; worktree status clean before progress seeding. Re-read `PROGRESS.MD`, `phase-plans/PHASE-12A-DEMO-LOOP.md`, `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md`, `concept-and-ideas/01_NORTH_STAR_AND_VISION.md`, `concept-and-ideas/02_STRUCTURE_AND_TECH_SPECS.md`, and `concept-and-ideas/03_EXAMPLES_SCENARIOS_AND_WORKFLOWS.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.
 
 - 2026-05-22 — orchestrator — Created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-10a-dialogue-events-wt` on branch `phase-10a-dialogue-events` from `origin/main` at `f5bd204`; worktree status clean.

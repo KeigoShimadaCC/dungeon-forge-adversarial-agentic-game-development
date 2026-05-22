@@ -67,6 +67,29 @@ describe('Phase 09A tactical items', () => {
     expect(floors.floors[1].itemIds).toContain(SMOKE_BOMB_ITEM_ID);
   });
 
+  it('logs tutorial guidance when Smoke Bomb is first picked up', () => {
+    const base = start('smoke-guidance-pickup');
+    const moved: GameState = {
+      ...base,
+      items: [
+        {
+          id: 'smoke-guidance-test',
+          type: SMOKE_BOMB_ITEM_ID,
+          label: 'Smoke Bomb',
+          glyph: '~',
+          x: base.player.x,
+          y: base.player.y,
+        },
+      ],
+    };
+    const pickup = requireAction(moved, (action) => action.type === 'pickup');
+    const result = step(moved, pickup);
+
+    expect(result.valid).toBe(true);
+    expect(result.events.some((entry) => entry.type === 'guidance')).toBe(true);
+    expect(result.state.log.some((entry) => entry.includes('Smoke Bomb'))).toBe(true);
+  });
+
   it('preserves potion availability and caps healing at max HP', () => {
     const base = start('potion-valid-use');
     const fullHp: GameState = {

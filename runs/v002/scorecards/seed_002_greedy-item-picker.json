@@ -1,0 +1,21 @@
+{
+  "damage_taken": 4,
+  "enemies_defeated": 0,
+  "floors_reached": 2,
+  "invalid_actions": 0,
+  "items_used": 2,
+  "persona": "greedy-item-picker",
+  "result": "WIN",
+  "reviewer_scores": {
+    "clarity": null,
+    "fairness": null,
+    "fun": null,
+    "replay_value": null,
+    "tactical_depth": null
+  },
+  "seed": "seed_002",
+  "softlocks": 0,
+  "trace_path": "runs/v002/traces/seed_002_greedy-item-picker.json",
+  "turns": 24,
+  "version": "v002"
+}

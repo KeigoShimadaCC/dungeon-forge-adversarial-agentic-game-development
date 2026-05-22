@@ -8,12 +8,19 @@ import {
   type DemoVersionId,
 } from '../game/version-profiles.js';
 import { runBalanceBatch } from './balance-tuning.js';
+import { writeAcceptanceReport } from './acceptance-gate.js';
+import {
+  writeImplementedVersionMarkdown,
+  writeReviewerDrivenHandoff,
+  writeVersionComparisonArtifacts,
+} from './demo-loop-handoff.js';
 import { stringifyDeterministicJson } from './json.js';
 import {
   ensureVersionFolder,
   runVersion,
   summarizeVersion,
   validateVersionId,
+  type VersionComparison,
   type VersionRunOutput,
   type VersionSummary,
 } from './version-loop.js';
@@ -38,10 +45,19 @@ export interface DemoLoopOptions {
   versions?: readonly string[];
 }
 
+export interface DemoLoopComparisonResult {
+  baseVersion: string;
+  targetVersion: string;
+  jsonPath: string;
+  markdownPath: string;
+  comparison: VersionComparison;
+}
+
 export interface DemoLoopResult {
   runsRoot: string;
   requestedVersions: readonly string[];
   versions: DemoLoopVersionResult[];
+  comparisons: DemoLoopComparisonResult[];
 }
 
 const buildVersionSummaryPath = (version: string): string =>
@@ -66,12 +82,37 @@ export const parseDemoLoopVersionsArg = (value: string): DemoVersionId[] => {
   return versions as DemoVersionId[];
 };
 
+const shouldGenerateHandoff = (
+  baseVersion: string,
+  targetVersion: string,
+): boolean => {
+  const baseNum = Number(baseVersion.slice(1));
+  const targetNum = Number(targetVersion.slice(1));
+  return Number.isFinite(baseNum) && Number.isFinite(targetNum) && targetNum === baseNum + 1;
+};
+
 export const runDemoLoop = async (options: DemoLoopOptions): Promise<DemoLoopResult> => {
   const requestedVersions = options.versions ?? DEMO_LOOP_VERSIONS;
   const versions: DemoLoopVersionResult[] = [];
+  const comparisons: DemoLoopComparisonResult[] = [];
 
-  for (const version of requestedVersions) {
+  for (let index = 0; index < requestedVersions.length; index += 1) {
+    const version = requestedVersions[index]!;
     validateVersionId(version);
+
+    const previousVersion = index > 0 ? requestedVersions[index - 1] : undefined;
+    const previousResult = previousVersion
+      ? versions.find((entry) => entry.version === previousVersion)
+      : undefined;
+
+    if (
+      previousVersion &&
+      previousResult?.status === 'completed' &&
+      isDemoVersionImplemented(version) &&
+      shouldGenerateHandoff(previousVersion, version)
+    ) {
+      await writeReviewerDrivenHandoff(options.runsRoot, previousVersion, version);
+    }
 
     if (!isDemoVersionImplemented(version)) {
       versions.push({
@@ -89,6 +130,47 @@ export const runDemoLoop = async (options: DemoLoopOptions): Promise<DemoLoopRes
         runsRoot: options.runsRoot,
         version,
       });
+
+      if (version === 'v001') {
+        await writeImplementedVersionMarkdown(options.runsRoot, version, {
+          changelogBullets: [
+            'Recorded the shallow baseline demo profile with two Slime/Potion-focused floors.',
+            'Generated the default reviewer persona matrix and baseline balance batch from trace evidence.',
+            'Kept the baseline intentionally shallow so v002 can respond to reviewer tactical/clarity critique.',
+          ],
+          developerNotesBullets: [
+            'Baseline evidence shows repeated ABORTED/softlock problem signals in the balance batch.',
+            'Reviewer evidence calls out stalled states and asks for clearer item/enemy outcomes in render/log output.',
+            'No reviewer-driven code patch is claimed for v001; it is the comparison baseline.',
+          ],
+          testsAndEvidenceBullets: [
+            '`pnpm run demo-loop -- --runs-root . --versions v001`',
+            '`pnpm run summarize-version -- --version v001 --runs-root .`',
+          ],
+        });
+      }
+      if (version === 'v002') {
+        await writeImplementedVersionMarkdown(options.runsRoot, version, {
+          changelogBullets: [
+            'Implemented v002 demo profile with a starting Smoke Bomb and Potion/Smoke Bomb evidence path.',
+            'Added opening log guidance and inventory effect details so tactical item purpose is visible before use.',
+            'Taught baseline policies to use Smoke Bombs when enemies are close so item use appears in traces.',
+          ],
+          developerNotesBullets: [
+            'Handoff generated from v001 seed_001 careful_player review/scorecard before v002 play matrix.',
+            'Smoke Bomb guidance and use events are trace-visible; compare v001 vs v002 items_used and clarity scores.',
+            'Did not broaden into v003 balance tuning or full softlock remediation in this pass.',
+          ],
+          testsAndEvidenceBullets: [
+            '`pnpm test tests/version-profiles.test.ts tests/demo-loop.test.ts tests/tactical-items.test.ts`',
+            '`pnpm run demo-loop -- --runs-root . --versions v001,v002`',
+            '`pnpm run compare-versions -- --base v001 --target v002 --runs-root .`',
+          ],
+          comparisonPath: 'runs/comparisons/v001_vs_v002.md',
+          patchPlanStatus: 'implemented',
+        });
+      }
+
       const summary = await summarizeVersion(options.runsRoot, version);
       const summaryPath = buildVersionSummaryPath(version);
       await writeFile(
@@ -96,6 +178,17 @@ export const runDemoLoop = async (options: DemoLoopOptions): Promise<DemoLoopRes
         stringifyDeterministicJson(summary),
         'utf8',
       );
+      await writeAcceptanceReport({
+        runsRoot: options.runsRoot,
+        version,
+        commandStatuses: {
+          typecheck: 'skipped',
+          test: 'skipped',
+          lint: 'skipped',
+          build: 'skipped',
+        },
+        reviewerDriven: version !== 'v001',
+      });
 
       versions.push({
         version,
@@ -115,10 +208,34 @@ export const runDemoLoop = async (options: DemoLoopOptions): Promise<DemoLoopRes
     }
   }
 
+  for (let index = 0; index < requestedVersions.length - 1; index += 1) {
+    const baseVersion = requestedVersions[index]!;
+    const targetVersion = requestedVersions[index + 1]!;
+    const baseDone = versions.find((entry) => entry.version === baseVersion)?.status === 'completed';
+    const targetDone =
+      versions.find((entry) => entry.version === targetVersion)?.status === 'completed';
+    if (!baseDone || !targetDone) {
+      continue;
+    }
+    const artifact = await writeVersionComparisonArtifacts(
+      options.runsRoot,
+      baseVersion,
+      targetVersion,
+    );
+    comparisons.push({
+      baseVersion,
+      targetVersion,
+      jsonPath: artifact.jsonPath,
+      markdownPath: artifact.markdownPath,
+      comparison: artifact.comparison,
+    });
+  }
+
   return {
     runsRoot: options.runsRoot,
     requestedVersions,
     versions,
+    comparisons,
   };
 };
 

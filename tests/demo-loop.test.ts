@@ -34,7 +34,7 @@ describe('Phase 12A demo loop', () => {
     expect(() => parseDemoLoopVersionsArg('v001,v999')).toThrow('Unknown demo version "v999"');
   });
 
-  it('generates v001 evidence matrix and balance summary while skipping unimplemented versions', async () => {
+  it('generates v001/v002 evidence, handoff, and comparison while skipping v003', async () => {
     await withTempRunsRoot(async (runsRoot) => {
       const result = await runDemoLoop({ runsRoot, versions: ['v001', 'v002', 'v003'] });
 
@@ -48,8 +48,12 @@ describe('Phase 12A demo loop', () => {
       expect(v001?.status).toBe('completed');
       expect(v001?.runVersion?.runs).toHaveLength(3);
       expect(v001?.summary?.status).toBe('complete');
-      expect(v002?.status).toBe('skipped');
+      expect(v002?.status).toBe('completed');
+      expect(v002?.runVersion?.runs).toHaveLength(3);
       expect(v003?.status).toBe('skipped');
+      expect(result.comparisons).toHaveLength(1);
+      expect(result.comparisons[0]?.baseVersion).toBe('v001');
+      expect(result.comparisons[0]?.targetVersion).toBe('v002');
 
       const tracePath = path.join(
         runsRoot,
@@ -80,6 +84,21 @@ describe('Phase 12A demo loop', () => {
       const summary = JSON.parse(await readFile(summaryPath, 'utf8')) as VersionSummary;
       expect(summary.version).toBe('v001');
       expect(summary.status).toBe('complete');
+
+      const developerTaskPath = path.join(runsRoot, 'runs/v002/developer_task.md');
+      const comparisonJsonPath = path.join(
+        runsRoot,
+        'runs/comparisons/v001_vs_v002.json',
+      );
+      const comparisonMdPath = path.join(runsRoot, 'runs/comparisons/v001_vs_v002.md');
+
+      expect((await stat(developerTaskPath)).isFile()).toBe(true);
+      expect((await stat(comparisonJsonPath)).isFile()).toBe(true);
+      expect((await stat(comparisonMdPath)).isFile()).toBe(true);
+
+      const developerTask = await readFile(developerTaskPath, 'utf8');
+      expect(developerTask).toContain('seed_001');
+      expect(developerTask).toContain('Smoke Bomb');
     });
   });
 });
