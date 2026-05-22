@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 13B — CI And Acceptance Checks |
-| Goal | Add repeatable repository checks so PRs and local acceptance gates prove tests, typecheck, lint, build, deterministic smoke, and evidence verification still work. |
-| Branch | `phase/phase-13b-ci-and-acceptance-checks` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-13b-ci-and-acceptance-checks-wt` |
-| Base | `origin/main` at `b6fe332` |
-| Status | `Merged; post-merge CI repair passed locally; next phase PHASE-13C` |
+| Phase | Phase 13C — Trace Scorecard Diagnostics |
+| Goal | Expand trace and scorecard diagnostics so reviewer and balance reports explain enemy behavior, item use, map-generation metadata, aborts, softlocks, and repeated problem seeds. |
+| Branch | `phase/phase-13c-trace-scorecard-diagnostics` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-13c-trace-scorecard-diagnostics-wt` |
+| Base | `origin/main` at `16a6b97` |
+| Status | `Seeded; Cursor implementation pending` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-13B-CI-AND-ACCEPTANCE-CHECKS.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-13C-TRACE-SCORECARD-DIAGNOSTICS.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -52,11 +52,11 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-23 Cursor/composer-2.5 — Implement Phase 13C trace/scorecard diagnostics, item-aware evidence, map metadata, problem-run categories, docs, and focused tests.
 
 ### Open
 
-- _(none)_
+- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates and diagnostic smoke commands, perform read-only Cursor recheck, then PR/merge/cleanup if validation passes.
 
 ### Done
 
@@ -98,18 +98,18 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-13B-CI-AND-ACCEPTANCE-CHECKS.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-13C-TRACE-SCORECARD-DIAGNOSTICS.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 13B — CI And Acceptance Checks
+### Phase 13C — Trace Scorecard Diagnostics
 
-- [x] CI workflow or equivalent check runner exists for repo gates.
-- [x] A documented local validation command groups required phase/repo gates.
-- [x] Default gate runs without API credentials or external services.
-- [x] Gate covers `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, and `pnpm run build`.
-- [x] Deterministic harness smoke over canonical seeds/baseline policies is included.
-- [x] Acceptance-evidence verification is integrated when version evidence is present.
-- [x] Failure states are visible for test/check failures and missing required acceptance evidence.
-- [x] Local final gates pass: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [ ] Expanded trace metadata exists for map generation and diagnostic context.
+- [ ] Expanded scorecard metrics include non-attack enemy behaviors.
+- [ ] Item-aware baseline policy or targeted fixture exercises tactical item opportunities.
+- [ ] Problem runs are categorized visibly for aborts, softlocks, impossible placement, and repeated failures.
+- [ ] Diagnostics are structured JSON fields, with human-readable messages as supporting evidence only.
+- [ ] New diagnostics preserve JSON serializability and deterministic reruns.
+- [ ] Existing trace consumers remain usable or receive documented migration behavior.
+- [ ] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -255,6 +255,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 13B PASS; merge readiness BLOCKED only because implementation files were still untracked/uncommitted and no PR/CI existed yet. Non-blocking suggestion: add ci-smoke protocol-failure unit coverage. No files were changed by recheck.
 - 2026-05-23 — orchestrator — Added ci-smoke protocol-failure regression coverage and re-ran final local gates. Validation PASS: `pnpm test tests/ci-checks.test.ts` (8 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run check` (22 files, 205 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`. Re-read `phase-plans/PHASE-13B-CI-AND-ACCEPTANCE-CHECKS.md`; deliverables and acceptance criteria are satisfied locally.
 - 2026-05-23 — orchestrator — Commit `40cfd70` added Phase 13B validation gates after seed commit `5f20b69`; pushed branch `phase/phase-13b-ci-and-acceptance-checks`; opened PR #29: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/29. GitHub Actions run `26307323748` passed `Repo gates` in 30s. Non-blocking annotation: GitHub reported Node.js 20 action-runtime deprecation for `actions/checkout@v4`, `actions/setup-node@v4`, and `pnpm/action-setup@v4`; job still passed.
+- 2026-05-23 — orchestrator — Phase 13C automation start: `pnpm run phase -- status` selected `PHASE-13C`; read `PROGRESS.MD`, `concept-and-ideas/01_NORTH_STAR_AND_VISION.md`, `concept-and-ideas/02_STRUCTURE_AND_TECH_SPECS.md`, and `phase-plans/PHASE-13C-TRACE-SCORECARD-DIAGNOSTICS.md`; `pnpm run phase -- bundle --phase PHASE-13C --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-13C/planned`; `git fetch origin` passed; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; `agent --list-models` confirmed `composer-2.5`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-13c-trace-scorecard-diagnostics-wt` on branch `phase/phase-13c-trace-scorecard-diagnostics` from `origin/main` at `16a6b97`.
 - 2026-05-23 — orchestrator — PR #29 merged at `0f5bbfec202a8ffe1925008b2fddfb68a62c0011`; worktree removed, local branch deleted, remote branch deleted manually after local `gh pr merge` cleanup failed on the main worktree checkout. Automation state commit `7d5d3af` marked `PHASE-13B` complete and advanced current phase to `PHASE-13C`, but main CI run `26307598499` failed because `tests/phase-runner.test.ts` expected live state current phase `PHASE-13B` after state had correctly advanced to `PHASE-13C`.
 - 2026-05-23 — orchestrator — Fixed post-merge CI by making `tests/phase-runner.test.ts` construct explicit queued state fixtures instead of depending on live `automation/phase-state.json`. Local validation PASS: `pnpm test tests/phase-runner.test.ts` (6 tests), `pnpm run typecheck`, `pnpm run lint`, and `pnpm run check` (22 files, 205 tests; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass).
 
@@ -263,6 +264,14 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 13B — CI And Acceptance Checks
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-13b-ci-and-acceptance-checks` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/29
+- **Merge commit:** `0f5bbfec202a8ffe1925008b2fddfb68a62c0011`
+- **Outcome:** Added GitHub Actions `Repo gates`, the local `pnpm run check` bundle, deterministic dry-run `ci-smoke`, acceptance-evidence verification, validation docs, and CI/failure-state tests. Post-merge automation state advanced current phase to `PHASE-13C`.
+- **Key evidence:** Local `pnpm run check` passed with 22 files and 205 tests; PR #29 `Repo gates` passed twice; post-merge main CI failed once due phase-state-coupled tests, then passed after commit `16a6b97` made phase-runner tests state-independent.
 
 ### Phase 13A — Evidence Retention
 
