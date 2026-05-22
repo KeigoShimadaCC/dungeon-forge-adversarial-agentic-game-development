@@ -52,19 +52,20 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] T-02B-002 Preflight: confirm branch/worktree, phase docs, Cursor Agent CLI, and existing RNG placeholder (orchestrator, 2026-05-22)
+- [~] T-02B-007 Publish: commit logical checkpoints, push branch, and open PR (orchestrator, 2026-05-22)
 
 ### Open
 
-- [ ] T-02B-003 Cursor implementation: delegate bounded RNG module and tests to Cursor Agent CLI `composer-2.5` (orchestrator, 2026-05-22)
-- [ ] T-02B-004 Review Cursor output: inspect changed files/diff and correct any scope or quality issues (orchestrator, 2026-05-22)
-- [ ] T-02B-005 Validation: run `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, and `rg "Math\\.random" src tests` (orchestrator, 2026-05-22)
-- [ ] T-02B-006 Acceptance review: re-read Phase 02B plan and concept constraints against repo state (orchestrator, 2026-05-22)
-- [ ] T-02B-007 Publish: commit logical checkpoints, push branch, and open PR (orchestrator, 2026-05-22)
+- _(none)_
 
 ### Done
 
+- [x] T-02B-003 Implementation: `src/game/rng.ts` Mulberry32 helpers (`createSeededRng`, `restoreSeededRng`, float/int/shuffle/weightedChoice/snapshot) and `tests/rng.test.ts` (Composer, 2026-05-22)
+- [x] T-02B-004 Review Cursor output: inspected changed files/diff; scope limited to `PROGRESS.MD`, `src/game/rng.ts`, and `tests/rng.test.ts` with no engine/harness/content/run changes (orchestrator, 2026-05-22)
+- [x] T-02B-005 Validation: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `rg "Math\\.random" src tests`, and `git diff --check` passed or matched only the guidance comment (orchestrator, 2026-05-22)
+- [x] T-02B-006 Acceptance review: re-read Phase 02B plan and concept constraints against repo state; implementation satisfies scoped RNG requirements (orchestrator, 2026-05-22)
 - [x] T-02B-001 Progress setup: rotate `PROGRESS.MD` to Phase 02B and add task queue/checklist before implementation (orchestrator, 2026-05-22)
+- [x] T-02B-002 Preflight: confirmed branch/worktree, `agent` CLI, Phase 02B plan, and placeholder `src/game/rng.ts`; `node_modules` missing in worktree before validation (orchestrator, 2026-05-22)
 
 ### Blocked / skipped
 
@@ -78,25 +79,25 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 
 ### Phase 02B — Seeded RNG
 
-- [ ] Read phase plan and confirm scope boundaries (no map generation, cryptographic randomness, direct game-logic `Math.random()`, or nondeterministic content loading).
-- [ ] `src/game/rng.ts` provides seed-to-RNG initialization.
-- [ ] RNG API provides deterministic float helper.
-- [ ] RNG API provides deterministic bounded integer helper.
-- [ ] RNG API provides deterministic shuffle helper.
-- [ ] RNG API provides deterministic weighted-choice helper.
-- [ ] RNG guidance documents that game logic must not call `Math.random()` directly.
-- [ ] Tests prove same seed produces the same float sequence.
-- [ ] Tests prove same seed produces the same integer sequence.
-- [ ] Tests prove different seeds usually produce different sequences.
-- [ ] Tests prove shuffle is deterministic.
-- [ ] Tests prove weighted choice is deterministic for a fixed seed and weights.
-- [ ] `pnpm test` passes.
-- [ ] `pnpm run typecheck` passes.
-- [ ] `pnpm run lint` passes.
-- [ ] Search confirms no game module introduced in this phase uses `Math.random()` directly.
-- [ ] RNG helpers are easy to inject into later game systems (acceptance).
-- [ ] Re-running a fixed seed can reproduce procedural decisions (acceptance).
-- [ ] Re-read acceptance criteria against actual repo state.
+- [x] Read phase plan and confirm scope boundaries (no map generation, cryptographic randomness, direct game-logic `Math.random()`, or nondeterministic content loading).
+- [x] `src/game/rng.ts` provides seed-to-RNG initialization.
+- [x] RNG API provides deterministic float helper.
+- [x] RNG API provides deterministic bounded integer helper.
+- [x] RNG API provides deterministic shuffle helper.
+- [x] RNG API provides deterministic weighted-choice helper.
+- [x] RNG guidance documents that game logic must not call `Math.random()` directly.
+- [x] Tests prove same seed produces the same float sequence.
+- [x] Tests prove same seed produces the same integer sequence.
+- [x] Tests prove different seeds usually produce different sequences.
+- [x] Tests prove shuffle is deterministic.
+- [x] Tests prove weighted choice is deterministic for a fixed seed and weights.
+- [x] `pnpm test` passes.
+- [x] `pnpm run typecheck` passes.
+- [x] `pnpm run lint` passes.
+- [x] Search confirms no game module introduced in this phase uses `Math.random()` directly (only guidance comment in `rng.ts`).
+- [x] RNG helpers are easy to inject into later game systems (acceptance).
+- [x] Re-running a fixed seed can reproduce procedural decisions (acceptance).
+- [x] Re-read acceptance criteria against actual repo state.
 - [ ] Commit / PR only when user asks.
 
 ---
@@ -121,6 +122,21 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — Rotated active phase from merged Phase 01A to Phase 02A after PR #2 merge (`e17e843`). Phase 02A not started.
 - 2026-05-22 — orchestrator — Post-merge main validation: initial `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` failed because `node_modules` was missing in the main checkout; ran `pnpm install` exit 0, then `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
 - 2026-05-22 — orchestrator — User requested implementing `phase-plans/PHASE-02B-SEEDED-RNG.md` next. Created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-02b-seeded-rng` on branch `phase-02b-seeded-rng` from `origin/main`; Phase 02A remains deferred/not implemented.
+- 2026-05-22 — orchestrator — Preflight: `git status --short --branch` showed `phase-02b-seeded-rng...origin/main [ahead 1]`; `command -v agent` found `/Users/keigoshimada/.local/bin/agent`; `src/game/rng.ts` was still the Phase 01A placeholder; `node_modules` was missing in the worktree.
+- 2026-05-22 — Composer — Phase 02B implementation: replaced `src/game/rng.ts` placeholder with Mulberry32 `createSeededRng` / `restoreSeededRng` API; added `tests/rng.test.ts` (10 tests).
+- 2026-05-22 — Composer — `pnpm install` exit 0 (worktree had no `node_modules`).
+- 2026-05-22 — Composer — `pnpm test` exit 0 (2 files, 13 tests).
+- 2026-05-22 — Composer — `pnpm run typecheck` exit 0.
+- 2026-05-22 — Composer — `pnpm run lint` exit 0.
+- 2026-05-22 — Composer — `rg "Math\\.random" src tests` → one match: guidance comment in `src/game/rng.ts` (no runtime `Math.random()` usage).
+- 2026-05-22 — orchestrator — Diff review: changed files are `PROGRESS.MD`, `src/game/rng.ts`, and `tests/rng.test.ts`; no Phase 02A engine/types work, dungeon mechanics, harness behavior, content changes, or generated `runs/**` artifacts.
+- 2026-05-22 — orchestrator — `pnpm test` exit 0 (2 files, 13 tests).
+- 2026-05-22 — orchestrator — `pnpm run typecheck` exit 0.
+- 2026-05-22 — orchestrator — `pnpm run lint` exit 0.
+- 2026-05-22 — orchestrator — `rg "Math\\.random" src tests` found one match: guidance comment in `src/game/rng.ts`; no runtime game/test use.
+- 2026-05-22 — orchestrator — `git diff --check` exit 0.
+- 2026-05-22 — orchestrator — Acceptance re-read against Phase 02B, north-star seeded-randomness invariant, and technical spec: RNG is deterministic, injectable, locally tested, and limited to Phase 02B scope; Phase 02A remains deferred.
+- 2026-05-22 — orchestrator — Post-cleanup validation rerun: `pnpm test` exit 0 (2 files, 13 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `rg "Math\\.random" src tests` matched only the guidance comment, and `git diff --check` exit 0.
 
 ---
 
