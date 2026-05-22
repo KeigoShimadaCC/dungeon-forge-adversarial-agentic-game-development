@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-16D",
+  "currentPhase": "PHASE-17A",
   "lastUpdated": "2026-05-23",
   "phases": {
     "PHASE-00A": {
@@ -150,7 +150,11 @@
       "status": "complete"
     },
     "PHASE-16D": {
-      "status": "queued"
+      "branch": "phase/phase-16d-deterministic-json-patching",
+      "evidenceDir": "runs/phase-runner/PHASE-16D/planned",
+      "mergeCommit": "cc587e1a1eb51a266ffe863f2f4b05f93ec81e1b",
+      "pr": 40,
+      "status": "complete"
     },
     "PHASE-17A": {
       "status": "queued"

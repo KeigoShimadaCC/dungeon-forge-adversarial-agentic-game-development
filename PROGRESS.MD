@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 16D — Deterministic JSON Patching |
-| Goal | Add bounded automatic JSON patching for approved local artifacts with dry-run/apply modes, validation, audit logs, and rollback-friendly evidence. |
-| Branch | `phase/phase-16d-deterministic-json-patching` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-16d-deterministic-json-patching-wt` |
-| Base | `origin/main` at `cdc1f81` |
-| Status | `Functional complete; commit/PR pending` |
+| Phase | Phase 17A — Human Play UI |
+| Goal | Add a minimal local human-play interface over the existing engine while preserving structured actions and harness/game protocol authority. |
+| Branch | `phase/phase-17a-human-play-ui` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-17a-human-play-ui-wt` |
+| Base | `origin/main` at `cc587e1` |
+| Status | `Queued; automation state advanced after Phase 16D merge` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-16D-DETERMINISTIC-JSON-PATCHING.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-17A-HUMAN-PLAY-UI.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -52,14 +52,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Commit Phase 16D implementation, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
+- [~] 2026-05-23 orchestrator — Generate Phase 17A automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
 
 ### Open
 
-_(none)_
+- [ ] 2026-05-23 Cursor/composer-2.5 — Implement minimal local human-play interface, structured action selection, display state/status/inventory/log, documentation, and action-flow tests within Phase 17A scope.
+- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 17A acceptance, and request Cursor read-only recheck.
+- [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Phase 16D PR #40 merged at `cc587e1a1eb51a266ffe863f2f4b05f93ec81e1b`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 17A.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 16D PASS; non-blocking test-strength suggestions recorded in Future backlog; merge readiness pending commit/PR/CI only.
 - [x] 2026-05-23 orchestrator — Addressed Cursor recheck non-blocking hardening: Markdown CLI apply/report/audit/rollback coverage, forbidden-MVP text rejection, CLI apply smoke, and stricter nested patch structural validation; reran focused/full gates.
 - [x] 2026-05-23 orchestrator — Review Cursor diff; harden unsafe `..` target-path traversal, structurally invalid patch CLI handling, and JSON Pointer/Markdown validation; rerun focused/full local gates.
@@ -149,20 +152,20 @@ _(none)_
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-16D-DETERMINISTIC-JSON-PATCHING.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-17A-HUMAN-PLAY-UI.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 16D — Deterministic JSON Patching
+### Phase 17A — Human Play UI
 
-- [x] JSON patch schema and validator exist.
-- [x] Dry-run/apply command or module exists.
-- [x] Patch application report format exists.
-- [x] Valid patch applies only to allowlisted JSON or Markdown-like artifacts.
-- [x] Invalid path, schema failure, or forbidden feature blocks application.
-- [x] Dry-run produces no file changes.
-- [x] Applied patch records before/after summary and links back to proposal evidence.
-- [x] Human governance and acceptance gates remain authoritative.
-- [x] Feature cannot mutate game state directly during play.
-- [x] Local final gates pass: `pnpm run check`, focused tests, deterministic patch validation/apply smoke coverage, and `git diff --check`.
+- [ ] Local human-play interface exists.
+- [ ] Interface starts a seeded game.
+- [ ] UI action choices come from `getAvailableActions` structured actions.
+- [ ] UI displays render output, recent log, HP, inventory, and terminal status.
+- [ ] UI reaches and displays terminal states.
+- [ ] Saveable play trace exists when practical, or blocker/defer is documented.
+- [ ] Documentation explains how to run the interface.
+- [ ] UI does not bypass game-state validation or make UI the source of truth.
+- [ ] Text/ASCII play remains fully supported.
+- [ ] Local final gates pass: `pnpm run check`, focused action-flow tests/smoke, and `git diff --check`.
 
 ---
 
@@ -394,12 +397,22 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Addressed cheap recheck hardening: added end-to-end Markdown CLI apply smoke with report/audit/rollback file assertions, forbidden-MVP text rejection, and stricter nested `DeterministicJsonPatch` structural validation before CLI validation. Validation PASS: `pnpm test tests/json-patching.test.ts` (11 tests); `pnpm run check` (32 files, 316 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 16D PASS against the phase plan, bounded surfaces, dry-run/apply behavior, rollback/report evidence, proposal validation, human governance, forbidden scope, no secrets, and game protocol invariants. Recheck noted only merge-readiness blockers plus non-blocking scenario-pack overlay and CLI dry-run test-strength suggestions, now recorded in Future backlog.
 - 2026-05-23 — orchestrator — Phase-runner merge gate initially blocked because `package.json` is outside PHASE-16D allowed paths. Removed the package script and kept the CLI module/entrypoint under allowed `src/harness/**`; updated docs/progress wording accordingly. Validation PASS after scope correction: `pnpm test tests/json-patching.test.ts` (11 tests); `pnpm run check` (32 files, 316 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
+- 2026-05-23 — orchestrator — Phase 16D PR #40 merged at `cc587e1a1eb51a266ffe863f2f4b05f93ec81e1b` after GitHub `Repo gates` passed and corrected `pnpm run phase -- gate --phase PHASE-16D --evidence runs/phase-runner/PHASE-16D/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-17A`.
+- 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 17A with initial task queue and checklist from `phase-plans/PHASE-17A-HUMAN-PLAY-UI.md`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 16D — Deterministic JSON Patching
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-16d-deterministic-json-patching` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/40
+- **Merge commit:** `cc587e1a1eb51a266ffe863f2f4b05f93ec81e1b`
+- **Outcome:** Added bounded deterministic JSON/Markdown patching as an additive harness module and CLI entrypoint, with proposal-linked validation, dry-run/apply modes, rollback/report/audit evidence, strict target allowlists, forbidden-scope diagnostics, docs, and focused tests while keeping source/gameplay mutation out of scope.
+- **Key evidence:** Cursor/composer-2.5 implementation and read-only rechecks; local `pnpm run check` passed with 32 files and 316 tests; focused JSON patching tests covered valid/invalid/forbidden/dry-run/apply/CLI/report/audit/rollback behavior; `git diff --check` passed; PR #40 `Repo gates` passed before merge; phase-runner automerge gate returned `allow` after removing the out-of-scope `package.json` script.
 
 ### Phase 16C — Scenario Content Packs
 
