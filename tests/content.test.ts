@@ -6,6 +6,7 @@ import {
   ContentValidationError,
   GHOST_ENEMY_ID,
   loadGameContent,
+  PHASE_09A_ITEM_IDS,
   PHASE_09B_ENEMY_IDS,
   POTION_ITEM_ID,
   SHELL_ENEMY_ID,
@@ -26,7 +27,7 @@ describe('Phase 02C content data', () => {
     expect(content.items.schemaVersion).toBe(CONTENT_SCHEMA_VERSION);
     expect(content.enemies.schemaVersion).toBe(CONTENT_SCHEMA_VERSION);
     expect(content.floors.schemaVersion).toBe(CONTENT_SCHEMA_VERSION);
-    expect(content.items.items).toHaveLength(1);
+    expect(content.items.items).toHaveLength(5);
     expect(content.enemies.enemies).toHaveLength(5);
     expect(content.floors.floors).toHaveLength(5);
   });
@@ -44,6 +45,28 @@ describe('Phase 02C content data', () => {
 
     expect(getItemById(POTION_ITEM_ID)).toEqual(potion);
     expect(getEnemyById(SLIME_ENEMY_ID)).toEqual(slime);
+  });
+
+  it('validates tactical item metadata and floor references', () => {
+    const { floors, items } = loadGameContent();
+    const tacticalItems = items.items.filter((item) =>
+      PHASE_09A_ITEM_IDS.includes(item.id as (typeof PHASE_09A_ITEM_IDS)[number]),
+    );
+
+    expect(tacticalItems.map((item) => item.id)).toEqual(PHASE_09A_ITEM_IDS);
+    expect(tacticalItems.map((item) => item.effect)).toEqual([
+      'blind_enemies',
+      'swap_position',
+      'area_damage',
+      'warp',
+    ]);
+    expect(tacticalItems.every((item) => item.validUse.length > 0)).toBe(true);
+    expect(tacticalItems.every((item) => item.glyph.length === 1)).toBe(true);
+
+    const spawnedItemIds = new Set(floors.floors.flatMap((floor) => floor.itemIds));
+    for (const itemId of PHASE_09A_ITEM_IDS) {
+      expect(spawnedItemIds.has(itemId)).toBe(true);
+    }
   });
 
   it('rejects malformed item bundles with clear errors', () => {
@@ -210,8 +233,13 @@ describe('Phase 02C content data', () => {
       [SLIME_ENEMY_ID, GHOST_ENEMY_ID],
     ]);
     expect(floors.floors[0].enemyIds).toEqual([SLIME_ENEMY_ID]);
-    expect(floors.floors[2].itemIds).toEqual([]);
-    expect(floors.floors[4].itemIds).toEqual([]);
+    expect(floors.floors.map((rule) => rule.itemIds)).toEqual([
+      [POTION_ITEM_ID],
+      [POTION_ITEM_ID, 'smoke_bomb'],
+      ['swap_scroll'],
+      [POTION_ITEM_ID, 'fire_seed'],
+      ['warp_feather'],
+    ]);
     expect(floors.floors.map((rule) => rule.maxTurns)).toEqual([48, 52, 56, 60, 64]);
     expect(floors.floors.map((rule) => rule.enemySpawnCount)).toEqual([
       1, 2, 2, 3, 2,
@@ -233,8 +261,10 @@ describe('Phase 02C content data', () => {
           description: 'Heal.',
           kind: 'consumable',
           effect: 'heal',
+          validUse: 'hp_below_max',
           healAmount: 8,
           stackable: true,
+          glyph: '!',
         },
       ],
     });

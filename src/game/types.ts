@@ -70,6 +70,11 @@ export interface ItemInstance extends Position {
   glyph: string;
 }
 
+export interface TacticalEffects {
+  /** Enemies stop pursuit while `turn < enemyTrackingDisabledUntilTurn`. */
+  enemyTrackingDisabledUntilTurn: number;
+}
+
 export interface GameState {
   version: string;
   seed: string;
@@ -81,6 +86,7 @@ export interface GameState {
   enemies: EnemyInstance[];
   items: ItemInstance[];
   log: string[];
+  tactical?: TacticalEffects;
   meta: {
     maxTurns: number;
     objective: string;

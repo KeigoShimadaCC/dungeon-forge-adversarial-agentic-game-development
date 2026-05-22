@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { POTION_ITEM_ID } from '../src/game/content.js';
+import { POTION_ITEM_ID, SMOKE_BOMB_ITEM_ID } from '../src/game/content.js';
 import { render, start } from '../src/game/engine.js';
 import { render as renderFromModule } from '../src/game/render.js';
 import { TERMINAL_STATUSES, type GameState } from '../src/game/types.js';
@@ -37,6 +37,10 @@ describe('Phase 04A ASCII renderer', () => {
     expect(output).toContain('@ You');
     expect(output).toContain('s Slime');
     expect(output).toContain('! Potion');
+    expect(output).toContain('~ Smoke');
+    expect(output).toContain('% Swap');
+    expect(output).toContain('* Fire');
+    expect(output).toContain('^ Warp');
     expect(output).toContain('> Stairs');
     expect(output).toContain('# Wall');
     expect(output).toContain('. Floor');
@@ -91,6 +95,27 @@ describe('Phase 04A ASCII renderer', () => {
     expect(output).toContain('s');
     expect(output).toContain('!');
     expect(output).toContain('@');
+  });
+
+  it('renders tactical item descriptions for visible floor items', () => {
+    const state = cloneState(start('render-tactical-item-description'));
+    state.enemies = [];
+    state.items = [
+      {
+        id: 'smoke-visible',
+        type: SMOKE_BOMB_ITEM_ID,
+        label: 'Smoke Bomb',
+        glyph: '~',
+        x: state.player.x + 1,
+        y: state.player.y,
+      },
+    ];
+
+    const output = render(state);
+
+    expect(output).toContain('Visible items:');
+    expect(output).toContain('~ Smoke Bomb');
+    expect(output).toContain('Enemies lose pursuit tracking');
   });
 
   it('renders Phase 09B enemy glyphs and legend entries', () => {

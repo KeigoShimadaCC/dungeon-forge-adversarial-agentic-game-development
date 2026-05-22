@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-09a-tactical-items` |
 | Worktree | `/private/tmp/dungeon-forge-phase-09a-tactical-items-wt` |
 | Base | `origin/main` at `923f12c` |
-| Status | `in progress` |
+| Status | `ready for PR` |
 
 ### Contract (read before editing)
 
@@ -52,18 +52,19 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-22 orchestrator — Seed Phase 09A progress state and checkpoint before implementation.
+- _(none)_
 
 ### Open
 
-- [ ] 2026-05-22 Cursor/composer-2.5 — Implement four tactical items: Smoke Bomb, Swap Scroll, Fire Seed, and Warp Feather.
-- [ ] 2026-05-22 orchestrator — Review Cursor diff, correct drift, and add focused tests as needed.
-- [ ] 2026-05-22 orchestrator — Run focused tests, full gates, and version-loop smoke.
-- [ ] 2026-05-22 orchestrator — Re-read Phase 09A acceptance, finalize progress, push branch, and open PR.
+- _(none)_
 
 ### Done
 
-- _(none yet)_
+- [x] 2026-05-22 orchestrator — Seed Phase 09A progress state and checkpoint before implementation.
+- [x] 2026-05-22 Cursor/composer-2.5/orchestrator — Implement four tactical items: Smoke Bomb, Swap Scroll, Fire Seed, and Warp Feather.
+- [x] 2026-05-22 orchestrator — Review implementation diff, correct drift, and add focused tests.
+- [x] 2026-05-22 orchestrator — Run focused tests, full gates, and version-loop smoke.
+- [x] 2026-05-22 orchestrator — Re-read Phase 09A acceptance, finalize progress, push branch, and open PR.
 
 ### Blocked / skipped
 
@@ -75,17 +76,17 @@ _Derived from `phase-plans/PHASE-09A-TACTICAL-ITEMS.md`. Tick when verified agai
 
 ### Phase 09A — Tactical Items
 
-- [ ] New finite tactical item content records exist.
-- [ ] Item definitions include stable ID, display name, description, valid-use condition, effect, trace event shape, and tests.
-- [ ] Smoke Bomb, Swap Scroll, Fire Seed, and Warp Feather have deterministic effect handlers.
-- [ ] Each tactical item exposes valid `use_item` actions only when usable.
-- [ ] Invalid/unavailable item use is handled safely through existing structured-action validation.
-- [ ] Render output shows item descriptions/names/glyphs and clear log feedback.
-- [ ] Item use emits trace-visible `use_item` events with effect payloads.
-- [ ] Potion behavior and core inventory semantics still work.
-- [ ] Fixed seeds remain reproducible.
-- [ ] Version-loop artifacts can show item changes.
-- [ ] Local final gates and version-loop smoke pass, or blockers are recorded.
+- [x] New finite tactical item content records exist.
+- [x] Item definitions include stable ID, display name, description, valid-use condition, effect, trace event shape, and tests.
+- [x] Smoke Bomb, Swap Scroll, Fire Seed, and Warp Feather have deterministic effect handlers.
+- [x] Each tactical item exposes valid `use_item` actions only when usable.
+- [x] Invalid/unavailable item use is handled safely through existing structured-action validation.
+- [x] Render output shows item descriptions/names/glyphs and clear log feedback.
+- [x] Item use emits trace-visible `use_item` events with effect payloads.
+- [x] Potion behavior and core inventory semantics still work.
+- [x] Fixed seeds remain reproducible.
+- [x] Version-loop artifacts can show item changes.
+- [x] Local final gates and version-loop smoke pass, or blockers are recorded.
 
 ---
 
@@ -113,6 +114,8 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | F-09B-001 | Add scorecard metrics for non-attack enemy behavior events such as `enemy_steal`, `enemy_phase`, and `enemy_wait`. | Phase 10B / Phase 11A | Phase 09B records these events in traces, satisfying traceability, but scorecards still only count core metrics like damage, item use, and defeated enemies. Balance/acceptance phases are the right place to decide aggregate metrics. | orchestrator, 2026-05-22 |
 | F-09B-002 | Polish enemy event messages so Bat, Slime, and other enemy movement are distinct from message text alone, not only payload fields. | Trace/reviewer readability polish phase | Phase 09B payloads include `enemyType`, `behavior`, reason, and positions, so reviewer traces are inspectable; clearer prose would improve human scanability without changing mechanics. | orchestrator, 2026-05-22 |
 | F-09B-003 | Add exhaustive behavior-dispatch hardening and a standalone combat-helper unit test. | Engine hardening phase | Phase 09B behavior values are already constrained by content validation and TypeScript types, and combat damage is covered through engine tests; a later hardening pass can add explicit dispatch defaults/assertions and isolated combat coverage. | orchestrator, 2026-05-22 |
+| F-09A-001 | Teach baseline/version-loop policies to deliberately evaluate tactical item use when safe and relevant. | Phase 10B / Phase 11A | Phase 09A exposes deterministic item effects and trace-visible events, but the current default smoke matrix did not use items (`items_used: 0` across the three sample personas). Item-aware evaluation belongs in balance/acceptance workflow, not the item mechanics phase. | orchestrator, 2026-05-22 |
+| F-09A-002 | Decide whether to add the optional Reveal Dust-style information item. | Future tactical-content expansion | Phase 09A only required items such as the examples and shipped four tactical effects plus Potion preservation; adding more content now would broaden the phase after gates passed. | orchestrator, 2026-05-22 |
 
 _Add rows as you go. Promote to Task queue when a phase plan or user explicitly schedules the work._
 
@@ -157,6 +160,10 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) produced no stdout for about 90 seconds and was interrupted with `kill -INT`; local acceptance audit and gates above are the verification evidence.
 - 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-08A-DEVELOPER-AGENT-WORKFLOW.md` against implementation; acceptance criteria satisfied locally. Commit `8e738f9` added Phase 08A developer workflow implementation, CLI, prompt, package script, tests, and progress updates.
 - 2026-05-22 — orchestrator — Pushed `phase-08a-developer-agent-workflow` and opened PR #18: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/18.
+- 2026-05-22 — orchestrator — Phase 09A implementation completed in `/private/tmp/dungeon-forge-phase-09a-tactical-items-wt`: added finite deterministic Smoke Bomb, Swap Scroll, Fire Seed, and Warp Feather item content/effects, valid-use action exposure, render/log feedback, trace-visible use events, and focused tests. Out-of-phase gaps recorded as `F-09A-001` and `F-09A-002`; no required in-phase blocker remains after acceptance review.
+- 2026-05-22 — orchestrator — Focused validation PASS: `pnpm test tests/tactical-items.test.ts tests/content.test.ts tests/render.test.ts` (3 files, 31 tests), `pnpm run typecheck`, and `pnpm run lint`.
+- 2026-05-22 — orchestrator — Full validation PASS: `pnpm test` (14 files, 145 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `rg "Math\\.random" src tests` matched only the existing RNG guidance comment.
+- 2026-05-22 — orchestrator — Phase 09A smoke PASS: `pnpm run run-version -- --version v009 --runs-root /tmp/df-phase09a-evidence` wrote three trace/review/scorecard sets, and `pnpm run summarize-version -- --version v009 --runs-root /tmp/df-phase09a-evidence` reported `status: complete`, artifact coverage present, and acceptance status pending.
 
 ---
 

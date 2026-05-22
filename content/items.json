@@ -8,8 +8,59 @@
       "description": "Restores a modest amount of HP when used from inventory.",
       "kind": "consumable",
       "effect": "heal",
+      "validUse": "in_inventory",
       "healAmount": 8,
-      "stackable": true
+      "stackable": true,
+      "glyph": "!"
+    },
+    {
+      "id": "smoke_bomb",
+      "name": "Smoke Bomb",
+      "displayName": "Smoke Bomb",
+      "description": "Enemies lose pursuit tracking for a few turns.",
+      "kind": "consumable",
+      "effect": "blind_enemies",
+      "validUse": "enemy_present",
+      "duration": 3,
+      "stackable": true,
+      "glyph": "~"
+    },
+    {
+      "id": "swap_scroll",
+      "name": "Swap Scroll",
+      "displayName": "Swap Scroll",
+      "description": "Swap places with a nearby enemy.",
+      "kind": "consumable",
+      "effect": "swap_position",
+      "validUse": "enemy_in_swap_range",
+      "swapRange": 2,
+      "stackable": true,
+      "glyph": "%"
+    },
+    {
+      "id": "fire_seed",
+      "name": "Fire Seed",
+      "displayName": "Fire Seed",
+      "description": "Burst flames at nearby enemies.",
+      "kind": "consumable",
+      "effect": "area_damage",
+      "validUse": "enemy_in_damage_range",
+      "damage": 3,
+      "damageRange": 2,
+      "stackable": true,
+      "glyph": "*"
+    },
+    {
+      "id": "warp_feather",
+      "name": "Warp Feather",
+      "displayName": "Warp Feather",
+      "description": "Warp to a safer walkable tile within range.",
+      "kind": "consumable",
+      "effect": "warp",
+      "validUse": "warp_destination_available",
+      "warpRange": 3,
+      "stackable": true,
+      "glyph": "^"
     }
   ]
 }

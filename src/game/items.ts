@@ -5,7 +5,14 @@ import {
   POTION_ITEM_ID,
 } from './content.js';
 
-export { POTION_ITEM_ID } from './content.js';
+export {
+  FIRE_SEED_ITEM_ID,
+  POTION_ITEM_ID,
+  PHASE_09A_ITEM_IDS,
+  SMOKE_BOMB_ITEM_ID,
+  SWAP_SCROLL_ITEM_ID,
+  WARP_FEATHER_ITEM_ID,
+} from './content.js';
 export type { ItemDefinition } from './content.js';
 
 let cachedContent: GameContent | undefined;

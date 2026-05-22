@@ -1,11 +1,15 @@
 import { calcPlayerDamageToEnemy } from './combat.js';
 import {
+  getItemDefinition,
   loadGameContent,
-  POTION_ITEM_ID,
   type EnemyDefinition,
   type FloorRuleDefinition,
-  type ItemDefinition,
 } from './content.js';
+import {
+  applyItemEffect,
+  buildInventoryUseItemActions,
+  defaultTacticalEffects,
+} from './item-effects.js';
 import {
   chooseEntityPositions,
   generateFloorLayout,
@@ -75,14 +79,6 @@ const getEnemyDefinition = (id: string): EnemyDefinition => {
     throw new Error(`Missing enemy content: ${id}`);
   }
   return enemy;
-};
-
-const getItemDefinition = (id: string): ItemDefinition => {
-  const item = content.items.items.find((candidate) => candidate.id === id);
-  if (!item) {
-    throw new Error(`Missing item content: ${id}`);
-  }
-  return item;
 };
 
 const defaultMaxTurns = (): number =>
@@ -173,7 +169,7 @@ const placeItems = (
       id: `${definition.id}-${floor}-${index + 1}`,
       type: definition.id,
       label: definition.displayName,
-      glyph: '!',
+      glyph: definition.glyph,
       ...position,
     };
   });
@@ -219,6 +215,7 @@ const createFloorState = (params: {
     enemies,
     items,
     log: [...params.log],
+    tactical: defaultTacticalEffects(),
     meta: {
       maxTurns: params.maxTurns,
       objective: params.objective,
@@ -292,14 +289,7 @@ export const getAvailableActions = (state: GameState): PlayerAction[] => {
     });
   }
 
-  if (state.player.inventory.includes(POTION_ITEM_ID)) {
-    actions.push({
-      id: `use_${POTION_ITEM_ID}`,
-      type: 'use_item',
-      label: 'Use Healing Potion',
-      payload: { itemType: POTION_ITEM_ID },
-    });
-  }
+  actions.push(...buildInventoryUseItemActions(state));
 
   const tile = getTile(state.map, state.player);
   if (tile?.type === 'stairs') {
@@ -454,15 +444,6 @@ const appendEventsToLog = (state: GameState, events: GameEvent[]): void => {
   );
 };
 
-const removeFirstInventoryItem = (inventory: string[], itemType: string): string[] => {
-  const nextInventory = [...inventory];
-  const index = nextInventory.indexOf(itemType);
-  if (index >= 0) {
-    nextInventory.splice(index, 1);
-  }
-  return nextInventory;
-};
-
 const finalizeTerminalState = (state: GameState, events: GameEvent[]): void => {
   if (state.terminalStatus !== 'ACTIVE') {
     return;
@@ -582,28 +563,29 @@ export const step = (state: GameState, action: PlayerAction): StepResult => {
     if (item) {
       nextState.items.splice(itemIndex, 1);
       nextState.player.inventory = [...nextState.player.inventory, item.type];
-      events.push(
-        event(nextState.turn, 'pickup', `You pick up ${item.label}.`, {
-          itemId: item.id,
-          itemType: item.type,
-        }),
-      );
+      const pickupEvent = event(nextState.turn, 'pickup', `You pick up ${item.label}.`, {
+        itemId: item.id,
+        itemType: item.type,
+      });
+      events.push(pickupEvent);
     }
   } else if (matchedAction.type === 'use_item') {
-    const potion = getItemDefinition(POTION_ITEM_ID);
-    const before = nextState.player.hp;
-    nextState.player.hp = Math.min(
-      nextState.player.maxHp,
-      nextState.player.hp + potion.healAmount,
-    );
-    nextState.player.inventory = removeFirstInventoryItem(
-      nextState.player.inventory,
-      POTION_ITEM_ID,
-    );
+    const itemType = matchedAction.payload?.itemType;
+    if (typeof itemType !== 'string') {
+      return {
+        state: cloneState(state),
+        events: [],
+        valid: false,
+        error: 'use_item action is missing itemType',
+      };
+    }
+    const definition = getItemDefinition(itemType);
     events.push(
-      event(nextState.turn, 'use_item', `You use ${potion.displayName}.`, {
-        itemType: POTION_ITEM_ID,
-        healed: nextState.player.hp - before,
+      ...applyItemEffect({
+        state: nextState,
+        definition,
+        matchedAction,
+        event,
       }),
     );
   } else if (matchedAction.type === 'descend') {
