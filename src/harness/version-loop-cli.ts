@@ -1,9 +1,10 @@
+import { parseHarnessCliCommonArgs } from './cli-args.js';
 import { stringifyDeterministicJson } from './json.js';
 import {
-  compareVersions,
   ensureVersionFolder,
+  persistVersionComparison,
+  persistVersionSummary,
   runVersion,
-  summarizeVersion,
 } from './version-loop.js';
 
 interface ParsedArgs {
@@ -11,10 +12,17 @@ interface ParsedArgs {
   base?: string;
   target?: string;
   runsRoot: string;
+  onExisting: import('./artifact-write-policy.js').ArtifactWriteMode;
+  stdoutOnly: boolean;
 }
 
 const parseArgs = (argv: string[]): ParsedArgs => {
-  const args: ParsedArgs = { runsRoot: process.cwd() };
+  const common = parseHarnessCliCommonArgs(argv);
+  const args: ParsedArgs = {
+    runsRoot: common.runsRoot,
+    onExisting: common.onExisting,
+    stdoutOnly: false,
+  };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     const next = argv[index + 1];
@@ -29,8 +37,9 @@ const parseArgs = (argv: string[]): ParsedArgs => {
     } else if (arg === '--target' && next) {
       args.target = next;
       index += 1;
-    } else if (arg === '--runs-root' && next) {
-      args.runsRoot = next;
+    } else if (arg === '--stdout-only') {
+      args.stdoutOnly = true;
+    } else if (arg === '--runs-root' || arg === '--on-existing') {
       index += 1;
     } else {
       throw new Error(`Unknown or incomplete argument: ${arg}`);
@@ -57,27 +66,44 @@ export const runNewVersionCli = async (argv: string[] = process.argv.slice(2)): 
 
 export const runRunVersionCli = async (argv: string[] = process.argv.slice(2)): Promise<void> => {
   const args = parseArgs(argv);
-  writeJson(await runVersion(args.runsRoot, requireArg(args.version, 'version')));
+  writeJson(
+    await runVersion(args.runsRoot, requireArg(args.version, 'version'), undefined, {
+      onExisting: args.onExisting,
+    }),
+  );
 };
 
 export const runSummarizeVersionCli = async (
   argv: string[] = process.argv.slice(2),
 ): Promise<void> => {
   const args = parseArgs(argv);
-  writeJson(await summarizeVersion(args.runsRoot, requireArg(args.version, 'version')));
+  const version = requireArg(args.version, 'version');
+  if (args.stdoutOnly) {
+    const { summarizeVersion } = await import('./version-loop.js');
+    writeJson(await summarizeVersion(args.runsRoot, version));
+    return;
+  }
+  const { summary, summaryPath } = await persistVersionSummary(args.runsRoot, version, undefined, {
+    onExisting: args.onExisting,
+  });
+  writeJson({ summary, summaryPath, persisted: true });
 };
 
 export const runCompareVersionsCli = async (
   argv: string[] = process.argv.slice(2),
 ): Promise<void> => {
   const args = parseArgs(argv);
-  writeJson(
-    await compareVersions(
-      args.runsRoot,
-      requireArg(args.base, 'base'),
-      requireArg(args.target, 'target'),
-    ),
-  );
+  const base = requireArg(args.base, 'base');
+  const target = requireArg(args.target, 'target');
+  if (args.stdoutOnly) {
+    const { compareVersions } = await import('./version-loop.js');
+    writeJson(await compareVersions(args.runsRoot, base, target));
+    return;
+  }
+  const result = await persistVersionComparison(args.runsRoot, base, target, {
+    onExisting: args.onExisting,
+  });
+  writeJson({ ...result, persisted: true });
 };
 
 export const runCli = async (

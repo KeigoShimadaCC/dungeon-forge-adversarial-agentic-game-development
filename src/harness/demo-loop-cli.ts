@@ -7,6 +7,7 @@ export const runDemoLoopCli = async (argv: string[] = process.argv.slice(2)): Pr
     await runDemoLoop({
       runsRoot: args.runsRoot,
       ...(args.versions ? { versions: args.versions } : {}),
+      ...(args.onExisting ? { onExisting: args.onExisting } : {}),
     }),
   );
 };

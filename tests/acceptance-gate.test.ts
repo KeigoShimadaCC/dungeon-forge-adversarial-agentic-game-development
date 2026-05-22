@@ -45,6 +45,7 @@ describe('Phase 11A acceptance gate', () => {
 
       const result = await writeAcceptanceReport({
         runsRoot,
+        onExisting: 'overwrite',
         version: 'v001',
         commandStatuses: {
           typecheck: 'pass',
@@ -86,6 +87,7 @@ describe('Phase 11A acceptance gate', () => {
 
       const first = await writeAcceptanceReport({
         runsRoot,
+        onExisting: 'overwrite',
         version: 'v001',
         commandStatuses: {
           typecheck: 'pass',
@@ -96,6 +98,7 @@ describe('Phase 11A acceptance gate', () => {
       });
       const second = await writeAcceptanceReport({
         runsRoot,
+        onExisting: 'overwrite',
         version: 'v001',
         commandStatuses: {
           typecheck: 'skipped',
@@ -121,6 +124,7 @@ describe('Phase 11A acceptance gate', () => {
 
       const result = await writeAcceptanceReport({
         runsRoot,
+        onExisting: 'overwrite',
         version: 'v001',
         commandStatuses: {
           typecheck: 'pass',
@@ -338,6 +342,7 @@ describe('Phase 11A acceptance gate', () => {
 
       await writeAcceptanceReport({
         runsRoot,
+        onExisting: 'overwrite',
         version: 'v001',
         reviewerDriven: true,
         commandStatuses: { typecheck: 'pass', test: 'pass' },

@@ -1,6 +1,10 @@
-import { readFile, stat, writeFile } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 
+import {
+  type ArtifactWriteOptions,
+  writeArtifactFile,
+} from './artifact-write-policy.js';
 import { TERMINAL_STATUSES, type TerminalStatus } from '../game/types.js';
 import { GLOBAL_FORBIDDEN_CHANGES } from './developer-workflow.js';
 import {
@@ -48,6 +52,7 @@ export interface AcceptanceCheck {
 
 export interface AcceptanceGateInput {
   runsRoot: string;
+  onExisting?: ArtifactWriteOptions['onExisting'];
   version: string;
   commandStatuses?: Partial<Record<CommandCheckId, CommandCheckStatus>>;
   reviewerDriven?: boolean;
@@ -578,9 +583,15 @@ export const writeAcceptanceReport = async (
     ...input,
     ...(generatedAt ? { generatedAt } : {}),
   });
-  await writeFile(result.acceptancePath, renderAcceptanceMarkdown(result), {
-    encoding: 'utf8',
-  });
+  await writeArtifactFile(
+    result.acceptancePath,
+    renderAcceptanceMarkdown(result),
+    { onExisting: input.onExisting },
+    {
+      runsRoot: input.runsRoot,
+      artifactLabel: path.join('runs', result.version, 'acceptance.md'),
+    },
+  );
   return result;
 };
 

@@ -7,6 +7,8 @@ import {
   isDemoVersionImplemented,
   type DemoVersionId,
 } from '../game/version-profiles.js';
+import type { ArtifactWriteMode } from './artifact-write-policy.js';
+import { parseHarnessCliCommonArgs } from './cli-args.js';
 import { runBalanceBatch } from './balance-tuning.js';
 import { writeAcceptanceReport } from './acceptance-gate.js';
 import {
@@ -14,11 +16,10 @@ import {
   writeReviewerDrivenHandoff,
   writeVersionComparisonArtifacts,
 } from './demo-loop-handoff.js';
-import { stringifyDeterministicJson } from './json.js';
 import {
   ensureVersionFolder,
+  persistVersionSummary,
   runVersion,
-  summarizeVersion,
   validateVersionId,
   type VersionComparison,
   type VersionRunOutput,
@@ -43,6 +44,8 @@ export interface DemoLoopVersionResult {
 export interface DemoLoopOptions {
   runsRoot: string;
   versions?: readonly string[];
+  /** Demo loop intentionally regenerates evidence; defaults to overwrite. */
+  onExisting?: ArtifactWriteMode;
 }
 
 export interface DemoLoopComparisonResult {
@@ -60,9 +63,6 @@ export interface DemoLoopResult {
   comparisons: DemoLoopComparisonResult[];
   demoSummaryPath?: string;
 }
-
-const buildVersionSummaryPath = (version: string): string =>
-  path.join('runs', version, 'version_summary.json');
 
 const buildDemoSummaryMarkdown = (result: Omit<DemoLoopResult, 'demoSummaryPath'>): string => {
   const versionLines = result.versions.map((entry) => {
@@ -144,6 +144,7 @@ const shouldGenerateHandoff = (
 
 export const runDemoLoop = async (options: DemoLoopOptions): Promise<DemoLoopResult> => {
   const requestedVersions = options.versions ?? DEMO_LOOP_VERSIONS;
+  const onExisting = options.onExisting ?? 'overwrite';
   const versions: DemoLoopVersionResult[] = [];
   const comparisons: DemoLoopComparisonResult[] = [];
 
@@ -176,10 +177,13 @@ export const runDemoLoop = async (options: DemoLoopOptions): Promise<DemoLoopRes
 
     try {
       await ensureVersionFolder(options.runsRoot, version);
-      const runVersionOutput = await runVersion(options.runsRoot, version);
+      const runVersionOutput = await runVersion(options.runsRoot, version, undefined, {
+        onExisting,
+      });
       const balanceSummary = await runBalanceBatch({
         runsRoot: options.runsRoot,
         version,
+        onExisting,
       });
 
       if (version === 'v001') {
@@ -243,16 +247,16 @@ export const runDemoLoop = async (options: DemoLoopOptions): Promise<DemoLoopRes
         });
       }
 
-      const summary = await summarizeVersion(options.runsRoot, version);
-      const summaryPath = buildVersionSummaryPath(version);
-      await writeFile(
-        path.join(options.runsRoot, summaryPath),
-        stringifyDeterministicJson(summary),
-        'utf8',
+      const { summary, summaryPath } = await persistVersionSummary(
+        options.runsRoot,
+        version,
+        undefined,
+        { onExisting },
       );
       await writeAcceptanceReport({
         runsRoot: options.runsRoot,
         version,
+        onExisting,
         commandStatuses: {
           typecheck: 'skipped',
           test: 'skipped',
@@ -293,6 +297,7 @@ export const runDemoLoop = async (options: DemoLoopOptions): Promise<DemoLoopRes
       options.runsRoot,
       baseVersion,
       targetVersion,
+      { onExisting },
     );
     comparisons.push({
       baseVersion,
@@ -321,6 +326,7 @@ export const runDemoLoop = async (options: DemoLoopOptions): Promise<DemoLoopRes
         options.runsRoot,
         firstVersion,
         lastVersion,
+        { onExisting },
       );
       comparisons.push({
         baseVersion: firstVersion,
@@ -352,8 +358,17 @@ export const runDemoLoop = async (options: DemoLoopOptions): Promise<DemoLoopRes
 
 export const parseDemoLoopArgs = (
   argv: string[],
-): { runsRoot: string; versions?: DemoVersionId[] } => {
-  const args: { runsRoot: string; versions?: DemoVersionId[] } = { runsRoot: process.cwd() };
+): { runsRoot: string; versions?: DemoVersionId[]; onExisting?: ArtifactWriteMode } => {
+  const common = parseHarnessCliCommonArgs(argv);
+  const hasOnExisting = argv.includes('--on-existing');
+  const args: {
+    runsRoot: string;
+    versions?: DemoVersionId[];
+    onExisting?: ArtifactWriteMode;
+  } = {
+    runsRoot: common.runsRoot,
+    ...(hasOnExisting ? { onExisting: common.onExisting } : {}),
+  };
 
   for (let index = 0; index < argv.length; index += 1) {
     const token = argv[index];
@@ -361,8 +376,7 @@ export const parseDemoLoopArgs = (
     if (token === '--') {
       continue;
     }
-    if (token === '--runs-root' && next) {
-      args.runsRoot = next;
+    if (token === '--runs-root' || token === '--on-existing') {
       index += 1;
       continue;
     }

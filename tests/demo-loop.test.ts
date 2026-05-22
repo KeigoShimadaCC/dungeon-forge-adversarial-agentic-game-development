@@ -28,6 +28,13 @@ describe('Phase 12A demo loop', () => {
       runsRoot: '/tmp/runs',
       versions: ['v001', 'v003'],
     });
+
+    expect(
+      parseDemoLoopArgs(['--runs-root', '/tmp/runs', '--on-existing', 'fail']),
+    ).toEqual({
+      runsRoot: '/tmp/runs',
+      onExisting: 'fail',
+    });
   });
 
   it('rejects unknown demo versions', () => {

@@ -32,6 +32,13 @@ Dependencies: `PHASE-12A-DEMO-LOOP`.
 
 Add an explicit artifact-write policy for version-loop commands: default to no silent overwrite, with a documented archive or explicit overwrite option. Summary artifacts should live under the relevant version folder, and version comparisons should be saved under a deterministic comparisons location.
 
+CLI and API surface:
+
+- `--on-existing fail|overwrite|archive` on `run-version`, `run-balance`, `summarize-version`, `compare-versions`, `accept-version`, and `demo-loop` (demo-loop defaults to `overwrite` for intentional regeneration).
+- `summarize-version` and `compare-versions` persist artifacts by default; pass `--stdout-only` to emit JSON only.
+- Descriptive smoke alias: `v09c-smoke` resolves to canonical `v009`.
+- Archive copies land under `runs/_archive/<timestamp-or-label>/...` preserving the original relative path.
+
 Keep generated artifacts local-file based and preserve rejected-version artifacts.
 
 ## Deliverables

@@ -1,3 +1,4 @@
+import { parseHarnessCliCommonArgs } from './cli-args.js';
 import { handleCliError, writeJson } from './balance-cli-shared.js';
 import { runBalanceBatch } from './balance-tuning.js';
 import {
@@ -12,13 +13,16 @@ const parseArgs = (
   runsRoot: string;
   seeds?: string[];
   policies?: string[];
+  onExisting: import('./artifact-write-policy.js').ArtifactWriteMode;
 } => {
+  const common = parseHarnessCliCommonArgs(argv);
   const args: {
     version?: string;
     runsRoot: string;
     seeds?: string[];
     policies?: string[];
-  } = { runsRoot: process.cwd() };
+    onExisting: import('./artifact-write-policy.js').ArtifactWriteMode;
+  } = { runsRoot: common.runsRoot, onExisting: common.onExisting };
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -28,8 +32,7 @@ const parseArgs = (
     } else if (arg === '--version' && next) {
       args.version = next;
       index += 1;
-    } else if (arg === '--runs-root' && next) {
-      args.runsRoot = next;
+    } else if (arg === '--runs-root' || arg === '--on-existing') {
       index += 1;
     } else if (arg === '--seeds' && next) {
       args.seeds = next.split(',').map((seed) => seed.trim()).filter(Boolean);
@@ -72,6 +75,7 @@ export const runBalanceCli = async (argv: string[] = process.argv.slice(2)): Pro
   const summary = await runBalanceBatch({
     runsRoot: args.runsRoot,
     version: requireArg(args.version, 'version'),
+    onExisting: args.onExisting,
     ...(args.seeds ? { seeds: args.seeds } : {}),
     ...(args.policies ? { policies: parsePolicies(args.policies) } : {}),
   });

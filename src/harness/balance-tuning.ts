@@ -1,6 +1,12 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
+import {
+  type ArtifactWriteOptions,
+  type ArtifactWritePolicyContext,
+  resolveVersionId,
+  writeArtifactFile,
+} from './artifact-write-policy.js';
 import { CANONICAL_REGRESSION_SEEDS } from './baseline-players/helpers.js';
 import { stringifyDeterministicJson } from './json.js';
 import { BASELINE_POLICY_IDS, type BaselinePolicyId } from './policy-registry.js';
@@ -106,6 +112,8 @@ export interface RunBalanceBatchOptions {
   version: string;
   seeds?: readonly string[];
   policies?: readonly BaselinePolicyId[];
+  onExisting?: ArtifactWriteOptions['onExisting'];
+  policyContext?: ArtifactWritePolicyContext;
 }
 
 const round2 = (value: number): number => Number(value.toFixed(2));
@@ -121,7 +129,7 @@ const metricDelta = (base: number, target: number): MetricDelta => ({
 const runKey = (seed: string, policy: string): string => `${seed}::${policy}`;
 
 export const buildBalanceSummaryRelativePath = (version: string): string =>
-  path.join('runs', version, BALANCE_SUMMARY_FILENAME);
+  path.join('runs', resolveVersionId(version), BALANCE_SUMMARY_FILENAME);
 
 export const getDefaultBalanceBatchSpecs = (): BalanceBatchSpec[] =>
   CANONICAL_REGRESSION_SEEDS.flatMap((seed) =>
@@ -235,8 +243,9 @@ export const buildBalanceSummary = (
 export const runBalanceBatch = async (
   options: RunBalanceBatchOptions,
 ): Promise<BalanceSummary> => {
-  const { runsRoot, version } = options;
-  validateVersionId(version);
+  const { runsRoot, version: requestedVersion, onExisting, policyContext } = options;
+  const version = resolveVersionId(requestedVersion);
+  validateVersionId(requestedVersion);
   await ensureVersionFolder(runsRoot, version);
 
   const seeds = options.seeds ?? CANONICAL_REGRESSION_SEEDS;
@@ -250,6 +259,8 @@ export const runBalanceBatch = async (
       policyId: spec.policy,
       version,
       runsRoot,
+      onExisting,
+      policyContext,
     });
     const tracePath = buildTraceRelativePath(version, spec.seed, spec.policy);
     const scorecard = deriveScorecardFromTrace(playthrough.trace, tracePath);
@@ -278,7 +289,16 @@ export const runBalanceBatch = async (
 
   const summary = buildBalanceSummary(version, seeds, policies, runs);
   const summaryAbsolutePath = path.join(runsRoot, summary.summary_path);
-  await writeFile(summaryAbsolutePath, stringifyDeterministicJson(summary), 'utf8');
+  await writeArtifactFile(
+    summaryAbsolutePath,
+    stringifyDeterministicJson(summary),
+    { onExisting },
+    {
+      runsRoot,
+      policyContext,
+      artifactLabel: summary.summary_path,
+    },
+  );
 
   return summary;
 };
