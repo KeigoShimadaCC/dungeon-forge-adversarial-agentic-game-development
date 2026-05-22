@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 09A — Tactical Items |
-| Goal | Add finite tactical item effects with valid-use conditions, state changes, render/log feedback, trace-visible events, and deterministic seeded behavior. |
-| Branch | `phase-09a-tactical-items` |
-| Worktree | `/private/tmp/dungeon-forge-phase-09a-tactical-items-wt` |
-| Base | `origin/main` at `2ee6cc2` after merge sync |
-| Status | `ready for PR` |
+| Phase | Phase 10B — Balance Tuning |
+| Goal | Add deterministic balance batch simulation over canonical seeds and baseline policies, with saved summaries, comparison metrics, and visible failed-seed reporting. |
+| Branch | `phase-10b-balance-tuning` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-10b-balance-tuning-wt` |
+| Base | `origin/main` at `78985f9` |
+| Status | `in progress` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-09A-TACTICAL-ITEMS.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-10B-BALANCE-TUNING.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -52,19 +52,19 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-22 orchestrator — Seed Phase 10B progress state and checkpoint before implementation.
 
 ### Open
 
-- _(none)_
+- [ ] 2026-05-22 Cursor/composer-2.5 — Implement deterministic balance batch command, summary artifact, failed-seed reporting, and comparison updates.
+- [ ] 2026-05-22 orchestrator — Review Cursor diff for scope, invariants, and overreach.
+- [ ] 2026-05-22 orchestrator — Add or correct focused tests for balance summary shape, reproducibility, failure reporting, and comparison output if needed.
+- [ ] 2026-05-22 orchestrator — Run focused tests, full gates, and Phase 10B smoke commands.
+- [ ] 2026-05-22 orchestrator — Re-read Phase 10B acceptance, finalize progress, push branch, and open PR.
 
 ### Done
 
-- [x] 2026-05-22 orchestrator — Seed Phase 09A progress state and checkpoint before implementation.
-- [x] 2026-05-22 Cursor/composer-2.5/orchestrator — Implement four tactical items: Smoke Bomb, Swap Scroll, Fire Seed, and Warp Feather.
-- [x] 2026-05-22 orchestrator — Review implementation diff, correct drift, and add focused tests.
-- [x] 2026-05-22 orchestrator — Run focused tests, full gates, and version-loop smoke.
-- [x] 2026-05-22 orchestrator — Re-read Phase 09A acceptance, finalize progress, push branch, and open PR.
+- _(none yet)_
 
 ### Blocked / skipped
 
@@ -75,19 +75,18 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 _Derived from `phase-plans/PHASE-09A-TACTICAL-ITEMS.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 09A — Tactical Items
+### Phase 10B — Balance Tuning
 
-- [x] New finite tactical item content records exist.
-- [x] Item definitions include stable ID, display name, description, valid-use condition, effect, trace event shape, and tests.
-- [x] Smoke Bomb, Swap Scroll, Fire Seed, and Warp Feather have deterministic effect handlers.
-- [x] Each tactical item exposes valid `use_item` actions only when usable.
-- [x] Invalid/unavailable item use is handled safely through existing structured-action validation.
-- [x] Render output shows item descriptions/names/glyphs and clear log feedback.
-- [x] Item use emits trace-visible `use_item` events with effect payloads.
-- [x] Potion behavior and core inventory semantics still work.
-- [x] Fixed seeds remain reproducible.
-- [x] Version-loop artifacts can show item changes.
-- [x] Local final gates and version-loop smoke pass, or blockers are recorded.
+- [ ] Batch simulation command/script exists.
+- [ ] Default batch runs canonical regression seeds from Phase 00A with all deterministic baseline policies from Phase 04B.
+- [ ] Default balance checks do not require API credentials or LLM calls.
+- [ ] Balance summary artifact is saved under `runs/vXXX/`.
+- [ ] Summary includes win rate, average turns, death floor/floor reach, item usage, damage taken, enemies defeated, invalid actions, abort count, and softlock count.
+- [ ] Failed seeds/runs are reported visibly instead of hidden in aggregate metrics.
+- [ ] Version-to-version balance comparison works and includes balance-relevant deltas.
+- [ ] Fixed seeds remain reproducible.
+- [ ] Tests cover summary shape, failed-seed reporting, canonical seed/policy inclusion, and comparison behavior.
+- [ ] Local final gates and Phase 10B smoke commands pass, or blockers are recorded.
 
 ---
 
@@ -172,6 +171,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Phase 09A smoke PASS: `pnpm run run-version -- --version v010 --runs-root /tmp/df-phase09a-smoke-20260522-final` wrote three trace/review/scorecard sets, and `pnpm run summarize-version -- --version v010 --runs-root /tmp/df-phase09a-smoke-20260522-final` reported `status: complete`, full artifact coverage, and acceptance status pending. The default smoke matrix did not use items (`items_used: 0`), so item-aware policy evaluation was deferred as `F-09A-001`.
 - 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) produced no stdout for about one minute and was interrupted; local acceptance audit and gates above are the verification evidence.
 - 2026-05-22 — orchestrator — Pushed `phase-09a-tactical-items` and opened PR #22: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/22.
+- 2026-05-22 — orchestrator — Phase 10B preflight: fast-forwarded local `main` to `origin/main` at `78985f9`, created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-10b-balance-tuning-wt` on branch `phase-10b-balance-tuning`, re-read `PROGRESS.MD`, `concept-and-ideas/01_NORTH_STAR_AND_VISION.md`, `concept-and-ideas/02_STRUCTURE_AND_TECH_SPECS.md`, and `phase-plans/PHASE-10B-BALANCE-TUNING.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.
 
 ---
 
