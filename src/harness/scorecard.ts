@@ -134,6 +134,7 @@ export const deriveScorecardFromTrace = (
     version: trace.version,
     seed: trace.seed,
     persona: trace.persona,
+    ...(trace.challenge_mode ? { challenge_mode: trace.challenge_mode } : {}),
     result: trace.result,
     turns: trace.turns,
     floors_reached: floorsReached,
@@ -212,6 +213,13 @@ export const validateScorecard = (scorecard: PlaythroughScorecard): void => {
     if (value !== undefined && (typeof value !== 'string' || value.length === 0)) {
       throw new Error(`Scorecard optional review source must be a non-empty string: ${field}`);
     }
+  }
+
+  if (
+    record.challenge_mode !== undefined &&
+    (typeof record.challenge_mode !== 'string' || record.challenge_mode.length === 0)
+  ) {
+    throw new Error('Scorecard challenge_mode must be a non-empty string when present');
   }
 
   if (record.enemy_behaviors !== undefined) {

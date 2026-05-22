@@ -568,6 +568,7 @@ export const renderAcceptanceMarkdown = (result: AcceptanceGateResult): string =
     `- Changelog: \`${result.summary.links.changelog}\``,
     `- Developer notes: \`${result.summary.links.developer_notes}\``,
     `- Summary status: ${result.summary.status}`,
+    `- Challenge mode: ${result.summary.challenge_mode ?? 'default'}`,
     `- Artifact coverage: ${result.summary.artifact_coverage.traces.present}/${result.summary.artifact_coverage.traces.expected} traces, ${result.summary.artifact_coverage.reviews.present}/${result.summary.artifact_coverage.reviews.expected} reviews, ${result.summary.artifact_coverage.scorecards.present}/${result.summary.artifact_coverage.scorecards.expected} scorecards`,
     '',
   ].join('\n');

@@ -315,6 +315,19 @@ export {
   writeVersionComparisonArtifacts,
 } from './demo-loop-handoff.js';
 export {
+  listChallengeModeIds,
+  CHALLENGE_MODES_SCHEMA_VERSION,
+  DEFAULT_CHALLENGE_MODE_ID,
+  assertChallengeModeId,
+  getChallengeModePreset,
+  loadChallengeModes,
+  mergeGameConfig,
+  normalizeChallengeModeId,
+  resolveGameConfigForRun,
+  type ChallengeModePreset,
+  type ChallengeModesContentBundle,
+} from '../game/challenge-modes.js';
+export {
   DEMO_VERSION_IDS,
   VERSION_PROFILES,
   getVersionProfile,

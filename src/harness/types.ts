@@ -130,6 +130,8 @@ export interface PlaythroughTrace {
   result: TerminalStatus;
   turns: number;
   steps: TraceStep[];
+  /** Set when an explicit finite challenge preset was selected for the run. */
+  challenge_mode?: string;
   metadata?: TraceMetadata;
 }
 
@@ -160,6 +162,8 @@ export interface PlaythroughScorecard {
   version: string;
   seed: string;
   persona: string;
+  /** Mirrors trace challenge_mode when a finite challenge preset was selected. */
+  challenge_mode?: string;
   result: TerminalStatus;
   turns: number;
   floors_reached: number;
