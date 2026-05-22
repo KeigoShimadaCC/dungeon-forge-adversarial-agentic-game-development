@@ -6,7 +6,7 @@ import type { PlaythroughScorecard, PlaythroughTrace } from './types.js';
 import { stringifyDeterministicJson } from './json.js';
 
 export const buildArtifactBasename = (seed: string, policyId: string): string =>
-  `${seed}__${policyId}`;
+  `${seed}_${policyId}`;
 
 export const buildTraceRelativePath = (
   version: string,

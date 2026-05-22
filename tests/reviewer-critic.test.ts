@@ -128,7 +128,7 @@ describe('Phase 06B reviewer critic', () => {
       invalid_actions: 2,
       softlocks: 0,
       reviewer_scores: NULL_REVIEWER_SCORES,
-      trace_path: 'runs/v001/traces/seed_test__stairs-seeking.json',
+      trace_path: 'runs/v001/traces/seed_test_stairs-seeking.json',
     };
 
     const review = generateDeterministicReview({
@@ -196,7 +196,7 @@ describe('Phase 06B reviewer critic', () => {
       invalid_actions: 1,
       softlocks: 1,
       reviewer_scores: NULL_REVIEWER_SCORES,
-      trace_path: 'runs/v001/traces/seed_evidence__bug-hunter-policy.json',
+      trace_path: 'runs/v001/traces/seed_evidence_bug-hunter-policy.json',
     };
 
     const review = generateDeterministicReview({
@@ -225,7 +225,7 @@ describe('Phase 06B reviewer critic', () => {
     };
     const renderScorecard = deriveScorecardFromTrace(
       renderTrace,
-      'runs/v001/traces/seed_render__stairs-seeking.json',
+      'runs/v001/traces/seed_render_stairs-seeking.json',
     );
     const renderReview = generateDeterministicReview({
       trace: renderTrace,
@@ -283,7 +283,7 @@ describe('Phase 06B reviewer critic', () => {
       invalid_actions: 1,
       softlocks: 2,
       reviewer_scores: NULL_REVIEWER_SCORES,
-      trace_path: 'runs/v001/traces/seed_sparse__random.json',
+      trace_path: 'runs/v001/traces/seed_sparse_random.json',
     };
 
     const review = generateDeterministicReview({
@@ -299,7 +299,7 @@ describe('Phase 06B reviewer critic', () => {
     }
   });
 
-  it('saves review JSON under runs/<version>/reviews/<seed>__<persona>.json', async () => {
+  it('saves review JSON under runs/<version>/reviews/<seed>_<persona>.json', async () => {
     const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-review-save-'));
     try {
       const { trace, scorecard, artifacts } = await runPlaythrough({
@@ -316,13 +316,13 @@ describe('Phase 06B reviewer critic', () => {
       });
 
       expect(buildReviewRelativePath('v006b', 'seed_002', 'careful_player')).toBe(
-        'runs/v006b/reviews/seed_002__careful_player.json',
+        'runs/v006b/reviews/seed_002_careful_player.json',
       );
 
       const { reviewPath } = await savePlaythroughReview(runsRoot, review);
       const saved = JSON.parse(await readFile(reviewPath, 'utf8'));
 
-      expect(reviewPath.endsWith('runs/v006b/reviews/seed_002__careful_player.json')).toBe(true);
+      expect(reviewPath.endsWith('runs/v006b/reviews/seed_002_careful_player.json')).toBe(true);
       expect(saved).toEqual(review);
     } finally {
       await rm(runsRoot, { recursive: true, force: true });
@@ -352,7 +352,7 @@ describe('Phase 06B reviewer critic', () => {
       invalid_actions: 0,
       softlocks: 0,
       reviewer_scores: NULL_REVIEWER_SCORES,
-      trace_path: 'runs/v001/traces/seed_thin__random.json',
+      trace_path: 'runs/v001/traces/seed_thin_random.json',
     };
 
     const review = generateDeterministicReview({
@@ -378,7 +378,7 @@ describe('Phase 06B reviewer critic', () => {
 
     const validScorecard = deriveScorecardFromTrace(
       validTrace,
-      'runs/v001/traces/seed_ok__random.json',
+      'runs/v001/traces/seed_ok_random.json',
     );
 
     expect(() =>
@@ -410,7 +410,7 @@ describe('Phase 06B reviewer critic', () => {
 
     const scorecard = deriveScorecardFromTrace(
       trace,
-      'runs/v001/traces/seed_mock__random.json',
+      'runs/v001/traces/seed_mock_random.json',
     );
 
     let providerCalled = false;
@@ -459,7 +459,7 @@ describe('Phase 06B reviewer critic', () => {
 
     const scorecard = deriveScorecardFromTrace(
       trace,
-      'runs/v001/traces/seed_persona__stairs-seeking.json',
+      'runs/v001/traces/seed_persona_stairs-seeking.json',
     );
 
     const review = generateDeterministicReview({ trace, scorecard, persona });
