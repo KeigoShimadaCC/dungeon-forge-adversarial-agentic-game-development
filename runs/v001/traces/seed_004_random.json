@@ -1,0 +1,1882 @@
+{
+  "persona": "random",
+  "result": "LOSS",
+  "seed": "seed_004",
+  "steps": [
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-1-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 1,
+          "type": "wait"
+        },
+        {
+          "id": "turn-1-enemy_move-slime-1-1-4-6",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 4,
+            "y": 6
+          },
+          "turn": 1,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 0/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#...#####\n#...#####\n#.@....##\n##!....##\n####.s>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 2,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 0
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 0,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-2-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 20
+          },
+          "turn": 2,
+          "type": "inspect"
+        },
+        {
+          "id": "turn-2-enemy_move-slime-1-1-4-5",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 4,
+            "y": 5
+          },
+          "turn": 2,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 1/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#...#####\n#...#####\n#.@....##\n##!....##\n####s.>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n- You wait for one turn.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 2,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 1
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 1,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_west",
+        "label": "Move west",
+        "payload": {
+          "dx": -1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-3-move",
+          "message": "You move to 1,4.",
+          "payload": {
+            "x": 1,
+            "y": 4
+          },
+          "turn": 3,
+          "type": "move"
+        },
+        {
+          "id": "turn-3-enemy_move-slime-1-1-3-5",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 3,
+            "y": 5
+          },
+          "turn": 3,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 2/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#...#####\n#...#####\n#.@....##\n##!.s..##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 2,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 2
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 2,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_north",
+        "label": "Move north",
+        "payload": {
+          "dx": 0,
+          "dy": -1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-4-move",
+          "message": "You move to 1,3.",
+          "payload": {
+            "x": 1,
+            "y": 3
+          },
+          "turn": 4,
+          "type": "move"
+        },
+        {
+          "id": "turn-4-enemy_move-slime-1-1-2-5",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 2,
+            "y": 5
+          },
+          "turn": 4,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 3/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#...#####\n#...#####\n#@.....##\n##!s...##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 1,4.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 1,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 3
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 3,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_south",
+        "label": "Move south",
+        "payload": {
+          "dx": 0,
+          "dy": 1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-5-move",
+          "message": "You move to 1,4.",
+          "payload": {
+            "x": 1,
+            "y": 4
+          },
+          "turn": 5,
+          "type": "move"
+        },
+        {
+          "id": "turn-5-enemy_move-slime-1-1-2-4",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 2,
+            "y": 4
+          },
+          "turn": 5,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 4/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#...#####\n#@..#####\n#......##\n##s....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 1,3.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 1,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 4
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 4,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-6-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 20
+          },
+          "turn": 6,
+          "type": "inspect"
+        },
+        {
+          "id": "turn-6-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 6,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 5/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#...#####\n#...#####\n#@s....##\n##!....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 1,4.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 1,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 5
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 5,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-7-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 7,
+          "type": "wait"
+        },
+        {
+          "id": "turn-7-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 7,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 6/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#...#####\n#...#####\n#@s....##\n##!....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 18,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 1,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 6
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 6,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-8-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 8,
+          "type": "wait"
+        },
+        {
+          "id": "turn-8-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 8,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 7/100\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#...#####\n#...#####\n#@s....##\n##!....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You wait for one turn.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 16,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 1,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 7
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 7,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-9-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 9,
+          "type": "wait"
+        },
+        {
+          "id": "turn-9-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 9,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 8/100\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#...#####\n#...#####\n#@s....##\n##!....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You wait for one turn.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 14,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 1,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 8
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 8,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_north",
+        "label": "Move north",
+        "payload": {
+          "dx": 0,
+          "dy": -1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-10-move",
+          "message": "You move to 1,3.",
+          "payload": {
+            "x": 1,
+            "y": 3
+          },
+          "turn": 10,
+          "type": "move"
+        },
+        {
+          "id": "turn-10-enemy_move-slime-1-1-1-4",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 1,
+            "y": 4
+          },
+          "turn": 10,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 9/100\nStatus: ACTIVE | HP: 12/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#...#####\n#...#####\n#@s....##\n##!....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You wait for one turn.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 12,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 1,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 9
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 9,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "attack_slime-1-1",
+        "label": "Attack Green Slime",
+        "payload": {
+          "targetId": "slime-1-1"
+        },
+        "type": "attack"
+      },
+      "events": [
+        {
+          "id": "turn-11-attack",
+          "message": "You hit Green Slime for 4.",
+          "payload": {
+            "damage": 4,
+            "enemyType": "slime",
+            "targetId": "slime-1-1"
+          },
+          "turn": 11,
+          "type": "attack"
+        },
+        {
+          "id": "turn-11-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 11,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 10/100\nStatus: ACTIVE | HP: 12/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#...#####\n#@..#####\n#s.....##\n##!....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 1,3.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 12,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 1,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 10
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 10,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_north",
+        "label": "Move north",
+        "payload": {
+          "dx": 0,
+          "dy": -1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-12-move",
+          "message": "You move to 1,2.",
+          "payload": {
+            "x": 1,
+            "y": 2
+          },
+          "turn": 12,
+          "type": "move"
+        },
+        {
+          "id": "turn-12-enemy_move-slime-1-1-1-3",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 1,
+            "y": 3
+          },
+          "turn": 12,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 11/100\nStatus: ACTIVE | HP: 10/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#...#####\n#@..#####\n#s.....##\n##!....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You hit Green Slime for 4.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 10,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 1,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 11
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 11,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-13-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 10
+          },
+          "turn": 13,
+          "type": "inspect"
+        },
+        {
+          "id": "turn-13-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 13,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 12/100\nStatus: ACTIVE | HP: 10/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#@..#####\n#s..#####\n#......##\n##!....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 1,2.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 10,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 1,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 12
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 12,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-14-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 14,
+          "type": "wait"
+        },
+        {
+          "id": "turn-14-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 14,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 13/100\nStatus: ACTIVE | HP: 8/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#@..#####\n#s..#####\n#......##\n##!....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 8,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 1,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 13
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 13,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-15-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 15,
+          "type": "wait"
+        },
+        {
+          "id": "turn-15-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 15,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 14/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#@..#####\n#s..#####\n#......##\n##!....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You wait for one turn.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 6,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 1,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 14
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 14,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-16-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 4
+          },
+          "turn": 16,
+          "type": "inspect"
+        },
+        {
+          "id": "turn-16-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 16,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 15/100\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#@..#####\n#s..#####\n#......##\n##!....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You wait for one turn.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 1,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 15
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 15,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_east",
+        "label": "Move east",
+        "payload": {
+          "dx": 1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-17-move",
+          "message": "You move to 2,2.",
+          "payload": {
+            "x": 2,
+            "y": 2
+          },
+          "turn": 17,
+          "type": "move"
+        },
+        {
+          "id": "turn-17-enemy_move-slime-1-1-2-3",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 2,
+            "y": 3
+          },
+          "turn": 17,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 16/100\nStatus: ACTIVE | HP: 2/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#@..#####\n#s..#####\n#......##\n##!....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 2,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 1,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 16
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 16,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_north",
+        "label": "Move north",
+        "payload": {
+          "dx": 0,
+          "dy": -1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-18-move",
+          "message": "You move to 2,1.",
+          "payload": {
+            "x": 2,
+            "y": 1
+          },
+          "turn": 18,
+          "type": "move"
+        },
+        {
+          "id": "turn-18-enemy_move-slime-1-1-2-2",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 2,
+            "y": 2
+          },
+          "turn": 18,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 17/100\nStatus: ACTIVE | HP: 2/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#...#####\n#.@.#####\n#.s.#####\n#......##\n##!....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 2,2.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 2,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 2,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 17
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 17,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-19-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 19,
+          "type": "wait"
+        },
+        {
+          "id": "turn-19-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 19,
+          "type": "enemy_attack"
+        },
+        {
+          "id": "turn-19-loss",
+          "message": "You collapse in the dungeon.",
+          "payload": {
+            "terminalStatus": "LOSS"
+          },
+          "turn": 19,
+          "type": "loss"
+        }
+      ],
+      "render": "Seven Floors to Dawn v001\nSeed: seed_004 | Floor: 1/2 | Turn: 18/100\nStatus: ACTIVE | HP: 2/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#.@.#####\n#.s.#####\n#...#####\n#......##\n##!....##\n####..>##\n#########\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 2,1.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 2,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 2,
+          "y": 1
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 18
+      },
+      "terminalStatus": "LOSS",
+      "turn": 18,
+      "valid": true
+    }
+  ],
+  "turns": 19,
+  "version": "v001"
+}

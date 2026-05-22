@@ -2,6 +2,7 @@ import { calcPlayerDamageToEnemy } from './combat.js';
 import {
   getItemDefinition,
   loadGameContent,
+  SMOKE_BOMB_ITEM_ID,
   type EnemyDefinition,
   type FloorRuleDefinition,
 } from './content.js';
@@ -31,6 +32,7 @@ import {
 } from './dialogue.js';
 import { runEnemyTurns } from './enemy-ai.js';
 import { render } from './render.js';
+import { resolveGameConfigForVersion } from './version-profiles.js';
 import type {
   GameConfig,
   GameEvent,
@@ -94,8 +96,21 @@ const getEnemyDefinition = (id: string): EnemyDefinition => {
   return enemy;
 };
 
-const defaultMaxTurns = (): number =>
-  floorRules.reduce((total, rule) => total + rule.maxTurns, 0);
+const maxTurnsForFloors = (totalFloors: number): number =>
+  floorRules
+    .filter((rule) => rule.floor <= totalFloors)
+    .reduce((total, rule) => total + rule.maxTurns, 0);
+
+const filterContentIds = (
+  ids: readonly string[],
+  allowed?: readonly string[],
+): readonly string[] => {
+  if (!allowed || allowed.length === 0) {
+    return ids;
+  }
+  const filtered = ids.filter((id) => allowed.includes(id));
+  return filtered.length > 0 ? filtered : allowed;
+};
 
 const normalizePositiveInteger = (
   value: number | undefined,
@@ -120,8 +135,10 @@ const placeEnemies = (
   rule: FloorRuleDefinition,
   layout: ReturnType<typeof generateFloorLayout>,
   occupied: Set<string>,
+  allowedEnemyIds?: readonly string[],
 ): GameState['enemies'] => {
-  if (rule.enemyIds.length === 0 || rule.enemySpawnCount === 0) {
+  const enemyIds = filterContentIds(rule.enemyIds, allowedEnemyIds);
+  if (enemyIds.length === 0 || rule.enemySpawnCount === 0) {
     return [];
   }
 
@@ -136,7 +153,7 @@ const placeEnemies = (
   });
 
   return positions.map((position, index) => {
-    const definition = getEnemyDefinition(rule.enemyIds[index % rule.enemyIds.length]);
+    const definition = getEnemyDefinition(enemyIds[index % enemyIds.length]!);
     occupied.add(positionKey(position));
 
     return {
@@ -160,8 +177,10 @@ const placeItems = (
   rule: FloorRuleDefinition,
   layout: ReturnType<typeof generateFloorLayout>,
   occupied: Set<string>,
+  allowedItemIds?: readonly string[],
 ): ItemInstance[] => {
-  if (rule.itemIds.length === 0 || rule.itemSpawnCount === 0) {
+  const itemIds = filterContentIds(rule.itemIds, allowedItemIds);
+  if (itemIds.length === 0 || rule.itemSpawnCount === 0) {
     return [];
   }
 
@@ -175,7 +194,7 @@ const placeItems = (
   });
 
   return positions.map((position, index) => {
-    const definition = getItemDefinition(rule.itemIds[index % rule.itemIds.length]);
+    const definition = getItemDefinition(itemIds[index % itemIds.length]!);
     occupied.add(positionKey(position));
 
     return {
@@ -195,6 +214,9 @@ const createFloorState = (params: {
   turn: number;
   maxTurns: number;
   objective: string;
+  totalFloors: number;
+  allowedEnemyIds?: readonly string[];
+  allowedItemIds?: readonly string[];
   playerHp?: number;
   inventory?: string[];
   log: string[];
@@ -211,8 +233,22 @@ const createFloorState = (params: {
     positionKey(layout.playerSpawn),
     positionKey(layout.stairs),
   ]);
-  const enemies = placeEnemies(params.seed, params.floor, rule, layout, occupied);
-  const items = placeItems(params.seed, params.floor, rule, layout, occupied);
+  const enemies = placeEnemies(
+    params.seed,
+    params.floor,
+    rule,
+    layout,
+    occupied,
+    params.allowedEnemyIds,
+  );
+  const items = placeItems(
+    params.seed,
+    params.floor,
+    rule,
+    layout,
+    occupied,
+    params.allowedItemIds,
+  );
   const npcs = placeNpcsForFloor({
     seed: params.seed,
     floor: params.floor,
@@ -242,7 +278,7 @@ const createFloorState = (params: {
     meta: {
       maxTurns: params.maxTurns,
       objective: params.objective,
-      totalFloors: floorRules.length,
+      totalFloors: params.totalFloors,
     },
   };
 
@@ -255,16 +291,24 @@ const createFloorState = (params: {
   return state;
 };
 
-export const start = (seed: string, config: GameConfig = {}): GameState =>
-  createFloorState({
+export const start = (seed: string, config: GameConfig = {}): GameState => {
+  const totalFloors = normalizePositiveInteger(config.totalFloors, floorRules.length);
+  const defaultMaxTurnsForProfile = config.maxTurns ?? maxTurnsForFloors(totalFloors);
+
+  return createFloorState({
     seed,
     version: config.version ?? DEFAULT_VERSION,
     floor: 1,
     turn: 0,
-    maxTurns: normalizePositiveInteger(config.maxTurns, defaultMaxTurns()),
+    maxTurns: normalizePositiveInteger(config.maxTurns, defaultMaxTurnsForProfile),
     objective: config.objective ?? DEFAULT_OBJECTIVE,
-    log: [getOpeningText()],
+    totalFloors,
+    allowedEnemyIds: config.allowedEnemyIds,
+    allowedItemIds: config.allowedItemIds,
+    inventory: config.initialInventory ? [...config.initialInventory] : [],
+    log: [getOpeningText(), ...(config.openingLog ?? [])],
   });
+};
 
 export const isTerminal = (state: GameState): boolean =>
   state.terminalStatus !== 'ACTIVE';
@@ -543,6 +587,7 @@ const descend = (state: GameState, events: GameEvent[]): GameState => {
   );
   appendEventsToLog(state, events);
 
+  const profileConfig = resolveGameConfigForVersion(state.version);
   return createFloorState({
     seed: state.seed,
     version: state.version,
@@ -550,6 +595,9 @@ const descend = (state: GameState, events: GameEvent[]): GameState => {
     turn: state.turn,
     maxTurns: state.meta.maxTurns,
     objective: state.meta.objective,
+    totalFloors: state.meta.totalFloors,
+    allowedEnemyIds: profileConfig.allowedEnemyIds,
+    allowedItemIds: profileConfig.allowedItemIds,
     playerHp: state.player.hp,
     inventory: state.player.inventory,
     log: state.log,
@@ -625,6 +673,16 @@ export const step = (state: GameState, action: PlayerAction): StepResult => {
         itemType: item.type,
       });
       events.push(pickupEvent);
+      if (item.type === SMOKE_BOMB_ITEM_ID) {
+        events.push(
+          event(
+            nextState.turn,
+            'guidance',
+            'Tip: Smoke Bomb breaks enemy pursuit for a few turns when slimes press you.',
+            { itemType: item.type },
+          ),
+        );
+      }
     }
   } else if (matchedAction.type === 'use_item') {
     const itemType = matchedAction.payload?.itemType;

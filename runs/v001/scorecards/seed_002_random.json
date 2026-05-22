@@ -1,0 +1,21 @@
+{
+  "damage_taken": 2,
+  "enemies_defeated": 1,
+  "floors_reached": 1,
+  "invalid_actions": 0,
+  "items_used": 0,
+  "persona": "random",
+  "result": "ABORTED",
+  "reviewer_scores": {
+    "clarity": null,
+    "fairness": null,
+    "fun": null,
+    "replay_value": null,
+    "tactical_depth": null
+  },
+  "seed": "seed_002",
+  "softlocks": 1,
+  "trace_path": "runs/v001/traces/seed_002_random.json",
+  "turns": 100,
+  "version": "v001"
+}

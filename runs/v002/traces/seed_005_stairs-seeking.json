@@ -1,0 +1,2048 @@
+{
+  "persona": "stairs-seeking",
+  "result": "LOSS",
+  "seed": "seed_005",
+  "steps": [
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_west",
+        "label": "Move west",
+        "payload": {
+          "dx": -1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-1-move",
+          "message": "You move to 5,4.",
+          "payload": {
+            "x": 5,
+            "y": 4
+          },
+          "turn": 1,
+          "type": "move"
+        },
+        {
+          "id": "turn-1-enemy_move-slime-1-1-3-6",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 3,
+            "y": 6
+          },
+          "turn": 1,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 0/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##....###\n##s...###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n- Smoke Bomb starts in your pack: use it when enemies close in to break pursuit.\n- Legend reminder: ~ marks Smoke Bombs, ! marks Healing Potions, > marks stairs.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 0
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 0,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_south",
+        "label": "Move south",
+        "payload": {
+          "dx": 0,
+          "dy": 1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-2-move",
+          "message": "You move to 5,5.",
+          "payload": {
+            "x": 5,
+            "y": 5
+          },
+          "turn": 2,
+          "type": "move"
+        },
+        {
+          "id": "turn-2-enemy_move-slime-1-1-4-6",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 4,
+            "y": 6
+          },
+          "turn": 2,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 1/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##.s..###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Legend reminder: ~ marks Smoke Bombs, ! marks Healing Potions, > marks stairs.\n- You move to 5,4.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 1
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 1,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "use_smoke_bomb",
+        "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+        "payload": {
+          "effect": "blind_enemies",
+          "itemType": "smoke_bomb"
+        },
+        "type": "use_item"
+      },
+      "events": [
+        {
+          "id": "turn-3-use_item",
+          "message": "You hurl Smoke Bomb. Enemies lose pursuit tracking for 3 turns.",
+          "payload": {
+            "disabledUntilTurn": 6,
+            "duration": 3,
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "turn": 3,
+          "type": "use_item"
+        },
+        {
+          "id": "turn-3-enemy_wait-slime-1-1",
+          "message": "Green Slime loses your trail in the smoke.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "blinded"
+          },
+          "turn": 3,
+          "type": "enemy_wait"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 2/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##..s.###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 5,5.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 5
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 2
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 2,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_south",
+        "label": "Move south",
+        "payload": {
+          "dx": 0,
+          "dy": 1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-4-move",
+          "message": "You move to 5,6.",
+          "payload": {
+            "x": 5,
+            "y": 6
+          },
+          "turn": 4,
+          "type": "move"
+        },
+        {
+          "id": "turn-4-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 4,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 3/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##..s.###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 6.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You hurl Smoke Bomb. Enemies lose pursuit tracking for 3 turns.\n- Green Slime loses your trail in the smoke.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 5
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 3
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 3,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_south",
+        "label": "Move south",
+        "payload": {
+          "dx": 0,
+          "dy": 1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-5-move",
+          "message": "You move to 5,7.",
+          "payload": {
+            "x": 5,
+            "y": 7
+          },
+          "turn": 5,
+          "type": "move"
+        },
+        {
+          "id": "turn-5-enemy_wait-slime-1-1",
+          "message": "Green Slime loses your trail in the smoke.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "blinded"
+          },
+          "turn": 5,
+          "type": "enemy_wait"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 4/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##..s@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 6.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime loses your trail in the smoke.\n- You move to 5,6.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 18,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 6
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 4
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 4,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_west",
+        "label": "Move west",
+        "payload": {
+          "dx": -1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-6-move",
+          "message": "You move to 4,7.",
+          "payload": {
+            "x": 4,
+            "y": 7
+          },
+          "turn": 6,
+          "type": "move"
+        },
+        {
+          "id": "turn-6-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 6,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 5/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##..s.###\n##>.!@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 6.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 5,7.\n- Green Slime loses your trail in the smoke.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 18,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 7
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 5
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 5,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "pickup_potion-1-1",
+          "label": "Pick up Healing Potion",
+          "payload": {
+            "itemId": "potion-1-1"
+          },
+          "type": "pickup"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "pickup_potion-1-1",
+        "label": "Pick up Healing Potion",
+        "payload": {
+          "itemId": "potion-1-1"
+        },
+        "type": "pickup"
+      },
+      "events": [
+        {
+          "id": "turn-7-pickup",
+          "message": "You pick up Healing Potion.",
+          "payload": {
+            "itemId": "potion-1-1",
+            "itemType": "potion"
+          },
+          "turn": 7,
+          "type": "pickup"
+        },
+        {
+          "id": "turn-7-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 7,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 6/100\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##..s.###\n##>.@.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime loses your trail in the smoke.\n- You move to 4,7.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 16,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 4,
+          "y": 7
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 6
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 6,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_west",
+        "label": "Move west",
+        "payload": {
+          "dx": -1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-8-move",
+          "message": "You move to 3,7.",
+          "payload": {
+            "x": 3,
+            "y": 7
+          },
+          "turn": 8,
+          "type": "move"
+        },
+        {
+          "id": "turn-8-enemy_move-slime-1-1-3-6",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 3,
+            "y": 6
+          },
+          "turn": 8,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 7/100\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##..s.###\n##>.@.###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: (none)\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You pick up Healing Potion.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 14,
+        "inDialogue": false,
+        "inventory": [
+          "potion"
+        ],
+        "itemCount": 0,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 4,
+          "y": 7
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 7
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 7,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_west",
+        "label": "Move west",
+        "payload": {
+          "dx": -1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-9-move",
+          "message": "You move to 2,7.",
+          "payload": {
+            "x": 2,
+            "y": 7
+          },
+          "turn": 9,
+          "type": "move"
+        },
+        {
+          "id": "turn-9-enemy_move-slime-1-1-2-6",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 2,
+            "y": 6
+          },
+          "turn": 9,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 8/100\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##.s..###\n##>@..###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: (none)\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 3,7.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 14,
+        "inDialogue": false,
+        "inventory": [
+          "potion"
+        ],
+        "itemCount": 0,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 3,
+          "y": 7
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 8
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 8,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "descend_stairs",
+          "label": "Descend stairs",
+          "payload": {
+            "floor": 2
+          },
+          "type": "descend"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "descend_stairs",
+        "label": "Descend stairs",
+        "payload": {
+          "floor": 2
+        },
+        "type": "descend"
+      },
+      "events": [
+        {
+          "id": "turn-10-descend",
+          "message": "You descend to floor 2.",
+          "payload": {
+            "floor": 2
+          },
+          "turn": 10,
+          "type": "descend"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 9/100\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##s...###\n##@...###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: (none)\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 2,7.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 14,
+        "inDialogue": false,
+        "inventory": [
+          "potion"
+        ],
+        "itemCount": 0,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 2,
+          "y": 7
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 9
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 9,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_north",
+        "label": "Move north",
+        "payload": {
+          "dx": 0,
+          "dy": -1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-11-move",
+          "message": "You move to 4,2.",
+          "payload": {
+            "x": 4,
+            "y": 2
+          },
+          "turn": 11,
+          "type": "move"
+        },
+        {
+          "id": "turn-11-enemy_move-slime-2-1-6-5",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-2-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 6,
+            "y": 5
+          },
+          "turn": 11,
+          "type": "enemy_move"
+        },
+        {
+          "id": "turn-11-enemy_move-bat-2-2-2-3",
+          "message": "Cave Bat shuffles closer.",
+          "payload": {
+            "behavior": "bat",
+            "enemyId": "bat-2-2",
+            "enemyType": "bat",
+            "reason": "chase",
+            "x": 2,
+            "y": 3
+          },
+          "turn": 11,
+          "type": "enemy_move"
+        },
+        {
+          "id": "turn-11-enemy_move-bat-2-2-3-3",
+          "message": "Cave Bat shuffles closer.",
+          "payload": {
+            "behavior": "bat",
+            "enemyId": "bat-2-2",
+            "enemyType": "bat",
+            "reason": "chase",
+            "x": 3,
+            "y": 3
+          },
+          "turn": 11,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 2/2 | Turn: 10/100\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n#....#####\n#.....!###\n#b..@#.###\n######.###\n####..~.##\n####..s.##\n####...>##\n##########\n##########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory. | ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,7.\n- Green Slime shuffles closer.\n- You descend to floor 2.",
+      "state_summary": {
+        "enemyCount": 2,
+        "floor": 2,
+        "hp": 14,
+        "inDialogue": false,
+        "inventory": [
+          "potion"
+        ],
+        "itemCount": 2,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 4,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 10
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 10,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_east",
+        "label": "Move east",
+        "payload": {
+          "dx": 1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-12-move",
+          "message": "You move to 5,2.",
+          "payload": {
+            "x": 5,
+            "y": 2
+          },
+          "turn": 12,
+          "type": "move"
+        },
+        {
+          "id": "turn-12-enemy_move-slime-2-1-6-4",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-2-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 6,
+            "y": 4
+          },
+          "turn": 12,
+          "type": "enemy_move"
+        },
+        {
+          "id": "turn-12-enemy_move-bat-2-2-4-3",
+          "message": "Cave Bat shuffles closer.",
+          "payload": {
+            "behavior": "bat",
+            "enemyId": "bat-2-2",
+            "enemyType": "bat",
+            "reason": "chase",
+            "x": 4,
+            "y": 3
+          },
+          "turn": 12,
+          "type": "enemy_move"
+        },
+        {
+          "id": "turn-12-enemy_move-bat-2-2-4-2",
+          "message": "Cave Bat shuffles closer.",
+          "payload": {
+            "behavior": "bat",
+            "enemyId": "bat-2-2",
+            "enemyType": "bat",
+            "reason": "chase",
+            "x": 4,
+            "y": 2
+          },
+          "turn": 12,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 2/2 | Turn: 11/100\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n#....#####\n#...@.!###\n#..b.#.###\n######.###\n####..s.##\n####....##\n####...>##\n##########\n##########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory. | ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- Cave Bat shuffles closer.\n- Cave Bat shuffles closer.",
+      "state_summary": {
+        "enemyCount": 2,
+        "floor": 2,
+        "hp": 14,
+        "inDialogue": false,
+        "inventory": [
+          "potion"
+        ],
+        "itemCount": 2,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 4,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 11
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 11,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_bat-2-2",
+          "label": "Attack Cave Bat",
+          "payload": {
+            "targetId": "bat-2-2"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_east",
+        "label": "Move east",
+        "payload": {
+          "dx": 1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-13-move",
+          "message": "You move to 6,2.",
+          "payload": {
+            "x": 6,
+            "y": 2
+          },
+          "turn": 13,
+          "type": "move"
+        },
+        {
+          "id": "turn-13-enemy_move-slime-2-1-6-3",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-2-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 6,
+            "y": 3
+          },
+          "turn": 13,
+          "type": "enemy_move"
+        },
+        {
+          "id": "turn-13-enemy_move-bat-2-2-5-2",
+          "message": "Cave Bat shuffles closer.",
+          "payload": {
+            "behavior": "bat",
+            "enemyId": "bat-2-2",
+            "enemyType": "bat",
+            "reason": "chase",
+            "x": 5,
+            "y": 2
+          },
+          "turn": 13,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 2/2 | Turn: 12/100\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n#....#####\n#...b@!###\n#....#.###\n######s###\n####..~.##\n####....##\n####...>##\n##########\n##########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory. | ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- Cave Bat shuffles closer.\n- Cave Bat shuffles closer.",
+      "state_summary": {
+        "enemyCount": 2,
+        "floor": 2,
+        "hp": 14,
+        "inDialogue": false,
+        "inventory": [
+          "potion"
+        ],
+        "itemCount": 2,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 12
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 12,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "attack_slime-2-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-2-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "attack_bat-2-2",
+          "label": "Attack Cave Bat",
+          "payload": {
+            "targetId": "bat-2-2"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "pickup_potion-2-1",
+          "label": "Pick up Healing Potion",
+          "payload": {
+            "itemId": "potion-2-1"
+          },
+          "type": "pickup"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "pickup_potion-2-1",
+        "label": "Pick up Healing Potion",
+        "payload": {
+          "itemId": "potion-2-1"
+        },
+        "type": "pickup"
+      },
+      "events": [
+        {
+          "id": "turn-14-pickup",
+          "message": "You pick up Healing Potion.",
+          "payload": {
+            "itemId": "potion-2-1",
+            "itemType": "potion"
+          },
+          "turn": 14,
+          "type": "pickup"
+        },
+        {
+          "id": "turn-14-enemy_attack-slime-2-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-2-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 14,
+          "type": "enemy_attack"
+        },
+        {
+          "id": "turn-14-enemy_attack-bat-2-2",
+          "message": "Cave Bat hits you for 1.",
+          "payload": {
+            "behavior": "bat",
+            "damage": 1,
+            "enemyId": "bat-2-2",
+            "enemyType": "bat",
+            "reason": "adjacent"
+          },
+          "turn": 14,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 2/2 | Turn: 13/100\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n#....#####\n#....b@###\n#....#s###\n######.###\n####..~.##\n####....##\n####...>##\n##########\n##########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory. | ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,2.\n- Green Slime shuffles closer.\n- Cave Bat shuffles closer.",
+      "state_summary": {
+        "enemyCount": 2,
+        "floor": 2,
+        "hp": 14,
+        "inDialogue": false,
+        "inventory": [
+          "potion"
+        ],
+        "itemCount": 2,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 13
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 13,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "attack_slime-2-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-2-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "attack_bat-2-2",
+          "label": "Attack Cave Bat",
+          "payload": {
+            "targetId": "bat-2-2"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-15-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 15,
+          "type": "wait"
+        },
+        {
+          "id": "turn-15-enemy_attack-slime-2-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-2-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 15,
+          "type": "enemy_attack"
+        },
+        {
+          "id": "turn-15-enemy_attack-bat-2-2",
+          "message": "Cave Bat hits you for 1.",
+          "payload": {
+            "behavior": "bat",
+            "damage": 1,
+            "enemyId": "bat-2-2",
+            "enemyType": "bat",
+            "reason": "adjacent"
+          },
+          "turn": 15,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 2/2 | Turn: 14/100\nStatus: ACTIVE | HP: 11/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n#....#####\n#....b@###\n#....#s###\n######.###\n####..~.##\n####....##\n####...>##\n##########\n##########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You pick up Healing Potion.\n- Green Slime hits you for 2.\n- Cave Bat hits you for 1.",
+      "state_summary": {
+        "enemyCount": 2,
+        "floor": 2,
+        "hp": 11,
+        "inDialogue": false,
+        "inventory": [
+          "potion",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 14
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 14,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "attack_slime-2-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-2-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "attack_bat-2-2",
+          "label": "Attack Cave Bat",
+          "payload": {
+            "targetId": "bat-2-2"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-16-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 16,
+          "type": "wait"
+        },
+        {
+          "id": "turn-16-enemy_attack-slime-2-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-2-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 16,
+          "type": "enemy_attack"
+        },
+        {
+          "id": "turn-16-enemy_attack-bat-2-2",
+          "message": "Cave Bat hits you for 1.",
+          "payload": {
+            "behavior": "bat",
+            "damage": 1,
+            "enemyId": "bat-2-2",
+            "enemyType": "bat",
+            "reason": "adjacent"
+          },
+          "turn": 16,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 2/2 | Turn: 15/100\nStatus: ACTIVE | HP: 8/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n#....#####\n#....b@###\n#....#s###\n######.###\n####..~.##\n####....##\n####...>##\n##########\n##########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- Green Slime hits you for 2.\n- Cave Bat hits you for 1.",
+      "state_summary": {
+        "enemyCount": 2,
+        "floor": 2,
+        "hp": 8,
+        "inDialogue": false,
+        "inventory": [
+          "potion",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 15
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 15,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "attack_slime-2-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-2-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "attack_bat-2-2",
+          "label": "Attack Cave Bat",
+          "payload": {
+            "targetId": "bat-2-2"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-17-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 17,
+          "type": "wait"
+        },
+        {
+          "id": "turn-17-enemy_attack-slime-2-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-2-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 17,
+          "type": "enemy_attack"
+        },
+        {
+          "id": "turn-17-enemy_attack-bat-2-2",
+          "message": "Cave Bat hits you for 1.",
+          "payload": {
+            "behavior": "bat",
+            "damage": 1,
+            "enemyId": "bat-2-2",
+            "enemyType": "bat",
+            "reason": "adjacent"
+          },
+          "turn": 17,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 2/2 | Turn: 16/100\nStatus: ACTIVE | HP: 5/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n#....#####\n#....b@###\n#....#s###\n######.###\n####..~.##\n####....##\n####...>##\n##########\n##########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- Green Slime hits you for 2.\n- Cave Bat hits you for 1.",
+      "state_summary": {
+        "enemyCount": 2,
+        "floor": 2,
+        "hp": 5,
+        "inDialogue": false,
+        "inventory": [
+          "potion",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 16
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 16,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "attack_slime-2-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-2-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "attack_bat-2-2",
+          "label": "Attack Cave Bat",
+          "payload": {
+            "targetId": "bat-2-2"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-18-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 18,
+          "type": "wait"
+        },
+        {
+          "id": "turn-18-enemy_attack-slime-2-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-2-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 18,
+          "type": "enemy_attack"
+        },
+        {
+          "id": "turn-18-enemy_attack-bat-2-2",
+          "message": "Cave Bat hits you for 1.",
+          "payload": {
+            "behavior": "bat",
+            "damage": 1,
+            "enemyId": "bat-2-2",
+            "enemyType": "bat",
+            "reason": "adjacent"
+          },
+          "turn": 18,
+          "type": "enemy_attack"
+        },
+        {
+          "id": "turn-18-loss",
+          "message": "You collapse in the dungeon.",
+          "payload": {
+            "terminalStatus": "LOSS"
+          },
+          "turn": 18,
+          "type": "loss"
+        }
+      ],
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 2/2 | Turn: 17/100\nStatus: ACTIVE | HP: 2/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n#....#####\n#....b@###\n#....#s###\n######.###\n####..~.##\n####....##\n####...>##\n##########\n##########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- Green Slime hits you for 2.\n- Cave Bat hits you for 1.",
+      "state_summary": {
+        "enemyCount": 2,
+        "floor": 2,
+        "hp": 2,
+        "inDialogue": false,
+        "inventory": [
+          "potion",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 17
+      },
+      "terminalStatus": "LOSS",
+      "turn": 17,
+      "valid": true
+    }
+  ],
+  "turns": 18,
+  "version": "v002"
+}

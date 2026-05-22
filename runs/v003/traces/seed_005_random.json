@@ -1,0 +1,6485 @@
+{
+  "persona": "random",
+  "result": "ABORTED",
+  "seed": "seed_005",
+  "steps": [
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-1-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 20
+          },
+          "turn": 1,
+          "type": "inspect"
+        },
+        {
+          "id": "turn-1-enemy_move-slime-1-1-3-6",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 3,
+            "y": 6
+          },
+          "turn": 1,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 0/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##....###\n##s...###\n##>.!.###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n- Tuned v003: one focused floor, a Potion, and a Smoke Bomb reduce sudden losses.\n- Use Smoke Bomb to escape pursuit; use Potion only after taking damage.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 0
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 0,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-2-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 2,
+          "type": "wait"
+        },
+        {
+          "id": "turn-2-enemy_move-slime-1-1-4-6",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 4,
+            "y": 6
+          },
+          "turn": 2,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 1/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##....###\n##.s..###\n##>.!.###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Use Smoke Bomb to escape pursuit; use Potion only after taking damage.\n- You inspect the dungeon state.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 1
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 1,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_west",
+        "label": "Move west",
+        "payload": {
+          "dx": -1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-3-move",
+          "message": "You move to 5,4.",
+          "payload": {
+            "x": 5,
+            "y": 4
+          },
+          "turn": 3,
+          "type": "move"
+        },
+        {
+          "id": "turn-3-enemy_move-slime-1-1-4-5",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 4,
+            "y": 5
+          },
+          "turn": 3,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 2/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##....###\n##..s.###\n##>.!.###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You wait for one turn.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 2
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 2,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_east",
+        "label": "Move east",
+        "payload": {
+          "dx": 1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-4-move",
+          "message": "You move to 6,4.",
+          "payload": {
+            "x": 6,
+            "y": 4
+          },
+          "turn": 4,
+          "type": "move"
+        },
+        {
+          "id": "turn-4-enemy_move-slime-1-1-5-5",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 5,
+            "y": 5
+          },
+          "turn": 4,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 3/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##..s.###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 5,4.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 3
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 3,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-5-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 20
+          },
+          "turn": 5,
+          "type": "inspect"
+        },
+        {
+          "id": "turn-5-enemy_move-slime-1-1-5-4",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 5,
+            "y": 4
+          },
+          "turn": 5,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 4/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##...s###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 6,4.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 4
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 4,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-6-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 20
+          },
+          "turn": 6,
+          "type": "inspect"
+        },
+        {
+          "id": "turn-6-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 6,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 5/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.s@.#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 20,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 5
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 5,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_north",
+        "label": "Move north",
+        "payload": {
+          "dx": 0,
+          "dy": -1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-7-move",
+          "message": "You move to 6,3.",
+          "payload": {
+            "x": 6,
+            "y": 3
+          },
+          "turn": 7,
+          "type": "move"
+        },
+        {
+          "id": "turn-7-enemy_move-slime-1-1-6-4",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 6,
+            "y": 4
+          },
+          "turn": 7,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 6/64\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.s@.#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 18,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 6
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 6,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_east",
+        "label": "Move east",
+        "payload": {
+          "dx": 1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-8-move",
+          "message": "You move to 7,3.",
+          "payload": {
+            "x": 7,
+            "y": 3
+          },
+          "turn": 8,
+          "type": "move"
+        },
+        {
+          "id": "turn-8-enemy_move-slime-1-1-7-4",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 7,
+            "y": 4
+          },
+          "turn": 8,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 7/64\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####..s.#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 6,3.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 18,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 7
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 7,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-9-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 9,
+          "type": "wait"
+        },
+        {
+          "id": "turn-9-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 9,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 8/64\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####...@#\n####...s#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 7,3.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 18,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 7,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 8
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 8,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-10-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 10,
+          "type": "wait"
+        },
+        {
+          "id": "turn-10-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 10,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 9/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####...@#\n####...s#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You wait for one turn.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 16,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 7,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 9
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 9,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-11-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 14
+          },
+          "turn": 11,
+          "type": "inspect"
+        },
+        {
+          "id": "turn-11-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 11,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 10/64\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####...@#\n####...s#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You wait for one turn.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 14,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 7,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 10
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 10,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "attack_slime-1-1",
+        "label": "Attack Green Slime",
+        "payload": {
+          "targetId": "slime-1-1"
+        },
+        "type": "attack"
+      },
+      "events": [
+        {
+          "id": "turn-12-attack",
+          "message": "You hit Green Slime for 4.",
+          "payload": {
+            "damage": 4,
+            "enemyType": "slime",
+            "targetId": "slime-1-1"
+          },
+          "turn": 12,
+          "type": "attack"
+        },
+        {
+          "id": "turn-12-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 12,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 11/64\nStatus: ACTIVE | HP: 12/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####...@#\n####...s#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 12,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 7,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 11
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 11,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_west",
+        "label": "Move west",
+        "payload": {
+          "dx": -1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-13-move",
+          "message": "You move to 6,3.",
+          "payload": {
+            "x": 6,
+            "y": 3
+          },
+          "turn": 13,
+          "type": "move"
+        },
+        {
+          "id": "turn-13-enemy_move-slime-1-1-6-4",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 6,
+            "y": 4
+          },
+          "turn": 13,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 12/64\nStatus: ACTIVE | HP: 10/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####...@#\n####...s#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You hit Green Slime for 4.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 10,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 7,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 12
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 12,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "use_potion",
+          "label": "Use Healing Potion",
+          "payload": {
+            "effect": "heal",
+            "itemType": "potion"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "use_potion",
+        "label": "Use Healing Potion",
+        "payload": {
+          "effect": "heal",
+          "itemType": "potion"
+        },
+        "type": "use_item"
+      },
+      "events": [
+        {
+          "id": "turn-14-use_item",
+          "message": "You use Healing Potion.",
+          "payload": {
+            "effect": "heal",
+            "healed": 8,
+            "itemType": "potion"
+          },
+          "turn": 14,
+          "type": "use_item"
+        },
+        {
+          "id": "turn-14-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 14,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 13/64\nStatus: ACTIVE | HP: 10/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####..s.#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 6,3.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 10,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb",
+          "potion"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 13
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 13,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_west",
+        "label": "Move west",
+        "payload": {
+          "dx": -1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-15-move",
+          "message": "You move to 5,3.",
+          "payload": {
+            "x": 5,
+            "y": 3
+          },
+          "turn": 15,
+          "type": "move"
+        },
+        {
+          "id": "turn-15-enemy_move-slime-1-1-5-4",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 5,
+            "y": 4
+          },
+          "turn": 15,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 14/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####..s.#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You use Healing Potion.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 16,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 14
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 14,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-16-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 16,
+          "type": "wait"
+        },
+        {
+          "id": "turn-16-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 16,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 15/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####.s..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 5,3.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 16,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 15
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 15,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_north",
+        "label": "Move north",
+        "payload": {
+          "dx": 0,
+          "dy": -1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-17-move",
+          "message": "You move to 5,2.",
+          "payload": {
+            "x": 5,
+            "y": 2
+          },
+          "turn": 17,
+          "type": "move"
+        },
+        {
+          "id": "turn-17-enemy_move-slime-1-1-5-3",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 5,
+            "y": 3
+          },
+          "turn": 17,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 16/64\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####.s..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You wait for one turn.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 14,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 16
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 16,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_east",
+        "label": "Move east",
+        "payload": {
+          "dx": 1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-18-move",
+          "message": "You move to 6,2.",
+          "payload": {
+            "x": 6,
+            "y": 2
+          },
+          "turn": 18,
+          "type": "move"
+        },
+        {
+          "id": "turn-18-enemy_move-slime-1-1-6-3",
+          "message": "Green Slime shuffles closer.",
+          "payload": {
+            "behavior": "chase",
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "chase",
+            "x": 6,
+            "y": 3
+          },
+          "turn": 18,
+          "type": "enemy_move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 17/64\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####@..#\n####.s..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 5,2.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 14,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 17
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 17,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-19-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 14
+          },
+          "turn": 19,
+          "type": "inspect"
+        },
+        {
+          "id": "turn-19-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 19,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 18/64\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 6,2.\n- Green Slime shuffles closer.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 14,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 18
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 18,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-20-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 12
+          },
+          "turn": 20,
+          "type": "inspect"
+        },
+        {
+          "id": "turn-20-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 20,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 19/64\nStatus: ACTIVE | HP: 12/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 12,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 19
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 19,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "use_smoke_bomb",
+          "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+          "payload": {
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "type": "use_item"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "use_smoke_bomb",
+        "label": "Use Smoke Bomb (blind pursuit 3 turns)",
+        "payload": {
+          "effect": "blind_enemies",
+          "itemType": "smoke_bomb"
+        },
+        "type": "use_item"
+      },
+      "events": [
+        {
+          "id": "turn-21-use_item",
+          "message": "You hurl Smoke Bomb. Enemies lose pursuit tracking for 3 turns.",
+          "payload": {
+            "disabledUntilTurn": 24,
+            "duration": 3,
+            "effect": "blind_enemies",
+            "itemType": "smoke_bomb"
+          },
+          "turn": 21,
+          "type": "use_item"
+        },
+        {
+          "id": "turn-21-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 21,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 20/64\nStatus: ACTIVE | HP: 10/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 10,
+        "inDialogue": false,
+        "inventory": [
+          "smoke_bomb"
+        ],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 20
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 20,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-22-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 8
+          },
+          "turn": 22,
+          "type": "inspect"
+        },
+        {
+          "id": "turn-22-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 22,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 21/64\nStatus: ACTIVE | HP: 8/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 24.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You hurl Smoke Bomb. Enemies lose pursuit tracking for 3 turns.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 8,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 21
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 21,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-23-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 23,
+          "type": "wait"
+        },
+        {
+          "id": "turn-23-enemy_attack-slime-1-1",
+          "message": "Green Slime hits you for 2.",
+          "payload": {
+            "behavior": "chase",
+            "damage": 2,
+            "enemyId": "slime-1-1",
+            "enemyType": "slime",
+            "reason": "adjacent"
+          },
+          "turn": 23,
+          "type": "enemy_attack"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 22/64\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 24.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 6,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 22
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 22,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "attack_slime-1-1",
+          "label": "Attack Green Slime",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "type": "attack"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "attack_slime-1-1",
+        "label": "Attack Green Slime",
+        "payload": {
+          "targetId": "slime-1-1"
+        },
+        "type": "attack"
+      },
+      "events": [
+        {
+          "id": "turn-24-attack",
+          "message": "You hit Green Slime for 4.",
+          "payload": {
+            "damage": 4,
+            "enemyType": "slime",
+            "targetId": "slime-1-1"
+          },
+          "turn": 24,
+          "type": "attack"
+        },
+        {
+          "id": "turn-24-enemy_defeated",
+          "message": "Green Slime dissolves.",
+          "payload": {
+            "targetId": "slime-1-1"
+          },
+          "turn": 24,
+          "type": "enemy_defeated"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 23/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 24.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You wait for one turn.\n- Green Slime hits you for 2.",
+      "state_summary": {
+        "enemyCount": 1,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 23
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 23,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_west",
+        "label": "Move west",
+        "payload": {
+          "dx": -1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-25-move",
+          "message": "You move to 5,2.",
+          "payload": {
+            "x": 5,
+            "y": 2
+          },
+          "turn": 25,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 24/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####....#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You hit Green Slime for 4.\n- Green Slime dissolves.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 24
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 24,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_south",
+        "label": "Move south",
+        "payload": {
+          "dx": 0,
+          "dy": 1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-26-move",
+          "message": "You move to 5,3.",
+          "payload": {
+            "x": 5,
+            "y": 3
+          },
+          "turn": 26,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 25/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####@..#\n####....#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You hit Green Slime for 4.\n- Green Slime dissolves.\n- You move to 5,2.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 2
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 25
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 25,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_west",
+        "label": "Move west",
+        "payload": {
+          "dx": -1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-27-move",
+          "message": "You move to 4,3.",
+          "payload": {
+            "x": 4,
+            "y": 3
+          },
+          "turn": 27,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 26/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime dissolves.\n- You move to 5,2.\n- You move to 5,3.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 26
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 26,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-28-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 28,
+          "type": "wait"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 27/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####@...#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,2.\n- You move to 5,3.\n- You move to 4,3.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 4,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 27
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 27,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_south",
+        "label": "Move south",
+        "payload": {
+          "dx": 0,
+          "dy": 1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-29-move",
+          "message": "You move to 4,4.",
+          "payload": {
+            "x": 4,
+            "y": 4
+          },
+          "turn": 29,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 28/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####@...#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You move to 4,3.\n- You wait for one turn.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 4,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 28
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 28,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_south",
+        "label": "Move south",
+        "payload": {
+          "dx": 0,
+          "dy": 1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-30-move",
+          "message": "You move to 4,5.",
+          "payload": {
+            "x": 4,
+            "y": 5
+          },
+          "turn": 30,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 29/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####@...#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,3.\n- You wait for one turn.\n- You move to 4,4.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 4,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 29
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 29,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_north",
+        "label": "Move north",
+        "payload": {
+          "dx": 0,
+          "dy": -1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-31-move",
+          "message": "You move to 4,4.",
+          "payload": {
+            "x": 4,
+            "y": 4
+          },
+          "turn": 31,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 30/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##..@.###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 4,4.\n- You move to 4,5.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 4,
+          "y": 5
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 30
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 30,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_east",
+        "label": "Move east",
+        "payload": {
+          "dx": 1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-32-move",
+          "message": "You move to 5,4.",
+          "payload": {
+            "x": 5,
+            "y": 4
+          },
+          "turn": 32,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 31/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####@...#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,4.\n- You move to 4,5.\n- You move to 4,4.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 4,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 31
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 31,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_south",
+        "label": "Move south",
+        "payload": {
+          "dx": 0,
+          "dy": 1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-33-move",
+          "message": "You move to 5,5.",
+          "payload": {
+            "x": 5,
+            "y": 5
+          },
+          "turn": 33,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 32/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,5.\n- You move to 4,4.\n- You move to 5,4.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 32
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 32,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-34-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 4
+          },
+          "turn": 34,
+          "type": "inspect"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 33/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,4.\n- You move to 5,4.\n- You move to 5,5.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 5
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 33
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 33,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_north",
+        "label": "Move north",
+        "payload": {
+          "dx": 0,
+          "dy": -1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-35-move",
+          "message": "You move to 5,4.",
+          "payload": {
+            "x": 5,
+            "y": 4
+          },
+          "turn": 35,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 34/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You move to 5,5.\n- You inspect the dungeon state.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 5
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 34
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 34,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_east",
+        "label": "Move east",
+        "payload": {
+          "dx": 1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-36-move",
+          "message": "You move to 6,4.",
+          "payload": {
+            "x": 6,
+            "y": 4
+          },
+          "turn": 36,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 35/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,5.\n- You inspect the dungeon state.\n- You move to 5,4.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 35
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 35,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-37-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 37,
+          "type": "wait"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 36/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 5,4.\n- You move to 6,4.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 36
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 36,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_west",
+        "label": "Move west",
+        "payload": {
+          "dx": -1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-38-move",
+          "message": "You move to 5,4.",
+          "payload": {
+            "x": 5,
+            "y": 4
+          },
+          "turn": 38,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 37/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You move to 6,4.\n- You wait for one turn.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 37
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 37,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_north",
+        "label": "Move north",
+        "payload": {
+          "dx": 0,
+          "dy": -1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-39-move",
+          "message": "You move to 5,3.",
+          "payload": {
+            "x": 5,
+            "y": 3
+          },
+          "turn": 39,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 38/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,4.\n- You wait for one turn.\n- You move to 5,4.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 38
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 38,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-40-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 4
+          },
+          "turn": 40,
+          "type": "inspect"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 39/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,4.\n- You move to 5,3.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 39
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 39,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_west",
+        "label": "Move west",
+        "payload": {
+          "dx": -1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-41-move",
+          "message": "You move to 4,3.",
+          "payload": {
+            "x": 4,
+            "y": 3
+          },
+          "turn": 41,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 40/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You move to 5,3.\n- You inspect the dungeon state.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 40
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 40,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-42-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 4
+          },
+          "turn": 42,
+          "type": "inspect"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 41/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####@...#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You inspect the dungeon state.\n- You move to 4,3.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 4,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 41
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 41,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_east",
+        "label": "Move east",
+        "payload": {
+          "dx": 1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-43-move",
+          "message": "You move to 5,3.",
+          "payload": {
+            "x": 5,
+            "y": 3
+          },
+          "turn": 43,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 42/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####@...#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 4,3.\n- You inspect the dungeon state.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 4,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 42
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 42,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_east",
+        "label": "Move east",
+        "payload": {
+          "dx": 1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-44-move",
+          "message": "You move to 6,3.",
+          "payload": {
+            "x": 6,
+            "y": 3
+          },
+          "turn": 44,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 43/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,3.\n- You inspect the dungeon state.\n- You move to 5,3.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 43
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 43,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-45-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 4
+          },
+          "turn": 45,
+          "type": "inspect"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 44/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 5,3.\n- You move to 6,3.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 44
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 44,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_west",
+        "label": "Move west",
+        "payload": {
+          "dx": -1,
+          "dy": 0
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-46-move",
+          "message": "You move to 5,3.",
+          "payload": {
+            "x": 5,
+            "y": 3
+          },
+          "turn": 46,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 45/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You move to 6,3.\n- You inspect the dungeon state.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 6,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 45
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 45,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-47-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 47,
+          "type": "wait"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 46/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,3.\n- You inspect the dungeon state.\n- You move to 5,3.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 46
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 46,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_south",
+        "label": "Move south",
+        "payload": {
+          "dx": 0,
+          "dy": 1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-48-move",
+          "message": "You move to 5,4.",
+          "payload": {
+            "x": 5,
+            "y": 4
+          },
+          "turn": 48,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 47/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 5,3.\n- You wait for one turn.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 47
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 47,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-49-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 4
+          },
+          "turn": 49,
+          "type": "inspect"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 48/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You wait for one turn.\n- You move to 5,4.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 48
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 48,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-50-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 50,
+          "type": "wait"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 49/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,4.\n- You inspect the dungeon state.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 49
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 49,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_south",
+        "label": "Move south",
+        "payload": {
+          "dx": 0,
+          "dy": 1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-51-move",
+          "message": "You move to 5,5.",
+          "payload": {
+            "x": 5,
+            "y": 5
+          },
+          "turn": 51,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 50/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You inspect the dungeon state.\n- You wait for one turn.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 50
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 50,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-52-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 52,
+          "type": "wait"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 51/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You wait for one turn.\n- You move to 5,5.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 5
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 51
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 51,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_north",
+        "label": "Move north",
+        "payload": {
+          "dx": 0,
+          "dy": -1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-53-move",
+          "message": "You move to 5,4.",
+          "payload": {
+            "x": 5,
+            "y": 4
+          },
+          "turn": 53,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 52/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,5.\n- You wait for one turn.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 5
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 52
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 52,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_north",
+        "label": "Move north",
+        "payload": {
+          "dx": 0,
+          "dy": -1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-54-move",
+          "message": "You move to 5,3.",
+          "payload": {
+            "x": 5,
+            "y": 3
+          },
+          "turn": 54,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 53/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,5.\n- You wait for one turn.\n- You move to 5,4.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 53
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 53,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_south",
+        "label": "Move south",
+        "payload": {
+          "dx": 0,
+          "dy": 1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-55-move",
+          "message": "You move to 5,4.",
+          "payload": {
+            "x": 5,
+            "y": 4
+          },
+          "turn": 55,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 54/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,4.\n- You move to 5,3.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 54
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 54,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-56-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 56,
+          "type": "wait"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 55/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You move to 5,3.\n- You move to 5,4.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 55
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 55,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-57-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 57,
+          "type": "wait"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 56/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You move to 5,4.\n- You wait for one turn.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 56
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 56,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-58-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 58,
+          "type": "wait"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 57/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You wait for one turn.\n- You wait for one turn.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 57
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 57,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "inspect_status",
+        "label": "Inspect status",
+        "payload": {
+          "subject": "status"
+        },
+        "type": "inspect"
+      },
+      "events": [
+        {
+          "id": "turn-59-inspect",
+          "message": "You inspect the dungeon state.",
+          "payload": {
+            "floor": 1,
+            "hp": 4
+          },
+          "turn": 59,
+          "type": "inspect"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 58/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You wait for one turn.\n- You wait for one turn.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 58
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 58,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_north",
+        "label": "Move north",
+        "payload": {
+          "dx": 0,
+          "dy": -1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-60-move",
+          "message": "You move to 5,3.",
+          "payload": {
+            "x": 5,
+            "y": 3
+          },
+          "turn": 60,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 59/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You wait for one turn.\n- You inspect the dungeon state.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 59
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 59,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_south",
+        "label": "Move south",
+        "payload": {
+          "dx": 0,
+          "dy": 1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-61-move",
+          "message": "You move to 5,4.",
+          "payload": {
+            "x": 5,
+            "y": 4
+          },
+          "turn": 61,
+          "type": "move"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 60/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You inspect the dungeon state.\n- You move to 5,3.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 3
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 60
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 60,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-62-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 62,
+          "type": "wait"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 61/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 5,3.\n- You move to 5,4.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 61
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 61,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "wait",
+        "label": "Wait",
+        "payload": {
+          "turns": 1
+        },
+        "type": "wait"
+      },
+      "events": [
+        {
+          "id": "turn-63-wait",
+          "message": "You wait for one turn.",
+          "payload": {},
+          "turn": 63,
+          "type": "wait"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 62/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You move to 5,4.\n- You wait for one turn.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 62
+      },
+      "terminalStatus": "ACTIVE",
+      "turn": 62,
+      "valid": true
+    },
+    {
+      "available_actions": [
+        {
+          "id": "move_north",
+          "label": "Move north",
+          "payload": {
+            "dx": 0,
+            "dy": -1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_south",
+          "label": "Move south",
+          "payload": {
+            "dx": 0,
+            "dy": 1
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_west",
+          "label": "Move west",
+          "payload": {
+            "dx": -1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "move_east",
+          "label": "Move east",
+          "payload": {
+            "dx": 1,
+            "dy": 0
+          },
+          "type": "move"
+        },
+        {
+          "id": "wait",
+          "label": "Wait",
+          "payload": {
+            "turns": 1
+          },
+          "type": "wait"
+        },
+        {
+          "id": "inspect_status",
+          "label": "Inspect status",
+          "payload": {
+            "subject": "status"
+          },
+          "type": "inspect"
+        }
+      ],
+      "chosen_action": {
+        "id": "move_south",
+        "label": "Move south",
+        "payload": {
+          "dx": 0,
+          "dy": 1
+        },
+        "type": "move"
+      },
+      "events": [
+        {
+          "id": "turn-64-move",
+          "message": "You move to 5,5.",
+          "payload": {
+            "x": 5,
+            "y": 5
+          },
+          "turn": 64,
+          "type": "move"
+        },
+        {
+          "id": "turn-64-aborted",
+          "message": "The run aborted after reaching the maximum turn limit.",
+          "payload": {
+            "terminalStatus": "ABORTED"
+          },
+          "turn": 64,
+          "type": "aborted"
+        }
+      ],
+      "render": "Seven Floors to Dawn v003\nSeed: seed_005 | Floor: 1/1 | Turn: 63/64\nStatus: ACTIVE | HP: 4/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You wait for one turn.\n- You wait for one turn.",
+      "state_summary": {
+        "enemyCount": 0,
+        "floor": 1,
+        "hp": 4,
+        "inDialogue": false,
+        "inventory": [],
+        "itemCount": 1,
+        "maxHp": 20,
+        "npcCount": 0,
+        "playerPosition": {
+          "x": 5,
+          "y": 4
+        },
+        "terminalStatus": "ACTIVE",
+        "turn": 63
+      },
+      "terminalStatus": "ABORTED",
+      "turn": 63,
+      "valid": true
+    }
+  ],
+  "turns": 64,
+  "version": "v003"
+}

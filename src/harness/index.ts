@@ -91,6 +91,38 @@ export {
   type CommandCheckStatus,
 } from './acceptance-gate.js';
 export {
+  DEMO_LOOP_VERSIONS,
+  parseDemoLoopArgs,
+  parseDemoLoopVersionsArg,
+  runDemoLoop,
+  type DemoLoopComparisonResult,
+  type DemoLoopOptions,
+  type DemoLoopResult,
+  type DemoLoopVersionResult,
+  type DemoLoopVersionStatus,
+} from './demo-loop.js';
+export {
+  buildComparisonArtifactBasename,
+  buildComparisonRelativePaths,
+  buildProposedChangesFromReview,
+  buildReviewerDrivenHandoffInput,
+  loadVersionReviewAndScorecard,
+  renderComparisonMarkdown,
+  writeImplementedVersionMarkdown,
+  writeReviewerDrivenHandoff,
+  writeVersionComparisonArtifacts,
+} from './demo-loop-handoff.js';
+export {
+  DEMO_VERSION_IDS,
+  VERSION_PROFILES,
+  getVersionProfile,
+  isDemoVersionId,
+  isDemoVersionImplemented,
+  resolveGameConfigForVersion,
+  type DemoVersionId,
+  type VersionProfile,
+} from '../game/version-profiles.js';
+export {
   VERSION_ARTIFACT_DIRS,
   VERSION_ID_PATTERN,
   VERSION_MARKDOWN_FILES,

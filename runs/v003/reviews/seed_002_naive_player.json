@@ -1,0 +1,59 @@
+{
+  "evidence_quality": "full",
+  "persona": "naive_player",
+  "scorecard_path": "runs/v003/scorecards/seed_002_naive_player.json",
+  "scores": {
+    "clarity": 5,
+    "fairness": 4,
+    "fun": 4,
+    "replay_value": 5,
+    "tactical_depth": 5
+  },
+  "seed": "seed_002",
+  "suggested_next_changes": [
+    "Tune early enemy pressure, healing cadence, or tutorial log hints without removing LOSS or changing structured actions.",
+    "Surface item and enemy outcomes in the ASCII render or recent log so reviewers can connect events to decisions."
+  ],
+  "summary": "As a less tactical player, the v003 play on seed seed_002 lost before the end in 22 turns (floors reached 1, invalid actions 0). The player lost on floor 1 after 22 turns with 20 damage taken.",
+  "top_issues": [
+    {
+      "diagnosis": "Early losses can be fair tension, but repeated low-floor deaths suggest onboarding or pressure tuning problems.",
+      "evidence": [
+        {
+          "detail": "Playthrough ended with terminal result LOSS after 22 recorded turns.",
+          "kind": "result",
+          "quote": "LOSS"
+        },
+        {
+          "detail": "Floors reached 1; damage_taken 20.",
+          "kind": "scorecard",
+          "quote": "{\"invalid_actions\":0,\"softlocks\":0,\"floors_reached\":1,\"result\":\"LOSS\"}"
+        }
+      ],
+      "observation": "The player lost on floor 1 after 22 turns with 20 damage taken.",
+      "recommendation": "Tune early enemy pressure, healing cadence, or tutorial log hints without removing LOSS or changing structured actions.",
+      "severity": "moderate"
+    },
+    {
+      "diagnosis": "Combat and item events are present, but their impact on player choices should be visible in render and action labels.",
+      "evidence": [
+        {
+          "detail": "Turn 3 event use_item: You use Healing Potion.",
+          "kind": "event",
+          "quote": "You use Healing Potion.",
+          "turn": 3
+        },
+        {
+          "detail": "Turn 3 inventory: smoke_bomb, potion.",
+          "kind": "turn",
+          "turn": 3
+        }
+      ],
+      "observation": "Notable event \"use_item\" occurred during play.",
+      "recommendation": "Surface item and enemy outcomes in the ASCII render or recent log so reviewers can connect events to decisions.",
+      "severity": "minor"
+    }
+  ],
+  "trace_path": "runs/v003/traces/seed_002_naive_player.json",
+  "version": "v003"
+}

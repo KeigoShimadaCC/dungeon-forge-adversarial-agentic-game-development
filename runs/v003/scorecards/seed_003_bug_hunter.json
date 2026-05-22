@@ -1,0 +1,23 @@
+{
+  "damage_taken": 2,
+  "enemies_defeated": 0,
+  "floors_reached": 1,
+  "invalid_actions": 0,
+  "items_used": 1,
+  "persona": "bug_hunter",
+  "result": "WIN",
+  "review_id": "bug_hunter:seed_003",
+  "review_path": "runs/v003/reviews/seed_003_bug_hunter.json",
+  "reviewer_scores": {
+    "clarity": 7,
+    "fairness": 5,
+    "fun": 6,
+    "replay_value": 6,
+    "tactical_depth": 6
+  },
+  "seed": "seed_003",
+  "softlocks": 0,
+  "trace_path": "runs/v003/traces/seed_003_bug_hunter.json",
+  "turns": 11,
+  "version": "v003"
+}

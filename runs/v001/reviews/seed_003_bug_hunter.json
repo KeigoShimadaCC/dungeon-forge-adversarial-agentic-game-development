@@ -1,0 +1,41 @@
+{
+  "evidence_quality": "full",
+  "persona": "bug_hunter",
+  "scorecard_path": "runs/v001/scorecards/seed_003_bug_hunter.json",
+  "scores": {
+    "clarity": 7,
+    "fairness": 6,
+    "fun": 7,
+    "replay_value": 6,
+    "tactical_depth": 5
+  },
+  "seed": "seed_003",
+  "suggested_next_changes": [
+    "Surface item and enemy outcomes in the ASCII render or recent log so reviewers can connect events to decisions.",
+    "Add regression coverage for invalid-action handling and terminal ABORTED paths without changing the GameEngine interface."
+  ],
+  "summary": "As a bug-hunting reviewer, the v001 play on seed seed_003 reached a win in 17 turns (floors reached 2, invalid actions 0). Notable event \"move\" occurred during play.",
+  "top_issues": [
+    {
+      "diagnosis": "Combat and item events are present, but their impact on player choices should be visible in render and action labels.",
+      "evidence": [
+        {
+          "detail": "Turn 11 event move: You move to 5,4.",
+          "kind": "event",
+          "quote": "You move to 5,4.",
+          "turn": 11
+        },
+        {
+          "detail": "Turn 11 inventory: (empty).",
+          "kind": "turn",
+          "turn": 11
+        }
+      ],
+      "observation": "Notable event \"move\" occurred during play.",
+      "recommendation": "Surface item and enemy outcomes in the ASCII render or recent log so reviewers can connect events to decisions.",
+      "severity": "minor"
+    }
+  ],
+  "trace_path": "runs/v001/traces/seed_003_bug_hunter.json",
+  "version": "v001"
+}

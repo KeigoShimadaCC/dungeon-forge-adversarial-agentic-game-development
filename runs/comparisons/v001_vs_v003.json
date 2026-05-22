@@ -1,0 +1,170 @@
+{
+  "balance_comparison": {
+    "aggregate_metric_deltas": {
+      "abort_count": {
+        "base": 13,
+        "delta": 0,
+        "target": 13
+      },
+      "average_damage_taken": {
+        "base": 6.9,
+        "delta": -1.6,
+        "target": 5.3
+      },
+      "average_death_floor": {
+        "base": 1.75,
+        "delta": -0.75,
+        "target": 1
+      },
+      "average_enemies_defeated": {
+        "base": 0.2,
+        "delta": 0,
+        "target": 0.2
+      },
+      "average_floors_reached": {
+        "base": 1.3,
+        "delta": -0.3,
+        "target": 1
+      },
+      "average_invalid_actions": {
+        "base": 0,
+        "delta": 0,
+        "target": 0
+      },
+      "average_items_used": {
+        "base": 0.1,
+        "delta": 1.3,
+        "target": 1.4
+      },
+      "average_turns": {
+        "base": 71.75,
+        "delta": -25.9,
+        "target": 45.85
+      },
+      "softlock_count": {
+        "base": 13,
+        "delta": 0,
+        "target": 13
+      },
+      "win_rate": {
+        "base": 0.15,
+        "delta": 0.15,
+        "target": 0.3
+      }
+    },
+    "available": true,
+    "base_summary_path": "runs/v001/balance_summary.json",
+    "interpretation": "Target balance batch introduced new problematic seed/policy runs; inspect failed_runs before accepting.",
+    "newly_problematic_runs": [
+      {
+        "policy": "greedy-item-picker",
+        "problem_reasons": [
+          "aborted",
+          "softlock"
+        ],
+        "seed": "seed_001"
+      },
+      {
+        "policy": "random",
+        "problem_reasons": [
+          "aborted",
+          "softlock"
+        ],
+        "seed": "seed_004"
+      }
+    ],
+    "problem_run_count": {
+      "base": 13,
+      "delta": 0,
+      "target": 13
+    },
+    "resolved_problematic_runs": [
+      {
+        "policy": "random",
+        "seed": "seed_002"
+      },
+      {
+        "policy": "stairs-seeking",
+        "seed": "seed_004"
+      }
+    ],
+    "target_summary_path": "runs/v003/balance_summary.json"
+  },
+  "baseVersion": "v001",
+  "counts": {
+    "baseMissingArtifacts": 0,
+    "baseRuns": 23,
+    "targetMissingArtifacts": 0,
+    "targetRuns": 23
+  },
+  "interpretation": "Target balance batch introduced new problematic seed/policy runs; inspect failed_runs before accepting.",
+  "missing_artifacts": {
+    "base": [],
+    "target": []
+  },
+  "objective_metric_deltas": {
+    "damage_taken": {
+      "base": 144,
+      "delta": -14,
+      "target": 130
+    },
+    "enemies_defeated": {
+      "base": 5,
+      "delta": -1,
+      "target": 4
+    },
+    "floors_reached": {
+      "base": 30,
+      "delta": -7,
+      "target": 23
+    },
+    "invalid_actions": {
+      "base": 0,
+      "delta": 0,
+      "target": 0
+    },
+    "items_used": {
+      "base": 2,
+      "delta": 30,
+      "target": 32
+    },
+    "softlocks": {
+      "base": 15,
+      "delta": -1,
+      "target": 14
+    },
+    "turns": {
+      "base": 1652,
+      "delta": -638,
+      "target": 1014
+    }
+  },
+  "reviewer_score_deltas": {
+    "clarity": {
+      "base": 5.33,
+      "delta": 0.34,
+      "target": 5.67
+    },
+    "fairness": {
+      "base": 4.33,
+      "delta": 0,
+      "target": 4.33
+    },
+    "fun": {
+      "base": 4.33,
+      "delta": 0,
+      "target": 4.33
+    },
+    "replay_value": {
+      "base": 4.67,
+      "delta": 0.33,
+      "target": 5
+    },
+    "tactical_depth": {
+      "base": 4,
+      "delta": 1.33,
+      "target": 5.33
+    }
+  },
+  "targetVersion": "v003"
+}

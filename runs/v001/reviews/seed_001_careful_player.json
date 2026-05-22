@@ -1,0 +1,78 @@
+{
+  "evidence_quality": "full",
+  "persona": "careful_player",
+  "scorecard_path": "runs/v001/scorecards/seed_001_careful_player.json",
+  "scores": {
+    "clarity": 5,
+    "fairness": 4,
+    "fun": 3,
+    "replay_value": 4,
+    "tactical_depth": 4
+  },
+  "seed": "seed_001",
+  "suggested_next_changes": [
+    "Break repeated-state loops with clearer goals, new events, or bounded auto-advance rules while keeping turns finite.",
+    "Investigate abort events in the trace and add deterministic regression coverage for the failing path.",
+    "Surface item and enemy outcomes in the ASCII render or recent log so reviewers can connect events to decisions."
+  ],
+  "summary": "As a careful player, the v001 play on seed seed_001 ended in ABORTED in 100 turns (floors reached 1, invalid actions 0). The scorecard reports 1 softlock indicator(s) from repeated or stalled states.",
+  "top_issues": [
+    {
+      "diagnosis": "Players can get stuck repeating the same summary state without meaningful progress, which reads as a loop rather than tactics.",
+      "evidence": [
+        {
+          "detail": "Scorecard softlocks is greater than zero.",
+          "kind": "scorecard",
+          "quote": "{\"invalid_actions\":0,\"softlocks\":1,\"floors_reached\":1,\"result\":\"ABORTED\"}"
+        },
+        {
+          "detail": "Playthrough ended with terminal result ABORTED after 100 recorded turns.",
+          "kind": "result",
+          "quote": "ABORTED"
+        }
+      ],
+      "observation": "The scorecard reports 1 softlock indicator(s) from repeated or stalled states.",
+      "recommendation": "Break repeated-state loops with clearer goals, new events, or bounded auto-advance rules while keeping turns finite.",
+      "severity": "major"
+    },
+    {
+      "diagnosis": "An abort usually means invalid state, protocol failure, or an unfinished run that should not be scored like a fair loss.",
+      "evidence": [
+        {
+          "detail": "Playthrough ended with terminal result ABORTED after 100 recorded turns.",
+          "kind": "result",
+          "quote": "ABORTED"
+        },
+        {
+          "detail": "Turn 99 emitted abort-related events: move, enemy_move, aborted.",
+          "kind": "event",
+          "turn": 99
+        }
+      ],
+      "observation": "The run ended in ABORTED rather than a player-facing WIN or LOSS.",
+      "recommendation": "Investigate abort events in the trace and add deterministic regression coverage for the failing path.",
+      "severity": "major"
+    },
+    {
+      "diagnosis": "Combat and item events are present, but their impact on player choices should be visible in render and action labels.",
+      "evidence": [
+        {
+          "detail": "Turn 6 event move: You move to 3,7.",
+          "kind": "event",
+          "quote": "You move to 3,7.",
+          "turn": 6
+        },
+        {
+          "detail": "Turn 6 inventory: (empty).",
+          "kind": "turn",
+          "turn": 6
+        }
+      ],
+      "observation": "Notable event \"move\" occurred during play.",
+      "recommendation": "Surface item and enemy outcomes in the ASCII render or recent log so reviewers can connect events to decisions.",
+      "severity": "minor"
+    }
+  ],
+  "trace_path": "runs/v001/traces/seed_001_careful_player.json",
+  "version": "v001"
+}

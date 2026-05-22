@@ -52,6 +52,7 @@ export interface AcceptanceGateInput {
   commandStatuses?: Partial<Record<CommandCheckId, CommandCheckStatus>>;
   reviewerDriven?: boolean;
   specs?: readonly VersionRunSpec[];
+  generatedAt?: string;
 }
 
 export interface AcceptanceGateResult {
@@ -456,7 +457,7 @@ export const evaluateAcceptanceGate = async (
     version: input.version,
     versionDir: paths.versionDir,
     acceptancePath: paths.acceptancePath,
-    generatedAt: new Date().toISOString(),
+    generatedAt: input.generatedAt ?? new Date().toISOString(),
     machine_recommendation,
     human_decision: 'pending',
     checks,
@@ -467,6 +468,19 @@ export const evaluateAcceptanceGate = async (
     summary,
     counts: countStatuses(checks),
   };
+};
+
+const readExistingGeneratedAt = async (acceptancePath: string): Promise<string | undefined> => {
+  try {
+    const contents = await readFile(acceptancePath, 'utf8');
+    const match = /^Generated:\s*(.+)$/m.exec(contents);
+    return match?.[1]?.trim();
+  } catch (error: unknown) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
+      return undefined;
+    }
+    throw error;
+  }
 };
 
 const statusLabel = (status: AcceptanceCheckStatus): string => status.toUpperCase();
@@ -557,7 +571,13 @@ export const renderAcceptanceMarkdown = (result: AcceptanceGateResult): string =
 export const writeAcceptanceReport = async (
   input: AcceptanceGateInput,
 ): Promise<AcceptanceGateResult> => {
-  const result = await evaluateAcceptanceGate(input);
+  const paths = getVersionPaths(input.runsRoot, input.version);
+  const generatedAt =
+    input.generatedAt ?? (await readExistingGeneratedAt(paths.acceptancePath));
+  const result = await evaluateAcceptanceGate({
+    ...input,
+    ...(generatedAt ? { generatedAt } : {}),
+  });
   await writeFile(result.acceptancePath, renderAcceptanceMarkdown(result), {
     encoding: 'utf8',
   });

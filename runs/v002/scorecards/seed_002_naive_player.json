@@ -1,0 +1,23 @@
+{
+  "damage_taken": 20,
+  "enemies_defeated": 0,
+  "floors_reached": 1,
+  "invalid_actions": 0,
+  "items_used": 1,
+  "persona": "naive_player",
+  "result": "LOSS",
+  "review_id": "naive_player:seed_002",
+  "review_path": "runs/v002/reviews/seed_002_naive_player.json",
+  "reviewer_scores": {
+    "clarity": 5,
+    "fairness": 4,
+    "fun": 4,
+    "replay_value": 5,
+    "tactical_depth": 5
+  },
+  "seed": "seed_002",
+  "softlocks": 0,
+  "trace_path": "runs/v002/traces/seed_002_naive_player.json",
+  "turns": 24,
+  "version": "v002"
+}

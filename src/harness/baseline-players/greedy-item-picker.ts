@@ -1,3 +1,4 @@
+import { SMOKE_BOMB_ITEM_ID } from '../../game/content.js';
 import {
   firstActionOfType,
   manhattanDistance,
@@ -27,6 +28,14 @@ const nearestItemTarget = (input: BaselinePlayerInput) => {
 };
 
 export const greedyItemPicker: BaselinePlayerPolicy = (input: BaselinePlayerInput) => {
+  const smokeUse = input.availableActions.find(
+    (action) =>
+      action.type === 'use_item' && action.payload?.itemType === SMOKE_BOMB_ITEM_ID,
+  );
+  if (smokeUse && input.state.enemies.length > 0) {
+    return smokeUse;
+  }
+
   const pickup = firstActionOfType(input.availableActions, 'pickup');
   if (pickup) {
     return pickup;

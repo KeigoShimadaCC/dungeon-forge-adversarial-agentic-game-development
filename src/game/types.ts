@@ -144,4 +144,14 @@ export interface GameConfig {
   height?: number;
   maxTurns?: number;
   objective?: string;
+  /** Caps playable floors for bounded demo profiles (defaults to full content). */
+  totalFloors?: number;
+  /** Restricts spawned enemies to this allow-list when set. */
+  allowedEnemyIds?: readonly string[];
+  /** Restricts spawned items to this allow-list when set. */
+  allowedItemIds?: readonly string[];
+  /** Adds deterministic starting inventory for bounded demo profiles. */
+  initialInventory?: readonly string[];
+  /** Adds deterministic opening log lines for bounded demo profiles. */
+  openingLog?: readonly string[];
 }
