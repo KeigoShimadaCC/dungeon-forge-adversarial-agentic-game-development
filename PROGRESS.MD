@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Improve reviewer persona configuration and human-readable review reports while keeping JSON as the authoritative contract artifact. |
 | Branch | `phase/phase-14c-reviewer-persona-reporting` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-14c-reviewer-persona-reporting-wt` |
-| Base | `origin/main` at `c102ec9` |
-| Status | `Queued; automation start pending` |
+| Base | `origin/main` at `8358ab8` |
+| Status | `Seeded; Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -52,11 +52,11 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-23 orchestrator — Start Phase 14C automation: create prompt bundle/worktree, seed progress, delegate implementation to Cursor/composer-2.5, then verify locally.
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Start Phase 14C automation: create prompt bundle/worktree, seed progress, delegate implementation to Cursor/composer-2.5, then verify locally.
+- _(none)_
 
 ### Done
 
@@ -284,6 +284,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Reviewed and hardened the Phase 14B diff: injected `playerClient`/`reviewerClient` no longer require real credentials when explicitly supplied, and LLM reviewer JSON now rejects invalid severity, evidence kind, and evidence quality enum values instead of casting them. Validation PASS: `pnpm test tests/llm-provider.test.ts tests/llm-player.test.ts tests/reviewer-critic.test.ts` (35 tests), `pnpm run check` (24 files, 230 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 14B PASS against the phase plan, local validation, protocol invariants, forbidden-scope review, and secrets scan. Recheck validation PASS: `pnpm run check` (24 files, 230 tests), `git diff --check`, `git diff -- src/game content concept-and-ideas phase-plans` empty, and no `.env` or credential material in the diff. Merge readiness remains pending only for commit, PR, and GitHub CI. Live API smoke remains out-of-scope/operational because it requires user credentials.
 - 2026-05-23 — orchestrator — Phase 14B merged and cleaned up: automation gate allowed merge, PR #32 `Repo gates` passed in 32s, PR #32 was squash-merged at `c102ec93b349b8e1a07f8ba0814c4c84f5f6b70c`, clean worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-14b-real-llm-runs-wt` was removed, local branch `phase/phase-14b-real-llm-runs` was deleted, remote branch was deleted manually, and `automation/phase-state.json` advanced current phase to `PHASE-14C`.
+- 2026-05-23 — orchestrator — Phase 14C automation start: `pnpm run phase -- status` selected `PHASE-14C`; read `PROGRESS.MD` and `phase-plans/PHASE-14C-REVIEWER-PERSONA-REPORTING.md`; `pnpm run phase -- bundle --phase PHASE-14C --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-14C/planned`; Cursor preflight `agent --list-models` confirmed `composer-2.5`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-14c-reviewer-persona-reporting-wt` on branch `phase/phase-14c-reviewer-persona-reporting` from `origin/main` at `8358ab8`.
 
 ---
 
