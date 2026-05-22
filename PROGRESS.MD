@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-11a-acceptance-gate` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-11a-acceptance-gate-wt` |
 | Base | `origin/main` at `74d18c9` |
-| Status | `ready for PR` |
+| Status | `PR open` |
 
 ### Contract (read before editing)
 
@@ -56,7 +56,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Re-read Phase 11A acceptance, finalize progress, push branch, and open PR.
+- _(none)_
 
 ### Done
 
@@ -66,6 +66,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-23 orchestrator — Review Cursor diff for scope, invariants, and report semantics; fixed required-command blocking, machine-fail summary inference, and CLI export side effect.
 - [x] 2026-05-23 orchestrator — Run full gates and acceptance smoke against generated version evidence.
 - [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Run read-only audit and harden findings for developer-notes evidence and stricter acceptance status parsing.
+- [x] 2026-05-23 orchestrator — Re-read Phase 11A acceptance, finalize progress, push branch, and open PR.
 
 ### Previous phase done
 
@@ -217,6 +218,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Hardened audit findings: non-placeholder `developer_notes.md` is now a required acceptance check with blocker text, and `summarizeVersion` now falls back only to a legacy top-level `Status:` line instead of whole-file substring matching.
 - 2026-05-23 — orchestrator — Final validation PASS after audit hardening: `pnpm test tests/acceptance-gate.test.ts tests/version-loop.test.ts` (2 files, 17 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm test` (17 files, 172 tests), `pnpm run build`, `git diff --check`, and `pnpm run accept-version -- --version v011 --runs-root /private/tmp/dungeon-forge-phase11a-runs --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass --reviewer-driven` (machine recommendation `pass`, human decision `pending`, 12 pass, 3 warning, 0 fail/skipped/blocked).
 - 2026-05-23 — orchestrator — Re-read `phase-plans/PHASE-11A-ACCEPTANCE-GATE.md` against implementation; deliverables and acceptance criteria are satisfied locally. Remaining residual risks are explicit and human-governed: command statuses are supplied to the gate rather than executed by it, and forbidden-feature/global-invariant checks are manual warnings in the report.
+- 2026-05-23 — orchestrator — Pushed `phase-11a-acceptance-gate` and opened PR #26: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/26.
 
 ---
 
