@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Support bounded local scenario/content packs for finite events, NPCs, items, enemies, and floor rules. |
 | Branch | `phase/phase-16c-scenario-content-packs` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-16c-scenario-content-packs-wt` |
-| Base | `origin/main` at `2756e3c` |
-| Status | `Ready to start; automation state advanced and progress rotated` |
+| Base | `origin/main` at `5a51322` |
+| Status | `In progress; seed checkpoint complete and Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -52,11 +52,10 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-23 Cursor/composer-2.5 — Implement local scenario pack manifest, loader/validator, example pack, explicit pack selection, evidence metadata, and focused tests within Phase 16C scope.
 
 ### Open
 
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement local scenario pack manifest, loader/validator, example pack, explicit pack selection, evidence metadata, and focused tests within Phase 16C scope.
 - [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 16C acceptance, and request Cursor read-only recheck.
 - [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
@@ -365,6 +364,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Addressed cheap recheck hardening: normalized direct default run labels before trace/scorecard metadata, added malformed challenge bundle tests, added acceptance Markdown label coverage, and validated optional scorecard `challenge_mode`. Validation PASS: `pnpm test tests/challenge-modes.test.ts` (10 tests); `pnpm run check` (30 files, 293 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
 - 2026-05-23 — orchestrator — Phase 16B PR #38 merged at `2756e3c8e18dcfede48192b702bdc2913997fbfa` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-16B --evidence runs/phase-runner/PHASE-16B/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-16C`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 16C with initial task queue and checklist from `phase-plans/PHASE-16C-SCENARIO-CONTENT-PACKS.md`.
+- 2026-05-23 — orchestrator — Phase 16C automation start: `pnpm run phase -- status` selected `PHASE-16C`; `pnpm run phase -- bundle --phase PHASE-16C --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-16C/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-16c-scenario-content-packs-wt` on branch `phase/phase-16c-scenario-content-packs` from `origin/main` at `5a51322`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
 
 ---
 
