@@ -1,13 +1,13 @@
 # Acceptance Report
 
 Version: v002
-Generated: 2026-05-22T16:39:40.963Z
+Generated: 2026-05-22T16:43:02.232Z
 
 ## Machine recommendation
 
 Status: pass
 
-Checks: 12 pass, 0 fail, 3 warning, 0 skipped, 0 blocked.
+Checks: 8 pass, 0 fail, 3 warning, 4 skipped, 0 blocked.
 
 Passing machine checks do **not** auto-accept this version. The human owner remains the final governor.
 
@@ -32,10 +32,10 @@ Notes:
 
 | Check | Status | Summary |
 | --- | --- | --- |
-| Typecheck | PASS | Typecheck reported pass. |
-| Tests | PASS | Tests reported pass. |
-| Lint | PASS | Lint reported pass. |
-| Build | PASS | Build reported pass. |
+| Typecheck | SKIPPED | Typecheck was intentionally skipped. |
+| Tests | SKIPPED | Tests was intentionally skipped. |
+| Lint | SKIPPED | Lint was intentionally skipped. |
+| Build | SKIPPED | Build was intentionally skipped. |
 | Trace coverage | PASS | All 3 expected trace files are present. |
 | Review coverage | PASS | All 3 expected review files are present. |
 | Scorecard coverage | PASS | All 3 expected scorecard files are present. |

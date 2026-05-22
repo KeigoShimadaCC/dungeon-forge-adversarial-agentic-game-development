@@ -50,10 +50,20 @@ const V002_PROFILE: VersionProfile = {
 
 const V003_PROFILE: VersionProfile = {
   version: 'v003',
-  implemented: false,
-  label: 'Reserved: reviewer-driven balance/clarity tuning',
+  implemented: true,
+  label: 'Tuned one-floor Smoke Bomb balance demo',
   gameConfig: {
     version: 'v003',
+    totalFloors: 1,
+    maxTurns: 64,
+    allowedEnemyIds: [SLIME_ENEMY_ID],
+    allowedItemIds: [POTION_ITEM_ID, SMOKE_BOMB_ITEM_ID],
+    initialInventory: [SMOKE_BOMB_ITEM_ID, POTION_ITEM_ID],
+    objective: 'Clear the shorter tuned demo floor with tactical item support.',
+    openingLog: [
+      'Tuned v003: one focused floor, a Potion, and a Smoke Bomb reduce sudden losses.',
+      'Use Smoke Bomb to escape pursuit; use Potion only after taking damage.',
+    ],
   },
 };
 

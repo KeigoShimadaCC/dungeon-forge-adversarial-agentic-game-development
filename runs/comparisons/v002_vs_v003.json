@@ -1,0 +1,144 @@
+{
+  "balance_comparison": {
+    "aggregate_metric_deltas": {
+      "abort_count": {
+        "base": 13,
+        "delta": 0,
+        "target": 13
+      },
+      "average_damage_taken": {
+        "base": 7.75,
+        "delta": -2.45,
+        "target": 5.3
+      },
+      "average_death_floor": {
+        "base": 1.67,
+        "delta": -0.67,
+        "target": 1
+      },
+      "average_enemies_defeated": {
+        "base": 0.2,
+        "delta": 0,
+        "target": 0.2
+      },
+      "average_floors_reached": {
+        "base": 1.3,
+        "delta": -0.3,
+        "target": 1
+      },
+      "average_invalid_actions": {
+        "base": 0,
+        "delta": 0,
+        "target": 0
+      },
+      "average_items_used": {
+        "base": 1.2,
+        "delta": 0.2,
+        "target": 1.4
+      },
+      "average_turns": {
+        "base": 72.8,
+        "delta": -26.95,
+        "target": 45.85
+      },
+      "softlock_count": {
+        "base": 13,
+        "delta": 0,
+        "target": 13
+      },
+      "win_rate": {
+        "base": 0.2,
+        "delta": 0.1,
+        "target": 0.3
+      }
+    },
+    "available": true,
+    "base_summary_path": "runs/v002/balance_summary.json",
+    "interpretation": "Target balance batch has no new problematic runs and no clear stability regression.",
+    "newly_problematic_runs": [],
+    "problem_run_count": {
+      "base": 13,
+      "delta": 0,
+      "target": 13
+    },
+    "resolved_problematic_runs": [],
+    "target_summary_path": "runs/v003/balance_summary.json"
+  },
+  "baseVersion": "v002",
+  "counts": {
+    "baseMissingArtifacts": 0,
+    "baseRuns": 23,
+    "targetMissingArtifacts": 0,
+    "targetRuns": 23
+  },
+  "interpretation": "Target balance batch has no new problematic runs and no clear stability regression.",
+  "missing_artifacts": {
+    "base": [],
+    "target": []
+  },
+  "objective_metric_deltas": {
+    "damage_taken": {
+      "base": 190,
+      "delta": -60,
+      "target": 130
+    },
+    "enemies_defeated": {
+      "base": 4,
+      "delta": 0,
+      "target": 4
+    },
+    "floors_reached": {
+      "base": 30,
+      "delta": -7,
+      "target": 23
+    },
+    "invalid_actions": {
+      "base": 0,
+      "delta": 0,
+      "target": 0
+    },
+    "items_used": {
+      "base": 28,
+      "delta": 4,
+      "target": 32
+    },
+    "softlocks": {
+      "base": 14,
+      "delta": 0,
+      "target": 14
+    },
+    "turns": {
+      "base": 1609,
+      "delta": -595,
+      "target": 1014
+    }
+  },
+  "reviewer_score_deltas": {
+    "clarity": {
+      "base": 5.67,
+      "delta": 0,
+      "target": 5.67
+    },
+    "fairness": {
+      "base": 4.67,
+      "delta": -0.34,
+      "target": 4.33
+    },
+    "fun": {
+      "base": 4.67,
+      "delta": -0.34,
+      "target": 4.33
+    },
+    "replay_value": {
+      "base": 5,
+      "delta": 0,
+      "target": 5
+    },
+    "tactical_depth": {
+      "base": 5.33,
+      "delta": 0,
+      "target": 5.33
+    }
+  },
+  "targetVersion": "v003"
+}

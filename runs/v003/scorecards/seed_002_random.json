@@ -1,0 +1,21 @@
+{
+  "damage_taken": 20,
+  "enemies_defeated": 0,
+  "floors_reached": 1,
+  "invalid_actions": 0,
+  "items_used": 2,
+  "persona": "random",
+  "result": "LOSS",
+  "reviewer_scores": {
+    "clarity": null,
+    "fairness": null,
+    "fun": null,
+    "replay_value": null,
+    "tactical_depth": null
+  },
+  "seed": "seed_002",
+  "softlocks": 0,
+  "trace_path": "runs/v003/traces/seed_002_random.json",
+  "turns": 22,
+  "version": "v003"
+}

@@ -170,6 +170,27 @@ export const runDemoLoop = async (options: DemoLoopOptions): Promise<DemoLoopRes
           patchPlanStatus: 'implemented',
         });
       }
+      if (version === 'v003') {
+        await writeImplementedVersionMarkdown(options.runsRoot, version, {
+          changelogBullets: [
+            'Implemented v003 tuned demo profile as a shorter one-floor balance pass.',
+            'Preserved Smoke Bomb tactical clarity while adding a starting Potion to reduce sudden losses.',
+            'Kept enemies Slime-only so the final demo isolates item clarity and completion reliability.',
+          ],
+          developerNotesBullets: [
+            'Handoff generated from v002 review evidence after v002 added tactical item use but still showed balance risk.',
+            'v003 intentionally narrows the demo floor count and enemy pressure to reduce ABORTED/softlock outcomes.',
+            'This is balance/clarity tuning for the demo loop, not a replacement for later richer content phases.',
+          ],
+          testsAndEvidenceBullets: [
+            '`pnpm test tests/version-profiles.test.ts tests/demo-loop.test.ts tests/tactical-items.test.ts`',
+            '`pnpm run demo-loop -- --runs-root .`',
+            '`pnpm run compare-versions -- --base v002 --target v003 --runs-root .`',
+          ],
+          comparisonPath: 'runs/comparisons/v002_vs_v003.md',
+          patchPlanStatus: 'implemented',
+        });
+      }
 
       const summary = await summarizeVersion(options.runsRoot, version);
       const summaryPath = buildVersionSummaryPath(version);
@@ -229,6 +250,35 @@ export const runDemoLoop = async (options: DemoLoopOptions): Promise<DemoLoopRes
       markdownPath: artifact.markdownPath,
       comparison: artifact.comparison,
     });
+  }
+
+  const firstVersion = requestedVersions[0];
+  const lastVersion = requestedVersions[requestedVersions.length - 1];
+  if (
+    firstVersion &&
+    lastVersion &&
+    requestedVersions.length > 2 &&
+    firstVersion !== lastVersion &&
+    versions.find((entry) => entry.version === firstVersion)?.status === 'completed' &&
+    versions.find((entry) => entry.version === lastVersion)?.status === 'completed'
+  ) {
+    const alreadyCompared = comparisons.some(
+      (entry) => entry.baseVersion === firstVersion && entry.targetVersion === lastVersion,
+    );
+    if (!alreadyCompared) {
+      const artifact = await writeVersionComparisonArtifacts(
+        options.runsRoot,
+        firstVersion,
+        lastVersion,
+      );
+      comparisons.push({
+        baseVersion: firstVersion,
+        targetVersion: lastVersion,
+        jsonPath: artifact.jsonPath,
+        markdownPath: artifact.markdownPath,
+        comparison: artifact.comparison,
+      });
+    }
   }
 
   return {

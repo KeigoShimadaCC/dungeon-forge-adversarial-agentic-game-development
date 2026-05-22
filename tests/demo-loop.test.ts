@@ -34,7 +34,7 @@ describe('Phase 12A demo loop', () => {
     expect(() => parseDemoLoopVersionsArg('v001,v999')).toThrow('Unknown demo version "v999"');
   });
 
-  it('generates v001/v002 evidence, handoff, and comparison while skipping v003', async () => {
+  it('generates v001-v003 evidence, handoffs, acceptance reports, and comparisons', async () => {
     await withTempRunsRoot(async (runsRoot) => {
       const result = await runDemoLoop({ runsRoot, versions: ['v001', 'v002', 'v003'] });
 
@@ -50,8 +50,9 @@ describe('Phase 12A demo loop', () => {
       expect(v001?.summary?.status).toBe('complete');
       expect(v002?.status).toBe('completed');
       expect(v002?.runVersion?.runs).toHaveLength(3);
-      expect(v003?.status).toBe('skipped');
-      expect(result.comparisons).toHaveLength(1);
+      expect(v003?.status).toBe('completed');
+      expect(v003?.runVersion?.runs).toHaveLength(3);
+      expect(result.comparisons).toHaveLength(3);
       expect(result.comparisons[0]?.baseVersion).toBe('v001');
       expect(result.comparisons[0]?.targetVersion).toBe('v002');
 
@@ -86,15 +87,24 @@ describe('Phase 12A demo loop', () => {
       expect(summary.status).toBe('complete');
 
       const developerTaskPath = path.join(runsRoot, 'runs/v002/developer_task.md');
+      const v003DeveloperTaskPath = path.join(runsRoot, 'runs/v003/developer_task.md');
       const comparisonJsonPath = path.join(
         runsRoot,
         'runs/comparisons/v001_vs_v002.json',
       );
+      const finalComparisonJsonPath = path.join(
+        runsRoot,
+        'runs/comparisons/v001_vs_v003.json',
+      );
       const comparisonMdPath = path.join(runsRoot, 'runs/comparisons/v001_vs_v002.md');
+      const v003AcceptancePath = path.join(runsRoot, 'runs/v003/acceptance.md');
 
       expect((await stat(developerTaskPath)).isFile()).toBe(true);
+      expect((await stat(v003DeveloperTaskPath)).isFile()).toBe(true);
       expect((await stat(comparisonJsonPath)).isFile()).toBe(true);
+      expect((await stat(finalComparisonJsonPath)).isFile()).toBe(true);
       expect((await stat(comparisonMdPath)).isFile()).toBe(true);
+      expect((await stat(v003AcceptancePath)).isFile()).toBe(true);
 
       const developerTask = await readFile(developerTaskPath, 'utf8');
       expect(developerTask).toContain('seed_001');

@@ -10,11 +10,11 @@ import {
 import { runPlaythrough } from '../src/harness/runner.js';
 
 describe('demo version profiles', () => {
-  it('defines bounded v001–v003 profiles with v001 and v002 implemented', () => {
+  it('defines bounded v001-v003 profiles with all demo versions implemented', () => {
     expect(DEMO_VERSION_IDS).toEqual(['v001', 'v002', 'v003']);
     expect(VERSION_PROFILES.v001.implemented).toBe(true);
     expect(VERSION_PROFILES.v002.implemented).toBe(true);
-    expect(VERSION_PROFILES.v003.implemented).toBe(false);
+    expect(VERSION_PROFILES.v003.implemented).toBe(true);
     expect(VERSION_PROFILES.v001.gameConfig.totalFloors).toBe(2);
     expect(VERSION_PROFILES.v001.gameConfig.allowedEnemyIds).toEqual([SLIME_ENEMY_ID]);
     expect(VERSION_PROFILES.v002.gameConfig.allowedItemIds).toEqual([
@@ -38,6 +38,15 @@ describe('demo version profiles', () => {
     expect(state.version).toBe('v002');
     expect(state.player.inventory).toContain(SMOKE_BOMB_ITEM_ID);
     expect(state.log.some((entry) => entry.includes('Smoke Bomb starts'))).toBe(true);
+  });
+
+  it('starts v003 as a shorter tuned balance profile', () => {
+    const state = start('seed_001', resolveGameConfigForVersion('v003'));
+
+    expect(state.version).toBe('v003');
+    expect(state.meta.totalFloors).toBe(1);
+    expect(state.player.inventory).toEqual([SMOKE_BOMB_ITEM_ID, POTION_ITEM_ID]);
+    expect(state.enemies.every((enemy) => enemy.type === SLIME_ENEMY_ID)).toBe(true);
   });
 
   it('propagates harness version into playthrough traces', async () => {

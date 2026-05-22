@@ -1,0 +1,23 @@
+{
+  "damage_taken": 2,
+  "enemies_defeated": 0,
+  "floors_reached": 1,
+  "invalid_actions": 0,
+  "items_used": 1,
+  "persona": "careful_player",
+  "result": "ABORTED",
+  "review_id": "careful_player:seed_001",
+  "review_path": "runs/v003/reviews/seed_001_careful_player.json",
+  "reviewer_scores": {
+    "clarity": 5,
+    "fairness": 4,
+    "fun": 3,
+    "replay_value": 4,
+    "tactical_depth": 5
+  },
+  "seed": "seed_001",
+  "softlocks": 1,
+  "trace_path": "runs/v003/traces/seed_001_careful_player.json",
+  "turns": 64,
+  "version": "v003"
+}
