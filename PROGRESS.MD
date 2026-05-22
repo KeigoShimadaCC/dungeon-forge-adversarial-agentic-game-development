@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 08A — Developer Agent Workflow |
-| Goal | Turn prior review and scorecard evidence into a bounded, human-governed developer-agent task with patch/changelog templates and test expectations. |
-| Branch | `phase-08a-developer-agent-workflow` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-08a-developer-agent-workflow-wt` |
-| Base | `origin/main` at `4c36e5d` |
-| Status | `complete; PR open` |
+| Phase | Phase 09B — Enemy Variety |
+| Goal | Add varied deterministic enemy types with content records, spawn integration, render/log/trace support, and behavior tests. |
+| Branch | `phase-09b-enemy-variety` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-09b-enemy-variety-wt` |
+| Base | `origin/main` at `f67e9e9` |
+| Status | `in progress; progress seeded before implementation` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-08A-DEVELOPER-AGENT-WORKFLOW.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-09B-ENEMY-VARIETY.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -52,11 +52,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-22 orchestrator — Seed Phase 09B progress state and checkpoint before implementation.
 
 ### Open
 
-- _(none)_
+- [ ] 2026-05-22 orchestrator — Delegate bounded enemy-variety implementation to Cursor Agent and review the resulting diff.
+- [ ] 2026-05-22 orchestrator — Add Bat, Shell, Thief, and Ghost content fields, floor-rule spawn integration, and runtime enemy stats.
+- [ ] 2026-05-22 orchestrator — Implement behavior-dispatched enemy turns while preserving Slime semantics and the public `GameEngine` interface.
+- [ ] 2026-05-22 orchestrator — Update combat, rendering, logs, and trace events so enemy behavior is inspectable.
+- [ ] 2026-05-22 orchestrator — Add content, engine, render, and trace coverage for enemy variety and deterministic behavior.
+- [ ] 2026-05-22 orchestrator — Run local gates, Phase 09B smoke evidence commands, and final acceptance audit.
+- [ ] 2026-05-22 orchestrator — Finalize progress, commits, push, and PR.
 
 ### Done
 
@@ -83,19 +89,19 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-08A-DEVELOPER-AGENT-WORKFLOW.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-09B-ENEMY-VARIETY.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 08A — Developer Agent Workflow
+### Phase 09B — Enemy Variety
 
-- [x] Developer task can be generated from review/scorecard inputs.
-- [x] Generated task includes previous review path, previous scorecard path, target version, target scope, allowed changes, forbidden changes, required test commands, required patch plan path, required changelog path, and expected implementation summary.
-- [x] Workflow blocks protocol-breaking requests such as changing `GameEngine`, removing seed determinism, removing terminal states, or adding infinite floors.
-- [x] Patch plan template records review issues, one to three scoped changes, expected files/modules, tests/checks, non-goals, and forbidden changes.
-- [x] Changelog template records implemented changes, tests/evidence, invariants, and residual risks.
-- [x] Developer prompt under `src/agents/prompts/**` reflects the Phase 08A human-governed workflow.
-- [x] Package script and CLI can print or write a developer task to `runs/<targetVersion>/developer_task.md`.
-- [x] Tests cover generated task shape and validation failures.
-- [x] Local final gates and CLI smoke pass, or blockers are recorded.
+- [ ] Enemy content includes Slime, Bat, Shell, Thief, and Ghost with stable IDs, glyphs, stats, and behavior rules.
+- [ ] Floor rules spawn every Phase 09B enemy somewhere while keeping floor 1 Slime-only.
+- [ ] Each new enemy has a simple deterministic behavior and can act without increasing player action protocol complexity.
+- [ ] Slime chase/attack behavior and existing combat semantics remain compatible.
+- [ ] Player damage respects enemy defense with minimum 1 damage.
+- [ ] Renderer and legend show all enemy glyphs.
+- [ ] Enemy action events include enough type/behavior/reason/position/damage detail for trace review.
+- [ ] Tests cover content validation, spawning, behavior, determinism, rendering, trace preservation, and regression seeds.
+- [ ] Local final gates and Phase 09B smoke commands pass, or blockers are recorded.
 
 ---
 
@@ -152,6 +158,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) produced no stdout for about 90 seconds and was interrupted with `kill -INT`; local acceptance audit and gates above are the verification evidence.
 - 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-08A-DEVELOPER-AGENT-WORKFLOW.md` against implementation; acceptance criteria satisfied locally. Commit `8e738f9` added Phase 08A developer workflow implementation, CLI, prompt, package script, tests, and progress updates.
 - 2026-05-22 — orchestrator — Pushed `phase-08a-developer-agent-workflow` and opened PR #18: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/18.
+- 2026-05-22 — orchestrator — Phase 09B preflight: `git fetch origin` passed; main status was clean at `origin/main` `f67e9e9`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-09b-enemy-variety-wt` on branch `phase-09b-enemy-variety` from `origin/main`. Re-read `PROGRESS.MD`, `phase-plans/PHASE-09B-ENEMY-VARIETY.md`, `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md`, and source concept docs. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; `agent --help` confirmed `--print`, `--trust`, `--workspace`, and `--mode=ask`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.
 
 ---
 
