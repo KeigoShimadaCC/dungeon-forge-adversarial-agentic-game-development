@@ -1,4 +1,5 @@
 import { loadGameContent } from './content.js';
+import { getEndingText, getOpeningText } from './dialogue.js';
 import { defaultTacticalEffects } from './item-effects.js';
 import type { GameState, ItemInstance, Position } from './types.js';
 
@@ -31,6 +32,12 @@ const enemyAt = (
 ): GameState['enemies'][number] | undefined =>
   state.enemies.find((enemy) => samePosition(enemy, position));
 
+const npcAt = (
+  state: GameState,
+  position: Position,
+): GameState['npcs'][number] | undefined =>
+  state.npcs.find((npc) => samePosition(npc, position));
+
 const itemsAt = (state: GameState, position: Position): ItemInstance[] =>
   state.items.filter((item) => samePosition(item, position));
 
@@ -54,7 +61,7 @@ const visibleItemDescriptions = (state: GameState): string => {
 const terminalSummary = (state: GameState): string => {
   switch (state.terminalStatus) {
     case 'WIN':
-      return 'Outcome: WIN - You escaped the dungeon.';
+      return `Outcome: WIN - ${getEndingText()}`;
     case 'LOSS':
       return 'Outcome: LOSS - You fell in the dungeon.';
     case 'ABORTED':
@@ -76,6 +83,10 @@ const renderMapRows = (state: GameState): string[] =>
         if (enemy) {
           return enemy.glyph;
         }
+        const npc = npcAt(state, position);
+        if (npc) {
+          return npc.glyph;
+        }
         const item = itemsAt(state, position)[0];
         if (item) {
           return item.glyph;
@@ -92,19 +103,37 @@ export const render = (state: GameState): string => {
   const renderedRows = renderMapRows(state);
   const tactical = state.tactical ?? defaultTacticalEffects();
 
+  const dialogueLines =
+    state.dialogue?.active === true
+      ? [
+          `Dialogue (${state.dialogue.npcId} @ ${state.dialogue.nodeId}):`,
+          ...(() => {
+            const tree = loadGameContent().events.dialogueTrees.find(
+              (candidate) => candidate.id === state.dialogue?.treeId,
+            );
+            const node = tree?.nodes.find(
+              (candidate) => candidate.id === state.dialogue?.nodeId,
+            );
+            return node ? [`- ${node.text}`] : ['- (unknown node)'];
+          })(),
+        ]
+      : [];
+
   return [
     `Seven Floors to Dawn ${state.version}`,
     `Seed: ${state.seed} | Floor: ${state.floor}/${state.meta.totalFloors} | Turn: ${state.turn}/${state.meta.maxTurns}`,
     `Status: ${state.terminalStatus} | HP: ${state.player.hp}/${state.player.maxHp}`,
     terminalSummary(state),
     `Objective: ${state.meta.objective}`,
+    `Opening: ${getOpeningText()}`,
     ...renderedRows,
     `Inventory: ${inventoryLabel(state.player.inventory)}`,
     visibleItemDescriptions(state),
     tactical.enemyTrackingDisabledUntilTurn > state.turn
       ? `Tactical: enemy pursuit blinded until turn ${tactical.enemyTrackingDisabledUntilTurn}.`
       : 'Tactical: none active.',
-    'Legend: @ You, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor',
+    ...dialogueLines,
+    'Legend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor',
     'Log:',
     ...state.log.slice(-RECENT_LOG_DISPLAY_LIMIT).map((entry) => `- ${entry}`),
   ].join('\n');

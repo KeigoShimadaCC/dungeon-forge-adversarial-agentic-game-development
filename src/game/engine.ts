@@ -16,6 +16,19 @@ import {
   getTile as getMapTile,
   isWalkableTile,
 } from './map.js';
+import {
+  applyFloorEnterEvents,
+  applyTalkAction,
+  buildDialogueActions,
+  buildNpcTalkActions,
+  getDialogueInvalidReason,
+  getEndingText,
+  getNpcInvalidReason,
+  getOpeningText,
+  isInDialogue,
+  placeNpcsForFloor,
+  defaultNarrativeState,
+} from './dialogue.js';
 import { runEnemyTurns } from './enemy-ai.js';
 import { render } from './render.js';
 import type {
@@ -185,6 +198,7 @@ const createFloorState = (params: {
   playerHp?: number;
   inventory?: string[];
   log: string[];
+  narrative?: GameState['narrative'];
 }): GameState => {
   const rule = getFloorRule(params.floor);
   const layout = generateFloorLayout({
@@ -198,8 +212,14 @@ const createFloorState = (params: {
   ]);
   const enemies = placeEnemies(params.seed, params.floor, rule, layout, occupied);
   const items = placeItems(params.seed, params.floor, rule, layout, occupied);
+  const npcs = placeNpcsForFloor({
+    seed: params.seed,
+    floor: params.floor,
+    layout,
+    occupied,
+  });
 
-  return {
+  const state: GameState = {
     version: params.version,
     seed: params.seed,
     turn: params.turn,
@@ -214,7 +234,9 @@ const createFloorState = (params: {
     map: layout.map,
     enemies,
     items,
+    npcs,
     log: [...params.log],
+    narrative: params.narrative ?? defaultNarrativeState(),
     tactical: defaultTacticalEffects(),
     meta: {
       maxTurns: params.maxTurns,
@@ -222,6 +244,13 @@ const createFloorState = (params: {
       totalFloors: floorRules.length,
     },
   };
+
+  const floorEvents = applyFloorEnterEvents(state, event);
+  if (floorEvents.length > 0) {
+    appendEventsToLog(state, floorEvents);
+  }
+
+  return state;
 };
 
 export const start = (seed: string, config: GameConfig = {}): GameState =>
@@ -232,7 +261,7 @@ export const start = (seed: string, config: GameConfig = {}): GameState =>
     turn: 0,
     maxTurns: normalizePositiveInteger(config.maxTurns, defaultMaxTurns()),
     objective: config.objective ?? DEFAULT_OBJECTIVE,
-    log: ['You enter Seven Floors to Dawn.'],
+    log: [getOpeningText()],
   });
 
 export const isTerminal = (state: GameState): boolean =>
@@ -241,15 +270,27 @@ export const isTerminal = (state: GameState): boolean =>
 const enemyAt = (state: GameState, position: Position): GameState['enemies'][number] | undefined =>
   state.enemies.find((enemy) => samePosition(enemy, position));
 
+const npcAtPosition = (
+  state: GameState,
+  position: Position,
+): GameState['npcs'][number] | undefined =>
+  state.npcs.find((npc) => samePosition(npc, position));
+
 const itemsAt = (state: GameState, position: Position): ItemInstance[] =>
   state.items.filter((item) => samePosition(item, position));
 
 const canMoveTo = (state: GameState, position: Position): boolean =>
-  isWalkable(state.map, position) && enemyAt(state, position) === undefined;
+  isWalkable(state.map, position) &&
+  enemyAt(state, position) === undefined &&
+  npcAtPosition(state, position) === undefined;
 
 export const getAvailableActions = (state: GameState): PlayerAction[] => {
   if (isTerminal(state)) {
     return [];
+  }
+
+  if (isInDialogue(state)) {
+    return buildDialogueActions(state);
   }
 
   const actions: PlayerAction[] = [];
@@ -303,6 +344,8 @@ export const getAvailableActions = (state: GameState): PlayerAction[] => {
       payload: { floor: state.floor + 1 },
     });
   }
+
+  actions.push(...buildNpcTalkActions(state));
 
   actions.push(
     {
@@ -405,6 +448,16 @@ const getInvalidStateReason = (state: GameState): string | undefined => {
     }
   }
 
+  const dialogueReason = getDialogueInvalidReason(state);
+  if (dialogueReason) {
+    return dialogueReason;
+  }
+
+  const npcReason = getNpcInvalidReason(state);
+  if (npcReason) {
+    return npcReason;
+  }
+
   return undefined;
 };
 
@@ -473,7 +526,7 @@ const descend = (state: GameState, events: GameEvent[]): GameState => {
   if (state.floor >= state.meta.totalFloors) {
     state.terminalStatus = 'WIN';
     events.push(
-      event(state.turn, 'win', 'You escape through the final stairs.', {
+      event(state.turn, 'win', getEndingText(), {
         terminalStatus: 'WIN',
       }),
     );
@@ -498,6 +551,7 @@ const descend = (state: GameState, events: GameEvent[]): GameState => {
     playerHp: state.player.hp,
     inventory: state.player.inventory,
     log: state.log,
+    narrative: state.narrative,
   });
 };
 
@@ -602,11 +656,13 @@ export const step = (state: GameState, action: PlayerAction): StepResult => {
         hp: nextState.player.hp,
       }),
     );
+  } else if (matchedAction.type === 'talk') {
+    events.push(...applyTalkAction(nextState, matchedAction, event));
   } else {
     events.push(event(nextState.turn, 'wait', 'You wait for one turn.'));
   }
 
-  if (nextState.terminalStatus === 'ACTIVE') {
+  if (nextState.terminalStatus === 'ACTIVE' && !isInDialogue(nextState)) {
     runEnemyTurns(nextState, events);
   }
 

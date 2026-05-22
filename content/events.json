@@ -1,4 +1,84 @@
 {
-  "schemaVersion": "01A-placeholder",
-  "events": []
+  "schemaVersion": "10A",
+  "opening": {
+    "id": "opening-dawn-bell",
+    "text": "The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths."
+  },
+  "ending": {
+    "id": "ending-sunrise-escape",
+    "text": "You lift the Dawn Bell as sunrise paints the stairwell gold. The dungeon exhales; you escape with the bell ringing once more."
+  },
+  "floorEvents": [
+    {
+      "id": "floor-4-morning-pulse",
+      "floor": 4,
+      "trigger": "on_enter",
+      "text": "The walls pulse with morning light. The final descent feels close."
+    }
+  ],
+  "npcs": [
+    {
+      "id": "shrine_keeper",
+      "displayName": "Shrine Keeper",
+      "glyph": "K",
+      "floor": 3,
+      "dialogueTreeId": "keeper_dialogue"
+    }
+  ],
+  "dialogueTrees": [
+    {
+      "id": "keeper_dialogue",
+      "startNodeId": "greeting",
+      "nodes": [
+        {
+          "id": "greeting",
+          "text": "A hooded keeper studies a cracked shrine stone. \"Few reach the third floor with the bell still unclaimed.\"",
+          "choices": [
+            {
+              "id": "ask_bell",
+              "label": "Ask about the Dawn Bell",
+              "nextNodeId": "bell_lore"
+            },
+            {
+              "id": "ask_path",
+              "label": "Ask about the lower floors",
+              "nextNodeId": "path_hint"
+            },
+            {
+              "id": "farewell",
+              "label": "Leave the keeper in peace",
+              "exit": true
+            }
+          ]
+        },
+        {
+          "id": "bell_lore",
+          "text": "\"The bell rings at dawn to seal or open these floors. Take it from the depths before the fifth floor doors close.\"",
+          "choices": [
+            {
+              "id": "thanks_bell",
+              "label": "Thank the keeper",
+              "exit": true
+            }
+          ]
+        },
+        {
+          "id": "path_hint",
+          "text": "\"Stairs wait where the map breathes widest. Save your potions; the thieves and ghosts below show little mercy.\"",
+          "choices": [
+            {
+              "id": "back_greeting",
+              "label": "Ask something else",
+              "nextNodeId": "greeting"
+            },
+            {
+              "id": "thanks_path",
+              "label": "Thank the keeper and go",
+              "exit": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

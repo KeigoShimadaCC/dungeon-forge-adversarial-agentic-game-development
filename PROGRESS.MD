@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-10a-dialogue-events` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-10a-dialogue-events-wt` |
 | Base | `origin/main` at `f5bd204` |
-| Status | `in progress; progress seeded` |
+| Status | `in progress; implementation and focused local validation complete` |
 
 ### Contract (read before editing)
 
@@ -52,22 +52,22 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-22 orchestrator — Seed Phase 10A progress state and checkpoint before implementation.
+- [~] 2026-05-22 orchestrator — Run Cursor read-only audit, final gates, final acceptance review, push, and PR.
 
 ### Open
 
-- [ ] 2026-05-22 Cursor/composer-2.5 — Add authored narrative/event/dialogue content in `content/events.json` plus validation/loading support.
-- [ ] 2026-05-22 Cursor/composer-2.5 — Add serializable dialogue/NPC state and structured `talk` actions/choices without changing the public `GameEngine` API.
-- [ ] 2026-05-22 Cursor/composer-2.5 — Integrate opening text, ending text, finite floor events, optional NPC, dialogue exit, render/log, and trace-visible events.
-- [ ] 2026-05-22 Cursor/composer-2.5 — Add focused tests for talk availability, choices, exit, no softlock, reachable ending, serialization, and trace recording.
-- [ ] 2026-05-22 orchestrator — Review Cursor diff, harden locally if needed, and run focused tests.
 - [ ] 2026-05-22 orchestrator — Run final gates: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run run-version -- --version v010 --runs-root <tmp>`.
 - [ ] 2026-05-22 orchestrator — Run Cursor read-only audit and verify findings against the diff.
 - [ ] 2026-05-22 orchestrator — Re-read Phase 10A acceptance, finalize `PROGRESS.MD`, commit, push, and open PR.
 
 ### Done
 
-- _(none yet for Phase 10A)_
+- [x] 2026-05-22 orchestrator — Seed Phase 10A progress state and checkpoint before implementation.
+- [x] 2026-05-22 Cursor/composer-2.5 + orchestrator — Add authored narrative/event/dialogue content in `content/events.json` plus validation/loading support.
+- [x] 2026-05-22 Cursor/composer-2.5 + orchestrator — Add serializable dialogue/NPC state and structured `talk` actions/choices without changing the public `GameEngine` API.
+- [x] 2026-05-22 Cursor/composer-2.5 + orchestrator — Integrate opening text, ending text, finite floor events, optional NPC, dialogue exit, render/log, and trace-visible events.
+- [x] 2026-05-22 Cursor/composer-2.5 + orchestrator — Add focused tests for talk availability, choices, exit, no softlock, reachable ending, serialization, and trace recording.
+- [x] 2026-05-22 orchestrator — Review Cursor diff, harden locally, and run focused tests.
 
 ### Blocked / skipped
 
@@ -79,17 +79,17 @@ _Derived from `phase-plans/PHASE-10A-DIALOGUE-EVENTS.md`. Tick when verified aga
 
 ### Phase 10A — Dialogue Events
 
-- [ ] Authored opening and ending text exist in finite local content.
-- [ ] Finite floor events exist and are serializable/inspectable.
-- [ ] One optional talkable NPC exists without always-on companion behavior.
-- [ ] Dialogue state/action implementation supports finite node IDs, text, choices, structured action IDs, effects if any, and explicit exit behavior.
-- [ ] `talk` actions appear only when relevant and come from `getAvailableActions`.
-- [ ] Dialogue choices work and can exit back to normal play.
-- [ ] Dialogue cannot softlock the game and ending remains reachable.
-- [ ] Render/log output reflects narrative/dialogue without media or external services.
-- [ ] Trace/playthrough evidence records dialogue events.
-- [ ] Public `GameEngine` API remains `start`, `getAvailableActions`, `step`, `render`, and `isTerminal`.
-- [ ] Gameplay remains finite, turn-based, text/ASCII, seeded, serializable, and credential-free.
+- [x] Authored opening and ending text exist in finite local content.
+- [x] Finite floor events exist and are serializable/inspectable.
+- [x] One optional talkable NPC exists without always-on companion behavior.
+- [x] Dialogue state/action implementation supports finite node IDs, text, choices, structured action IDs, effects if any, and explicit exit behavior.
+- [x] `talk` actions appear only when relevant and come from `getAvailableActions`.
+- [x] Dialogue choices work and can exit back to normal play.
+- [x] Dialogue cannot softlock the game and ending remains reachable.
+- [x] Render/log output reflects narrative/dialogue without media or external services.
+- [x] Trace/playthrough evidence records dialogue events.
+- [x] Public `GameEngine` API remains `start`, `getAvailableActions`, `step`, `render`, and `isTerminal`.
+- [x] Gameplay remains finite, turn-based, text/ASCII, seeded, serializable, and credential-free.
 - [ ] Local final gates and version-loop smoke pass, or blockers are recorded.
 
 ---
@@ -134,6 +134,9 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 
 - 2026-05-22 — orchestrator — Created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-10a-dialogue-events-wt` on branch `phase-10a-dialogue-events` from `origin/main` at `f5bd204`; worktree status clean.
 - 2026-05-22 — orchestrator — Re-read `PROGRESS.MD`, `concept-and-ideas/01_NORTH_STAR_AND_VISION.md`, `concept-and-ideas/02_STRUCTURE_AND_TECH_SPECS.md`, `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md`, and `phase-plans/PHASE-10A-DIALOGUE-EVENTS.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.
+- 2026-05-22 — orchestrator — Commit `8abf998` seeded Phase 10A progress state before implementation.
+- 2026-05-22 — orchestrator — Cursor implementation pass (`agent --print --trust --model composer-2.5 --workspace ...`) produced no stdout/report for several minutes and was interrupted; partial content/dialogue/engine diff was inspected, completed, and hardened locally.
+- 2026-05-22 — orchestrator — Focused/full local validation PASS after local hardening: `pnpm run typecheck`; `pnpm test` (15 files, 151 tests); `pnpm run lint`; `pnpm run build`; `git diff --check`; `pnpm run run-version -- --version v010 --runs-root /private/tmp/dungeon-forge-phase10a-runs` wrote three trace/review/scorecard sets.
 
 - 2026-05-22 — orchestrator — Created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-09c-map-generation-wt` on branch `phase-09c-map-generation` from `origin/main` at `f67e9e9`; worktree status clean.
 - 2026-05-22 — orchestrator — Re-read `PROGRESS.MD`, `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md`, and `phase-plans/PHASE-09C-MAP-GENERATION.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.
