@@ -1,14 +1,10 @@
-import { readFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
 import { SCAFFOLD_PHASE, SCAFFOLD_VERSION } from '../src/scaffold.js';
+import { CONTENT_SCHEMA_VERSION, loadGameContent } from '../src/game/content.js';
 import { GAME_ENGINE_PLACEHOLDER } from '../src/game/engine.js';
 import { GAME_TYPES_PLACEHOLDER } from '../src/game/types.js';
 import { HARNESS_RUN_PLAYTHROUGH_PLACEHOLDER } from '../src/harness/run-playthrough.js';
-
-const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 describe('Phase 01A scaffold', () => {
   it('exports scaffold metadata', () => {
@@ -22,12 +18,10 @@ describe('Phase 01A scaffold', () => {
     expect(HARNESS_RUN_PLAYTHROUGH_PLACEHOLDER).toBe(true);
   });
 
-  it('loads static content placeholders', () => {
-    const items = JSON.parse(
-      readFileSync(join(repoRoot, 'content/items.json'), 'utf8'),
-    ) as { schemaVersion: string; items: unknown[] };
+  it('loads validated static content through the content module', () => {
+    const content = loadGameContent();
 
-    expect(items.schemaVersion).toBe('01A-placeholder');
-    expect(items.items).toEqual([]);
+    expect(content.items.schemaVersion).toBe(CONTENT_SCHEMA_VERSION);
+    expect(content.items.items.length).toBeGreaterThan(0);
   });
 });

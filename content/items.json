@@ -1,4 +1,15 @@
 {
-  "schemaVersion": "01A-placeholder",
-  "items": []
+  "schemaVersion": "02C",
+  "items": [
+    {
+      "id": "potion",
+      "name": "Potion",
+      "displayName": "Healing Potion",
+      "description": "Restores a modest amount of HP when used from inventory.",
+      "kind": "consumable",
+      "effect": "heal",
+      "healAmount": 8,
+      "stackable": true
+    }
+  ]
 }

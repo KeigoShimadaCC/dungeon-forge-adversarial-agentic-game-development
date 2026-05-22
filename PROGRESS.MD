@@ -52,20 +52,20 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-22 — orchestrator — Prepare Phase 02C progress plan, branch/worktree, Cursor delegation prompt, and validation cadence.
+- [~] 2026-05-22 — orchestrator — Re-read Phase 02C acceptance criteria against implementation, run completion audit, push branch, and open PR.
 
 ### Open
 
-- [ ] 2026-05-22 — Cursor Agent — Replace placeholder `content/items.json`, `content/enemies.json`, and `content/floor-rules.json` with finite initial records for Potion, Slime, and basic floor rules.
-- [ ] 2026-05-22 — Cursor Agent — Add a lightweight local content loader/validator with typed records for items, enemies, and floor rules.
-- [ ] 2026-05-22 — Cursor Agent — Add tests that parse content, validate required fields, reject malformed content, and expose Potion/Slime records by ID.
-- [ ] 2026-05-22 — orchestrator — Review Cursor diffs for scope, determinism, serializability, and no external-service dependency.
-- [ ] 2026-05-22 — orchestrator — Run `pnpm test`, `pnpm run typecheck`, and `pnpm run lint`; record results.
-- [ ] 2026-05-22 — orchestrator — Re-read Phase 02C acceptance criteria against implementation, update checklist/log, commit checkpoints, push branch, and open PR.
+- _(none)_
 
 ### Done
 
-- _(move completed queue items here with `[x]`)_
+- [x] 2026-05-22 — orchestrator — Prepare Phase 02C progress plan, branch/worktree, Cursor delegation prompt, and validation cadence.
+- [x] 2026-05-22 — Cursor Agent — Replace placeholder `content/items.json`, `content/enemies.json`, and `content/floor-rules.json` with finite initial records for Potion, Slime, and basic floor rules.
+- [x] 2026-05-22 — Cursor Agent — Add a lightweight local content loader/validator with typed records for items, enemies, and floor rules.
+- [x] 2026-05-22 — Cursor Agent — Add tests that parse content, validate required fields, reject malformed content, and expose Potion/Slime records by ID.
+- [x] 2026-05-22 — orchestrator — Review Cursor diffs for scope, determinism, serializability, and no external-service dependency.
+- [x] 2026-05-22 — orchestrator — Run `pnpm test`, `pnpm run typecheck`, and `pnpm run lint`; record results.
 
 ### Blocked / skipped
 
@@ -80,22 +80,22 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 ### Phase 02C — Content data
 
 - [x] Read Phase 02C plan and confirm dependency/scope boundaries.
-- [ ] Keep scope limited to static local content files, typed helpers, and lightweight validation tests.
-- [ ] `content/items.json` contains an initial Potion record with stable ID, display name, description, and minimal gameplay fields.
-- [ ] `content/enemies.json` contains an initial Slime record with stable ID, display name, description, and minimal gameplay fields.
-- [ ] `content/floor-rules.json` contains initial finite floor-rule records with stable IDs and basic playable defaults.
-- [ ] Add or update a content loader/validator module that loads local JSON deterministically.
-- [ ] Validation fails clearly when required fields are missing or malformed.
-- [ ] Tests confirm content files parse.
-- [ ] Tests confirm required fields exist.
-- [ ] Tests confirm invalid content fails validation.
-- [ ] Tests confirm Potion and Slime records are available to game logic by ID.
-- [ ] `pnpm test` passes.
-- [ ] `pnpm run typecheck` passes.
-- [ ] `pnpm run lint` passes.
-- [ ] Future phases can add content without changing the core contract (acceptance).
-- [ ] Static content is finite, versionable, and inspectable (acceptance).
-- [ ] No runtime external service is required to fetch gameplay content (acceptance).
+- [x] Keep scope limited to static local content files, typed helpers, and lightweight validation tests.
+- [x] `content/items.json` contains an initial Potion record with stable ID, display name, description, and minimal gameplay fields.
+- [x] `content/enemies.json` contains an initial Slime record with stable ID, display name, description, and minimal gameplay fields.
+- [x] `content/floor-rules.json` contains initial finite floor-rule records with stable IDs and basic playable defaults.
+- [x] Add or update a content loader/validator module that loads local JSON deterministically.
+- [x] Validation fails clearly when required fields are missing or malformed.
+- [x] Tests confirm content files parse.
+- [x] Tests confirm required fields exist.
+- [x] Tests confirm invalid content fails validation.
+- [x] Tests confirm Potion and Slime records are available to game logic by ID.
+- [x] `pnpm test` passes.
+- [x] `pnpm run typecheck` passes.
+- [x] `pnpm run lint` passes.
+- [x] Future phases can add content without changing the core contract (acceptance).
+- [x] Static content is finite, versionable, and inspectable (acceptance).
+- [x] No runtime external service is required to fetch gameplay content (acceptance).
 - [ ] Re-read acceptance criteria against actual repo state.
 - [ ] Push branch and open PR.
 
@@ -121,6 +121,10 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — Rotated active phase from merged Phase 01A to Phase 02A after PR #2 merge (`e17e843`). Phase 02A not started.
 - 2026-05-22 — orchestrator — Post-merge main validation: initial `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` failed because `node_modules` was missing in the main checkout; ran `pnpm install` exit 0, then `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
 - 2026-05-22 — orchestrator — User requested `phase-plans/PHASE-02C-CONTENT-DATA.md`. Created worktree `/private/tmp/dungeon-forge-phase-02c-content-data` on branch `phase-02c-content-data` from `origin/main`; Phase 02A remains unexecuted and tracked as deferred.
+- 2026-05-22 — orchestrator — Commit `cba6f52` recorded the Phase 02C progress plan before implementation.
+- 2026-05-22 — Cursor Agent — Implemented Phase 02C content data: `content/items.json`, `content/enemies.json`, `content/floor-rules.json`, `src/game/content.ts`, `src/game/items.ts`, `src/game/enemies.ts`, `tests/content.test.ts`, and updated `tests/scaffold.test.ts`.
+- 2026-05-22 — Cursor Agent — Follow-up test-only pass added malformed floor-rule validation and loaded floor-rule progression coverage in `tests/content.test.ts`.
+- 2026-05-22 — orchestrator — Validation after Cursor implementation: `pnpm test` exit 0 (2 files, 10 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0.
 
 ---
 

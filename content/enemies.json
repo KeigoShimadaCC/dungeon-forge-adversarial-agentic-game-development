@@ -1,4 +1,17 @@
 {
-  "schemaVersion": "01A-placeholder",
-  "enemies": []
+  "schemaVersion": "02C",
+  "enemies": [
+    {
+      "id": "slime",
+      "name": "Slime",
+      "displayName": "Green Slime",
+      "description": "A slow blob that bumps into adventurers for modest damage.",
+      "hp": 6,
+      "attack": 2,
+      "defense": 0,
+      "xp": 3,
+      "goldReward": 1,
+      "itemDropIds": []
+    }
+  ]
 }
