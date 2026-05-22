@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Make developer-agent handoffs easier to use, validate, and audit while preserving the human-governed workflow model. |
 | Branch | `phase/phase-14a-developer-workflow-polish` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-14a-developer-workflow-polish-wt` |
-| Base | `origin/main` at `eca1dda` |
-| Status | `Queued; automation start pending` |
+| Base | `origin/main` at `9977d16` |
+| Status | `Seeded; Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -52,11 +52,11 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-23 orchestrator — Start Phase 14A automation: create prompt bundle/worktree, seed progress, delegate implementation to Cursor/composer-2.5, then verify locally.
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Start Phase 14A automation: create prompt bundle/worktree, seed progress, delegate implementation to Cursor/composer-2.5, then verify locally.
+- _(none)_
 
 ### Done
 
@@ -266,6 +266,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 13C PASS against the phase plan, protocol invariants, local validation, secrets scan, and forbidden-scope review; merge readiness was blocked only by expected uncommitted/untracked files and no PR yet. Non-blocking test-strength suggestions were addressed immediately: assertions now cover deterministic impossible-placement and softlock categories, repeated-failure categories on balance summaries, and actual tactical item use by `greedy-item-picker`. Validation PASS: `pnpm test tests/trace-scorecard-diagnostics.test.ts tests/balance-tuning.test.ts` (12 tests).
 - 2026-05-23 — orchestrator — Final pre-commit validation PASS after recheck hardening: `pnpm run check` (23 files, 212 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass) and `git diff --check`.
 - 2026-05-23 — orchestrator — Phase 13C merged and cleaned up: automation gate allowed merge, PR #30 `Repo gates` passed in 32s, PR #30 was squash-merged at `eca1ddae10ef4bdd3f5745dc67411537b2bd1fbb`, clean worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-13c-trace-scorecard-diagnostics-wt` was removed, local branch `phase/phase-13c-trace-scorecard-diagnostics` was deleted, remote branch was deleted manually, and `automation/phase-state.json` advanced current phase to `PHASE-14A`.
+- 2026-05-23 — orchestrator — Phase 14A automation start: `pnpm run phase -- status` selected `PHASE-14A`; read `PROGRESS.MD` and `phase-plans/PHASE-14A-DEVELOPER-WORKFLOW-POLISH.md`; `pnpm run phase -- bundle --phase PHASE-14A --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-14A/planned`; Cursor preflight `agent --list-models` confirmed `composer-2.5`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-14a-developer-workflow-polish-wt` on branch `phase/phase-14a-developer-workflow-polish` from `origin/main` at `9977d16`.
 
 ---
 
