@@ -5,6 +5,7 @@ import {
   type FloorRuleDefinition,
   type ItemDefinition,
 } from './content.js';
+import { render } from './render.js';
 import { createSeededRng } from './rng.js';
 import type {
   GameConfig,
@@ -737,48 +738,7 @@ export const step = (state: GameState, action: PlayerAction): StepResult => {
   };
 };
 
-const inventoryLabel = (inventory: string[]): string => {
-  if (inventory.length === 0) {
-    return '(empty)';
-  }
-  return inventory
-    .map((itemType) => getItemDefinition(itemType).displayName)
-    .join(', ');
-};
-
-export const render = (state: GameState): string => {
-  const renderedRows = state.map.tiles.map((row, y) =>
-    row
-      .map((tile, x) => {
-        const position = { x, y };
-        if (samePosition(state.player, position)) {
-          return '@';
-        }
-        const enemy = enemyAt(state, position);
-        if (enemy) {
-          return enemy.glyph;
-        }
-        const item = itemsAt(state, position)[0];
-        if (item) {
-          return item.glyph;
-        }
-        return tile.glyph;
-      })
-      .join(''),
-  );
-
-  return [
-    `Seven Floors to Dawn ${state.version}`,
-    `Seed: ${state.seed} | Floor: ${state.floor}/${state.meta.totalFloors} | Turn: ${state.turn}/${state.meta.maxTurns}`,
-    `Status: ${state.terminalStatus} | HP: ${state.player.hp}/${state.player.maxHp}`,
-    `Objective: ${state.meta.objective}`,
-    ...renderedRows,
-    `Inventory: ${inventoryLabel(state.player.inventory)}`,
-    'Legend: @ You, s Slime, ! Potion, > Stairs, # Wall, . Floor',
-    'Log:',
-    ...state.log.slice(-3).map((entry) => `- ${entry}`),
-  ].join('\n');
-};
+export { render } from './render.js';
 
 export const gameEngine: GameEngine = {
   start,
