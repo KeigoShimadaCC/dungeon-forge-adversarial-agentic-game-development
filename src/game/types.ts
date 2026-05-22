@@ -52,8 +52,10 @@ export interface GameMap {
 export interface EnemyInstance extends Position {
   id: string;
   type: string;
+  label: string;
   hp: number;
   maxHp: number;
+  attack: number;
   glyph: string;
 }
 
@@ -78,6 +80,7 @@ export interface GameState {
   meta: {
     maxTurns: number;
     objective: string;
+    totalFloors: number;
   };
 }
 

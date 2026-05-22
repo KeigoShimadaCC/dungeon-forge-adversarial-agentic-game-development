@@ -10,10 +10,10 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | --- | --- |
 | Phase | `phase-plans/PHASE-03A-MINIMAL-DUNGEON.md` |
 | Goal | Build the first complete playable finite dungeon using the stable contract, seeded RNG, and initial content. |
-| Branch | _(working branch name)_ |
-| Worktree | `main checkout` |
+| Branch | `phase-03a-minimal-dungeon` |
+| Worktree | `/private/tmp/dungeon-forge-phase-03a-minimal-dungeon` |
 | Base | `origin/main` |
-| Status | `not_started` |
+| Status | `ready_for_review` |
 
 ### Contract (read before editing)
 
@@ -60,11 +60,19 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Done
 
-- _(move completed queue items here with `[x]`)_
+- [x] T-03A-001 Progress setup: confirm Phase 03A worktree and seed live implementation tasks before coding (orchestrator, 2026-05-22).
+- [x] T-03A-002 Preflight: confirm Phase 03A contract, dependencies, Cursor CLI, and baseline repo state (orchestrator, 2026-05-22).
+- [x] T-03A-003A Local fallback implementation: implement minimal dungeon mechanics under `src/game/**` and focused tests under `tests/**` after Cursor policy blocker (orchestrator, 2026-05-22).
+- [x] T-03A-004 Orchestrator review: inspect local diffs for phase scope, contract stability, determinism, and forbidden MVP scope (orchestrator, 2026-05-22).
+- [x] T-03A-005 Validation: run `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `git diff --check`, and `rg "Math\\.random" src tests` (orchestrator, 2026-05-22).
+- [x] T-03A-007 Acceptance review: re-read Phase 03A plan and concept constraints against repo state (orchestrator, 2026-05-22).
+- [x] T-03A-008 Publish: commit checkpoints, push `phase-03a-minimal-dungeon`, and open PR #7 to `main` (orchestrator, 2026-05-22).
+- [x] T-03A-009 Follow-up hardening: add explicit invalid-state `ABORTED` handling and tests after plan recheck (orchestrator, 2026-05-22).
 
 ### Blocked / skipped
 
-- _(use `[!]` or `[-]` with a one-line reason)_
+- [!] T-03A-003 Cursor implementation: sandbox reviewer denied sending local repository context to external Cursor service; continuing with safer local implementation (orchestrator, 2026-05-22).
+- [!] T-03A-006 Cursor read-only audit: skipped after the same sandbox reviewer policy denial for sending repo context to Cursor; local acceptance audit remains required (orchestrator, 2026-05-22).
 
 ---
 
@@ -74,29 +82,29 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 
 ### Phase 03A — Minimal dungeon
 
-- [ ] Read Phase 03A plan and confirm scope boundaries (no advanced procedural generation, item/enemy variety beyond Potion/Slime, LLM player/reviewer integration, or browser UI).
-- [ ] Build grid map with walls, floors, stairs, player position, HP, inventory, turn, floor, and objective.
-- [ ] Use seeded RNG so the same seed reproduces the same initial dungeon setup.
-- [ ] Use Phase 02C content IDs/records for Potion, Slime, and floor rules instead of duplicating constants throughout mechanics.
-- [ ] Implement movement actions from `getAvailableActions`.
-- [ ] Prevent movement through walls.
-- [ ] Implement Slime enemy behavior.
-- [ ] Implement melee attack and HP-changing combat.
-- [ ] Implement Potion pickup and use.
-- [ ] Implement stairs and finite floor progression.
-- [ ] Implement `WIN` on final floor completion.
-- [ ] Implement `LOSS` when HP reaches 0.
-- [ ] Preserve max-turn `ABORTED`.
-- [ ] Invalid actions are handled safely through `StepResult.valid === false`.
-- [ ] Add engine tests for movement, walls, invalid actions, Slime behavior, combat, Potion healing, stairs, `WIN`, `LOSS`, and `ABORTED`.
-- [ ] `pnpm test` passes.
-- [ ] `pnpm run typecheck` passes.
-- [ ] `pnpm run lint` passes.
-- [ ] Dungeon is complete, finite, playable, seedable, and testable (acceptance).
-- [ ] `GameEngine` contract remains stable (acceptance).
-- [ ] No forbidden MVP scope is introduced (acceptance).
-- [ ] Re-read acceptance criteria against actual repo state.
-- [ ] Push branch and open PR when implemented.
+- [x] Read Phase 03A plan and confirm scope boundaries (no advanced procedural generation, item/enemy variety beyond Potion/Slime, LLM player/reviewer integration, or browser UI).
+- [x] Build grid map with walls, floors, stairs, player position, HP, inventory, turn, floor, and objective.
+- [x] Use seeded RNG so the same seed reproduces the same initial dungeon setup.
+- [x] Use Phase 02C content IDs/records for Potion, Slime, and floor rules instead of duplicating constants throughout mechanics.
+- [x] Implement movement actions from `getAvailableActions`.
+- [x] Prevent movement through walls.
+- [x] Implement Slime enemy behavior.
+- [x] Implement melee attack and HP-changing combat.
+- [x] Implement Potion pickup and use.
+- [x] Implement stairs and finite floor progression.
+- [x] Implement `WIN` on final floor completion.
+- [x] Implement `LOSS` when HP reaches 0.
+- [x] Preserve max-turn `ABORTED` and abort active invalid state with a traceable event.
+- [x] Invalid actions are handled safely through `StepResult.valid === false`.
+- [x] Add engine tests for movement, walls, invalid actions, Slime behavior, combat, Potion healing, stairs, `WIN`, `LOSS`, and `ABORTED`.
+- [x] `pnpm test` passes.
+- [x] `pnpm run typecheck` passes.
+- [x] `pnpm run lint` passes.
+- [x] Dungeon is complete, finite, playable, seedable, and testable (acceptance).
+- [x] `GameEngine` contract remains stable (acceptance).
+- [x] No forbidden MVP scope is introduced (acceptance).
+- [x] Re-read acceptance criteria against actual repo state.
+- [x] Push branch and open PR when implemented.
 
 ---
 
@@ -107,6 +115,7 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | ID | Idea | Suggested phase | Why deferred | Noted |
 | --- | --- | --- | --- | --- |
 | F-001 | _(add ideas here)_ | _(phase)_ | _(why deferred)_ | _(agent, date)_ |
+| F-03A-001 | Extract engine-local map/combat helpers into dedicated modules when those systems grow. | Phase 09B / Phase 09C | Phase 03A permits modules as needed; richer enemy variety and procedural map generation are explicitly scheduled later. | orchestrator, 2026-05-22 |
 
 _Add rows as you go. Promote to Task queue when a phase plan or user explicitly schedules the work._
 
@@ -118,6 +127,14 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 
 - 2026-05-22 — orchestrator — Rotated active phase from merged Phase 01A to Phase 02A after PR #2 merge (`e17e843`). Phase 02A not started.
 - 2026-05-22 — orchestrator — PR #5 merged at `8893bb6`; fast-forwarded `main` from `3094915` to `8893bb6`, rotated active phase to `PHASE-03A-MINIMAL-DUNGEON.md`, and archived Phase 02C summary. Post-pull validation: `pnpm test` exit 0 (4 files, 29 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
+- 2026-05-22 — orchestrator — Created worktree `/private/tmp/dungeon-forge-phase-03a-minimal-dungeon` on branch `phase-03a-minimal-dungeon` from `origin/main`; Phase 03A progress tasks seeded before implementation.
+- 2026-05-22 — orchestrator — Preflight: `agent --help` exit 0; initial checks failed because `node_modules` was missing, `pnpm install` exit 0, then `pnpm test` exit 0 (4 files, 29 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
+- 2026-05-22 — orchestrator — Cursor implementation attempt rejected by sandbox reviewer because it would send private repo context to external Cursor service; no workaround attempted, proceeding with local fallback inside the same file/scope boundaries.
+- 2026-05-22 — orchestrator — Local fallback implementation: `src/game/engine.ts` now starts a deterministic 5-floor dungeon with walls/floors/stairs, Potion, Slime, structured movement/attack/wait/pickup/use/descend/inspect actions, enemy turns, and `WIN`/`LOSS`/`ABORTED`; `src/game/types.ts` adds serializable dungeon fields; `tests/engine.test.ts` covers Phase 03A mechanics.
+- 2026-05-22 — orchestrator — Validation after implementation: `pnpm test` exit 0 (5 files, 41 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0, and `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
+- 2026-05-22 — orchestrator — Acceptance review: re-read Phase 03A and Phase 00A; changed paths are limited to `PROGRESS.MD`, `src/game/engine.ts`, `src/game/types.ts`, and `tests/engine.test.ts`; no `src/harness/**`, `runs/**`, content, docs, package, UI, LLM, external-service, image/audio, real-time, infinite-floor, or free-text gameplay scope was introduced. Forbidden-scope scan only matched invalid-action test labels and the existing RNG guidance comment.
+- 2026-05-22 — orchestrator — Pushed `phase-03a-minimal-dungeon` and opened PR #7: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/7
+- 2026-05-22 — orchestrator — Plan recheck follow-up: `PHASE-09C-MAP-GENERATION.md` owns future map generation and map-failure handling, while no later phase clearly owns Phase 03A's invalid-state abort wording. Added active-state validation in `src/game/engine.ts` so malformed map dimensions, impossible actor/item placement, unknown inventory/item types, or out-of-range floors abort with an `invalid_state` event; added two tests in `tests/engine.test.ts`. Validation: `pnpm test` exit 0 (5 files, 43 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, and `git diff --check origin/main...HEAD` exit 0.
 
 ---
 
