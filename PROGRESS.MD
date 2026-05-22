@@ -10,10 +10,10 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | --- | --- |
 | Phase | `phase-plans/PHASE-04A-ASCII-RENDERER.md` |
 | Goal | Make the game readable through a plain text/ASCII render that both humans and reviewer agents can inspect. |
-| Branch | _(next phase branch)_ |
-| Worktree | `main checkout` |
+| Branch | `phase-04a-ascii-renderer` |
+| Worktree | `../dungeon-forge-phase-04a-ascii-renderer` |
 | Base | `origin/main` |
-| Status | `not_started` |
+| Status | `in_progress` |
 
 ### Contract (read before editing)
 
@@ -52,11 +52,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-22 — orchestrator — Set up Phase 04A worktree/progress tracking and confirm Cursor preflight.
 
 ### Open
 
-- _(none)_
+- [ ] 2026-05-22 — orchestrator/Cursor — Implement deterministic ASCII renderer in `src/game/render.ts` with minimal `GameEngine.render` integration.
+- [ ] 2026-05-22 — orchestrator/Cursor — Add render-focused tests for map/HUD/inventory/legend/log/determinism/purity/terminal states.
+- [ ] 2026-05-22 — orchestrator — Inspect diff for unexpected gameplay/protocol changes.
+- [ ] 2026-05-22 — orchestrator — Run `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, and `git diff --check`.
+- [ ] 2026-05-22 — orchestrator/Cursor — Run read-only Cursor audit against Phase 04A and invariants.
+- [ ] 2026-05-22 — orchestrator — Re-read Phase 04A acceptance criteria against actual repo state.
+- [ ] 2026-05-22 — orchestrator — Commit, push, and open PR.
 
 ### Done
 
@@ -111,6 +117,7 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
 - 2026-05-22 — orchestrator — PR #7 merged at `2fdc283`; rebased local `main` onto `origin/main` while preserving local docs commit `6b9d787`; rotated active phase to `PHASE-04A-ASCII-RENDERER.md` and archived Phase 03A summary. Post-merge validation: `pnpm test` exit 0 (5 files, 43 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0, and `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
+- 2026-05-22 — orchestrator — Phase 04A start: created worktree `../dungeon-forge-phase-04a-ascii-renderer` on branch `phase-04a-ascii-renderer` from `origin/main`; `agent --list-models` required escalated keychain access and confirmed `composer-2.5` is available; main checkout was clean before worktree creation.
 
 ---
 
