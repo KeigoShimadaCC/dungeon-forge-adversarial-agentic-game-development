@@ -9,11 +9,11 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Field | Value |
 | --- | --- |
 | Phase | `phase-plans/PHASE-01A-PROJECT-STRUCTURE.md` |
-| Goal | _(one sentence from the phase plan Target Outcome)_ |
-| Branch | _(working branch name)_ |
-| Worktree | _(optional isolated path, or `main checkout`)_ |
-| Base | _(e.g. `origin/main`)_ |
-| Status | `not_started` \| `in_progress` \| `blocked` \| `ready_for_review` \| `done` |
+| Goal | A minimal scaffold exists and can run basic typecheck, test, and lint checks without implementing gameplay depth or agent behavior. |
+| Branch | `phase-01a-project-structure` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-01a-project-structure` |
+| Base | `origin/main` |
+| Status | `in_progress` |
 
 ### Contract (read before editing)
 
@@ -56,11 +56,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- _(add tasks here, e.g. `[ ] T-001 Scaffold package.json and pnpm scripts (agent, 2026-05-22)`)_
+- [ ] T-01A-001 Preflight: confirm isolated worktree, branch `phase-01a-project-structure`, and base `origin/main` (composer-2.5, 2026-05-22)
+- [ ] T-01A-003 Scaffold config: add `package.json`, `tsconfig.json`, Vitest config, `.gitignore`, and scripts (`test`, `typecheck`, `lint` if lint tooling installed) (composer-2.5, 2026-05-22)
+- [ ] T-01A-004 Create initial directories: `src/game`, `src/harness`, `src/agents/prompts`, `content`, `tests`, `docs`, `runs` with placeholder modules that compile (composer-2.5, 2026-05-22)
+- [ ] T-01A-005 Install dependencies: run `pnpm install` after `package.json` exists (composer-2.5, 2026-05-22)
+- [ ] T-01A-006 Run validation: `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` if lint script exists (composer-2.5, 2026-05-22)
+- [ ] T-01A-007 Review diff against Phase 01A scope (no gameplay depth, LLM, browser UI, or forbidden MVP features) (composer-2.5, 2026-05-22)
+- [ ] T-01A-008 Final acceptance and PR: re-read acceptance criteria vs repo state; open PR only when user asks (composer-2.5, 2026-05-22)
 
 ### Done
 
-- _(move completed queue items here with `[x]`)_
+- [x] T-01A-002 Progress seed: update `PROGRESS.MD` for Phase 01A execution (composer-2.5, 2026-05-22)
 
 ### Blocked / skipped
 
@@ -74,10 +80,21 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 
 ### Phase 01A — Project structure
 
-- [ ] Read phase plan and confirm scope boundaries.
-- [ ] _(copy deliverables from phase plan as checkboxes)_
-- [ ] _(copy tests/validation steps as checkboxes)_
-- [ ] _(copy acceptance criteria as checkboxes)_
+- [ ] Read phase plan and confirm scope boundaries (no gameplay depth, LLM, browser UI, DB, Docker, or generated `runs/**` evidence).
+- [ ] Project config files exist: `package.json`, `tsconfig.json`, Vitest config (if needed), `.gitignore` for `node_modules`, build output, env files, and coverage/cache.
+- [ ] `package.json` scripts include `test`, `typecheck`, and `lint` if lint tooling is installed.
+- [ ] Initial directories exist: `src/game`, `src/harness`, `src/agents/prompts`, `content`, `tests`, `docs`, `runs`.
+- [ ] Placeholder modules compile; imports resolve without gameplay or agent-loop implementation.
+- [ ] Basic placeholder tests prove Vitest runs.
+- [ ] Minimal docs mirror north star and rules (scaffold-level only).
+- [ ] `pnpm install` succeeds after `package.json` exists.
+- [ ] `pnpm test` passes.
+- [ ] `pnpm run typecheck` passes.
+- [ ] `pnpm run lint` passes if a lint script exists.
+- [ ] Repo installs and checks locally (acceptance).
+- [ ] Folder boundaries match planned architecture in `02_STRUCTURE_AND_TECH_SPECS.md` (acceptance).
+- [ ] No forbidden MVP feature or external gameplay service introduced (acceptance).
+- [ ] Later game contract work can proceed without restructuring (acceptance).
 - [ ] Re-read acceptance criteria against actual repo state.
 - [ ] Commit / PR only when user asks.
 
@@ -99,7 +116,7 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 
 _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
-- _(YYYY-MM-DD) agent-id — what was run and outcome_
+- 2026-05-22 — composer-2.5 — Phase 01A progress seed: Cursor Agent model `composer-2.5` confirmed; isolated worktree created at `/Users/keigoshimada/Documents/dungeon-forge-phase-01a-project-structure` on branch `phase-01a-project-structure` from `origin/main`. `PROGRESS.MD` updated for execution (no scaffold yet).
 
 ---
 
