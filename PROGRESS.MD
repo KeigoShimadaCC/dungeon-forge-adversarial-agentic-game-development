@@ -8,12 +8,12 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | `phase-plans/PHASE-01A-PROJECT-STRUCTURE.md` |
-| Goal | A minimal scaffold exists and can run basic typecheck, test, and lint checks without implementing gameplay depth or agent behavior. |
-| Branch | `phase-01a-project-structure` |
+| Phase | `phase-plans/PHASE-02A-GAME-CONTRACT.md` |
+| Goal | `GameEngine` and core types exist, compile, and support start, render, available-action lookup, stepping, and terminal-state checks. |
+| Branch | _(working branch name)_ |
 | Worktree | `main checkout` |
 | Base | `origin/main` |
-| Status | `ready_for_review` |
+| Status | `not_started` |
 
 ### Contract (read before editing)
 
@@ -60,17 +60,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Done
 
-- [x] T-01A-001 Preflight: confirm isolated worktree, branch `phase-01a-project-structure`, and base `origin/main` (composer-2.5, 2026-05-22)
-- [x] T-01A-002 Progress seed: update `PROGRESS.MD` for Phase 01A execution (composer-2.5, 2026-05-22)
-- [x] T-01A-003 Scaffold config: add `package.json`, `tsconfig.json`, Vitest config, `.gitignore`, and scripts (`test`, `typecheck`, `lint` if lint tooling installed) (composer-2.5, 2026-05-22)
-- [x] T-01A-004 Create initial directories: `src/game`, `src/harness`, `src/agents/prompts`, `content`, `tests`, `docs`, `runs` with placeholder modules that compile (composer-2.5, 2026-05-22)
-- [x] T-01A-005 Install dependencies: run `pnpm install` after `package.json` exists (composer-2.5, 2026-05-22)
-- [x] T-01A-006 Run validation: `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` if lint script exists (composer-2.5, 2026-05-22)
-- [x] T-01A-007 Review diff against Phase 01A scope (no gameplay depth, LLM, browser UI, or forbidden MVP features) (composer-2.5, 2026-05-22)
-- [x] T-01A-008A Final acceptance: re-read acceptance criteria against actual repo state (orchestrator, 2026-05-22)
-- [x] T-01A-008 PR: push branch and open PR to `main` (orchestrator, 2026-05-22)
-- [x] T-001 Write comprehensive project README from concept and phase docs (Codex, 2026-05-22)
-- [x] T-01A-009 Address PR #2 review fixes: Node engine range, ESLint dirname compatibility, and portable worktree value (Copilot, 2026-05-22)
+- _(move completed queue items here with `[x]`)_
 
 ### Blocked / skipped
 
@@ -82,25 +72,27 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 _Derived from the active phase plan: deliverables, tests/validation, acceptance criteria. Tick when verified, not when merely attempted._
 
-### Phase 01A — Project structure
+### Phase 02A — Game contract
 
-- [x] Read phase plan and confirm scope boundaries (no gameplay depth, LLM, browser UI, DB, Docker, or generated `runs/**` evidence).
-- [x] Project config files exist: `package.json`, `tsconfig.json`, Vitest config (if needed), `.gitignore` for `node_modules`, build output, env files, and coverage/cache.
-- [x] `package.json` scripts include `test`, `typecheck`, and `lint` if lint tooling is installed.
-- [x] Initial directories exist: `src/game`, `src/harness`, `src/agents/prompts`, `content`, `tests`, `docs`, `runs`.
-- [x] Placeholder modules compile; imports resolve without gameplay or agent-loop implementation.
-- [x] Basic placeholder tests prove Vitest runs.
-- [x] Minimal docs mirror north star and rules (scaffold-level only).
-- [x] `pnpm install` succeeds after `package.json` exists.
-- [x] `pnpm test` passes.
-- [x] `pnpm run typecheck` passes.
-- [x] `pnpm run lint` passes if a lint script exists.
-- [x] Repo installs and checks locally (acceptance).
-- [x] Folder boundaries match planned architecture in `02_STRUCTURE_AND_TECH_SPECS.md` (acceptance).
-- [x] No forbidden MVP feature or external gameplay service introduced (acceptance).
-- [x] Later game contract work can proceed without restructuring (acceptance).
-- [x] Re-read acceptance criteria against actual repo state.
-- [x] Commit / PR only when user asks.
+- [ ] Read phase plan and confirm scope boundaries (no full dungeon mechanics, procedural generation, LLM player/reviewer behavior, or arbitrary free-text gameplay).
+- [ ] `src/game/types.ts` defines JSON-serializable `GameState`, `PlayerAction`, `StepResult`, `GameEvent`, `TerminalStatus`, and `GameConfig`.
+- [ ] `src/game/engine.ts` exposes the stable `GameEngine` contract or minimal implementation.
+- [ ] Terminal statuses are exactly `ACTIVE`, `WIN`, `LOSS`, and `ABORTED`.
+- [ ] Invalid actions are represented through `StepResult.valid === false` and an error instead of normal-flow throws.
+- [ ] Contract tests cover `start(seed)` returning a valid `GameState`.
+- [ ] Contract tests cover `render(state)` returning a non-empty string.
+- [ ] Contract tests cover `getAvailableActions(state)` returning explicit actions.
+- [ ] Contract tests cover every available action passing through `step(state, action)` without crashing.
+- [ ] Contract tests cover `isTerminal(state)` matching `terminalStatus`.
+- [ ] Contract tests cover `StepResult` JSON serialization round trip.
+- [ ] `pnpm test` passes.
+- [ ] `pnpm run typecheck` passes.
+- [ ] `pnpm run lint` passes.
+- [ ] Stable protocol can support both human and agent play (acceptance).
+- [ ] No state requires functions, classes, sockets, credentials, or external handles to serialize (acceptance).
+- [ ] Later phases can add mechanics without casually changing the public engine contract (acceptance).
+- [ ] Re-read acceptance criteria against actual repo state.
+- [ ] Commit / PR only when user asks.
 
 ---
 
@@ -120,30 +112,40 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 
 _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
-- 2026-05-22 — composer-2.5 — Phase 01A progress seed: Cursor Agent model `composer-2.5` confirmed; isolated worktree created at `/Users/keigoshimada/Documents/dungeon-forge-phase-01a-project-structure` on branch `phase-01a-project-structure` from `origin/main`. `PROGRESS.MD` updated for execution (no scaffold yet).
-- 2026-05-22 — composer-2.5 — Preflight: `git status` on `phase-01a-project-structure`, ahead of `origin/main` by 1 commit.
-- 2026-05-22 — composer-2.5 — Scaffold added: `package.json`, `pnpm-workspace.yaml`, `tsconfig.json`, `vitest.config.ts`, `eslint.config.js`, `.gitignore`, `src/**` placeholders, `content/*.json`, `tests/scaffold.test.ts`, `docs/NORTH_STAR.md`, `docs/RULES.md`, `runs/.gitkeep`.
-- 2026-05-22 — composer-2.5 — `pnpm install` — exit 0 (156 packages).
-- 2026-05-22 — composer-2.5 — `pnpm test` — exit 0 (3 tests in `tests/scaffold.test.ts`).
-- 2026-05-22 — composer-2.5 — `pnpm run typecheck` — exit 0.
-- 2026-05-22 — composer-2.5 — `pnpm run lint` — exit 0.
-- 2026-05-22 — composer-2.5 — Scope review: no GameEngine contract, harness playthroughs, LLM, browser UI, DB, Docker, or generated `runs/**` evidence; placeholders only.
-- 2026-05-22 — orchestrator — Independent validation after Cursor scaffold: `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0.
-- 2026-05-22 — orchestrator — Re-read `PHASE-01A-PROJECT-STRUCTURE.md` acceptance criteria against repo state: scaffold installs/checks locally, folder boundaries match planned architecture, no forbidden MVP feature or external gameplay service introduced, and Phase 02A can proceed without restructuring.
-- 2026-05-22 — composer-2.5 verifier — Read-only verification found no blocking Phase 01A issues. Low-severity hygiene: stale top-level agent docs and pre-existing `untitled folder/.gitkeep`.
-- 2026-05-22 — orchestrator — Remediated verifier hygiene items: updated `AGENTS.md` and `CLAUDE.md` command/setup notes for the Phase 01A scaffold; removed pre-existing `untitled folder/.gitkeep` so tracked folder boundaries match the planned architecture.
-- 2026-05-22 — orchestrator — Post-remediation validation: `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0.
-- 2026-05-22 Codex — Created `README.md` from `concept-and-ideas/*` and `phase-plans/*`; ran `git diff --check` (pass). No package/test commands run because no `package.json` scaffold exists yet.
-- 2026-05-22 — orchestrator — Merged updated `origin/main` (`d80a684`) into `phase-01a-project-structure`, resolved `PROGRESS.MD` by preserving Phase 01A evidence and the main-branch README task, then reran `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
-- 2026-05-22 — orchestrator — Pushed `phase-01a-project-structure` to origin and opened PR #2: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/2. Phase status set to `ready_for_review`.
-- 2026-05-22 — orchestrator — Final PR-progress validation after setting status: `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0.
-- 2026-05-22 — Copilot — PR #2 review remediation: updated `package.json` Node engine to `^20.19.0 || >=22.12.0`, replaced `import.meta.dirname` usage in `eslint.config.js` with `dirname(fileURLToPath(import.meta.url))`, and made `PROGRESS.MD` worktree value portable (`main checkout`).
+- 2026-05-22 — orchestrator — Rotated active phase from merged Phase 01A to Phase 02A after PR #2 merge (`e17e843`). Phase 02A not started.
+- 2026-05-22 — orchestrator — Post-merge main validation: initial `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` failed because `node_modules` was missing in the main checkout; ran `pnpm install` exit 0, then `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 01A — Project structure
+
+- **Status:** `done`
+- **Branch / PR:** `phase-01a-project-structure` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/2
+- **Merge commit:** `e17e843975f0fb055336b0b80d1940770e898f9e`
+- **Outcome:** TypeScript + Node + pnpm + Vitest + ESLint scaffold created. Planned `src/game`, `src/harness`, `src/agents/prompts`, `content`, `tests`, `docs`, and `runs` boundaries exist with compile-only placeholders; no gameplay depth, LLM integration, browser UI, database, Docker, deployment, or generated run evidence.
+- **Key evidence:** Cursor Agent implementation with `composer-2.5`; local `pnpm install`; repeated `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` passes; Cursor read-only verification found no blocking Phase 01A issues; PR review remediation completed before merge.
+
+<details>
+<summary>Phase 01A checklist (completed)</summary>
+
+- [x] Read phase plan and confirm scope boundaries.
+- [x] Create project config files and scripts.
+- [x] Create initial source, content, test, docs, and run directories.
+- [x] Add placeholder modules that compile.
+- [x] Add basic Vitest scaffold tests.
+- [x] Add minimal north-star/rules docs.
+- [x] Run `pnpm install`.
+- [x] Run `pnpm test`.
+- [x] Run `pnpm run typecheck`.
+- [x] Run `pnpm run lint`.
+- [x] Re-read acceptance criteria against repo state.
+- [x] Push branch and merge PR #2 to `main`.
+
+</details>
 
 ### Phase 00A — Plan standards and global invariants
 
