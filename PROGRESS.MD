@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-09b-enemy-variety` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-09b-enemy-variety-wt` |
 | Base | `origin/main` at `f67e9e9` |
-| Status | `acceptance audit passed; finalizing PR` |
+| Status | `complete; PR open` |
 
 ### Contract (read before editing)
 
@@ -52,7 +52,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-22 orchestrator — Finalize progress, commits, push, and PR.
+- _(none)_
 
 ### Open
 
@@ -67,6 +67,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-22 orchestrator — Update combat, rendering, logs, and trace events so enemy behavior is inspectable.
 - [x] 2026-05-22 orchestrator — Add content, engine, render, and trace coverage for enemy variety and deterministic behavior.
 - [x] 2026-05-22 orchestrator — Run local gates, Phase 09B smoke evidence commands, Cursor read-only audit, and acceptance audit.
+- [x] 2026-05-22 orchestrator — Finalize progress, commits, push, and PR #21.
 - [x] 2026-05-22 orchestrator — Seed Phase 08A progress state and checkpoint before implementation (`599b76b`).
 - [x] 2026-05-22 orchestrator — Delegate bounded developer-workflow implementation to Cursor Agent, inspect partial unreported diff, and harden it locally.
 - [x] 2026-05-22 orchestrator — Add deterministic developer task generator, renderer, validation, templates, exports, and CLI.
@@ -170,6 +171,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Commit `d1c0d49` added Phase 09B enemy variety implementation, tests, and progress updates.
 - 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) reported PASS with no blockers. Non-blocking notes: checklist needed closing, `enemy-ai` has no switch default but is content/type validated, Bat move message shares Slime wording, combat helper has engine-level rather than standalone coverage, scorecard does not count non-attack enemy events, and Ghost boundary assertion is intentionally broad.
 - 2026-05-22 — orchestrator — Final local gates PASS after checklist closure: `pnpm test` (12 files, 128 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `rg "Math\\.random" src tests` with only the existing guidance comment in `src/game/rng.ts`.
+- 2026-05-22 — orchestrator — Commit `ceda9d6` finalized Phase 09B validation progress; pushed `phase-09b-enemy-variety` to origin and opened PR #21: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/21.
 
 ---
 
