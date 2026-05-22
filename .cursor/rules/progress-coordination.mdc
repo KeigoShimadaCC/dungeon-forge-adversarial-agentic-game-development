@@ -1,0 +1,17 @@
+---
+description: Live phase coordination via PROGRESS.MD — task queue, checklist, validation log, future backlog.
+globs: PROGRESS.MD
+alwaysApply: false
+---
+
+# Progress coordination
+
+Before phase-scoped work, read `PROGRESS.MD` (Active Phase, Task queue, Phase checklist, Validation log).
+
+During work:
+- Add or claim tasks in **Task queue** (`[ ]` → `[~]` → `[x]`).
+- Tick **Phase checklist** only when verified against the repo.
+- Append evidence to **Validation log**.
+- Put out-of-scope ideas in **Future backlog** — do not implement silently.
+
+`PROGRESS.MD` is coordination only; design truth is `concept-and-ideas/` and `phase-plans/`. See `AGENTS.md`, `CLAUDE.md`, and `.claude/rules/progress-coordination.md`.

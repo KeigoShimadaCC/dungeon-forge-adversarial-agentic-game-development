@@ -1,62 +1,149 @@
-# Phase 00A Progress
+# Project Progress
+
+Living coordination file for AI agents. One active phase at a time. Update on every meaningful slice of work so the next agent can continue without re-deriving state.
+
+---
 
 ## Active Phase
 
-- Phase: `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md`
-- Goal: verify and, only if needed, normalize the phase-plan standards and global invariants documentation.
-- Branch: `phase-00a-plan-standards-impl`
-- Worktree: `/private/tmp/dungeon-forge-phase-00a`
-- Base: `origin/main`
+| Field | Value |
+| --- | --- |
+| Phase | `phase-plans/PHASE-01A-PROJECT-STRUCTURE.md` |
+| Goal | _(one sentence from the phase plan Target Outcome)_ |
+| Branch | _(working branch name)_ |
+| Worktree | _(optional isolated path, or `main checkout`)_ |
+| Base | _(e.g. `origin/main`)_ |
+| Status | `not_started` \| `in_progress` \| `blocked` \| `ready_for_review` \| `done` |
 
-## How Other AI Agents Should Use This File
+### Contract (read before editing)
 
-1. Read this file before changing anything in the repo.
-2. Treat `concept-and-ideas/`, `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md`, `AGENTS.md`, and the active task request as the contract.
-3. Update the checklist before and after assigned work so later agents can see what is in progress, done, blocked, or intentionally skipped.
-4. Record commands run, results, blockers, and validation evidence in the log.
-5. Keep Phase 00A documentation-only. Do not scaffold the app, create `package.json`, install packages, or start Phase 01A.
-6. Do not mark acceptance complete unless the Phase 00A acceptance criteria have been rechecked against the actual repository state.
+1. `concept-and-ideas/` — product intent
+2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
+3. Active `phase-plans/PHASE-XX...md` — implementation contract for this slice
+4. `AGENTS.md` / `CLAUDE.md` — repo rules
+5. `.claude/rules/progress-coordination.md` — progress-file edit rules
+6. User task request — overrides only when explicit
 
-## Checklist
+### Agent workflow
+
+1. **Read** this file and the active phase plan.
+2. **Add** concrete work to [Task queue](#task-queue) before starting (or claim an existing open task).
+3. **Execute** only active-phase scope unless the user expands it.
+4. **Tick** [Phase checklist](#phase-checklist) and task-queue items as work completes.
+5. **Log** commands, results, and evidence in [Validation log](#validation-log).
+6. **Defer** out-of-scope ideas to [Future backlog](#future-backlog) — do not implement them silently.
+7. **Do not** mark phase acceptance complete until checklist + phase acceptance criteria are rechecked against the repo.
+
+### Task status legend
+
+| Mark | Meaning |
+| --- | --- |
+| `[ ]` | Open / not started |
+| `[~]` | In progress |
+| `[x]` | Done |
+| `[-]` | Skipped or N/A (say why in log) |
+| `[!]` | Blocked (say why in log) |
+
+---
+
+## Task queue
+
+_Agents add and own granular tasks here. Prefer small, verifiable items. Include date and agent id when useful._
+
+### In progress
+
+- _(none)_
+
+### Open
+
+- _(add tasks here, e.g. `[ ] T-001 Scaffold package.json and pnpm scripts (agent, 2026-05-22)`)_
+
+### Done
+
+- _(move completed queue items here with `[x]`)_
+
+### Blocked / skipped
+
+- _(use `[!]` or `[-]` with a one-line reason)_
+
+---
+
+## Phase checklist
+
+_Derived from the active phase plan: deliverables, tests/validation, acceptance criteria. Tick when verified, not when merely attempted._
+
+### Phase 01A — Project structure
+
+- [ ] Read phase plan and confirm scope boundaries.
+- [ ] _(copy deliverables from phase plan as checkboxes)_
+- [ ] _(copy tests/validation steps as checkboxes)_
+- [ ] _(copy acceptance criteria as checkboxes)_
+- [ ] Re-read acceptance criteria against actual repo state.
+- [ ] Commit / PR only when user asks.
+
+---
+
+## Future backlog
+
+_Ideas noticed during work that are **out of active-phase scope** but worth tracking. Do not implement here unless the user or phase plan expands scope._
+
+| ID | Idea | Suggested phase | Why deferred | Noted |
+| --- | --- | --- | --- | --- |
+| F-001 | _(add ideas here)_ | _(phase)_ | _(why deferred)_ | _(agent, date)_ |
+
+_Add rows as you go. Promote to Task queue when a phase plan or user explicitly schedules the work._
+
+---
+
+## Validation log
+
+_Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
+
+- _(YYYY-MM-DD) agent-id — what was run and outcome_
+
+---
+
+## Phase archive
+
+_Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 00A — Plan standards and global invariants
+
+- **Status:** `done`
+- **Branch / PR:** `phase-00a-plan-standards-impl` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/1
+- **Outcome:** All 21 `phase-plans/*.md` files verified (10 required sections, dependencies/deliverables/tests/acceptance, no forbidden MVP scope in goals). Documentation-only; no scaffold.
+- **Key evidence:** Cursor Agent read-only audit (Composer 2.5); local section-count and forbidden-scope keyword review; commits `aa0cc5f`, `625a0b6`.
+
+<details>
+<summary>Phase 00A checklist (completed)</summary>
 
 - [x] Inspect base repository status.
-- [x] Create an isolated worktree from `origin/main`.
-- [x] Create `PROGRESS.MD` before any other tracked change.
-- [x] Commit initial `PROGRESS.MD` checkpoint.
-- [x] Confirm Cursor Agent CLI availability and model/auth status.
-- [x] Delegate a read-only Phase 00A audit to Cursor Agent with Composer 2.5 or document the exact blocker.
-- [x] Review Cursor Agent findings instead of trusting self-report.
-- [x] Remediate documentation gaps only if the audit finds Phase 00A issues.
-- [x] Verify all `phase-plans/*.md` files have the 10 required Phase 00A sections.
-- [x] Verify every phase names dependencies, deliverables, tests/checks, and acceptance criteria.
-- [x] Verify no phase requires forbidden MVP scope.
-- [x] Confirm the diff is documentation-only and limited to Phase 00A execution artifacts.
-- [x] Re-read Phase 00A acceptance criteria and confirm implementation matches the plan.
-- [x] Commit final validated state.
-- [x] Push branch.
-- [x] Open a pull request to `main`.
+- [x] Create isolated worktree from `origin/main`.
+- [x] Create `PROGRESS.MD` before other tracked changes.
+- [x] Confirm Cursor Agent CLI and model/auth.
+- [x] Delegate read-only Phase 00A audit (or document blocker).
+- [x] Verify all phase plans meet Phase 00A section and scope rules.
+- [x] Confirm diff documentation-only.
+- [x] Re-read acceptance criteria vs repo state.
+- [x] Push branch and open PR to `main`.
 
-## Validation Log
+</details>
 
-- `git status --short --branch` in the main checkout: clean on `main...origin/main`.
-- `git fetch origin`: succeeded.
-- `agent --help`: succeeded; CLI supports `--print`, `--mode`, `--model`, and `--workspace`.
-- Existing branch `phase-00a-plan-standards` was not reused because it contains older unrelated changes relative to `origin/main`.
-- Created worktree `/private/tmp/dungeon-forge-phase-00a` on branch `phase-00a-plan-standards-impl` from `origin/main`.
-- Commit `aa0cc5f` created the initial `PROGRESS.MD` checkpoint.
-- `agent models` required elevated access to local Cursor auth/model configuration and succeeded; Composer 2.5 model id is `composer-2.5`.
-- Cursor Agent read-only audit with `--mode=plan` exited successfully but returned no usable text twice. A minimal `--mode=ask` sanity check returned `cursor-print-ok`, so the read-only audit was rerun in ask mode with explicit no-edit instructions.
-- Cursor Agent Composer 2.5 read-only audit in ask mode found no required phase-plan remediation: all 21 `phase-plans/*.md` files have exactly the 10 required sections, all name dependencies/deliverables/tests/acceptance criteria, and no phase requires forbidden MVP scope.
-- Local section-count check also confirmed every `phase-plans/*.md` file has all 10 required headings.
-- Local forbidden-scope keyword review found forbidden items only in out-of-scope, non-goal, guardrail, or handoff contexts; no phase-plan remediation was needed.
-- `git status --short --branch` after validation showed the branch ahead of `origin/main` with only `PROGRESS.MD` modified.
-- Phase 00A acceptance criteria were re-read and matched against actual state: standards are present, later phase docs can reference them, and the MVP loop remains small, finite, seedable, inspectable, and evidence-driven in the phase plans.
-- Commit `625a0b6` recorded Phase 00A validation.
-- Branch `phase-00a-plan-standards-impl` was pushed to `origin`.
-- Pull request opened: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/1
+---
+
+## Rotating to a new phase
+
+When the active phase is **done** and merged (or abandoned):
+
+1. Move the current [Phase checklist](#phase-checklist) and relevant [Task queue](#task-queue) / [Validation log](#validation-log) summary into [Phase archive](#phase-archive).
+2. Clear **Task queue** (open/in progress/done) and **Validation log** (or start a dated subsection).
+3. Update [Active Phase](#active-phase) table and replace **Phase checklist** with items from the new phase plan.
+4. Leave [Future backlog](#future-backlog) as-is unless items were implemented or are obsolete (strike or remove with a note).
+
+---
 
 ## Notes
 
-- Phase 00A is documentation-only.
-- There is no `package.json`; do not run install, test, typecheck, lint, or build commands that depend on a scaffold.
-- No app scaffold, package install, source code, generated run artifact, concept doc, or phase-plan edit was required.
+- Phase 00A required no `package.json`; Phase 01A+ may use `pnpm test`, `pnpm run typecheck`, etc. once scaffold exists.
+- Treat `runs/**` as generated evidence, not design truth.
+- Reviewer critique must be trace-based; harness validates versions.

@@ -19,3 +19,4 @@ paths:
 - Save traces, reviews, scorecards, changelogs, patch plans, and acceptance decisions as version evidence.
 - Do not let reviewer output directly mutate state; the harness steps the game.
 - Add tests for every protocol or artifact-shape change.
+- After protocol or harness changes, record verification in `PROGRESS.MD` Validation log and tick relevant Phase checklist items.

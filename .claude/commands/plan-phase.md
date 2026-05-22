@@ -7,12 +7,14 @@ Input:
 - Optional constraints from the user
 
 Steps:
-1. Read `PHASE-00A`.
-2. Read the requested phase file.
-3. Inspect existing repo state.
-4. Identify touched boundaries and invariants.
-5. Produce a stepwise implementation plan.
-6. List verification commands; mark missing commands explicitly.
+1. Read `PROGRESS.MD` (Active Phase, open tasks, backlog).
+2. Read `PHASE-00A`.
+3. Read the requested phase file.
+4. Inspect existing repo state.
+5. Identify touched boundaries and invariants.
+6. Produce a stepwise implementation plan.
+7. List verification commands; mark missing commands explicitly.
+8. Propose `PROGRESS.MD` Task queue entries and Phase checklist items (do not tick checklist until work is verified).
 
 Stop if:
 - The phase conflicts with concept docs.
@@ -24,5 +26,6 @@ Output:
 - Boundaries touched
 - Implementation steps
 - Tests/checks
+- Proposed `PROGRESS.MD` tasks and checklist lines
 - Risks
 - Assumptions

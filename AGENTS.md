@@ -14,6 +14,21 @@ Planned Phase 01A setup:
 - pnpm
 - Vitest
 
+## Progress Coordination (`PROGRESS.MD`)
+
+Read `PROGRESS.MD` at the start of every phase-related session. It is the live handoff between agents—not design truth.
+
+| Section | Agent action |
+| --- | --- |
+| Active Phase | Confirm phase plan, branch, and status before editing |
+| Task queue | Add granular tasks before work; move `[ ]` → `[~]` → `[x]` |
+| Phase checklist | Tick deliverables/acceptance only when verified |
+| Future backlog | Record out-of-scope ideas with suggested phase; do not implement silently |
+| Validation log | Append commands, results, commits, PRs, blockers |
+| Phase archive | Read-only history; rotate when a phase completes |
+
+When a phase finishes: archive summary, clear queue/log, update Active Phase and checklist per `PROGRESS.MD` → “Rotating to a new phase”.
+
 ## Common Commands
 
 Current:
@@ -40,6 +55,7 @@ Planned boundaries:
 
 ## Coding Rules
 
+- Read and update `PROGRESS.MD` when doing phase-scoped work (task queue, checklist, validation log).
 - Start from the active phase plan.
 - Preserve `GameEngine` and terminal-state semantics.
 - Keep gameplay finite, turn-based, text/ASCII, seedable, serializable, and structured-action based.
@@ -73,6 +89,7 @@ Planned boundaries:
 
 ## PR Checklist
 
+- `PROGRESS.MD` reflects current phase status, completed checklist items, and validation evidence.
 - Active phase named in summary.
 - Scope limited to phase.
 - Tests/checks run or blocker explained.
@@ -89,3 +106,4 @@ Planned boundaries:
 - Do not make UI the source of truth.
 - Do not treat scorecards as proof without trace evidence.
 - Do not skip regression seeds once harness exists.
+- Do not start phase work without reading `PROGRESS.MD`; do not leave the next agent without an updated task queue or log.

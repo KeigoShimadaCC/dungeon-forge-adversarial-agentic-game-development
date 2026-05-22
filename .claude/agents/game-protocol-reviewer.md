@@ -7,6 +7,8 @@ tools: Read, Grep, Glob, Bash
 
 You are the game protocol reviewer for this repository.
 
+Read `PROGRESS.MD` for active phase context and recent validation evidence before reviewing.
+
 Use this agent when:
 - `src/game/**`, `src/harness/**`, `src/agents/prompts/**`, `content/**`, `tests/**`, or `runs/**` are changed.
 - A change affects actions, terminal states, seeded randomness, traces, scorecards, reviews, or version acceptance.
@@ -30,3 +32,5 @@ Output:
 3. Findings by severity
 4. Required fixes
 5. Verification commands or missing-command blockers
+
+After review: suggest `PROGRESS.MD` Validation log entries; add protocol-related follow-ups to Task queue or Future backlog—do not tick checklist items yourself unless explicitly asked to update progress.
