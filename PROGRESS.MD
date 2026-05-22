@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-09c-map-generation` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-09c-map-generation-wt` |
 | Base | `origin/main` at `f67e9e9` |
-| Status | `complete; merged to main` |
+| Status | `complete; merged into main; cleanup done` |
 
 ### Contract (read before editing)
 
@@ -68,7 +68,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-22 orchestrator — Review Cursor diff, harden locally, and run focused tests.
 - [x] 2026-05-22 orchestrator — Run final gates: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and version-loop smoke with blocker noted for the invalid requested version ID.
 - [x] 2026-05-22 orchestrator — Attempt Cursor read-only audit and verify locally after audit stall.
-- [x] 2026-05-22 orchestrator — Re-read Phase 09C acceptance, finalize PR metadata, push branch, and open PR #20.
+- [x] 2026-05-22 orchestrator — Re-read Phase 09C acceptance, finalize PR metadata, push branch, open PR #20, verify merge, and remove temporary worktree.
 
 ### Blocked / skipped
 
@@ -140,6 +140,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) produced no stdout for roughly two minutes and was interrupted; local acceptance audit and gates above are the verification evidence.
 - 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-09C-MAP-GENERATION.md` against implementation; acceptance criteria satisfied locally with documented smoke-command/audit blockers. Commit `d993687` added Phase 09C map generation, engine integration, floor scaling, tests, and progress updates.
 - 2026-05-22 — orchestrator — Pushed `phase-09c-map-generation` and opened PR #20: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/20.
+- 2026-05-22 — orchestrator — Verified PR #20 merged into `main` at `478cacd`; removed temporary worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-09c-map-generation-wt`; `git worktree list` now shows only the main checkout.
 - 2026-05-22 — orchestrator — Post-merge gap review on `main`: Phase 09B has no required in-phase fixes remaining against `phase-plans/PHASE-09B-ENEMY-VARIETY.md`; added out-of-scope follow-ups `F-09B-001` through `F-09B-003` to Future backlog for scorecard metrics, trace-message polish, and hardening coverage. Verification: `pnpm test` passed (13 files, 135 tests).
 
 - 2026-05-22 — orchestrator — Fast-forwarded local `main` from `ac573e5` to `origin/main` at `9ccba4f`, then created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-07a-version-loop-wt` on branch `phase-07a-version-loop` tracking `origin/main`.
