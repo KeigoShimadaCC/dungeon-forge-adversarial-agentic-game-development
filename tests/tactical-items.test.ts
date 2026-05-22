@@ -67,7 +67,7 @@ describe('Phase 09A tactical items', () => {
     expect(floors.floors[1].itemIds).toContain(SMOKE_BOMB_ITEM_ID);
   });
 
-  it('exposes potion use only when healing is useful', () => {
+  it('preserves potion availability and caps healing at max HP', () => {
     const base = start('potion-valid-use');
     const fullHp: GameState = {
       ...base,
@@ -75,9 +75,14 @@ describe('Phase 09A tactical items', () => {
       items: [],
       player: { ...base.player, hp: base.player.maxHp, inventory: [POTION_ITEM_ID] },
     };
-    expect(
-      getAvailableActions(fullHp).some((action) => action.id === `use_${POTION_ITEM_ID}`),
-    ).toBe(false);
+    const fullHpUse = requireAction(
+      fullHp,
+      (action) => action.id === `use_${POTION_ITEM_ID}`,
+    );
+    const fullHpResult = step(fullHp, fullHpUse);
+    expect(fullHpResult.valid).toBe(true);
+    expect(fullHpResult.state.player.hp).toBe(base.player.maxHp);
+    expect(fullHpResult.state.player.inventory).toEqual([]);
 
     const hurt: GameState = {
       ...fullHp,
