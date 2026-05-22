@@ -253,6 +253,31 @@ export {
   runWorktreeAgentCli,
 } from './worktree-agent-cli.js';
 export {
+  LOOP_COORDINATOR_CHECKPOINT_SCHEMA_VERSION,
+  LOOP_COORDINATOR_SCHEMA_VERSION,
+  LOOP_COORDINATOR_STEP_ORDER,
+  assessLoopIteration,
+  buildLoopCoordinatorCheckpoint,
+  buildLoopCoordinatorLoopId,
+  getLoopCoordinatorCheckpointPath,
+  getLoopCoordinatorRunbookPath,
+  renderLoopCoordinatorRunbook,
+  writeLoopCoordinatorArtifacts,
+  type LoopCoordinatorAssessment,
+  type LoopCoordinatorCheckpoint,
+  type LoopCoordinatorGovernance,
+  type LoopCoordinatorOutcome,
+  type LoopCoordinatorStep,
+  type LoopCoordinatorStepId,
+  type LoopCoordinatorValidationPreview,
+  type LoopStepStatus,
+} from './loop-coordinator.js';
+export {
+  LOOP_COORDINATOR_CLI_USAGE,
+  handleLoopCoordinatorCliError,
+  runLoopCoordinatorCli,
+} from './loop-coordinator-cli.js';
+export {
   ACCEPTANCE_CHECK_STATUSES,
   COMMAND_CHECK_IDS,
   FORBIDDEN_MVP_FEATURES,
