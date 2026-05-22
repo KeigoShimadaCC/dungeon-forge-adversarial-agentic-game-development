@@ -73,14 +73,17 @@ describe('Phase 07A version loop', () => {
   });
 
   it('records requested version in runPlaythrough traces', async () => {
-    const { trace } = await runPlaythrough({
-      seed: 'seed_002',
-      policyId: 'stairs-seeking',
-      version: 'v001',
-      runsRoot: process.cwd(),
-      maxSteps: 24,
+    await withTempRunsRoot(async (runsRoot) => {
+      const { trace } = await runPlaythrough({
+        seed: 'seed_002',
+        policyId: 'stairs-seeking',
+        version: 'v001',
+        runsRoot,
+        maxSteps: 24,
+      });
+
+      expect(trace.version).toBe('v001');
     });
-    expect(trace.version).toBe('v001');
   });
 
   it('runs the default evidence matrix with trace-grounded reviews and enriched scorecards', async () => {

@@ -1,3 +1,7 @@
+import { mkdtemp, rm } from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+
 import { describe, expect, it } from 'vitest';
 
 import { start } from '../src/game/engine.js';
@@ -8,6 +12,15 @@ import {
   VERSION_PROFILES,
 } from '../src/game/version-profiles.js';
 import { runPlaythrough } from '../src/harness/runner.js';
+
+const withTempRunsRoot = async (fn: (runsRoot: string) => Promise<void>): Promise<void> => {
+  const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-version-profiles-'));
+  try {
+    await fn(runsRoot);
+  } finally {
+    await rm(runsRoot, { recursive: true, force: true });
+  }
+};
 
 describe('demo version profiles', () => {
   it('defines bounded v001-v003 profiles with all demo versions implemented', () => {
@@ -50,16 +63,18 @@ describe('demo version profiles', () => {
   });
 
   it('propagates harness version into playthrough traces', async () => {
-    const { trace } = await runPlaythrough({
-      seed: 'seed_001',
-      policyId: 'stairs-seeking',
-      version: 'v001',
-      runsRoot: process.cwd(),
-      maxSteps: 32,
-    });
+    await withTempRunsRoot(async (runsRoot) => {
+      const { trace } = await runPlaythrough({
+        seed: 'seed_001',
+        policyId: 'stairs-seeking',
+        version: 'v001',
+        runsRoot,
+        maxSteps: 32,
+      });
 
-    expect(trace.version).toBe('v001');
-    expect(trace.steps[0]?.state_summary.floor).toBe(1);
+      expect(trace.version).toBe('v001');
+      expect(trace.steps[0]?.state_summary.floor).toBe(1);
+    });
   });
 
   it('passes through non-demo version ids as display version only', () => {

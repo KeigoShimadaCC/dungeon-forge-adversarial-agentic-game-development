@@ -12,6 +12,7 @@ pnpm run summarize-version -- --version v003 --runs-root .
 pnpm run compare-versions -- --base v001 --target v002 --runs-root .
 pnpm run compare-versions -- --base v002 --target v003 --runs-root .
 pnpm run compare-versions -- --base v001 --target v003 --runs-root .
+pnpm run accept-version -- --version v003 --runs-root . --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass --reviewer-driven
 ```
 
 ## Versions

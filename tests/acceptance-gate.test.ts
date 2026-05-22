@@ -69,6 +69,49 @@ describe('Phase 11A acceptance gate', () => {
     });
   });
 
+  it('reuses existing generated timestamp when regenerating a report', async () => {
+    await withTempRunsRoot(async (runsRoot) => {
+      await runVersion(runsRoot, 'v001');
+      const paths = getVersionPaths(runsRoot, 'v001');
+      await writeFile(
+        paths.changelogPath,
+        '# Changelog\n\n- Added deterministic acceptance gate checks.\n',
+        'utf8',
+      );
+      await writeFile(
+        paths.developerNotesPath,
+        '# Developer Notes\n\n- Reviewed risks and invariant preservation.\n',
+        'utf8',
+      );
+
+      const first = await writeAcceptanceReport({
+        runsRoot,
+        version: 'v001',
+        commandStatuses: {
+          typecheck: 'pass',
+          test: 'pass',
+          lint: 'pass',
+          build: 'pass',
+        },
+      });
+      const second = await writeAcceptanceReport({
+        runsRoot,
+        version: 'v001',
+        commandStatuses: {
+          typecheck: 'skipped',
+          test: 'skipped',
+          lint: 'skipped',
+          build: 'skipped',
+        },
+      });
+
+      const markdown = await readFile(second.acceptancePath, 'utf8');
+      expect(second.generatedAt).toBe(first.generatedAt);
+      expect(markdown).toContain(`Generated: ${first.generatedAt}`);
+      expect(markdown).toContain('| Tests | SKIPPED | Tests was intentionally skipped. |');
+    });
+  });
+
   it('fails when required commands report failure', async () => {
     await withTempRunsRoot(async (runsRoot) => {
       await runVersion(runsRoot, 'v001');
