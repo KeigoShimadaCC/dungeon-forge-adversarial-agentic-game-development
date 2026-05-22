@@ -471,7 +471,7 @@ export const chooseEntityPositions = (params: {
   layout: FloorLayout;
   count: number;
   occupied: Set<string>;
-  slot: 'enemy' | 'item';
+  slot: 'enemy' | 'item' | 'npc';
   safeFromPlayer?: boolean;
 }): Position[] => {
   if (params.count <= 0) {

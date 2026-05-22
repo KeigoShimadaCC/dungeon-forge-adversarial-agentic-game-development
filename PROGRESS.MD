@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 09A — Tactical Items |
-| Goal | Add finite tactical item effects with valid-use conditions, state changes, render/log feedback, trace-visible events, and deterministic seeded behavior. |
-| Branch | `phase-09a-tactical-items` |
-| Worktree | `/private/tmp/dungeon-forge-phase-09a-tactical-items-wt` |
-| Base | `origin/main` at `2ee6cc2` after merge sync |
-| Status | `ready for PR` |
+| Phase | Phase 10A — Dialogue Events |
+| Goal | Add finite authored opening/ending text, floor events, one optional talkable NPC, structured dialogue actions/choices, dialogue exit, and trace/log support without open-ended LLM gameplay. |
+| Branch | `phase-10a-dialogue-events` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-10a-dialogue-events-wt` |
+| Base | `origin/main` at `f5bd204` |
+| Status | `PR open` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-09A-TACTICAL-ITEMS.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-10A-DIALOGUE-EVENTS.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,33 +60,38 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Done
 
-- [x] 2026-05-22 orchestrator — Seed Phase 09A progress state and checkpoint before implementation.
-- [x] 2026-05-22 Cursor/composer-2.5/orchestrator — Implement four tactical items: Smoke Bomb, Swap Scroll, Fire Seed, and Warp Feather.
-- [x] 2026-05-22 orchestrator — Review implementation diff, correct drift, and add focused tests.
-- [x] 2026-05-22 orchestrator — Run focused tests, full gates, and version-loop smoke.
-- [x] 2026-05-22 orchestrator — Re-read Phase 09A acceptance, finalize progress, push branch, and open PR.
+- [x] 2026-05-22 orchestrator — Seed Phase 10A progress state and checkpoint before implementation.
+- [x] 2026-05-22 Cursor/composer-2.5 + orchestrator — Add authored narrative/event/dialogue content in `content/events.json` plus validation/loading support.
+- [x] 2026-05-22 Cursor/composer-2.5 + orchestrator — Add serializable dialogue/NPC state and structured `talk` actions/choices without changing the public `GameEngine` API.
+- [x] 2026-05-22 Cursor/composer-2.5 + orchestrator — Integrate opening text, ending text, finite floor events, optional NPC, dialogue exit, render/log, and trace-visible events.
+- [x] 2026-05-22 Cursor/composer-2.5 + orchestrator — Add focused tests for talk availability, choices, exit, no softlock, reachable ending, serialization, and trace recording.
+- [x] 2026-05-22 orchestrator — Review Cursor diff, harden locally, and run focused tests.
+- [x] 2026-05-22 orchestrator — Run Cursor read-only audit and verify findings against the diff.
+- [x] 2026-05-22 orchestrator — Run final gates: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run run-version -- --version v010 --runs-root <tmp>`.
+- [x] 2026-05-22 orchestrator — Re-read Phase 10A acceptance and finalize `PROGRESS.MD`.
+- [x] 2026-05-22 orchestrator — Push branch and open PR.
 
 ### Blocked / skipped
 
-- [!] 2026-05-22 orchestrator — Cursor implementation pass produced no stdout/report for several minutes and was interrupted; local review and implementation completed the partial diff.
-- [!] 2026-05-22 orchestrator — Cursor read-only audit pass produced no stdout for about one minute and was interrupted; local acceptance audit and gates are the verification evidence.
+- _(none)_
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-09A-TACTICAL-ITEMS.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-10A-DIALOGUE-EVENTS.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 09A — Tactical Items
+### Phase 10A — Dialogue Events
 
-- [x] New finite tactical item content records exist.
-- [x] Item definitions include stable ID, display name, description, valid-use condition, effect, trace event shape, and tests.
-- [x] Smoke Bomb, Swap Scroll, Fire Seed, and Warp Feather have deterministic effect handlers.
-- [x] Each tactical item exposes valid `use_item` actions only when usable.
-- [x] Invalid/unavailable item use is handled safely through existing structured-action validation.
-- [x] Render output shows item descriptions/names/glyphs and clear log feedback.
-- [x] Item use emits trace-visible `use_item` events with effect payloads.
-- [x] Potion behavior and core inventory semantics still work.
-- [x] Fixed seeds remain reproducible.
-- [x] Version-loop artifacts can show item changes.
+- [x] Authored opening and ending text exist in finite local content.
+- [x] Finite floor events exist and are serializable/inspectable.
+- [x] One optional talkable NPC exists without always-on companion behavior.
+- [x] Dialogue state/action implementation supports finite node IDs, text, choices, structured action IDs, effects if any, and explicit exit behavior.
+- [x] `talk` actions appear only when relevant and come from `getAvailableActions`.
+- [x] Dialogue choices work and can exit back to normal play.
+- [x] Dialogue cannot softlock the game and ending remains reachable.
+- [x] Render/log output reflects narrative/dialogue without media or external services.
+- [x] Trace/playthrough evidence records dialogue events.
+- [x] Public `GameEngine` API remains `start`, `getAvailableActions`, `step`, `render`, and `isTerminal`.
+- [x] Gameplay remains finite, turn-based, text/ASCII, seeded, serializable, and credential-free.
 - [x] Local final gates and version-loop smoke pass, or blockers are recorded.
 
 ---
@@ -128,6 +133,17 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 ## Validation log
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
+
+- 2026-05-22 — orchestrator — Created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-10a-dialogue-events-wt` on branch `phase-10a-dialogue-events` from `origin/main` at `f5bd204`; worktree status clean.
+- 2026-05-22 — orchestrator — Re-read `PROGRESS.MD`, `concept-and-ideas/01_NORTH_STAR_AND_VISION.md`, `concept-and-ideas/02_STRUCTURE_AND_TECH_SPECS.md`, `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md`, and `phase-plans/PHASE-10A-DIALOGUE-EVENTS.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.
+- 2026-05-22 — orchestrator — Commit `8abf998` seeded Phase 10A progress state before implementation.
+- 2026-05-22 — orchestrator — Cursor implementation pass (`agent --print --trust --model composer-2.5 --workspace ...`) produced no stdout/report for several minutes and was interrupted; partial content/dialogue/engine diff was inspected, completed, and hardened locally.
+- 2026-05-22 — orchestrator — Focused/full local validation PASS after local hardening: `pnpm run typecheck`; `pnpm test` (15 files, 151 tests); `pnpm run lint`; `pnpm run build`; `git diff --check`; `pnpm run run-version -- --version v010 --runs-root /private/tmp/dungeon-forge-phase10a-runs` wrote three trace/review/scorecard sets. Commit `267a2bc` added Phase 10A dialogue/events implementation and tests.
+- 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) returned PASS with no blocking/high/critical findings and medium/low hardening suggestions. Local follow-up fixed trace-visible `floor_event` events on descent, strict `events.json` schema validation, trace state-summary dialogue fields, canonical NPC spawn coverage, absent-talk coverage, exit-choice coverage, and floor-event trace coverage.
+- 2026-05-22 — orchestrator — Final validation PASS after audit fixes: `pnpm run typecheck`; `pnpm test` (15 files, 157 tests); `pnpm run lint`; `pnpm run build`; `git diff --check`; `pnpm run run-version -- --version v010 --runs-root /private/tmp/dungeon-forge-phase10a-runs-final` wrote three trace/review/scorecard sets.
+- 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-10A-DIALOGUE-EVENTS.md` against implementation; all deliverables and acceptance criteria are satisfied locally. Public `GameEngine` API remains unchanged.
+- 2026-05-22 — orchestrator — Merged latest `origin/main` into `phase-10a-dialogue-events` cleanly; reran post-merge validation PASS: `pnpm run typecheck`; `pnpm test` (15 files, 157 tests); `pnpm run lint`; `pnpm run build`; `git diff --check`; `pnpm run run-version -- --version v010 --runs-root /private/tmp/dungeon-forge-phase10a-runs-post-merge` wrote three trace/review/scorecard sets.
+- 2026-05-22 — orchestrator — Pushed `phase-10a-dialogue-events` and opened PR #24: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/24.
 
 - 2026-05-22 — orchestrator — Created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-09c-map-generation-wt` on branch `phase-09c-map-generation` from `origin/main` at `f67e9e9`; worktree status clean.
 - 2026-05-22 — orchestrator — Re-read `PROGRESS.MD`, `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md`, and `phase-plans/PHASE-09C-MAP-GENERATION.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.

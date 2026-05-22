@@ -11,4 +11,7 @@ export const buildStateSummary = (state: GameState): StateSummary => ({
   inventory: [...state.player.inventory],
   enemyCount: state.enemies.length,
   itemCount: state.items.length,
+  npcCount: state.npcs.length,
+  inDialogue: state.dialogue?.active === true,
+  dialogueNodeId: state.dialogue?.nodeId,
 });

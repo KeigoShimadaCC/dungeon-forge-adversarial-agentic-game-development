@@ -1,8 +1,11 @@
 import enemiesJson from '../../content/enemies.json' with { type: 'json' };
+import eventsJson from '../../content/events.json' with { type: 'json' };
 import floorRulesJson from '../../content/floor-rules.json' with { type: 'json' };
 import itemsJson from '../../content/items.json' with { type: 'json' };
 
 export const CONTENT_SCHEMA_VERSION = '02C' as const;
+export const EVENTS_SCHEMA_VERSION = '10A' as const;
+export const SHRINE_KEEPER_NPC_ID = 'shrine_keeper' as const;
 
 export const POTION_ITEM_ID = 'potion' as const;
 export const SMOKE_BOMB_ITEM_ID = 'smoke_bomb' as const;
@@ -102,10 +105,59 @@ export interface FloorRulesContentBundle {
   floors: FloorRuleDefinition[];
 }
 
+export interface NarrativeTextDefinition {
+  id: string;
+  text: string;
+}
+
+export interface FloorEventDefinition {
+  id: string;
+  floor: number;
+  trigger: 'on_enter';
+  text: string;
+}
+
+export interface NpcDefinition {
+  id: string;
+  displayName: string;
+  glyph: string;
+  floor: number;
+  dialogueTreeId: string;
+}
+
+export interface DialogueChoiceDefinition {
+  id: string;
+  label: string;
+  nextNodeId?: string;
+  exit?: boolean;
+}
+
+export interface DialogueNodeDefinition {
+  id: string;
+  text: string;
+  choices: DialogueChoiceDefinition[];
+}
+
+export interface DialogueTreeDefinition {
+  id: string;
+  startNodeId: string;
+  nodes: DialogueNodeDefinition[];
+}
+
+export interface EventsContentBundle {
+  schemaVersion: string;
+  opening: NarrativeTextDefinition;
+  ending: NarrativeTextDefinition;
+  floorEvents: FloorEventDefinition[];
+  npcs: NpcDefinition[];
+  dialogueTrees: DialogueTreeDefinition[];
+}
+
 export interface GameContent {
   items: ItemsContentBundle;
   enemies: EnemiesContentBundle;
   floors: FloorRulesContentBundle;
+  events: EventsContentBundle;
 }
 
 export class ContentValidationError extends Error {
@@ -409,6 +461,144 @@ export function validateEnemiesBundle(raw: unknown): EnemiesContentBundle {
   return { schemaVersion, enemies };
 }
 
+function parseNarrativeText(value: unknown, path: string): NarrativeTextDefinition {
+  const record = requireRecord(value, path);
+  return {
+    id: requireString(record, 'id', path),
+    text: requireString(record, 'text', path),
+  };
+}
+
+function parseDialogueChoice(
+  value: unknown,
+  path: string,
+): DialogueChoiceDefinition {
+  const record = requireRecord(value, path);
+  const exit = 'exit' in record ? requireBoolean(record, 'exit', path) : false;
+  const nextNodeId =
+    'nextNodeId' in record ? requireString(record, 'nextNodeId', path) : undefined;
+  if (!exit && !nextNodeId) {
+    fail(path, 'choice must set exit: true or a nextNodeId');
+  }
+  if (exit && nextNodeId) {
+    fail(path, 'choice cannot set both exit and nextNodeId');
+  }
+  return {
+    id: requireString(record, 'id', path),
+    label: requireString(record, 'label', path),
+    nextNodeId,
+    exit: exit || undefined,
+  };
+}
+
+function parseDialogueNode(value: unknown, path: string): DialogueNodeDefinition {
+  const record = requireRecord(value, path);
+  const choicesRaw = requireArray(record, 'choices', path);
+  const choices = choicesRaw.map((entry, index) =>
+    parseDialogueChoice(entry, `${path}.choices[${index}]`),
+  );
+  if (choices.length === 0) {
+    fail(path, 'dialogue node must have at least one choice');
+  }
+  return {
+    id: requireString(record, 'id', path),
+    text: requireString(record, 'text', path),
+    choices,
+  };
+}
+
+function parseDialogueTree(value: unknown, path: string): DialogueTreeDefinition {
+  const record = requireRecord(value, path);
+  const startNodeId = requireString(record, 'startNodeId', path);
+  const nodesRaw = requireArray(record, 'nodes', path);
+  const nodes = nodesRaw.map((entry, index) =>
+    parseDialogueNode(entry, `${path}.nodes[${index}]`),
+  );
+  assertUniqueIds(
+    nodes.map((node) => node.id),
+    `${path}.nodes`,
+  );
+  if (!nodes.some((node) => node.id === startNodeId)) {
+    fail(path, `startNodeId "${startNodeId}" is not defined in nodes`);
+  }
+  return {
+    id: requireString(record, 'id', path),
+    startNodeId,
+    nodes,
+  };
+}
+
+function parseFloorEventDefinition(
+  value: unknown,
+  path: string,
+): FloorEventDefinition {
+  const record = requireRecord(value, path);
+  const trigger = requireString(record, 'trigger', path);
+  if (trigger !== 'on_enter') {
+    fail(path, 'trigger must be "on_enter"');
+  }
+  return {
+    id: requireString(record, 'id', path),
+    floor: requireNumber(record, 'floor', path, { integer: true, min: 1 }),
+    trigger: 'on_enter',
+    text: requireString(record, 'text', path),
+  };
+}
+
+function parseNpcDefinition(value: unknown, path: string): NpcDefinition {
+  const record = requireRecord(value, path);
+  const glyph = requireString(record, 'glyph', path);
+  if (glyph.length !== 1) {
+    fail(path, 'glyph must be a single character');
+  }
+  return {
+    id: requireString(record, 'id', path),
+    displayName: requireString(record, 'displayName', path),
+    glyph,
+    floor: requireNumber(record, 'floor', path, { integer: true, min: 1 }),
+    dialogueTreeId: requireString(record, 'dialogueTreeId', path),
+  };
+}
+
+export function validateEventsBundle(raw: unknown): EventsContentBundle {
+  const root = requireRecord(raw, 'events.json');
+  const schemaVersion = requireString(root, 'schemaVersion', 'events.json');
+  if (schemaVersion !== EVENTS_SCHEMA_VERSION) {
+    fail('events.json', `schemaVersion must be ${EVENTS_SCHEMA_VERSION}`);
+  }
+  const opening = parseNarrativeText(root.opening, 'events.json.opening');
+  const ending = parseNarrativeText(root.ending, 'events.json.ending');
+  const floorEventsRaw = requireArray(root, 'floorEvents', 'events.json');
+  const floorEvents = floorEventsRaw.map((entry, index) =>
+    parseFloorEventDefinition(entry, `events.json.floorEvents[${index}]`),
+  );
+  assertUniqueIds(
+    floorEvents.map((event) => event.id),
+    'events.json.floorEvents',
+  );
+  const npcsRaw = requireArray(root, 'npcs', 'events.json');
+  const npcs = npcsRaw.map((entry, index) =>
+    parseNpcDefinition(entry, `events.json.npcs[${index}]`),
+  );
+  assertUniqueIds(npcs.map((npc) => npc.id), 'events.json.npcs');
+  const dialogueTreesRaw = requireArray(root, 'dialogueTrees', 'events.json');
+  const dialogueTrees = dialogueTreesRaw.map((entry, index) =>
+    parseDialogueTree(entry, `events.json.dialogueTrees[${index}]`),
+  );
+  assertUniqueIds(
+    dialogueTrees.map((tree) => tree.id),
+    'events.json.dialogueTrees',
+  );
+  return {
+    schemaVersion,
+    opening,
+    ending,
+    floorEvents,
+    npcs,
+    dialogueTrees,
+  };
+}
+
 export function validateFloorRulesBundle(raw: unknown): FloorRulesContentBundle {
   const root = requireRecord(raw, 'floor-rules.json');
   const schemaVersion = requireString(root, 'schemaVersion', 'floor-rules.json');
@@ -431,6 +621,39 @@ export function validateFloorRulesBundle(raw: unknown): FloorRulesContentBundle 
 export function validateContentReferences(content: GameContent): void {
   const itemIds = new Set(content.items.items.map((item) => item.id));
   const enemyIds = new Set(content.enemies.enemies.map((enemy) => enemy.id));
+  const floorNumbers = new Set(content.floors.floors.map((floor) => floor.floor));
+  const treeIds = new Set(content.events.dialogueTrees.map((tree) => tree.id));
+
+  for (const npc of content.events.npcs) {
+    const path = `events.json.npcs[id=${npc.id}]`;
+    if (!floorNumbers.has(npc.floor)) {
+      fail(path, `unknown floor number ${npc.floor}`);
+    }
+    if (!treeIds.has(npc.dialogueTreeId)) {
+      fail(path, `unknown dialogueTreeId "${npc.dialogueTreeId}"`);
+    }
+  }
+
+  for (const tree of content.events.dialogueTrees) {
+    const nodeIds = new Set(tree.nodes.map((node) => node.id));
+    for (const node of tree.nodes) {
+      const path = `events.json.dialogueTrees[id=${tree.id}].nodes[id=${node.id}]`;
+      for (const choice of node.choices) {
+        if (choice.nextNodeId && !nodeIds.has(choice.nextNodeId)) {
+          fail(path, `choice "${choice.id}" references unknown node "${choice.nextNodeId}"`);
+        }
+      }
+    }
+  }
+
+  for (const floorEvent of content.events.floorEvents) {
+    if (!floorNumbers.has(floorEvent.floor)) {
+      fail(
+        `events.json.floorEvents[id=${floorEvent.id}]`,
+        `unknown floor number ${floorEvent.floor}`,
+      );
+    }
+  }
 
   for (const floor of content.floors.floors) {
     const path = `floor-rules.json.floors[id=${floor.id}]`;
@@ -462,7 +685,8 @@ export function loadGameContent(): GameContent {
   const items = validateItemsBundle(itemsJson);
   const enemies = validateEnemiesBundle(enemiesJson);
   const floors = validateFloorRulesBundle(floorRulesJson);
-  const content: GameContent = { items, enemies, floors };
+  const events = validateEventsBundle(eventsJson);
+  const content: GameContent = { items, enemies, floors, events };
   validateContentReferences(content);
   return content;
 }
