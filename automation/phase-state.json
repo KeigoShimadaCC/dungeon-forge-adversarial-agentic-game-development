@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-13C",
+  "currentPhase": "PHASE-14A",
   "lastUpdated": "2026-05-23",
   "phases": {
     "PHASE-00A": {
@@ -80,7 +80,11 @@
       "status": "complete"
     },
     "PHASE-13C": {
-      "status": "queued"
+      "branch": "phase/phase-13c-trace-scorecard-diagnostics",
+      "evidenceDir": "runs/phase-runner/PHASE-13C/planned",
+      "mergeCommit": "eca1ddae10ef4bdd3f5745dc67411537b2bd1fbb",
+      "pr": 30,
+      "status": "complete"
     },
     "PHASE-14A": {
       "status": "queued"

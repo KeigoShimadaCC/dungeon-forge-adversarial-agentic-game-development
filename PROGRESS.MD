@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 13C — Trace Scorecard Diagnostics |
-| Goal | Expand trace and scorecard diagnostics so reviewer and balance reports explain enemy behavior, item use, map-generation metadata, aborts, softlocks, and repeated problem seeds. |
-| Branch | `phase/phase-13c-trace-scorecard-diagnostics` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-13c-trace-scorecard-diagnostics-wt` |
-| Base | `origin/main` at `16a6b97` |
-| Status | `Local validation passed; commit and PR pending` |
+| Phase | Phase 14A — Developer Workflow Polish |
+| Goal | Make developer-agent handoffs easier to use, validate, and audit while preserving the human-governed workflow model. |
+| Branch | `phase/phase-14a-developer-workflow-polish` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-14a-developer-workflow-polish-wt` |
+| Base | `origin/main` at `eca1dda` |
+| Status | `Queued; automation start pending` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-13C-TRACE-SCORECARD-DIAGNOSTICS.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-14A-DEVELOPER-WORKFLOW-POLISH.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -52,14 +52,15 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Commit Phase 13C, push branch, open PR, verify CI, merge, and clean up if validation remains clean.
+- _(none)_
 
 ### Open
 
-- _(none)_
+- [ ] 2026-05-23 orchestrator — Start Phase 14A automation: create prompt bundle/worktree, seed progress, delegate implementation to Cursor/composer-2.5, then verify locally.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Merge Phase 13C PR #30, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 14A.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 13C PASS; addressed non-blocking test-strength gaps with targeted assertions.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, harden placement-order diagnostics and deterministic metadata test coverage, run focused/full gates and diagnostic balance smoke.
 - [x] 2026-05-23 Cursor/composer-2.5 — Implement Phase 13C trace/scorecard diagnostics, item-aware evidence, map metadata, problem-run categories, docs, and focused tests.
@@ -101,18 +102,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-13C-TRACE-SCORECARD-DIAGNOSTICS.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-14A-DEVELOPER-WORKFLOW-POLISH.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 13C — Trace Scorecard Diagnostics
+### Phase 14A — Developer Workflow Polish
 
-- [x] Expanded trace metadata exists for map generation and diagnostic context.
-- [x] Expanded scorecard metrics include non-attack enemy behaviors.
-- [x] Item-aware baseline policy or targeted fixture exercises tactical item opportunities.
-- [x] Problem runs are categorized visibly for aborts, softlocks, impossible placement, and repeated failures.
-- [x] Diagnostics are structured JSON fields, with human-readable messages as supporting evidence only.
-- [x] New diagnostics preserve JSON serializability and deterministic reruns.
-- [x] Existing trace consumers remain usable or receive documented migration behavior.
-- [x] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [ ] Developer-task output uses repo-relative paths when the runs root is inside the repository.
+- [ ] Optional companion template generation can write expected `patch_plan.md` and `changelog.md` files.
+- [ ] Help/usage output documents required and optional developer-workflow flags.
+- [ ] Validation reports multiple categorized diagnostics without hiding hard blockers.
+- [ ] Forbidden changes are visible before implementation.
+- [ ] Workflow remains human-governed and evidence-backed; no automatic code patching or autonomous merge loop is added in this phase.
+- [ ] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -265,12 +265,21 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Reviewed and hardened the Phase 13C diff before PR: placement shortfall diagnostics now account for enemy-occupied cells in engine placement order, and map-metadata reproducibility tests no longer assume two different seeds must produce different metadata. Validation PASS: `pnpm test tests/trace-scorecard-diagnostics.test.ts tests/balance-tuning.test.ts` (11 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run check` (23 files, 211 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), `git diff --check`, and `pnpm run run-balance -- --version v013 --runs-root /tmp/df-phase13c-smoke-4vWfoR` (20 runs with structured problem category counts and repeated problem seeds).
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 13C PASS against the phase plan, protocol invariants, local validation, secrets scan, and forbidden-scope review; merge readiness was blocked only by expected uncommitted/untracked files and no PR yet. Non-blocking test-strength suggestions were addressed immediately: assertions now cover deterministic impossible-placement and softlock categories, repeated-failure categories on balance summaries, and actual tactical item use by `greedy-item-picker`. Validation PASS: `pnpm test tests/trace-scorecard-diagnostics.test.ts tests/balance-tuning.test.ts` (12 tests).
 - 2026-05-23 — orchestrator — Final pre-commit validation PASS after recheck hardening: `pnpm run check` (23 files, 212 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass) and `git diff --check`.
+- 2026-05-23 — orchestrator — Phase 13C merged and cleaned up: automation gate allowed merge, PR #30 `Repo gates` passed in 32s, PR #30 was squash-merged at `eca1ddae10ef4bdd3f5745dc67411537b2bd1fbb`, clean worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-13c-trace-scorecard-diagnostics-wt` was removed, local branch `phase/phase-13c-trace-scorecard-diagnostics` was deleted, remote branch was deleted manually, and `automation/phase-state.json` advanced current phase to `PHASE-14A`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 13C — Trace Scorecard Diagnostics
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-13c-trace-scorecard-diagnostics` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/30
+- **Merge commit:** `eca1ddae10ef4bdd3f5745dc67411537b2bd1fbb`
+- **Outcome:** Added structured trace metadata for map generation, placement shortfalls, and problem runs; additive scorecard diagnostics for enemy behaviors and item evaluation; balance summary problem category counts and repeated problem seed reporting; item-aware greedy baseline behavior; migration docs; and focused diagnostics tests.
+- **Key evidence:** Cursor/composer-2.5 implementation and read-only recheck; local `pnpm run check` passed with 23 files and 212 tests; `git diff --check` passed; diagnostic balance smoke for `v013` produced structured problem category counts and repeated problem seeds; PR #30 `Repo gates` passed before merge.
 
 ### Phase 13B — CI And Acceptance Checks
 
