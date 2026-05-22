@@ -8,11 +8,11 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | `phase-plans/PHASE-04B-BASELINE-PLAYERS.md` |
-| Goal | Add deterministic non-LLM automated baseline players for cheap smoke testing before reviewer agents exist. |
-| Branch | `phase-04b-baseline-players` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-04b` |
-| Base | `origin/main` |
+| Phase | `phase-plans/PHASE-05A-HARNESS.md` |
+| Goal | Build the headless playthrough harness that runs seeded games, records traces, and produces initial scorecards. |
+| Branch | `phase-05a-harness` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness-wt` |
+| Base | `main` at `bec1d1a` |
 | Status | `pr_open` |
 
 ### Contract (read before editing)
@@ -59,16 +59,14 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Done
 
-- [x] 2026-05-22 — orchestrator — Seed PROGRESS.MD for Phase 04B baseline players (user chose 04B over stale 04A Active Phase).
-- [x] 2026-05-22 — cursor-agent — Baseline player modules under `src/harness/baseline-players/**` (random, stairs-seeking, cautious low-HP, greedy item-picker) plus `runBaselinePolicyPlaythrough` helper.
-- [x] 2026-05-22 — cursor-agent — Deterministic policy RNG via `createSeededRng` in `createRandomValidActionPolicy`; all policies return members of `getAvailableActions`.
-- [x] 2026-05-22 — cursor-agent — `tests/baseline-players.test.ts` (valid action, no mutation, reproducibility, canonical seeds `seed_001`–`seed_005`).
-- [x] 2026-05-22 — cursor-agent — Validation: `pnpm install`; `pnpm test` exit 0 (6 files, 51 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0.
-- [x] 2026-05-22 — cursor-agent — Read-only Phase 04B audit against plan and invariants: PASS; no blocking findings.
-- [x] 2026-05-22 — orchestrator — Re-read Phase 04B acceptance criteria against actual repo state after audit follow-up.
-- [x] 2026-05-22 — orchestrator — Pushed `phase-04b-baseline-players` and opened PR #9 to `main`.
-- [x] 2026-05-22 — orchestrator — Re-audited Phase 04B plan implementation at user request; fixed heuristic-test coverage and stairs lookup robustness.
-- [x] 2026-05-22 — orchestrator — Rebased PR #9 on merged Phase 04A `origin/main`, resolved `PROGRESS.MD` conflict, and preserved Phase 04A in the archive.
+- [x] 2026-05-22 — orchestrator — Seed Phase 05A progress state, checklist, and validation log before source changes.
+- [x] 2026-05-22 — cursor-agent — Implement canonical trace/scorecard types, runner, policy registry, artifact saving, and CLI under allowed Phase 05A paths.
+- [x] 2026-05-22 — cursor-agent — Add harness tests for saved artifacts, deterministic traces, canonical fields, terminal recording, invalid action metrics, max-step stops, and canonical seeds.
+- [x] 2026-05-22 — orchestrator — Review Cursor implementation diff for scope, GameEngine protocol usage, deterministic JSON output, and generated-evidence handling.
+- [x] 2026-05-22 — orchestrator — Run local validation gates: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001`.
+- [x] 2026-05-22 — cursor-agent — Run read-only Phase 05A audit after implementation.
+- [x] 2026-05-22 — orchestrator — Fix validated audit gap around max-step terminal status, add reason coverage, and re-run full gates.
+- [x] 2026-05-22 — orchestrator — Finalize `PROGRESS.MD`, push branch, and open PR #10.
 
 ### Blocked / skipped
 
@@ -80,29 +78,32 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 _Derived from the active phase plan: deliverables, tests/validation, acceptance criteria. Tick when verified, not when merely attempted._
 
-### Phase 04B — Baseline players
+### Phase 05A — Harness
 
-- [x] Read Phase 04B plan and confirm scope boundaries (no LLM player integration, optimal pathfinding requirements, human UI, or game engine contract changes for policy convenience).
-- [x] Baseline player modules under `src/harness/**` or another clear non-game-engine boundary.
-- [x] Random valid-action player.
-- [x] Stairs-seeking player.
-- [x] Cautious low-HP player.
-- [x] Greedy item-picker player.
-- [x] Deterministic policy RNG where needed; policies choose only from `getAvailableActions(state)` and are deterministic for a fixed seed and state sequence.
-- [x] Tests proving valid action selection.
-- [x] Minimal runner helper for policy smoke tests if needed.
-- [x] Each baseline player can run.
-- [x] Baseline players only choose valid actions.
-- [x] A game driven by a baseline player reaches `WIN`, `LOSS`, or `ABORTED`.
-- [x] Baseline runs do not crash.
-- [x] Fixed policy seed produces reproducible choices.
-- [x] Canonical regression seeds `seed_001` through `seed_005` complete without undefined terminal states.
+- [x] Read Phase 05A plan and confirm scope boundaries (no LLM calls, reviewer critique generation, developer orchestration, dashboard, or database storage).
+- [x] Harness runner module under `src/harness/**`.
+- [x] CLI/script entry point such as `run-playthrough` or `simulate-seed`.
+- [x] Trace writer that saves versioned evidence under `runs/v001/traces/`.
+- [x] Basic scorecard writer that derives metrics from trace facts only and saves under `runs/v001/scorecards/`.
+- [x] Canonical trace JSON includes `version`, `seed`, `persona`, `result`, `turns`, and `steps[]`.
+- [x] Each step includes `turn`, `state_summary`, `render`, `available_actions`, `chosen_action`, optional `reason`, `valid`, `events`, and `terminalStatus`.
+- [x] Runner uses only the public `GameEngine` protocol: `start`, `render`, `getAvailableActions`, `step`, and `isTerminal`.
+- [x] Policy registry maps baseline policy IDs: `random`, `stairs-seeking`, `cautious-low-hp`, and `greedy-item-picker`.
+- [x] Invalid policy output is recorded as an invalid harness step and terminates the trace as `ABORTED`.
+- [x] Trace file is saved.
+- [x] Scorecard file is saved.
+- [x] Fixed seed and fixed policy produce reproducible trace output.
+- [x] Trace files contain all canonical fields.
+- [x] Terminal status is recorded.
+- [x] Invalid action count is recorded.
+- [x] Harness stops at terminal status or configured max turns.
+- [x] Canonical regression seeds `seed_001` through `seed_005` can be simulated with at least one baseline policy.
 - [x] `pnpm test` passes.
 - [x] `pnpm run typecheck` passes.
 - [x] `pnpm run lint` passes.
-- [x] Cheap crash and softlock detection before LLM costs are introduced (acceptance).
-- [x] Baseline players do not mutate game state directly (acceptance).
-- [x] Gameplay remains structured-action based (acceptance).
+- [x] `git diff --check` passes.
+- [x] `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` writes inspectable evidence.
+- [x] Generated `runs/**` evidence is ignored by git but inspectable on disk.
 - [x] Re-read acceptance criteria against actual repo state.
 - [x] Push branch and open PR when implemented.
 
@@ -123,23 +124,31 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 
 ## Validation log
 
-_Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
+_Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
-- 2026-05-22 — orchestrator — PR #7 merged at `2fdc283`; rebased local `main` onto `origin/main` while preserving local docs commit `6b9d787`; rotated active phase to `PHASE-04A-ASCII-RENDERER.md` and archived Phase 03A summary. Post-merge validation: `pnpm test` exit 0 (5 files, 43 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0, and `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
-- 2026-05-22 — orchestrator — Phase 04B progress seed: read `phase-plans/PHASE-04B-BASELINE-PLAYERS.md` and `PROGRESS.MD`; user explicitly chose Phase 04B over stale Active Phase 04A. Preflight: `origin/main` baseline clean for worktree setup; `composer-2.5` available for delegated passes; branch `phase-04b-baseline-players` and worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-04b` created from `origin/main`. Updated Active Phase, task queue, and Phase 04B checklist only (no source/tests/package changes in this slice).
-- 2026-05-22 — cursor-agent — Phase 04B implementation: `src/harness/baseline-players/**` (policy interface, four policies, shared helpers, `runBaselinePolicyPlaythrough`); `tests/baseline-players.test.ts`. `pnpm install`; `pnpm test` exit 0 (6 files, 51 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0. No `src/game/**` or package changes.
-- 2026-05-22 — orchestrator — Reviewed Cursor implementation and tightened runner/test contract so policies must return the exact `PlayerAction` object from the supplied `availableActions` list. Local validation: initial `pnpm test` failed after stricter assertion because the test helper compared against a fresh action array; fixed helper. Final local validation: `pnpm test` exit 0 (6 files, 51 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `git diff --check` exit 0; `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
-- 2026-05-22 — cursor-agent — Read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace /Users/keigoshimada/Documents/dungeon-forge-phase-04b`): PASS. Audit noted test-hardening gaps around explicit action reference identity and cloned-action rejection; orchestrator added `tests/baseline-players.test.ts` coverage for both.
-- 2026-05-22 — orchestrator — Final Phase 04B validation after audit follow-up: `pnpm test` exit 0 (6 files, 52 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `git diff --check` exit 0; `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`. Acceptance re-read: cheap baseline crash/softlock smoke coverage exists, policies do not mutate game state directly, and gameplay remains structured-action based with no `src/game/**` contract changes.
-- 2026-05-22 — orchestrator — Pushed branch with `git push -u origin phase-04b-baseline-players` and opened PR #9: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/9
-- 2026-05-22 — orchestrator — User-requested implementation-plan recheck: confirmed scope stayed limited to `PROGRESS.MD`, `src/harness/baseline-players/**`, and `tests/baseline-players.test.ts`; no `src/game/**`, package, content, runs, or docs diff. Fixed one robustness gap by making `findStairsPosition` scan the map for the stairs tile before falling back to the current convention. Added direct heuristic tests for `stairsSeeking`, `cautiousLowHp`, and `greedyItemPicker`. Validation after fixes: `pnpm test` exit 0 (6 files, 55 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `git diff --check` exit 0; `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
-- 2026-05-22 — orchestrator — PR #9 conflict fix: fetched `origin/main` at `b6d87c5` (merged Phase 04A), rebased `phase-04b-baseline-players`, resolved `PROGRESS.MD` conflict by keeping Phase 04B active and adding Phase 04A to the phase archive. Post-rebase validation: `pnpm test` exit 0 (7 files, 65 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `git diff --check` exit 0; `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
+- 2026-05-22 — orchestrator — Phase 05A preflight: read `PROGRESS.MD`, `phase-plans/PHASE-05A-HARNESS.md`, Phase 00A invariants, north star, examples/workflows, and technical specs. `git status --short --branch` on root worktree: clean `main...origin/main`. `git fetch origin` exit 0. `agent --list-models` initially failed inside sandbox with `SecItemCopyMatching failed -50`; escalated preflight exit 0 and confirmed `composer-2.5` is available. Preserved dirty unregistered checkout at `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness`; created registered worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness-wt` on branch `phase-05a-harness` from `main` at `bec1d1a`.
+- 2026-05-22 — orchestrator — Seeded Phase 05A progress state only in `PROGRESS.MD`: Active Phase rotated to `PHASE-05A-HARNESS.md`, Phase 05A task queue/checklist added, Phase 04B archived as merged PR #9, and implementation work left untouched for the next commit.
+- 2026-05-22 — cursor-agent — Implemented Phase 05A harness under `src/harness/**`: canonical trace/scorecard types, deterministic JSON writer, policy registry (`random`, `stairs-seeking`, `cautious-low-hp`, `greedy-item-picker`), `runPlaythrough` runner (GameEngine public API only), invalid-policy `ABORTED` handling, `simulate-seed` CLI via `dist/src/harness/run-playthrough.js`, `tsconfig.build.json`, and `tests/harness.test.ts`. Added `build` and `simulate-seed` package scripts.
+- 2026-05-22 — cursor-agent — `pnpm install` (deps present), `pnpm test` exit 0 (8 files, 75 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `pnpm run build` exit 0, `git diff --check` exit 0, `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` exit 0 → `runs/v001/traces/seed_001__stairs-seeking.json`, `runs/v001/scorecards/seed_001__stairs-seeking.json` (result `ABORTED`, 280 turns). Phase acceptance re-check, read-only audit, push, and PR remain open for orchestrator.
+- 2026-05-22 — orchestrator — Reviewed implementation diff: changed paths stayed within allowed Phase 05A paths (`src/harness/**`, `tests/**`, `package.json`, `tsconfig.build.json`, `PROGRESS.MD`); no `src/game/**`, `concept-and-ideas/**`, `phase-plans/**`, secrets, or env files changed. Tightened trace events from strings to serializable `GameEvent` objects so scorecards derive `damage_taken`, `items_used`, and `enemies_defeated` from typed trace facts instead of message counting. Confirmed `runs/v001/**` is ignored by git and inspectable on disk.
+- 2026-05-22 — orchestrator — Local validation after tightening: `pnpm test` exit 0 (8 files, 75 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `pnpm run build` exit 0; `git diff --check` exit 0; `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` exit 0 and wrote `runs/v001/traces/seed_001__stairs-seeking.json` plus `runs/v001/scorecards/seed_001__stairs-seeking.json` (result `ABORTED`, 280 turns, scorecard `damage_taken: 2`, `softlocks: 1`).
+- 2026-05-22 — cursor-agent — Read-only Phase 05A audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace /Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness-wt`): PASS, no blocking findings. Non-blocking risks included max-step cap last-step terminal status mismatch, untested optional `reason`, pre-step `state_summary`, one-policy regression matrix, and pending PR/process steps.
+- 2026-05-22 — orchestrator — Fixed audit follow-up by recording a `harness_max_steps` event and setting the last capped step `terminalStatus` to `ABORTED`; added test coverage for policy-supplied `reason`. Re-read `phase-plans/PHASE-05A-HARNESS.md` against repo state: harness runner, CLI, trace writer, scorecard writer, tests, public GameEngine usage, inspectable ignored `runs/**` evidence, and derived scorecards satisfy acceptance. Full validation after follow-up: `pnpm test` exit 0 (8 files, 76 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `pnpm run build` exit 0; `git diff --check` exit 0; `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` exit 0.
+- 2026-05-22 — orchestrator — Pushed `phase-05a-harness` to origin and opened PR #10: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/10
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 04B — Baseline players
+
+- **Status:** `done`
+- **Branch / PR:** `phase-04b-baseline-players` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/9
+- **Merge commit:** `bec1d1a`
+- **Outcome:** Deterministic non-LLM baseline policies were added under `src/harness/baseline-players/**`: random valid action, stairs-seeking, cautious low-HP, and greedy item picker. Policies choose from available structured actions, include deterministic RNG where needed, and can drive canonical seeds through terminal outcomes without mutating game state directly.
+- **Key evidence:** `tests/baseline-players.test.ts`; final validation passed with `pnpm test` (7 files, 65 tests), `pnpm run typecheck`, `pnpm run lint`, `git diff --check`, and `rg "Math\\.random" src tests` matching only the existing guidance comment in `src/game/rng.ts`; Cursor read-only audit reported PASS.
 
 ### Phase 04A — ASCII renderer
 
