@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-15c-loop-coordinator` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-15c-loop-coordinator-wt` |
 | Base | `origin/main` at `5a13a55` |
-| Status | `In progress; seed checkpoint complete and Cursor implementation pending` |
+| Status | `Functional PASS after Cursor read-only recheck; commit/PR pending` |
 
 ### Contract (read before editing)
 
@@ -56,12 +56,13 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement loop coordinator runbook/command, decision checkpoints, dry-run coverage, docs, and focused tests within Phase 15C scope.
-- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 15C acceptance, and request Cursor read-only recheck.
 - [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 15C PASS; addressed cheap non-blocking test gaps for governance flags, accepted/rejected outcomes, and negative ready-without-statuses behavior.
+- [x] 2026-05-23 orchestrator — Review Cursor diff, patch `ready_for_acceptance` outcome logic so acceptance itself does not make the state unreachable, add focused coverage, run focused/full local gates, and re-read Phase 15C acceptance.
+- [x] 2026-05-23 Cursor/composer-2.5 — Implement loop coordinator runbook/command, decision checkpoints, dry-run coverage, docs, and focused tests within Phase 15C scope.
 - [x] 2026-05-23 orchestrator — Generate Phase 15C automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
 - [x] 2026-05-23 orchestrator — Merge Phase 15B PR #35, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 15C.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 15B PASS; addressed non-blocking read-only auditor CLI smoke coverage and reran focused/full gates.
@@ -131,17 +132,17 @@ _Derived from `phase-plans/PHASE-15C-LOOP-COORDINATOR.md`. Tick when verified ag
 
 ### Phase 15C — Loop Coordinator
 
-- [ ] Loop coordinator runbook or command exists.
-- [ ] Decision-checkpoint format exists for blockers and required human decisions.
-- [ ] Ordered steps cover run, review, proposal, developer task, validation, and acceptance.
-- [ ] Coordinator detects missing run evidence.
-- [ ] Coordinator detects missing proposal or developer task where required.
-- [ ] Coordinator records validation blockers without fabricating success.
-- [ ] Credential-free deterministic baseline path works.
-- [ ] Documentation covers blocked, partial, accepted, and rejected loop outcomes.
-- [ ] Trace, review, scorecard, changelog, and acceptance artifacts remain preserved.
-- [ ] Human decisions remain explicit; no automatic code editing or merging is introduced.
-- [ ] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [x] Loop coordinator runbook or command exists.
+- [x] Decision-checkpoint format exists for blockers and required human decisions.
+- [x] Ordered steps cover run, review, proposal, developer task, validation, and acceptance.
+- [x] Coordinator detects missing run evidence.
+- [x] Coordinator detects missing proposal or developer task where required.
+- [x] Coordinator records validation blockers without fabricating success.
+- [x] Credential-free deterministic baseline path works.
+- [x] Documentation covers blocked, partial, accepted, and rejected loop outcomes.
+- [x] Trace, review, scorecard, changelog, and acceptance artifacts remain preserved.
+- [x] Human decisions remain explicit; no automatic code editing or merging is introduced.
+- [x] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -328,6 +329,12 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 15C with initial task queue and checklist from `phase-plans/PHASE-15C-LOOP-COORDINATOR.md`.
 - 2026-05-23 — orchestrator — Phase 15C automation start: `pnpm run phase -- status` selected `PHASE-15C`; `pnpm run phase -- bundle --phase PHASE-15C --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-15C/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-15c-loop-coordinator-wt` on branch `phase/phase-15c-loop-coordinator` from `origin/main` at `5a13a55`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
 - 2026-05-23 — orchestrator — Cursor preflight PASS: `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
+- 2026-05-23 — Cursor/composer-2.5 — Phase 15C implementation: added `src/harness/loop-coordinator.ts` (ordered step assessment, decision checkpoints, validation preview without fabricated statuses), `loop-coordinator-cli.ts`, `loop-coordinator-run.ts`, `pnpm run loop-coordinator`, `docs/LOOP-COORDINATOR.md`, harness exports, and `tests/loop-coordinator.test.ts` (7 tests). Coordinator suggests existing commands (`run-version`, `patch-proposal`, `developer-task`, `check`, `accept-version`) but does not execute gates or edit source.
+- 2026-05-23 — Cursor/composer-2.5 — Validation PASS: `pnpm test tests/loop-coordinator.test.ts` (7 tests); `pnpm run check` (28 files, 260 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `pnpm run loop-coordinator -- --base-version v001 --target-version v002 --runs-root . --stdout-only`; `git diff --check`. Re-read `phase-plans/PHASE-15C-LOOP-COORDINATOR.md`; deliverables and acceptance criteria satisfied locally. Merge readiness pending orchestrator review, commit, PR, and GitHub CI.
+- 2026-05-23 — orchestrator — Reviewed Phase 15C diff and fixed a coordinator state gap: `ready_for_acceptance` was unreachable when the acceptance step itself was still pending. Patched outcome derivation and acceptance blockers so pre-acceptance evidence + explicit passing validation preview can produce `ready_for_acceptance` while preserving the required human decision. Added focused test coverage.
+- 2026-05-23 — orchestrator — Validation PASS after hardening: `pnpm test tests/loop-coordinator.test.ts` (8 tests); `pnpm run check` (28 files, 261 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `pnpm run loop-coordinator -- --base-version v001 --target-version v002 --runs-root . --stdout-only` returned `partial` until command statuses are supplied; `pnpm run loop-coordinator -- --base-version v001 --target-version v002 --runs-root . --stdout-only --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass` returned `ready_for_acceptance`; `git diff --check` PASS. Re-read `phase-plans/PHASE-15C-LOOP-COORDINATOR.md`; acceptance criteria satisfied locally.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 15C PASS against the phase plan, ordered loop steps, missing evidence detection, missing proposal/task detection, honest validation previews, human-governance flags, artifact preservation, `ready_for_acceptance` gating, and no game-engine scope changes. Recheck noted only merge-readiness blockers plus non-blocking test-strength gaps.
+- 2026-05-23 — orchestrator — Addressed non-blocking audit gaps with focused tests for explicit governance flags, accepted/rejected acceptance outcomes, and negative `ready_for_acceptance` behavior without command statuses. Final validation PASS: `pnpm test tests/loop-coordinator.test.ts` (10 tests); `pnpm run check` (28 files, 263 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `pnpm run loop-coordinator -- --base-version v001 --target-version v002 --runs-root . --stdout-only --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass` returned `ready_for_acceptance`; `git diff --check` PASS.
 
 ---
 
