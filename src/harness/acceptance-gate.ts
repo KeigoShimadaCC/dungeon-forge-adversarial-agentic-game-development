@@ -74,7 +74,12 @@ const VALID_TERMINAL_RESULTS = new Set<TerminalStatus>(
   TERMINAL_STATUSES.filter((status) => status !== 'ACTIVE'),
 );
 
-const PLACEHOLDER_MARKERS = ['status: pending', 'record implemented changes', 'planned changes should be written'];
+const PLACEHOLDER_MARKERS = [
+  'status: pending',
+  'record implemented changes',
+  'planned changes should be written',
+  'record implementation notes',
+];
 
 const fileExists = async (filePath: string): Promise<boolean> => {
   try {
@@ -278,6 +283,29 @@ const buildMarkdownEvidenceChecks = async (
   });
   if (!changelogPresent || changelogPlaceholder) {
     blockers.push('Provide a non-placeholder changelog.md explaining what changed in this version.');
+  }
+
+  const developerNotesPresent = await fileExists(paths.developerNotesPath);
+  const developerNotesContents = developerNotesPresent
+    ? await readFile(paths.developerNotesPath, 'utf8')
+    : '';
+  const developerNotesPlaceholder =
+    !developerNotesPresent || isPlaceholderMarkdown(developerNotesContents);
+
+  pushCheck(checks, {
+    id: 'developer_notes_present',
+    name: 'Developer notes evidence',
+    status: developerNotesPresent && !developerNotesPlaceholder ? 'pass' : 'fail',
+    summary: developerNotesPresent
+      ? developerNotesPlaceholder
+        ? 'developer_notes.md exists but still contains placeholder content.'
+        : 'developer_notes.md exists with non-placeholder implementation notes.'
+      : 'developer_notes.md is missing.',
+  });
+  if (!developerNotesPresent || developerNotesPlaceholder) {
+    blockers.push(
+      'Provide non-placeholder developer_notes.md with implementation notes, risks, and follow-ups.',
+    );
   }
 
   const patchPlanPresent = await fileExists(paths.patchPlanPath);

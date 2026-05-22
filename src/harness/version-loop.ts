@@ -401,6 +401,14 @@ const readStatusFromSection = (section: string): VersionSummary['acceptance_stat
   return null;
 };
 
+const readLegacyStatusLine = (contents: string): VersionSummary['acceptance_status'] | null => {
+  const match = /^status:\s*(accepted|rejected|blocked|pending)\s*$/im.exec(contents);
+  if (!match) {
+    return null;
+  }
+  return match[1]!.toLowerCase() as VersionSummary['acceptance_status'];
+};
+
 const inferAcceptanceStatus = async (
   acceptancePath: string,
 ): Promise<VersionSummary['acceptance_status']> => {
@@ -408,7 +416,6 @@ const inferAcceptanceStatus = async (
     return 'unknown';
   }
   const contents = await readFile(acceptancePath, 'utf8');
-  const lower = contents.toLowerCase();
   const humanSection = extractSection(contents, 'Human decision');
   const humanStatus = readStatusFromSection(humanSection);
   if (humanStatus === 'accepted' || humanStatus === 'rejected') {
@@ -426,19 +433,7 @@ const inferAcceptanceStatus = async (
     return 'rejected';
   }
 
-  if (lower.includes('status: accepted')) {
-    return 'accepted';
-  }
-  if (lower.includes('status: rejected')) {
-    return 'rejected';
-  }
-  if (lower.includes('status: blocked')) {
-    return 'blocked';
-  }
-  if (lower.includes('status: pending')) {
-    return 'pending';
-  }
-  return 'unknown';
+  return readLegacyStatusLine(contents) ?? 'unknown';
 };
 
 export const summarizeVersion = async (
