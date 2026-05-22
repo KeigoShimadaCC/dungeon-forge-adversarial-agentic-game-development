@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-02b-seeded-rng` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-02b-seeded-rng` |
 | Base | `origin/main` |
-| Status | `in_progress` |
+| Status | `ready_for_review` |
 
 ### Contract (read before editing)
 
@@ -52,7 +52,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] T-02B-007 Publish: commit logical checkpoints, push branch, and open PR (orchestrator, 2026-05-22)
+- _(none)_
 
 ### Open
 
@@ -64,6 +64,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] T-02B-004 Review Cursor output: inspected changed files/diff; scope limited to `PROGRESS.MD`, `src/game/rng.ts`, and `tests/rng.test.ts` with no engine/harness/content/run changes (orchestrator, 2026-05-22)
 - [x] T-02B-005 Validation: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `rg "Math\\.random" src tests`, and `git diff --check` passed or matched only the guidance comment (orchestrator, 2026-05-22)
 - [x] T-02B-006 Acceptance review: re-read Phase 02B plan and concept constraints against repo state; implementation satisfies scoped RNG requirements (orchestrator, 2026-05-22)
+- [x] T-02B-007 Publish: committed checkpoints, pushed `phase-02b-seeded-rng`, and opened PR #3 (orchestrator, 2026-05-22)
 - [x] T-02B-001 Progress setup: rotate `PROGRESS.MD` to Phase 02B and add task queue/checklist before implementation (orchestrator, 2026-05-22)
 - [x] T-02B-002 Preflight: confirmed branch/worktree, `agent` CLI, Phase 02B plan, and placeholder `src/game/rng.ts`; `node_modules` missing in worktree before validation (orchestrator, 2026-05-22)
 
@@ -98,7 +99,7 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 - [x] RNG helpers are easy to inject into later game systems (acceptance).
 - [x] Re-running a fixed seed can reproduce procedural decisions (acceptance).
 - [x] Re-read acceptance criteria against actual repo state.
-- [ ] Commit / PR only when user asks.
+- [x] Commit / PR only when user asks.
 
 ---
 
@@ -137,6 +138,8 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — `git diff --check` exit 0.
 - 2026-05-22 — orchestrator — Acceptance re-read against Phase 02B, north-star seeded-randomness invariant, and technical spec: RNG is deterministic, injectable, locally tested, and limited to Phase 02B scope; Phase 02A remains deferred.
 - 2026-05-22 — orchestrator — Post-cleanup validation rerun: `pnpm test` exit 0 (2 files, 13 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `rg "Math\\.random" src tests` matched only the guidance comment, and `git diff --check` exit 0.
+- 2026-05-22 — orchestrator — Commits: `1be9b39` (`chore(progress): start phase 02b`) and `41fde0a` (`feat(game): add seeded rng utilities`).
+- 2026-05-22 — orchestrator — Pushed branch `phase-02b-seeded-rng` and opened PR #3: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/3
 
 ---
 
