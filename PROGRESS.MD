@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Add a minimal local human-play interface over the existing engine while preserving structured actions and harness/game protocol authority. |
 | Branch | `phase/phase-17a-human-play-ui` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-17a-human-play-ui-wt` |
-| Base | `origin/main` at `cc587e1` |
-| Status | `Queued; automation state advanced after Phase 16D merge` |
+| Base | `origin/main` at `293964d` |
+| Status | `Functional complete; commit/PR pending` |
 
 ### Contract (read before editing)
 
@@ -52,16 +52,18 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Generate Phase 17A automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
+- [~] 2026-05-23 orchestrator — Commit Phase 17A implementation, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Open
 
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement minimal local human-play interface, structured action selection, display state/status/inventory/log, documentation, and action-flow tests within Phase 17A scope.
-- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 17A acceptance, and request Cursor read-only recheck.
-- [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
+_(none)_
 
 ### Done
 
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 17A PASS; non-blocking interactive terminal E2E suggestion recorded in Future backlog; merge readiness pending commit/PR/CI only.
+- [x] 2026-05-23 orchestrator — Review Cursor diff; enforce ASCII-only divider and correct script-mode docs; rerun focused/full local gates and auto-play smoke.
+- [x] 2026-05-23 Cursor/composer-2.5 — Implement minimal local human-play interface, structured action selection, display state/status/inventory/log, documentation, and action-flow tests within Phase 17A scope.
+- [x] 2026-05-23 orchestrator — Generate Phase 17A automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 16D PR #40 merged at `cc587e1a1eb51a266ffe863f2f4b05f93ec81e1b`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 17A.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 16D PASS; non-blocking test-strength suggestions recorded in Future backlog; merge readiness pending commit/PR/CI only.
 - [x] 2026-05-23 orchestrator — Addressed Cursor recheck non-blocking hardening: Markdown CLI apply/report/audit/rollback coverage, forbidden-MVP text rejection, CLI apply smoke, and stricter nested patch structural validation; reran focused/full gates.
@@ -156,16 +158,16 @@ _Derived from `phase-plans/PHASE-17A-HUMAN-PLAY-UI.md`. Tick when verified again
 
 ### Phase 17A — Human Play UI
 
-- [ ] Local human-play interface exists.
-- [ ] Interface starts a seeded game.
-- [ ] UI action choices come from `getAvailableActions` structured actions.
-- [ ] UI displays render output, recent log, HP, inventory, and terminal status.
-- [ ] UI reaches and displays terminal states.
-- [ ] Saveable play trace exists when practical, or blocker/defer is documented.
-- [ ] Documentation explains how to run the interface.
-- [ ] UI does not bypass game-state validation or make UI the source of truth.
-- [ ] Text/ASCII play remains fully supported.
-- [ ] Local final gates pass: `pnpm run check`, focused action-flow tests/smoke, and `git diff --check`.
+- [x] Local human-play interface exists.
+- [x] Interface starts a seeded game.
+- [x] UI action choices come from `getAvailableActions` structured actions.
+- [x] UI displays render output, recent log, HP, inventory, and terminal status.
+- [x] UI reaches and displays terminal states.
+- [x] Saveable play trace exists when practical, or blocker/defer is documented.
+- [x] Documentation explains how to run the interface.
+- [x] UI does not bypass game-state validation or make UI the source of truth.
+- [x] Text/ASCII play remains fully supported.
+- [x] Local final gates pass: `pnpm run check`, focused action-flow tests/smoke, and `git diff --check`.
 
 ---
 
@@ -176,6 +178,8 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | ID | Idea | Suggested phase | Why deferred | Noted |
 | --- | --- | --- | --- | --- |
 | F-001 | _(add ideas here)_ | _(phase)_ | _(why deferred)_ | _(agent, date)_ |
+| F-17A-001 | Add optional browser/HTML human-play shell over the same session module. | Phase 18A+ / UI polish | Phase 17A intentionally ships the smallest terminal CLI; browser UI is roadmap-shaped but not required for human playtesting acceptance. | Cursor/composer-2.5, 2026-05-23 |
+| F-17A-002 | Add an automated interactive terminal/readline E2E test or pty smoke. | Human-play testing hardening | Phase 17A covers auto/script session paths and CLI auto smoke; Cursor recheck classified interactive terminal automation as optional test-strength work. | Cursor/composer-2.5 recheck, 2026-05-23 |
 | F-13A-001 | Add README or command reference documentation for `--on-existing`, `--stdout-only`, persisted summary/comparison paths, and archive behavior. | Documentation polish / Phase 14A | Phase 13A records behavior in the phase plan and CLI errors; broader README-style docs are useful but not required for artifact retention acceptance. | orchestrator, 2026-05-23 |
 | F-13A-002 | Expand retention tests for `accept-version`, summary/comparison no-clobber reruns, and review-specific overwrite/archive diagnostics. | Evidence retention hardening follow-up | Phase 13A covers core no-clobber, archive, overwrite, balance summary, persisted summary, and comparison paths; broader matrix coverage can be added later without changing the policy contract. | orchestrator, 2026-05-23 |
 | F-16D-001 | Add a scenario-pack JSON overlay patch test that exercises `content/packs/*.json` through the deterministic patch flow. | Patch testing hardening | Phase 16D validates scenario overlays through `validateScenarioPackContentOverlay`; recheck classified dedicated overlay-apply coverage as non-blocking test-strength work. | Cursor/composer-2.5 recheck, 2026-05-23 |
@@ -399,6 +403,11 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Phase-runner merge gate initially blocked because `package.json` is outside PHASE-16D allowed paths. Removed the package script and kept the CLI module/entrypoint under allowed `src/harness/**`; updated docs/progress wording accordingly. Validation PASS after scope correction: `pnpm test tests/json-patching.test.ts` (11 tests); `pnpm run check` (32 files, 316 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
 - 2026-05-23 — orchestrator — Phase 16D PR #40 merged at `cc587e1a1eb51a266ffe863f2f4b05f93ec81e1b` after GitHub `Repo gates` passed and corrected `pnpm run phase -- gate --phase PHASE-16D --evidence runs/phase-runner/PHASE-16D/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-17A`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 17A with initial task queue and checklist from `phase-plans/PHASE-17A-HUMAN-PLAY-UI.md`.
+- 2026-05-23 — orchestrator — Phase 17A automation start: `pnpm run phase -- status` selected `PHASE-17A`; `pnpm run phase -- bundle --phase PHASE-17A --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-17A/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-17a-human-play-ui-wt` on branch `phase/phase-17a-human-play-ui` from `origin/main` at `293964d`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
+- 2026-05-23 — Cursor/composer-2.5 — Phase 17A implementation: added `src/human-play/**` terminal/auto/script session over `GameEngine`, `pnpm run human-play`, `docs/HUMAN-PLAY.md`, and `tests/human-play.test.ts`. Validation PASS: `pnpm test tests/human-play.test.ts` (6 tests); `pnpm run human-play -- --seed seed_001 --auto` (LOSS, 17 steps); `pnpm run check` (33 files, 322 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check` PASS. Re-read `phase-plans/PHASE-17A-HUMAN-PLAY-UI.md`; deliverables and acceptance criteria satisfied locally.
+- 2026-05-23 — orchestrator — Reviewed Phase 17A diff and applied small hardening: replaced the terminal divider with ASCII `-` and corrected docs so `--script` is shown without redundant `--auto`. Validation PASS: `pnpm test tests/human-play.test.ts` (6 tests); `pnpm run human-play -- --seed seed_001 --auto` (LOSS, 17 steps); `pnpm run check` (33 files, 322 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 17A PASS against the phase plan, local terminal UI, structured actions, display/status/log/inventory, terminal outcomes, trace saving, docs, no UI source-of-truth bypass, no forbidden scope, and game protocol invariants. Recheck noted only merge-readiness blockers plus optional interactive terminal E2E coverage, now recorded in Future backlog.
 
 ---
 
