@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 12A — Demo Loop |
-| Goal | Produce the complete rerunnable end-to-end proof-of-concept loop with real `v001`, `v002`, and `v003` evidence where reviewer play and critique drive visible accepted improvements. |
-| Branch | `phase-12a-demo-loop` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-12a-demo-loop-wt` |
-| Base | `origin/main` at `5e71091` |
-| Status | `PR open` |
+| Phase | Phase 13A — Evidence Retention |
+| Goal | Harden generated run evidence so reruns preserve, archive, or intentionally overwrite artifacts instead of silently replacing version history; persist summaries and comparisons as inspectable artifacts. |
+| Branch | `phase/phase-13a-evidence-retention` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-13a-evidence-retention-wt` |
+| Base | `origin/main` at `685b619` |
+| Status | `In progress` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-12A-DEMO-LOOP.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-13A-EVIDENCE-RETENTION.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -52,11 +52,14 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-23 orchestrator — Seed Phase 13A progress state, inspect current artifact-writing code, and delegate bounded implementation to Cursor/composer-2.5.
 
 ### Open
 
-- _(none)_
+- [ ] 2026-05-23 Cursor/composer-2.5 — Implement artifact write policy for version-loop, balance, summary, and comparison outputs.
+- [ ] 2026-05-23 Cursor/composer-2.5 — Persist version summary and comparison artifacts in deterministic locations.
+- [ ] 2026-05-23 Cursor/composer-2.5 — Add tests proving reruns do not silently replace evidence and explicit overwrite/archive behavior is honored.
+- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates, and recheck Phase 13A acceptance.
 
 ### Done
 
@@ -91,18 +94,18 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-12A-DEMO-LOOP.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-13A-EVIDENCE-RETENTION.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 12A — Demo Loop
+### Phase 13A — Evidence Retention
 
-- [x] `v001`, `v002`, and `v003` evidence folders are complete and committed as explicit Phase 12A evidence.
-- [x] Reviewer play and critique are grounded in actual traces for all three versions.
-- [x] `v002` implements a reviewer-driven tactical/clarity improvement with trace-visible evidence.
-- [x] `v003` implements reviewer-driven balance, clarity, or story tuning with a concrete signal or documented regression.
-- [x] Patch plans, changelogs, developer notes, acceptance reports, and comparison summaries exist for required versions.
-- [x] `pnpm run demo-loop` reruns the full demo sequence from final `HEAD`.
-- [x] Final game preserves finite, turn-based, text/ASCII, seeded, serializable, structured-action gameplay.
-- [x] Local final gates and Phase 12A smoke commands pass, or blockers are recorded.
+- [ ] Explicit artifact write policy exists for version-loop commands.
+- [ ] Rerunning a version cannot silently replace trace, review, scorecard, summary, comparison, or markdown evidence.
+- [ ] Explicit overwrite and/or archive behavior is implemented and documented through CLI flags or typed options.
+- [ ] Version summaries are persisted under deterministic version-scoped paths.
+- [ ] Version comparisons are persisted under deterministic comparison paths.
+- [ ] Tests cover no-clobber/archive/overwrite behavior and comparison output paths.
+- [ ] Version-id behavior is documented and consistent across smoke/version-loop commands.
+- [ ] Local final gates pass: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -235,6 +238,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Added docs-only full post-12 roadmap phase plans `PHASE-13A` through `PHASE-19C` under `phase-plans/`, covering evidence retention, CI/acceptance, diagnostics, agent operations, controlled automation, deterministic JSON patching, gameplay expansion, human playtesting, dashboard/analytics, and extension/media experiments. Follow-up audit tightened coverage for automatic JSON patching, evidence-backed version leaderboard/ranking, and shared core-invariant handoff notes. Validation PASS: section-format Node check found 22 files with all 10 required sections; dependency scan confirmed numeric wave dependencies; trailing-whitespace scan found no matches; `git diff --check` passed. No source, concept, package, or generated evidence files were changed.
 - 2026-05-23 — orchestrator — Implemented Codex-led phase automation core: `automation/` DAG/state/policy/prompts, `pnpm run phase` CLI, prompt bundle writer, automerge gate evaluator, and phase-state complete/block commands. Cursor preflight: `agent --list-models` required escalation due macOS keychain sandbox and confirmed `composer-2.5`. Validation PASS: `pnpm test tests/phase-runner.test.ts` (6 tests), `pnpm test` (20 files, 191 tests), `pnpm run typecheck`, `pnpm run build`, `pnpm run lint`, `git diff --check`, `pnpm run phase -- status`, `pnpm run phase -- next --from PHASE-13A --parallel 2`, and `pnpm run phase -- bundle --phase PHASE-13A --output /tmp/df-phase-runner-bundle-check --run-id cli-check`.
 - 2026-05-23 — orchestrator — Cursor read-only audit attempt for the automation diff was started with `agent --print --trust --mode=ask --model composer-2.5 --workspace ...` but produced no output for the bounded wait and was interrupted with `kill -INT 37705`; local deterministic gates above are the verification evidence.
+- 2026-05-23 — orchestrator — Phase 13A automation start: `pnpm run phase -- status` selected `PHASE-13A`; `pnpm run phase -- bundle --phase PHASE-13A --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-13A/planned`; `git fetch origin` passed; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-13a-evidence-retention-wt` on branch `phase/phase-13a-evidence-retention` from `origin/main` at `685b619`; `agent --list-models` required escalation due macOS keychain sandbox and confirmed `composer-2.5`.
 
 ---
 
