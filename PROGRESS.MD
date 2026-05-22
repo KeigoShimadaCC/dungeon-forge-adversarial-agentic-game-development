@@ -52,7 +52,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-22 — orchestrator — Re-read Phase 02C acceptance criteria against implementation, run completion audit, push branch, and open PR.
+- [~] 2026-05-22 — orchestrator — Push branch and open PR.
 
 ### Open
 
@@ -66,6 +66,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-22 — Cursor Agent — Add tests that parse content, validate required fields, reject malformed content, and expose Potion/Slime records by ID.
 - [x] 2026-05-22 — orchestrator — Review Cursor diffs for scope, determinism, serializability, and no external-service dependency.
 - [x] 2026-05-22 — orchestrator — Run `pnpm test`, `pnpm run typecheck`, and `pnpm run lint`; record results.
+- [x] 2026-05-22 — orchestrator — Re-read Phase 02C acceptance criteria against implementation and run completion audit.
 
 ### Blocked / skipped
 
@@ -96,7 +97,7 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 - [x] Future phases can add content without changing the core contract (acceptance).
 - [x] Static content is finite, versionable, and inspectable (acceptance).
 - [x] No runtime external service is required to fetch gameplay content (acceptance).
-- [ ] Re-read acceptance criteria against actual repo state.
+- [x] Re-read acceptance criteria against actual repo state.
 - [ ] Push branch and open PR.
 
 ---
@@ -125,6 +126,8 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — Cursor Agent — Implemented Phase 02C content data: `content/items.json`, `content/enemies.json`, `content/floor-rules.json`, `src/game/content.ts`, `src/game/items.ts`, `src/game/enemies.ts`, `tests/content.test.ts`, and updated `tests/scaffold.test.ts`.
 - 2026-05-22 — Cursor Agent — Follow-up test-only pass added malformed floor-rule validation and loaded floor-rule progression coverage in `tests/content.test.ts`.
 - 2026-05-22 — orchestrator — Validation after Cursor implementation: `pnpm test` exit 0 (2 files, 10 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0.
+- 2026-05-22 — Cursor Agent read-only audit — No blocking issues found against Phase 02C. Non-blocking follow-ups noted for later phases: exact schema-version enforcement, shared content cache/floor helper, spawn-count consistency rules, and duplicate-floor-number error wording.
+- 2026-05-22 — orchestrator — Phase completion check before PR: Phase 02C deliverables, tests, and acceptance criteria match implementation; out-of-scope Phase 02A/02B mechanics remain untouched.
 
 ---
 
