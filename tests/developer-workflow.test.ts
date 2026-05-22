@@ -5,8 +5,12 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 import { buildReviewRelativePath, buildScorecardRelativePath } from '../src/harness/artifacts.js';
-import { runDeveloperTaskCli } from '../src/harness/developer-workflow-cli.js';
 import {
+  DEVELOPER_TASK_CLI_USAGE,
+  runDeveloperTaskCli,
+} from '../src/harness/developer-workflow-cli.js';
+import {
+  collectDeveloperTaskDiagnostics,
   DEFAULT_DEVELOPER_TEST_COMMANDS,
   DeveloperTaskValidationError,
   GLOBAL_FORBIDDEN_CHANGES,
@@ -14,6 +18,7 @@ import {
   renderChangelogTemplate,
   renderDeveloperTaskMarkdown,
   renderPatchPlanTemplate,
+  toHandoffDisplayPath,
   validateDeveloperTaskInput,
 } from '../src/harness/developer-workflow.js';
 import type { PlaythroughReview } from '../src/harness/reviewer-client.js';
@@ -106,7 +111,7 @@ const makeInput = (overrides: Partial<Parameters<typeof generateDeveloperTask>[0
   ...overrides,
 });
 
-describe('Phase 08A developer workflow', () => {
+describe('Phase 14A developer workflow polish', () => {
   it('generates a bounded developer task with evidence, artifacts, and default gates', () => {
     const task = generateDeveloperTask(makeInput());
     const markdown = renderDeveloperTaskMarkdown(task);
@@ -126,8 +131,8 @@ describe('Phase 08A developer workflow', () => {
       expect.arrayContaining([...GLOBAL_FORBIDDEN_CHANGES, 'Do not touch generated run evidence by hand.']),
     );
     expect(task.required_test_commands).toEqual([...DEFAULT_DEVELOPER_TEST_COMMANDS]);
-    expect(task.required_patch_plan_path).toBe('/tmp/df-task-test/runs/v002/patch_plan.md');
-    expect(task.required_changelog_path).toBe('/tmp/df-task-test/runs/v002/changelog.md');
+    expect(task.required_patch_plan_path).toBe('runs/v002/patch_plan.md');
+    expect(task.required_changelog_path).toBe('runs/v002/changelog.md');
     expect(task.expected_implementation_summary).toContain('Implement 2 bounded change(s) for v002');
     expect(task.evidence.review_issues[0]).toMatchObject({
       severity: 'major',
@@ -139,6 +144,15 @@ describe('Phase 08A developer workflow', () => {
     expect(markdown).toContain('pnpm run build');
     expect(markdown).toContain('git diff --check');
     expect(markdown).toContain('GameEngine interface');
+    expect(markdown).toContain('`runs/v002/patch_plan.md`');
+  });
+
+  it('uses repo-relative artifact paths when runs root is inside the repository', () => {
+    const repoRoot = process.cwd();
+    const runsRoot = path.join(repoRoot, 'runs-handoff-test');
+    const absolutePatchPlan = path.join(runsRoot, 'runs', 'v002', 'patch_plan.md');
+    const displayPath = toHandoffDisplayPath(runsRoot, repoRoot, absolutePatchPlan);
+    expect(displayPath).toBe('runs-handoff-test/runs/v002/patch_plan.md');
   });
 
   it('renders patch plan and changelog templates with scoped workflow fields', () => {
@@ -156,23 +170,144 @@ describe('Phase 08A developer workflow', () => {
     expect(changelog).toContain('Seed determinism and explicit terminal states preserved.');
   });
 
-  it('rejects malformed required fields and protocol-breaking allowed work', () => {
-    expect(() => validateDeveloperTaskInput(makeInput({ targetVersion: 'v2' }))).toThrow(
-      'Invalid version id "v2"',
+  it('reports multiple blocker diagnostics without stopping at the first error', () => {
+    const result = collectDeveloperTaskDiagnostics(
+      makeInput({
+        targetVersion: 'v2',
+        targetScope: '   ',
+        allowedChanges: [],
+        proposedChanges: ['One', 'Call external APIs during gameplay.', 'Three', 'Four'],
+      }),
     );
-    expect(() => validateDeveloperTaskInput(makeInput({ targetScope: '   ' }))).toThrow(
-      'targetScope must be a non-empty string',
-    );
-    expect(() =>
-      validateDeveloperTaskInput(
-        makeInput({ proposedChanges: ['One', 'Two', 'Three', 'Four'] }),
-      ),
-    ).toThrow('at most 3 scoped changes');
+
+    expect(result.ok).toBe(false);
+    expect(result.blockers.length).toBeGreaterThanOrEqual(3);
+    expect(result.blockers.some((entry) => entry.field === 'targetVersion')).toBe(true);
+    expect(result.blockers.some((entry) => entry.field === 'targetScope')).toBe(true);
+    expect(result.blockers.some((entry) => entry.field === 'proposedChanges')).toBe(true);
+    expect(
+      result.blockers.some((entry) => entry.entry === 'Call external APIs during gameplay.'),
+    ).toBe(true);
+    expect(result.diagnostics.some((entry) => entry.category === 'forbidden')).toBe(true);
+  });
+
+  it('rejects protocol-breaking allowed work with categorized blockers', () => {
     expect(() =>
       validateDeveloperTaskInput(
         makeInput({ allowedChanges: ['Change the GameEngine interface to accept free text.'] }),
       ),
     ).toThrow(DeveloperTaskValidationError);
+
+    const result = collectDeveloperTaskDiagnostics(
+      makeInput({ allowedChanges: ['Change the GameEngine interface to accept free text.'] }),
+    );
+    expect(result.blockers.some((entry) => entry.category === 'blocker' && entry.field === 'allowedChanges')).toBe(
+      true,
+    );
+  });
+
+  it('documents required and optional developer-task flags in help output', async () => {
+    const writes: string[] = [];
+    const originalWrite = process.stdout.write.bind(process.stdout);
+    process.stdout.write = ((chunk: string | Uint8Array) => {
+      writes.push(typeof chunk === 'string' ? chunk : Buffer.from(chunk).toString('utf8'));
+      return true;
+    }) as typeof process.stdout.write;
+
+    try {
+      const result = await runDeveloperTaskCli(['--help']);
+      expect(result.markdown).toBeUndefined();
+      expect(writes.join('')).toContain('--write-templates');
+    } finally {
+      process.stdout.write = originalWrite;
+    }
+
+    expect(DEVELOPER_TASK_CLI_USAGE).toContain('--review');
+    expect(DEVELOPER_TASK_CLI_USAGE).toContain('--validate-only');
+  });
+
+  it('prints visible diagnostics in validate-only mode for a valid handoff', async () => {
+    await withTempRunsRoot(async (runsRoot) => {
+      await runVersion(runsRoot, 'v001');
+      const reviewPath = buildReviewRelativePath('v001', 'seed_001', 'careful_player');
+      const scorecardPath = buildScorecardRelativePath('v001', 'seed_001', 'careful_player');
+      const writes: string[] = [];
+      const originalWrite = process.stdout.write.bind(process.stdout);
+      process.stdout.write = ((chunk: string | Uint8Array) => {
+        writes.push(typeof chunk === 'string' ? chunk : Buffer.from(chunk).toString('utf8'));
+        return true;
+      }) as typeof process.stdout.write;
+
+      try {
+        const result = await runDeveloperTaskCli([
+          '--runs-root',
+          runsRoot,
+          '--review',
+          reviewPath,
+          '--scorecard',
+          scorecardPath,
+          '--target-version',
+          'v002',
+          '--scope',
+          'Improve one clarity issue from the careful_player review.',
+          '--allowed',
+          'Improve render text and legend clarity.',
+          '--proposed',
+          'Clarify item and enemy symbols in the ASCII legend.',
+          '--validate-only',
+        ]);
+
+        expect(result.validation?.ok).toBe(true);
+      } finally {
+        process.stdout.write = originalWrite;
+      }
+
+      const output = writes.join('');
+      expect(output).toContain('Developer task input is valid.');
+      expect(output).toContain('[forbidden]');
+      expect(output).toContain('GameEngine interface');
+    });
+  });
+
+  it('writes companion patch plan and changelog templates when requested', async () => {
+    await withTempRunsRoot(async (runsRoot) => {
+      await runVersion(runsRoot, 'v001');
+      const reviewPath = buildReviewRelativePath('v001', 'seed_001', 'careful_player');
+      const scorecardPath = buildScorecardRelativePath('v001', 'seed_001', 'careful_player');
+
+      const result = await runDeveloperTaskCli([
+        '--runs-root',
+        runsRoot,
+        '--review',
+        reviewPath,
+        '--scorecard',
+        scorecardPath,
+        '--target-version',
+        'v002',
+        '--scope',
+        'Improve one clarity issue from the careful_player review.',
+        '--allowed',
+        'Improve render text and legend clarity.',
+        '--proposed',
+        'Clarify item and enemy symbols in the ASCII legend.',
+        '--write',
+        '--write-templates',
+      ]);
+
+      const patchPlanPath = path.join(runsRoot, 'runs', 'v002', 'patch_plan.md');
+      const changelogPath = path.join(runsRoot, 'runs', 'v002', 'changelog.md');
+      expect(result.patchPlanPath).toBe(patchPlanPath);
+      expect(result.changelogPath).toBe(changelogPath);
+
+      const patchPlan = await readFile(patchPlanPath, 'utf8');
+      const changelog = await readFile(changelogPath, 'utf8');
+      const taskMarkdown = await readFile(result.outputPath ?? '', 'utf8');
+
+      expect(patchPlan).toContain('## Review issues being addressed');
+      expect(changelog).toContain('## Implemented changes');
+      expect(taskMarkdown).toContain('`runs/v002/patch_plan.md`');
+      expect(taskMarkdown).toContain('`runs/v002/changelog.md`');
+    });
   });
 
   it('writes a developer task from real Phase 07A review and scorecard evidence', async () => {
@@ -211,6 +346,8 @@ describe('Phase 08A developer workflow', () => {
       expect(markdown).toContain('Improve render text and legend clarity.');
       expect(markdown).toContain('Do not edit src/game/engine.ts.');
       expect(markdown).toContain('pnpm test tests/render.test.ts');
+      expect(markdown).toContain('## Forbidden changes');
+      expect(markdown).toContain('GameEngine interface');
     });
   });
 });
