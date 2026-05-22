@@ -12,7 +12,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Add finite tactical item effects with valid-use conditions, state changes, render/log feedback, trace-visible events, and deterministic seeded behavior. |
 | Branch | `phase-09a-tactical-items` |
 | Worktree | `/private/tmp/dungeon-forge-phase-09a-tactical-items-wt` |
-| Base | `origin/main` at `923f12c` |
+| Base | `origin/main` at `2ee6cc2` after merge sync |
 | Status | `ready for PR` |
 
 ### Contract (read before editing)
@@ -116,6 +116,9 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | F-09B-003 | Add exhaustive behavior-dispatch hardening and a standalone combat-helper unit test. | Engine hardening phase | Phase 09B behavior values are already constrained by content validation and TypeScript types, and combat damage is covered through engine tests; a later hardening pass can add explicit dispatch defaults/assertions and isolated combat coverage. | orchestrator, 2026-05-22 |
 | F-09A-001 | Teach baseline/version-loop policies to deliberately evaluate tactical item use when safe and relevant. | Phase 10B / Phase 11A | Phase 09A exposes deterministic item effects and trace-visible events, but the current default smoke matrix did not use items (`items_used: 0` across the three sample personas). Item-aware evaluation belongs in balance/acceptance workflow, not the item mechanics phase. | orchestrator, 2026-05-22 |
 | F-09A-002 | Decide whether to add the optional Reveal Dust-style information item. | Future tactical-content expansion | Phase 09A only required items such as the examples and shipped four tactical effects plus Potion preservation; adding more content now would broaden the phase after gates passed. | orchestrator, 2026-05-22 |
+| F-09C-001 | Persist map-generation metadata such as `usedFallback`, generation attempt, and maybe layout summary into trace/evidence metadata. | Phase 11A / evidence hardening | Phase 09C makes map generation deterministic and reproducible by seed, but fallback/attempt details are not surfaced in `GameState` or trace artifacts. This is useful evidence polish, not required for the Phase 09C map validity contract. | orchestrator, 2026-05-22 |
+| F-09C-002 | Harden impossible placement configurations so requested enemy/item spawn counts either fully place or produce an explicit validation/abort diagnostic. | Engine/content hardening phase | Current Phase 09C production floor rules have enough reachable space and tests cover canonical seeds, but `chooseEntityPositions` can return fewer than requested for pathological future content. A later hardening pass should make that failure mode explicit. | orchestrator, 2026-05-22 |
+| F-09C-003 | Standardize version-loop smoke IDs or add CLI support for descriptive smoke aliases. | Harness ergonomics phase | Phase 09C validation exposed that `v09c-smoke` is rejected because the version-loop CLI only accepts `v001`-style IDs. The phase was validated with `v009`; a later harness pass can align docs/plans/CLI behavior. | orchestrator, 2026-05-22 |
 
 _Add rows as you go. Promote to Task queue when a phase plan or user explicitly schedules the work._
 
@@ -135,6 +138,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) produced no stdout for roughly two minutes and was interrupted; local acceptance audit and gates above are the verification evidence.
 - 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-09C-MAP-GENERATION.md` against implementation; acceptance criteria satisfied locally with documented smoke-command/audit blockers. Commit `d993687` added Phase 09C map generation, engine integration, floor scaling, tests, and progress updates.
 - 2026-05-22 — orchestrator — Pushed `phase-09c-map-generation` and opened PR #20: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/20.
+- 2026-05-22 — orchestrator — Verified PR #20 merged into `main` at `478cacd`; temporary worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-09c-map-generation-wt` is no longer present. `git worktree list` still shows the main checkout plus an unrelated Phase 09A worktree under `/private/tmp`.
 - 2026-05-22 — orchestrator — Post-merge gap review on `main`: Phase 09B has no required in-phase fixes remaining against `phase-plans/PHASE-09B-ENEMY-VARIETY.md`; added out-of-scope follow-ups `F-09B-001` through `F-09B-003` to Future backlog for scorecard metrics, trace-message polish, and hardening coverage. Verification: `pnpm test` passed (13 files, 135 tests).
 
 - 2026-05-22 — orchestrator — Fast-forwarded local `main` from `ac573e5` to `origin/main` at `9ccba4f`, then created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-07a-version-loop-wt` on branch `phase-07a-version-loop` tracking `origin/main`.
