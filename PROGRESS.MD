@@ -8,12 +8,12 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | _(none selected)_ |
-| Goal | Await next phase selection. |
-| Branch | `main` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development` |
-| Base | `origin/main` at `dc920ae` |
-| Status | `idle` |
+| Phase | `PHASE-06A - LLM Player` |
+| Goal | Add an injectable LLM player policy/client boundary that selects only explicit available actions, records trace evidence, and falls back deterministically without requiring credentials. |
+| Branch | `phase-06a-llm-player` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-06a-llm-player-wt` |
+| Base | `origin/main` at `ac573e5` |
+| Status | `ready_for_review` |
 
 ### Contract (read before editing)
 
@@ -59,7 +59,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Done
 
-- _(none; previous phase archived)_
+- [x] 2026-05-22 — composer — Read Phase 06A, global invariants, north star, tech spec, and current harness.
+- [x] 2026-05-22 — composer — Add async-capable LLM player policy/client boundary.
+- [x] 2026-05-22 — composer — Add prompt/input builder with personas.
+- [x] 2026-05-22 — composer — Add JSON validation and deterministic fallback behavior.
+- [x] 2026-05-22 — composer — Extend trace metadata for LLM reason/persona/fallback evidence.
+- [x] 2026-05-22 — composer — Add mocked tests for valid, invalid, malformed, missing, and timeout/error responses.
+- [x] 2026-05-22 — orchestrator — Verify baseline harness still works without credentials.
+- [x] 2026-05-22 — orchestrator — Run full validation gates.
+- [x] 2026-05-22 — orchestrator — Run Cursor read-only audit.
+- [x] 2026-05-22 — orchestrator — Re-check Phase 06A acceptance criteria.
+- [x] 2026-05-22 — orchestrator — Push branch and open PR.
 
 ### Blocked / skipped
 
@@ -71,9 +81,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 _Derived from the active phase plan: deliverables, tests/validation, acceptance criteria. Tick when verified, not when merely attempted._
 
-### No Active Phase
+### PHASE-06A - LLM Player
 
-- [ ] Select the next phase plan before implementation work resumes.
+- [x] LLM player adapter/client boundary exists and is injectable.
+- [x] Prompt/input shape includes render, available actions, recent log, state summary, and persona.
+- [x] Model JSON is parsed and validated before use.
+- [x] Invalid JSON, missing action IDs, unavailable actions, timeouts, and client errors use deterministic fallback.
+- [x] Trace steps capture selected action, reason, persona, fallback usage, and failure metadata.
+- [x] Mock-based tests cover valid and invalid responses without real API credentials.
+- [x] Baseline harness players still run without API credentials.
+- [x] Phase 06A acceptance criteria rechecked against repo state.
 
 ---
 
@@ -95,6 +112,11 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
 - 2026-05-22 — orchestrator — PR #10 merged at `dc920ae`; fast-forwarded local `main` to `origin/main`; removed registered worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness-wt`; deleted local branch `phase-05a-harness`. Verified `git worktree list` shows only the main worktree. Preserved the earlier dirty unregistered checkout `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness` per the Phase 05A execution plan.
+- 2026-05-22 — orchestrator — Started Phase 06A on branch `phase-06a-llm-player` in worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-06a-llm-player-wt` from `origin/main` at `ac573e5`. Preflight: `git status --short --branch` clean on `main`; `git fetch origin` passed; `git worktree list` showed main plus unrelated Phase 06B worktree; `command -v agent` found `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`, escalated rerun passed and confirmed `composer-2.5`.
+- 2026-05-22 — composer — Implementation slice: async `HarnessPlayerPolicy`, `createLlmPlayerPolicy` + injectable `LlmPlayerClient`, prompt builder under `src/agents/prompts/llm-player.ts`, trace `decision_metadata`, `tests/llm-player.test.ts`. `pnpm install`; `pnpm test` (9 files, 86 tests) pass; `pnpm run typecheck` and `pnpm run lint` pass.
+- 2026-05-22 — orchestrator — Reviewed Cursor implementation diff and confirmed scope stayed within `src/harness/**`, `src/agents/prompts/**`, `tests/**`, and `PROGRESS.MD`. Local gates passed: `pnpm test` (9 files, 86 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `git diff --check`; `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` (saved ignored trace/scorecard, result `ABORTED`, 280 turns/steps).
+- 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5`) returned PASS with no blocking findings. Added one extra trace integration assertion for valid LLM reason/persona metadata and deterministic invalid-action fallback reference; reran local gates after the change: `pnpm test` (9 files, 87 tests); `pnpm run typecheck`; `pnpm run lint`; `git diff --check`; `pnpm run build`; `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` (result `ABORTED`, 280 turns/steps). Re-read Phase 06A acceptance criteria; confirmed LLM choices are validated against available actions, policy output cannot mutate game state directly, baseline harness runs with no API key, and all three personas use the same stable action protocol. Scan for provider/env/network dependencies returned no matches.
+- 2026-05-22 — orchestrator — Pushed branch `phase-06a-llm-player` and opened PR #12: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/12.
 
 ---
 

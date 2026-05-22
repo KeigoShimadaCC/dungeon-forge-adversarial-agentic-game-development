@@ -15,11 +15,10 @@ import {
 } from './artifacts.js';
 import { deriveScorecardFromTrace } from './scorecard.js';
 import {
-  BASELINE_POLICY_IDS,
+  awaitPolicyDecision,
   isBaselinePolicyId,
-  normalizePolicyDecision,
   resolveBaselinePolicy,
-  type BaselinePolicyId,
+  type HarnessPolicyId,
 } from './policy-registry.js';
 import { buildStateSummary } from './state-summary.js';
 import type { HarnessPlayerPolicy, PlaythroughTrace, TraceStep } from './types.js';
@@ -29,7 +28,7 @@ const DEFAULT_MAX_STEPS_MULTIPLIER = 4;
 
 export interface RunPlaythroughOptions {
   seed: string;
-  policyId: BaselinePolicyId;
+  policyId: HarnessPolicyId;
   version: string;
   maxSteps?: number;
   runsRoot?: string;
@@ -80,7 +79,15 @@ export const runPlaythrough = async (
 ): Promise<RunPlaythroughResult> => {
   const { seed, policyId, version } = options;
   const runsRoot = options.runsRoot ?? process.cwd();
-  const policy = options.policy ?? resolveBaselinePolicy(policyId, seed);
+  const policy =
+    options.policy ??
+    (isBaselinePolicyId(policyId)
+      ? resolveBaselinePolicy(policyId, seed)
+      : (() => {
+          throw new Error(
+            `Policy "${policyId}" is not a baseline policy. Supply options.policy (for example createLlmPlayerPolicy).`,
+          );
+        })());
 
   let state = start(seed);
   const steps: TraceStep[] = [];
@@ -133,7 +140,7 @@ export const runPlaythrough = async (
       turn,
     };
 
-    const decision = normalizePolicyDecision(policy(policyInput));
+    const decision = await awaitPolicyDecision(policy(policyInput));
     const matched = findMatchingAvailableAction(availableActions, decision.action);
 
     if (!matched) {
@@ -145,6 +152,7 @@ export const runPlaythrough = async (
         available_actions: availableActions.map(actionSnapshot),
         chosen_action: actionSnapshot(decision.action),
         ...(decision.reason ? { reason: decision.reason } : {}),
+        ...(decision.decision_metadata ? { decision_metadata: decision.decision_metadata } : {}),
         valid: false,
         events: [
           harnessEvent(
@@ -172,6 +180,7 @@ export const runPlaythrough = async (
         available_actions: availableActions.map(actionSnapshot),
         chosen_action: actionSnapshot(decision.action),
         ...(decision.reason ? { reason: decision.reason } : {}),
+        ...(decision.decision_metadata ? { decision_metadata: decision.decision_metadata } : {}),
         valid: false,
         events: [
           harnessEvent(
@@ -200,6 +209,7 @@ export const runPlaythrough = async (
       available_actions: availableActions.map(actionSnapshot),
       chosen_action: actionSnapshot(matched),
       ...(decision.reason ? { reason: decision.reason } : {}),
+      ...(decision.decision_metadata ? { decision_metadata: decision.decision_metadata } : {}),
       valid: stepResult.valid,
       events,
       terminalStatus: stepResult.state.terminalStatus,
@@ -250,7 +260,7 @@ export const runPlaythrough = async (
 
 export const parseSimulateSeedArgs = (
   argv: string[],
-): { seed: string; policyId: BaselinePolicyId; version: string; maxSteps?: number } => {
+): { seed: string; policyId: import('./policy-registry.js').BaselinePolicyId; version: string; maxSteps?: number } => {
   let seed: string | undefined;
   let policyId: string | undefined;
   let version = 'v001';
@@ -294,4 +304,5 @@ export const parseSimulateSeedArgs = (
   return { seed, policyId, version, maxSteps };
 };
 
-export { isBaselinePolicyId, BASELINE_POLICY_IDS };
+export { isBaselinePolicyId, BASELINE_POLICY_IDS, isLlmPlayerPersona, LLM_PLAYER_PERSONA_IDS } from './policy-registry.js';
+export type { HarnessPolicyId, BaselinePolicyId } from './policy-registry.js';
