@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Add a minimal local human-play interface over the existing engine while preserving structured actions and harness/game protocol authority. |
 | Branch | `phase/phase-17a-human-play-ui` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-17a-human-play-ui-wt` |
-| Base | `origin/main` at `cc587e1` |
-| Status | `Queued; automation state advanced after Phase 16D merge` |
+| Base | `origin/main` at `293964d` |
+| Status | `Seed checkpoint complete; Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -52,16 +52,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Generate Phase 17A automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
+- [~] 2026-05-23 Cursor/composer-2.5 — Implement minimal local human-play interface, structured action selection, display state/status/inventory/log, documentation, and action-flow tests within Phase 17A scope.
 
 ### Open
 
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement minimal local human-play interface, structured action selection, display state/status/inventory/log, documentation, and action-flow tests within Phase 17A scope.
 - [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 17A acceptance, and request Cursor read-only recheck.
 - [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Generate Phase 17A automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 16D PR #40 merged at `cc587e1a1eb51a266ffe863f2f4b05f93ec81e1b`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 17A.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 16D PASS; non-blocking test-strength suggestions recorded in Future backlog; merge readiness pending commit/PR/CI only.
 - [x] 2026-05-23 orchestrator — Addressed Cursor recheck non-blocking hardening: Markdown CLI apply/report/audit/rollback coverage, forbidden-MVP text rejection, CLI apply smoke, and stricter nested patch structural validation; reran focused/full gates.
@@ -399,6 +399,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Phase-runner merge gate initially blocked because `package.json` is outside PHASE-16D allowed paths. Removed the package script and kept the CLI module/entrypoint under allowed `src/harness/**`; updated docs/progress wording accordingly. Validation PASS after scope correction: `pnpm test tests/json-patching.test.ts` (11 tests); `pnpm run check` (32 files, 316 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
 - 2026-05-23 — orchestrator — Phase 16D PR #40 merged at `cc587e1a1eb51a266ffe863f2f4b05f93ec81e1b` after GitHub `Repo gates` passed and corrected `pnpm run phase -- gate --phase PHASE-16D --evidence runs/phase-runner/PHASE-16D/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-17A`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 17A with initial task queue and checklist from `phase-plans/PHASE-17A-HUMAN-PLAY-UI.md`.
+- 2026-05-23 — orchestrator — Phase 17A automation start: `pnpm run phase -- status` selected `PHASE-17A`; `pnpm run phase -- bundle --phase PHASE-17A --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-17A/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-17a-human-play-ui-wt` on branch `phase/phase-17a-human-play-ui` from `origin/main` at `293964d`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
 
 ---
 
