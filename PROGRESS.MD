@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-08a-developer-agent-workflow` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-08a-developer-agent-workflow-wt` |
 | Base | `origin/main` at `4c36e5d` |
-| Status | `in progress` |
+| Status | `complete; PR open` |
 
 ### Contract (read before editing)
 
@@ -56,7 +56,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- [ ] 2026-05-22 orchestrator — Re-read Phase 08A acceptance and finalize progress, commits, push, and PR.
+- _(none)_
 
 ### Done
 
@@ -66,6 +66,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-22 orchestrator — Replace developer prompt placeholder with Phase 08A human-governed workflow template.
 - [x] 2026-05-22 orchestrator — Add unit and CLI-smoke coverage for generated task shape and validation failures.
 - [x] 2026-05-22 orchestrator — Run local gates and Phase 08A CLI smoke.
+- [x] 2026-05-22 orchestrator — Re-read Phase 08A acceptance and finalize progress, commits, push, and PR.
 - [x] 2026-05-22 orchestrator — Seed Phase 07A progress state and create checkpoint commit before implementation (`06b4eeb`).
 - [x] 2026-05-22 orchestrator — Implement version folder helpers and Phase 07A artifact path conventions under `src/harness/**`.
 - [x] 2026-05-22 orchestrator — Add `new-version`, `run-version`, `summarize-version`, and `compare-versions` package scripts and CLI entrypoints.
@@ -145,6 +146,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Phase 08A CLI smoke PASS using `/tmp/df-phase08a-smoke-20260522-2118`: `pnpm run run-version -- --version v001 --runs-root ...` generated real Phase 07A review/scorecard evidence; `pnpm run developer-task -- --runs-root ... --review runs/v001/reviews/seed_001_careful_player.json --scorecard runs/v001/scorecards/seed_001_careful_player.json --target-version v002 ... --write` wrote `/tmp/df-phase08a-smoke-20260522-2118/runs/v002/developer_task.md` with evidence-backed issues, allowed/forbidden changes, required artifact paths, and test command.
 - 2026-05-22 — orchestrator — Scope audit PASS: `git diff -- src/game content concept-and-ideas phase-plans` produced no output; `git status --short --ignored runs` produced no tracked or ignored repo-local generated evidence.
 - 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) produced no stdout for about 90 seconds and was interrupted with `kill -INT`; local acceptance audit and gates above are the verification evidence.
+- 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-08A-DEVELOPER-AGENT-WORKFLOW.md` against implementation; acceptance criteria satisfied locally. Commit `8e738f9` added Phase 08A developer workflow implementation, CLI, prompt, package script, tests, and progress updates.
+- 2026-05-22 — orchestrator — Pushed `phase-08a-developer-agent-workflow` and opened PR #18: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/18.
 
 ---
 
