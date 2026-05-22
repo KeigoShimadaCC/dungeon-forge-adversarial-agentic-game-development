@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-06b-reviewer-critic` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-06b-reviewer-critic-wt` |
 | Base | `origin/main` at `ac573e5` |
-| Status | `in progress` |
+| Status | `implemented; PR prep` |
 
 ### Contract (read before editing)
 
@@ -52,21 +52,21 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] PR prep: push branch, open PR to `main`, link evidence in summary.
 
 ### Open
 
-- [ ] Implement reviewer critic module/client boundary (`src/harness/**` or agreed boundary per phase plan).
-- [ ] Implement review output writer; persist reviews under `runs/vXXX/reviews/`.
-- [ ] Update reviewer prompt template for structured review JSON/Markdown (summary, scores, top issues, suggested next changes; trace citations).
-- [ ] Add mocked tests: review from trace input, top issues, suggested changes, trace evidence citations, missing trace data, no real API credentials.
-- [ ] Run validation: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, and harness regression seed if applicable.
-- [ ] Cursor read-only audit (`--mode=ask`); record PASS/FAIL and blockers in validation log.
-- [ ] PR prep: push branch, open PR to `main`, link evidence in summary.
+- _(none)_
 
 ### Done
 
 - [x] Seed `PROGRESS.MD` for Phase 06B (active phase, task queue, checklist, initial validation log). — orchestrator, 2026-05-22
+- [x] Implement reviewer critic module/client boundary (`src/harness/reviewer-client.ts`, `createReviewerCritic`, `generateDeterministicReview`). — agent, 2026-05-22
+- [x] Implement review output writer (`buildReviewRelativePath`, `savePlaythroughReview` under `runs/<version>/reviews/`). — agent, 2026-05-22
+- [x] Update reviewer prompt template (`src/agents/prompts/reviewer.md`). — agent, 2026-05-22
+- [x] Add mocked tests (`tests/reviewer-critic.test.ts`). — agent, 2026-05-22
+- [x] Run validation: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001`. — orchestrator, 2026-05-22
+- [x] Cursor read-only audit (`--mode=ask`) reported PASS with low/non-blocking notes. — orchestrator, 2026-05-22
 
 ### Blocked / skipped
 
@@ -80,26 +80,26 @@ _Derived from `phase-plans/PHASE-06B-REVIEWER-CRITIC.md`. Tick when verified aga
 
 ### Deliverables
 
-- [ ] Reviewer critic module/client boundary.
-- [ ] Reviewer prompt template (trace + scorecard + render context + persona; structured output shape).
-- [ ] Review output writer saving under `runs/vXXX/reviews/`.
-- [ ] Mocked tests for review generation and missing data.
+- [x] Reviewer critic module/client boundary.
+- [x] Reviewer prompt template (trace + scorecard + render context + persona; structured output shape).
+- [x] Review output writer saving under `runs/vXXX/reviews/`.
+- [x] Mocked tests for review generation and missing data.
 
 ### Tests and validation
 
-- [ ] Review is generated from mocked trace input.
-- [ ] Review includes top issues (severity, observation, diagnosis, recommendation).
-- [ ] Review includes suggested next changes.
-- [ ] Review cites trace evidence (turn numbers, terminal result, invalid actions, render states, outcomes)—not design docs alone.
-- [ ] Review is saved under `runs/vXXX/reviews/`.
-- [ ] Missing trace data is handled gracefully.
-- [ ] Tests do not require real API credentials.
+- [x] Review is generated from mocked trace input.
+- [x] Review includes top issues (severity, observation, diagnosis, recommendation).
+- [x] Review includes suggested next changes (bounded to ≤3).
+- [x] Review cites trace evidence (turn numbers, terminal result, invalid actions, render states, outcomes)—not design docs alone.
+- [x] Review is saved under `runs/vXXX/reviews/`.
+- [x] Missing trace data is handled gracefully.
+- [x] Tests do not require real API credentials.
 
 ### Acceptance criteria
 
-- [ ] Critique is grounded in actual playthrough evidence.
-- [ ] Observation, diagnosis, recommendation, and severity are distinct.
-- [ ] Generated review can become input to the developer-agent workflow.
+- [x] Critique is grounded in actual playthrough evidence.
+- [x] Observation, diagnosis, recommendation, and severity are distinct.
+- [x] Generated review can become input to the developer-agent workflow.
 
 ---
 
@@ -121,6 +121,12 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
 - 2026-05-22 — orchestrator — Phase 06B progress seed: Cursor Agent model preflight — `composer-2.5` available; main base `ac573e5`; worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-06b-reviewer-critic-wt` on branch `phase-06b-reviewer-critic`. Implementation validation not yet run (`pnpm test`, typecheck, lint pending).
+
+- 2026-05-22 — agent — Phase 06B implementation: `src/harness/reviewer-client.ts` (deterministic critic, personas, structured review + evidence), `src/harness/artifacts.ts` (`buildReviewRelativePath`, `savePlaythroughReview`), `src/harness/index.ts` exports, `src/agents/prompts/reviewer.md`, `tests/reviewer-critic.test.ts`. `pnpm test tests/reviewer-critic.test.ts` **not run** — `node_modules` missing; install skipped per task constraints.
+
+- 2026-05-22 — orchestrator — Installed dependencies in isolated worktree with `pnpm install --frozen-lockfile` (lockfile unchanged; reused local store). Patched reviewer credential test to verify injected-provider behavior without depending on ambient API env vars. Committed implementation as `9e26db0` (`feat: add trace-grounded reviewer critic`). Validation passed after the final test-strengthening patch: `pnpm test tests/reviewer-critic.test.ts` (11 tests), `pnpm test` (9 files, 87 tests), `pnpm run typecheck`, `pnpm run lint`, `git diff --check`, `pnpm run build`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` (saved trace/scorecard; result `ABORTED`, 280 turns, 280 steps).
+
+- 2026-05-22 — Cursor Agent (`--mode=ask`, `composer-2.5`) — Read-only Phase 06B audit result: PASS. Confirmed branch diff is limited to `PROGRESS.MD`, `src/agents/prompts/reviewer.md`, `src/harness/artifacts.ts`, `src/harness/index.ts`, `src/harness/reviewer-client.ts`, and `tests/reviewer-critic.test.ts`; `src/game/**` unchanged; reviewer critic is trace/scorecard-grounded, handles thin data, writes required review JSON path, and preserves Phase 00A invariants. Low/non-blocking notes: CLI does not auto-write reviews yet, JSON-only review artifacts, heuristic critic remains templated until a future provider integration.
 
 - 2026-05-22 — orchestrator — PR #10 merged at `dc920ae`; fast-forwarded local `main` to `origin/main`; removed registered worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness-wt`; deleted local branch `phase-05a-harness`. Verified `git worktree list` shows only the main worktree. Preserved the earlier dirty unregistered checkout `/Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness` per the Phase 05A execution plan.
 
