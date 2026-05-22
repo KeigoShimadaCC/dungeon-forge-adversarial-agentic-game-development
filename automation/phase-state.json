@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-16B",
+  "currentPhase": "PHASE-16C",
   "lastUpdated": "2026-05-23",
   "phases": {
     "PHASE-00A": {
@@ -136,7 +136,11 @@
       "status": "complete"
     },
     "PHASE-16B": {
-      "status": "queued"
+      "branch": "phase/phase-16b-challenge-modes",
+      "evidenceDir": "runs/phase-runner/PHASE-16B/planned",
+      "mergeCommit": "2756e3c8e18dcfede48192b702bdc2913997fbfa",
+      "pr": 38,
+      "status": "complete"
     },
     "PHASE-16C": {
       "status": "queued"

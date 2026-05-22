@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 16B — Challenge Modes |
-| Goal | Add finite challenge configurations and bounded replayability without introducing endless play. |
-| Branch | `phase/phase-16b-challenge-modes` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-16b-challenge-modes-wt` |
-| Base | `origin/main` at `05f7c4a` |
-| Status | `Functional PASS after Cursor read-only recheck; commit/PR pending` |
+| Phase | Phase 16C — Scenario Content Packs |
+| Goal | Support bounded local scenario/content packs for finite events, NPCs, items, enemies, and floor rules. |
+| Branch | `phase/phase-16c-scenario-content-packs` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-16c-scenario-content-packs-wt` |
+| Base | `origin/main` at `2756e3c` |
+| Status | `Ready to start; automation state advanced and progress rotated` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-16B-CHALLENGE-MODES.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-16C-SCENARIO-CONTENT-PACKS.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -56,10 +56,13 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
+- [ ] 2026-05-23 Cursor/composer-2.5 — Implement local scenario pack manifest, loader/validator, example pack, explicit pack selection, evidence metadata, and focused tests within Phase 16C scope.
+- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 16C acceptance, and request Cursor read-only recheck.
 - [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Merge Phase 16B PR #38, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 16C.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 16B PASS; addressed non-blocking hardening notes for direct default run labels, malformed preset validation coverage, acceptance markdown labels, and scorecard `challenge_mode` validation.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, harden explicit `default` challenge-mode behavior, run focused/full local gates, re-read Phase 16B acceptance, and confirm smoke evidence includes challenge labels.
 - [x] 2026-05-23 Cursor/composer-2.5 — Implement finite challenge mode config/presets, explicit selection, trace/scorecard/summary labels, focused tests, and deterministic terminal smoke evidence within Phase 16B scope.
@@ -138,20 +141,20 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-16B-CHALLENGE-MODES.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-16C-SCENARIO-CONTENT-PACKS.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 16B — Challenge Modes
+### Phase 16C — Scenario Content Packs
 
-- [x] Challenge mode config format exists.
-- [x] At least two finite challenge presets exist.
-- [x] Challenge mode selection is explicit through config or CLI options.
-- [x] Challenge mode is recorded in trace, scorecard, summary, and acceptance artifacts.
-- [x] Each challenge mode reaches an explicit terminal state.
-- [x] Same seed and challenge mode reproduce the same initial setup.
-- [x] Summary and comparison artifacts include challenge mode labels.
-- [x] Default mode remains unchanged unless explicitly selected.
-- [x] No infinite/no-ending mode is introduced.
-- [x] Local final gates pass: `pnpm run check`, focused tests, deterministic challenge smoke evidence, and `git diff --check`.
+- [ ] Scenario pack manifest format exists.
+- [ ] Loader and validator exist.
+- [ ] Example local content pack exists.
+- [ ] Pack selection is explicit through config or harness options.
+- [ ] Valid pack loads and affects a deterministic run.
+- [ ] Invalid references fail with clear diagnostics.
+- [ ] Selected pack appears in traces and scorecards.
+- [ ] Default content remains playable without packs.
+- [ ] Gameplay remains finite and inspectable.
+- [ ] Local final gates pass: `pnpm run check`, focused tests, deterministic scenario-pack smoke evidence, and `git diff --check`.
 
 ---
 
@@ -360,12 +363,22 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Challenge-mode smoke PASS: `pnpm run run-version -- --version v016 --challenge-mode enemy_gauntlet --runs-root /private/tmp/df-phase16b-smoke-20260523-final`; `summarize-version` showed `challenge_mode: enemy_gauntlet`; `rg '"challenge_mode"|Challenge mode'` found trace/scorecard labels; initial `accept-version` found placeholder temp changelog/developer notes, then after filling temp evidence notes `accept-version --on-existing overwrite` returned machine pass and `rg 'Challenge mode|enemy_gauntlet' acceptance.md` confirmed the acceptance label; `git diff --check` PASS.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional PASS with no blocking gaps. Non-blocking notes covered malformed bundle tests, focused acceptance-label coverage, direct `runPlaythrough({ challengeMode: "default" })` trace labeling, `full_depth` replay-value overlap, and optional scorecard `challenge_mode` validation.
 - 2026-05-23 — orchestrator — Addressed cheap recheck hardening: normalized direct default run labels before trace/scorecard metadata, added malformed challenge bundle tests, added acceptance Markdown label coverage, and validated optional scorecard `challenge_mode`. Validation PASS: `pnpm test tests/challenge-modes.test.ts` (10 tests); `pnpm run check` (30 files, 293 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
+- 2026-05-23 — orchestrator — Phase 16B PR #38 merged at `2756e3c8e18dcfede48192b702bdc2913997fbfa` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-16B --evidence runs/phase-runner/PHASE-16B/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-16C`.
+- 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 16C with initial task queue and checklist from `phase-plans/PHASE-16C-SCENARIO-CONTENT-PACKS.md`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 16B — Challenge Modes
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-16b-challenge-modes` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/38
+- **Merge commit:** `2756e3c8e18dcfede48192b702bdc2913997fbfa`
+- **Outcome:** Added finite challenge-mode presets, config validation, explicit harness/CLI selection, trace/scorecard/summary/comparison/acceptance labels, docs, and focused tests while preserving default gameplay and bounded terminal outcomes.
+- **Key evidence:** Cursor/composer-2.5 implementation and read-only recheck; local `pnpm run check` passed with 30 files and 293 tests; deterministic `v016` `enemy_gauntlet` smoke wrote three terminal trace/review/scorecard sets and acceptance evidence with challenge labels; `git diff --check` passed; PR #38 `Repo gates` passed before merge; phase-runner automerge gate returned `allow`.
 
 ### Phase 16A — Traps And Resources
 
