@@ -2,6 +2,11 @@ import { mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import {
+  compareBalanceSummaries,
+  loadBalanceSummary,
+  type BalanceSummaryComparison,
+} from './balance-tuning.js';
+import {
   buildReviewRelativePath,
   buildScorecardRelativePath,
   buildTraceRelativePath,
@@ -137,6 +142,7 @@ export interface VersionComparison {
     base: string[];
     target: string[];
   };
+  balance_comparison?: BalanceSummaryComparison;
   interpretation: string;
 }
 
@@ -529,14 +535,29 @@ export const compareVersions = async (
 
   const missingBase = allMissing(base);
   const missingTarget = allMissing(target);
+  const baseBalance = await loadBalanceSummary(runsRoot, baseVersion);
+  const targetBalance = await loadBalanceSummary(runsRoot, targetVersion);
+  const balance_comparison =
+    baseBalance && targetBalance
+      ? compareBalanceSummaries(baseBalance, targetBalance)
+      : undefined;
+
   const interpretation =
     missingBase.length > 0 || missingTarget.length > 0
       ? 'One or both versions are missing expected artifacts; compare gameplay metrics only after evidence coverage is complete.'
-      : objective_metric_deltas.invalid_actions.delta > 0 || objective_metric_deltas.softlocks.delta > 0
-        ? 'Target version regressed on protocol stability metrics and needs review before acceptance.'
-        : reviewer_score_deltas.fun.delta > 0 || reviewer_score_deltas.clarity.delta > 0
-          ? 'Target version improves at least one reviewer-facing score with complete evidence coverage.'
-          : 'Target version has complete evidence coverage with no clear reviewer-score improvement.';
+      : balance_comparison && balance_comparison.newly_problematic_runs.length > 0
+        ? balance_comparison.interpretation
+        : objective_metric_deltas.invalid_actions.delta > 0 || objective_metric_deltas.softlocks.delta > 0
+          ? 'Target version regressed on protocol stability metrics and needs review before acceptance.'
+          : balance_comparison &&
+              (balance_comparison.aggregate_metric_deltas.abort_count.delta > 0 ||
+                balance_comparison.aggregate_metric_deltas.softlock_count.delta > 0)
+            ? balance_comparison.interpretation
+            : reviewer_score_deltas.fun.delta > 0 || reviewer_score_deltas.clarity.delta > 0
+              ? 'Target version improves at least one reviewer-facing score with complete evidence coverage.'
+              : balance_comparison
+                ? balance_comparison.interpretation
+                : 'Target version has complete evidence coverage with no clear reviewer-score improvement.';
 
   return {
     baseVersion,
@@ -553,6 +574,7 @@ export const compareVersions = async (
       base: missingBase,
       target: missingTarget,
     },
+    ...(balance_comparison ? { balance_comparison } : {}),
     interpretation,
   };
 };

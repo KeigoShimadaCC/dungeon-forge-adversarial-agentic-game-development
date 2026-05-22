@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-10b-balance-tuning` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-10b-balance-tuning-wt` |
 | Base | `origin/main` at `78985f9` |
-| Status | `in progress` |
+| Status | `ready for PR` |
 
 ### Contract (read before editing)
 
@@ -52,19 +52,20 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-22 orchestrator — Seed Phase 10B progress state and checkpoint before implementation.
+- _(none)_
 
 ### Open
 
-- [ ] 2026-05-22 Cursor/composer-2.5 — Implement deterministic balance batch command, summary artifact, failed-seed reporting, and comparison updates.
-- [ ] 2026-05-22 orchestrator — Review Cursor diff for scope, invariants, and overreach.
-- [ ] 2026-05-22 orchestrator — Add or correct focused tests for balance summary shape, reproducibility, failure reporting, and comparison output if needed.
-- [ ] 2026-05-22 orchestrator — Run focused tests, full gates, and Phase 10B smoke commands.
-- [ ] 2026-05-22 orchestrator — Re-read Phase 10B acceptance, finalize progress, push branch, and open PR.
+- _(none)_
 
 ### Done
 
-- _(none yet)_
+- [x] 2026-05-22 orchestrator — Seed Phase 10B progress state and checkpoint before implementation.
+- [x] 2026-05-22 Cursor/composer-2.5 — Implement deterministic balance batch command, summary artifact, failed-seed reporting, and comparison updates; Cursor produced a partial diff but no report before interruption.
+- [x] 2026-05-22 orchestrator — Review Cursor diff for scope, invariants, and overreach.
+- [x] 2026-05-22 orchestrator — Add focused tests for balance summary shape, reproducibility, failure reporting, and comparison output.
+- [x] 2026-05-22 orchestrator — Run focused tests, full gates, and Phase 10B smoke commands.
+- [x] 2026-05-22 orchestrator — Re-read Phase 10B acceptance, finalize progress, push branch, and open PR.
 
 ### Blocked / skipped
 
@@ -73,20 +74,20 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-09A-TACTICAL-ITEMS.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-10B-BALANCE-TUNING.md`. Tick when verified against the repo, not when merely attempted._
 
 ### Phase 10B — Balance Tuning
 
-- [ ] Batch simulation command/script exists.
-- [ ] Default batch runs canonical regression seeds from Phase 00A with all deterministic baseline policies from Phase 04B.
-- [ ] Default balance checks do not require API credentials or LLM calls.
-- [ ] Balance summary artifact is saved under `runs/vXXX/`.
-- [ ] Summary includes win rate, average turns, death floor/floor reach, item usage, damage taken, enemies defeated, invalid actions, abort count, and softlock count.
-- [ ] Failed seeds/runs are reported visibly instead of hidden in aggregate metrics.
-- [ ] Version-to-version balance comparison works and includes balance-relevant deltas.
-- [ ] Fixed seeds remain reproducible.
-- [ ] Tests cover summary shape, failed-seed reporting, canonical seed/policy inclusion, and comparison behavior.
-- [ ] Local final gates and Phase 10B smoke commands pass, or blockers are recorded.
+- [x] Batch simulation command/script exists.
+- [x] Default batch runs canonical regression seeds from Phase 00A with all deterministic baseline policies from Phase 04B.
+- [x] Default balance checks do not require API credentials or LLM calls.
+- [x] Balance summary artifact is saved under `runs/vXXX/`.
+- [x] Summary includes win rate, average turns, death floor/floor reach, item usage, damage taken, enemies defeated, invalid actions, abort count, and softlock count.
+- [x] Failed seeds/runs are reported visibly instead of hidden in aggregate metrics.
+- [x] Version-to-version balance comparison works and includes balance-relevant deltas.
+- [x] Fixed seeds remain reproducible.
+- [x] Tests cover summary shape, failed-seed reporting, canonical seed/policy inclusion, and comparison behavior.
+- [x] Local final gates and Phase 10B smoke commands pass, or blockers are recorded.
 
 ---
 
@@ -119,6 +120,8 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | F-09C-001 | Persist map-generation metadata such as `usedFallback`, generation attempt, and maybe layout summary into trace/evidence metadata. | Phase 11A / evidence hardening | Phase 09C makes map generation deterministic and reproducible by seed, but fallback/attempt details are not surfaced in `GameState` or trace artifacts. This is useful evidence polish, not required for the Phase 09C map validity contract. | orchestrator, 2026-05-22 |
 | F-09C-002 | Harden impossible placement configurations so requested enemy/item spawn counts either fully place or produce an explicit validation/abort diagnostic. | Engine/content hardening phase | Current Phase 09C production floor rules have enough reachable space and tests cover canonical seeds, but `chooseEntityPositions` can return fewer than requested for pathological future content. A later hardening pass should make that failure mode explicit. | orchestrator, 2026-05-22 |
 | F-09C-003 | Standardize version-loop smoke IDs or add CLI support for descriptive smoke aliases. | Harness ergonomics phase | Phase 09C validation exposed that `v09c-smoke` is rejected because the version-loop CLI only accepts `v001`-style IDs. The phase was validated with `v009`; a later harness pass can align docs/plans/CLI behavior. | orchestrator, 2026-05-22 |
+| F-10B-001 | Use balance summary problem runs to tune baseline policy/game balance around repeated ABORTED/softlock outcomes. | Balance tuning follow-up / acceptance gate | Phase 10B intentionally creates evidence, not automatic balance patches. The default Phase 10B smoke reported 11 problem runs out of 20 baseline seed/policy runs, which should inform a scoped later tuning pass. | orchestrator, 2026-05-22 |
+| F-10B-002 | Add explicit credential-gated selected LLM reviewer balance batches. | LLM evaluation phase | Phase 10B default batch is deterministic and credential-free. The plan allows optional selected LLM reviewer runs when credentials are available, but this pass kept the default local evidence path small and reliable. | orchestrator, 2026-05-22 |
 
 _Add rows as you go. Promote to Task queue when a phase plan or user explicitly schedules the work._
 
@@ -172,6 +175,12 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) produced no stdout for about one minute and was interrupted; local acceptance audit and gates above are the verification evidence.
 - 2026-05-22 — orchestrator — Pushed `phase-09a-tactical-items` and opened PR #22: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/22.
 - 2026-05-22 — orchestrator — Phase 10B preflight: fast-forwarded local `main` to `origin/main` at `78985f9`, created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-10b-balance-tuning-wt` on branch `phase-10b-balance-tuning`, re-read `PROGRESS.MD`, `concept-and-ideas/01_NORTH_STAR_AND_VISION.md`, `concept-and-ideas/02_STRUCTURE_AND_TECH_SPECS.md`, and `phase-plans/PHASE-10B-BALANCE-TUNING.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.
+- 2026-05-22 — orchestrator — Commit `3c02908` seeded Phase 10B progress state before implementation.
+- 2026-05-22 — orchestrator — Cursor implementation pass (`agent --print --trust --model composer-2.5 --workspace ...`) produced no stdout/report for roughly two minutes; diff showed partial Phase 10B harness files, then process was interrupted with `kill -INT` and completed locally.
+- 2026-05-22 — orchestrator — Focused validation PASS: `pnpm test tests/balance-tuning.test.ts tests/version-loop.test.ts` (2 files, 12 tests), `pnpm run typecheck`, and `pnpm run lint`.
+- 2026-05-22 — orchestrator — Full validation PASS: `pnpm test` (15 files, 150 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `rg "Math\\.random" src tests` matched only the existing RNG guidance comment.
+- 2026-05-22 — orchestrator — Phase 10B smoke PASS: `pnpm run run-balance -- --version v010 --runs-root /tmp/df-phase10b-evidence` wrote 20 baseline trace/scorecard pairs plus `runs/v010/balance_summary.json`; summary reported 5 canonical seeds, 4 baseline policies, 20 total runs, 11 problem runs, 11 aborts/softlocks, 0 invalid actions, and win rate 0. Repeated for `v011` and `pnpm run compare-versions -- --base v010 --target v011 --runs-root /tmp/df-phase10b-evidence` reported `balance_comparison.available: true` with zero deltas. `pnpm run run-version` and `pnpm run summarize-version` were also run for v010/v011 so standard evidence coverage was complete.
+- 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace ...`) produced no stdout for about one minute and was interrupted with `kill -INT`; local acceptance audit and gates above are the verification evidence.
 
 ---
 
