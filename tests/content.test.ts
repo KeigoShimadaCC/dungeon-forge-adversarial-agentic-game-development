@@ -195,9 +195,13 @@ describe('Phase 02C content data', () => {
     const { floors } = loadGameContent();
 
     expect(floors.floors.map((rule) => rule.floor)).toEqual([1, 2, 3, 4, 5]);
-    expect(floors.floors.every((rule) => rule.width === 8 && rule.height === 8)).toBe(
-      true,
-    );
+    expect(floors.floors.map((rule) => [rule.width, rule.height])).toEqual([
+      [9, 9],
+      [10, 10],
+      [10, 10],
+      [11, 11],
+      [12, 12],
+    ]);
     expect(floors.floors.map((rule) => rule.enemyIds)).toEqual([
       [SLIME_ENEMY_ID],
       [SLIME_ENEMY_ID, BAT_ENEMY_ID],
