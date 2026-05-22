@@ -101,6 +101,8 @@ When the user requests Cursor Agent, Composer, or maximum automation, use Cursor
 - Default model: `composer-2.5`.
 - Default command shape: `agent --print --trust --model composer-2.5 --workspace <worktree-path> "<bounded prompt>"`.
 - Use isolated worktrees for phase work when practical, and remove them after merged PRs.
+- Preflight with `agent --list-models`, `git status --short --branch`, and `PROGRESS.MD` before delegating phase work.
+- Prefer separate Cursor passes for progress setup, implementation, and read-only verification instead of one broad autonomous task.
 - Give Cursor specific ownership, constraints, forbidden changes, and verification commands in the prompt.
 - For read-only audits, prefer `--mode=ask` with explicit no-edit instructions if `--mode=plan` returns empty output.
 - If `agent status` or `agent models` fails with macOS keychain errors, rerun with the required elevated access and record the result in `PROGRESS.MD`.

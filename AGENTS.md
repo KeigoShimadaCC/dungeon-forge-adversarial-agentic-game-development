@@ -44,10 +44,13 @@ agent --print --trust --model composer-2.5 --workspace <worktree-path> "<bounded
 For read-only audits, prefer `--mode=ask` with explicit instructions not to edit, install, or commit. In this environment, `--mode=plan` may exit successfully with empty output; if that happens, sanity-check `--print` with a tiny prompt and rerun the audit in `--mode=ask`.
 
 Cursor delegation rules:
+- Start with a preflight: `agent --list-models` to confirm `composer-2.5`, `git status --short --branch`, and the active phase in `PROGRESS.MD`.
 - Give Cursor one bounded task with clear ownership, allowed paths, forbidden paths, and verification expectations.
+- Split phase work into separate Cursor passes when useful: progress seeding, implementation, then read-only verification.
 - Keep the orchestrator responsible for reviewing Cursor output, inspecting diffs, running checks, updating `PROGRESS.MD`, committing, pushing, and opening PRs.
 - Treat Cursor's report as advisory until verified from files, diffs, command output, or tests.
 - `agent status` or `agent models` may require elevated access because macOS keychain access can fail inside the sandbox.
+- If Cursor runs checks, rerun the relevant gates locally before claiming completion or opening a PR.
 - After a PR is merged, remove temporary worktrees and verify `git worktree list`.
 
 ## Common Commands
