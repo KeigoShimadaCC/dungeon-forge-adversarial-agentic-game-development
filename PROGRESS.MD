@@ -128,7 +128,7 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 
 - 2026-05-22 — orchestrator — Rotated active phase from merged Phase 01A to Phase 02A after PR #2 merge (`e17e843`). Phase 02A not started.
 - 2026-05-22 — orchestrator — Post-merge main validation: initial `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` failed because `node_modules` was missing in the main checkout; ran `pnpm install` exit 0, then `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
- - 2026-05-22 — orchestrator — User requested implementing `phase-plans/PHASE-02B-SEEDED-RNG.md` next. Created branch checkout `phase-02b-seeded-rng` from `origin/main`; Phase 02A remained deferred at that time.
+- 2026-05-22 — orchestrator — User requested implementing `phase-plans/PHASE-02B-SEEDED-RNG.md` next. Created branch checkout `phase-02b-seeded-rng` from `origin/main`; Phase 02A remained deferred at that time.
 - 2026-05-22 — orchestrator — Preflight: `git status --short --branch` showed `phase-02b-seeded-rng...origin/main [ahead 1]`; `command -v agent` found `/Users/keigoshimada/.local/bin/agent`; `src/game/rng.ts` was still the Phase 01A placeholder; `node_modules` was missing in the worktree.
 - 2026-05-22 — Composer — Phase 02B implementation: replaced `src/game/rng.ts` placeholder with Mulberry32 `createSeededRng` / `restoreSeededRng` API; added `tests/rng.test.ts` (10 tests).
 - 2026-05-22 — Composer — `pnpm install` exit 0 (worktree had no `node_modules`).
