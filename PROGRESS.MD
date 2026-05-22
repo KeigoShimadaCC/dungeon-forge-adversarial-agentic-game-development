@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-16b-challenge-modes` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-16b-challenge-modes-wt` |
 | Base | `origin/main` at `81c8813` |
-| Status | `Planned; worktree not created` |
+| Status | `In progress; seed checkpoint complete and Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -56,13 +56,13 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Generate Phase 16B automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
 - [ ] 2026-05-23 Cursor/composer-2.5 — Implement finite challenge mode config/presets, explicit selection, trace/scorecard/summary labels, focused tests, and deterministic terminal smoke evidence within Phase 16B scope.
 - [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 16B acceptance, and request Cursor read-only recheck.
 - [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Generate Phase 16B automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
 - [x] 2026-05-23 orchestrator — Merge Phase 16A PR #37, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 16B.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 16A PASS; addressed non-blocking test-strength gaps for resource event traces and deterministic full-run outcomes, then reran focused/full gates.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 16A acceptance, and request Cursor read-only recheck.
@@ -353,6 +353,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Addressed non-blocking audit gaps with focused tests for `resource_hunger`/`resource_torch` events and same-seed/same-policy terminal + trap-resource metrics. Final validation PASS: `pnpm test tests/traps-resources.test.ts` (19 tests); `pnpm run check` (29 files, 283 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check` PASS.
 - 2026-05-23 — orchestrator — Phase 16A PR #37 merged at `81c8813d92326348464f963ae2bec0582a7096e6` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-16A --evidence runs/phase-runner/PHASE-16A/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-16B`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 16B with initial task queue and checklist from `phase-plans/PHASE-16B-CHALLENGE-MODES.md`.
+- 2026-05-23 — orchestrator — Phase 16B automation start: `pnpm run phase -- status` selected `PHASE-16B`; `pnpm run phase -- bundle --phase PHASE-16B --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-16B/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-16b-challenge-modes-wt` on branch `phase/phase-16b-challenge-modes` from `origin/main` at `05f7c4a`; sandboxed `agent --list-models` hit `SecItemCopyMatching failed -50`, and escalated rerun confirmed `composer-2.5` is available/current.
 
 ---
 
