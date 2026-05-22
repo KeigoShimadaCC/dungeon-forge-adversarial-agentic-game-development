@@ -220,6 +220,20 @@ export const runPlaythrough = async (
 
   if (!aborted && !isTerminal(state) && stepsTaken >= maxSteps) {
     aborted = true;
+    const maxStepsEvent = harnessEvent(
+      state.turn,
+      'max_steps',
+      `Harness aborted: reached configured max steps (${maxSteps}).`,
+      {
+        maxSteps,
+        terminalStatus: 'ABORTED',
+      },
+    );
+    const lastStep = steps.at(-1);
+    if (lastStep) {
+      lastStep.events = [...lastStep.events, maxStepsEvent];
+      lastStep.terminalStatus = 'ABORTED';
+    }
     state = {
       ...state,
       terminalStatus: 'ABORTED',

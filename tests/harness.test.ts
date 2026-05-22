@@ -159,6 +159,29 @@ describe('Phase 05A harness', () => {
     }
   });
 
+  it('records policy reasons when supplied', async () => {
+    const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-harness-'));
+    const reasonedPolicy: HarnessPlayerPolicy = ({ availableActions }) => ({
+      action: availableActions[0],
+      reason: 'first safe-looking action',
+    });
+
+    try {
+      const { trace } = await runPlaythrough({
+        seed: 'seed_001',
+        policyId: 'stairs-seeking',
+        version: 'v001-test',
+        runsRoot,
+        maxSteps: 1,
+        policy: reasonedPolicy,
+      });
+
+      expect(trace.steps[0]?.reason).toBe('first safe-looking action');
+    } finally {
+      await rm(runsRoot, { recursive: true, force: true });
+    }
+  });
+
   it('stops at terminal status or configured max steps', async () => {
     const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-harness-'));
     try {
@@ -180,6 +203,12 @@ describe('Phase 05A harness', () => {
 
       expect(cappedRun.trace.steps.length).toBeLessThanOrEqual(1);
       expect(cappedRun.trace.result).toBe('ABORTED');
+      expect(cappedRun.trace.steps.at(-1)?.terminalStatus).toBe('ABORTED');
+      expect(
+        cappedRun.trace.steps
+          .at(-1)
+          ?.events.some((event) => event.type === 'harness_max_steps'),
+      ).toBe(true);
     } finally {
       await rm(runsRoot, { recursive: true, force: true });
     }

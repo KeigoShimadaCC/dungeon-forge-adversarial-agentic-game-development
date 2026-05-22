@@ -55,8 +55,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - _(none)_
 
 ### Open
-- [ ] 2026-05-22 — cursor-agent — Run read-only Phase 05A audit after implementation.
-- [ ] 2026-05-22 — orchestrator — Fix validated audit gaps, re-run relevant gates, finalize `PROGRESS.MD`, push branch, and open PR.
+- [ ] 2026-05-22 — orchestrator — Finalize `PROGRESS.MD`, push branch, and open PR.
 
 ### Done
 
@@ -65,6 +64,8 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-22 — cursor-agent — Add harness tests for saved artifacts, deterministic traces, canonical fields, terminal recording, invalid action metrics, max-step stops, and canonical seeds.
 - [x] 2026-05-22 — orchestrator — Review Cursor implementation diff for scope, GameEngine protocol usage, deterministic JSON output, and generated-evidence handling.
 - [x] 2026-05-22 — orchestrator — Run local validation gates: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001`.
+- [x] 2026-05-22 — cursor-agent — Run read-only Phase 05A audit after implementation.
+- [x] 2026-05-22 — orchestrator — Fix validated audit gap around max-step terminal status, add reason coverage, and re-run full gates.
 
 ### Blocked / skipped
 
@@ -102,7 +103,7 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 - [x] `git diff --check` passes.
 - [x] `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` writes inspectable evidence.
 - [x] Generated `runs/**` evidence is ignored by git but inspectable on disk.
-- [ ] Re-read acceptance criteria against actual repo state.
+- [x] Re-read acceptance criteria against actual repo state.
 - [ ] Push branch and open PR when implemented.
 
 ---
@@ -130,6 +131,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — cursor-agent — `pnpm install` (deps present), `pnpm test` exit 0 (8 files, 75 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `pnpm run build` exit 0, `git diff --check` exit 0, `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` exit 0 → `runs/v001/traces/seed_001__stairs-seeking.json`, `runs/v001/scorecards/seed_001__stairs-seeking.json` (result `ABORTED`, 280 turns). Phase acceptance re-check, read-only audit, push, and PR remain open for orchestrator.
 - 2026-05-22 — orchestrator — Reviewed implementation diff: changed paths stayed within allowed Phase 05A paths (`src/harness/**`, `tests/**`, `package.json`, `tsconfig.build.json`, `PROGRESS.MD`); no `src/game/**`, `concept-and-ideas/**`, `phase-plans/**`, secrets, or env files changed. Tightened trace events from strings to serializable `GameEvent` objects so scorecards derive `damage_taken`, `items_used`, and `enemies_defeated` from typed trace facts instead of message counting. Confirmed `runs/v001/**` is ignored by git and inspectable on disk.
 - 2026-05-22 — orchestrator — Local validation after tightening: `pnpm test` exit 0 (8 files, 75 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `pnpm run build` exit 0; `git diff --check` exit 0; `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` exit 0 and wrote `runs/v001/traces/seed_001__stairs-seeking.json` plus `runs/v001/scorecards/seed_001__stairs-seeking.json` (result `ABORTED`, 280 turns, scorecard `damage_taken: 2`, `softlocks: 1`).
+- 2026-05-22 — cursor-agent — Read-only Phase 05A audit (`agent --print --trust --mode=ask --model composer-2.5 --workspace /Users/keigoshimada/Documents/dungeon-forge-phase-05a-harness-wt`): PASS, no blocking findings. Non-blocking risks included max-step cap last-step terminal status mismatch, untested optional `reason`, pre-step `state_summary`, one-policy regression matrix, and pending PR/process steps.
+- 2026-05-22 — orchestrator — Fixed audit follow-up by recording a `harness_max_steps` event and setting the last capped step `terminalStatus` to `ABORTED`; added test coverage for policy-supplied `reason`. Re-read `phase-plans/PHASE-05A-HARNESS.md` against repo state: harness runner, CLI, trace writer, scorecard writer, tests, public GameEngine usage, inspectable ignored `runs/**` evidence, and derived scorecards satisfy acceptance. Full validation after follow-up: `pnpm test` exit 0 (8 files, 76 tests); `pnpm run typecheck` exit 0; `pnpm run lint` exit 0; `pnpm run build` exit 0; `git diff --check` exit 0; `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` exit 0.
 
 ---
 
