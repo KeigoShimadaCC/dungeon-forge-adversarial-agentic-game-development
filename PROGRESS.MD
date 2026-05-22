@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-16a-traps-and-resources` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-16a-traps-and-resources-wt` |
 | Base | `origin/main` at `b622d47` |
-| Status | `Planned; worktree not created` |
+| Status | `In progress; seed checkpoint complete and Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -56,13 +56,13 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Generate Phase 16A automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
 - [ ] 2026-05-23 Cursor/composer-2.5 — Implement finite traps/resources, engine/render/log/trace/scorecard integration, focused tests, and deterministic smoke evidence within Phase 16A scope.
 - [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 16A acceptance, and request Cursor read-only recheck.
 - [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Generate Phase 16A automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
 - [x] 2026-05-23 orchestrator — Merge Phase 15C PR #36, verify `Repo gates`, delete local/remote branches, remove clean worktree, and advance automation state to Phase 16A.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 15C PASS; addressed cheap non-blocking test gaps for governance flags, accepted/rejected outcomes, and negative ready-without-statuses behavior.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, patch `ready_for_acceptance` outcome logic so acceptance itself does not make the state unreachable, add focused coverage, run focused/full local gates, and re-read Phase 15C acceptance.
@@ -340,6 +340,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Addressed non-blocking audit gaps with focused tests for explicit governance flags, accepted/rejected acceptance outcomes, and negative `ready_for_acceptance` behavior without command statuses. Final validation PASS: `pnpm test tests/loop-coordinator.test.ts` (10 tests); `pnpm run check` (28 files, 263 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `pnpm run loop-coordinator -- --base-version v001 --target-version v002 --runs-root . --stdout-only --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass` returned `ready_for_acceptance`; `git diff --check` PASS.
 - 2026-05-23 — orchestrator — Phase 15C PR #36 merged at `b622d47cbeb6d87ce42e990ba5a6c79c56636b05` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-15C --evidence runs/phase-runner/PHASE-15C/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-16A`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 16A with initial task queue and checklist from `phase-plans/PHASE-16A-TRAPS-AND-RESOURCES.md`.
+- 2026-05-23 — orchestrator — Phase 16A automation start: `pnpm run phase -- status` selected `PHASE-16A`; `pnpm run phase -- bundle --phase PHASE-16A --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-16A/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-16a-traps-and-resources-wt` on branch `phase/phase-16a-traps-and-resources` from `origin/main` at `4cbf184`; sandboxed `agent --list-models` hit `SecItemCopyMatching failed -50`, and escalated rerun confirmed `composer-2.5` is available/current.
 
 ---
 
