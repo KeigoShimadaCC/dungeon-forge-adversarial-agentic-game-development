@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 16C — Scenario Content Packs |
-| Goal | Support bounded local scenario/content packs for finite events, NPCs, items, enemies, and floor rules. |
-| Branch | `phase/phase-16c-scenario-content-packs` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-16c-scenario-content-packs-wt` |
-| Base | `origin/main` at `5a51322` |
-| Status | `Local gates and Cursor read-only recheck passed; commit/PR pending` |
+| Phase | Phase 16D — Deterministic JSON Patching |
+| Goal | Add bounded automatic JSON patching for approved local artifacts with dry-run/apply modes, validation, audit logs, and rollback-friendly evidence. |
+| Branch | `phase/phase-16d-deterministic-json-patching` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-16d-deterministic-json-patching-wt` |
+| Base | `origin/main` at `db2599d` |
+| Status | `Queued; automation state advanced after Phase 16C merge` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-16C-SCENARIO-CONTENT-PACKS.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-16D-DETERMINISTIC-JSON-PATCHING.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -52,14 +52,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Commit Phase 16C implementation, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
+- [~] 2026-05-23 orchestrator — Generate Phase 16D automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
 
 ### Open
 
-_(none)_
+- [ ] 2026-05-23 Cursor/composer-2.5 — Implement deterministic JSON patch schema/validator, dry-run/apply command or module, application report, and focused tests within Phase 16D scope.
+- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 16D acceptance, and request Cursor read-only recheck.
+- [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Phase 16C PR #39 merged at `db2599df9bf497fc6b5639a591ff6e48e2a6bf24`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 16D.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 16C PASS; addressed cheap non-blocking duplicate-manifest-id test coverage, reran focused/full gates, and left only commit/PR/CI readiness.
 - [x] 2026-05-23 orchestrator — Harden pack-local item/enemy support after first recheck: added `Trial Tonic`/`Trial Wisp`, made render/use-item paths scenario-pack aware, reran focused/full gates, and regenerated deterministic acceptance evidence.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, harden manifest `gameConfig` validation and floor-descent run-config coverage, run focused/full local gates, re-read Phase 16C acceptance, and confirm smoke evidence includes scenario labels.
@@ -143,20 +146,20 @@ _(none)_
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-16C-SCENARIO-CONTENT-PACKS.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-16D-DETERMINISTIC-JSON-PATCHING.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 16C — Scenario Content Packs
+### Phase 16D — Deterministic JSON Patching
 
-- [x] Scenario pack manifest format exists.
-- [x] Loader and validator exist.
-- [x] Example local content pack exists.
-- [x] Pack selection is explicit through config or harness options.
-- [x] Valid pack loads and affects a deterministic run.
-- [x] Invalid references fail with clear diagnostics.
-- [x] Selected pack appears in traces and scorecards.
-- [x] Default content remains playable without packs.
-- [x] Gameplay remains finite and inspectable.
-- [x] Local final gates pass: `pnpm run check`, focused tests, deterministic scenario-pack smoke evidence, and `git diff --check`.
+- [ ] JSON patch schema and validator exist.
+- [ ] Dry-run/apply command or module exists.
+- [ ] Patch application report format exists.
+- [ ] Valid patch applies only to allowlisted JSON or Markdown-like artifacts.
+- [ ] Invalid path, schema failure, or forbidden feature blocks application.
+- [ ] Dry-run produces no file changes.
+- [ ] Applied patch records before/after summary and links back to proposal evidence.
+- [ ] Human governance and acceptance gates remain authoritative.
+- [ ] Feature cannot mutate game state directly during play.
+- [ ] Local final gates pass: `pnpm run check`, focused tests, deterministic patch smoke evidence, and `git diff --check`.
 
 ---
 
@@ -376,12 +379,22 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional PASS against Phase 16C plan, global invariants, explicit selection, pack validation, pack-local runtime content, render/action paths, floor-descent `runConfig`, evidence labels, default-content parity, no secrets, and forbidden-scope rules. Recheck noted only merge-readiness blockers plus non-blocking test-strength suggestions.
 - 2026-05-23 — orchestrator — Addressed cheap recheck hardening with duplicate manifest-id coverage, then reran validation PASS: `pnpm test tests/scenario-packs.test.ts` (12 tests); `pnpm run check` (31 files, 305 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `git diff --check`.
 - 2026-05-23 — orchestrator — Phase plan completion check PASS: re-read `phase-plans/PHASE-16C-SCENARIO-CONTENT-PACKS.md` and `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` against the staged diff. Local static packaging, validation, explicit selection, evidence metadata, default-content behavior, finite structured gameplay, and no forbidden plugin/remote/LLM scope are satisfied.
+- 2026-05-23 — orchestrator — Phase 16C PR #39 merged at `db2599df9bf497fc6b5639a591ff6e48e2a6bf24` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-16C --evidence runs/phase-runner/PHASE-16C/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-16D`.
+- 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 16D with initial task queue and checklist from `phase-plans/PHASE-16D-DETERMINISTIC-JSON-PATCHING.md`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 16C — Scenario Content Packs
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-16c-scenario-content-packs` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/39
+- **Merge commit:** `db2599df9bf497fc6b5639a591ff6e48e2a6bf24`
+- **Outcome:** Added local scenario-pack manifest/content loading, the `shrine_trial` example pack, validation for pack manifests/content references, explicit `--scenario-pack` selection, pack-aware runtime content resolution, floor-descent run-config persistence, evidence labels, docs, and focused tests while preserving default gameplay and bounded local packaging scope.
+- **Key evidence:** Cursor/composer-2.5 implementation and read-only recheck; local `pnpm run check` passed with 31 files and 305 tests; deterministic `v016` `shrine_trial` smoke wrote terminal trace/review/scorecard sets and acceptance evidence with scenario-pack labels; `git diff --check` passed; PR #39 `Repo gates` passed before merge; phase-runner automerge gate returned `allow`.
 
 ### Phase 16B — Challenge Modes
 
