@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 
 import { buildLlmPlayerPrompt } from '../src/agents/prompts/llm-player.js';
 import { getAvailableActions, render, start } from '../src/game/engine.js';
-import { actionsMatch } from '../src/harness/baseline-players/helpers.js';
+import { actionsMatch, deterministicFallback } from '../src/harness/baseline-players/helpers.js';
 import {
   createLlmPlayerPolicy,
   parseLlmPlayerModelOutput,
@@ -78,6 +78,7 @@ describe('Phase 06A LLM player', () => {
     expect(input.availableActions.some((action) => action.id === decision.action.id)).toBe(
       true,
     );
+    expect(decision.action).toBe(deterministicFallback(input.availableActions));
     expect(decision.decision_metadata).toMatchObject({
       persona: 'bug_hunter',
       fallback_used: true,
@@ -199,6 +200,42 @@ describe('Phase 06A LLM player', () => {
         fallback_reason: 'invalid_action_id',
         invalid_action_id: 'definitely_invalid',
       });
+    } finally {
+      await rm(runsRoot, { recursive: true, force: true });
+    }
+  });
+
+  it('records valid LLM reason and persona metadata in trace steps', async () => {
+    const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-llm-harness-'));
+    const initialInput = policyInputFromSeed('seed_001');
+    const move = initialInput.availableActions.find((action) => action.type === 'move');
+    expect(move).toBeDefined();
+    const policy = createLlmPlayerPolicy({
+      persona: 'bug_hunter',
+      client: mockClient({
+        action_id: move!.id,
+        reason: 'Probe the legal movement action.',
+      }),
+    });
+
+    try {
+      const { trace } = await runPlaythrough({
+        seed: 'seed_001',
+        policyId: 'bug_hunter',
+        version: 'v001-llm-test',
+        runsRoot,
+        maxSteps: 1,
+        policy,
+      });
+
+      const step = trace.steps[0];
+      expect(trace.persona).toBe('bug_hunter');
+      expect(step?.chosen_action.id).toBe(move!.id);
+      expect(step?.reason).toBe('Probe the legal movement action.');
+      expect(step?.decision_metadata).toMatchObject({
+        persona: 'bug_hunter',
+      });
+      expect(step?.decision_metadata?.fallback_used).toBeUndefined();
     } finally {
       await rm(runsRoot, { recursive: true, force: true });
     }

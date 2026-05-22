@@ -55,8 +55,6 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - _(none)_
 
 ### Open
-- [ ] 2026-05-22 — orchestrator — Run Cursor read-only audit.
-- [ ] 2026-05-22 — orchestrator — Re-check Phase 06A acceptance criteria.
 - [ ] 2026-05-22 — orchestrator — Push branch and open PR.
 
 ### Done
@@ -69,6 +67,8 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-22 — composer — Add mocked tests for valid, invalid, malformed, missing, and timeout/error responses.
 - [x] 2026-05-22 — orchestrator — Verify baseline harness still works without credentials.
 - [x] 2026-05-22 — orchestrator — Run full validation gates.
+- [x] 2026-05-22 — orchestrator — Run Cursor read-only audit.
+- [x] 2026-05-22 — orchestrator — Re-check Phase 06A acceptance criteria.
 
 ### Blocked / skipped
 
@@ -89,7 +89,7 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 - [x] Trace steps capture selected action, reason, persona, fallback usage, and failure metadata.
 - [x] Mock-based tests cover valid and invalid responses without real API credentials.
 - [x] Baseline harness players still run without API credentials.
-- [ ] Phase 06A acceptance criteria rechecked against repo state.
+- [x] Phase 06A acceptance criteria rechecked against repo state.
 
 ---
 
@@ -114,6 +114,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Started Phase 06A on branch `phase-06a-llm-player` in worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-06a-llm-player-wt` from `origin/main` at `ac573e5`. Preflight: `git status --short --branch` clean on `main`; `git fetch origin` passed; `git worktree list` showed main plus unrelated Phase 06B worktree; `command -v agent` found `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`, escalated rerun passed and confirmed `composer-2.5`.
 - 2026-05-22 — composer — Implementation slice: async `HarnessPlayerPolicy`, `createLlmPlayerPolicy` + injectable `LlmPlayerClient`, prompt builder under `src/agents/prompts/llm-player.ts`, trace `decision_metadata`, `tests/llm-player.test.ts`. `pnpm install`; `pnpm test` (9 files, 86 tests) pass; `pnpm run typecheck` and `pnpm run lint` pass.
 - 2026-05-22 — orchestrator — Reviewed Cursor implementation diff and confirmed scope stayed within `src/harness/**`, `src/agents/prompts/**`, `tests/**`, and `PROGRESS.MD`. Local gates passed: `pnpm test` (9 files, 86 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `git diff --check`; `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` (saved ignored trace/scorecard, result `ABORTED`, 280 turns/steps).
+- 2026-05-22 — orchestrator — Cursor read-only audit (`agent --print --trust --mode=ask --model composer-2.5`) returned PASS with no blocking findings. Added one extra trace integration assertion for valid LLM reason/persona metadata and deterministic invalid-action fallback reference; reran local gates after the change: `pnpm test` (9 files, 87 tests); `pnpm run typecheck`; `pnpm run lint`; `git diff --check`; `pnpm run build`; `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001` (result `ABORTED`, 280 turns/steps). Re-read Phase 06A acceptance criteria; confirmed LLM choices are validated against available actions, policy output cannot mutate game state directly, baseline harness runs with no API key, and all three personas use the same stable action protocol. Scan for provider/env/network dependencies returned no matches.
 
 ---
 
