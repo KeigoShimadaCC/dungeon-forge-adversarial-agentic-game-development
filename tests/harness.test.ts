@@ -11,7 +11,15 @@ import {
 } from '../src/harness/artifacts.js';
 import { stringifyDeterministicJson } from '../src/harness/json.js';
 import { runPlaythrough } from '../src/harness/runner.js';
-import type { HarnessPlayerPolicy, PlaythroughTrace } from '../src/harness/types.js';
+import {
+  deriveScorecardFromTrace,
+  validateScorecard,
+} from '../src/harness/scorecard.js';
+import type {
+  HarnessPlayerPolicy,
+  PlaythroughScorecard,
+  PlaythroughTrace,
+} from '../src/harness/types.js';
 
 const TRACE_TOP_LEVEL_FIELDS = [
   'version',
@@ -44,6 +52,30 @@ const STATE_SUMMARY_FIELDS = [
   'enemyCount',
   'itemCount',
 ] as const;
+
+const SCORECARD_FIELDS = [
+  'version',
+  'seed',
+  'persona',
+  'result',
+  'turns',
+  'floors_reached',
+  'damage_taken',
+  'items_used',
+  'enemies_defeated',
+  'invalid_actions',
+  'softlocks',
+  'reviewer_scores',
+  'trace_path',
+] as const;
+
+const NULL_REVIEWER_SCORES = {
+  fun: null,
+  clarity: null,
+  fairness: null,
+  tactical_depth: null,
+  replay_value: null,
+};
 
 const assertTraceShape = (trace: PlaythroughTrace): void => {
   for (const field of TRACE_TOP_LEVEL_FIELDS) {
@@ -154,6 +186,176 @@ describe('Phase 05A harness', () => {
       expect(trace.result).toBe('ABORTED');
       expect(trace.steps.at(-1)?.valid).toBe(false);
       expect(scorecard.invalid_actions).toBeGreaterThan(0);
+    } finally {
+      await rm(runsRoot, { recursive: true, force: true });
+    }
+  });
+
+  it('generates trace-only scorecards with canonical Phase 06C fields and null reviewer scores', async () => {
+    const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-harness-'));
+    try {
+      const { trace, scorecard } = await runPlaythrough({
+        seed: 'seed_001',
+        policyId: 'stairs-seeking',
+        version: 'v001-test',
+        runsRoot,
+      });
+
+      for (const field of SCORECARD_FIELDS) {
+        expect(scorecard).toHaveProperty(field);
+      }
+      expect(scorecard).toMatchObject({
+        version: trace.version,
+        seed: trace.seed,
+        persona: trace.persona,
+        result: trace.result,
+        turns: trace.turns,
+        reviewer_scores: NULL_REVIEWER_SCORES,
+        trace_path: buildTraceRelativePath(trace.version, trace.seed, trace.persona),
+      });
+      validateScorecard(scorecard);
+    } finally {
+      await rm(runsRoot, { recursive: true, force: true });
+    }
+  });
+
+  it('merges mocked review scores without changing objective metrics', async () => {
+    const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-harness-'));
+    try {
+      const { trace } = await runPlaythrough({
+        seed: 'seed_001',
+        policyId: 'stairs-seeking',
+        version: 'v001-test',
+        runsRoot,
+      });
+      const tracePath = buildTraceRelativePath(trace.version, trace.seed, trace.persona);
+      const traceOnly = deriveScorecardFromTrace(trace, tracePath);
+      const reviewed = deriveScorecardFromTrace(trace, tracePath, {
+        scores: {
+          fun: 4,
+          clarity: 5,
+          fairness: 3,
+          tactical_depth: 2,
+          replay_value: 4,
+        },
+        review_path: 'runs/v001-test/reviews/seed_001__stairs-seeking.json',
+        review_id: 'mock-review-001',
+      });
+
+      const objectiveFields = SCORECARD_FIELDS.filter((field) => field !== 'reviewer_scores');
+      for (const field of objectiveFields) {
+        expect(reviewed[field]).toEqual(traceOnly[field]);
+      }
+      expect(reviewed.reviewer_scores).toEqual({
+        fun: 4,
+        clarity: 5,
+        fairness: 3,
+        tactical_depth: 2,
+        replay_value: 4,
+      });
+      expect(reviewed.review_path).toBe('runs/v001-test/reviews/seed_001__stairs-seeking.json');
+      expect(reviewed.review_id).toBe('mock-review-001');
+      validateScorecard(reviewed);
+    } finally {
+      await rm(runsRoot, { recursive: true, force: true });
+    }
+  });
+
+  it('normalizes partial mocked reviewer scores to null', async () => {
+    const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-harness-'));
+    try {
+      const { trace } = await runPlaythrough({
+        seed: 'seed_001',
+        policyId: 'stairs-seeking',
+        version: 'v001-test',
+        runsRoot,
+      });
+      const scorecard = deriveScorecardFromTrace(
+        trace,
+        buildTraceRelativePath(trace.version, trace.seed, trace.persona),
+        {
+          scores: {
+            clarity: 5,
+          },
+        },
+      );
+
+      expect(scorecard.reviewer_scores).toEqual({
+        ...NULL_REVIEWER_SCORES,
+        clarity: 5,
+      });
+      validateScorecard(scorecard);
+    } finally {
+      await rm(runsRoot, { recursive: true, force: true });
+    }
+  });
+
+  it('fails validation when an objective scorecard field is missing', async () => {
+    const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-harness-'));
+    try {
+      const { scorecard } = await runPlaythrough({
+        seed: 'seed_001',
+        policyId: 'stairs-seeking',
+        version: 'v001-test',
+        runsRoot,
+      });
+      const incomplete = { ...scorecard };
+      delete (incomplete as Partial<PlaythroughScorecard>).floors_reached;
+
+      expect(() => validateScorecard(incomplete as PlaythroughScorecard)).toThrow(
+        'Scorecard missing required field: floors_reached',
+      );
+    } finally {
+      await rm(runsRoot, { recursive: true, force: true });
+    }
+  });
+
+  it('serializes deterministically for the same trace and mocked review input', async () => {
+    const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-harness-'));
+    try {
+      const { trace } = await runPlaythrough({
+        seed: 'seed_001',
+        policyId: 'stairs-seeking',
+        version: 'v001-test',
+        runsRoot,
+      });
+      const tracePath = buildTraceRelativePath(trace.version, trace.seed, trace.persona);
+      const reviewInput = {
+        scores: {
+          fun: 4,
+          tactical_depth: 3,
+        },
+        review_id: 'mock-review-001',
+      };
+
+      expect(
+        stringifyDeterministicJson(deriveScorecardFromTrace(trace, tracePath, reviewInput)),
+      ).toBe(
+        stringifyDeterministicJson(deriveScorecardFromTrace(trace, tracePath, reviewInput)),
+      );
+    } finally {
+      await rm(runsRoot, { recursive: true, force: true });
+    }
+  });
+
+  it('saves scorecard files with canonical Phase 06C fields', async () => {
+    const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-harness-'));
+    try {
+      const { artifacts } = await runPlaythrough({
+        seed: 'seed_001',
+        policyId: 'stairs-seeking',
+        version: 'v001-test',
+        runsRoot,
+      });
+      const savedScorecard = JSON.parse(
+        await readFile(artifacts.scorecardPath, 'utf8'),
+      ) as PlaythroughScorecard;
+
+      for (const field of SCORECARD_FIELDS) {
+        expect(savedScorecard).toHaveProperty(field);
+      }
+      expect(savedScorecard.reviewer_scores).toEqual(NULL_REVIEWER_SCORES);
+      validateScorecard(savedScorecard);
     } finally {
       await rm(runsRoot, { recursive: true, force: true });
     }

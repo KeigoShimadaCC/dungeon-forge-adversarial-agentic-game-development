@@ -52,18 +52,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-22 orchestrator — Seed Phase 06C Prep progress state and commit before implementation.
+- [~] 2026-05-22 orchestrator — Review implementation diff for phase scope and no `src/game/**` changes.
 
 ### Open
-- [ ] Delegate bounded Cursor implementation for scorecard schema, mocked review merge, validator, exports, and tests.
-- [ ] Review implementation diff for phase scope and no `src/game/**` changes.
 - [ ] Run local verification: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001-prep`.
 - [ ] Delegate Cursor read-only audit for canonical fields, trace linkage, determinism, and no Phase 06B implementation.
 - [ ] Re-read `phase-plans/PHASE-06C-SCORECARD.md`, update final prep notes, commit, push, and open PR.
 
 ### Done
 
-- _(none yet)_
+- [x] 2026-05-22 orchestrator — Seed Phase 06C Prep progress state and commit before implementation (`e8a57ee`).
+- [x] 2026-05-22 orchestrator — Implement scorecard schema, mocked review merge, validator, public exports, and focused tests locally after Cursor implementation was blocked by host policy.
 
 ### Blocked / skipped
 
@@ -109,6 +108,9 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-06c-scorecard-wt` from `origin/main` at `ac573e5` on branch `phase-06c-scorecard-prep`.
 - 2026-05-22 — orchestrator — Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; `agent --list-models` confirmed `composer-2.5` available/current; `git status --short --branch` showed clean `phase-06c-scorecard-prep...origin/main`.
 - 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-06C-SCORECARD.md`. Full acceptance depends on `PHASE-06B-REVIEWER-CRITIC`; this prep branch must use only mocked review-score input and must not implement reviewer generation.
+- 2026-05-22 — orchestrator — Cursor implementation pass blocked by host policy: escalating `agent --print --trust --model composer-2.5 --workspace ...` was rejected because it would transmit workspace code to an external Cursor service. Proceeded with local implementation in the same scoped files.
+- 2026-05-22 — orchestrator — Installed dependencies with `pnpm install` after first `pnpm test` failed because `node_modules` was missing; lockfile was already up to date and packages were reused from local store.
+- 2026-05-22 — orchestrator — Local implementation smoke gates: `pnpm test` PASS (8 files, 82 tests); `pnpm run typecheck` PASS after validator cast fix; `pnpm run lint` PASS.
 
 ---
 

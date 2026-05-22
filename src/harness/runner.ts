@@ -13,7 +13,7 @@ import {
   savePlaythroughArtifacts,
   type SavedArtifacts,
 } from './artifacts.js';
-import { deriveScorecardFromTrace } from './scorecard.js';
+import { deriveScorecardFromTrace, validateScorecard } from './scorecard.js';
 import {
   BASELINE_POLICY_IDS,
   isBaselinePolicyId,
@@ -243,6 +243,7 @@ export const runPlaythrough = async (
   const trace = finalizeTrace(traceBase, state, aborted);
   const traceRelative = buildTraceRelativePath(version, seed, policyId);
   const scorecard = deriveScorecardFromTrace(trace, traceRelative);
+  validateScorecard(scorecard);
   const artifacts = await savePlaythroughArtifacts(runsRoot, trace, scorecard);
 
   return { trace, scorecard, artifacts };

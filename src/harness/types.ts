@@ -38,6 +38,20 @@ export interface PlaythroughTrace {
   steps: TraceStep[];
 }
 
+export interface ReviewerScores {
+  fun: number | null;
+  clarity: number | null;
+  fairness: number | null;
+  tactical_depth: number | null;
+  replay_value: number | null;
+}
+
+export interface MockReviewScoreInput {
+  scores?: Partial<ReviewerScores>;
+  review_path?: string;
+  review_id?: string;
+}
+
 export interface PlaythroughScorecard {
   version: string;
   seed: string;
@@ -50,7 +64,10 @@ export interface PlaythroughScorecard {
   enemies_defeated: number;
   invalid_actions: number;
   softlocks: number;
+  reviewer_scores: ReviewerScores;
   trace_path: string;
+  review_path?: string;
+  review_id?: string;
 }
 
 export interface PolicyDecision {
