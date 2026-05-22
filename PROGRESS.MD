@@ -60,6 +60,19 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Done
 
+- [x] T-02B-003 Implementation: `src/game/rng.ts` Mulberry32 helpers (`createSeededRng`, `restoreSeededRng`, float/int/shuffle/weightedChoice/snapshot) and `tests/rng.test.ts` (Composer, 2026-05-22)
+- [x] T-02B-004 Review Cursor output: inspected changed files/diff; scope limited to `PROGRESS.MD`, `src/game/rng.ts`, and `tests/rng.test.ts` with no engine/harness/content/run changes (orchestrator, 2026-05-22)
+- [x] T-02B-005 Validation: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `rg "Math\\.random" src tests`, and `git diff --check` passed or matched only the guidance comment (orchestrator, 2026-05-22)
+- [x] T-02B-006 Acceptance review: re-read Phase 02B plan and concept constraints against repo state; implementation satisfies scoped RNG requirements (orchestrator, 2026-05-22)
+- [x] T-02B-007 Publish: committed checkpoints, pushed `phase-02b-seeded-rng`, and opened PR #3 (orchestrator, 2026-05-22)
+- [x] T-02B-001 Progress setup: rotate `PROGRESS.MD` to Phase 02B and add task queue/checklist before implementation (orchestrator, 2026-05-22)
+- [x] T-02B-002 Preflight: confirmed branch/worktree, `agent` CLI, Phase 02B plan, and placeholder `src/game/rng.ts`; `node_modules` missing in worktree before validation (orchestrator, 2026-05-22)
+- [x] T-02A-001 Preflight: confirm phase contract, branch/worktree, Cursor CLI availability, and baseline scope (orchestrator, 2026-05-22)
+- [x] T-02A-003 Review and implement Phase 02A contract locally after Cursor CLI policy blocker (orchestrator, 2026-05-22)
+- [x] T-02A-004 Run local validation: `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` (orchestrator, 2026-05-22)
+- [x] T-02A-005 Run local read-only acceptance audit against Phase 02A checklist (orchestrator, 2026-05-22)
+- [x] T-02A-006 Re-read acceptance criteria against repo state, update checklist/log, and commit final progress (orchestrator, 2026-05-22)
+- [x] T-02A-007 Push branch and open PR to `main` with validation evidence (orchestrator, 2026-05-22)
 - [x] 2026-05-22 — orchestrator — Prepare Phase 02C progress plan, branch/worktree, Cursor delegation prompt, and validation cadence.
 - [x] 2026-05-22 — Cursor Agent — Replace placeholder `content/items.json`, `content/enemies.json`, and `content/floor-rules.json` with finite initial records for Potion, Slime, and basic floor rules.
 - [x] 2026-05-22 — Cursor Agent — Add a lightweight local content loader/validator with typed records for items, enemies, and floor rules.
@@ -71,7 +84,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Blocked / skipped
 
-- _(use `[!]` or `[-]` with a one-line reason)_
+- [!] T-02A-002 Delegate bounded Cursor implementation for `src/game/types.ts`, `src/game/engine.ts`, and contract tests — sandbox reviewer rejected Cursor Agent CLI because it would send local repository context to an external service (2026-05-22)
 
 ---
 
@@ -109,8 +122,7 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 
 | ID | Idea | Suggested phase | Why deferred | Noted |
 | --- | --- | --- | --- | --- |
-| F-001 | Implement Phase 02A Game Contract if still required. | `PHASE-02A-GAME-CONTRACT` | User explicitly requested Phase 02C; Phase 02C only depends on Phase 01A, so game contract work remains outside this branch. | orchestrator, 2026-05-22 |
-| F-002 | Implement Phase 02B Seeded RNG if still required. | `PHASE-02B-SEEDED-RNG` | User explicitly requested Phase 02C; seeded RNG is not required by the Phase 02C dependency list. | orchestrator, 2026-05-22 |
+| F-001 | _(add ideas here)_ | _(phase)_ | _(why deferred)_ | _(agent, date)_ |
 
 _Add rows as you go. Promote to Task queue when a phase plan or user explicitly schedules the work._
 
@@ -122,6 +134,36 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 
 - 2026-05-22 — orchestrator — Rotated active phase from merged Phase 01A to Phase 02A after PR #2 merge (`e17e843`). Phase 02A not started.
 - 2026-05-22 — orchestrator — Post-merge main validation: initial `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` failed because `node_modules` was missing in the main checkout; ran `pnpm install` exit 0, then `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
+- 2026-05-22 — orchestrator — User requested implementing `phase-plans/PHASE-02B-SEEDED-RNG.md` next. Created branch checkout `phase-02b-seeded-rng` from `origin/main`; Phase 02A remained deferred at that time.
+- 2026-05-22 — orchestrator — Preflight: `git status --short --branch` showed `phase-02b-seeded-rng...origin/main [ahead 1]`; `command -v agent` found `/Users/keigoshimada/.local/bin/agent`; `src/game/rng.ts` was still the Phase 01A placeholder; `node_modules` was missing in the worktree.
+- 2026-05-22 — Composer — Phase 02B implementation: replaced `src/game/rng.ts` placeholder with Mulberry32 `createSeededRng` / `restoreSeededRng` API; added `tests/rng.test.ts` (10 tests).
+- 2026-05-22 — Composer — `pnpm install` exit 0 (worktree had no `node_modules`).
+- 2026-05-22 — Composer — `pnpm test` exit 0 (2 files, 13 tests).
+- 2026-05-22 — Composer — `pnpm run typecheck` exit 0.
+- 2026-05-22 — Composer — `pnpm run lint` exit 0.
+- 2026-05-22 — Composer — `rg "Math\\.random" src tests` → one match: guidance comment in `src/game/rng.ts` (no runtime `Math.random()` usage).
+- 2026-05-22 — orchestrator — Diff review: changed files are `PROGRESS.MD`, `src/game/rng.ts`, and `tests/rng.test.ts`; no Phase 02A engine/types work, dungeon mechanics, harness behavior, content changes, or generated `runs/**` artifacts.
+- 2026-05-22 — orchestrator — `pnpm test` exit 0 (2 files, 13 tests).
+- 2026-05-22 — orchestrator — `pnpm run typecheck` exit 0.
+- 2026-05-22 — orchestrator — `pnpm run lint` exit 0.
+- 2026-05-22 — orchestrator — `rg "Math\\.random" src tests` found one match: guidance comment in `src/game/rng.ts`; no runtime game/test use.
+- 2026-05-22 — orchestrator — `git diff --check` exit 0.
+- 2026-05-22 — orchestrator — Acceptance re-read against Phase 02B, north-star seeded-randomness invariant, and technical spec: RNG is deterministic, injectable, locally tested, and limited to Phase 02B scope; Phase 02A remains deferred.
+- 2026-05-22 — orchestrator — Post-cleanup validation rerun: `pnpm test` exit 0 (2 files, 13 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `rg "Math\\.random" src tests` matched only the guidance comment, and `git diff --check` exit 0.
+- 2026-05-22 — orchestrator — Commits: `1be9b39` (`chore(progress): start phase 02b`) and `41fde0a` (`feat(game): add seeded rng utilities`).
+- 2026-05-22 — orchestrator — Pushed branch `phase-02b-seeded-rng` and opened PR #3: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/3
+- 2026-05-22 — orchestrator — Double-check audit: re-read `PHASE-02B-SEEDED-RNG.md`, `PROGRESS.MD`, `src/game/rng.ts`, `tests/rng.test.ts`, `git diff origin/main...HEAD`, and PR #3 metadata. Changed files remain limited to `PROGRESS.MD`, `src/game/rng.ts`, and `tests/rng.test.ts`; PR #3 is open and mergeable with no configured status checks.
+- 2026-05-22 — orchestrator — Double-check validation: `pnpm test` exit 0 (2 files, 13 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check origin/main...HEAD` exit 0, and nondeterminism search found only the `Math.random()` guidance comment in `src/game/rng.ts`.
+- 2026-05-22 — orchestrator — Cursor read-only audit attempt was rejected by approval policy because it would send repo contents/diff context to Cursor; no workaround attempted.
+- 2026-05-22 — orchestrator — Phase 02A preflight: created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-02a-game-contract` on branch `phase-02a-game-contract` from `origin/main`; confirmed Cursor Agent CLI at `/Users/keigoshimada/.local/bin/agent`; re-read `PHASE-02A-GAME-CONTRACT.md` and global invariants.
+- 2026-05-22 — orchestrator — Cursor Agent CLI implementation attempt was blocked by sandbox reviewer policy because it would send local repo context to an external service; proceeding with local orchestrator implementation while preserving the same Phase 02A scope and validation gates.
+- 2026-05-22 — orchestrator — Implemented Phase 02A contract locally: replaced `src/game/types.ts` and `src/game/engine.ts` placeholders with serializable public types, stable `GameEngine` interface, minimal `wait`/`inspect` implementation, invalid-action `StepResult` errors, text render, and max-turn abort support; added `tests/contract.test.ts` and adjusted scaffold tests.
+- 2026-05-22 — orchestrator — Worktree dependency setup: `pnpm install` exit 0 because `node_modules` was missing in the Phase 02A worktree.
+- 2026-05-22 — orchestrator — Validation: `pnpm test` exit 0 (2 files, 12 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0.
+- 2026-05-22 — orchestrator — Acceptance audit: changed paths limited to `PROGRESS.MD`, `src/game/engine.ts`, `src/game/types.ts`, `tests/scaffold.test.ts`, and `tests/contract.test.ts`; `runs/**` unchanged except existing `.gitkeep`; no external-service, browser, image/audio, Date, Map, Set, class, socket, or environment-handle usage found in `src/game/**` or tests. Re-read Phase 02A acceptance criteria and confirmed the protocol supports human/agent play through render/actions/step/terminal checks, keeps state serializable, and leaves later mechanics additive behind the stable `GameEngine` interface.
+- 2026-05-22 — orchestrator — Final pre-PR validation after progress update: `pnpm test` exit 0 (2 files, 12 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0.
+- 2026-05-22 — orchestrator — Pushed `phase-02a-game-contract` and opened PR #4: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/4.
+- 2026-05-22 — orchestrator — User-requested double-check: re-read `PHASE-02A-GAME-CONTRACT.md`, global invariants, `AGENTS.md`, `PROGRESS.MD`, `src/game/types.ts`, `src/game/engine.ts`, and `tests/contract.test.ts`; reran `pnpm test` exit 0 (2 files, 12 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, and `git diff --check origin/main...HEAD` exit 0; PR #4 is open and mergeable.
 - 2026-05-22 — orchestrator — User requested `phase-plans/PHASE-02C-CONTENT-DATA.md`. Created worktree `/private/tmp/dungeon-forge-phase-02c-content-data` on branch `phase-02c-content-data` from `origin/main`; Phase 02A remains unexecuted and tracked as deferred.
 - 2026-05-22 — orchestrator — Commit `cba6f52` recorded the Phase 02C progress plan before implementation.
 - 2026-05-22 — Cursor Agent — Implemented Phase 02C content data: `content/items.json`, `content/enemies.json`, `content/floor-rules.json`, `src/game/content.ts`, `src/game/items.ts`, `src/game/enemies.ts`, `tests/content.test.ts`, and updated `tests/scaffold.test.ts`.
@@ -131,6 +173,8 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — Phase completion check before PR: Phase 02C deliverables, tests, and acceptance criteria match implementation; out-of-scope Phase 02A/02B mechanics remain untouched.
 - 2026-05-22 — orchestrator — Pushed `phase-02c-content-data` to origin and opened draft PR #5: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/5
 - 2026-05-22 — orchestrator double-check — Re-read `phase-plans/PHASE-02C-CONTENT-DATA.md`, inspected branch diff/files, confirmed only expected Phase 02C files changed, confirmed no external-service/framework keyword matches in `src`, `content`, `tests`, or `package.json`, and reran `pnpm test` exit 0 (2 files, 10 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
+- 2026-05-22 — orchestrator — Merged current `origin/main` (`3094915`, containing merged Phase 02A and 02B) into `phase-02c-content-data` to resolve PR #5 conflicts; resolved `PROGRESS.MD` by keeping Phase 02C active-complete and preserving Phase 02A/02B history, and resolved `tests/scaffold.test.ts` by keeping the Phase 02A harness-placeholder expectation plus the Phase 02C content-loader smoke check.
+- 2026-05-22 — orchestrator — Post-conflict validation: `git diff --check` exit 0, conflict marker search found none, `pnpm test` exit 0 (4 files, 29 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
 
 ---
 
