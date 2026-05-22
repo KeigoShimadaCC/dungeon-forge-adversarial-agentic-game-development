@@ -11,7 +11,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Phase | `phase-plans/PHASE-02B-SEEDED-RNG.md` |
 | Goal | Add deterministic seeded randomness helpers for reproducible floats, integers, shuffles, and weighted choices. |
 | Branch | `phase-02b-seeded-rng` |
-| Worktree | `phase-02b-seeded-rng checkout` |
+| Worktree | `./` |
 | Base | `origin/main` |
 | Status | `ready_for_review` |
 
