@@ -9,6 +9,8 @@ import {
   buildScorecardRelativePath,
   buildTraceRelativePath,
 } from '../src/harness/artifacts.js';
+import { start } from '../src/game/engine.js';
+import { resolveGameConfigForVersion } from '../src/game/version-profiles.js';
 import {
   compareVersions,
   ensureVersionFolder,
@@ -17,6 +19,7 @@ import {
   summarizeVersion,
   validateVersionId,
 } from '../src/harness/version-loop.js';
+import { runPlaythrough } from '../src/harness/runner.js';
 import type { PlaythroughReview } from '../src/harness/reviewer-client.js';
 import type { PlaythroughScorecard } from '../src/harness/types.js';
 
@@ -61,6 +64,23 @@ describe('Phase 07A version loop', () => {
   it('rejects malformed version IDs clearly', () => {
     expect(() => validateVersionId('001')).toThrow('Invalid version id "001"');
     expect(() => getVersionPaths(process.cwd(), 'v1')).toThrow('Invalid version id "v1"');
+  });
+
+  it('starts the engine with the requested demo version profile', () => {
+    const state = start('seed_001', resolveGameConfigForVersion('v001'));
+    expect(state.version).toBe('v001');
+    expect(state.meta.totalFloors).toBe(2);
+  });
+
+  it('records requested version in runPlaythrough traces', async () => {
+    const { trace } = await runPlaythrough({
+      seed: 'seed_002',
+      policyId: 'stairs-seeking',
+      version: 'v001',
+      runsRoot: process.cwd(),
+      maxSteps: 24,
+    });
+    expect(trace.version).toBe('v001');
   });
 
   it('runs the default evidence matrix with trace-grounded reviews and enriched scorecards', async () => {

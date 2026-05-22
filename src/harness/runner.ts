@@ -5,6 +5,7 @@ import {
   start,
   step,
 } from '../game/engine.js';
+import { resolveGameConfigForVersion } from '../game/version-profiles.js';
 import type { GameEvent, GameState, JsonObject, TerminalStatus } from '../game/types.js';
 import { findMatchingAvailableAction } from './baseline-players/helpers.js';
 import type { BaselinePlayerInput } from './baseline-players/types.js';
@@ -89,7 +90,7 @@ export const runPlaythrough = async (
           );
         })());
 
-  let state = start(seed);
+  let state = start(seed, resolveGameConfigForVersion(version));
   const steps: TraceStep[] = [];
   const maxSteps = resolveMaxSteps(state, options.maxSteps);
   let stepsTaken = 0;

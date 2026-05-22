@@ -1,0 +1,21 @@
+{
+  "damage_taken": 2,
+  "enemies_defeated": 0,
+  "floors_reached": 2,
+  "invalid_actions": 0,
+  "items_used": 0,
+  "persona": "stairs-seeking",
+  "result": "WIN",
+  "reviewer_scores": {
+    "clarity": null,
+    "fairness": null,
+    "fun": null,
+    "replay_value": null,
+    "tactical_depth": null
+  },
+  "seed": "seed_002",
+  "softlocks": 0,
+  "trace_path": "runs/v001/traces/seed_002_stairs-seeking.json",
+  "turns": 19,
+  "version": "v001"
+}
