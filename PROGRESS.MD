@@ -8,12 +8,12 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | `phase-plans/PHASE-02A-GAME-CONTRACT.md` |
-| Goal | `GameEngine` and core types exist, compile, and support start, render, available-action lookup, stepping, and terminal-state checks. |
-| Branch | _(working branch name)_ |
-| Worktree | `main checkout` |
+| Phase | `phase-plans/PHASE-02C-CONTENT-DATA.md` |
+| Goal | Initial JSON content files exist, load through typed helpers, and validate required fields. |
+| Branch | `phase-02c-content-data` |
+| Worktree | `/private/tmp/dungeon-forge-phase-02c-content-data` |
 | Base | `origin/main` |
-| Status | `not_started` |
+| Status | `in_progress` |
 
 ### Contract (read before editing)
 
@@ -52,11 +52,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-22 — orchestrator — Prepare Phase 02C progress plan, branch/worktree, Cursor delegation prompt, and validation cadence.
 
 ### Open
 
-- _(none)_
+- [ ] 2026-05-22 — Cursor Agent — Replace placeholder `content/items.json`, `content/enemies.json`, and `content/floor-rules.json` with finite initial records for Potion, Slime, and basic floor rules.
+- [ ] 2026-05-22 — Cursor Agent — Add a lightweight local content loader/validator with typed records for items, enemies, and floor rules.
+- [ ] 2026-05-22 — Cursor Agent — Add tests that parse content, validate required fields, reject malformed content, and expose Potion/Slime records by ID.
+- [ ] 2026-05-22 — orchestrator — Review Cursor diffs for scope, determinism, serializability, and no external-service dependency.
+- [ ] 2026-05-22 — orchestrator — Run `pnpm test`, `pnpm run typecheck`, and `pnpm run lint`; record results.
+- [ ] 2026-05-22 — orchestrator — Re-read Phase 02C acceptance criteria against implementation, update checklist/log, commit checkpoints, push branch, and open PR.
 
 ### Done
 
@@ -72,27 +77,27 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 _Derived from the active phase plan: deliverables, tests/validation, acceptance criteria. Tick when verified, not when merely attempted._
 
-### Phase 02A — Game contract
+### Phase 02C — Content data
 
-- [ ] Read phase plan and confirm scope boundaries (no full dungeon mechanics, procedural generation, LLM player/reviewer behavior, or arbitrary free-text gameplay).
-- [ ] `src/game/types.ts` defines JSON-serializable `GameState`, `PlayerAction`, `StepResult`, `GameEvent`, `TerminalStatus`, and `GameConfig`.
-- [ ] `src/game/engine.ts` exposes the stable `GameEngine` contract or minimal implementation.
-- [ ] Terminal statuses are exactly `ACTIVE`, `WIN`, `LOSS`, and `ABORTED`.
-- [ ] Invalid actions are represented through `StepResult.valid === false` and an error instead of normal-flow throws.
-- [ ] Contract tests cover `start(seed)` returning a valid `GameState`.
-- [ ] Contract tests cover `render(state)` returning a non-empty string.
-- [ ] Contract tests cover `getAvailableActions(state)` returning explicit actions.
-- [ ] Contract tests cover every available action passing through `step(state, action)` without crashing.
-- [ ] Contract tests cover `isTerminal(state)` matching `terminalStatus`.
-- [ ] Contract tests cover `StepResult` JSON serialization round trip.
+- [x] Read Phase 02C plan and confirm dependency/scope boundaries.
+- [ ] Keep scope limited to static local content files, typed helpers, and lightweight validation tests.
+- [ ] `content/items.json` contains an initial Potion record with stable ID, display name, description, and minimal gameplay fields.
+- [ ] `content/enemies.json` contains an initial Slime record with stable ID, display name, description, and minimal gameplay fields.
+- [ ] `content/floor-rules.json` contains initial finite floor-rule records with stable IDs and basic playable defaults.
+- [ ] Add or update a content loader/validator module that loads local JSON deterministically.
+- [ ] Validation fails clearly when required fields are missing or malformed.
+- [ ] Tests confirm content files parse.
+- [ ] Tests confirm required fields exist.
+- [ ] Tests confirm invalid content fails validation.
+- [ ] Tests confirm Potion and Slime records are available to game logic by ID.
 - [ ] `pnpm test` passes.
 - [ ] `pnpm run typecheck` passes.
 - [ ] `pnpm run lint` passes.
-- [ ] Stable protocol can support both human and agent play (acceptance).
-- [ ] No state requires functions, classes, sockets, credentials, or external handles to serialize (acceptance).
-- [ ] Later phases can add mechanics without casually changing the public engine contract (acceptance).
+- [ ] Future phases can add content without changing the core contract (acceptance).
+- [ ] Static content is finite, versionable, and inspectable (acceptance).
+- [ ] No runtime external service is required to fetch gameplay content (acceptance).
 - [ ] Re-read acceptance criteria against actual repo state.
-- [ ] Commit / PR only when user asks.
+- [ ] Push branch and open PR.
 
 ---
 
@@ -102,7 +107,8 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 
 | ID | Idea | Suggested phase | Why deferred | Noted |
 | --- | --- | --- | --- | --- |
-| F-001 | _(add ideas here)_ | _(phase)_ | _(why deferred)_ | _(agent, date)_ |
+| F-001 | Implement Phase 02A Game Contract if still required. | `PHASE-02A-GAME-CONTRACT` | User explicitly requested Phase 02C; Phase 02C only depends on Phase 01A, so game contract work remains outside this branch. | orchestrator, 2026-05-22 |
+| F-002 | Implement Phase 02B Seeded RNG if still required. | `PHASE-02B-SEEDED-RNG` | User explicitly requested Phase 02C; seeded RNG is not required by the Phase 02C dependency list. | orchestrator, 2026-05-22 |
 
 _Add rows as you go. Promote to Task queue when a phase plan or user explicitly schedules the work._
 
@@ -114,6 +120,7 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 
 - 2026-05-22 — orchestrator — Rotated active phase from merged Phase 01A to Phase 02A after PR #2 merge (`e17e843`). Phase 02A not started.
 - 2026-05-22 — orchestrator — Post-merge main validation: initial `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` failed because `node_modules` was missing in the main checkout; ran `pnpm install` exit 0, then `pnpm test` exit 0 (1 file, 3 tests), `pnpm run typecheck` exit 0, and `pnpm run lint` exit 0.
+- 2026-05-22 — orchestrator — User requested `phase-plans/PHASE-02C-CONTENT-DATA.md`. Created worktree `/private/tmp/dungeon-forge-phase-02c-content-data` on branch `phase-02c-content-data` from `origin/main`; Phase 02A remains unexecuted and tracked as deferred.
 
 ---
 
