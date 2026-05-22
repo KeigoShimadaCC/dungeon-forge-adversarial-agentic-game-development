@@ -1,8 +1,8 @@
 import type {
-  MockReviewScoreInput,
   PlaythroughScorecard,
   PlaythroughTrace,
   ReviewerScores,
+  ScorecardReviewInput,
 } from './types.js';
 
 const REVIEWER_SCORE_KEYS = [
@@ -48,7 +48,7 @@ const STATE_SUMMARY_KEY = (summary: PlaythroughTrace['steps'][number]['state_sum
   });
 
 const normalizeReviewerScores = (
-  scores: MockReviewScoreInput['scores'] = {},
+  scores: ScorecardReviewInput['scores'] = {},
 ): ReviewerScores => ({
   fun: scores.fun ?? null,
   clarity: scores.clarity ?? null,
@@ -60,7 +60,7 @@ const normalizeReviewerScores = (
 export const deriveScorecardFromTrace = (
   trace: PlaythroughTrace,
   tracePath: string,
-  reviewInput?: MockReviewScoreInput,
+  reviewInput?: ScorecardReviewInput,
 ): PlaythroughScorecard => {
   let floorsReached = 0;
   let damageTaken = 0;

@@ -7,7 +7,12 @@ import {
   type BaselinePlayerPolicy,
 } from './baseline-players/index.js';
 import type { BaselinePlayerInput } from './baseline-players/types.js';
-import type { HarnessPlayerPolicy, PolicyDecision } from './types.js';
+import type {
+  HarnessPlayerPolicy,
+  LlmPlayerPersona,
+  PolicyDecision,
+} from './types.js';
+import { LLM_PLAYER_PERSONA_IDS } from './types.js';
 import type { PlayerAction } from '../game/types.js';
 
 export const BASELINE_POLICY_IDS = [
@@ -18,6 +23,13 @@ export const BASELINE_POLICY_IDS = [
 ] as const;
 
 export type BaselinePolicyId = (typeof BASELINE_POLICY_IDS)[number];
+
+export type HarnessPolicyId = BaselinePolicyId | LlmPlayerPersona;
+
+export const isLlmPlayerPersona = (value: string): value is LlmPlayerPersona =>
+  (LLM_PLAYER_PERSONA_IDS as readonly string[]).includes(value);
+
+export { LLM_PLAYER_PERSONA_IDS };
 
 const wrapBaselinePolicy = (policy: BaselinePlayerPolicy): HarnessPlayerPolicy => {
   return (input: BaselinePlayerInput): PolicyDecision => ({
@@ -43,11 +55,15 @@ export const resolveBaselinePolicy = (
 export const normalizePolicyDecision = (
   decision: PolicyDecision | PlayerAction,
 ): PolicyDecision => {
-  if ('action' in decision) {
+  if ('action' in decision && typeof decision.action === 'object') {
     return decision;
   }
-  return { action: decision };
+  return { action: decision as PlayerAction };
 };
+
+export const awaitPolicyDecision = async (
+  decision: PolicyDecision | PlayerAction | Promise<PolicyDecision | PlayerAction>,
+): Promise<PolicyDecision> => normalizePolicyDecision(await decision);
 
 export const isPolicyActionValid = (
   availableActions: readonly PlayerAction[],

@@ -17,6 +17,29 @@ export interface StateSummary {
   itemCount: number;
 }
 
+export const LLM_PLAYER_PERSONA_IDS = [
+  'careful_player',
+  'naive_player',
+  'bug_hunter',
+] as const;
+
+export type LlmPlayerPersona = (typeof LLM_PLAYER_PERSONA_IDS)[number];
+
+export type LlmFallbackReason =
+  | 'malformed_json'
+  | 'missing_action_id'
+  | 'invalid_action_id'
+  | 'timeout'
+  | 'client_error';
+
+export interface TraceDecisionMetadata {
+  persona?: LlmPlayerPersona;
+  fallback_used?: boolean;
+  fallback_reason?: LlmFallbackReason;
+  invalid_action_id?: string;
+  error_category?: LlmFallbackReason;
+}
+
 export interface TraceStep {
   turn: number;
   state_summary: StateSummary;
@@ -24,6 +47,7 @@ export interface TraceStep {
   available_actions: PlayerAction[];
   chosen_action: PlayerAction;
   reason?: string;
+  decision_metadata?: TraceDecisionMetadata;
   valid: boolean;
   events: GameEvent[];
   terminalStatus: TerminalStatus;
@@ -46,11 +70,13 @@ export interface ReviewerScores {
   replay_value: number | null;
 }
 
-export interface MockReviewScoreInput {
+export interface ScorecardReviewInput {
   scores?: Partial<ReviewerScores>;
   review_path?: string;
   review_id?: string;
 }
+
+export type MockReviewScoreInput = ScorecardReviewInput;
 
 export interface PlaythroughScorecard {
   version: string;
@@ -73,11 +99,12 @@ export interface PlaythroughScorecard {
 export interface PolicyDecision {
   action: PlayerAction;
   reason?: string;
+  decision_metadata?: TraceDecisionMetadata;
 }
 
 export type HarnessPlayerPolicy = (
   input: import('./baseline-players/types.js').BaselinePlayerInput,
-) => PolicyDecision | PlayerAction;
+) => PolicyDecision | PlayerAction | Promise<PolicyDecision | PlayerAction>;
 
 export const actionSnapshot = (action: PlayerAction): PlayerAction => ({
   id: action.id,

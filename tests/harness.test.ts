@@ -6,10 +6,12 @@ import { describe, expect, it } from 'vitest';
 
 import { CANONICAL_REGRESSION_SEEDS } from '../src/harness/baseline-players/helpers.js';
 import {
+  buildReviewRelativePath,
   buildScorecardRelativePath,
   buildTraceRelativePath,
 } from '../src/harness/artifacts.js';
 import { stringifyDeterministicJson } from '../src/harness/json.js';
+import { generateDeterministicReview } from '../src/harness/reviewer-client.js';
 import { runPlaythrough } from '../src/harness/runner.js';
 import {
   deriveScorecardFromTrace,
@@ -255,6 +257,39 @@ describe('Phase 05A harness', () => {
       });
       expect(reviewed.review_path).toBe('runs/v001-test/reviews/seed_001__stairs-seeking.json');
       expect(reviewed.review_id).toBe('mock-review-001');
+      validateScorecard(reviewed);
+    } finally {
+      await rm(runsRoot, { recursive: true, force: true });
+    }
+  });
+
+  it('merges Phase 06B reviewer output into scorecards with review linkage', async () => {
+    const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-harness-'));
+    try {
+      const { trace } = await runPlaythrough({
+        seed: 'seed_001',
+        policyId: 'stairs-seeking',
+        version: 'v001-test',
+        runsRoot,
+      });
+      const tracePath = buildTraceRelativePath(trace.version, trace.seed, trace.persona);
+      const traceOnly = deriveScorecardFromTrace(trace, tracePath);
+      const review = generateDeterministicReview({
+        trace,
+        scorecard: traceOnly,
+        persona: 'careful_player',
+      });
+      const reviewPath = buildReviewRelativePath(review.version, review.seed, review.persona);
+
+      const reviewed = deriveScorecardFromTrace(trace, tracePath, {
+        ...review,
+        review_path: reviewPath,
+        review_id: `${review.persona}:${review.seed}`,
+      });
+
+      expect(reviewed.reviewer_scores).toEqual(review.scores);
+      expect(reviewed.review_path).toBe(reviewPath);
+      expect(reviewed.review_id).toBe('careful_player:seed_001');
       validateScorecard(reviewed);
     } finally {
       await rm(runsRoot, { recursive: true, force: true });

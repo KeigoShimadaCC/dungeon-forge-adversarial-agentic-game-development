@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 06C Prep — Scorecard schema and review-score merge |
-| Goal | Upgrade Phase 05A scorecards to the canonical Phase 06C shape while leaving real reviewer integration blocked on Phase 06B. |
+| Phase | Phase 06C — Scorecard schema and review-score merge |
+| Goal | Upgrade scorecards to the canonical Phase 06C shape and merge Phase 06B reviewer scores when supplied. |
 | Branch | `phase-06c-scorecard-prep` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-06c-scorecard-wt` |
-| Base | `origin/main` at `ac573e5` |
-| Status | `prep complete; PR open` |
+| Base | `origin/main` at `01b126a` |
+| Status | `conflict resolved; validation passed` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-XX...md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-06C-SCORECARD.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -48,13 +48,14 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 ## Task queue
 
-_Agents add and own granular tasks here. Prefer small, verifiable items. Include date and agent id when useful._
+_Agents add and own granular tasks here. Prefer small, verifiable items. Include date and agent when useful._
 
 ### In progress
 
 - _(none)_
 
 ### Open
+
 - _(none)_
 
 ### Done
@@ -64,29 +65,29 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] 2026-05-22 orchestrator — Review implementation diff for phase scope and no `src/game/**` changes.
 - [x] 2026-05-22 orchestrator — Run local verification: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001-prep`.
 - [x] 2026-05-22 orchestrator — Re-read `phase-plans/PHASE-06C-SCORECARD.md`, update final prep notes, commit, push, and open PR.
+- [x] 2026-05-22 orchestrator — Merge `origin/main` containing Phase 06A and merged Phase 06B, then resolve conflicts in `PROGRESS.MD` and `src/harness/index.ts`.
+- [x] 2026-05-22 orchestrator — Remove stale Phase 06B blocker and add real Phase 06B reviewer-output score merge coverage.
 
 ### Blocked / skipped
 
-- [!] Full Phase 06C acceptance — blocked until Phase 06B provides real reviewer-critic output; this branch may only add mocked review-score merge support.
 - [!] Cursor read-only audit — blocked by host policy against transmitting workspace code to the external Cursor service; local scope audit completed instead.
 
 ---
 
 ## Phase checklist
 
-_Derived from the active phase plan: deliverables, tests/validation, acceptance criteria. Tick when verified, not when merely attempted._
+_Derived from `phase-plans/PHASE-06C-SCORECARD.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 06C Prep — Scorecard
+### Phase 06C — Scorecard
 
 - [x] Scorecard type includes canonical objective fields, `reviewer_scores`, trace linkage, and optional review source linkage.
 - [x] Trace-only scorecard generation keeps objective metrics and normalizes subjective scores to `null`.
-- [x] Mocked review-score input can enrich scorecards without implementing Phase 06B reviewer generation.
+- [x] Review-score input can enrich scorecards from mocked inputs and real Phase 06B reviewer output.
 - [x] Required-field validation fails on missing objective fields while allowing null subjective scores.
 - [x] Scorecard writer preserves deterministic `runs/vXXX/scorecards/` paths.
 - [x] Public harness exports include updated scorecard types and validator.
-- [x] Focused tests cover trace-only, trace-plus-review, partial subjective scores, validation failure, deterministic JSON, and saved file shape.
-- [x] Local validation commands pass or blockers are logged.
-- [!] Full Phase 06C acceptance with real reviewer output remains blocked on Phase 06B.
+- [x] Focused tests cover trace-only, trace-plus-review, real reviewer output, partial subjective scores, validation failure, deterministic JSON, and saved file shape.
+- [x] Local validation commands pass after merge conflict resolution.
 
 ---
 
@@ -98,6 +99,13 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | --- | --- | --- | --- | --- |
 | F-001 | _(add ideas here)_ | _(phase)_ | _(why deferred)_ | _(agent, date)_ |
 | F-03A-001 | Extract engine-local map/combat helpers into dedicated modules when those systems grow. | Phase 09B / Phase 09C | Phase 03A permits modules as needed; richer enemy variety and procedural map generation are explicitly scheduled later. | orchestrator, 2026-05-22 |
+| F-06A-001 | Add a real provider adapter behind `LlmPlayerClient` with explicit credential configuration. | Phase 07A or Phase 10B | Phase 06A intentionally added only the injectable boundary and mocked tests; later phase plans imply selected LLM runs but do not spell out provider wiring. | orchestrator, 2026-05-22 |
+| F-06A-002 | Add CLI support for LLM persona playthroughs, gated by explicit provider/client configuration. | Phase 07A or Phase 10B | `simulate-seed` remains baseline-only; Phase 07A needs multi-persona evidence and Phase 10B mentions optional LLM reviewer runs, but CLI wiring is not explicit. | orchestrator, 2026-05-22 |
+| F-06A-003 | Preserve the model's original invalid `reason` in fallback trace metadata. | Phase 06B or Phase 07A | Current fallback records failure category and invalid action ID, but replaces the model reason with a deterministic fallback reason; richer diagnostics can improve trace review. | orchestrator, 2026-05-22 |
+| F-06A-004 | Tighten LLM action lookup to validate `id` plus `type`, not `id` alone. | Phase 06A follow-up or Phase 07A | Action IDs are currently unique per turn, but the stable action protocol already treats `id` and `type` as the stronger match. | orchestrator, 2026-05-22 |
+| F-06A-005 | Add GitHub CI or equivalent PR checks for tests, typecheck, lint, build, and simulation smoke. | Phase 11A or repo infrastructure pass | Local gates pass, but PR #12 reports no GitHub checks; later acceptance-gate work covers evidence checks but not CI enforcement explicitly. | orchestrator, 2026-05-22 |
+| F-06B-001 | Add optional Markdown rendering/writing for reviewer critiques alongside the JSON contract artifact. | Phase 07A or docs/reporting polish phase | PHASE-06B made JSON the contract and Markdown optional; concept examples mention `.md` reviews, but no later phase explicitly requires Markdown rendering. | orchestrator, 2026-05-22 |
+| F-07A-001 | Wire reviewer critic generation into the version/evaluation loop, either through the Phase 07A command or an explicit `simulate-seed --review`/review command. | Phase 07A | PHASE-07A requires matching review artifacts for version bundles, but current `simulate-seed` still writes only trace and scorecard. This should be integrated when the complete version loop is defined. | orchestrator, 2026-05-22 |
 
 _Add rows as you go. Promote to Task queue when a phase plan or user explicitly schedules the work._
 
@@ -107,6 +115,7 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
+- 2026-05-22 — orchestrator — Phase 06A/06B history from `origin/main`: PR #12 added LLM player policy support; PR #13 added trace-grounded reviewer critic, review JSON writer, prompt updates, and reviewer tests; both are now merged into `origin/main` at `01b126a`.
 - 2026-05-22 — orchestrator — Created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-06c-scorecard-wt` from `origin/main` at `ac573e5` on branch `phase-06c-scorecard-prep`.
 - 2026-05-22 — orchestrator — Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; `agent --list-models` confirmed `composer-2.5` available/current; `git status --short --branch` showed clean `phase-06c-scorecard-prep...origin/main`.
 - 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-06C-SCORECARD.md`. Full acceptance depends on `PHASE-06B-REVIEWER-CRITIC`; this prep branch must use only mocked review-score input and must not implement reviewer generation.
@@ -119,6 +128,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-22 — orchestrator — Cursor read-only audit was not run because the host policy rejected external Cursor workspace-code transmission. Local audit covered canonical fields, trace linkage, determinism tests, and absence of Phase 06B reviewer generation.
 - 2026-05-22 — orchestrator — Re-read `phase-plans/PHASE-06C-SCORECARD.md` before finalization: implemented prep deliverables for scorecard generation/schema/writer/tests and mocked subjective-score merge; full Phase 06C acceptance remains blocked until Phase 06B supplies real reviewer output.
 - 2026-05-22 — orchestrator — Pushed `phase-06c-scorecard-prep` and opened prep PR #11: https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/11.
+- 2026-05-22 — orchestrator — After user reported conflicts and noted Phase 06B was merged, fetched `origin/main` (`01b126a`) and merged it into `phase-06c-scorecard-prep`. Resolved conflicts by preserving Phase 06A/06B merged source, keeping Phase 06C scorecard schema/validator, removing stale Phase 06B blocker language, and adding real reviewer-output score merge coverage.
+- 2026-05-22 — orchestrator — Post-conflict validation PASS: `pnpm run typecheck`, `pnpm run lint`, `pnpm test` (10 files, 105 tests), `pnpm run build`, `git diff --check`, and `pnpm run simulate-seed -- --seed seed_001 --policy stairs-seeking --version v001-prep` (saved ignored trace/scorecard; result `ABORTED`, 280 turns, 280 steps).
 
 ---
 
