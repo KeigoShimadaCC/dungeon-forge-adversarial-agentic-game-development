@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-13b-ci-and-acceptance-checks` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-13b-ci-and-acceptance-checks-wt` |
 | Base | `origin/main` at `b6fe332` |
-| Status | `Seeded; Cursor implementation pending` |
+| Status | `Validation passed; ready for PR` |
 
 ### Contract (read before editing)
 
@@ -52,15 +52,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 Cursor/composer-2.5 — Implement Phase 13B CI/check runner, deterministic smoke gate, acceptance-evidence verification, docs, and focused tests.
+- _(none)_
 
 ### Open
-
-- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, run acceptance/checker smoke, and perform read-only Cursor recheck.
-- [ ] 2026-05-23 orchestrator — Re-read Phase 13B acceptance criteria, update `PROGRESS.MD`, push branch, open PR, run automation gate, merge, and clean up if validation passes.
+- [ ] 2026-05-23 orchestrator — Push branch, open PR, run automation gate, merge, and clean up if validation passes.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Perform read-only Cursor recheck, add ci-smoke protocol-failure regression test, re-run full gates, and re-read Phase 13B acceptance criteria.
+- [x] 2026-05-23 orchestrator — Review Cursor diff, remove out-of-scope `AGENTS.md` edit, harden explicit missing-evidence verification, run focused tests, and rerun full `pnpm run check`.
+- [x] 2026-05-23 Cursor/composer-2.5 — Implement Phase 13B CI workflow, `pnpm run check`, deterministic `ci-smoke`, `verify-acceptance-evidence`, `docs/VALIDATION.md`, harness `dryRun` support, and `tests/ci-checks.test.ts`.
 - [x] 2026-05-23 orchestrator — Review Cursor diff, fix recheck blocker for demo-loop CLI default overwrite behavior, run focused/full gates, and recheck Phase 13A acceptance.
 - [x] 2026-05-23 Cursor/composer-2.5 — Implement artifact write policy, persisted summaries/comparisons, CLI `--on-existing`, version-id alias, and `tests/evidence-retention.test.ts`.
 - [x] 2026-05-23 orchestrator — Implement Codex-led phase automation core with DAG/status CLI, phase bundle generation, Cursor/composer-2.5 prompt wiring, automerge gate evaluation, and phase-state completion/blocking updates.
@@ -98,14 +99,14 @@ _Derived from `phase-plans/PHASE-13B-CI-AND-ACCEPTANCE-CHECKS.md`. Tick when ver
 
 ### Phase 13B — CI And Acceptance Checks
 
-- [ ] CI workflow or equivalent check runner exists for repo gates.
-- [ ] A documented local validation command groups required phase/repo gates.
-- [ ] Default gate runs without API credentials or external services.
-- [ ] Gate covers `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, and `pnpm run build`.
-- [ ] Deterministic harness smoke over canonical seeds/baseline policies is included.
-- [ ] Acceptance-evidence verification is integrated when version evidence is present.
-- [ ] Failure states are visible for test/check failures and missing required acceptance evidence.
-- [ ] Local final gates pass: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [x] CI workflow or equivalent check runner exists for repo gates.
+- [x] A documented local validation command groups required phase/repo gates.
+- [x] Default gate runs without API credentials or external services.
+- [x] Gate covers `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, and `pnpm run build`.
+- [x] Deterministic harness smoke over canonical seeds/baseline policies is included.
+- [x] Acceptance-evidence verification is integrated when version evidence is present.
+- [x] Failure states are visible for test/check failures and missing required acceptance evidence.
+- [x] Local final gates pass: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -246,6 +247,10 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Fixed `parseDemoLoopArgs` so CLI omits `onExisting` unless `--on-existing` is explicitly supplied; added test coverage for explicit `--on-existing fail`; hardened alias paths for balance summary and comparison artifacts. Focused validation PASS: `pnpm test tests/demo-loop.test.ts tests/evidence-retention.test.ts`; `pnpm test tests/evidence-retention.test.ts tests/version-loop.test.ts tests/balance-tuning.test.ts`; `pnpm run typecheck`; `pnpm run lint`. CLI smoke PASS using `/tmp/df-phase13a-smoke-TYn2fE`: first `run-version` wrote v001, default rerun failed with artifact-exists error, `--on-existing archive` rerun succeeded, `summarize-version` persisted `runs/v001/version_summary.json`, v002 run succeeded, and `compare-versions` persisted `runs/comparisons/v001_vs_v002.{json,md}`. Demo-loop CLI smoke PASS using `/tmp/df-phase13a-demo-cli-LGd7po`: two consecutive `pnpm run demo-loop -- --runs-root ... --versions v001` commands passed, proving default intentional overwrite. Final local gates PASS: `pnpm test` (21 files, 197 tests), `pnpm run typecheck`, `pnpm run build`, `pnpm run lint`, and `git diff --check`.
 - 2026-05-23 — orchestrator — Phase 13A merged and cleaned up: automation gate allowed merge, PR #28 was squash-merged at `a2294f83ddeba8df96e0a905509d17663e8a5e0d`, remote branch deletion was handled by GitHub, clean worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-13a-evidence-retention-wt` was removed, local branch `phase/phase-13a-evidence-retention` was deleted, and `automation/phase-state.json` was updated/pushed in commit `b6fe332` with `PHASE-13A` complete and current phase `PHASE-13B`.
 - 2026-05-23 — orchestrator — Phase 13B automation start: `pnpm run phase -- status` selected `PHASE-13B`; read `PROGRESS.MD`, `concept-and-ideas/01_NORTH_STAR_AND_VISION.md`, `concept-and-ideas/02_STRUCTURE_AND_TECH_SPECS.md`, and `phase-plans/PHASE-13B-CI-AND-ACCEPTANCE-CHECKS.md`; `pnpm run phase -- bundle --phase PHASE-13B --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-13B/planned`; `git fetch origin` passed; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`, escalated rerun passed and confirmed `composer-2.5`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-13b-ci-and-acceptance-checks-wt` on branch `phase/phase-13b-ci-and-acceptance-checks` from `origin/main` at `b6fe332`.
+- 2026-05-23 — Cursor/composer-2.5 — Phase 13B implementation: added `.github/workflows/ci.yml`, `docs/VALIDATION.md`, `pnpm run check` / `ci-smoke` / `verify-acceptance-evidence` / `repo-checks`, harness modules `ci-smoke`, `acceptance-evidence-check`, `repo-checks`, runner `dryRun`, and `tests/ci-checks.test.ts`; updated `tests/phase-runner.test.ts` for current automation state (`PHASE-13B` runnable). Validation PASS: `pnpm run check` (22 files, 203 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `pnpm run ci-smoke` (20/20 protocol-clean runs on `v001`); `pnpm run verify-acceptance-evidence` (`v001`–`v003` machine pass); `git diff --check`.
+- 2026-05-23 — orchestrator — Review hardening: removed Cursor's out-of-scope `AGENTS.md` edit; fixed `verifyAcceptanceEvidence` so explicit `--version` requests fail when no acceptance evidence exists instead of being skipped; added regression coverage for explicit missing evidence. Focused validation PASS: `pnpm test tests/ci-checks.test.ts tests/phase-runner.test.ts` (12 tests before hardening), `pnpm test tests/ci-checks.test.ts` (7 tests after hardening), `pnpm run typecheck`, and `pnpm run lint`. Full validation PASS: `pnpm run check` (22 files, 204 tests), `pnpm run repo-checks` (20/20 smoke runs and `v001`–`v003` acceptance evidence pass), and `git diff --check`.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 13B PASS; merge readiness BLOCKED only because implementation files were still untracked/uncommitted and no PR/CI existed yet. Non-blocking suggestion: add ci-smoke protocol-failure unit coverage. No files were changed by recheck.
+- 2026-05-23 — orchestrator — Added ci-smoke protocol-failure regression coverage and re-ran final local gates. Validation PASS: `pnpm test tests/ci-checks.test.ts` (8 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run check` (22 files, 205 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), and `git diff --check`. Re-read `phase-plans/PHASE-13B-CI-AND-ACCEPTANCE-CHECKS.md`; deliverables and acceptance criteria are satisfied locally.
 
 ---
 

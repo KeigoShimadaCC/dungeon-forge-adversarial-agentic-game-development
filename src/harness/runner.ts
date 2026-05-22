@@ -12,6 +12,7 @@ import type { BaselinePlayerInput } from './baseline-players/types.js';
 import type { ArtifactWritePolicyContext } from './artifact-write-policy.js';
 import type { ArtifactWriteMode } from './artifact-write-policy.js';
 import {
+  buildScorecardRelativePath,
   buildTraceRelativePath,
   savePlaythroughArtifacts,
   type SavedArtifacts,
@@ -39,6 +40,8 @@ export interface RunPlaythroughOptions {
   policy?: HarnessPlayerPolicy;
   onExisting?: ArtifactWriteMode;
   policyContext?: ArtifactWritePolicyContext;
+  /** When true, run the harness loop without writing trace/scorecard artifacts. */
+  dryRun?: boolean;
 }
 
 export interface RunPlaythroughResult {
@@ -261,6 +264,18 @@ export const runPlaythrough = async (
   const traceRelative = buildTraceRelativePath(version, seed, policyId);
   const scorecard = deriveScorecardFromTrace(trace, traceRelative);
   validateScorecard(scorecard);
+
+  if (options.dryRun) {
+    return {
+      trace,
+      scorecard,
+      artifacts: {
+        tracePath: traceRelative,
+        scorecardPath: buildScorecardRelativePath(version, seed, policyId),
+      },
+    };
+  }
+
   const artifacts = await savePlaythroughArtifacts(runsRoot, trace, scorecard, {
     write: { onExisting },
     policyContext,
