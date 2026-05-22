@@ -117,10 +117,7 @@ export function canUseItem(
 ): boolean {
   switch (definition.effect) {
     case 'heal':
-      return (
-        state.player.inventory.includes(POTION_ITEM_ID) &&
-        state.player.hp < state.player.maxHp
-      );
+      return state.player.inventory.includes(POTION_ITEM_ID);
     case 'blind_enemies':
       return state.enemies.length > 0;
     case 'swap_position':
