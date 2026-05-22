@@ -1,13 +1,21 @@
 export type {
+  EnemyBehaviorMetrics,
   HarnessPlayerPolicy,
+  ItemEvaluationMetrics,
+  MapFloorGenerationRecord,
   MockReviewScoreInput,
   LlmPlayerPersona,
+  PlacementShortfall,
   PlaythroughScorecard,
   PlaythroughTrace,
   PolicyDecision,
+  ProblemRunCategory,
+  ProblemRunCategoryKind,
+  ProblemRunDiagnostics,
   ScorecardReviewInput,
   StateSummary,
   TraceDecisionMetadata,
+  TraceMetadata,
   TraceStep,
 } from './types.js';
 export {
@@ -32,6 +40,18 @@ export {
 export { buildLlmPlayerModelInput, buildLlmPlayerPrompt, type LlmPlayerModelInput } from '../agents/prompts/llm-player.js';
 export { runPlaythrough, parseSimulateSeedArgs, type RunPlaythroughOptions } from './runner.js';
 export { deriveScorecardFromTrace, validateScorecard } from './scorecard.js';
+export {
+  buildMapGenerationMetadata,
+  buildPlacementShortfalls,
+  buildTraceMetadata,
+  collectBalanceProblemCategories,
+  collectBalanceProblemReasons,
+  deriveEnemyBehaviorMetrics,
+  deriveItemEvaluationMetrics,
+  deriveProblemRunDiagnostics,
+  finalizeTraceMetadata,
+  isBalanceProblemRun,
+} from './trace-diagnostics.js';
 export { stringifyDeterministicJson } from './json.js';
 export {
   ARTIFACT_WRITE_MODES,

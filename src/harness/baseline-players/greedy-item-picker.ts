@@ -1,6 +1,11 @@
-import { SMOKE_BOMB_ITEM_ID } from '../../game/content.js';
+import {
+  FIRE_SEED_ITEM_ID,
+  POTION_ITEM_ID,
+  SMOKE_BOMB_ITEM_ID,
+} from '../../game/content.js';
 import {
   firstActionOfType,
+  isLowHp,
   manhattanDistance,
   pickMoveMinimizingDistance,
 } from './helpers.js';
@@ -28,6 +33,28 @@ const nearestItemTarget = (input: BaselinePlayerInput) => {
 };
 
 export const greedyItemPicker: BaselinePlayerPolicy = (input: BaselinePlayerInput) => {
+  if (isLowHp(input.state)) {
+    const healItem = input.availableActions.find(
+      (action) =>
+        action.type === 'use_item' &&
+        (action.payload?.itemType === POTION_ITEM_ID || action.payload?.effect === 'heal'),
+    );
+    if (healItem) {
+      return healItem;
+    }
+  }
+
+  const fireSeedUse = input.availableActions.find(
+    (action) =>
+      action.type === 'use_item' && action.payload?.itemType === FIRE_SEED_ITEM_ID,
+  );
+  if (
+    fireSeedUse &&
+    input.state.enemies.some((enemy) => manhattanDistance(input.state.player, enemy) <= 2)
+  ) {
+    return fireSeedUse;
+  }
+
   const smokeUse = input.availableActions.find(
     (action) =>
       action.type === 'use_item' && action.payload?.itemType === SMOKE_BOMB_ITEM_ID,

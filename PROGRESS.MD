@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-13c-trace-scorecard-diagnostics` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-13c-trace-scorecard-diagnostics-wt` |
 | Base | `origin/main` at `16a6b97` |
-| Status | `Seeded; Cursor implementation pending` |
+| Status | `Local validation passed; commit and PR pending` |
 
 ### Contract (read before editing)
 
@@ -52,14 +52,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 Cursor/composer-2.5 — Implement Phase 13C trace/scorecard diagnostics, item-aware evidence, map metadata, problem-run categories, docs, and focused tests.
+- [~] 2026-05-23 orchestrator — Commit Phase 13C, push branch, open PR, verify CI, merge, and clean up if validation remains clean.
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates and diagnostic smoke commands, perform read-only Cursor recheck, then PR/merge/cleanup if validation passes.
+- _(none)_
 
 ### Done
 
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 13C PASS; addressed non-blocking test-strength gaps with targeted assertions.
+- [x] 2026-05-23 orchestrator — Review Cursor diff, harden placement-order diagnostics and deterministic metadata test coverage, run focused/full gates and diagnostic balance smoke.
+- [x] 2026-05-23 Cursor/composer-2.5 — Implement Phase 13C trace/scorecard diagnostics, item-aware evidence, map metadata, problem-run categories, docs, and focused tests.
 - [x] 2026-05-23 orchestrator — Repair post-merge main CI by making phase-runner tests independent of live `automation/phase-state.json` current phase.
 - [x] 2026-05-23 orchestrator — Push Phase 13B branch, open PR #29, and verify GitHub Actions `Repo gates` pass.
 - [x] 2026-05-23 orchestrator — Perform read-only Cursor recheck, add ci-smoke protocol-failure regression test, re-run full gates, and re-read Phase 13B acceptance criteria.
@@ -102,14 +105,14 @@ _Derived from `phase-plans/PHASE-13C-TRACE-SCORECARD-DIAGNOSTICS.md`. Tick when 
 
 ### Phase 13C — Trace Scorecard Diagnostics
 
-- [ ] Expanded trace metadata exists for map generation and diagnostic context.
-- [ ] Expanded scorecard metrics include non-attack enemy behaviors.
-- [ ] Item-aware baseline policy or targeted fixture exercises tactical item opportunities.
-- [ ] Problem runs are categorized visibly for aborts, softlocks, impossible placement, and repeated failures.
-- [ ] Diagnostics are structured JSON fields, with human-readable messages as supporting evidence only.
-- [ ] New diagnostics preserve JSON serializability and deterministic reruns.
-- [ ] Existing trace consumers remain usable or receive documented migration behavior.
-- [ ] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [x] Expanded trace metadata exists for map generation and diagnostic context.
+- [x] Expanded scorecard metrics include non-attack enemy behaviors.
+- [x] Item-aware baseline policy or targeted fixture exercises tactical item opportunities.
+- [x] Problem runs are categorized visibly for aborts, softlocks, impossible placement, and repeated failures.
+- [x] Diagnostics are structured JSON fields, with human-readable messages as supporting evidence only.
+- [x] New diagnostics preserve JSON serializability and deterministic reruns.
+- [x] Existing trace consumers remain usable or receive documented migration behavior.
+- [x] Local final gates pass: `pnpm run check`, `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -258,6 +261,10 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Phase 13C automation start: `pnpm run phase -- status` selected `PHASE-13C`; read `PROGRESS.MD`, `concept-and-ideas/01_NORTH_STAR_AND_VISION.md`, `concept-and-ideas/02_STRUCTURE_AND_TECH_SPECS.md`, and `phase-plans/PHASE-13C-TRACE-SCORECARD-DIAGNOSTICS.md`; `pnpm run phase -- bundle --phase PHASE-13C --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-13C/planned`; `git fetch origin` passed; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; `agent --list-models` confirmed `composer-2.5`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-13c-trace-scorecard-diagnostics-wt` on branch `phase/phase-13c-trace-scorecard-diagnostics` from `origin/main` at `16a6b97`.
 - 2026-05-23 — orchestrator — PR #29 merged at `0f5bbfec202a8ffe1925008b2fddfb68a62c0011`; worktree removed, local branch deleted, remote branch deleted manually after local `gh pr merge` cleanup failed on the main worktree checkout. Automation state commit `7d5d3af` marked `PHASE-13B` complete and advanced current phase to `PHASE-13C`, but main CI run `26307598499` failed because `tests/phase-runner.test.ts` expected live state current phase `PHASE-13B` after state had correctly advanced to `PHASE-13C`.
 - 2026-05-23 — orchestrator — Fixed post-merge CI by making `tests/phase-runner.test.ts` construct explicit queued state fixtures instead of depending on live `automation/phase-state.json`. Local validation PASS: `pnpm test tests/phase-runner.test.ts` (6 tests), `pnpm run typecheck`, `pnpm run lint`, and `pnpm run check` (22 files, 205 tests; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass).
+- 2026-05-23 — Cursor/composer-2.5 — Phase 13C implementation: added `src/harness/trace-diagnostics.ts`, trace `metadata` (map generation, placement shortfalls, problem_run), scorecard `enemy_behaviors`/`item_evaluation`/`diagnostics`, balance summary `problem_category_counts` and `repeated_problem_seeds`, enhanced `greedy-item-picker` tactical use, and `docs/TRACE-SCORECARD-DIAGNOSTICS.md`. Validation PASS: `pnpm test tests/trace-scorecard-diagnostics.test.ts` (6 tests), `pnpm run check` (23 files, 211 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), `git diff --check`.
+- 2026-05-23 — orchestrator — Reviewed and hardened the Phase 13C diff before PR: placement shortfall diagnostics now account for enemy-occupied cells in engine placement order, and map-metadata reproducibility tests no longer assume two different seeds must produce different metadata. Validation PASS: `pnpm test tests/trace-scorecard-diagnostics.test.ts tests/balance-tuning.test.ts` (11 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm run check` (23 files, 211 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass), `git diff --check`, and `pnpm run run-balance -- --version v013 --runs-root /tmp/df-phase13c-smoke-4vWfoR` (20 runs with structured problem category counts and repeated problem seeds).
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 13C PASS against the phase plan, protocol invariants, local validation, secrets scan, and forbidden-scope review; merge readiness was blocked only by expected uncommitted/untracked files and no PR yet. Non-blocking test-strength suggestions were addressed immediately: assertions now cover deterministic impossible-placement and softlock categories, repeated-failure categories on balance summaries, and actual tactical item use by `greedy-item-picker`. Validation PASS: `pnpm test tests/trace-scorecard-diagnostics.test.ts tests/balance-tuning.test.ts` (12 tests).
+- 2026-05-23 — orchestrator — Final pre-commit validation PASS after recheck hardening: `pnpm run check` (23 files, 212 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass) and `git diff --check`.
 
 ---
 

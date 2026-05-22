@@ -26,6 +26,10 @@ import {
   type HarnessPolicyId,
 } from './policy-registry.js';
 import { buildStateSummary } from './state-summary.js';
+import {
+  buildTraceMetadata,
+  finalizeTraceMetadata,
+} from './trace-diagnostics.js';
 import type { HarnessPlayerPolicy, PlaythroughTrace, TraceStep } from './types.js';
 import { actionSnapshot, eventSnapshot } from './types.js';
 
@@ -100,6 +104,7 @@ export const runPlaythrough = async (
         })());
 
   let state = start(seed, resolveGameConfigForVersion(version));
+  const baseMetadata = buildTraceMetadata(seed, version);
   const steps: TraceStep[] = [];
   const maxSteps = resolveMaxSteps(state, options.maxSteps);
   let stepsTaken = 0;
@@ -112,6 +117,7 @@ export const runPlaythrough = async (
     result: 'ACTIVE',
     turns: 0,
     steps,
+    metadata: baseMetadata,
   };
 
   while (!isTerminal(state) && stepsTaken < maxSteps && !aborted) {
@@ -260,9 +266,14 @@ export const runPlaythrough = async (
     };
   }
 
-  const trace = finalizeTrace(traceBase, state, aborted);
+  let trace = finalizeTrace(traceBase, state, aborted);
   const traceRelative = buildTraceRelativePath(version, seed, policyId);
-  const scorecard = deriveScorecardFromTrace(trace, traceRelative);
+  const provisionalScorecard = deriveScorecardFromTrace(trace, traceRelative, undefined, baseMetadata);
+  trace = {
+    ...trace,
+    metadata: finalizeTraceMetadata(trace, provisionalScorecard, baseMetadata),
+  };
+  const scorecard = deriveScorecardFromTrace(trace, traceRelative, undefined, trace.metadata);
   validateScorecard(scorecard);
 
   if (options.dryRun) {

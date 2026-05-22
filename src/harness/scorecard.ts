@@ -1,8 +1,14 @@
+import {
+  deriveEnemyBehaviorMetrics,
+  deriveItemEvaluationMetrics,
+  deriveProblemRunDiagnostics,
+} from './trace-diagnostics.js';
 import type {
   PlaythroughScorecard,
   PlaythroughTrace,
   ReviewerScores,
   ScorecardReviewInput,
+  TraceMetadata,
 } from './types.js';
 
 const REVIEWER_SCORE_KEYS = [
@@ -61,6 +67,7 @@ export const deriveScorecardFromTrace = (
   trace: PlaythroughTrace,
   tracePath: string,
   reviewInput?: ScorecardReviewInput,
+  metadata?: TraceMetadata,
 ): PlaythroughScorecard => {
   let floorsReached = 0;
   let damageTaken = 0;
@@ -117,7 +124,11 @@ export const deriveScorecardFromTrace = (
     softlocks = Math.max(softlocks, 1);
   }
 
-  return {
+  const resolvedMetadata = metadata ?? trace.metadata;
+  const enemy_behaviors = deriveEnemyBehaviorMetrics(trace);
+  const item_evaluation = deriveItemEvaluationMetrics(trace);
+
+  const baseScorecard: PlaythroughScorecard = {
     version: trace.version,
     seed: trace.seed,
     persona: trace.persona,
@@ -131,8 +142,15 @@ export const deriveScorecardFromTrace = (
     softlocks,
     reviewer_scores: normalizeReviewerScores(reviewInput?.scores),
     trace_path: tracePath,
+    enemy_behaviors,
+    item_evaluation,
     ...(reviewInput?.review_path ? { review_path: reviewInput.review_path } : {}),
     ...(reviewInput?.review_id ? { review_id: reviewInput.review_id } : {}),
+  };
+
+  return {
+    ...baseScorecard,
+    diagnostics: deriveProblemRunDiagnostics(trace, baseScorecard, resolvedMetadata),
   };
 };
 
@@ -190,6 +208,31 @@ export const validateScorecard = (scorecard: PlaythroughScorecard): void => {
     const value = record[field];
     if (value !== undefined && (typeof value !== 'string' || value.length === 0)) {
       throw new Error(`Scorecard optional review source must be a non-empty string: ${field}`);
+    }
+  }
+
+  if (record.enemy_behaviors !== undefined) {
+    if (typeof record.enemy_behaviors !== 'object' || record.enemy_behaviors === null) {
+      throw new Error('Scorecard enemy_behaviors must be an object when present');
+    }
+  }
+
+  if (record.item_evaluation !== undefined) {
+    if (typeof record.item_evaluation !== 'object' || record.item_evaluation === null) {
+      throw new Error('Scorecard item_evaluation must be an object when present');
+    }
+  }
+
+  if (record.diagnostics !== undefined) {
+    if (typeof record.diagnostics !== 'object' || record.diagnostics === null) {
+      throw new Error('Scorecard diagnostics must be an object when present');
+    }
+    const diagnostics = record.diagnostics as { categories?: unknown; primary_category?: unknown };
+    if (!Array.isArray(diagnostics.categories)) {
+      throw new Error('Scorecard diagnostics.categories must be an array when present');
+    }
+    if (typeof diagnostics.primary_category !== 'string') {
+      throw new Error('Scorecard diagnostics.primary_category must be a string when present');
     }
   }
 };
