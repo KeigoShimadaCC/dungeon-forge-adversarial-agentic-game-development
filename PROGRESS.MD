@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Add bounded automatic JSON patching for approved local artifacts with dry-run/apply modes, validation, audit logs, and rollback-friendly evidence. |
 | Branch | `phase/phase-16d-deterministic-json-patching` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-16d-deterministic-json-patching-wt` |
-| Base | `origin/main` at `db2599d` |
-| Status | `Queued; automation state advanced after Phase 16C merge` |
+| Base | `origin/main` at `cdc1f81` |
+| Status | `Seed checkpoint complete; Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -52,16 +52,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Generate Phase 16D automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
+- [~] 2026-05-23 Cursor/composer-2.5 — Implement deterministic JSON patch schema/validator, dry-run/apply command or module, application report, and focused tests within Phase 16D scope.
 
 ### Open
 
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement deterministic JSON patch schema/validator, dry-run/apply command or module, application report, and focused tests within Phase 16D scope.
 - [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, re-read Phase 16D acceptance, and request Cursor read-only recheck.
 - [ ] 2026-05-23 orchestrator — If gates pass, open PR, verify GitHub `Repo gates`, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Generate Phase 16D automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 16C PR #39 merged at `db2599df9bf497fc6b5639a591ff6e48e2a6bf24`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 16D.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 16C PASS; addressed cheap non-blocking duplicate-manifest-id test coverage, reran focused/full gates, and left only commit/PR/CI readiness.
 - [x] 2026-05-23 orchestrator — Harden pack-local item/enemy support after first recheck: added `Trial Tonic`/`Trial Wisp`, made render/use-item paths scenario-pack aware, reran focused/full gates, and regenerated deterministic acceptance evidence.
@@ -381,6 +381,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Phase plan completion check PASS: re-read `phase-plans/PHASE-16C-SCENARIO-CONTENT-PACKS.md` and `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` against the staged diff. Local static packaging, validation, explicit selection, evidence metadata, default-content behavior, finite structured gameplay, and no forbidden plugin/remote/LLM scope are satisfied.
 - 2026-05-23 — orchestrator — Phase 16C PR #39 merged at `db2599df9bf497fc6b5639a591ff6e48e2a6bf24` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-16C --evidence runs/phase-runner/PHASE-16C/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-16D`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 16D with initial task queue and checklist from `phase-plans/PHASE-16D-DETERMINISTIC-JSON-PATCHING.md`.
+- 2026-05-23 — orchestrator — Phase 16D automation start: `pnpm run phase -- status` selected `PHASE-16D`; `pnpm run phase -- bundle --phase PHASE-16D --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-16D/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-16d-deterministic-json-patching-wt` on branch `phase/phase-16d-deterministic-json-patching` from `origin/main` at `cdc1f81`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
 
 ---
 
