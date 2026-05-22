@@ -199,6 +199,7 @@ const createFloorState = (params: {
   inventory?: string[];
   log: string[];
   narrative?: GameState['narrative'];
+  floorEventsOut?: GameEvent[];
 }): GameState => {
   const rule = getFloorRule(params.floor);
   const layout = generateFloorLayout({
@@ -247,6 +248,7 @@ const createFloorState = (params: {
 
   const floorEvents = applyFloorEnterEvents(state, event);
   if (floorEvents.length > 0) {
+    params.floorEventsOut?.push(...floorEvents);
     appendEventsToLog(state, floorEvents);
   }
 
@@ -552,6 +554,7 @@ const descend = (state: GameState, events: GameEvent[]): GameState => {
     inventory: state.player.inventory,
     log: state.log,
     narrative: state.narrative,
+    floorEventsOut: events,
   });
 };
 

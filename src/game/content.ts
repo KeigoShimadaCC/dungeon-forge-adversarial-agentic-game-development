@@ -563,6 +563,9 @@ function parseNpcDefinition(value: unknown, path: string): NpcDefinition {
 export function validateEventsBundle(raw: unknown): EventsContentBundle {
   const root = requireRecord(raw, 'events.json');
   const schemaVersion = requireString(root, 'schemaVersion', 'events.json');
+  if (schemaVersion !== EVENTS_SCHEMA_VERSION) {
+    fail('events.json', `schemaVersion must be ${EVENTS_SCHEMA_VERSION}`);
+  }
   const opening = parseNarrativeText(root.opening, 'events.json.opening');
   const ending = parseNarrativeText(root.ending, 'events.json.ending');
   const floorEventsRaw = requireArray(root, 'floorEvents', 'events.json');

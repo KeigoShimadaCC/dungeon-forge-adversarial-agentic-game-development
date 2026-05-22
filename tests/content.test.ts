@@ -244,6 +244,17 @@ describe('Phase 02C content data', () => {
 
     expect(() =>
       validateEventsBundle({
+        schemaVersion: 'bad-version',
+        opening: { id: 'opening', text: 'Begin.' },
+        ending: { id: 'ending', text: 'End.' },
+        floorEvents: [],
+        npcs: [],
+        dialogueTrees: [],
+      }),
+    ).toThrow(/schemaVersion must be 10A/);
+
+    expect(() =>
+      validateEventsBundle({
         schemaVersion: EVENTS_SCHEMA_VERSION,
         opening: { id: 'opening', text: 'Begin.' },
         ending: { id: 'ending', text: 'End.' },
