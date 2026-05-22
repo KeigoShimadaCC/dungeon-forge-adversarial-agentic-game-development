@@ -166,6 +166,45 @@ describe('Phase 05A harness', () => {
     }
   });
 
+  it('preserves enemy action payloads in playthrough trace events', async () => {
+    const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-harness-'));
+    const waitingPolicy: HarnessPlayerPolicy = ({ availableActions }) => {
+      const wait = availableActions.find((action) => action.id === 'wait');
+      if (!wait) {
+        throw new Error('wait action unavailable');
+      }
+      return {
+        action: wait,
+        reason: 'wait until enemy behavior is visible',
+      };
+    };
+
+    try {
+      const { trace } = await runPlaythrough({
+        seed: 'seed_001',
+        policyId: 'careful_player',
+        version: 'v009-test',
+        runsRoot,
+        maxSteps: 8,
+        policy: waitingPolicy,
+      });
+      const enemyEvents = trace.steps.flatMap((step) =>
+        step.events.filter((event) => event.type.startsWith('enemy_')),
+      );
+
+      expect(enemyEvents.length).toBeGreaterThan(0);
+      expect(enemyEvents[0]).toMatchObject({
+        payload: expect.objectContaining({
+          enemyId: expect.any(String),
+          enemyType: expect.any(String),
+          behavior: expect.any(String),
+        }),
+      });
+    } finally {
+      await rm(runsRoot, { recursive: true, force: true });
+    }
+  });
+
   it('records terminal status and invalid action metrics', async () => {
     const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-harness-'));
     const invalidPolicy: HarnessPlayerPolicy = () => ({

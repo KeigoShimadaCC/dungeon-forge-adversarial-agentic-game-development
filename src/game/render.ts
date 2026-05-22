@@ -82,7 +82,7 @@ export const render = (state: GameState): string => {
     `Objective: ${state.meta.objective}`,
     ...renderedRows,
     `Inventory: ${inventoryLabel(state.player.inventory)}`,
-    'Legend: @ You, s Slime, ! Potion, > Stairs, # Wall, . Floor',
+    'Legend: @ You, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, > Stairs, # Wall, . Floor',
     'Log:',
     ...state.log.slice(-RECENT_LOG_DISPLAY_LIMIT).map((entry) => `- ${entry}`),
   ].join('\n');

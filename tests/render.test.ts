@@ -65,6 +65,8 @@ describe('Phase 04A ASCII renderer', () => {
         hp: 6,
         maxHp: 6,
         attack: 2,
+        defense: 0,
+        behavior: 'chase',
         glyph: 's',
         x: 3,
         y: 2,
@@ -89,6 +91,90 @@ describe('Phase 04A ASCII renderer', () => {
     expect(output).toContain('s');
     expect(output).toContain('!');
     expect(output).toContain('@');
+  });
+
+  it('renders Phase 09B enemy glyphs and legend entries', () => {
+    const state = cloneState(start('render-enemy-variety'));
+    state.enemies = [
+      {
+        id: 'slime-map',
+        type: 'slime',
+        label: 'Green Slime',
+        hp: 6,
+        maxHp: 6,
+        attack: 2,
+        defense: 0,
+        behavior: 'chase',
+        glyph: 's',
+        x: 2,
+        y: 2,
+      },
+      {
+        id: 'bat-map',
+        type: 'bat',
+        label: 'Cave Bat',
+        hp: 4,
+        maxHp: 4,
+        attack: 1,
+        defense: 0,
+        behavior: 'bat',
+        glyph: 'b',
+        x: 3,
+        y: 2,
+      },
+      {
+        id: 'shell-map',
+        type: 'shell',
+        label: 'Stone Shell',
+        hp: 8,
+        maxHp: 8,
+        attack: 2,
+        defense: 2,
+        behavior: 'shell',
+        glyph: 'S',
+        x: 4,
+        y: 2,
+      },
+      {
+        id: 'thief-map',
+        type: 'thief',
+        label: 'Dungeon Thief',
+        hp: 5,
+        maxHp: 5,
+        attack: 1,
+        defense: 0,
+        behavior: 'thief',
+        glyph: 't',
+        x: 2,
+        y: 3,
+      },
+      {
+        id: 'ghost-map',
+        type: 'ghost',
+        label: 'Wandering Ghost',
+        hp: 5,
+        maxHp: 5,
+        attack: 2,
+        defense: 0,
+        behavior: 'ghost',
+        glyph: 'g',
+        x: 3,
+        y: 3,
+      },
+    ];
+
+    const output = render(state);
+
+    expect(output).toContain('s');
+    expect(output).toContain('b');
+    expect(output).toContain('S');
+    expect(output).toContain('t');
+    expect(output).toContain('g');
+    expect(output).toContain('s Slime');
+    expect(output).toContain('b Bat');
+    expect(output).toContain('S Shell');
+    expect(output).toContain('t Thief');
+    expect(output).toContain('g Ghost');
   });
 
   it('is deterministic for the same state', () => {

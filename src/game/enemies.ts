@@ -1,11 +1,17 @@
 import {
+  SLIME_ENEMY_ID,
   type EnemyDefinition,
   type GameContent,
   loadGameContent,
-  SLIME_ENEMY_ID,
 } from './content.js';
 
-export { SLIME_ENEMY_ID } from './content.js';
+export {
+  BAT_ENEMY_ID,
+  GHOST_ENEMY_ID,
+  SHELL_ENEMY_ID,
+  SLIME_ENEMY_ID,
+  THIEF_ENEMY_ID,
+} from './content.js';
 export type { EnemyDefinition } from './content.js';
 
 let cachedContent: GameContent | undefined;
