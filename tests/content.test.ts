@@ -4,6 +4,7 @@ import {
   BAT_ENEMY_ID,
   CONTENT_SCHEMA_VERSION,
   ContentValidationError,
+  EVENTS_SCHEMA_VERSION,
   GHOST_ENEMY_ID,
   loadGameContent,
   PHASE_09A_ITEM_IDS,
@@ -14,6 +15,7 @@ import {
   THIEF_ENEMY_ID,
   validateContentReferences,
   validateEnemiesBundle,
+  validateEventsBundle,
   validateFloorRulesBundle,
   validateItemsBundle,
 } from '../src/game/content.js';
@@ -27,9 +29,12 @@ describe('Phase 02C content data', () => {
     expect(content.items.schemaVersion).toBe(CONTENT_SCHEMA_VERSION);
     expect(content.enemies.schemaVersion).toBe(CONTENT_SCHEMA_VERSION);
     expect(content.floors.schemaVersion).toBe(CONTENT_SCHEMA_VERSION);
+    expect(content.events.schemaVersion).toBe(EVENTS_SCHEMA_VERSION);
     expect(content.items.items).toHaveLength(5);
     expect(content.enemies.enemies).toHaveLength(5);
     expect(content.floors.floors).toHaveLength(5);
+    expect(content.events.opening.text.length).toBeGreaterThan(0);
+    expect(content.events.ending.text.length).toBeGreaterThan(0);
   });
 
   it('exposes Potion and Slime by stable id', () => {
@@ -214,6 +219,60 @@ describe('Phase 02C content data', () => {
     ).toThrow(/duplicate id "1"/);
   });
 
+  it('validates Phase 10A dialogue events and references', () => {
+    const { events } = loadGameContent();
+
+    expect(events.floorEvents).toEqual([
+      expect.objectContaining({
+        id: 'floor-4-morning-pulse',
+        floor: 4,
+        trigger: 'on_enter',
+      }),
+    ]);
+    expect(events.npcs).toEqual([
+      expect.objectContaining({
+        id: 'shrine_keeper',
+        floor: 3,
+        dialogueTreeId: 'keeper_dialogue',
+      }),
+    ]);
+    expect(events.dialogueTrees[0].nodes[0].choices).toEqual([
+      expect.objectContaining({ id: 'ask_bell', nextNodeId: 'bell_lore' }),
+      expect.objectContaining({ id: 'ask_path', nextNodeId: 'path_hint' }),
+      expect.objectContaining({ id: 'farewell', exit: true }),
+    ]);
+
+    expect(() =>
+      validateEventsBundle({
+        schemaVersion: 'bad-version',
+        opening: { id: 'opening', text: 'Begin.' },
+        ending: { id: 'ending', text: 'End.' },
+        floorEvents: [],
+        npcs: [],
+        dialogueTrees: [],
+      }),
+    ).toThrow(/schemaVersion must be 10A/);
+
+    expect(() =>
+      validateEventsBundle({
+        schemaVersion: EVENTS_SCHEMA_VERSION,
+        opening: { id: 'opening', text: 'Begin.' },
+        ending: { id: 'ending', text: 'End.' },
+        floorEvents: [],
+        npcs: [
+          {
+            id: 'bad_npc',
+            displayName: 'Bad NPC',
+            glyph: 'NPC',
+            floor: 1,
+            dialogueTreeId: 'tree',
+          },
+        ],
+        dialogueTrees: [],
+      }),
+    ).toThrow(/glyph must be a single character/);
+  });
+
   it('asserts loaded floor rules expose expected progression', () => {
     const { floors } = loadGameContent();
 
@@ -303,8 +362,16 @@ describe('Phase 02C content data', () => {
         },
       ],
     });
+    const events = validateEventsBundle({
+      schemaVersion: EVENTS_SCHEMA_VERSION,
+      opening: { id: 'opening', text: 'Begin.' },
+      ending: { id: 'ending', text: 'End.' },
+      floorEvents: [],
+      npcs: [],
+      dialogueTrees: [],
+    });
 
-    expect(() => validateContentReferences({ items, enemies, floors })).toThrow(
+    expect(() => validateContentReferences({ items, enemies, floors, events })).toThrow(
       /unknown enemy id "phantom"/,
     );
   });

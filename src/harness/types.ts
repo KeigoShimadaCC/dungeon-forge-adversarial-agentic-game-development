@@ -15,6 +15,9 @@ export interface StateSummary {
   inventory: string[];
   enemyCount: number;
   itemCount: number;
+  npcCount: number;
+  inDialogue: boolean;
+  dialogueNodeId?: string;
 }
 
 export const LLM_PLAYER_PERSONA_IDS = [

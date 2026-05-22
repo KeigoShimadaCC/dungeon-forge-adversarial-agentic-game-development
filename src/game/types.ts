@@ -75,6 +75,25 @@ export interface TacticalEffects {
   enemyTrackingDisabledUntilTurn: number;
 }
 
+export interface NpcInstance extends Position {
+  id: string;
+  npcId: string;
+  label: string;
+  glyph: string;
+}
+
+export interface DialogueState {
+  active: boolean;
+  npcId: string;
+  npcInstanceId: string;
+  treeId: string;
+  nodeId: string;
+}
+
+export interface NarrativeState {
+  seenFloorEvents: string[];
+}
+
 export interface GameState {
   version: string;
   seed: string;
@@ -86,6 +105,9 @@ export interface GameState {
   enemies: EnemyInstance[];
   items: ItemInstance[];
   log: string[];
+  npcs: NpcInstance[];
+  dialogue?: DialogueState;
+  narrative: NarrativeState;
   tactical?: TacticalEffects;
   meta: {
     maxTurns: number;
