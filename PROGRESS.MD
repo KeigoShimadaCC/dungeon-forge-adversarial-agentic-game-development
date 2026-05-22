@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 13A — Evidence Retention |
-| Goal | Harden generated run evidence so reruns preserve, archive, or intentionally overwrite artifacts instead of silently replacing version history; persist summaries and comparisons as inspectable artifacts. |
-| Branch | `phase/phase-13a-evidence-retention` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-13a-evidence-retention-wt` |
-| Base | `origin/main` at `685b619` |
-| Status | `Validation passed; ready for PR` |
+| Phase | Phase 13B — CI And Acceptance Checks |
+| Goal | Add repeatable repository checks so PRs and local acceptance gates prove tests, typecheck, lint, build, deterministic smoke, and evidence verification still work. |
+| Branch | `phase/phase-13b-ci-and-acceptance-checks` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-13b-ci-and-acceptance-checks-wt` |
+| Base | `origin/main` at `b6fe332` |
+| Status | `Seeded; Cursor implementation pending` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-13A-EVIDENCE-RETENTION.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-13B-CI-AND-ACCEPTANCE-CHECKS.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -52,11 +52,12 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-23 Cursor/composer-2.5 — Implement Phase 13B CI/check runner, deterministic smoke gate, acceptance-evidence verification, docs, and focused tests.
 
 ### Open
 
-- _(none)_
+- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full local gates, run acceptance/checker smoke, and perform read-only Cursor recheck.
+- [ ] 2026-05-23 orchestrator — Re-read Phase 13B acceptance criteria, update `PROGRESS.MD`, push branch, open PR, run automation gate, merge, and clean up if validation passes.
 
 ### Done
 
@@ -93,18 +94,18 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-13A-EVIDENCE-RETENTION.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-13B-CI-AND-ACCEPTANCE-CHECKS.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 13A — Evidence Retention
+### Phase 13B — CI And Acceptance Checks
 
-- [x] Explicit artifact write policy exists for version-loop commands.
-- [x] Rerunning a version cannot silently replace trace, review, scorecard, summary, comparison, or markdown evidence.
-- [x] Explicit overwrite and/or archive behavior is implemented and documented through CLI flags or typed options.
-- [x] Version summaries are persisted under deterministic version-scoped paths.
-- [x] Version comparisons are persisted under deterministic comparison paths.
-- [x] Tests cover no-clobber/archive/overwrite behavior and comparison output paths.
-- [x] Version-id behavior is documented and consistent across smoke/version-loop commands.
-- [x] Local final gates pass: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
+- [ ] CI workflow or equivalent check runner exists for repo gates.
+- [ ] A documented local validation command groups required phase/repo gates.
+- [ ] Default gate runs without API credentials or external services.
+- [ ] Gate covers `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, and `pnpm run build`.
+- [ ] Deterministic harness smoke over canonical seeds/baseline policies is included.
+- [ ] Acceptance-evidence verification is integrated when version evidence is present.
+- [ ] Failure states are visible for test/check failures and missing required acceptance evidence.
+- [ ] Local final gates pass: `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run build`, and `git diff --check`.
 
 ---
 
@@ -243,12 +244,22 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 — Phase 13A implementation: added `artifact-write-policy` (`fail` default, `overwrite`, `archive` to `runs/_archive/<label>/...`), shared CLI `--on-existing`, persisted `runs/<version>/version_summary.json` and `runs/comparisons/<base>_vs_<target>.{json,md}` from `summarize-version`/`compare-versions` CLIs, wired policy through `run-version`, `run-balance`, `accept-version`, and `demo-loop` (demo defaults to `overwrite`), and version alias `v09c-smoke→v009`. Validation PASS: `pnpm test` (21 files, 197 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `git diff --check`.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — BLOCKED before merge on `demo-loop` CLI default: shared parser passed `fail` instead of letting `runDemoLoop` default to intentional `overwrite`; also noted implementation was uncommitted and progress still in progress. No files were changed by recheck.
 - 2026-05-23 — orchestrator — Fixed `parseDemoLoopArgs` so CLI omits `onExisting` unless `--on-existing` is explicitly supplied; added test coverage for explicit `--on-existing fail`; hardened alias paths for balance summary and comparison artifacts. Focused validation PASS: `pnpm test tests/demo-loop.test.ts tests/evidence-retention.test.ts`; `pnpm test tests/evidence-retention.test.ts tests/version-loop.test.ts tests/balance-tuning.test.ts`; `pnpm run typecheck`; `pnpm run lint`. CLI smoke PASS using `/tmp/df-phase13a-smoke-TYn2fE`: first `run-version` wrote v001, default rerun failed with artifact-exists error, `--on-existing archive` rerun succeeded, `summarize-version` persisted `runs/v001/version_summary.json`, v002 run succeeded, and `compare-versions` persisted `runs/comparisons/v001_vs_v002.{json,md}`. Demo-loop CLI smoke PASS using `/tmp/df-phase13a-demo-cli-LGd7po`: two consecutive `pnpm run demo-loop -- --runs-root ... --versions v001` commands passed, proving default intentional overwrite. Final local gates PASS: `pnpm test` (21 files, 197 tests), `pnpm run typecheck`, `pnpm run build`, `pnpm run lint`, and `git diff --check`.
+- 2026-05-23 — orchestrator — Phase 13A merged and cleaned up: automation gate allowed merge, PR #28 was squash-merged at `a2294f83ddeba8df96e0a905509d17663e8a5e0d`, remote branch deletion was handled by GitHub, clean worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-13a-evidence-retention-wt` was removed, local branch `phase/phase-13a-evidence-retention` was deleted, and `automation/phase-state.json` was updated/pushed in commit `b6fe332` with `PHASE-13A` complete and current phase `PHASE-13B`.
+- 2026-05-23 — orchestrator — Phase 13B automation start: `pnpm run phase -- status` selected `PHASE-13B`; read `PROGRESS.MD`, `concept-and-ideas/01_NORTH_STAR_AND_VISION.md`, `concept-and-ideas/02_STRUCTURE_AND_TECH_SPECS.md`, and `phase-plans/PHASE-13B-CI-AND-ACCEPTANCE-CHECKS.md`; `pnpm run phase -- bundle --phase PHASE-13B --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-13B/planned`; `git fetch origin` passed; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`, escalated rerun passed and confirmed `composer-2.5`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-13b-ci-and-acceptance-checks-wt` on branch `phase/phase-13b-ci-and-acceptance-checks` from `origin/main` at `b6fe332`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 13A — Evidence Retention
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-13a-evidence-retention` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/28
+- **Merge commit:** `a2294f83ddeba8df96e0a905509d17663e8a5e0d`
+- **Outcome:** Added explicit artifact write policies for version-loop evidence, shared CLI `--on-existing`, archive behavior under `runs/_archive/<label>/...`, persisted version summaries and comparisons, alias normalization for smoke IDs, and tests for no-clobber/archive/overwrite behavior.
+- **Key evidence:** Cursor/composer-2.5 implementation and read-only recheck; local final gates passed with `pnpm test` (21 files, 197 tests), `pnpm run typecheck`, `pnpm run build`, `pnpm run lint`, `git diff --check`; CLI smoke verified default fail, explicit archive, persisted summaries/comparisons, and demo-loop intentional overwrite.
 
 ### Phase 05A — Harness
 
