@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-02a-game-contract` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-02a-game-contract` |
 | Base | `origin/main` |
-| Status | `in_progress` |
+| Status | `ready_for_pr` |
 
 ### Contract (read before editing)
 
@@ -52,7 +52,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] T-02A-005 Run local read-only acceptance audit against Phase 02A checklist (orchestrator, 2026-05-22)
+- _(none)_
 
 ### Open
 
@@ -64,6 +64,8 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 - [x] T-02A-001 Preflight: confirm phase contract, branch/worktree, Cursor CLI availability, and baseline scope (orchestrator, 2026-05-22)
 - [x] T-02A-003 Review and implement Phase 02A contract locally after Cursor CLI policy blocker (orchestrator, 2026-05-22)
 - [x] T-02A-004 Run local validation: `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` (orchestrator, 2026-05-22)
+- [x] T-02A-005 Run local read-only acceptance audit against Phase 02A checklist (orchestrator, 2026-05-22)
+- [x] T-02A-006 Re-read acceptance criteria against repo state, update checklist/log, and commit final progress (orchestrator, 2026-05-22)
 
 ### Blocked / skipped
 
@@ -91,10 +93,10 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 - [x] `pnpm test` passes.
 - [x] `pnpm run typecheck` passes.
 - [x] `pnpm run lint` passes.
-- [ ] Stable protocol can support both human and agent play (acceptance).
-- [ ] No state requires functions, classes, sockets, credentials, or external handles to serialize (acceptance).
-- [ ] Later phases can add mechanics without casually changing the public engine contract (acceptance).
-- [ ] Re-read acceptance criteria against actual repo state.
+- [x] Stable protocol can support both human and agent play (acceptance).
+- [x] No state requires functions, classes, sockets, credentials, or external handles to serialize (acceptance).
+- [x] Later phases can add mechanics without casually changing the public engine contract (acceptance).
+- [x] Re-read acceptance criteria against actual repo state.
 - [ ] Commit / PR only when user asks.
 
 ---
@@ -122,6 +124,8 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 - 2026-05-22 — orchestrator — Implemented Phase 02A contract locally: replaced `src/game/types.ts` and `src/game/engine.ts` placeholders with serializable public types, stable `GameEngine` interface, minimal `wait`/`inspect` implementation, invalid-action `StepResult` errors, text render, and max-turn abort support; added `tests/contract.test.ts` and adjusted scaffold tests.
 - 2026-05-22 — orchestrator — Worktree dependency setup: `pnpm install` exit 0 because `node_modules` was missing in the Phase 02A worktree.
 - 2026-05-22 — orchestrator — Validation: `pnpm test` exit 0 (2 files, 12 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0.
+- 2026-05-22 — orchestrator — Acceptance audit: changed paths limited to `PROGRESS.MD`, `src/game/engine.ts`, `src/game/types.ts`, `tests/scaffold.test.ts`, and `tests/contract.test.ts`; `runs/**` unchanged except existing `.gitkeep`; no external-service, browser, image/audio, Date, Map, Set, class, socket, or environment-handle usage found in `src/game/**` or tests. Re-read Phase 02A acceptance criteria and confirmed the protocol supports human/agent play through render/actions/step/terminal checks, keeps state serializable, and leaves later mechanics additive behind the stable `GameEngine` interface.
+- 2026-05-22 — orchestrator — Final pre-PR validation after progress update: `pnpm test` exit 0 (2 files, 12 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0.
 
 ---
 
