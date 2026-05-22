@@ -76,6 +76,21 @@ export {
 } from './developer-workflow.js';
 export { runDeveloperTaskCli } from './developer-workflow-cli.js';
 export {
+  ACCEPTANCE_CHECK_STATUSES,
+  COMMAND_CHECK_IDS,
+  FORBIDDEN_MVP_FEATURES,
+  evaluateAcceptanceGate,
+  parseCommandStatusArg,
+  renderAcceptanceMarkdown,
+  writeAcceptanceReport,
+  type AcceptanceCheck,
+  type AcceptanceCheckStatus,
+  type AcceptanceGateInput,
+  type AcceptanceGateResult,
+  type CommandCheckId,
+  type CommandCheckStatus,
+} from './acceptance-gate.js';
+export {
   VERSION_ARTIFACT_DIRS,
   VERSION_ID_PATTERN,
   VERSION_MARKDOWN_FILES,
