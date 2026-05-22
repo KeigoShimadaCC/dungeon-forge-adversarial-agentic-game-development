@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-04a-ascii-renderer` |
 | Worktree | `../dungeon-forge-phase-04a-ascii-renderer` |
 | Base | `origin/main` |
-| Status | `in_progress` |
+| Status | `implementation_complete_validation_passed` |
 
 ### Contract (read before editing)
 
@@ -52,21 +52,22 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-22 — orchestrator — Set up Phase 04A worktree/progress tracking and confirm Cursor preflight.
+- [~] 2026-05-22 — orchestrator — Commit, push, and open PR.
 
 ### Open
 
-- [ ] 2026-05-22 — orchestrator/Cursor — Implement deterministic ASCII renderer in `src/game/render.ts` with minimal `GameEngine.render` integration.
-- [ ] 2026-05-22 — orchestrator/Cursor — Add render-focused tests for map/HUD/inventory/legend/log/determinism/purity/terminal states.
-- [ ] 2026-05-22 — orchestrator — Inspect diff for unexpected gameplay/protocol changes.
-- [ ] 2026-05-22 — orchestrator — Run `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, and `git diff --check`.
-- [ ] 2026-05-22 — orchestrator/Cursor — Run read-only Cursor audit against Phase 04A and invariants.
-- [ ] 2026-05-22 — orchestrator — Re-read Phase 04A acceptance criteria against actual repo state.
-- [ ] 2026-05-22 — orchestrator — Commit, push, and open PR.
+- _(none)_
 
 ### Done
 
 - _(move completed queue items here with `[x]`)_
+- [x] 2026-05-22 — orchestrator — Set up Phase 04A worktree/progress tracking and confirm Cursor preflight.
+- [x] 2026-05-22 — orchestrator/Cursor — Implement deterministic ASCII renderer in `src/game/render.ts` with minimal `GameEngine.render` integration.
+- [x] 2026-05-22 — orchestrator/Cursor — Add render-focused tests for map/HUD/inventory/legend/log/determinism/purity/terminal states.
+- [x] 2026-05-22 — orchestrator — Inspect diff for unexpected gameplay/protocol changes.
+- [x] 2026-05-22 — orchestrator — Run `pnpm test`, `pnpm run typecheck`, `pnpm run lint`, and `git diff --check`.
+- [x] 2026-05-22 — orchestrator/Cursor — Run read-only Cursor audit against Phase 04A and invariants.
+- [x] 2026-05-22 — orchestrator — Re-read Phase 04A acceptance criteria against actual repo state.
 
 ### Blocked / skipped
 
@@ -80,21 +81,21 @@ _Derived from the active phase plan: deliverables, tests/validation, acceptance 
 
 ### Phase 04A — ASCII renderer
 
-- [ ] Read Phase 04A plan and confirm scope boundaries (no image/sprite renderer, browser-only UI, animation, audio, real-time input, or render-time state mutation).
-- [ ] Ensure `render(state)` includes ASCII map symbols for player, floors, walls, stairs, enemies, and items.
-- [ ] Ensure `render(state)` includes floor and turn display.
-- [ ] Ensure `render(state)` includes HP and inventory display.
-- [ ] Ensure `render(state)` includes a legend.
-- [ ] Ensure `render(state)` includes recent event log information.
-- [ ] Ensure `render(state)` works for `ACTIVE`, `WIN`, `LOSS`, and `ABORTED` states.
-- [ ] Keep rendering pure from the caller perspective and deterministic for the same state.
-- [ ] Add or update render tests for non-empty output, player symbol, floor/turn, HP, inventory, legend, recent log, and terminal states.
-- [ ] `pnpm test` passes.
-- [ ] `pnpm run typecheck` passes.
-- [ ] `pnpm run lint` passes.
-- [ ] A reviewer can make tactical decisions from render plus available actions (acceptance).
-- [ ] Renderer remains text/ASCII first and requires no media assets (acceptance).
-- [ ] Re-read acceptance criteria against actual repo state.
+- [x] Read Phase 04A plan and confirm scope boundaries (no image/sprite renderer, browser-only UI, animation, audio, real-time input, or render-time state mutation).
+- [x] Ensure `render(state)` includes ASCII map symbols for player, floors, walls, stairs, enemies, and items.
+- [x] Ensure `render(state)` includes floor and turn display.
+- [x] Ensure `render(state)` includes HP and inventory display.
+- [x] Ensure `render(state)` includes a legend.
+- [x] Ensure `render(state)` includes recent event log information.
+- [x] Ensure `render(state)` works for `ACTIVE`, `WIN`, `LOSS`, and `ABORTED` states.
+- [x] Keep rendering pure from the caller perspective and deterministic for the same state.
+- [x] Add or update render tests for non-empty output, player symbol, floor/turn, HP, inventory, legend, recent log, and terminal states.
+- [x] `pnpm test` passes.
+- [x] `pnpm run typecheck` passes.
+- [x] `pnpm run lint` passes.
+- [x] A reviewer can make tactical decisions from render plus available actions (acceptance).
+- [x] Renderer remains text/ASCII first and requires no media assets (acceptance).
+- [x] Re-read acceptance criteria against actual repo state.
 - [ ] Push branch and open PR when implemented.
 
 ---
@@ -118,6 +119,11 @@ _Append-only evidence: commands run, pass/fail, commits, PRs, blockers. Newest e
 
 - 2026-05-22 — orchestrator — PR #7 merged at `2fdc283`; rebased local `main` onto `origin/main` while preserving local docs commit `6b9d787`; rotated active phase to `PHASE-04A-ASCII-RENDERER.md` and archived Phase 03A summary. Post-merge validation: `pnpm test` exit 0 (5 files, 43 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0, and `rg "Math\\.random" src tests` matched only the existing guidance comment in `src/game/rng.ts`.
 - 2026-05-22 — orchestrator — Phase 04A start: created worktree `../dungeon-forge-phase-04a-ascii-renderer` on branch `phase-04a-ascii-renderer` from `origin/main`; `agent --list-models` required escalated keychain access and confirmed `composer-2.5` is available; main checkout was clean before worktree creation.
+- 2026-05-22 — Cursor Agent (composer-2.5) — Implementation pass moved ASCII rendering into `src/game/render.ts`, kept `GameEngine.render(state)` via engine re-export, added `tests/render.test.ts`, and reported `pnpm test`, `pnpm run typecheck`, and `pnpm run lint` passing.
+- 2026-05-22 — orchestrator — Diff review found changes limited to `src/game/render.ts`, minimal `src/game/engine.ts` import/re-export, `tests/render.test.ts`, and removal of duplicate render assertions from `tests/engine.test.ts`; no action, turn, seeded setup, content, or terminal-state logic changes found.
+- 2026-05-22 — orchestrator — Local validation passed: `pnpm test` exit 0 (6 files, 53 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0.
+- 2026-05-22 — Cursor Agent (composer-2.5, read-only audit) — Overall PASS against Phase 04A and invariants; low-severity notes included terminal rendering being status-line only and `tests/render.test.ts` still untracked before commit. Orchestrator addressed terminal clarity by adding explicit `Outcome:` text for `ACTIVE`, `WIN`, `LOSS`, and `ABORTED`.
+- 2026-05-22 — orchestrator — Post-audit validation passed after terminal outcome text: `pnpm test` exit 0 (6 files, 53 tests), `pnpm run typecheck` exit 0, `pnpm run lint` exit 0, `git diff --check` exit 0. Manual acceptance re-read confirms render is text/ASCII only, deterministic for same state, pure from caller perspective, and sufficient for tactical review with available actions.
 
 ---
 

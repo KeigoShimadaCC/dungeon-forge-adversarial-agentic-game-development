@@ -1,11 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import {
-  getAvailableActions,
-  render,
-  start,
-  step,
-} from '../src/game/engine.js';
+import { getAvailableActions, start, step } from '../src/game/engine.js';
 import { POTION_ITEM_ID } from '../src/game/content.js';
 import type { GameState, PlayerAction } from '../src/game/types.js';
 
@@ -309,14 +304,4 @@ describe('Phase 03A minimal dungeon', () => {
     expect(getAvailableActions(result.state)).toEqual([]);
   });
 
-  it('renders map, HUD, inventory, legend, and recent log as text', () => {
-    const output = render(start('render-seed'));
-
-    expect(output).toContain('@');
-    expect(output).toContain('Floor: 1/5');
-    expect(output).toContain('HP: 20/20');
-    expect(output).toContain('Inventory:');
-    expect(output).toContain('Legend:');
-    expect(output).toContain('Log:');
-  });
 });
