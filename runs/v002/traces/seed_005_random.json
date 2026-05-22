@@ -211,7 +211,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 1/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####....#\n##....###\n##.s..###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Smoke Bomb starts in your pack: use it when enemies close in to break pursuit.\n- Legend reminder: ~ marks Smoke Bombs, ! marks Healing Potions, > marks stairs.\n- You move to 6,3.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 1/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####....#\n##....###\n##.s..###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Legend reminder: ~ marks Smoke Bombs, ! marks Healing Potions, > marks stairs.\n- You move to 6,3.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -333,7 +333,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 2/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####....#\n##....###\n##..s.###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,3.\n- Green Slime shuffles closer.\n- You wait for one turn.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 2/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####....#\n##....###\n##..s.###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You wait for one turn.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -446,7 +446,7 @@
           "type": "enemy_wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 3/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##....###\n##...s###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- Green Slime shuffles closer.\n- You move to 6,4.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 3/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##....###\n##...s###\n##>.!.###\n#########\nInventory: Smoke Bomb\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 6,4.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -548,7 +548,7 @@
           "type": "enemy_wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 4/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##....###\n##...s###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 7.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,4.\n- Green Slime shuffles closer.\n- You hurl Smoke Bomb. Enemies lose pursuit tracking for 3 turns.\n- Green Slime loses your trail in the smoke.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 4/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##....###\n##...s###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 7.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You hurl Smoke Bomb. Enemies lose pursuit tracking for 3 turns.\n- Green Slime loses your trail in the smoke.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -653,7 +653,7 @@
           "type": "enemy_wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 5/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####....#\n##....###\n##...s###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 7.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You hurl Smoke Bomb. Enemies lose pursuit tracking for 3 turns.\n- Green Slime loses your trail in the smoke.\n- You move to 6,3.\n- Green Slime loses your trail in the smoke.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 5/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####....#\n##....###\n##...s###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 7.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime loses your trail in the smoke.\n- You move to 6,3.\n- Green Slime loses your trail in the smoke.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -764,7 +764,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 6/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####....#\n##....###\n##...s###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 7.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,3.\n- Green Slime loses your trail in the smoke.\n- You wait for one turn.\n- Green Slime loses your trail in the smoke.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 6/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####....#\n##....###\n##...s###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 7.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime loses your trail in the smoke.\n- You wait for one turn.\n- Green Slime loses your trail in the smoke.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -865,7 +865,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 7/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####...@#\n####....#\n##...s###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- Green Slime loses your trail in the smoke.\n- You move to 7,3.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 7/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####...@#\n####....#\n##...s###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime loses your trail in the smoke.\n- You move to 7,3.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -963,7 +963,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 8/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####...@#\n####.s..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 7,3.\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 8/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####...@#\n####.s..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1064,7 +1064,7 @@
           "type": "enemy_attack"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 9/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####...@#\n####..s.#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- Green Slime shuffles closer.\n- You wait for one turn.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 9/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####...@#\n####..s.#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You wait for one turn.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1156,7 +1156,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 10/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..s@#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- Green Slime shuffles closer.\n- You move to 7,4.\n- Green Slime hits you for 2.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 10/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..s@#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 7,4.\n- Green Slime hits you for 2.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1257,7 +1257,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 11/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####...@#\n####...s#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 7,4.\n- Green Slime hits you for 2.\n- You move to 7,3.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 11/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####...@#\n####...s#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 7,3.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1348,7 +1348,7 @@
           "type": "enemy_attack"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 12/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####..@#\n####...s#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 7,3.\n- Green Slime shuffles closer.\n- You move to 7,2.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 12/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####..@#\n####...s#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 7,2.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1440,7 +1440,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 13/100\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####..@#\n####...s#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 7,2.\n- Green Slime shuffles closer.\n- You hit Green Slime for 4.\n- Green Slime hits you for 2.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 13/100\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####..@#\n####...s#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You hit Green Slime for 4.\n- Green Slime hits you for 2.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1539,7 +1539,7 @@
           "type": "enemy_attack"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 14/100\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You hit Green Slime for 4.\n- Green Slime hits you for 2.\n- You move to 6,2.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 14/100\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 6,2.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1640,7 +1640,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 15/100\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,2.\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 15/100\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1730,7 +1730,7 @@
           "type": "enemy_attack"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 16/100\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####..@#\n####...s#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- Green Slime hits you for 2.\n- You move to 7,2.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 16/100\nStatus: ACTIVE | HP: 14/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####..@#\n####...s#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 7,2.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1820,7 +1820,7 @@
           "type": "enemy_attack"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 17/100\nStatus: ACTIVE | HP: 12/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####..@#\n####...s#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 7,2.\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 17/100\nStatus: ACTIVE | HP: 12/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####..@#\n####...s#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1912,7 +1912,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 18/100\nStatus: ACTIVE | HP: 10/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####..@#\n####...s#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- Green Slime hits you for 2.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 18/100\nStatus: ACTIVE | HP: 10/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####..@#\n####...s#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -2013,7 +2013,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 19/100\nStatus: ACTIVE | HP: 10/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- Green Slime hits you for 2.\n- You move to 6,2.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 19/100\nStatus: ACTIVE | HP: 10/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 6,2.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -2105,7 +2105,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 20/100\nStatus: ACTIVE | HP: 10/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####@..#\n####.s..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,2.\n- Green Slime shuffles closer.\n- You move to 5,2.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 20/100\nStatus: ACTIVE | HP: 10/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####@..#\n####.s..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 5,2.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -2204,7 +2204,7 @@
           "type": "enemy_attack"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 21/100\nStatus: ACTIVE | HP: 10/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,2.\n- Green Slime shuffles closer.\n- You move to 6,2.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 21/100\nStatus: ACTIVE | HP: 10/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 6,2.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -2300,7 +2300,7 @@
           "type": "enemy_attack"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 22/100\nStatus: ACTIVE | HP: 8/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,2.\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 22/100\nStatus: ACTIVE | HP: 8/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime hits you for 2.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -2396,7 +2396,7 @@
           "type": "enemy_defeated"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 23/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- Green Slime hits you for 2.\n- You wait for one turn.\n- Green Slime hits you for 2.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 23/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####..s.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You wait for one turn.\n- Green Slime hits you for 2.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -2484,7 +2484,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 24/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####....#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- Green Slime hits you for 2.\n- You hit Green Slime for 4.\n- Green Slime dissolves.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 24/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####.@.#\n####....#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You hit Green Slime for 4.\n- Green Slime dissolves.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2563,7 +2563,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 25/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####@..#\n####....#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You hit Green Slime for 4.\n- Green Slime dissolves.\n- You move to 5,2.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 25/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####@..#\n####....#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You hit Green Slime for 4.\n- Green Slime dissolves.\n- You move to 5,2.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2660,7 +2660,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 26/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You hit Green Slime for 4.\n- Green Slime dissolves.\n- You move to 5,2.\n- You move to 5,3.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 26/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime dissolves.\n- You move to 5,2.\n- You move to 5,3.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2735,7 +2735,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 27/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####@...#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime dissolves.\n- You move to 5,2.\n- You move to 5,3.\n- You move to 4,3.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 27/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####@...#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,2.\n- You move to 5,3.\n- You move to 4,3.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2814,7 +2814,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 28/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####@...#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,2.\n- You move to 5,3.\n- You move to 4,3.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 28/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####@...#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You move to 4,3.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2902,7 +2902,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 29/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####@...#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You move to 4,3.\n- You wait for one turn.\n- You move to 4,4.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 29/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####@...#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,3.\n- You wait for one turn.\n- You move to 4,4.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2999,7 +2999,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 30/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##..@.###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,3.\n- You wait for one turn.\n- You move to 4,4.\n- You move to 4,5.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 30/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##..@.###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 4,4.\n- You move to 4,5.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3087,7 +3087,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 31/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####@...#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 4,4.\n- You move to 4,5.\n- You move to 4,4.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 31/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####@...#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,4.\n- You move to 4,5.\n- You move to 4,4.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3184,7 +3184,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 32/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,4.\n- You move to 4,5.\n- You move to 4,4.\n- You move to 5,4.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 32/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,5.\n- You move to 4,4.\n- You move to 5,4.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3271,7 +3271,7 @@
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 33/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,5.\n- You move to 4,4.\n- You move to 5,4.\n- You move to 5,5.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 33/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,4.\n- You move to 5,4.\n- You move to 5,5.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3359,7 +3359,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 34/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,4.\n- You move to 5,4.\n- You move to 5,5.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 34/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You move to 5,5.\n- You inspect the dungeon state.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3456,7 +3456,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 35/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You move to 5,5.\n- You inspect the dungeon state.\n- You move to 5,4.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 35/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,5.\n- You inspect the dungeon state.\n- You move to 5,4.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3540,7 +3540,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 36/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,5.\n- You inspect the dungeon state.\n- You move to 5,4.\n- You move to 6,4.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 36/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 5,4.\n- You move to 6,4.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3628,7 +3628,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 37/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 5,4.\n- You move to 6,4.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 37/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####..@.#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You move to 6,4.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3725,7 +3725,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 38/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You move to 6,4.\n- You wait for one turn.\n- You move to 5,4.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 38/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,4.\n- You wait for one turn.\n- You move to 5,4.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3821,7 +3821,7 @@
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 39/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,4.\n- You wait for one turn.\n- You move to 5,4.\n- You move to 5,3.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 39/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,4.\n- You move to 5,3.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3918,7 +3918,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 40/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,4.\n- You move to 5,3.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 40/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You move to 5,3.\n- You inspect the dungeon state.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3996,7 +3996,7 @@
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 41/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####@...#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You move to 5,3.\n- You inspect the dungeon state.\n- You move to 4,3.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 41/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####@...#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You inspect the dungeon state.\n- You move to 4,3.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -4075,7 +4075,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 42/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####@...#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You inspect the dungeon state.\n- You move to 4,3.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 42/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####@...#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 4,3.\n- You inspect the dungeon state.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -4172,7 +4172,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 43/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 4,3.\n- You inspect the dungeon state.\n- You move to 5,3.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 43/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,3.\n- You inspect the dungeon state.\n- You move to 5,3.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -4268,7 +4268,7 @@
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 44/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,3.\n- You inspect the dungeon state.\n- You move to 5,3.\n- You move to 6,3.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 44/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 5,3.\n- You move to 6,3.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -4365,7 +4365,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 45/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 5,3.\n- You move to 6,3.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 45/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####..@.#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You move to 6,3.\n- You inspect the dungeon state.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -4458,7 +4458,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 46/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You move to 6,3.\n- You inspect the dungeon state.\n- You move to 5,3.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 46/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,3.\n- You inspect the dungeon state.\n- You move to 5,3.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -4555,7 +4555,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 47/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,3.\n- You inspect the dungeon state.\n- You move to 5,3.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 47/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 5,3.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -4651,7 +4651,7 @@
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 48/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 5,3.\n- You wait for one turn.\n- You move to 5,4.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 48/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You wait for one turn.\n- You move to 5,4.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -4744,7 +4744,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 49/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You wait for one turn.\n- You move to 5,4.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 49/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,4.\n- You inspect the dungeon state.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -4841,7 +4841,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 50/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,4.\n- You inspect the dungeon state.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 50/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You inspect the dungeon state.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -4925,7 +4925,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 51/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You inspect the dungeon state.\n- You wait for one turn.\n- You move to 5,5.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 51/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You wait for one turn.\n- You move to 5,5.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -5013,7 +5013,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 52/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You wait for one turn.\n- You move to 5,5.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 52/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,5.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -5110,7 +5110,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 53/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,5.\n- You wait for one turn.\n- You move to 5,4.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 53/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,5.\n- You wait for one turn.\n- You move to 5,4.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -5207,7 +5207,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 54/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,5.\n- You wait for one turn.\n- You move to 5,4.\n- You move to 5,3.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 54/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,4.\n- You move to 5,3.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -5300,7 +5300,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 55/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,4.\n- You move to 5,3.\n- You move to 5,4.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 55/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You move to 5,3.\n- You move to 5,4.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -5393,7 +5393,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 56/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You move to 5,3.\n- You move to 5,4.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 56/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You move to 5,4.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -5486,7 +5486,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 57/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You move to 5,4.\n- You wait for one turn.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 57/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You wait for one turn.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -5582,7 +5582,7 @@
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 58/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You wait for one turn.\n- You wait for one turn.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 58/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You wait for one turn.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -5679,7 +5679,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 59/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You wait for one turn.\n- You wait for one turn.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 59/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You wait for one turn.\n- You inspect the dungeon state.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -5776,7 +5776,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 60/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You wait for one turn.\n- You inspect the dungeon state.\n- You move to 5,3.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 60/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####.@..#\n####....#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You inspect the dungeon state.\n- You move to 5,3.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -5869,7 +5869,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 61/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You inspect the dungeon state.\n- You move to 5,3.\n- You move to 5,4.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 61/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 5,3.\n- You move to 5,4.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -5962,7 +5962,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 62/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 5,3.\n- You move to 5,4.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 62/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You move to 5,4.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -6059,7 +6059,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 63/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You move to 5,4.\n- You wait for one turn.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 63/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####.@..#\n##....###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You wait for one turn.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -6147,7 +6147,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 64/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You wait for one turn.\n- You wait for one turn.\n- You move to 5,5.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 64/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You wait for one turn.\n- You move to 5,5.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -6231,7 +6231,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 65/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You wait for one turn.\n- You move to 5,5.\n- You move to 5,6.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 65/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,5.\n- You move to 5,6.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -6318,7 +6318,7 @@
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 66/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,5.\n- You move to 5,6.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 66/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,5.\n- You move to 5,6.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -6405,7 +6405,7 @@
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 67/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,5.\n- You move to 5,6.\n- You wait for one turn.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 67/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,6.\n- You wait for one turn.\n- You inspect the dungeon state.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -6492,7 +6492,7 @@
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 68/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,6.\n- You wait for one turn.\n- You inspect the dungeon state.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 68/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You inspect the dungeon state.\n- You inspect the dungeon state.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -6576,7 +6576,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 69/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You inspect the dungeon state.\n- You inspect the dungeon state.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 69/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You inspect the dungeon state.\n- You inspect the dungeon state.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -6664,7 +6664,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 70/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You inspect the dungeon state.\n- You inspect the dungeon state.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 70/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You inspect the dungeon state.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -6752,7 +6752,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 71/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You inspect the dungeon state.\n- You wait for one turn.\n- You move to 5,5.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 71/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##...@###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You wait for one turn.\n- You move to 5,5.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -6836,7 +6836,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 72/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You wait for one turn.\n- You move to 5,5.\n- You move to 5,6.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 72/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,5.\n- You move to 5,6.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -6924,7 +6924,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 73/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,5.\n- You move to 5,6.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 73/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##...@###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,5.\n- You move to 5,6.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -7002,7 +7002,7 @@
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 74/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.!@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,5.\n- You move to 5,6.\n- You wait for one turn.\n- You move to 5,7.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 74/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.!@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,6.\n- You wait for one turn.\n- You move to 5,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -7081,7 +7081,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 75/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.!@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,6.\n- You wait for one turn.\n- You move to 5,7.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 75/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.!@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,7.\n- You inspect the dungeon state.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -7177,7 +7177,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 76/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.@.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,7.\n- You inspect the dungeon state.\n- You move to 4,7.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 76/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.@.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,7.\n- You inspect the dungeon state.\n- You move to 4,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -7261,7 +7261,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 77/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>@!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,7.\n- You inspect the dungeon state.\n- You move to 4,7.\n- You move to 3,7.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 77/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>@!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 4,7.\n- You move to 3,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -7349,7 +7349,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 78/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>@!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 4,7.\n- You move to 3,7.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 78/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>@!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,7.\n- You move to 3,7.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -7446,7 +7446,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 79/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##.@..###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,7.\n- You move to 3,7.\n- You wait for one turn.\n- You move to 3,6.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 79/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##.@..###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,7.\n- You wait for one turn.\n- You move to 3,6.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -7530,7 +7530,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 80/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##@...###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,7.\n- You wait for one turn.\n- You move to 3,6.\n- You move to 2,6.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 80/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##@...###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 3,6.\n- You move to 2,6.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -7614,7 +7614,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 81/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##@...###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 3,6.\n- You move to 2,6.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 81/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##@...###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,6.\n- You move to 2,6.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -7698,7 +7698,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 82/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##@...###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,6.\n- You move to 2,6.\n- You wait for one turn.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 82/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##@...###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,6.\n- You wait for one turn.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -7786,7 +7786,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 83/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##@...###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,6.\n- You wait for one turn.\n- You wait for one turn.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 83/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##@...###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You wait for one turn.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -7861,7 +7861,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 84/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##@...###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You wait for one turn.\n- You wait for one turn.\n- You move to 2,5.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 84/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##@...###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You wait for one turn.\n- You move to 2,5.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -7940,7 +7940,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 85/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##@...###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You wait for one turn.\n- You move to 2,5.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 85/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##@...###\n##....###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 2,5.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -8028,7 +8028,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 86/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##@...###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 2,5.\n- You wait for one turn.\n- You move to 2,6.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 86/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##@...###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,5.\n- You wait for one turn.\n- You move to 2,6.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -8115,7 +8115,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 87/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##@.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,5.\n- You wait for one turn.\n- You move to 2,6.\n- You move to 2,7.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 87/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##@.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 2,6.\n- You move to 2,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -8203,7 +8203,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 88/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>@!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 2,6.\n- You move to 2,7.\n- You move to 3,7.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 88/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>@!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,6.\n- You move to 2,7.\n- You move to 3,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -8300,7 +8300,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 89/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##.@..###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,6.\n- You move to 2,7.\n- You move to 3,7.\n- You move to 3,6.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 89/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##.@..###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,7.\n- You move to 3,7.\n- You move to 3,6.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -8397,7 +8397,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 90/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##..@.###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,7.\n- You move to 3,7.\n- You move to 3,6.\n- You move to 4,6.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 90/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##..@.###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,7.\n- You move to 3,6.\n- You move to 4,6.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -8489,7 +8489,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 91/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.@.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,7.\n- You move to 3,6.\n- You move to 4,6.\n- You move to 4,7.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 91/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.@.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,6.\n- You move to 4,6.\n- You move to 4,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -8585,7 +8585,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 92/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.@.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,6.\n- You move to 4,6.\n- You move to 4,7.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 92/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.@.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,6.\n- You move to 4,7.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -8663,7 +8663,7 @@
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 93/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.!@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,6.\n- You move to 4,7.\n- You wait for one turn.\n- You move to 5,7.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 93/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.!@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,7.\n- You wait for one turn.\n- You move to 5,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -8738,7 +8738,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 94/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.!@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,7.\n- You wait for one turn.\n- You move to 5,7.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 94/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.!@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,7.\n- You inspect the dungeon state.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -8813,7 +8813,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 95/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.!@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 5,7.\n- You inspect the dungeon state.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 95/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.!@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,7.\n- You inspect the dungeon state.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -8892,7 +8892,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 96/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.!@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,7.\n- You inspect the dungeon state.\n- You wait for one turn.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 96/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.!@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You wait for one turn.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -8987,7 +8987,7 @@
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 97/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.@.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You wait for one turn.\n- You wait for one turn.\n- You move to 4,7.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 97/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.@.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You wait for one turn.\n- You move to 4,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -9083,7 +9083,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 98/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.@.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You wait for one turn.\n- You move to 4,7.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 98/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##....###\n##>.@.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 4,7.\n- You inspect the dungeon state.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -9185,7 +9185,7 @@
           "type": "aborted"
         }
       ],
-      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 99/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##..@.###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 4,7.\n- You inspect the dungeon state.\n- You move to 4,6.",
+      "render": "Seven Floors to Dawn v002\nSeed: seed_005 | Floor: 1/2 | Turn: 99/100\nStatus: ACTIVE | HP: 6/20\nOutcome: ACTIVE - Run in progress.\nObjective: Use Smoke Bombs to break pursuit, then reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#####...#\n####....#\n####....#\n##....###\n##..@.###\n##>.!.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,7.\n- You inspect the dungeon state.\n- You move to 4,6.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,

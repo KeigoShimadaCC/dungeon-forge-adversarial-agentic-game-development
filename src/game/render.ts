@@ -21,7 +21,7 @@ const getItemDescription = (itemType: string): string => {
   return `${item.glyph} ${item.displayName}: ${item.description}`;
 };
 
-const RECENT_LOG_DISPLAY_LIMIT = 4;
+const RECENT_LOG_DISPLAY_LIMIT = 3;
 
 const samePosition = (a: Position, b: Position): boolean =>
   a.x === b.x && a.y === b.y;

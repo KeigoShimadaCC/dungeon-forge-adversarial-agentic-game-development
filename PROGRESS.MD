@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase-12a-demo-loop` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-12a-demo-loop-wt` |
 | Base | `origin/main` at `5e71091` |
-| Status | `In progress` |
+| Status | `Validation passed; PR pending` |
 
 ### Contract (read before editing)
 
@@ -56,11 +56,11 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- [ ] 2026-05-23 Cursor/composer-2.5 — Run read-only Phase 12A audit against invariants, evidence, and tests.
 - [ ] 2026-05-23 orchestrator — Review diffs, rerun local gates/demo commands, force-add required `runs/v001`-`v003` evidence, finalize progress, push, and open PR.
 
 ### Done
 
+- [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Run read-only Phase 12A audit against invariants, evidence, and tests; address artifact/progress/gate close-out findings.
 - [x] 2026-05-23 orchestrator — Generate reviewer-driven `v003` task/patch evidence, implement balance/clarity tuning, generate `v003` evidence, and compare all versions.
 - [x] 2026-05-23 Cursor/composer-2.5 — Generate reviewer-driven `v002` task/patch evidence from `v001` review/scorecard, implement Smoke Bomb tactical/clarity profile, extend `demo-loop` handoff/comparison artifacts, regenerate `v002` evidence, and compare `v001`/`v002`.
 - [x] 2026-05-23 Cursor/composer-2.5 — Implement version-profile support, `demo-loop` command, focused tests, and baseline `v001` evidence.
@@ -92,14 +92,14 @@ _Derived from `phase-plans/PHASE-12A-DEMO-LOOP.md`. Tick when verified against t
 
 ### Phase 12A — Demo Loop
 
-- [ ] `v001`, `v002`, and `v003` evidence folders are complete and committed as explicit Phase 12A evidence.
-- [ ] Reviewer play and critique are grounded in actual traces for all three versions.
+- [x] `v001`, `v002`, and `v003` evidence folders are complete and committed as explicit Phase 12A evidence.
+- [x] Reviewer play and critique are grounded in actual traces for all three versions.
 - [x] `v002` implements a reviewer-driven tactical/clarity improvement with trace-visible evidence.
 - [x] `v003` implements reviewer-driven balance, clarity, or story tuning with a concrete signal or documented regression.
-- [ ] Patch plans, changelogs, developer notes, acceptance reports, and comparison summaries exist for required versions.
-- [ ] `pnpm run demo-loop` reruns the full demo sequence from final `HEAD`.
-- [ ] Final game preserves finite, turn-based, text/ASCII, seeded, serializable, structured-action gameplay.
-- [ ] Local final gates and Phase 12A smoke commands pass, or blockers are recorded.
+- [x] Patch plans, changelogs, developer notes, acceptance reports, and comparison summaries exist for required versions.
+- [x] `pnpm run demo-loop` reruns the full demo sequence from final `HEAD`.
+- [x] Final game preserves finite, turn-based, text/ASCII, seeded, serializable, structured-action gameplay.
+- [x] Local final gates and Phase 12A smoke commands pass, or blockers are recorded.
 
 ---
 
@@ -145,6 +145,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 
 - 2026-05-23 — Cursor/composer-2.5 + orchestrator — Phase 12A Pass 2: implemented `v002` profile with starting Smoke Bomb inventory/opening guidance, inventory/tactical render clarity, baseline policy smoke use, `demo-loop-handoff` (reviewer-driven `developer_task.md`/`patch_plan.md` from `v001` seed_001 careful_player), comparison artifacts under `runs/comparisons/`, generated acceptance reports from `demo-loop`, and regenerated `runs/v001`/`runs/v002` through commands. Concrete signal: v001→v002 comparison shows `items_used` 2→28, tactical-depth average 4→5.33, clarity average 5.33→5.67, and softlocks 15→14; comparison also records newly problematic balance runs for v003 tuning. Validation PASS: focused tests (36); `pnpm run typecheck`; `pnpm run lint`; `pnpm run demo-loop -- --runs-root . --versions v001,v002`; `pnpm run compare-versions -- --base v001 --target v002 --runs-root .`; `pnpm run accept-version -- --version v002 --runs-root . --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass --reviewer-driven`.
 - 2026-05-23 — orchestrator — Phase 12A Pass 3: implemented `v003` tuned one-floor balance/clarity profile with Slime-only pressure, starting Smoke Bomb + Potion, and explicit opening guidance; extended `demo-loop` to generate adjacent comparisons plus final `v001_vs_v003` comparison. Generated `runs/v003`, `runs/comparisons/v002_vs_v003.*`, and `runs/comparisons/v001_vs_v003.*` through `pnpm run demo-loop -- --runs-root .`. Concrete signal: v002→v003 damage taken `190 -> 130`, turns `1609 -> 1014`, item use `28 -> 32`, balance win rate `0.2 -> 0.3`, and no new problematic balance runs; v001→v003 keeps tactical-depth gain `4 -> 5.33` and item use `2 -> 32`. Validation PASS: focused tests (37); `pnpm run typecheck`; `pnpm run lint`; `pnpm run demo-loop -- --runs-root .`; `pnpm run compare-versions -- --base v002 --target v003 --runs-root .`; `pnpm run compare-versions -- --base v001 --target v003 --runs-root .`; `pnpm run accept-version -- --version v003 --runs-root . --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass --reviewer-driven`.
+- 2026-05-23 — Cursor/composer-2.5 — Read-only audit found implementation/evidence strong but blocked phase close-out on unfinished `PROGRESS.MD`, missing standalone demo summary, and need for final `HEAD` rerun/gates; it also noted human acceptance remains pending by Phase 11A governance, softlock/ABORTED risk remains, and demo-loop acceptance uses skipped command statuses while final `accept-version` carries pass evidence.
+- 2026-05-23 — orchestrator — Addressed audit close-out: `pnpm run demo-loop -- --runs-root .` now writes `runs/demo_summary.md` with rerun instructions; restored renderer recent-log limit to preserve prior render contract. Final validation PASS: `pnpm test` (19 files, 184 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `git diff --check`; `pnpm run demo-loop -- --runs-root .`; `pnpm run summarize-version -- --version v001 --runs-root .`; `pnpm run summarize-version -- --version v002 --runs-root .`; `pnpm run summarize-version -- --version v003 --runs-root .`; `pnpm run compare-versions -- --base v001 --target v002 --runs-root .`; `pnpm run compare-versions -- --base v002 --target v003 --runs-root .`; `pnpm run compare-versions -- --base v001 --target v003 --runs-root .`; `pnpm run accept-version -- --version v003 --runs-root . --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass --reviewer-driven`. Human decision remains pending by design in acceptance reports.
 - 2026-05-23 — Cursor/composer-2.5 — Phase 12A Pass 1: added demo version profiles (`v001` shallow Slime/Potion, `v002`/`v003` placeholders), wired `resolveGameConfigForVersion` through `runPlaythrough`, added `pnpm run demo-loop` with `--runs-root` and `--versions`, persisted `runs/<version>/version_summary.json`, and generated committed-path `runs/v001` evidence (3 persona traces/reviews/scorecards, 20-run balance batch, markdown stubs). Validation PASS: `pnpm test tests/version-profiles.test.ts tests/demo-loop.test.ts tests/version-loop.test.ts` (16 tests); `pnpm test` (19 files, 181 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run demo-loop -- --runs-root . --versions v001`.
 - 2026-05-23 — orchestrator — Merged latest `origin/main` (`30eda10`, docs-only post-12 roadmap plans) into `phase-12a-demo-loop` after Pass 1 commit; no conflicts. Phase 12A active progress state preserved.
 - 2026-05-23 — orchestrator — Phase 12A preflight: preserved dirty detached main checkout with unresolved `PROGRESS.MD` conflict and untracked Phase 13+ docs; fetched `origin`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-12a-demo-loop-wt` on branch `phase-12a-demo-loop` from `origin/main` at `5e71091`; worktree status clean before progress seeding. Re-read `PROGRESS.MD`, `phase-plans/PHASE-12A-DEMO-LOOP.md`, `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md`, `concept-and-ideas/01_NORTH_STAR_AND_VISION.md`, `concept-and-ideas/02_STRUCTURE_AND_TECH_SPECS.md`, and `concept-and-ideas/03_EXAMPLES_SCENARIOS_AND_WORKFLOWS.md`. Cursor preflight: `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`; sandboxed `agent --list-models` failed with macOS keychain `SecItemCopyMatching failed -50`; escalated rerun passed and confirmed `composer-2.5`.

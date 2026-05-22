@@ -279,7 +279,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 2/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##..s..@#\n##......#\n##>..####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 7,4.\n- Green Slime shuffles closer.\n- You move to 7,5.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 2/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##..s..@#\n##......#\n##>..####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 7,5.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -372,7 +372,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 3/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##...s..#\n##.....@#\n##>..####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 7,5.\n- Green Slime shuffles closer.\n- You move to 7,6.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 3/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##...s..#\n##.....@#\n##>..####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 7,6.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -473,7 +473,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 4/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##....s.#\n##....@.#\n##>..####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 7,6.\n- Green Slime shuffles closer.\n- You move to 6,6.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 4/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##....s.#\n##....@.#\n##>..####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 6,6.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -574,7 +574,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 5/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##...s..#\n##...@..#\n##>..####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,6.\n- Green Slime shuffles closer.\n- You move to 5,6.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 5/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##...s..#\n##...@..#\n##>..####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 5,6.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -684,7 +684,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 6/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##..s...#\n##..@...#\n##>..####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,6.\n- Green Slime shuffles closer.\n- You move to 4,6.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 6/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##..s...#\n##..@...#\n##>..####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 4,6.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -776,7 +776,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 7/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##......#\n##..s...#\n##>.@####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,6.\n- Green Slime shuffles closer.\n- You move to 4,7.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 7/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##......#\n##..s...#\n##>.@####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 4,7.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -877,7 +877,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 8/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##......#\n##.s....#\n##>@.####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,7.\n- Green Slime shuffles closer.\n- You move to 3,7.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 8/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##......#\n##.s....#\n##>@.####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 3,7.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -961,7 +961,7 @@
           "type": "descend"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 9/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##......#\n##s.....#\n##@..####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,7.\n- Green Slime shuffles closer.\n- You move to 2,7.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 1/2 | Turn: 9/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n#########\n#########\n##......#\n##.!....#\n##......#\n##s.....#\n##@..####\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 2,7.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1077,7 +1077,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 2/2 | Turn: 10/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n##########\n##########\n#####.s.##\n#>......##\n#s....!.##\n#...!@..##\n#....#####\n##########\n##########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 2,7.\n- Green Slime shuffles closer.\n- You descend to floor 2.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 2/2 | Turn: 10/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n##########\n##########\n#####.s.##\n#>......##\n#s....!.##\n#...!@..##\n#....#####\n##########\n##########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,7.\n- Green Slime shuffles closer.\n- You descend to floor 2.",
       "state_summary": {
         "enemyCount": 2,
         "floor": 2,
@@ -1201,7 +1201,7 @@
           "type": "enemy_attack"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 2/2 | Turn: 11/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n##########\n##########\n#####...##\n#>....s.##\n#.s..@!.##\n#...!...##\n#....#####\n##########\n##########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You descend to floor 2.\n- You move to 5,5.\n- Green Slime shuffles closer.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 2/2 | Turn: 11/100\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n##########\n##########\n#####...##\n#>....s.##\n#.s..@!.##\n#...!...##\n#....#####\n##########\n##########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,5.\n- Green Slime shuffles closer.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 2,
         "floor": 2,
@@ -1325,7 +1325,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 2/2 | Turn: 12/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n##########\n##########\n#####...##\n#>...@s.##\n#..s..!.##\n#...!...##\n#....#####\n##########\n##########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 5,4.\n- Green Slime shuffles closer.\n- Green Slime hits you for 2.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 2/2 | Turn: 12/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n##########\n##########\n#####...##\n#>...@s.##\n#..s..!.##\n#...!...##\n#....#####\n##########\n##########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- Green Slime shuffles closer.\n- Green Slime hits you for 2.",
       "state_summary": {
         "enemyCount": 2,
         "floor": 2,
@@ -1439,7 +1439,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 2/2 | Turn: 13/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n##########\n##########\n#####...##\n#>..@s..##\n#...s.!.##\n#...!...##\n#....#####\n##########\n##########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 4,4.\n- Green Slime shuffles closer.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 2/2 | Turn: 13/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n##########\n##########\n#####...##\n#>..@s..##\n#...s.!.##\n#...!...##\n#....#####\n##########\n##########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,4.\n- Green Slime shuffles closer.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 2,
         "floor": 2,
@@ -1553,7 +1553,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 2/2 | Turn: 14/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n##########\n##########\n#####...##\n#>.@s...##\n#..s..!.##\n#...!...##\n#....#####\n##########\n##########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 3,4.\n- Green Slime shuffles closer.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 2/2 | Turn: 14/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n##########\n##########\n#####...##\n#>.@s...##\n#..s..!.##\n#...!...##\n#....#####\n##########\n##########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,4.\n- Green Slime shuffles closer.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 2,
         "floor": 2,
@@ -1667,7 +1667,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 2/2 | Turn: 15/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n##########\n##########\n#####...##\n#>@s....##\n#.s...!.##\n#...!...##\n#....#####\n##########\n##########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 2,4.\n- Green Slime shuffles closer.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 2/2 | Turn: 15/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n##########\n##########\n#####...##\n#>@s....##\n#.s...!.##\n#...!...##\n#....#####\n##########\n##########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,4.\n- Green Slime shuffles closer.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 2,
         "floor": 2,
@@ -1750,7 +1750,7 @@
           "type": "win"
         }
       ],
-      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 2/2 | Turn: 16/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n##########\n##########\n#####...##\n#@s.....##\n#s....!.##\n#...!...##\n#....#####\n##########\n##########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 1,4.\n- Green Slime shuffles closer.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v001\nSeed: seed_003 | Floor: 2/2 | Turn: 16/100\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear two slime-guarded floors and reach the dawn stairs.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n##########\n##########\n##########\n#####...##\n#@s.....##\n#s....!.##\n#...!...##\n#....#####\n##########\n##########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 1,4.\n- Green Slime shuffles closer.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 2,
         "floor": 2,

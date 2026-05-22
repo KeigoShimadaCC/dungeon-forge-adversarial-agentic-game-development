@@ -55,6 +55,7 @@ describe('Phase 12A demo loop', () => {
       expect(result.comparisons).toHaveLength(3);
       expect(result.comparisons[0]?.baseVersion).toBe('v001');
       expect(result.comparisons[0]?.targetVersion).toBe('v002');
+      expect(result.demoSummaryPath).toBe('runs/demo_summary.md');
 
       const tracePath = path.join(
         runsRoot,
@@ -98,6 +99,7 @@ describe('Phase 12A demo loop', () => {
       );
       const comparisonMdPath = path.join(runsRoot, 'runs/comparisons/v001_vs_v002.md');
       const v003AcceptancePath = path.join(runsRoot, 'runs/v003/acceptance.md');
+      const demoSummaryPath = path.join(runsRoot, 'runs/demo_summary.md');
 
       expect((await stat(developerTaskPath)).isFile()).toBe(true);
       expect((await stat(v003DeveloperTaskPath)).isFile()).toBe(true);
@@ -105,10 +107,13 @@ describe('Phase 12A demo loop', () => {
       expect((await stat(finalComparisonJsonPath)).isFile()).toBe(true);
       expect((await stat(comparisonMdPath)).isFile()).toBe(true);
       expect((await stat(v003AcceptancePath)).isFile()).toBe(true);
+      expect((await stat(demoSummaryPath)).isFile()).toBe(true);
 
       const developerTask = await readFile(developerTaskPath, 'utf8');
       expect(developerTask).toContain('seed_001');
       expect(developerTask).toContain('Smoke Bomb');
+      const demoSummary = await readFile(demoSummaryPath, 'utf8');
+      expect(demoSummary).toContain('pnpm run demo-loop -- --runs-root .');
     });
   });
 });
