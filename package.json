@@ -32,6 +32,7 @@
     "trace-replay": "pnpm run build && node dist/src/harness/trace-replay-cli.js",
     "version-dashboard": "pnpm run build && node dist/src/dashboard/version-dashboard-cli.js",
     "balance-analytics": "pnpm run build && node dist/src/harness/balance-analytics-cli.js",
+    "export-static-demo": "pnpm run build && node dist/src/static-demo/static-demo-export-cli.js",
     "check": "pnpm test && pnpm run typecheck && pnpm run lint && pnpm run build && pnpm run ci-smoke && pnpm run verify-acceptance-evidence"
   },
   "devDependencies": {

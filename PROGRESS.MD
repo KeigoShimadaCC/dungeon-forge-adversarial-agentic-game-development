@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-18c-static-demo-publishing` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-18c-static-demo-publishing-wt` |
 | Base | `origin/main` at `e3cee62` |
-| Status | `Seed checkpoint complete; Cursor implementation pending` |
+| Status | `Implementation complete; Cursor recheck blocked; PR pending` |
 
 ### Contract (read before editing)
 
@@ -52,16 +52,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 Cursor/composer-2.5 — Implement static demo export command, bundle format, version timeline, honest missing-evidence labels, docs, and tests.
+- [~] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates and static demo smoke, request Cursor read-only recheck, and re-read Phase 18C acceptance.
-- [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
+- _(none)_
 
 ### Done
 
 - [x] 2026-05-23 orchestrator — Generated Phase 18C automation bundle under `runs/phase-runner/PHASE-18C/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18c-static-demo-publishing-wt`, confirmed `composer-2.5`, and seeded progress before implementation.
+- [x] 2026-05-23 orchestrator — Review implementation diff, run focused/full gates and static demo smoke, and re-read Phase 18C acceptance.
+- [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Cursor implementation pass stalled after creating a partial `src/static-demo/` tree; orchestrator completed the static demo export command, bundle format, timeline, honest evidence labels, docs, and tests locally.
 - [x] 2026-05-23 orchestrator — Phase 18B PR #45 merged at `5b2e98b22238421360f51389a48a37fbea9fa992`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 18C.
 - [x] 2026-05-23 orchestrator — Review implementation diff, add scorecard-backed challenge-mode cohort coverage, run focused/full gates and CLI smokes, and re-read Phase 18B acceptance.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 18B PASS after retrying without stalled audit mode; merge readiness remains pending PR/CI/phase-runner gate only.
@@ -173,7 +174,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Blocked / skipped
 
-- _(none)_
+- [!] 2026-05-23 orchestrator — Cursor read-only recheck was attempted twice and stalled with no stdout/report; no files changed. Proceeding with local validation evidence and recorded blocker.
 
 ## Phase checklist
 
@@ -181,18 +182,18 @@ _Derived from `phase-plans/PHASE-18C-STATIC-DEMO-PUBLISHING.md`. Tick when verif
 
 ### Phase 18C — Static Demo Publishing
 
-- [ ] Static demo export command exists.
-- [ ] Exported demo bundle format exists.
-- [ ] Version timeline summary is included.
-- [ ] Traces, reviews, scorecards, changelogs, and acceptance evidence are linked or summarized.
-- [ ] Generated, accepted, rejected, blocked, and partial evidence are clearly labeled.
-- [ ] Complete evidence produces a complete static bundle.
-- [ ] Missing artifacts are called out in the bundle.
-- [ ] Export does not mutate original evidence.
-- [ ] Generated bundle includes version comparisons and acceptance status.
-- [ ] Claims in the demo trace back to saved artifacts.
-- [ ] Partial or rejected versions remain visible when included.
-- [ ] Local final gates pass: `pnpm run check`, focused static demo tests/smoke, and `git diff --check`.
+- [x] Static demo export command exists.
+- [x] Exported demo bundle format exists.
+- [x] Version timeline summary is included.
+- [x] Traces, reviews, scorecards, changelogs, and acceptance evidence are linked or summarized.
+- [x] Generated, accepted, rejected, blocked, and partial evidence are clearly labeled.
+- [x] Complete evidence produces a complete static bundle.
+- [x] Missing artifacts are called out in the bundle.
+- [x] Export does not mutate original evidence.
+- [x] Generated bundle includes version comparisons and acceptance status.
+- [x] Claims in the demo trace back to saved artifacts.
+- [x] Partial or rejected versions remain visible when included.
+- [x] Local final gates pass: `pnpm run check`, focused static demo tests/smoke, and `git diff --check`.
 
 ---
 
@@ -471,6 +472,11 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 18C with initial task queue and checklist from `phase-plans/PHASE-18C-STATIC-DEMO-PUBLISHING.md`.
 - 2026-05-23 — orchestrator — Phase 18C automation start: main handoff commit `e3cee62` pushed; `pnpm run phase -- bundle --phase PHASE-18C --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-18C/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18c-static-demo-publishing-wt` on branch `phase/phase-18c-static-demo-publishing` from `origin/main` at `e3cee62`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
 - 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
+- 2026-05-23 — Cursor/composer-2.5 + orchestrator — Cursor implementation pass stalled silently after creating a partial `src/static-demo/` tree and was interrupted. Orchestrator completed Phase 18C locally: `src/static-demo/**`, `pnpm run export-static-demo`, `docs/STATIC-DEMO-PUBLISHING.md`, and `tests/static-demo.test.ts`. The exporter writes `index.html`, `index.md`, and `manifest.json`; includes a version timeline, comparisons, demo summary excerpt, artifact links/summaries, acceptance status, missing-evidence calls, and generated/accepted/rejected/blocked/partial labels; and preserves source evidence as read-only.
+- 2026-05-23 — orchestrator — Local Phase 18C validation PASS. `pnpm install` was needed because the fresh worktree lacked `node_modules`; lockfile stayed unchanged. Focused tests PASS: `pnpm test tests/static-demo.test.ts tests/version-dashboard.test.ts` (8 tests), then after Markdown hardening `pnpm test tests/static-demo.test.ts` (3 tests). Gates PASS: `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `pnpm run check` (38 files, 348 tests plus typecheck/lint/build/ci-smoke/acceptance evidence); `git diff --check`; `git diff -- src/game content concept-and-ideas phase-plans` empty; ASCII scan over static-demo docs/tests found no non-ASCII matches.
+- 2026-05-23 — orchestrator — Static demo smoke PASS: `pnpm run export-static-demo -- --runs-root . --out /private/tmp/df-phase18c-static-demo-smoke` wrote `index.html`, `index.md`, and `manifest.json`; `rg -n "Dungeon Forge Static Demo|Version timeline|Trace-backed artifacts|runs/v003/acceptance.md|runs/comparisons/v001_vs_v003|accepted|partial|missing" /private/tmp/df-phase18c-static-demo-smoke` found expected evidence; `pnpm run export-static-demo -- --runs-root . --json` and `pnpm run export-static-demo -- --runs-root . --markdown` both passed. Re-read `phase-plans/PHASE-18C-STATIC-DEMO-PUBLISHING.md`; deliverables and acceptance criteria are satisfied locally before Cursor read-only recheck.
+- 2026-05-23 — orchestrator — Cursor read-only recheck blocker: generated `--mode=ask` audit prompt produced no output for about 90 seconds and was interrupted with Ctrl-C (exit 130, `Aborting operation...`); shorter read-only audit without `--mode=ask` also produced no output for about 90 seconds and was interrupted with Ctrl-C (exit 130). `git status --short --branch` showed no Cursor recheck edits beyond the existing Phase 18C implementation/progress files. Local tests, smokes, scope audit, and phase-plan audit remain the verification evidence for PR.
+- 2026-05-23 — orchestrator — Final pre-commit validation PASS after progress/recheck-blocker updates: `pnpm run check` passed 38 files / 348 tests plus typecheck, lint, build, CI smoke, and acceptance evidence; `git diff --check` PASS; `git diff -- src/game content concept-and-ideas phase-plans` empty. No generated `runs/` churn appeared in `git status --short --branch`.
 
 ---
 
