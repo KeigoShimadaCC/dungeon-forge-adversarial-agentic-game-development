@@ -30,6 +30,7 @@
     "repo-checks": "pnpm run build && node dist/src/harness/repo-checks-cli.js",
     "human-play": "pnpm run build && node dist/src/human-play/human-play-cli.js",
     "trace-replay": "pnpm run build && node dist/src/harness/trace-replay-cli.js",
+    "version-dashboard": "pnpm run build && node dist/src/dashboard/version-dashboard-cli.js",
     "check": "pnpm test && pnpm run typecheck && pnpm run lint && pnpm run build && pnpm run ci-smoke && pnpm run verify-acceptance-evidence"
   },
   "devDependencies": {

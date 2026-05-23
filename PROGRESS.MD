@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-18a-version-dashboard` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-18a-version-dashboard-wt` |
 | Base | `origin/main` at `42d2414` |
-| Status | `Seed checkpoint complete; Cursor implementation pending` |
+| Status | `Implementation validated locally; PR pending` |
 
 ### Contract (read before editing)
 
@@ -52,15 +52,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 Cursor/composer-2.5 — Implement local version dashboard/viewer, artifact loading/missing states, evidence links/detail views, docs, and tests or smoke checks.
+- _(none)_
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates, request Cursor read-only recheck, and re-read Phase 18A acceptance.
 - [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 18A PASS; no implementation gaps found, and merge readiness remains pending commit/PR/CI only.
+- [x] 2026-05-23 orchestrator — Reviewed dashboard diff, ran focused/full gates, CLI HTML/JSON/artifact smoke, scope audit, `git diff --check`, and re-read Phase 18A acceptance.
+- [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Implemented local static version dashboard, artifact index/loader, leaderboard, evidence links/detail sections, CLI, docs, and focused tests after interrupting a silent Cursor partial pass; local validation passed.
 - [x] 2026-05-23 orchestrator — Generated Phase 18A automation bundle under `runs/phase-runner/PHASE-18A/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18a-version-dashboard-wt`, confirmed `composer-2.5`, and seeded progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 17C PR #43 merged at `98b05e60547ece52025da4b838f9f5f6cf9612b3`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 18A.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 17C PASS; no implementation gaps found, and merge readiness remains pending commit/PR/CI only.
@@ -171,17 +173,17 @@ _Derived from `phase-plans/PHASE-18A-VERSION-DASHBOARD.md`. Tick when verified a
 
 ### Phase 18A — Version Dashboard
 
-- [ ] Local-only dashboard or static viewer exists.
-- [ ] Viewer loads a sample version folder.
-- [ ] Artifact loading and missing-artifact states are clear.
-- [ ] Version leaderboard or ranking entries are evidence-backed.
-- [ ] Leaderboard entries link back to scorecards, comparisons, and acceptance evidence.
-- [ ] Trace, review, scorecard, changelog, and acceptance artifacts are inspectable.
-- [ ] Links to persisted summary and comparison artifacts exist.
-- [ ] Documentation explains how to launch the viewer.
-- [ ] Dashboard does not mutate evidence by default.
-- [ ] Text/ASCII and headless harness path remains fully usable.
-- [ ] Local final gates pass: `pnpm run check`, viewer-focused tests or browser smoke, and `git diff --check`.
+- [x] Local-only dashboard or static viewer exists.
+- [x] Viewer loads a sample version folder.
+- [x] Artifact loading and missing-artifact states are clear.
+- [x] Version leaderboard or ranking entries are evidence-backed.
+- [x] Leaderboard entries link back to scorecards, comparisons, and acceptance evidence.
+- [x] Trace, review, scorecard, changelog, and acceptance artifacts are inspectable.
+- [x] Links to persisted summary and comparison artifacts exist.
+- [x] Documentation explains how to launch the viewer.
+- [x] Dashboard does not mutate evidence by default.
+- [x] Text/ASCII and headless harness path remains fully usable.
+- [x] Local final gates pass: `pnpm run check`, viewer-focused tests or browser smoke, and `git diff --check`.
 
 ---
 
@@ -192,6 +194,8 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | ID | Idea | Suggested phase | Why deferred | Noted |
 | --- | --- | --- | --- | --- |
 | F-001 | _(add ideas here)_ | _(phase)_ | _(why deferred)_ | _(agent, date)_ |
+| F-18A-001 | Add a Playwright/browser smoke for the generated static dashboard. | Dashboard testing hardening | Phase 18A requires tests or browser smoke; focused Vitest HTML/CLI tests and real CLI smoke pass, so browser automation is optional hardening. | Cursor/composer-2.5 recheck, 2026-05-23 |
+| F-18A-002 | Add an in-repo default dashboard output path helper to keep artifact links shorter when writing outside the repo. | Dashboard UX polish | Current `--out` supports any path and links work locally; in-repo output such as `runs/dashboard/index.html` gives shorter links, but default writing was avoided to preserve read-only-by-default behavior. | Cursor/composer-2.5 recheck, 2026-05-23 |
 | F-17C-001 | Add `trace-replay` to `ci-smoke` or another small CLI smoke. | Harness/CI polish | Phase 17C already has focused replay tests and local CLI smoke; broadening CI smoke can be handled as a later validation-hardening pass. | Cursor/composer-2.5 recheck, 2026-05-23 |
 | F-17C-002 | Add a step-through replay view inside the human-play terminal UI. | Replay UX polish | Phase 17C allows a replay command or UI mode and ships the command/library path; combining it with Phase 17A UI is useful polish but not required here. | Cursor/composer-2.5 recheck, 2026-05-23 |
 | F-17A-001 | Add optional browser/HTML human-play shell over the same session module. | Phase 18A+ / UI polish | Phase 17A intentionally ships the smallest terminal CLI; browser UI is roadmap-shaped but not required for human playtesting acceptance. | Cursor/composer-2.5, 2026-05-23 |
@@ -442,6 +446,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 18A with initial task queue and checklist from `phase-plans/PHASE-18A-VERSION-DASHBOARD.md`.
 - 2026-05-23 — orchestrator — Phase 18A automation start: main handoff commit `42d2414` passed GitHub `Repo gates`; `pnpm run phase -- bundle --phase PHASE-18A --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-18A/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18a-version-dashboard-wt` on branch `phase/phase-18a-version-dashboard` from `origin/main` at `42d2414`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
 - 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
+- 2026-05-23 — Cursor/composer-2.5 + orchestrator — Cursor implementation pass stalled silently and was interrupted after leaving partial `src/dashboard/` loader/index files. Orchestrator completed Phase 18A locally: added static HTML renderer, dashboard CLI (`pnpm run version-dashboard`), read-only artifact payload loader, version leaderboard, artifact/missing-state tables, comparison and scorecard/acceptance links, exports, `docs/VERSION-DASHBOARD.md`, and `tests/version-dashboard.test.ts`. Validation PASS: `pnpm test tests/version-dashboard.test.ts` (5 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `pnpm run version-dashboard -- --runs-root . --out /private/tmp/df-phase18a-dashboard-smoke/index.html`; `rg -n "Dungeon Forge Version Dashboard|Leaderboard|runs/v003/acceptance.md|runs/comparisons/v001_vs_v003|seed_001_careful_player" /private/tmp/df-phase18a-dashboard-smoke/index.html`; `pnpm run version-dashboard -- --runs-root . --json`; `pnpm run version-dashboard -- --runs-root . --artifact runs/v003/acceptance.md`; `pnpm run check` (36 files, 341 tests; typecheck/lint/build; ci-smoke; acceptance evidence); `git diff -- src/game content concept-and-ideas phase-plans` empty; `git diff --check` PASS. Re-read `phase-plans/PHASE-18A-VERSION-DASHBOARD.md`; deliverables and acceptance criteria satisfied locally before Cursor read-only recheck.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 18A PASS against the phase plan, local static viewer, artifact loading/missing states, evidence-backed leaderboard, trace/review/scorecard/changelog/acceptance inspectability, persisted summary/comparison links, docs, read-only boundary, no forbidden scope, no secrets, no `src/game` changes, and full local gates. Recheck was blocked only on expected merge workflow: uncommitted implementation, no PR, and no GitHub `Repo gates` yet. Optional browser smoke and dashboard output-path polish recorded in Future backlog.
 
 ---
 
