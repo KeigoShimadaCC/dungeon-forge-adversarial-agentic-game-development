@@ -101,6 +101,36 @@ export const listComparisonArtifacts = async (runsRoot: string): Promise<Dashboa
   return refs;
 };
 
+export const listBalanceAnalyticsArtifacts = async (
+  runsRoot: string,
+): Promise<DashboardArtifactRef[]> => {
+  const analyticsDir = path.join(resolveRunsDirectory(runsRoot), 'analytics');
+  let entries: string[];
+  try {
+    entries = await readdir(analyticsDir);
+  } catch (error: unknown) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
+      return [];
+    }
+    throw error;
+  }
+
+  return Promise.all(
+    entries
+      .filter((entry) => entry.endsWith('.json') || entry.endsWith('.md'))
+      .sort()
+      .map(async (entry) => {
+        const relativePath = path.join('runs', 'analytics', entry);
+        return {
+          kind: 'analytics' as const,
+          label: entry,
+          relativePath,
+          present: await fileExists(path.join(runsRoot, relativePath)),
+        };
+      }),
+  );
+};
+
 export const comparisonsForVersion = (
   comparisons: readonly DashboardComparisonRef[],
   version: string,
@@ -143,6 +173,9 @@ const inferArtifactKind = (relativePath: string): DashboardArtifactKind => {
   }
   if (relativePath.includes('/comparisons/')) {
     return 'comparison';
+  }
+  if (relativePath.includes('/analytics/')) {
+    return 'analytics';
   }
   if (relativePath.endsWith('.md')) {
     return 'markdown';

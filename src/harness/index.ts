@@ -439,6 +439,28 @@ export {
   type TraceReplayCliMode,
 } from './trace-replay-cli.js';
 export {
+  BALANCE_ANALYTICS_REPORT_PATH,
+  BALANCE_ANALYTICS_SCHEMA_VERSION,
+  BALANCE_LEADERBOARD_PATH,
+  buildBalanceAnalyticsReport,
+  buildBalanceLeaderboard,
+  writeBalanceAnalyticsArtifacts,
+  type BalanceAnalyticsCohort,
+  type BalanceAnalyticsProblemRun,
+  type BalanceAnalyticsReport,
+  type BalanceAnalyticsVersionDelta,
+  type BalanceLeaderboardEntry,
+  type BalanceVersionAnalytics,
+  type BuildBalanceAnalyticsOptions,
+  type WriteBalanceAnalyticsOptions,
+} from './balance-analytics.js';
+export {
+  BALANCE_ANALYTICS_CLI_USAGE,
+  parseBalanceAnalyticsCliArgs,
+  runBalanceAnalyticsCli,
+  type BalanceAnalyticsCliIo,
+} from './balance-analytics-cli.js';
+export {
   VERSION_ARTIFACT_DIRS,
   VERSION_ID_PATTERN,
   VERSION_MARKDOWN_FILES,

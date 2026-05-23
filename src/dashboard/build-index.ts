@@ -6,6 +6,7 @@ import {
   comparisonsForVersion,
   buildArtifactRefsForSummary,
   listComparisonArtifacts,
+  listBalanceAnalyticsArtifacts,
   listVersionIds,
   loadVersionSummaryForDashboard,
 } from './load-artifacts.js';
@@ -107,6 +108,7 @@ export const buildLeaderboard = (
 export const buildDashboardIndex = async (runsRoot: string): Promise<DashboardIndex> => {
   const versionIds = await listVersionIds(runsRoot);
   const comparisons = await listComparisonArtifacts(runsRoot);
+  const analyticsArtifacts = await listBalanceAnalyticsArtifacts(runsRoot);
   const versions: DashboardVersionEntry[] = [];
 
   for (const version of versionIds) {
@@ -142,5 +144,6 @@ export const buildDashboardIndex = async (runsRoot: string): Promise<DashboardIn
     versions,
     leaderboard: buildLeaderboard(versions),
     comparisons,
+    analyticsArtifacts,
   };
 };
