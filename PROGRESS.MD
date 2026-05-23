@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Define a bounded extension-pack model for local content, policies, personas, and scenarios. |
 | Branch | `phase/phase-19a-extension-packs` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-19a-extension-packs-wt` |
-| Base | `origin/main` at `c835f5a` |
-| Status | `Queued; automation handoff pending` |
+| Base | `origin/main` at `c62b779` |
+| Status | `Seed checkpoint complete; Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -52,17 +52,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-23 Cursor/composer-2.5 — Implement extension manifest, loader/validator, accepted/rejected example packs, compatibility checks, run-evidence metadata, docs, and tests within Phase 19A scope.
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Generate Phase 19A automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement extension manifest, loader/validator, accepted/rejected example packs, compatibility checks, run-evidence metadata, docs, and tests within Phase 19A scope.
 - [ ] 2026-05-23 orchestrator — Review implementation diff, run focused/full gates and extension-pack smokes, request Cursor read-only recheck, and re-read Phase 19A acceptance.
 - [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Generated Phase 19A automation bundle under `runs/phase-runner/PHASE-19A/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-19a-extension-packs-wt`, confirmed `composer-2.5`, verified main handoff CI passed, and seeded progress before implementation.
 - [x] 2026-05-23 orchestrator — Generated Phase 18C automation bundle under `runs/phase-runner/PHASE-18C/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18c-static-demo-publishing-wt`, confirmed `composer-2.5`, and seeded progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 18C PR #46 merged at `c835f5a3c18b7a63f26cbf0242e8f19c6ad90a79`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 19A.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 18C PASS on compact retry after larger audit prompts stalled; no files changed, and merge readiness remains pending PR/CI/phase-runner gate only.
@@ -483,6 +482,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck + orchestrator — Compact Cursor audit PASS after a tiny sanity check proved the CLI responsive. Cursor reported PHASE-18C meets the phase plan: `export-static-demo` exists, static bundle files are produced, timeline/comparison/artifact links and generated/accepted/rejected/blocked/partial/missing labels are present, missing evidence is not fabricated, export behavior is read-only, no hosting/marketing/gameplay scope was added, no secrets were found, and `git diff -- src/game content concept-and-ideas phase-plans` is empty. Cursor reported no file changes and `pnpm test tests/static-demo.test.ts` PASS (3/3).
 - 2026-05-23 — orchestrator — Phase 18C PR #46 merged at `c835f5a3c18b7a63f26cbf0242e8f19c6ad90a79` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-18C --evidence runs/phase-runner/PHASE-18C/planned/merge-evidence.json` returned `allow`. `gh pr merge` reported a local checkout error because `main` is already a separate worktree, but GitHub confirmed the PR was merged. Cleanup complete: local `main` fast-forwarded, temporary worktree removed, local branch deleted, remote branch pruned, and automation state advanced to `PHASE-19A`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 19A with initial task queue and checklist from `phase-plans/PHASE-19A-EXTENSION-PACKS.md`.
+- 2026-05-23 — orchestrator — Phase 19A automation start: main handoff commit `c62b779` pushed and GitHub `Repo gates` passed; `pnpm run phase -- bundle --phase PHASE-19A --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-19A/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-19a-extension-packs-wt` on branch `phase/phase-19a-extension-packs` from `origin/main` at `c62b779`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
 
 ---
 
