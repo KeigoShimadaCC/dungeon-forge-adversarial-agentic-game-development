@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 17C — Trace Replay And UX |
-| Goal | Make existing traces easier to replay, inspect, and use for debugging reviewer or human experiences. |
-| Branch | `phase/phase-17c-trace-replay-and-ux` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-17c-trace-replay-and-ux-wt` |
-| Base | `origin/main` at `032124d` |
-| Status | `Implementation validated locally; Cursor recheck and PR pending` |
+| Phase | Phase 18A — Version Dashboard |
+| Goal | Add a local viewer for versions, traces, reviews, scorecards, changelogs, comparisons, and acceptance status. |
+| Branch | `phase/phase-18a-version-dashboard` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-18a-version-dashboard-wt` |
+| Base | `origin/main` at `98b05e6` |
+| Status | `Planned; automation preflight pending` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-17C-TRACE-REPLAY-AND-UX.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-18A-VERSION-DASHBOARD.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -56,10 +56,14 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
+- [ ] 2026-05-23 orchestrator — Generate Phase 18A automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
+- [ ] 2026-05-23 Cursor/composer-2.5 — Implement local version dashboard/viewer, artifact loading/missing states, evidence links/detail views, docs, and tests or smoke checks.
+- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates, request Cursor read-only recheck, and re-read Phase 18A acceptance.
 - [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Phase 17C PR #43 merged at `98b05e60547ece52025da4b838f9f5f6cf9612b3`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 18A.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 17C PASS; no implementation gaps found, and merge readiness remains pending commit/PR/CI only.
 - [x] 2026-05-23 orchestrator — Reviewed Cursor diff, hardened replay report path handling, nested output directories, inspect range accounting, ASCII-only output/docs, and test temp-dir isolation; reran focused/full gates, smoke replay, scope audit, and `git diff --check`.
 - [x] 2026-05-23 Cursor/composer-2.5 — Implement `pnpm run trace-replay`, inspect/verify modes, replay report format, `docs/TRACE-REPLAY.md`, exports, and `tests/trace-replay.test.ts`; local `pnpm run check` pass after reverting accidental `runs/` trace mutation from tests.
@@ -164,21 +168,21 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-17C-TRACE-REPLAY-AND-UX.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-18A-VERSION-DASHBOARD.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 17C — Trace Replay And UX
+### Phase 18A — Version Dashboard
 
-- [x] Trace replay tool or mode exists.
-- [x] Replay report format exists if useful, or a defer/blocker is documented.
-- [x] Valid trace can be replayed to terminal status.
-- [x] Malformed trace reports clear diagnostics.
-- [x] Replay output includes chosen actions, reasons, events, and rendered states.
-- [x] Replay exposes scorecard context or useful run summary context.
-- [x] Replay does not alter original evidence files.
-- [x] Trace evidence is inspectable without rerunning the game.
-- [x] Replay helps diagnose reviewer confusion and softlocks.
-- [x] Original trace artifacts remain unchanged.
-- [x] Local final gates pass: `pnpm run check`, focused replay tests/smoke, and `git diff --check`.
+- [ ] Local-only dashboard or static viewer exists.
+- [ ] Viewer loads a sample version folder.
+- [ ] Artifact loading and missing-artifact states are clear.
+- [ ] Version leaderboard or ranking entries are evidence-backed.
+- [ ] Leaderboard entries link back to scorecards, comparisons, and acceptance evidence.
+- [ ] Trace, review, scorecard, changelog, and acceptance artifacts are inspectable.
+- [ ] Links to persisted summary and comparison artifacts exist.
+- [ ] Documentation explains how to launch the viewer.
+- [ ] Dashboard does not mutate evidence by default.
+- [ ] Text/ASCII and headless harness path remains fully usable.
+- [ ] Local final gates pass: `pnpm run check`, viewer-focused tests or browser smoke, and `git diff --check`.
 
 ---
 
@@ -435,12 +439,22 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 — Phase 17C implementation: added `src/harness/trace-replay.ts`, `trace-replay-cli.ts`, `pnpm run trace-replay`, `docs/TRACE-REPLAY.md`, harness exports, and `tests/trace-replay.test.ts` (inspect/verify/both modes, replay report `trace_replay_report_v1`, malformed diagnostics, immutability checks). Validation PASS: `pnpm test tests/trace-replay.test.ts` (8 tests); `pnpm run check` (35 files, 336 tests; typecheck/lint/build; ci-smoke; acceptance evidence); `git diff --check` PASS after reverting accidental `runs/v001/traces/seed_001_greedy-item-picker.json` mutation from a temp-dir test run. Re-read `phase-plans/PHASE-17C-TRACE-REPLAY-AND-UX.md`; deliverables and acceptance criteria satisfied locally.
 - 2026-05-23 — orchestrator — Cursor implementation process stalled silently and was interrupted after leaving a usable implementation diff; orchestrator reviewed and hardened the diff locally. Fixes: `writeTraceReplayReport` now handles `.md`/`.json` output paths consistently and creates nested report directories; inspect reports clamp `inspect_step_count` to actual trace length; docs/code were normalized to ASCII; malformed-trace tests now write only under temp runs roots and no longer mutate committed `runs/` evidence. Validation PASS after hardening: `pnpm test tests/trace-replay.test.ts` (8 tests); `pnpm run check` (35 files, 336 tests); `pnpm run run-version -- --version v017 --runs-root /private/tmp/df-phase17c-replay-smoke-20260523-run`; `pnpm run trace-replay -- --trace /private/tmp/df-phase17c-replay-smoke-20260523-run/runs/v017/traces/seed_001_careful_player.json --scorecard /private/tmp/df-phase17c-replay-smoke-20260523-run/runs/v017/scorecards/seed_001_careful_player.json --mode both --from-step 1 --to-step 2 --no-render --write-report /private/tmp/df-phase17c-replay-smoke-20260523-run/replay/report`; `rg -n "trace_replay_report_v1|steps_replayed|inspect_step_count" /private/tmp/df-phase17c-replay-smoke-20260523-run/replay`; `git diff -- src/game content concept-and-ideas phase-plans` empty; `git diff --check` PASS. Re-read `phase-plans/PHASE-17C-TRACE-REPLAY-AND-UX.md`; no implementation gaps found locally before Cursor read-only recheck.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 17C PASS against the phase plan, replay CLI/library, inspect/verify/both modes, replay report format, valid/malformed trace behavior, scorecard context, state deltas, trace immutability, no forbidden scope, no secrets, no `src/game` changes, and local gates. Recheck was blocked only on expected merge workflow: uncommitted implementation, no PR, and no GitHub `Repo gates` yet. Optional CI-smoke and terminal step-through polish ideas recorded in Future backlog.
+- 2026-05-23 — orchestrator — Phase 17C PR #43 merged at `98b05e60547ece52025da4b838f9f5f6cf9612b3` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-17C --evidence runs/phase-runner/PHASE-17C/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-18A`.
+- 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 18A with initial task queue and checklist from `phase-plans/PHASE-18A-VERSION-DASHBOARD.md`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 17C — Trace Replay And UX
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-17c-trace-replay-and-ux` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/43
+- **Merge commit:** `98b05e60547ece52025da4b838f9f5f6cf9612b3`
+- **Outcome:** Added `pnpm run trace-replay` with inspect/verify/both modes, step-windowed trace inspection, state deltas, scorecard context, derived JSON/Markdown replay reports, clear malformed-trace diagnostics, trace immutability checks, harness exports, docs, and focused replay tests.
+- **Key evidence:** Cursor/composer-2.5 implementation and read-only recheck; local `pnpm run check` passed with 35 files and 336 tests; focused `tests/trace-replay.test.ts` passed; replay smoke over generated `v017` evidence wrote `trace_replay_report_v1` JSON/Markdown; `git diff --check` passed; PR #43 `Repo gates` passed before merge; phase-runner automerge gate returned `allow`.
 
 ### Phase 17B — Human Playtest Traces
 

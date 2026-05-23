@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-17C",
+  "currentPhase": "PHASE-18A",
   "lastUpdated": "2026-05-23",
   "phases": {
     "PHASE-00A": {
@@ -171,7 +171,11 @@
       "status": "complete"
     },
     "PHASE-17C": {
-      "status": "queued"
+      "branch": "phase/phase-17c-trace-replay-and-ux",
+      "evidenceDir": "runs/phase-runner/PHASE-17C/planned",
+      "mergeCommit": "98b05e60547ece52025da4b838f9f5f6cf9612b3",
+      "pr": 43,
+      "status": "complete"
     },
     "PHASE-18A": {
       "status": "queued"
