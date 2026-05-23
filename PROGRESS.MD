@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Add higher-level balance analytics over batch runs, problem seeds, policies, and version deltas. |
 | Branch | `phase/phase-18b-balance-analytics` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-18b-balance-analytics-wt` |
-| Base | `origin/main` at `c9bbf75` |
-| Status | `Planned; automation preflight pending` |
+| Base | `origin/main` at `dff9883` |
+| Status | `Seed checkpoint complete; Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -52,17 +52,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-23 Cursor/composer-2.5 — Implement balance analytics artifacts, leaderboard/ranking metrics, cohort/delta/problem-run analysis, dashboard-readable output, docs, and tests.
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Generate Phase 18B automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement balance analytics artifacts, leaderboard/ranking metrics, cohort/delta/problem-run analysis, dashboard-readable output, docs, and tests.
 - [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates, request Cursor read-only recheck, and re-read Phase 18B acceptance.
 - [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Generated Phase 18B automation bundle under `runs/phase-runner/PHASE-18B/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18b-balance-analytics-wt`, confirmed `composer-2.5`, and seeded progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 18A PR #44 merged at `c9bbf7586f16372f0f76889efb531a60455ca3ae`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 18B.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 18A PASS; no implementation gaps found, and merge readiness remains pending commit/PR/CI only.
 - [x] 2026-05-23 orchestrator — Reviewed dashboard diff, ran focused/full gates, CLI HTML/JSON/artifact smoke, scope audit, `git diff --check`, and re-read Phase 18A acceptance.
@@ -455,6 +454,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 18A PASS against the phase plan, local static viewer, artifact loading/missing states, evidence-backed leaderboard, trace/review/scorecard/changelog/acceptance inspectability, persisted summary/comparison links, docs, read-only boundary, no forbidden scope, no secrets, no `src/game` changes, and full local gates. Recheck was blocked only on expected merge workflow: uncommitted implementation, no PR, and no GitHub `Repo gates` yet. Optional browser smoke and dashboard output-path polish recorded in Future backlog.
 - 2026-05-23 — orchestrator — Phase 18A PR #44 merged at `c9bbf7586f16372f0f76889efb531a60455ca3ae` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-18A --evidence runs/phase-runner/PHASE-18A/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-18B`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 18B with initial task queue and checklist from `phase-plans/PHASE-18B-BALANCE-ANALYTICS.md`.
+- 2026-05-23 — orchestrator — Phase 18B automation start: main handoff commit `dff9883` passed GitHub `Repo gates`; `pnpm run phase -- bundle --phase PHASE-18B --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-18B/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18b-balance-analytics-wt` on branch `phase/phase-18b-balance-analytics` from `origin/main` at `dff9883`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
 
 ---
 
