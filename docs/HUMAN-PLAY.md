@@ -49,7 +49,9 @@ Choose by action number or action id. Enter `q` to abort (records `ABORTED`).
 
 ## Trace artifacts
 
-With `--save-trace`, artifacts are written under `runs/<version>/traces/<seed>_human_player.json` and matching scorecards, using the same trace/scorecard shapes as harness playthroughs (`persona: human_player`).
+With `--save-trace`, artifacts are written under `runs/<version>/traces/<seed>_human_player.json` and matching scorecards, using the same trace/scorecard shapes as harness playthroughs (`persona: human_player`, `player_kind: human`, `human_play_mode`).
+
+Optional post-run feedback and session labels are documented in [HUMAN-PLAYTEST-TRACES.md](./HUMAN-PLAYTEST-TRACES.md).
 
 ## Invariants preserved
 

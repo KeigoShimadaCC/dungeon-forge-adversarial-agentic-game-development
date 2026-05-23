@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-17b-human-playtest-traces` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-17b-human-playtest-traces-wt` |
 | Base | `origin/main` at `454353f` |
-| Status | `Seed checkpoint complete; Cursor implementation pending` |
+| Status | `Functional complete; commit/PR pending` |
 
 ### Contract (read before editing)
 
@@ -52,15 +52,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 Cursor/composer-2.5 — Implement human trace capture path, human metadata fields, scorecard support for human traces, optional notes/post-run feedback artifact, and trace-shape tests.
+- [~] 2026-05-23 orchestrator — Commit Phase 17B implementation, open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates, request Cursor read-only recheck, and re-read Phase 17B acceptance.
-- [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
+_(none)_
 
 ### Done
 
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 17B PASS; no implementation gaps found, and merge readiness remains pending commit/PR/CI only.
+- [x] 2026-05-23 orchestrator — Reviewed Cursor diff, hardened direct session API label/notes normalization, ran focused/full gates, human trace smoke, summary evidence check, scope audit, and `git diff --check`.
+- [x] 2026-05-23 Cursor/composer-2.5 — Implement human playtest metadata (`player_kind`, `human_play_mode`, `session_label`), optional `human_notes` artifact, version-summary fields, docs, and `tests/human-playtest-traces.test.ts`.
 - [x] 2026-05-23 orchestrator — Generated Phase 17B automation bundle under `runs/phase-runner/PHASE-17B/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-17b-human-playtest-traces-wt`, confirmed `composer-2.5`, and seeded progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 17A PR #41 merged at `f2b89aca67522422ce0226dba585fc37163c3817`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 17B.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 17A PASS; non-blocking interactive terminal E2E suggestion recorded in Future backlog; merge readiness pending commit/PR/CI only.
@@ -161,18 +163,18 @@ _Derived from `phase-plans/PHASE-17B-HUMAN-PLAYTEST-TRACES.md`. Tick when verifi
 
 ### Phase 17B — Human Playtest Traces
 
-- [ ] Human trace capture path exists.
-- [ ] Human run metadata fields exist.
-- [ ] Scorecard support for human traces exists.
-- [ ] Optional human notes or post-run feedback artifact exists, or a defer/blocker is documented.
-- [ ] Human-like scripted fixture produces a valid trace.
-- [ ] Scorecard can be generated from a human trace.
-- [ ] Human run metadata appears in summaries.
-- [ ] Agent run behavior remains unchanged.
-- [ ] Human playtesting can be compared with agent playtesting.
-- [ ] Captured actions remain structured and replayable.
-- [ ] No private user data is required.
-- [ ] Local final gates pass: `pnpm run check`, focused trace-shape tests/smoke, and `git diff --check`.
+- [x] Human trace capture path exists.
+- [x] Human run metadata fields exist.
+- [x] Scorecard support for human traces exists.
+- [x] Optional human notes or post-run feedback artifact exists, or a defer/blocker is documented.
+- [x] Human-like scripted fixture produces a valid trace.
+- [x] Scorecard can be generated from a human trace.
+- [x] Human run metadata appears in summaries.
+- [x] Agent run behavior remains unchanged.
+- [x] Human playtesting can be compared with agent playtesting.
+- [x] Captured actions remain structured and replayable.
+- [x] No private user data is required.
+- [x] Local final gates pass: `pnpm run check`, focused trace-shape tests/smoke, and `git diff --check`.
 
 ---
 
@@ -417,6 +419,9 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 17B with initial task queue and checklist from `phase-plans/PHASE-17B-HUMAN-PLAYTEST-TRACES.md`.
 - 2026-05-23 — orchestrator — Phase 17B automation start: main handoff commit `454353f` passed GitHub `Repo gates`; `pnpm run phase -- bundle --phase PHASE-17B --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-17B/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-17b-human-playtest-traces-wt` on branch `phase/phase-17b-human-playtest-traces` from `origin/main` at `454353f`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
 - 2026-05-23 — orchestrator — Cursor preflight PASS: sandboxed `agent --list-models` hit expected macOS keychain `SecItemCopyMatching failed -50`, and escalated rerun confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
+- 2026-05-23 — Cursor/composer-2.5 — Phase 17B implementation: added `src/harness/playtest-metadata.ts`, human/agent metadata on traces and scorecards, optional `human_notes` artifacts, CLI `--label`/`--notes`/`--notes-file`, `docs/HUMAN-PLAYTEST-TRACES.md`, and `tests/human-playtest-traces.test.ts`. Validation PASS: `pnpm test tests/human-playtest-traces.test.ts tests/human-play.test.ts` (11 tests); `pnpm run check` (34 files, 327 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `pnpm run human-play -- --seed seed_001 --auto --max-steps 2` (ABORTED, `player_kind: human`); `git diff --check` PASS. Re-read `phase-plans/PHASE-17B-HUMAN-PLAYTEST-TRACES.md`; deliverables and acceptance criteria satisfied locally.
+- 2026-05-23 — orchestrator — Reviewed Cursor diff and hardened direct `runHumanPlaySession` label/notes normalization so programmatic callers get the same bounds as CLI callers. Validation PASS after hardening: `pnpm test tests/human-playtest-traces.test.ts tests/human-play.test.ts` (12 tests); `pnpm run check` (34 files, 328 tests; typecheck/lint/build; ci-smoke 20/20; `v001`–`v003` acceptance evidence machine pass); `pnpm run human-play -- --seed seed_001 --auto --max-steps 2 --version v017 --save-trace --label phase17b-smoke --notes "Local smoke notes." --runs-root /private/tmp/df-phase17b-human-smoke-20260523-0900` wrote trace/scorecard/notes artifacts; `pnpm run summarize-version -- --version v017 --runs-root /private/tmp/df-phase17b-human-smoke-20260523-0900` showed `player_kind: human`, `human_play_mode: auto`, and `session_label: phase17b-smoke`; `rg "player_kind|human_play_mode|session_label|notes" /private/tmp/df-phase17b-human-smoke-20260523-0900/runs/v017` found metadata in trace/scorecard/notes; `git diff -- src/game content concept-and-ideas phase-plans` empty; `git diff --check` PASS.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 17B PASS against the phase plan, metadata fields, trace/scorecard/notes artifacts, version summaries, structured replayability, agent-run behavior, no-private-data requirement, protocol invariants, forbidden MVP scope, and secrets scan. Recheck was blocked only on expected merge workflow: uncommitted implementation, no PR, and no GitHub `Repo gates` yet.
 
 ---
 

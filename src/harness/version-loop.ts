@@ -33,6 +33,7 @@ import {
 } from './llm-run-options.js';
 import type { ReviewerPersona } from './reviewer-client.js';
 import { runPlaythrough } from './runner.js';
+import { inferPlayerKindFromPersona } from './playtest-metadata.js';
 import { deriveScorecardFromTrace, validateScorecard } from './scorecard.js';
 import type {
   LlmPlayerPersona,
@@ -106,6 +107,10 @@ export interface ArtifactCoverage {
 export interface VersionSummaryRun {
   seed: string;
   persona: string;
+  player_kind: import('./playtest-metadata.js').PlayerKind;
+  agent_policy_class?: import('./playtest-metadata.js').AgentPolicyClass;
+  human_play_mode?: import('../human-play/types.js').HumanPlayMode;
+  session_label?: string;
   challenge_mode?: string;
   scenario_pack?: string;
   scenario_pack_label?: string;
@@ -594,6 +599,12 @@ export const summarizeVersion = async (
   const runs = scorecards.map((scorecard) => ({
     seed: scorecard.seed,
     persona: scorecard.persona,
+    player_kind: scorecard.player_kind ?? inferPlayerKindFromPersona(scorecard.persona),
+    ...(scorecard.agent_policy_class
+      ? { agent_policy_class: scorecard.agent_policy_class }
+      : {}),
+    ...(scorecard.human_play_mode ? { human_play_mode: scorecard.human_play_mode } : {}),
+    ...(scorecard.session_label ? { session_label: scorecard.session_label } : {}),
     ...(scorecard.challenge_mode ? { challenge_mode: scorecard.challenge_mode } : {}),
     ...(scorecard.scenario_pack ? { scenario_pack: scorecard.scenario_pack } : {}),
     ...(scorecard.scenario_pack_label

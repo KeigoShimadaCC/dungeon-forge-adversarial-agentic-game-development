@@ -24,6 +24,10 @@ export interface HumanPlaySessionOptions {
   mode?: HumanPlayMode;
   /** For mode=script: pick action index (0-based) per turn, cycling last index when exhausted. */
   scriptIndices?: number[];
+  /** Optional local label for comparing sessions (no private user data required). */
+  sessionLabel?: string;
+  /** Optional post-run feedback saved alongside trace/scorecard when saving artifacts. */
+  playtestNotes?: string;
   maxSteps?: number;
   runsRoot?: string;
   saveTrace?: boolean;
@@ -36,4 +40,5 @@ export interface HumanPlaySessionResult {
   aborted: boolean;
   tracePath?: string;
   scorecardPath?: string;
+  notesPath?: string;
 }

@@ -99,6 +99,8 @@ describe('Phase 17A human play UI', () => {
       const traceRaw = await readFile(result.tracePath!, 'utf8');
       const trace = JSON.parse(traceRaw) as typeof result.trace;
       expect(trace.persona).toBe(HUMAN_PLAYER_PERSONA);
+      expect(trace.player_kind).toBe('human');
+      expect(trace.human_play_mode).toBe('auto');
       expect(trace.steps.length).toBeGreaterThan(0);
 
       const scorecardRaw = await readFile(result.scorecardPath!, 'utf8');

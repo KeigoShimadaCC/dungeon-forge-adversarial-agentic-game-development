@@ -1,3 +1,8 @@
+import {
+  normalizeHumanPlaytestNotes,
+  normalizeSessionLabel,
+  readNotesFromFile,
+} from '../harness/playtest-metadata.js';
 import { HUMAN_PLAY_CLI_USAGE, parseHumanPlayCliArgs } from './cli-args.js';
 import { runHumanPlaySession } from './session.js';
 import { runTerminalHumanPlay } from './terminal.js';
@@ -14,6 +19,23 @@ export const runHumanPlayCli = async (argv: string[] = process.argv.slice(2)): P
     return;
   }
 
+  let playtestNotes = args.playtestNotes
+    ? normalizeHumanPlaytestNotes(args.playtestNotes)
+    : undefined;
+  if (args.notesFile) {
+    if (playtestNotes) {
+      throw new Error('Use only one of --notes or --notes-file.');
+    }
+    playtestNotes = await readNotesFromFile(args.notesFile);
+  }
+  if (playtestNotes && !args.saveTrace) {
+    throw new Error('--notes or --notes-file require --save-trace.');
+  }
+
+  const sessionLabel = args.sessionLabel
+    ? normalizeSessionLabel(args.sessionLabel)
+    : undefined;
+
   const sessionOptions = {
     seed: args.seed,
     version: args.version,
@@ -24,6 +46,8 @@ export const runHumanPlayCli = async (argv: string[] = process.argv.slice(2)): P
     ...(args.scenarioPack ? { scenarioPack: args.scenarioPack } : {}),
     ...(args.scriptIndices ? { scriptIndices: args.scriptIndices } : {}),
     ...(args.maxSteps !== undefined ? { maxSteps: args.maxSteps } : {}),
+    ...(sessionLabel ? { sessionLabel } : {}),
+    ...(playtestNotes ? { playtestNotes } : {}),
   };
 
   const result =
@@ -40,6 +64,12 @@ export const runHumanPlayCli = async (argv: string[] = process.argv.slice(2)): P
   }
   if (result.scorecardPath) {
     lines.push(`Saved scorecard: ${result.scorecardPath}`);
+  }
+  if (result.notesPath) {
+    lines.push(`Saved human notes: ${result.notesPath}`);
+  }
+  if (result.trace.player_kind) {
+    lines.push(`Player kind: ${result.trace.player_kind}`);
   }
   process.stdout.write(`${lines.join('\n')}\n`);
 };

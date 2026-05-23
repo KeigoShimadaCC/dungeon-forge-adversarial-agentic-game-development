@@ -36,6 +36,7 @@ import {
   resolveBaselinePolicy,
   type HarnessPolicyId,
 } from './policy-registry.js';
+import { buildAgentPlaytestMetadata } from './playtest-metadata.js';
 import { buildStateSummary } from './state-summary.js';
 import {
   buildTraceMetadata,
@@ -134,6 +135,7 @@ export const runPlaythrough = async (
   let stepsTaken = 0;
   let aborted = false;
 
+  const agentMetadata = buildAgentPlaytestMetadata(policyId);
   const traceBase: PlaythroughTrace = {
     version,
     seed,
@@ -141,6 +143,7 @@ export const runPlaythrough = async (
     result: 'ACTIVE',
     turns: 0,
     steps,
+    ...agentMetadata,
     ...(challengeMode ? { challenge_mode: challengeMode } : {}),
     ...(scenarioPack
       ? {
