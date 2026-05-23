@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 18A — Version Dashboard |
-| Goal | Add a local viewer for versions, traces, reviews, scorecards, changelogs, comparisons, and acceptance status. |
-| Branch | `phase/phase-18a-version-dashboard` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-18a-version-dashboard-wt` |
-| Base | `origin/main` at `42d2414` |
-| Status | `Implementation validated locally; PR pending` |
+| Phase | Phase 18B — Balance Analytics |
+| Goal | Add higher-level balance analytics over batch runs, problem seeds, policies, and version deltas. |
+| Branch | `phase/phase-18b-balance-analytics` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-18b-balance-analytics-wt` |
+| Base | `origin/main` at `c9bbf75` |
+| Status | `Planned; automation preflight pending` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-18A-VERSION-DASHBOARD.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-18B-BALANCE-ANALYTICS.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -56,10 +56,14 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
+- [ ] 2026-05-23 orchestrator — Generate Phase 18B automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
+- [ ] 2026-05-23 Cursor/composer-2.5 — Implement balance analytics artifacts, leaderboard/ranking metrics, cohort/delta/problem-run analysis, dashboard-readable output, docs, and tests.
+- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates, request Cursor read-only recheck, and re-read Phase 18B acceptance.
 - [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Phase 18A PR #44 merged at `c9bbf7586f16372f0f76889efb531a60455ca3ae`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 18B.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 18A PASS; no implementation gaps found, and merge readiness remains pending commit/PR/CI only.
 - [x] 2026-05-23 orchestrator — Reviewed dashboard diff, ran focused/full gates, CLI HTML/JSON/artifact smoke, scope audit, `git diff --check`, and re-read Phase 18A acceptance.
 - [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Implemented local static version dashboard, artifact index/loader, leaderboard, evidence links/detail sections, CLI, docs, and focused tests after interrupting a silent Cursor partial pass; local validation passed.
@@ -169,21 +173,22 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-18A-VERSION-DASHBOARD.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-18B-BALANCE-ANALYTICS.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 18A — Version Dashboard
+### Phase 18B — Balance Analytics
 
-- [x] Local-only dashboard or static viewer exists.
-- [x] Viewer loads a sample version folder.
-- [x] Artifact loading and missing-artifact states are clear.
-- [x] Version leaderboard or ranking entries are evidence-backed.
-- [x] Leaderboard entries link back to scorecards, comparisons, and acceptance evidence.
-- [x] Trace, review, scorecard, changelog, and acceptance artifacts are inspectable.
-- [x] Links to persisted summary and comparison artifacts exist.
-- [x] Documentation explains how to launch the viewer.
-- [x] Dashboard does not mutate evidence by default.
-- [x] Text/ASCII and headless harness path remains fully usable.
-- [x] Local final gates pass: `pnpm run check`, viewer-focused tests or browser smoke, and `git diff --check`.
+- [ ] Balance analytics artifact format exists.
+- [ ] Version leaderboard artifact format exists.
+- [ ] Analyzer command or module exists.
+- [ ] Analytics compute stable results from fixture runs.
+- [ ] Seed and policy cohort breakdowns are available.
+- [ ] Problem-run categories are preserved and drillable.
+- [ ] Version deltas are correct for known sample inputs.
+- [ ] Leaderboard rankings are reproducible and link to underlying evidence.
+- [ ] Missing data is reported without crashing.
+- [ ] Viewer/dashboard-readable integration exists if useful with Phase 18A.
+- [ ] Analytics remain advisory and do not replace reviewer critique.
+- [ ] Local final gates pass: `pnpm run check`, focused analytics tests/smoke, and `git diff --check`.
 
 ---
 
@@ -448,12 +453,22 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
 - 2026-05-23 — Cursor/composer-2.5 + orchestrator — Cursor implementation pass stalled silently and was interrupted after leaving partial `src/dashboard/` loader/index files. Orchestrator completed Phase 18A locally: added static HTML renderer, dashboard CLI (`pnpm run version-dashboard`), read-only artifact payload loader, version leaderboard, artifact/missing-state tables, comparison and scorecard/acceptance links, exports, `docs/VERSION-DASHBOARD.md`, and `tests/version-dashboard.test.ts`. Validation PASS: `pnpm test tests/version-dashboard.test.ts` (5 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `pnpm run version-dashboard -- --runs-root . --out /private/tmp/df-phase18a-dashboard-smoke/index.html`; `rg -n "Dungeon Forge Version Dashboard|Leaderboard|runs/v003/acceptance.md|runs/comparisons/v001_vs_v003|seed_001_careful_player" /private/tmp/df-phase18a-dashboard-smoke/index.html`; `pnpm run version-dashboard -- --runs-root . --json`; `pnpm run version-dashboard -- --runs-root . --artifact runs/v003/acceptance.md`; `pnpm run check` (36 files, 341 tests; typecheck/lint/build; ci-smoke; acceptance evidence); `git diff -- src/game content concept-and-ideas phase-plans` empty; `git diff --check` PASS. Re-read `phase-plans/PHASE-18A-VERSION-DASHBOARD.md`; deliverables and acceptance criteria satisfied locally before Cursor read-only recheck.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 18A PASS against the phase plan, local static viewer, artifact loading/missing states, evidence-backed leaderboard, trace/review/scorecard/changelog/acceptance inspectability, persisted summary/comparison links, docs, read-only boundary, no forbidden scope, no secrets, no `src/game` changes, and full local gates. Recheck was blocked only on expected merge workflow: uncommitted implementation, no PR, and no GitHub `Repo gates` yet. Optional browser smoke and dashboard output-path polish recorded in Future backlog.
+- 2026-05-23 — orchestrator — Phase 18A PR #44 merged at `c9bbf7586f16372f0f76889efb531a60455ca3ae` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-18A --evidence runs/phase-runner/PHASE-18A/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-18B`.
+- 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 18B with initial task queue and checklist from `phase-plans/PHASE-18B-BALANCE-ANALYTICS.md`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 18A — Version Dashboard
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-18a-version-dashboard` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/44
+- **Merge commit:** `c9bbf7586f16372f0f76889efb531a60455ca3ae`
+- **Outcome:** Added `pnpm run version-dashboard`, a local static HTML dashboard, dashboard index/leaderboard builder, read-only artifact loader, missing-artifact states, trace/review/scorecard/changelog/acceptance detail links, persisted summary/comparison links, docs, exports, and focused tests.
+- **Key evidence:** Cursor/composer-2.5 partial implementation plus read-only recheck; local `pnpm run check` passed with 36 files and 341 tests; dashboard CLI HTML/JSON/artifact smokes passed against committed sample evidence; `git diff --check` passed; PR #44 `Repo gates` passed before merge; phase-runner automerge gate returned `allow`.
 
 ### Phase 17C — Trace Replay And UX
 

@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-18A",
+  "currentPhase": "PHASE-18B",
   "lastUpdated": "2026-05-23",
   "phases": {
     "PHASE-00A": {
@@ -178,7 +178,11 @@
       "status": "complete"
     },
     "PHASE-18A": {
-      "status": "queued"
+      "branch": "phase/phase-18a-version-dashboard",
+      "evidenceDir": "runs/phase-runner/PHASE-18A/planned",
+      "mergeCommit": "c9bbf7586f16372f0f76889efb531a60455ca3ae",
+      "pr": 44,
+      "status": "complete"
     },
     "PHASE-18B": {
       "status": "queued"
