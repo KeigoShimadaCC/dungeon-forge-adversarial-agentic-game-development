@@ -257,6 +257,70 @@
       "allowedPaths": ["src/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD", "content/**"],
       "parallelGroup": "24-evaluation",
       "automerge": true
+    },
+    {
+      "id": "PHASE-25A",
+      "plan": "phase-plans/PHASE-25A-CONTROL-ROOM-TIMELINE-ARTIFACTS.md",
+      "dependsOn": ["PHASE-24B"],
+      "allowedPaths": ["src/control-room/timeline/**", "tests/control-room-timeline.test.ts", "tests/fixtures/control-room-timeline/**", "docs/CONTROL-ROOM-TIMELINE.md", "PROGRESS.MD", "runs/control-room/timeline/**"],
+      "parallelGroup": "25-control-room-foundation",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-25B",
+      "plan": "phase-plans/PHASE-25B-AGENT-ROLES-PERSONAS-AND-MODELS.md",
+      "dependsOn": ["PHASE-24B"],
+      "allowedPaths": ["src/control-room/roles/**", "tests/control-room-roles.test.ts", "tests/fixtures/control-room-roles/**", "docs/CONTROL-ROOM-ROLES.md", "PROGRESS.MD"],
+      "parallelGroup": "25-control-room-foundation",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-26A",
+      "plan": "phase-plans/PHASE-26A-CONTROL-ROOM-WEB-SHELL.md",
+      "dependsOn": ["PHASE-25A", "PHASE-25B"],
+      "allowedPaths": ["src/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD", "runs/**"],
+      "parallelGroup": "26-control-room-ui",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-26B",
+      "plan": "phase-plans/PHASE-26B-HUMAN-IDEA-AND-FEEDBACK-CAPTURE.md",
+      "dependsOn": ["PHASE-26A"],
+      "allowedPaths": ["src/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD", "runs/**"],
+      "parallelGroup": "26-control-room-capture",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-27A",
+      "plan": "phase-plans/PHASE-27A-PREPARED-ITERATION-HANDOFFS.md",
+      "dependsOn": ["PHASE-26B"],
+      "allowedPaths": ["src/control-room/handoffs/**", "tests/control-room-handoffs.test.ts", "tests/fixtures/control-room-handoffs/**", "docs/CONTROL-ROOM-HANDOFFS.md", "PROGRESS.MD", "runs/control-room/handoffs/**"],
+      "parallelGroup": "27-control-room-next-step",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-27B",
+      "plan": "phase-plans/PHASE-27B-NARRATED-VERSION-SUMMARIES.md",
+      "dependsOn": ["PHASE-26B"],
+      "allowedPaths": ["src/control-room/narration/**", "tests/control-room-narration.test.ts", "tests/fixtures/control-room-narration/**", "docs/CONTROL-ROOM-NARRATION.md", "PROGRESS.MD", "runs/control-room/narration/**"],
+      "parallelGroup": "27-control-room-next-step",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-28A",
+      "plan": "phase-plans/PHASE-28A-NONDESTRUCTIVE-VERSION-BASE-SELECTION.md",
+      "dependsOn": ["PHASE-27A", "PHASE-27B"],
+      "allowedPaths": ["src/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD", "runs/**"],
+      "parallelGroup": "28-control-room-base-selection",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-28B",
+      "plan": "phase-plans/PHASE-28B-CONTROL-ROOM-POLISH-AND-SCALABILITY.md",
+      "dependsOn": ["PHASE-28A"],
+      "allowedPaths": ["src/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD", "runs/**"],
+      "parallelGroup": "28-control-room-polish",
+      "automerge": true
     }
   ]
 }

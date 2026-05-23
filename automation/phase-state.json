@@ -254,8 +254,32 @@
     },
     "PHASE-24B": {
       "status": "planned"
+    },
+    "PHASE-25A": {
+      "status": "planned"
+    },
+    "PHASE-25B": {
+      "status": "planned"
+    },
+    "PHASE-26A": {
+      "status": "planned"
+    },
+    "PHASE-26B": {
+      "status": "planned"
+    },
+    "PHASE-27A": {
+      "status": "planned"
+    },
+    "PHASE-27B": {
+      "status": "planned"
+    },
+    "PHASE-28A": {
+      "status": "planned"
+    },
+    "PHASE-28B": {
+      "status": "planned"
     }
   },
   "schemaVersion": 1,
-  "sourceNote": "All tracked PHASE-*.md plans from PHASE-00A through PHASE-23A are complete locally. PHASE-23A adds the North Star gap audit and queues the next roadmap phases; PHASE-23B is the next planned implementation phase."
+  "sourceNote": "All tracked PHASE-*.md plans from PHASE-00A through PHASE-23A are complete locally. PHASE-23A adds the North Star gap audit and queues PHASE-23B through PHASE-24B; the control-room frontend roadmap is queued as PHASE-25A through PHASE-28B. PHASE-23B remains the next planned implementation phase."
 }

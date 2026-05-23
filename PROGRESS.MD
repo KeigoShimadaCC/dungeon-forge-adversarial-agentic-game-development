@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | SECURITY-AUDIT - Whole-Repo Security Audit And Remediation |
-| Goal | Audit repo-wide security posture against OWASP ASVS 5.0.0, OWASP LLM Top 10 2025, and agentic AI threat guidance; fix validated Critical/High/Medium issues with targeted tests and durable reporting. |
-| Branch | `security-audit-remediation` |
+| Phase | PHASE-23B - Current State Docs Refresh |
+| Goal | Refresh public-facing and coordination documentation so it describes the implemented repository instead of the Phase 01A scaffold. |
+| Branch | `main` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development` |
-| Base | `origin/main` after PHASE-22A close-out; PHASE-23A planning completed locally on this dirty branch |
-| Status | `Implemented locally; validation passed` |
+| Base | `origin/main` after PHASE-23A planning and security-audit remediation close-out |
+| Status | `Planned` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. User-provided SECURITY-AUDIT plan — implementation contract for this slice
+3. Active `phase-plans/PHASE-23B-CURRENT-STATE-DOCS-REFRESH.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,7 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 orchestrator — Added control-room frontend roadmap plans `PHASE-25A` through `PHASE-28B`, preserving existing `PHASE-13/14` history and wiring dependency/parallelism metadata for future execution.
 - [x] 2026-05-24 orchestrator — Completed SECURITY-AUDIT remediation/report: hardened argv command execution for internal Git/GitHub wrappers, optional-media asset probes, generated artifact links, LLM base URL validation, targeted tests, dependency audits, and full repo gates.
 - [x] 2026-05-24 orchestrator — Completed PHASE-23A docs-only North Star gap planning: added audit artifact, queued PHASE-23B through PHASE-24B plans, and wired automation graph/state to pick up PHASE-23B next.
 - [x] 2026-05-24 orchestrator — Started dedicated `security-audit-remediation` branch and performed initial repository-wide security inventory.
@@ -209,17 +210,16 @@ _(none)_
 
 ## Phase checklist
 
-_SECURITY-AUDIT - Whole-Repo Security Audit And Remediation._
+_PHASE-23B - Current State Docs Refresh._
 
-- [x] Threat model and coverage ledger cover CLI entrypoints, command execution, git/GitHub automation, Cursor/agent prompt execution, LLM provider paths, JSON/content loaders, generated artifacts, static HTML rendering, secrets, and dependency supply chain.
-- [x] Validated command-execution shell-boundary finding has targeted regression coverage.
-- [x] Internal git/GitHub command execution boundaries hardened without changing game or harness behavior.
-- [x] Optional-media filesystem probes are constrained to safe repo-local `media/` paths.
-- [x] LLM base-URL override validation rejects non-HTTP(S), credentialed, query/fragment, and non-loopback HTTP endpoints.
-- [x] Static dashboard/demo HTML artifact links block active or escaping hrefs.
-- [x] Secret redaction/scanning coverage reviewed; current PHASE-22A path/content scanning remains sufficient for validated findings.
-- [x] `docs/SECURITY-AUDIT.md` records severity, framework mapping, affected files, fix status, validation, and residual risks.
-- [x] Dependency audit and repo gates run or blockers documented.
+- [ ] README current status, command list, architecture summary, and evidence overview are updated.
+- [ ] `docs/NORTH_STAR.md` is refreshed from scaffold mirror to current system summary while preserving the North Star.
+- [ ] `docs/RULES.md` is refreshed from scaffold mirror to current invariants, interfaces, and validation expectations.
+- [ ] `package.json` description is updated if it still describes the project as Phase 01A scaffold.
+- [ ] Docs distinguish product vision, implemented capabilities, optional credential-gated LLM paths, generated evidence/static viewers, and known next roadmap phases.
+- [ ] Documentation does not promise future browser UI, deeper evaluation, or longitudinal proof as already complete.
+- [ ] `PROGRESS.MD` validation log records the exact files reviewed and checks run.
+- [ ] Required validation passes: `git diff --check`, `pnpm run typecheck`, and `pnpm run lint`.
 
 ---
 
@@ -286,6 +286,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-24 — orchestrator — SECURITY-AUDIT start: created branch `security-audit-remediation`; read `PROGRESS.MD`, AGENTS/user audit plan, package/config, automation command wrappers, optional-media path probes, dashboard/static HTML renderers, and Codex Security scan workflow. Initial validated remediation target is internal shell-command boundary hardening in git/GitHub/agent execution; optional-media asset path probing and generated HTML links are under review.
 - 2026-05-24 — orchestrator — SECURITY-AUDIT remediation complete locally: added argv execution support and migrated internal Git/GitHub wrappers off shell strings; blocked unsafe optional-media file probes; blocked active/escaping dashboard/static-demo artifact links; validated LLM base URL overrides; wrote `docs/SECURITY-AUDIT.md`. Validation PASS: focused security suite `pnpm test tests/phase-autopilot.test.ts tests/optional-media.test.ts tests/version-dashboard.test.ts tests/static-demo.test.ts tests/llm-provider.test.ts` (55 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm audit --prod` (No known vulnerabilities found after escalated network rerun; sandbox attempt failed with DNS ENOTFOUND); `pnpm audit` (No known vulnerabilities found after escalated network rerun; sandbox attempt failed with DNS ENOTFOUND); `pnpm test` (42 files, 399 tests); `pnpm run build`; `pnpm run check` (42 files, 399 tests plus typecheck/lint/build/ci-smoke/acceptance evidence); `git diff --check`.
 - 2026-05-24 — orchestrator — PHASE-23A docs-only North Star gap planning completed: wrote `docs/NORTH_STAR_GAP_AUDIT.md`, added plans `PHASE-23A` through `PHASE-24B`, extended `automation/phase-graph.json`, set `automation/phase-state.json` current phase to `PHASE-23B`, and updated this handoff. Validation PASS: pre-existing phase-plan schema audit found 46 files / 0 missing sections; final schema audit found 52 files / 0 missing sections; graph tail/dependency check passed for PHASE-23A -> PHASE-24B; automation JSON parse passed; `git diff --check` passed. No `pnpm test` run because PHASE-23A touched docs/metadata only and did not change source behavior.
+- 2026-05-24 — orchestrator — Control-room frontend roadmap planning completed: added `PHASE-25A-CONTROL-ROOM-TIMELINE-ARTIFACTS.md`, `PHASE-25B-AGENT-ROLES-PERSONAS-AND-MODELS.md`, `PHASE-26A-CONTROL-ROOM-WEB-SHELL.md`, `PHASE-26B-HUMAN-IDEA-AND-FEEDBACK-CAPTURE.md`, `PHASE-27A-PREPARED-ITERATION-HANDOFFS.md`, `PHASE-27B-NARRATED-VERSION-SUMMARIES.md`, `PHASE-28A-NONDESTRUCTIVE-VERSION-BASE-SELECTION.md`, and `PHASE-28B-CONTROL-ROOM-POLISH-AND-SCALABILITY.md`; wired `automation/phase-graph.json` so `PHASE-25A` and `PHASE-25B` are parallel after `PHASE-24B`, `PHASE-26A` depends on both, `PHASE-27A` and `PHASE-27B` are parallel after `PHASE-26B`, and `PHASE-28A/B` finish the sequence; updated `automation/phase-state.json` with planned statuses while preserving `currentPhase: PHASE-23B`. Validation PASS: automation JSON parse; new phase-plan section audit (8 files / 0 missing sections); control-room graph dependency check; `git diff --check`. No `pnpm test` run because this pass touched docs/metadata only.
+- 2026-05-24 — orchestrator — Automation-readiness double-check found broad `src/**`, `tests/**`, `docs/**`, `phase-plans/**`, and shared `runs/control-room/**` scopes would prevent declared parallel phases from being selected together by `phasePathScopesConflict`. Narrowed `PHASE-25A`/`PHASE-25B` and `PHASE-27A`/`PHASE-27B` allowed paths to disjoint control-room submodules, fixture/test files, docs, and run subdirectories. Validation PASS: no path conflicts for the two declared parallel pairs; graph/state audit; new phase-plan section audit (8 files); `git diff --check`.
 
 - 2026-05-23 — Cursor/composer-2.5 + orchestrator — Phase 12A Pass 2: implemented `v002` profile with starting Smoke Bomb inventory/opening guidance, inventory/tactical render clarity, baseline policy smoke use, `demo-loop-handoff` (reviewer-driven `developer_task.md`/`patch_plan.md` from `v001` seed_001 careful_player), comparison artifacts under `runs/comparisons/`, generated acceptance reports from `demo-loop`, and regenerated `runs/v001`/`runs/v002` through commands. Concrete signal: v001→v002 comparison shows `items_used` 2→28, tactical-depth average 4→5.33, clarity average 5.33→5.67, and softlocks 15→14; comparison also records newly problematic balance runs for v003 tuning. Validation PASS: focused tests (36); `pnpm run typecheck`; `pnpm run lint`; `pnpm run demo-loop -- --runs-root . --versions v001,v002`; `pnpm run compare-versions -- --base v001 --target v002 --runs-root .`; `pnpm run accept-version -- --version v002 --runs-root . --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass --reviewer-driven`.
 - 2026-05-23 — orchestrator — Phase 12A Pass 3: implemented `v003` tuned one-floor balance/clarity profile with Slime-only pressure, starting Smoke Bomb + Potion, and explicit opening guidance; extended `demo-loop` to generate adjacent comparisons plus final `v001_vs_v003` comparison. Generated `runs/v003`, `runs/comparisons/v002_vs_v003.*`, and `runs/comparisons/v001_vs_v003.*` through `pnpm run demo-loop -- --runs-root .`. Concrete signal: v002→v003 damage taken `190 -> 130`, turns `1609 -> 1014`, item use `28 -> 32`, balance win rate `0.2 -> 0.3`, and no new problematic balance runs; v001→v003 keeps tactical-depth gain `4 -> 5.33` and item use `2 -> 32`. Validation PASS: focused tests (37); `pnpm run typecheck`; `pnpm run lint`; `pnpm run demo-loop -- --runs-root .`; `pnpm run compare-versions -- --base v002 --target v003 --runs-root .`; `pnpm run compare-versions -- --base v001 --target v003 --runs-root .`; `pnpm run accept-version -- --version v003 --runs-root . --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass --reviewer-driven`.
