@@ -213,7 +213,11 @@
       "status": "complete"
     },
     "PHASE-19C": {
-      "status": "queued"
+      "branch": "phase/phase-19c-optional-media-experiments",
+      "evidenceDir": "runs/phase-runner/PHASE-19C/planned",
+      "mergeCommit": "3814cd05a780135cb2eb72db26a6eb59d6841767",
+      "pr": 49,
+      "status": "complete"
     }
   },
   "schemaVersion": 1,
