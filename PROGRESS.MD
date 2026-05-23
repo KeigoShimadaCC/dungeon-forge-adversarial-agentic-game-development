@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Add a local viewer for versions, traces, reviews, scorecards, changelogs, comparisons, and acceptance status. |
 | Branch | `phase/phase-18a-version-dashboard` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-18a-version-dashboard-wt` |
-| Base | `origin/main` at `98b05e6` |
-| Status | `Planned; automation preflight pending` |
+| Base | `origin/main` at `42d2414` |
+| Status | `Seed checkpoint complete; Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -52,17 +52,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-23 Cursor/composer-2.5 — Implement local version dashboard/viewer, artifact loading/missing states, evidence links/detail views, docs, and tests or smoke checks.
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Generate Phase 18A automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement local version dashboard/viewer, artifact loading/missing states, evidence links/detail views, docs, and tests or smoke checks.
 - [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates, request Cursor read-only recheck, and re-read Phase 18A acceptance.
 - [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Generated Phase 18A automation bundle under `runs/phase-runner/PHASE-18A/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18a-version-dashboard-wt`, confirmed `composer-2.5`, and seeded progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 17C PR #43 merged at `98b05e60547ece52025da4b838f9f5f6cf9612b3`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 18A.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 17C PASS; no implementation gaps found, and merge readiness remains pending commit/PR/CI only.
 - [x] 2026-05-23 orchestrator — Reviewed Cursor diff, hardened replay report path handling, nested output directories, inspect range accounting, ASCII-only output/docs, and test temp-dir isolation; reran focused/full gates, smoke replay, scope audit, and `git diff --check`.
@@ -441,6 +440,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 17C PASS against the phase plan, replay CLI/library, inspect/verify/both modes, replay report format, valid/malformed trace behavior, scorecard context, state deltas, trace immutability, no forbidden scope, no secrets, no `src/game` changes, and local gates. Recheck was blocked only on expected merge workflow: uncommitted implementation, no PR, and no GitHub `Repo gates` yet. Optional CI-smoke and terminal step-through polish ideas recorded in Future backlog.
 - 2026-05-23 — orchestrator — Phase 17C PR #43 merged at `98b05e60547ece52025da4b838f9f5f6cf9612b3` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-17C --evidence runs/phase-runner/PHASE-17C/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-18A`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 18A with initial task queue and checklist from `phase-plans/PHASE-18A-VERSION-DASHBOARD.md`.
+- 2026-05-23 — orchestrator — Phase 18A automation start: main handoff commit `42d2414` passed GitHub `Repo gates`; `pnpm run phase -- bundle --phase PHASE-18A --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-18A/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18a-version-dashboard-wt` on branch `phase/phase-18a-version-dashboard` from `origin/main` at `42d2414`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
 
 ---
 
