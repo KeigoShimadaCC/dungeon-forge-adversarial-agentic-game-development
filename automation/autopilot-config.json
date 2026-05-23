@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "git": {
+    "baseBranch": "main",
+    "baseRef": "origin/main"
+  },
+  "agents": {
+    "planner": {
+      "provider": "shell",
+      "commandTemplate": "codex \"$(cat \\\"{{PROMPT_PATH}}\\\")\"",
+      "timeoutMs": 1800000
+    },
+    "executor": {
+      "provider": "shell",
+      "commandTemplate": "codex \"$(cat \\\"{{PROMPT_PATH}}\\\")\"",
+      "timeoutMs": 1800000
+    },
+    "rechecker": {
+      "provider": "shell",
+      "commandTemplate": "codex \"$(cat \\\"{{PROMPT_PATH}}\\\")\"",
+      "timeoutMs": 900000
+    },
+    "cursorSubtask": {
+      "provider": "shell",
+      "commandTemplate": "agent --print --trust --model composer-2.5 --workspace \"{{WORKSPACE}}\" \"$(cat \\\"{{PROMPT_PATH}}\\\")\"",
+      "timeoutMs": 900000
+    }
+  },
+  "dependencyBootstrapCommands": [
+    "pnpm install --frozen-lockfile"
+  ],
+  "commandExecutor": {
+    "defaultTimeoutMs": 3600000
+  }
+}

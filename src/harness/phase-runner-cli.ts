@@ -1,6 +1,15 @@
 import path from 'node:path';
 
 import {
+  executeStage,
+  inspectRun,
+  loadAutopilotConfig,
+  resumeAutopilot,
+  runAutopilotForPhase,
+  runAutopilotUntilComplete,
+  type ExecuteStageName,
+} from './phase-autopilot.js';
+import {
   buildPhaseRunBundle,
   branchNameForPhase,
   defaultRunnerPaths,
@@ -19,7 +28,18 @@ import { stringifyDeterministicJson } from './json.js';
 import { handleCliError } from './version-loop-cli.js';
 
 interface ParsedArgs {
-  command: 'status' | 'next' | 'bundle' | 'gate' | 'complete' | 'block' | 'help';
+  command:
+    | 'status'
+    | 'next'
+    | 'bundle'
+    | 'gate'
+    | 'complete'
+    | 'block'
+    | 'execute'
+    | 'autopilot'
+    | 'resume'
+    | 'inspect-run'
+    | 'help';
   repoRoot: string;
   from?: string;
   parallel?: number;
@@ -31,6 +51,20 @@ interface ParsedArgs {
   mergeCommit?: string;
   evidenceDir?: string;
   reason?: string;
+  stage?: ExecuteStageName;
+  dryRun?: boolean;
+  untilComplete?: boolean;
+  allowAgentExecution?: boolean;
+  allowPr?: boolean;
+  allowMerge?: boolean;
+  continueOnBlocked?: boolean;
+  planApproval?: 'auto' | 'manual' | 'disabled';
+  plannerAgent?: 'shell' | 'manual';
+  executorAgent?: 'shell' | 'manual';
+  recheckerAgent?: 'shell' | 'manual';
+  plannerCommandTemplate?: string;
+  executorCommandTemplate?: string;
+  recheckerCommandTemplate?: string;
 }
 
 const usage = `Usage:
@@ -41,9 +75,25 @@ const usage = `Usage:
   pnpm run phase -- complete --phase PHASE-13A [--pr 27] [--merge-commit <sha>] [--evidence-dir <path>]
   pnpm run phase -- block --phase PHASE-13A --reason <reason>
 
+  pnpm run phase -- execute --phase PHASE-20A --stage <stage> [--run-id <id>]
+  pnpm run phase -- autopilot --phase PHASE-20A [--dry-run] [--run-id <id>]
+  pnpm run phase -- autopilot --from PHASE-20A --until-complete [--parallel 1]
+  pnpm run phase -- resume --phase PHASE-20A --run-id <id>
+  pnpm run phase -- inspect-run --phase PHASE-20A --run-id <id>
+
+Safety flags (default deny):
+  --allow-agent-execution   invoke planner/implementer/rechecker shell templates
+  --allow-pr                create PR via gh
+  --allow-merge             merge PR when automerge gate allows
+  --dry-run                 write run plan only; no git/agent/pr/merge mutations
+  --continue-on-blocked     keep going after a blocked phase (until-complete only)
+  --plan-approval <mode>    auto, manual, or disabled; default manual
+  --planner-agent <mode>    shell or manual; default manual
+  --executor-agent <mode>   shell or manual; default manual
+  --rechecker-agent <mode>  shell or manual; default manual
+
 Notes:
-  Codex is the orchestrator. Cursor/composer-2.5 is the bounded coding and recheck delegate.
-  The current implementation is deterministic planning and gate evaluation; git/gh execution should use the generated bundle.
+  Codex orchestrates; Cursor/composer-2.5 is the bounded delegate via automation/autopilot-config.json.
 `;
 
 const parseArgs = (argv: string[]): ParsedArgs => {
@@ -53,7 +103,20 @@ const parseArgs = (argv: string[]): ParsedArgs => {
     repoRoot: process.cwd(),
   };
 
-  if (!['status', 'next', 'bundle', 'gate', 'complete', 'block', 'help'].includes(args.command)) {
+  const knownCommands: ParsedArgs['command'][] = [
+    'status',
+    'next',
+    'bundle',
+    'gate',
+    'complete',
+    'block',
+    'execute',
+    'autopilot',
+    'resume',
+    'inspect-run',
+    'help',
+  ];
+  if (!knownCommands.includes(args.command)) {
     throw new Error(`Unknown phase command: ${normalizedArgv[0]}\n${usage}`);
   }
 
@@ -99,6 +162,74 @@ const parseArgs = (argv: string[]): ParsedArgs => {
     } else if (arg === '--reason' && next) {
       args.reason = next;
       index += 1;
+    } else if (arg === '--stage' && next) {
+      const allowedStages = new Set<ExecuteStageName>([
+        'bundle',
+        'preflight',
+        'setup',
+        'bootstrap',
+        'planning',
+        'plan-acceptance',
+        'execution',
+        'recheck',
+        'local-validation',
+        'commit',
+        'pr',
+        'checks',
+        'merge',
+        'cleanup',
+        'evidence',
+      ]);
+      if (!allowedStages.has(next as ExecuteStageName)) {
+        throw new Error(`Unknown stage: ${next}\n${usage}`);
+      }
+      args.stage = next as ExecuteStageName;
+      index += 1;
+    } else if (arg === '--dry-run') {
+      args.dryRun = true;
+    } else if (arg === '--until-complete') {
+      args.untilComplete = true;
+    } else if (arg === '--allow-agent-execution') {
+      args.allowAgentExecution = true;
+    } else if (arg === '--allow-pr') {
+      args.allowPr = true;
+    } else if (arg === '--allow-merge') {
+      args.allowMerge = true;
+    } else if (arg === '--continue-on-blocked') {
+      args.continueOnBlocked = true;
+    } else if (arg === '--plan-approval' && next) {
+      if (next !== 'auto' && next !== 'manual' && next !== 'disabled') {
+        throw new Error('--plan-approval must be auto, manual, or disabled');
+      }
+      args.planApproval = next;
+      index += 1;
+    } else if (arg === '--planner-agent' && next) {
+      if (next !== 'shell' && next !== 'manual') {
+        throw new Error('--planner-agent must be shell or manual');
+      }
+      args.plannerAgent = next;
+      index += 1;
+    } else if (arg === '--executor-agent' && next) {
+      if (next !== 'shell' && next !== 'manual') {
+        throw new Error('--executor-agent must be shell or manual');
+      }
+      args.executorAgent = next;
+      index += 1;
+    } else if (arg === '--rechecker-agent' && next) {
+      if (next !== 'shell' && next !== 'manual') {
+        throw new Error('--rechecker-agent must be shell or manual');
+      }
+      args.recheckerAgent = next;
+      index += 1;
+    } else if (arg === '--planner-command-template' && next) {
+      args.plannerCommandTemplate = next;
+      index += 1;
+    } else if (arg === '--executor-command-template' && next) {
+      args.executorCommandTemplate = next;
+      index += 1;
+    } else if (arg === '--rechecker-command-template' && next) {
+      args.recheckerCommandTemplate = next;
+      index += 1;
     } else if (arg === '--help' || arg === '-h') {
       args.command = 'help';
     } else {
@@ -123,6 +254,46 @@ const writeJson = (value: unknown): void => {
 const readJsonFile = async <T>(filePath: string): Promise<T> => {
   const { readFile } = await import('node:fs/promises');
   return JSON.parse(await readFile(filePath, 'utf8')) as T;
+};
+
+const safetyFlagsFromArgs = (args: ParsedArgs) => ({
+  allowAgentExecution: args.allowAgentExecution === true,
+  allowPr: args.allowPr === true,
+  allowMerge: args.allowMerge === true,
+  dryRun: args.dryRun === true,
+  continueOnBlocked: args.continueOnBlocked === true,
+  parallel: args.parallel ?? 1,
+  planApproval: args.planApproval ?? 'manual',
+  plannerAgent: args.plannerAgent ?? 'manual',
+  executorAgent: args.executorAgent ?? 'manual',
+  recheckerAgent: args.recheckerAgent ?? 'manual',
+});
+
+const autopilotDepsFromArgs = async (args: ParsedArgs) => {
+  if (!args.plannerCommandTemplate && !args.executorCommandTemplate && !args.recheckerCommandTemplate) {
+    return undefined;
+  }
+  const autopilotConfig = await loadAutopilotConfig(args.repoRoot);
+  return {
+    autopilotConfig: {
+      ...autopilotConfig,
+      agents: {
+        ...autopilotConfig.agents,
+        planner: {
+          ...autopilotConfig.agents.planner,
+          ...(args.plannerCommandTemplate ? { commandTemplate: args.plannerCommandTemplate } : {}),
+        },
+        executor: {
+          ...autopilotConfig.agents.executor,
+          ...(args.executorCommandTemplate ? { commandTemplate: args.executorCommandTemplate } : {}),
+        },
+        rechecker: {
+          ...autopilotConfig.agents.rechecker,
+          ...(args.recheckerCommandTemplate ? { commandTemplate: args.recheckerCommandTemplate } : {}),
+        },
+      },
+    },
+  };
 };
 
 export const runPhaseRunnerCli = async (argv: string[] = process.argv.slice(2)): Promise<void> => {
@@ -223,6 +394,62 @@ export const runPhaseRunnerCli = async (argv: string[] = process.argv.slice(2)):
       currentPhase: nextState.currentPhase,
       statePath: paths.statePath,
     });
+    return;
+  }
+
+  const safetyFlags = safetyFlagsFromArgs(args);
+
+  if (args.command === 'execute') {
+    const phaseId = requireArg(args.phase, 'phase');
+    const stage = requireArg(args.stage, 'stage') as ExecuteStageName;
+    writeJson(
+      await executeStage(args.repoRoot, phaseId, stage, {
+        runId: args.runId,
+        safetyFlags,
+        deps: await autopilotDepsFromArgs(args),
+      }),
+    );
+    return;
+  }
+
+  if (args.command === 'autopilot') {
+    if (args.untilComplete) {
+      writeJson(
+        await runAutopilotUntilComplete(args.repoRoot, {
+          from: args.from,
+          safetyFlags,
+          deps: await autopilotDepsFromArgs(args),
+        }),
+      );
+      return;
+    }
+    const phaseId = requireArg(args.phase ?? args.from, 'phase');
+    writeJson(
+      await runAutopilotForPhase(args.repoRoot, phaseId, {
+        runId: args.runId,
+        safetyFlags,
+        deps: await autopilotDepsFromArgs(args),
+      }),
+    );
+    return;
+  }
+
+  if (args.command === 'resume') {
+    const phaseId = requireArg(args.phase, 'phase');
+    const runId = requireArg(args.runId, 'run-id');
+    writeJson(
+      await resumeAutopilot(args.repoRoot, phaseId, runId, {
+        safetyFlags,
+        deps: await autopilotDepsFromArgs(args),
+      }),
+    );
+    return;
+  }
+
+  if (args.command === 'inspect-run') {
+    const phaseId = requireArg(args.phase, 'phase');
+    const runId = requireArg(args.runId, 'run-id');
+    writeJson(await inspectRun(args.repoRoot, phaseId, runId));
   }
 };
 

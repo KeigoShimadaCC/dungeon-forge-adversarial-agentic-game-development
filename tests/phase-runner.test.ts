@@ -51,7 +51,7 @@ describe('phase runner automation core', () => {
       canUseCursor: true,
     });
     expect(runnable[0]?.cursorDelegate.model).toBe('composer-2.5');
-    expect(runnable[0]?.cursorDelegate.implementationCommand).toContain('agent --print --trust');
+    expect(runnable[0]?.cursorDelegate.executorCommand).toContain('agent --print --trust');
   });
 
   it('keeps overlapping path scopes out of the same parallel batch', async () => {
@@ -81,11 +81,13 @@ describe('phase runner automation core', () => {
     const bundle = await buildPhaseRunBundle(config, repoRoot, 'PHASE-13A', 'unit-test');
 
     expect(bundle.branch).toBe('phase/phase-13a-evidence-retention');
-    expect(bundle.codexPlanPrompt).toContain('YOU ARE AN AGENT ORCHESTRATOR');
+    expect(bundle.codexPlanPrompt).toContain('You are Planner Codex');
+    expect(bundle.codexPlanPrompt).toContain('Do not call Cursor');
     expect(bundle.codexPlanPrompt).toContain('# PHASE-13A - Evidence Retention');
-    expect(bundle.cursorImplementationPrompt).toContain('Model expectation: Composer 2.5');
+    expect(bundle.cursorImplementationPrompt).toContain('You are Executor Codex');
+    expect(bundle.cursorImplementationPrompt).toContain('accepted plan');
     expect(bundle.cursorImplementationPrompt).toContain('- src/harness/**');
-    expect(bundle.cursorRecheckPrompt).toContain('Can you check whether PHASE-13A');
+    expect(bundle.cursorRecheckPrompt).toContain('accepted plan');
     expect(bundle.commands.pr).toContain('gh pr checks <pr-number> --watch');
   });
 
@@ -105,7 +107,7 @@ describe('phase runner automation core', () => {
         branch: 'phase/phase-13a-evidence-retention',
         phase: { id: 'PHASE-13A' },
       });
-      expect(cursorPrompt).toContain('Implement PHASE-13A');
+      expect(cursorPrompt).toContain('You are Executor Codex for PHASE-13A');
     });
   });
 

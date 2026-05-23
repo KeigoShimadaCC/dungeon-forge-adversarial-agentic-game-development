@@ -28,4 +28,6 @@ Final response:
 - Files changed during recheck, if any.
 - Commands run and results.
 - Remaining gaps and where they were recorded in PROGRESS.MD.
+- End with a fenced JSON report using schemaVersion 1:
+  {"schemaVersion":1,"phase":"{{PHASE_ID}}","status":"pass","phaseAcceptanceComplete":true,"filesChangedDuringRecheck":[],"commandsRun":[],"gaps":[],"blockingGaps":[]}
 ```

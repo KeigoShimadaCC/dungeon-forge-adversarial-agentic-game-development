@@ -185,6 +185,14 @@
       "allowedPaths": ["src/**", "content/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
       "parallelGroup": "19-media",
       "automerge": true
+    },
+    {
+      "id": "PHASE-20A",
+      "plan": "phase-plans/PHASE-20A-AGENTIC-PHASE-AUTOPILOT.md",
+      "dependsOn": ["PHASE-19C"],
+      "allowedPaths": ["automation/**", "src/harness/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "20-autopilot",
+      "automerge": true
     }
   ]
 }

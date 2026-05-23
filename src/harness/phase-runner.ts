@@ -97,9 +97,9 @@ export interface RunnablePhase {
   };
   cursorDelegate: {
     model: 'composer-2.5';
-    implementationPromptPath: string;
+    executorPromptPath: string;
     recheckPromptPath: string;
-    implementationCommand: string;
+    executorCommand: string;
     recheckCommand: string;
   };
   requiredCommands: string[];
@@ -192,7 +192,13 @@ export const evidenceDirForPhase = (
   repoRoot: string,
   phase: PhaseDefinition,
   runId = DEFAULT_RUN_ID,
-): string => path.join(repoRoot, 'runs', 'phase-runner', phase.id, runId);
+): string => evidenceDirForPhaseId(repoRoot, phase.id, runId);
+
+export const evidenceDirForPhaseId = (
+  repoRoot: string,
+  phaseId: string,
+  runId = DEFAULT_RUN_ID,
+): string => path.join(repoRoot, 'runs', 'phase-runner', phaseId, runId);
 
 const phaseOrderIndex = (graph: PhaseGraph, phaseId: string): number =>
   graph.phases.findIndex((phase) => phase.id === phaseId);
@@ -337,15 +343,16 @@ export const buildRunnablePhase = (
     },
     cursorDelegate: {
       model: 'composer-2.5',
-      implementationPromptPath,
+      executorPromptPath: implementationPromptPath,
       recheckPromptPath,
-      implementationCommand: `agent --print --trust --model composer-2.5 --workspace ${quoteShell(worktreePath)} "$(cat ${quoteShell(implementationPromptPath)})"`,
+      executorCommand: `agent --print --trust --model composer-2.5 --workspace ${quoteShell(worktreePath)} "$(cat ${quoteShell(implementationPromptPath)})"`,
       recheckCommand: `agent --print --trust --mode=ask --model composer-2.5 --workspace ${quoteShell(worktreePath)} "$(cat ${quoteShell(recheckPromptPath)})"`,
     },
     requiredCommands: [...config.graph.globalValidationCommands],
     notes: [
-      'Codex is the phase orchestrator and release controller.',
-      'Cursor/composer-2.5 is the bounded implementation and recheck delegate for each Codex worker.',
+      'The deterministic runner is the phase sequencer and release controller.',
+      'Planner Codex is read-only and must produce a validated plan before execution.',
+      'Executor Codex consumes the accepted plan and may delegate only accepted bounded subtasks to Cursor/composer-2.5.',
       'PROGRESS.MD updates should be serialized before final merge because it is a high-conflict file.',
     ],
   };
@@ -378,13 +385,13 @@ export const buildPhaseRunBundle = async (
 
   const runnable = buildRunnablePhase(config, repoRoot, phase, runId);
   const phasePlanContents = await readFile(path.join(repoRoot, phase.plan), 'utf8');
-  const codexPlanTemplate = await readFile(path.join(paths.promptsDir, 'codex-plan-mode.md'), 'utf8');
+  const codexPlanTemplate = await readFile(path.join(paths.promptsDir, 'codex-planner.md'), 'utf8');
   const cursorImplementationTemplate = await readFile(
-    path.join(paths.promptsDir, 'cursor-implementation.md'),
+    path.join(paths.promptsDir, 'codex-executor.md'),
     'utf8',
   );
   const cursorRecheckTemplate = await readFile(
-    path.join(paths.promptsDir, 'cursor-recheck.md'),
+    path.join(paths.promptsDir, 'recheck.md'),
     'utf8',
   );
 
@@ -414,7 +421,7 @@ export const buildPhaseRunBundle = async (
         'git fetch origin',
         `git worktree add -b ${quoteShell(runnable.branch)} ${quoteShell(runnable.worktreePath)} origin/main`,
       ],
-      cursorImplementation: runnable.cursorDelegate.implementationCommand,
+      cursorImplementation: runnable.cursorDelegate.executorCommand,
       cursorRecheck: runnable.cursorDelegate.recheckCommand,
       localValidation: [...config.graph.globalValidationCommands],
       pr: [
@@ -433,11 +440,17 @@ export const buildPhaseRunBundle = async (
 export const writePhaseRunBundle = async (bundle: PhaseRunBundle, outputDir: string): Promise<void> => {
   await mkdir(outputDir, { recursive: true });
   await writeFile(path.join(outputDir, 'codex-plan-prompt.md'), bundle.codexPlanPrompt);
+  await writeFile(path.join(outputDir, 'planner-prompt.md'), bundle.codexPlanPrompt);
   await writeFile(
     path.join(outputDir, 'cursor-implementation-prompt.md'),
     bundle.cursorImplementationPrompt,
   );
+  await writeFile(
+    path.join(outputDir, 'codex-executor-prompt.md'),
+    bundle.cursorImplementationPrompt,
+  );
   await writeFile(path.join(outputDir, 'cursor-recheck-prompt.md'), bundle.cursorRecheckPrompt);
+  await writeFile(path.join(outputDir, 'recheck-prompt.md'), bundle.cursorRecheckPrompt);
   await writeFile(
     path.join(outputDir, 'phase-run-plan.json'),
     stringifyDeterministicJson({

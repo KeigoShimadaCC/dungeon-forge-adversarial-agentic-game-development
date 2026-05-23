@@ -21,6 +21,8 @@ Automation additions:
 - Keep implementation bounded to the phase allowedPaths.
 - Save command results and blockers for the phase evidence bundle.
 - Do not include secrets, .env files, credentials, or unrelated private files in any agent prompt.
+- End with a fenced JSON report using schemaVersion 1:
+  {"schemaVersion":1,"phase":"{{PHASE_ID}}","status":"pass","implementationPlan":[],"risks":[],"questions":[],"recommendedDecision":null}
 
 Your plan is:
 

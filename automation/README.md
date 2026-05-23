@@ -14,24 +14,25 @@ Implemented command shape:
 pnpm run phase -- status
 pnpm run phase -- next --from PHASE-13A --parallel 2
 pnpm run phase -- bundle --phase PHASE-13A
+pnpm run phase -- autopilot --phase PHASE-20A --dry-run
+pnpm run phase -- execute --phase PHASE-20A --stage local-validation
+pnpm run phase -- resume --phase PHASE-20A --run-id <run-id>
+pnpm run phase -- inspect-run --phase PHASE-20A --run-id <run-id>
 ```
 
-The implemented runner currently:
+The implemented runner:
 
 1. Load `automation/phase-graph.json`.
 2. Load `automation/phase-state.json`.
 3. Pick phases whose dependencies are complete and whose path scopes do not conflict.
-4. Generate the branch, worktree, evidence directory, Codex prompt, Cursor implementation prompt, Cursor recheck prompt, local validation commands, PR commands, and cleanup commands for each runnable phase.
-5. Evaluate whether collected phase evidence satisfies `automation/policies/automerge-policy.json`.
-6. Mark a phase complete or blocked in `automation/phase-state.json`.
-
-The next execution layer should run the generated commands and write the evidence files that this core already models.
-
-Future full-execution command shape:
-
-```bash
-pnpm phase autopilot --from PHASE-13A --parallel 2 --automerge
-```
+4. Generate branch, worktree, evidence directory, Planner Codex, Executor Codex, Cursor subtask, recheck, validation, PR, and cleanup prompts/commands.
+5. Invoke Planner Codex in read-only mode.
+6. Validate the planner report through a deterministic plan-acceptance gate.
+7. Invoke Executor Codex only after accepted-plan artifacts exist.
+8. Allow Executor Codex to delegate Cursor subtasks only from the accepted plan.
+9. Invoke the recheck agent against the phase plan, accepted plan, executor report, actual diff, validation evidence, and `PROGRESS.MD`.
+10. Evaluate whether machine-derived evidence satisfies `automation/policies/automerge-policy.json`.
+11. Mark a phase complete or blocked in `automation/phase-state.json`.
 
 ## Implemented Commands
 
@@ -51,7 +52,7 @@ Prints runnable phase jobs from the DAG, avoiding overlapping path scopes.
 pnpm run phase -- bundle --phase PHASE-13A --output /tmp/phase-13a-bundle --run-id dry-run-001
 ```
 
-Writes `codex-plan-prompt.md`, `cursor-implementation-prompt.md`, `cursor-recheck-prompt.md`, and `phase-run-plan.json`.
+Writes Planner Codex, Executor Codex, recheck, compatibility prompt files, and `phase-run-plan.json`.
 
 ```bash
 pnpm run phase -- gate --phase PHASE-13A --evidence /tmp/phase-13a-merge-evidence.json
@@ -65,6 +66,34 @@ pnpm run phase -- block --phase PHASE-13A --reason "PR checks failed"
 ```
 
 Updates `automation/phase-state.json`.
+
+```bash
+pnpm run phase -- autopilot --phase PHASE-20A --dry-run
+```
+
+Writes a run plan, prompt bundle, `run-state.json`, progress snapshot, and `final-decision.json` without modifying git state, invoking agents, opening a PR, or merging.
+
+```bash
+pnpm run phase -- execute --phase PHASE-20A --stage <stage> --run-id <run-id>
+```
+
+Runs one explicit stage. Supported stages are `bundle`, `preflight`, `setup`, `bootstrap`, `planning`, `plan-acceptance`, `execution`, `recheck`, `local-validation`, `commit`, `pr`, `checks`, `evidence`, `merge`, and `cleanup`.
+
+```bash
+pnpm run phase -- autopilot --phase PHASE-20A --allow-agent-execution --allow-pr --allow-merge
+pnpm run phase -- autopilot --from PHASE-20A --until-complete
+```
+
+Runs one phase or a serial until-complete loop. Agent execution, PR creation, and merge remain off unless their flags are passed. Until-complete defaults to `--parallel 1` and stops on the first blocked or failed phase unless `--continue-on-blocked` is supplied.
+
+Plan acceptance is safe by default. Use `--plan-approval auto` only when the deterministic planner-report validator should accept valid plans without a manual checkpoint.
+
+```bash
+pnpm run phase -- resume --phase PHASE-20A --run-id <run-id>
+pnpm run phase -- inspect-run --phase PHASE-20A --run-id <run-id>
+```
+
+Resumes from the last completed stage or prints the recorded run state and merge evidence.
 
 ## Phase Lifecycle
 
@@ -121,45 +150,35 @@ The runner should never reuse a dirty worktree for a new phase. If cleanup fails
 
 ## Agent Roles
 
-### Codex Orchestrator
+### Deterministic Runner
 
-Codex plans the phase, updates `PROGRESS.MD`, evaluates Cursor output, runs final local validation, applies small fixes when Cursor drifts, creates the PR, and records evidence.
+The TypeScript runner owns sequencing and policy. It selects phases, creates evidence directories and worktrees, invokes configured agents, validates reports, evaluates merge gates, and updates phase state. It must not delegate policy decisions to an LLM.
 
-### Decision Resolver AI
+### Planner Codex
 
-This AI answers Codex plan-mode questions automatically. It should prefer the recommended option when:
+Planner Codex is read-only. It reads repo instructions, concept docs, the active phase plan, phase graph, and automerge policy, then produces `agent-results/planner-output.md` and `agent-results/planner-report.json`.
 
-- the recommendation preserves phase scope
-- no secrets or credentials are required
-- no external service becomes mandatory
-- deterministic tests remain possible
-- no forbidden MVP feature is introduced
-- no path outside the allowed phase scope is required
+Planner Codex must not edit files, call Cursor, create branches, open PRs, merge, delete worktrees, or update phase state.
 
-If no recommendation satisfies those rules, the resolver must return `block`.
+### Plan Acceptance Gate
 
-### Cursor Coder
+The deterministic runner validates the planner report before execution. It blocks missing or invalid reports, phase mismatch, out-of-scope task paths, missing tests/smokes/artifacts, unresolved questions, secrets, external-service requirements, forbidden MVP features, and planner `block` recommendations.
 
-Cursor Agent CLI performs bounded implementation, checking, and targeted testing with `composer-2.5`.
+Accepted plans are written under `accepted-plan/plan-approval.json`, `accepted-plan/accepted-plan.md`, and `accepted-plan/accepted-plan.json`.
 
-Cursor output is advisory until the orchestrator verifies the diff and local commands.
+### Executor Codex
 
-### Cursor Rechecker
+Executor Codex consumes the accepted plan. It works inside the assigned worktree, updates `PROGRESS.MD`, executes accepted-plan tasks, keeps edits inside allowed paths, runs targeted checks, and writes `agent-results/executor-output.md` plus `agent-results/executor-report.json`.
 
-Cursor runs a second bounded audit after implementation:
+Executor Codex may delegate Cursor subtasks only when the accepted plan explicitly delegates a bounded task.
 
-```text
-Can you check whether you have fully implemented the plan and if there are gaps fill in.
-```
+### Cursor Subtasks
 
-In practice the prompt must also require:
+Cursor prompts are generated from the accepted plan, a specific task ID, allowed paths, relevant phase-plan section, output schema, and required tests/smokes. Cursor output is advisory until Executor Codex and deterministic validation verify it.
 
-- a phase-plan checklist
-- changed file list
-- commands run
-- gaps fixed
-- remaining gaps appended to `PROGRESS.MD`
-- no merge or cleanup authority
+### Recheck Agent
+
+The recheck agent audits against the original phase plan, accepted plan, executor report, actual changed files, validation evidence, and `PROGRESS.MD`. Merge blocks if recheck is missing, blocked, has incomplete phase acceptance, or reports blocking gaps.
 
 ## Required Evidence Directory
 
@@ -167,13 +186,22 @@ Every phase run writes a durable evidence bundle:
 
 ```text
 runs/phase-runner/<phase-id>/<timestamp>/
+  run-state.json
+  phase-run-plan.json
+  dry-run-plan.txt
+  prompts/
+  accepted-plan/
+  agent-results/
+  cursor-tasks/
+  command-results/
+  git/
   codex-plan-prompt.md
-  codex-plan-result.md
-  decision-resolver.json
-  cursor-implementation-prompt.md
-  cursor-implementation.log
-  cursor-recheck-prompt.md
-  cursor-recheck.log
+  planner-output.md
+  planner-report.json
+  executor-output.md
+  executor-report.json
+  recheck-output.md
+  recheck-report.json
   local-validation.json
   diff-summary.txt
   progress-snapshot-before.md
@@ -182,6 +210,7 @@ runs/phase-runner/<phase-id>/<timestamp>/
   checks.json
   merge.json
   cleanup.json
+  phase-merge-evidence.json
   final-decision.json
 ```
 
@@ -198,6 +227,18 @@ pnpm run lint
 pnpm run build
 git diff --check
 ```
+
+## Agent Command Templates
+
+`automation/autopilot-config.json` stores non-secret command templates and timeouts. Template variables are:
+
+- `{{WORKSPACE}}`
+- `{{PROMPT_PATH}}`
+- `{{OUTPUT_PATH}}`
+- `{{EVIDENCE_DIR}}`
+- `{{PHASE_ID}}`
+
+The planner, executor, and rechecker can use `manual` or `shell` providers. Cursor/composer-2.5 is reserved for accepted-plan subtasks and is only invoked when `--allow-agent-execution` is passed by an executor workflow.
 
 When the active phase defines additional smoke commands, the runner must add them to the gate.
 
@@ -262,7 +303,10 @@ Because `PROGRESS.MD` is high-conflict, the runner should serialize the final pr
 
 The runner should stop and preserve evidence when:
 
-- Cursor CLI is unavailable
+- Planner report is missing or invalid
+- Plan acceptance blocks or requires manual approval
+- Executor is requested without accepted-plan artifacts
+- Cursor CLI is unavailable for an explicitly accepted Cursor subtask
 - `composer-2.5` is unavailable
 - Codex questions cannot be auto-resolved
 - local validation fails
@@ -281,12 +325,14 @@ Recommended implementation order:
 1. Add a dry-run phase runner that reads the DAG and prints the next runnable phases.
 2. Add state updates and evidence-bundle creation.
 3. Add worktree and branch creation.
-4. Add Codex plan prompt export and decision resolver integration.
-5. Add Cursor implementation and recheck prompt execution.
-6. Add local validation.
-7. Add PR creation and check watching.
-8. Add automerge and cleanup.
-9. Add parallel scheduling.
-10. Add robust resume and failure reporting.
+4. Add Planner Codex prompt export and report validation.
+5. Add deterministic plan acceptance artifacts.
+6. Add Executor Codex prompt execution from accepted plans.
+7. Add accepted-plan Cursor subtask prompt/report handling.
+8. Add recheck prompt execution.
+9. Add local validation.
+10. Add PR creation and check watching.
+11. Add automerge and cleanup.
+12. Add robust resume and failure reporting.
 
 Until the runner exists, this directory is the contract for implementing it.

@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Automation complete — Phase 13A through Phase 19C |
-| Goal | Complete the post-12 phase plan sequence through optional media experiments. |
+| Phase | PHASE-20A - Agentic Phase Autopilot |
+| Goal | Implement the formal phase autopilot execution layer for command, agent, git, GitHub, evidence, resume, and safe merge orchestration. |
 | Branch | `main` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development` |
-| Base | `main` after Phase 19C close-out |
-| Status | `Post-completion phase-plan audit complete` |
+| Base | `origin/main` after Phase 19C close-out |
+| Status | `Implemented locally; validation passed` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. `phase-plans/PHASE-*.md` — phase-plan completion contracts for audit work
+3. Active `phase-plans/PHASE-20A-AGENTIC-PHASE-AUTOPILOT.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,8 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Formalized Phase 20A in phase plans, graph, state, and progress before implementation.
+- [x] 2026-05-23 orchestrator/Cursor — Implemented autopilot execution modules, CLI integration, structured agent reports, docs, focused tests, dry-run smoke, and full local validation.
 - [x] 2026-05-23 orchestrator/Cursor — Audited all 43 tracked `phase-plans/PHASE-*.md` files against live repo features, tests, docs, progress state, and commands; Cursor/composer-2.5 read-only audit returned PASS, and only coordination/documentation gaps were found and fixed.
 - [x] 2026-05-23 orchestrator — Phase 13A-to-19C automation close-out committed on `main` at `ee2f8b5`; final GitHub `Repo gates` passed.
 - [x] 2026-05-23 orchestrator — Phase 19C PR #49 merged at `3814cd05a780135cb2eb72db26a6eb59d6841767`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and marked automation state complete through Phase 19C.
@@ -201,16 +203,17 @@ _(none)_
 
 ## Phase checklist
 
-_Automation completion checklist for the user-requested Phase 13A-to-end run._
+_PHASE-20A - Agentic Phase Autopilot._
 
-### Phase 13A through Phase 19C
-
-- [x] Phase 13A through Phase 19C PRs merged to `main`.
-- [x] Final phase PR #49 passed GitHub `Repo gates`.
-- [x] Final phase-runner merge gate returned `allow`.
-- [x] Final temporary worktree and feature branch cleanup completed.
-- [x] `automation/phase-state.json` records `PHASE-19C` as `complete`.
-- [x] `main` is synchronized with `origin/main`.
+- [x] Formal `PHASE-20A` plan added and queued in `automation/phase-graph.json` / `automation/phase-state.json`.
+- [x] Command execution writes structured stdout/stderr/result artifacts.
+- [x] Run-state, resume, and inspect-run support added under `runs/phase-runner/<phase-id>/<run-id>/`.
+- [x] Configurable manual/shell agent adapters and structured report parsing added.
+- [x] Planner Codex, deterministic plan acceptance, Executor Codex, bounded Cursor subtasks, and Recheck agent are separated in code, prompts, artifacts, and tests.
+- [x] Git, GitHub CLI, secret-scan, and phase-merge evidence helpers added.
+- [x] `pnpm run phase -- execute`, `autopilot`, `resume`, and `inspect-run` wired.
+- [x] Dry-run smoke passed without agent, PR, merge, or git mutation side effects.
+- [x] Focused tests and full repo gates passed.
 
 ---
 
@@ -234,7 +237,7 @@ _Ideas noticed during work that are **out of active-phase scope** but worth trac
 | F-13A-002 | Expand retention tests for `accept-version`, summary/comparison no-clobber reruns, and review-specific overwrite/archive diagnostics. | Evidence retention hardening follow-up | Phase 13A covers core no-clobber, archive, overwrite, balance summary, persisted summary, and comparison paths; broader matrix coverage can be added later without changing the policy contract. | orchestrator, 2026-05-23 |
 | F-16D-001 | Add a scenario-pack JSON overlay patch test that exercises `content/packs/*.json` through the deterministic patch flow. | Patch testing hardening | Phase 16D validates scenario overlays through `validateScenarioPackContentOverlay`; recheck classified dedicated overlay-apply coverage as non-blocking test-strength work. | Cursor/composer-2.5 recheck, 2026-05-23 |
 | F-16D-002 | Add a dedicated CLI dry-run smoke test in addition to module dry-run and CLI validate/apply coverage. | Patch testing hardening | Phase 16D covers module dry-run and CLI validate/apply paths; recheck classified a CLI dry-run smoke as optional hardening. | Cursor/composer-2.5 recheck, 2026-05-23 |
-| F-AUTO-001 | Add the command-execution layer that actually runs generated worktree, Cursor, validation, PR, merge, and cleanup commands behind an explicit autopilot mode. | Automation runner follow-up / Phase 15B-15C acceleration | Current pass implements deterministic planning, bundle generation, merge gating, and state updates; direct command execution should be added after this core is reviewed. | orchestrator, 2026-05-23 |
+| F-AUTO-001 | Implemented in Phase 20A: add the command-execution layer that actually runs generated worktree, Cursor, validation, PR, merge, and cleanup commands behind explicit autopilot safety flags. | PHASE-20A | Closed by command executor, run state, agent adapters, git/GitHub wrappers, evidence collector, CLI integration, docs, tests, and dry-run smoke. | orchestrator, 2026-05-23 |
 | F-03A-001 | Extract engine-local map/combat helpers into dedicated modules when those systems grow. | Phase 09B / Phase 09C | Phase 03A permits modules as needed; richer enemy variety and procedural map generation are explicitly scheduled later. | orchestrator, 2026-05-22 |
 | F-06A-001 | Implemented in Phase 14B: add a real provider adapter behind `LlmPlayerClient` with explicit credential configuration. | Phase 14B | Closed by `llm-provider-config`, `llm-provider`, `.env.example`, and mocked provider tests. | orchestrator, 2026-05-23 |
 | F-06A-002 | Implemented in Phase 14B: add CLI support for real LLM persona playthroughs, gated by explicit provider/client configuration. | Phase 14B | Closed by `--use-llm-player`, `--use-llm-reviewer`, `--use-llm`, and missing-credential blocker behavior. | orchestrator, 2026-05-23 |
@@ -267,6 +270,10 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 ## Validation log
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
+
+- 2026-05-23 — orchestrator/Cursor — Phase 20A implementation: Cursor/composer-2.5 partial pass created the execution-module skeleton, then stalled and was interrupted cleanly with `kill -INT`; orchestrator completed and hardened CLI integration, command executor stream handling, commit stage semantics, structured report prompts, docs, and focused tests locally. Cursor preflight: sandboxed `agent --list-models` failed with `SecItemCopyMatching failed -50`; escalated rerun confirmed `composer-2.5` current.
+- 2026-05-23 — orchestrator — Phase 20A validation PASS: `pnpm test tests/phase-autopilot.test.ts` (5 tests); `pnpm test tests/phase-autopilot.test.ts tests/phase-runner.test.ts` (11 tests); `pnpm test` (42 files, 376 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `pnpm run check`; `git diff --check`; `pnpm run phase -- autopilot --phase PHASE-20A --dry-run --run-id phase20a-smoke` wrote ignored dry-run evidence under `runs/phase-runner/PHASE-20A/phase20a-smoke`.
+- 2026-05-23 — orchestrator — User architectural correction implemented: deterministic runner now enforces Planner Codex read-only planning, plan acceptance artifacts/gate, Executor Codex execution from accepted plan only, Cursor subtasks only from accepted-plan tasks, Recheck agent audit against accepted plan plus diff/evidence, and safe default CLI flags. Validation PASS: `pnpm test tests/phase-autopilot.test.ts tests/phase-runner.test.ts` (14 tests); `pnpm run typecheck`; `pnpm run lint`; `git diff --check`; `pnpm run phase -- autopilot --phase PHASE-20A --dry-run --run-id phase20a-architecture-smoke`; `pnpm test` (42 files, 379 tests); `pnpm run build`; `pnpm run check` (42 files, 379 tests plus typecheck/lint/build/ci-smoke/acceptance evidence).
 
 - 2026-05-23 — Cursor/composer-2.5 + orchestrator — Phase 12A Pass 2: implemented `v002` profile with starting Smoke Bomb inventory/opening guidance, inventory/tactical render clarity, baseline policy smoke use, `demo-loop-handoff` (reviewer-driven `developer_task.md`/`patch_plan.md` from `v001` seed_001 careful_player), comparison artifacts under `runs/comparisons/`, generated acceptance reports from `demo-loop`, and regenerated `runs/v001`/`runs/v002` through commands. Concrete signal: v001→v002 comparison shows `items_used` 2→28, tactical-depth average 4→5.33, clarity average 5.33→5.67, and softlocks 15→14; comparison also records newly problematic balance runs for v003 tuning. Validation PASS: focused tests (36); `pnpm run typecheck`; `pnpm run lint`; `pnpm run demo-loop -- --runs-root . --versions v001,v002`; `pnpm run compare-versions -- --base v001 --target v002 --runs-root .`; `pnpm run accept-version -- --version v002 --runs-root . --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass --reviewer-driven`.
 - 2026-05-23 — orchestrator — Phase 12A Pass 3: implemented `v003` tuned one-floor balance/clarity profile with Slime-only pressure, starting Smoke Bomb + Potion, and explicit opening guidance; extended `demo-loop` to generate adjacent comparisons plus final `v001_vs_v003` comparison. Generated `runs/v003`, `runs/comparisons/v002_vs_v003.*`, and `runs/comparisons/v001_vs_v003.*` through `pnpm run demo-loop -- --runs-root .`. Concrete signal: v002→v003 damage taken `190 -> 130`, turns `1609 -> 1014`, item use `28 -> 32`, balance win rate `0.2 -> 0.3`, and no new problematic balance runs; v001→v003 keeps tactical-depth gain `4 -> 5.33` and item use `2 -> 32`. Validation PASS: focused tests (37); `pnpm run typecheck`; `pnpm run lint`; `pnpm run demo-loop -- --runs-root .`; `pnpm run compare-versions -- --base v002 --target v003 --runs-root .`; `pnpm run compare-versions -- --base v001 --target v003 --runs-root .`; `pnpm run accept-version -- --version v003 --runs-root . --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass --reviewer-driven`.

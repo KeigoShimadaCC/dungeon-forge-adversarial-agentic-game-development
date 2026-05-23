@@ -39,4 +39,6 @@ Final response:
 - Acceptance checklist with met/not met.
 - Gaps fixed.
 - Remaining gaps, if any, with blocking/non_blocking/out_of_scope classification.
+- End with a fenced JSON report using schemaVersion 1:
+  {"schemaVersion":1,"phase":"{{PHASE_ID}}","status":"pass","summary":"","filesChanged":[],"commandsRun":[],"acceptance":[],"gaps":[]}
 ```
