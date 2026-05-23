@@ -402,6 +402,43 @@ export {
 } from './acceptance-evidence-check.js';
 export { runRepoChecks, type RepoChecksResult } from './repo-checks.js';
 export {
+  TRACE_REPLAY_REPORT_SCHEMA_VERSION,
+  TraceReplayValidationError,
+  assertTraceFileUnchanged,
+  assertTraceReplayable,
+  buildTraceReplayInspectOutput,
+  buildTraceReplayReport,
+  collectTraceReplayDiagnostics,
+  diffStateSummaries,
+  formatReplayStep,
+  formatReexecuteSummary,
+  formatTraceReplayHeader,
+  formatTraceReplayValidationMessage,
+  loadScorecardFromFile,
+  loadTraceFromFile,
+  parseTraceJson,
+  readTraceFileSnapshot,
+  reexecuteTrace,
+  renderTraceReplayReportMarkdown,
+  resolveScorecardForReplay,
+  writeTraceReplayReport,
+  type BuildTraceReplayInspectOptions,
+  type FormatReplayStepOptions,
+  type StateSummaryDeltaLine,
+  type TraceReplayDiagnostic,
+  type TraceReplayDiagnosticCategory,
+  type TraceReplayReport,
+  type TraceReplayValidationResult,
+  type TraceReexecuteMismatch,
+  type TraceReexecuteResult,
+} from './trace-replay.js';
+export {
+  TRACE_REPLAY_CLI_USAGE,
+  parseTraceReplayCliArgs,
+  runTraceReplayCli,
+  type TraceReplayCliMode,
+} from './trace-replay-cli.js';
+export {
   VERSION_ARTIFACT_DIRS,
   VERSION_ID_PATTERN,
   VERSION_MARKDOWN_FILES,
