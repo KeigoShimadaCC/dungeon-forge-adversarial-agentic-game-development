@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "16B",
+  "presets": [
+    {
+      "id": "enemy_gauntlet",
+      "label": "Enemy Gauntlet",
+      "description": "Three floors with elevated enemy pressure and a tighter enemy roster.",
+      "recommendedSeeds": ["seed_002", "seed_005"],
+      "gameConfig": {
+        "totalFloors": 3,
+        "allowedEnemyIds": ["bat", "shell", "thief", "ghost"],
+        "allowedItemIds": ["potion", "smoke_bomb"],
+        "objective": "Survive three enemy-heavy floors and reach the final stairs.",
+        "openingLog": [
+          "Challenge: Enemy Gauntlet — expect faster pursuit and fewer safe openings."
+        ]
+      }
+    },
+    {
+      "id": "item_sparse",
+      "label": "Item Sparse",
+      "description": "Four floors where only healing potions may spawn as floor loot.",
+      "recommendedSeeds": ["seed_003", "seed_004"],
+      "gameConfig": {
+        "totalFloors": 4,
+        "allowedItemIds": ["potion"],
+        "objective": "Reach the stairs with minimal floor loot across four floors.",
+        "openingLog": [
+          "Challenge: Item Sparse — only Healing Potions appear as floor drops."
+        ]
+      }
+    },
+    {
+      "id": "full_depth",
+      "label": "Full Depth Descent",
+      "description": "Bounded five-floor descent with an explicit final floor and ending.",
+      "recommendedSeeds": ["seed_001", "seed_004"],
+      "gameConfig": {
+        "totalFloors": 5,
+        "objective": "Descend through all five dungeon floors and escape at the dawn stairs.",
+        "openingLog": [
+          "Challenge: Full Depth Descent — all five floors are in play with a fixed ending."
+        ]
+      }
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 import {
-  loadGameContent,
   type DialogueChoiceDefinition,
   type DialogueNodeDefinition,
   type DialogueTreeDefinition,
   type EventsContentBundle,
   type NpcDefinition,
 } from './content.js';
+import { getContentForRun } from './run-content.js';
 import { chooseEntityPositions, isWalkableTile } from './map.js';
 import type {
   GameEvent,
@@ -16,8 +16,11 @@ import type {
   Position,
 } from './types.js';
 
-const content = loadGameContent();
-const eventsContent = content.events;
+const eventsForPack = (scenarioPackId?: string): EventsContentBundle =>
+  getContentForRun(scenarioPackId).events;
+
+const eventsForState = (state: GameState): EventsContentBundle =>
+  eventsForPack(state.meta.scenarioPackId);
 
 export const defaultNarrativeState = (): NarrativeState => ({
   seenFloorEvents: [],
@@ -28,11 +31,16 @@ const positionKey = (position: Position): string => `${position.x},${position.y}
 const manhattanDistance = (a: Position, b: Position): number =>
   Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 
-export const getOpeningText = (): string => eventsContent.opening.text;
+export const getOpeningText = (scenarioPackId?: string): string =>
+  eventsForPack(scenarioPackId).opening.text;
 
-export const getEndingText = (): string => eventsContent.ending.text;
+export const getEndingText = (scenarioPackId?: string): string =>
+  eventsForPack(scenarioPackId).ending.text;
 
-const getDialogueTree = (treeId: string): DialogueTreeDefinition => {
+const getDialogueTree = (
+  treeId: string,
+  eventsContent: EventsContentBundle,
+): DialogueTreeDefinition => {
   const tree = eventsContent.dialogueTrees.find((candidate) => candidate.id === treeId);
   if (!tree) {
     throw new Error(`Missing dialogue tree: ${treeId}`);
@@ -51,16 +59,19 @@ const getDialogueNode = (
   return node;
 };
 
-const npcDefinitionForFloor = (floor: number): NpcDefinition | undefined =>
-  eventsContent.npcs.find((npc) => npc.floor === floor);
+const npcDefinitionForFloor = (
+  floor: number,
+  eventsContent: EventsContentBundle,
+): NpcDefinition | undefined => eventsContent.npcs.find((npc) => npc.floor === floor);
 
 export const placeNpcsForFloor = (params: {
   seed: string;
   floor: number;
   layout: Parameters<typeof chooseEntityPositions>[0]['layout'];
   occupied: Set<string>;
+  scenarioPackId?: string;
 }): NpcInstance[] => {
-  const definition = npcDefinitionForFloor(params.floor);
+  const definition = npcDefinitionForFloor(params.floor, eventsForPack(params.scenarioPackId));
   if (!definition) {
     return [];
   }
@@ -97,7 +108,7 @@ export const applyFloorEnterEvents = (
   ) => GameEvent,
 ): GameEvent[] => {
   const triggered: GameEvent[] = [];
-  for (const floorEvent of eventsContent.floorEvents) {
+  for (const floorEvent of eventsForState(state).floorEvents) {
     if (floorEvent.floor !== state.floor || floorEvent.trigger !== 'on_enter') {
       continue;
     }
@@ -142,7 +153,8 @@ export const buildDialogueActions = (state: GameState): PlayerAction[] => {
     return [];
   }
 
-  const tree = getDialogueTree(state.dialogue.treeId);
+  const eventsContent = eventsForState(state);
+  const tree = getDialogueTree(state.dialogue.treeId, eventsContent);
   const node = getDialogueNode(tree, state.dialogue.nodeId);
   const actions = node.choices.map((choice) => buildChoiceAction(state, choice));
   actions.push({
@@ -164,7 +176,7 @@ export const buildNpcTalkActions = (state: GameState): PlayerAction[] => {
     return [];
   }
 
-  const definition = eventsContent.npcs.find((candidate) => candidate.id === npc.npcId);
+  const definition = eventsForState(state).npcs.find((candidate) => candidate.id === npc.npcId);
   if (!definition) {
     return [];
   }
@@ -219,7 +231,8 @@ export const applyTalkAction = (
         : '';
     const npcId = typeof action.payload?.npcId === 'string' ? action.payload.npcId : '';
     const treeId = typeof action.payload?.treeId === 'string' ? action.payload.treeId : '';
-    const tree = getDialogueTree(treeId);
+    const eventsContent = eventsForState(state);
+    const tree = getDialogueTree(treeId, eventsContent);
     const node = getDialogueNode(tree, tree.startNodeId);
     state.dialogue = {
       active: true,
@@ -243,7 +256,8 @@ export const applyTalkAction = (
 
   const choiceId =
     typeof action.payload?.choiceId === 'string' ? action.payload.choiceId : '';
-  const tree = getDialogueTree(state.dialogue.treeId);
+  const eventsContent = eventsForState(state);
+  const tree = getDialogueTree(state.dialogue.treeId, eventsContent);
   const node = getDialogueNode(tree, state.dialogue.nodeId);
   const choice = node.choices.find((candidate) => candidate.id === choiceId);
   if (!choice) {
@@ -290,7 +304,7 @@ export const getDialogueInvalidReason = (state: GameState): string | undefined =
     return undefined;
   }
 
-  const tree = eventsContent.dialogueTrees.find(
+  const tree = eventsForState(state).dialogueTrees.find(
     (candidate) => candidate.id === state.dialogue?.treeId,
   );
   if (!tree) {
@@ -315,7 +329,7 @@ export const getNpcInvalidReason = (state: GameState): string | undefined => {
 
   for (const npc of state.npcs) {
     const key = positionKey(npc);
-    if (!eventsContent.npcs.some((definition) => definition.id === npc.npcId)) {
+    if (!eventsForState(state).npcs.some((definition) => definition.id === npc.npcId)) {
       return `npc ${npc.id} references unknown npcId ${npc.npcId}`;
     }
     if (!isWalkableTile(state.map, npc)) {
@@ -330,4 +344,5 @@ export const getNpcInvalidReason = (state: GameState): string | undefined => {
   return undefined;
 };
 
-export const eventsBundle = (): EventsContentBundle => eventsContent;
+export const eventsBundle = (scenarioPackId?: string): EventsContentBundle =>
+  eventsForPack(scenarioPackId);

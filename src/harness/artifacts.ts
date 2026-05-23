@@ -8,6 +8,11 @@ import {
 import type { PlaythroughReview } from './reviewer-client.js';
 import type { PlaythroughScorecard, PlaythroughTrace } from './types.js';
 import { stringifyDeterministicJson } from './json.js';
+import { enrichPlaythroughReview, renderReviewMarkdown } from './review-report.js';
+import {
+  assertValidPlaythroughReview,
+  ReviewValidationError,
+} from './review-validation.js';
 
 export const buildArtifactBasename = (seed: string, policyId: string): string =>
   `${seed}_${policyId}`;
@@ -38,7 +43,10 @@ export interface SavedArtifacts {
 
 export interface SavedReviewArtifact {
   reviewPath: string;
+  reviewMarkdownPath: string;
 }
+
+export { ReviewValidationError };
 
 export interface SavePlaythroughArtifactOptions {
   write?: ArtifactWriteOptions;
@@ -86,19 +94,39 @@ export const savePlaythroughReview = async (
   review: PlaythroughReview,
   options: SavePlaythroughArtifactOptions = {},
 ): Promise<SavedReviewArtifact> => {
-  const reviewRelative = buildReviewRelativePath(review.version, review.seed, review.persona);
+  assertValidPlaythroughReview(review);
+
+  const enriched = enrichPlaythroughReview(review, {
+    trace_path: review.trace_path,
+    scorecard_path: review.scorecard_path,
+    scorecard_result: review.scorecard_result,
+    scorecard_turns: review.scorecard_turns,
+  });
+  const reviewRelative = buildReviewRelativePath(
+    enriched.version,
+    enriched.seed,
+    enriched.persona,
+  );
+  const reviewMarkdownRelative = enriched.review_markdown_path!;
   const reviewPath = path.join(runsRoot, reviewRelative);
+  const reviewMarkdownPath = path.join(runsRoot, reviewMarkdownRelative);
+  const writeContext = {
+    runsRoot,
+    policyContext: options.policyContext,
+  };
 
   await writeArtifactFile(
     reviewPath,
-    stringifyDeterministicJson(review),
+    stringifyDeterministicJson(enriched),
     options.write,
-    {
-      runsRoot,
-      policyContext: options.policyContext,
-      artifactLabel: reviewRelative,
-    },
+    { ...writeContext, artifactLabel: reviewRelative },
+  );
+  await writeArtifactFile(
+    reviewMarkdownPath,
+    renderReviewMarkdown(enriched),
+    options.write,
+    { ...writeContext, artifactLabel: reviewMarkdownRelative },
   );
 
-  return { reviewPath };
+  return { reviewPath, reviewMarkdownPath };
 };

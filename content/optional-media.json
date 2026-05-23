@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "19C",
+  "presentations": [
+    {
+      "id": "v001-title-card",
+      "label": "V001 title card",
+      "description": "Optional illustration for the shallow slime/potion demo intro.",
+      "kind": "image",
+      "required": false,
+      "versionIds": ["v001"],
+      "sceneIds": [],
+      "assetPath": "media/presentations/v001-title-card.png",
+      "fallback": {
+        "mode": "ascii",
+        "text": "[Optional media missing: v001 title card - use text/ASCII render only.]"
+      }
+    },
+    {
+      "id": "shrine-trial-ambient",
+      "label": "Shrine trial ambient loop",
+      "description": "Optional ambient audio for the shrine trial scenario pack.",
+      "kind": "audio",
+      "required": false,
+      "versionIds": [],
+      "sceneIds": ["scenario:shrine_trial"],
+      "assetPath": "media/presentations/shrine-trial-ambient.ogg",
+      "fallback": {
+        "mode": "text",
+        "text": "[Optional media missing: shrine trial ambient - gameplay uses log/render text only.]"
+      }
+    },
+    {
+      "id": "labs-smoke-splash",
+      "label": "Reviewer labs smoke splash",
+      "description": "Optional splash for the reviewer labs extension preset.",
+      "kind": "image",
+      "required": false,
+      "versionIds": [],
+      "sceneIds": ["preset:reviewer_labs:labs_smoke"],
+      "assetPath": "media/presentations/labs-smoke-splash.png",
+      "fallback": {
+        "mode": "ascii",
+        "text": "[Optional media missing: labs smoke splash - harness play remains text/ASCII only.]"
+      }
+    }
+  ]
+}

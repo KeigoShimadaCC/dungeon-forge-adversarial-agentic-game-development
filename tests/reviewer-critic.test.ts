@@ -323,11 +323,19 @@ describe('Phase 06B reviewer critic', () => {
         'runs/v006b/reviews/seed_002_careful_player.json',
       );
 
-      const { reviewPath } = await savePlaythroughReview(runsRoot, review);
+      const { reviewPath, reviewMarkdownPath } = await savePlaythroughReview(runsRoot, review);
       const saved = JSON.parse(await readFile(reviewPath, 'utf8'));
+      const markdown = await readFile(reviewMarkdownPath, 'utf8');
 
       expect(reviewPath.endsWith('runs/v006b/reviews/seed_002_careful_player.json')).toBe(true);
-      expect(saved).toEqual(review);
+      expect(reviewMarkdownPath.endsWith('runs/v006b/reviews/seed_002_careful_player.md')).toBe(
+        true,
+      );
+      expect(saved).toMatchObject(review);
+      expect(saved.persona_metadata?.display_name).toBe('Careful Player');
+      expect(saved.review_markdown_path).toBe('runs/v006b/reviews/seed_002_careful_player.md');
+      expect(markdown).toContain('Careful Player');
+      expect(markdown).toContain(review.summary);
     } finally {
       await rm(runsRoot, { recursive: true, force: true });
     }
@@ -402,7 +410,7 @@ describe('Phase 06B reviewer critic', () => {
     ).toThrow(ReviewGenerationError);
   });
 
-  it('does not read API credentials and supports mock providers', () => {
+  it('does not read API credentials and supports mock providers', async () => {
     const trace: PlaythroughTrace = {
       version: 'v001',
       seed: 'seed_mock',
@@ -439,7 +447,7 @@ describe('Phase 06B reviewer critic', () => {
     };
 
     const critic = createReviewerCritic(mockProvider);
-    const review = critic.generateReview({
+    const review = await critic.generateReview({
       trace,
       scorecard,
       persona: 'naive_player',

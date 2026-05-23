@@ -1,51 +1,225 @@
 {
-  "schemaVersion": 1,
+  "currentPhase": "PHASE-19C",
   "lastUpdated": "2026-05-23",
-  "sourceNote": "Initialized from user statement that work is complete through PHASE-12A and PHASE-13A is next. PROGRESS.MD may still need rotation on main.",
-  "currentPhase": "PHASE-13A",
   "phases": {
-    "PHASE-00A": { "status": "complete" },
-    "PHASE-01A": { "status": "complete" },
-    "PHASE-02A": { "status": "complete" },
-    "PHASE-02B": { "status": "complete" },
-    "PHASE-02C": { "status": "complete" },
-    "PHASE-03A": { "status": "complete" },
-    "PHASE-04A": { "status": "complete" },
-    "PHASE-04B": { "status": "complete" },
-    "PHASE-05A": { "status": "complete" },
-    "PHASE-06A": { "status": "complete" },
-    "PHASE-06B": { "status": "complete" },
-    "PHASE-06C": { "status": "complete" },
-    "PHASE-07A": { "status": "complete" },
-    "PHASE-08A": { "status": "complete" },
-    "PHASE-09A": { "status": "complete" },
-    "PHASE-09B": { "status": "complete" },
-    "PHASE-09C": { "status": "complete" },
-    "PHASE-10A": { "status": "complete" },
-    "PHASE-10B": { "status": "complete" },
-    "PHASE-11A": { "status": "complete" },
-    "PHASE-12A": { "status": "complete" },
-    "PHASE-13A": { "status": "queued" },
-    "PHASE-13B": { "status": "queued" },
-    "PHASE-13C": { "status": "queued" },
-    "PHASE-14A": { "status": "queued" },
-    "PHASE-14B": { "status": "queued" },
-    "PHASE-14C": { "status": "queued" },
-    "PHASE-15A": { "status": "queued" },
-    "PHASE-15B": { "status": "queued" },
-    "PHASE-15C": { "status": "queued" },
-    "PHASE-16A": { "status": "queued" },
-    "PHASE-16B": { "status": "queued" },
-    "PHASE-16C": { "status": "queued" },
-    "PHASE-16D": { "status": "queued" },
-    "PHASE-17A": { "status": "queued" },
-    "PHASE-17B": { "status": "queued" },
-    "PHASE-17C": { "status": "queued" },
-    "PHASE-18A": { "status": "queued" },
-    "PHASE-18B": { "status": "queued" },
-    "PHASE-18C": { "status": "queued" },
-    "PHASE-19A": { "status": "queued" },
-    "PHASE-19B": { "status": "queued" },
-    "PHASE-19C": { "status": "queued" }
-  }
+    "PHASE-00A": {
+      "status": "complete"
+    },
+    "PHASE-01A": {
+      "status": "complete"
+    },
+    "PHASE-02A": {
+      "status": "complete"
+    },
+    "PHASE-02B": {
+      "status": "complete"
+    },
+    "PHASE-02C": {
+      "status": "complete"
+    },
+    "PHASE-03A": {
+      "status": "complete"
+    },
+    "PHASE-04A": {
+      "status": "complete"
+    },
+    "PHASE-04B": {
+      "status": "complete"
+    },
+    "PHASE-05A": {
+      "status": "complete"
+    },
+    "PHASE-06A": {
+      "status": "complete"
+    },
+    "PHASE-06B": {
+      "status": "complete"
+    },
+    "PHASE-06C": {
+      "status": "complete"
+    },
+    "PHASE-07A": {
+      "status": "complete"
+    },
+    "PHASE-08A": {
+      "status": "complete"
+    },
+    "PHASE-09A": {
+      "status": "complete"
+    },
+    "PHASE-09B": {
+      "status": "complete"
+    },
+    "PHASE-09C": {
+      "status": "complete"
+    },
+    "PHASE-10A": {
+      "status": "complete"
+    },
+    "PHASE-10B": {
+      "status": "complete"
+    },
+    "PHASE-11A": {
+      "status": "complete"
+    },
+    "PHASE-12A": {
+      "status": "complete"
+    },
+    "PHASE-13A": {
+      "branch": "phase/phase-13a-evidence-retention",
+      "evidenceDir": "runs/phase-runner/PHASE-13A/planned",
+      "mergeCommit": "a2294f83ddeba8df96e0a905509d17663e8a5e0d",
+      "pr": 28,
+      "status": "complete"
+    },
+    "PHASE-13B": {
+      "branch": "phase/phase-13b-ci-and-acceptance-checks",
+      "evidenceDir": "runs/phase-runner/PHASE-13B/planned",
+      "mergeCommit": "0f5bbfec202a8ffe1925008b2fddfb68a62c0011",
+      "pr": 29,
+      "status": "complete"
+    },
+    "PHASE-13C": {
+      "branch": "phase/phase-13c-trace-scorecard-diagnostics",
+      "evidenceDir": "runs/phase-runner/PHASE-13C/planned",
+      "mergeCommit": "eca1ddae10ef4bdd3f5745dc67411537b2bd1fbb",
+      "pr": 30,
+      "status": "complete"
+    },
+    "PHASE-14A": {
+      "branch": "phase/phase-14a-developer-workflow-polish",
+      "evidenceDir": "runs/phase-runner/PHASE-14A/planned",
+      "mergeCommit": "c8521967c93248d69f5196f1854f30156ba29329",
+      "pr": 31,
+      "status": "complete"
+    },
+    "PHASE-14B": {
+      "branch": "phase/phase-14b-real-llm-runs",
+      "evidenceDir": "runs/phase-runner/PHASE-14B/planned",
+      "mergeCommit": "c102ec93b349b8e1a07f8ba0814c4c84f5f6b70c",
+      "pr": 32,
+      "status": "complete"
+    },
+    "PHASE-14C": {
+      "branch": "phase/phase-14c-reviewer-persona-reporting",
+      "evidenceDir": "runs/phase-runner/PHASE-14C/planned",
+      "mergeCommit": "761218212e7c0e54ac9690565f45d35700696fe9",
+      "pr": 33,
+      "status": "complete"
+    },
+    "PHASE-15A": {
+      "branch": "phase/phase-15a-structured-patch-proposals",
+      "evidenceDir": "runs/phase-runner/PHASE-15A/planned",
+      "mergeCommit": "f5d7b9a03d0c20606301edbc74855dd35ed884e3",
+      "pr": 34,
+      "status": "complete"
+    },
+    "PHASE-15B": {
+      "branch": "phase/phase-15b-worktree-agent-orchestration",
+      "evidenceDir": "runs/phase-runner/PHASE-15B/planned",
+      "mergeCommit": "2f0c7134d7c7a8cf4139af19940b3da5ea7111f6",
+      "pr": 35,
+      "status": "complete"
+    },
+    "PHASE-15C": {
+      "branch": "phase/phase-15c-loop-coordinator",
+      "evidenceDir": "runs/phase-runner/PHASE-15C/planned",
+      "mergeCommit": "b622d47cbeb6d87ce42e990ba5a6c79c56636b05",
+      "pr": 36,
+      "status": "complete"
+    },
+    "PHASE-16A": {
+      "branch": "phase/phase-16a-traps-and-resources",
+      "evidenceDir": "runs/phase-runner/PHASE-16A/planned",
+      "mergeCommit": "81c8813d92326348464f963ae2bec0582a7096e6",
+      "pr": 37,
+      "status": "complete"
+    },
+    "PHASE-16B": {
+      "branch": "phase/phase-16b-challenge-modes",
+      "evidenceDir": "runs/phase-runner/PHASE-16B/planned",
+      "mergeCommit": "2756e3c8e18dcfede48192b702bdc2913997fbfa",
+      "pr": 38,
+      "status": "complete"
+    },
+    "PHASE-16C": {
+      "branch": "phase/phase-16c-scenario-content-packs",
+      "evidenceDir": "runs/phase-runner/PHASE-16C/planned",
+      "mergeCommit": "db2599df9bf497fc6b5639a591ff6e48e2a6bf24",
+      "pr": 39,
+      "status": "complete"
+    },
+    "PHASE-16D": {
+      "branch": "phase/phase-16d-deterministic-json-patching",
+      "evidenceDir": "runs/phase-runner/PHASE-16D/planned",
+      "mergeCommit": "cc587e1a1eb51a266ffe863f2f4b05f93ec81e1b",
+      "pr": 40,
+      "status": "complete"
+    },
+    "PHASE-17A": {
+      "branch": "phase/phase-17a-human-play-ui",
+      "evidenceDir": "runs/phase-runner/PHASE-17A/planned",
+      "mergeCommit": "f2b89aca67522422ce0226dba585fc37163c3817",
+      "pr": 41,
+      "status": "complete"
+    },
+    "PHASE-17B": {
+      "branch": "phase/phase-17b-human-playtest-traces",
+      "evidenceDir": "runs/phase-runner/PHASE-17B/planned",
+      "mergeCommit": "4eafad36ffe44e6eadd1e3ec140e04f3b3f68b50",
+      "pr": 42,
+      "status": "complete"
+    },
+    "PHASE-17C": {
+      "branch": "phase/phase-17c-trace-replay-and-ux",
+      "evidenceDir": "runs/phase-runner/PHASE-17C/planned",
+      "mergeCommit": "98b05e60547ece52025da4b838f9f5f6cf9612b3",
+      "pr": 43,
+      "status": "complete"
+    },
+    "PHASE-18A": {
+      "branch": "phase/phase-18a-version-dashboard",
+      "evidenceDir": "runs/phase-runner/PHASE-18A/planned",
+      "mergeCommit": "c9bbf7586f16372f0f76889efb531a60455ca3ae",
+      "pr": 44,
+      "status": "complete"
+    },
+    "PHASE-18B": {
+      "branch": "phase/phase-18b-balance-analytics",
+      "evidenceDir": "runs/phase-runner/PHASE-18B/planned",
+      "mergeCommit": "5b2e98b22238421360f51389a48a37fbea9fa992",
+      "pr": 45,
+      "status": "complete"
+    },
+    "PHASE-18C": {
+      "branch": "phase/phase-18c-static-demo-publishing",
+      "evidenceDir": "runs/phase-runner/PHASE-18C/planned",
+      "mergeCommit": "c835f5a3c18b7a63f26cbf0242e8f19c6ad90a79",
+      "pr": 46,
+      "status": "complete"
+    },
+    "PHASE-19A": {
+      "branch": "phase/phase-19a-extension-packs",
+      "evidenceDir": "runs/phase-runner/PHASE-19A/planned",
+      "mergeCommit": "6f53304c53733c50b00900b5fe88887807c61c05",
+      "pr": 47,
+      "status": "complete"
+    },
+    "PHASE-19B": {
+      "branch": "phase/phase-19b-content-governance",
+      "evidenceDir": "runs/phase-runner/PHASE-19B/planned",
+      "mergeCommit": "46ae3a6b999449916880f631eb99af7283b674be",
+      "pr": 48,
+      "status": "complete"
+    },
+    "PHASE-19C": {
+      "branch": "phase/phase-19c-optional-media-experiments",
+      "evidenceDir": "runs/phase-runner/PHASE-19C/planned",
+      "mergeCommit": "3814cd05a780135cb2eb72db26a6eb59d6841767",
+      "pr": 49,
+      "status": "complete"
+    }
+  },
+  "schemaVersion": 1,
+  "sourceNote": "All tracked PHASE-*.md plans from PHASE-00A through PHASE-19C are complete. PHASE-19C is the final planned phase in the current graph; PROGRESS.MD is rotated to post-completion audit state."
 }

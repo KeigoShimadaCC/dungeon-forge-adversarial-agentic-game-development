@@ -5,26 +5,44 @@ import {
   start,
   step,
 } from '../game/engine.js';
-import { resolveGameConfigForVersion } from '../game/version-profiles.js';
+import { normalizeChallengeModeId } from '../game/challenge-modes.js';
+import {
+  getScenarioPackLabel,
+  normalizeScenarioPackId,
+  resolveGameConfigForRun,
+} from '../game/scenario-packs.js';
+import { resolveExtensionRunSelection } from './extension-packs.js';
 import type { GameEvent, GameState, JsonObject, TerminalStatus } from '../game/types.js';
 import { findMatchingAvailableAction } from './baseline-players/helpers.js';
 import type { BaselinePlayerInput } from './baseline-players/types.js';
 import type { ArtifactWritePolicyContext } from './artifact-write-policy.js';
 import type { ArtifactWriteMode } from './artifact-write-policy.js';
 import {
+  buildScorecardRelativePath,
   buildTraceRelativePath,
   savePlaythroughArtifacts,
   type SavedArtifacts,
 } from './artifacts.js';
 import { resolveVersionId } from './artifact-write-policy.js';
 import { deriveScorecardFromTrace, validateScorecard } from './scorecard.js';
+import { parseHarnessLlmCliArgs } from './cli-args.js';
+import {
+  assertRealLlmRunAllowed,
+  createPersonaPolicyForRun,
+} from './llm-run-options.js';
 import {
   awaitPolicyDecision,
   isBaselinePolicyId,
+  isLlmPlayerPersona,
   resolveBaselinePolicy,
   type HarnessPolicyId,
 } from './policy-registry.js';
+import { buildAgentPlaytestMetadata } from './playtest-metadata.js';
 import { buildStateSummary } from './state-summary.js';
+import {
+  buildTraceMetadata,
+  finalizeTraceMetadata,
+} from './trace-diagnostics.js';
 import type { HarnessPlayerPolicy, PlaythroughTrace, TraceStep } from './types.js';
 import { actionSnapshot, eventSnapshot } from './types.js';
 
@@ -39,6 +57,14 @@ export interface RunPlaythroughOptions {
   policy?: HarnessPlayerPolicy;
   onExisting?: ArtifactWriteMode;
   policyContext?: ArtifactWritePolicyContext;
+  /** Explicit finite challenge preset id (omit for default gameplay). */
+  challengeMode?: string;
+  /** Explicit bounded scenario content pack id (omit for default gameplay). */
+  scenarioPack?: string;
+  /** Explicit local extension pack id (omit for default gameplay). */
+  extensionPack?: string;
+  /** When true, run the harness loop without writing trace/scorecard artifacts. */
+  dryRun?: boolean;
 }
 
 export interface RunPlaythroughResult {
@@ -90,18 +116,33 @@ export const runPlaythrough = async (
     options.policy ??
     (isBaselinePolicyId(policyId)
       ? resolveBaselinePolicy(policyId, seed)
-      : (() => {
-          throw new Error(
-            `Policy "${policyId}" is not a baseline policy. Supply options.policy (for example createLlmPlayerPolicy).`,
-          );
-        })());
+      : isLlmPlayerPersona(policyId)
+        ? (() => {
+            throw new Error(
+              `Policy "${policyId}" is an LLM persona. Supply options.policy (createLlmPlayerPolicy) or run simulate-seed with --use-llm-player.`,
+            );
+          })()
+        : (() => {
+            throw new Error(
+              `Policy "${policyId}" is not a baseline policy. Supply options.policy (for example createLlmPlayerPolicy).`,
+            );
+          })());
 
-  let state = start(seed, resolveGameConfigForVersion(version));
+  const challengeMode = normalizeChallengeModeId(options.challengeMode);
+  const extensionSelection = resolveExtensionRunSelection(
+    options.extensionPack,
+    options.scenarioPack,
+  );
+  const scenarioPack = extensionSelection.scenarioPackId;
+  const gameConfig = resolveGameConfigForRun(version, challengeMode, scenarioPack);
+  let state = start(seed, gameConfig);
+  const baseMetadata = buildTraceMetadata(seed, version, challengeMode, scenarioPack);
   const steps: TraceStep[] = [];
   const maxSteps = resolveMaxSteps(state, options.maxSteps);
   let stepsTaken = 0;
   let aborted = false;
 
+  const agentMetadata = buildAgentPlaytestMetadata(policyId);
   const traceBase: PlaythroughTrace = {
     version,
     seed,
@@ -109,6 +150,25 @@ export const runPlaythrough = async (
     result: 'ACTIVE',
     turns: 0,
     steps,
+    ...agentMetadata,
+    ...(challengeMode ? { challenge_mode: challengeMode } : {}),
+    ...(scenarioPack
+      ? {
+          scenario_pack: scenarioPack,
+          ...(getScenarioPackLabel(scenarioPack)
+            ? { scenario_pack_label: getScenarioPackLabel(scenarioPack) }
+            : {}),
+        }
+      : {}),
+    ...(extensionSelection.extensionPackId
+      ? {
+          extension_pack: extensionSelection.extensionPackId,
+          ...(extensionSelection.extensionPackLabel
+            ? { extension_pack_label: extensionSelection.extensionPackLabel }
+            : {}),
+        }
+      : {}),
+    metadata: baseMetadata,
   };
 
   while (!isTerminal(state) && stepsTaken < maxSteps && !aborted) {
@@ -257,10 +317,27 @@ export const runPlaythrough = async (
     };
   }
 
-  const trace = finalizeTrace(traceBase, state, aborted);
+  let trace = finalizeTrace(traceBase, state, aborted);
   const traceRelative = buildTraceRelativePath(version, seed, policyId);
-  const scorecard = deriveScorecardFromTrace(trace, traceRelative);
+  const provisionalScorecard = deriveScorecardFromTrace(trace, traceRelative, undefined, baseMetadata);
+  trace = {
+    ...trace,
+    metadata: finalizeTraceMetadata(trace, provisionalScorecard, baseMetadata),
+  };
+  const scorecard = deriveScorecardFromTrace(trace, traceRelative, undefined, trace.metadata);
   validateScorecard(scorecard);
+
+  if (options.dryRun) {
+    return {
+      trace,
+      scorecard,
+      artifacts: {
+        tracePath: traceRelative,
+        scorecardPath: buildScorecardRelativePath(version, seed, policyId),
+      },
+    };
+  }
+
   const artifacts = await savePlaythroughArtifacts(runsRoot, trace, scorecard, {
     write: { onExisting },
     policyContext,
@@ -269,16 +346,44 @@ export const runPlaythrough = async (
   return { trace, scorecard, artifacts };
 };
 
+const PERSONA_BASELINE_FOR_SIMULATE = {
+  careful_player: 'cautious-low-hp',
+  naive_player: 'random',
+  bug_hunter: 'stairs-seeking',
+} as const;
+
 export const parseSimulateSeedArgs = (
   argv: string[],
-): { seed: string; policyId: import('./policy-registry.js').BaselinePolicyId; version: string; maxSteps?: number } => {
+): {
+  seed: string;
+  policyId: HarnessPolicyId;
+  version: string;
+  maxSteps?: number;
+  challengeMode?: string;
+  scenarioPack?: string;
+  extensionPack?: string;
+  policy?: HarnessPlayerPolicy;
+} => {
   let seed: string | undefined;
   let policyId: string | undefined;
   let version = 'v001';
   let maxSteps: number | undefined;
+  let challengeMode: string | undefined;
+  let scenarioPack: string | undefined;
+  let extensionPack: string | undefined;
+  const llm = parseHarnessLlmCliArgs(argv);
 
   for (let index = 0; index < argv.length; index += 1) {
     const token = argv[index];
+    if (
+      token === '--use-llm-player' ||
+      token === '--llm-player' ||
+      token === '--use-llm-reviewer' ||
+      token === '--llm-reviewer' ||
+      token === '--use-llm'
+    ) {
+      continue;
+    }
     if (token === '--seed' && argv[index + 1]) {
       seed = argv[index + 1];
       index += 1;
@@ -297,6 +402,21 @@ export const parseSimulateSeedArgs = (
     if (token === '--max-steps' && argv[index + 1]) {
       maxSteps = Number(argv[index + 1]);
       index += 1;
+      continue;
+    }
+    if (token === '--challenge-mode' && argv[index + 1]) {
+      challengeMode = normalizeChallengeModeId(argv[index + 1]);
+      index += 1;
+      continue;
+    }
+    if (token === '--scenario-pack' && argv[index + 1]) {
+      scenarioPack = normalizeScenarioPackId(argv[index + 1]);
+      index += 1;
+      continue;
+    }
+    if (token === '--extension-pack' && argv[index + 1]) {
+      extensionPack = argv[index + 1];
+      index += 1;
     }
   }
 
@@ -306,13 +426,44 @@ export const parseSimulateSeedArgs = (
   if (!policyId) {
     throw new Error('Missing required --policy argument.');
   }
-  if (!isBaselinePolicyId(policyId)) {
+
+  if (llm.useLlmReviewer) {
     throw new Error(
-      `Unknown policy "${policyId}". Expected one of: random, stairs-seeking, cautious-low-hp, greedy-item-picker.`,
+      'simulate-seed supports --use-llm-player only. Use run-version --use-llm-reviewer for reviewer-backed evidence.',
     );
   }
 
-  return { seed, policyId, version, maxSteps };
+  if (llm.useLlmPlayer) {
+    if (!isLlmPlayerPersona(policyId)) {
+      throw new Error(
+        `With --use-llm-player, --policy must be an LLM persona: careful_player, naive_player, or bug_hunter.`,
+      );
+    }
+    assertRealLlmRunAllowed({ usePlayer: true });
+    return {
+      seed,
+      policyId,
+      version,
+      maxSteps,
+      challengeMode,
+      scenarioPack,
+      extensionPack,
+      policy: createPersonaPolicyForRun(
+        policyId,
+        seed,
+        PERSONA_BASELINE_FOR_SIMULATE,
+        { usePlayer: true },
+      ),
+    };
+  }
+
+  if (!isBaselinePolicyId(policyId)) {
+    throw new Error(
+      `Unknown policy "${policyId}". Expected one of: random, stairs-seeking, cautious-low-hp, greedy-item-picker, or use --use-llm-player with an LLM persona.`,
+    );
+  }
+
+  return { seed, policyId, version, maxSteps, challengeMode, scenarioPack, extensionPack };
 };
 
 export { isBaselinePolicyId, BASELINE_POLICY_IDS, isLlmPlayerPersona, LLM_PLAYER_PERSONA_IDS } from './policy-registry.js';

@@ -36,11 +36,23 @@ export interface Tile {
   description: string;
 }
 
+export interface ResourceState {
+  hunger: number;
+  torch: number;
+}
+
 export interface PlayerState extends Position {
   hp: number;
   maxHp: number;
-  hunger?: number;
   inventory: string[];
+}
+
+export interface TrapInstance extends Position {
+  id: string;
+  type: string;
+  label: string;
+  glyph: string;
+  armed: boolean;
 }
 
 export interface GameMap {
@@ -104,6 +116,8 @@ export interface GameState {
   map: GameMap;
   enemies: EnemyInstance[];
   items: ItemInstance[];
+  traps: TrapInstance[];
+  resources: ResourceState;
   log: string[];
   npcs: NpcInstance[];
   dialogue?: DialogueState;
@@ -113,6 +127,10 @@ export interface GameState {
     maxTurns: number;
     objective: string;
     totalFloors: number;
+    /** Selected bounded scenario pack, if any. */
+    scenarioPackId?: string;
+    /** Merged challenge/pack config preserved across floor descent. */
+    runConfig?: RunConfigOverlay;
   };
 }
 
@@ -154,4 +172,17 @@ export interface GameConfig {
   initialInventory?: readonly string[];
   /** Adds deterministic opening log lines for bounded demo profiles. */
   openingLog?: readonly string[];
+  /** Explicit scenario content pack selected for this run (harness/engine only). */
+  scenarioPackId?: string;
+}
+
+/** Persisted merged run overlay so floor descent keeps challenge/pack constraints. */
+export interface RunConfigOverlay {
+  totalFloors: number;
+  maxTurns?: number;
+  objective?: string;
+  allowedEnemyIds?: readonly string[];
+  allowedItemIds?: readonly string[];
+  openingLog?: readonly string[];
+  initialInventory?: readonly string[];
 }

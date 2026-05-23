@@ -1,8 +1,16 @@
+import { deriveTrapResourceMetricsFromEvents } from '../game/traps-resources.js';
+import {
+  deriveEnemyBehaviorMetrics,
+  deriveItemEvaluationMetrics,
+  deriveProblemRunDiagnostics,
+} from './trace-diagnostics.js';
+import { playtestMetadataFromTrace } from './playtest-metadata.js';
 import type {
   PlaythroughScorecard,
   PlaythroughTrace,
   ReviewerScores,
   ScorecardReviewInput,
+  TraceMetadata,
 } from './types.js';
 
 const REVIEWER_SCORE_KEYS = [
@@ -61,6 +69,7 @@ export const deriveScorecardFromTrace = (
   trace: PlaythroughTrace,
   tracePath: string,
   reviewInput?: ScorecardReviewInput,
+  metadata?: TraceMetadata,
 ): PlaythroughScorecard => {
   let floorsReached = 0;
   let damageTaken = 0;
@@ -117,10 +126,22 @@ export const deriveScorecardFromTrace = (
     softlocks = Math.max(softlocks, 1);
   }
 
-  return {
+  const resolvedMetadata = metadata ?? trace.metadata;
+  const enemy_behaviors = deriveEnemyBehaviorMetrics(trace);
+  const item_evaluation = deriveItemEvaluationMetrics(trace);
+  const trap_resources = deriveTrapResourceMetricsFromEvents(trace.steps);
+
+  const playtestMetadata = playtestMetadataFromTrace(trace);
+  const baseScorecard: PlaythroughScorecard = {
     version: trace.version,
     seed: trace.seed,
     persona: trace.persona,
+    ...playtestMetadata,
+    ...(trace.challenge_mode ? { challenge_mode: trace.challenge_mode } : {}),
+    ...(trace.scenario_pack ? { scenario_pack: trace.scenario_pack } : {}),
+    ...(trace.scenario_pack_label ? { scenario_pack_label: trace.scenario_pack_label } : {}),
+    ...(trace.extension_pack ? { extension_pack: trace.extension_pack } : {}),
+    ...(trace.extension_pack_label ? { extension_pack_label: trace.extension_pack_label } : {}),
     result: trace.result,
     turns: trace.turns,
     floors_reached: floorsReached,
@@ -131,8 +152,16 @@ export const deriveScorecardFromTrace = (
     softlocks,
     reviewer_scores: normalizeReviewerScores(reviewInput?.scores),
     trace_path: tracePath,
+    enemy_behaviors,
+    item_evaluation,
+    trap_resources,
     ...(reviewInput?.review_path ? { review_path: reviewInput.review_path } : {}),
     ...(reviewInput?.review_id ? { review_id: reviewInput.review_id } : {}),
+  };
+
+  return {
+    ...baseScorecard,
+    diagnostics: deriveProblemRunDiagnostics(trace, baseScorecard, resolvedMetadata),
   };
 };
 
@@ -190,6 +219,120 @@ export const validateScorecard = (scorecard: PlaythroughScorecard): void => {
     const value = record[field];
     if (value !== undefined && (typeof value !== 'string' || value.length === 0)) {
       throw new Error(`Scorecard optional review source must be a non-empty string: ${field}`);
+    }
+  }
+
+  if (
+    record.challenge_mode !== undefined &&
+    (typeof record.challenge_mode !== 'string' || record.challenge_mode.length === 0)
+  ) {
+    throw new Error('Scorecard challenge_mode must be a non-empty string when present');
+  }
+
+  if (
+    record.scenario_pack !== undefined &&
+    (typeof record.scenario_pack !== 'string' || record.scenario_pack.length === 0)
+  ) {
+    throw new Error('Scorecard scenario_pack must be a non-empty string when present');
+  }
+
+  if (
+    record.scenario_pack_label !== undefined &&
+    (typeof record.scenario_pack_label !== 'string' || record.scenario_pack_label.length === 0)
+  ) {
+    throw new Error('Scorecard scenario_pack_label must be a non-empty string when present');
+  }
+
+  if (
+    record.extension_pack !== undefined &&
+    (typeof record.extension_pack !== 'string' || record.extension_pack.length === 0)
+  ) {
+    throw new Error('Scorecard extension_pack must be a non-empty string when present');
+  }
+
+  if (
+    record.extension_pack_label !== undefined &&
+    (typeof record.extension_pack_label !== 'string' ||
+      record.extension_pack_label.length === 0)
+  ) {
+    throw new Error('Scorecard extension_pack_label must be a non-empty string when present');
+  }
+
+  if (record.player_kind !== undefined) {
+    if (record.player_kind !== 'agent' && record.player_kind !== 'human') {
+      throw new Error('Scorecard player_kind must be "agent" or "human" when present');
+    }
+  }
+
+  if (record.agent_policy_class !== undefined) {
+    if (record.agent_policy_class !== 'baseline' && record.agent_policy_class !== 'llm_persona') {
+      throw new Error(
+        'Scorecard agent_policy_class must be "baseline" or "llm_persona" when present',
+      );
+    }
+  }
+
+  if (record.human_play_mode !== undefined) {
+    if (
+      record.human_play_mode !== 'terminal' &&
+      record.human_play_mode !== 'auto' &&
+      record.human_play_mode !== 'script'
+    ) {
+      throw new Error(
+        'Scorecard human_play_mode must be terminal, auto, or script when present',
+      );
+    }
+  }
+
+  if (record.session_label !== undefined) {
+    if (typeof record.session_label !== 'string' || record.session_label.length === 0) {
+      throw new Error('Scorecard session_label must be a non-empty string when present');
+    }
+  }
+
+  if (record.enemy_behaviors !== undefined) {
+    if (typeof record.enemy_behaviors !== 'object' || record.enemy_behaviors === null) {
+      throw new Error('Scorecard enemy_behaviors must be an object when present');
+    }
+  }
+
+  if (record.item_evaluation !== undefined) {
+    if (typeof record.item_evaluation !== 'object' || record.item_evaluation === null) {
+      throw new Error('Scorecard item_evaluation must be an object when present');
+    }
+  }
+
+  if (record.trap_resources !== undefined) {
+    if (typeof record.trap_resources !== 'object' || record.trap_resources === null) {
+      throw new Error('Scorecard trap_resources must be an object when present');
+    }
+    const trapResources = record.trap_resources as Record<string, unknown>;
+    for (const field of [
+      'traps_triggered',
+      'trap_damage_taken',
+      'hunger_damage_taken',
+      'resource_pressure_events',
+    ] as const) {
+      const value = trapResources[field];
+      if (typeof value !== 'number' || !Number.isFinite(value)) {
+        throw new Error(`Scorecard trap_resources.${field} must be a finite number when present`);
+      }
+      if (!Number.isInteger(value) || value < 0) {
+        throw new Error(`Scorecard trap_resources.${field} must be a non-negative integer`);
+      }
+    }
+  }
+
+  if (record.diagnostics !== undefined) {
+    if (typeof record.diagnostics !== 'object' || record.diagnostics === null) {
+      throw new Error('Scorecard diagnostics must be an object when present');
+    }
+    const diagnostics = record.diagnostics as { categories?: unknown; primary_category?: unknown };
+    if (!Array.isArray(diagnostics.categories)) {
+      throw new Error('Scorecard diagnostics.categories must be an array when present');
+    }
+    if (typeof diagnostics.primary_category !== 'string') {
+      throw new Error('Scorecard diagnostics.primary_category must be a string when present');
     }
   }
 };

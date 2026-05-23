@@ -12,12 +12,16 @@ import {
   POTION_ITEM_ID,
   SHELL_ENEMY_ID,
   SLIME_ENEMY_ID,
+  SPIKE_TRAP_ID,
   THIEF_ENEMY_ID,
   validateContentReferences,
   validateEnemiesBundle,
   validateEventsBundle,
   validateFloorRulesBundle,
   validateItemsBundle,
+  validateTrapsBundle,
+  TRAPS_SCHEMA_VERSION,
+  PHASE_16A_TRAP_IDS,
 } from '../src/game/content.js';
 import { getEnemyById, getSlime } from '../src/game/enemies.js';
 import { getItemById, getPotion } from '../src/game/items.js';
@@ -29,6 +33,7 @@ describe('Phase 02C content data', () => {
     expect(content.items.schemaVersion).toBe(CONTENT_SCHEMA_VERSION);
     expect(content.enemies.schemaVersion).toBe(CONTENT_SCHEMA_VERSION);
     expect(content.floors.schemaVersion).toBe(CONTENT_SCHEMA_VERSION);
+    expect(content.traps.schemaVersion).toBe(TRAPS_SCHEMA_VERSION);
     expect(content.events.schemaVersion).toBe(EVENTS_SCHEMA_VERSION);
     expect(content.items.items).toHaveLength(5);
     expect(content.enemies.enemies).toHaveLength(5);
@@ -371,8 +376,57 @@ describe('Phase 02C content data', () => {
       dialogueTrees: [],
     });
 
-    expect(() => validateContentReferences({ items, enemies, floors, events })).toThrow(
+    const traps = validateTrapsBundle({
+      schemaVersion: TRAPS_SCHEMA_VERSION,
+      traps: [
+        {
+          id: SPIKE_TRAP_ID,
+          name: 'spike',
+          displayName: 'Spike Trap',
+          description: 'Spikes.',
+          glyph: 'x',
+          damage: 2,
+        },
+      ],
+    });
+
+    expect(() => validateContentReferences({ items, enemies, floors, traps, events })).toThrow(
       /unknown enemy id "phantom"/,
     );
+  });
+
+  it('rejects floor rules that reference unknown trap ids', () => {
+    const { items, enemies, traps } = loadGameContent();
+    const events = validateEventsBundle({
+      schemaVersion: EVENTS_SCHEMA_VERSION,
+      opening: { id: 'opening', text: 'Begin.' },
+      ending: { id: 'ending', text: 'End.' },
+      floorEvents: [],
+      npcs: [],
+      dialogueTrees: [],
+    });
+    const floors = validateFloorRulesBundle({
+      schemaVersion: CONTENT_SCHEMA_VERSION,
+      floors: [
+        {
+          id: 'bad-floor',
+          floor: 1,
+          width: 9,
+          height: 9,
+          enemyIds: [SLIME_ENEMY_ID],
+          itemIds: [POTION_ITEM_ID],
+          enemySpawnCount: 1,
+          itemSpawnCount: 1,
+          trapIds: ['phantom_trap'],
+          trapSpawnCount: 1,
+          maxTurns: 40,
+        },
+      ],
+    });
+
+    expect(() => validateContentReferences({ items, enemies, floors, traps, events })).toThrow(
+      /unknown trap id/,
+    );
+    expect(PHASE_16A_TRAP_IDS.length).toBeGreaterThan(0);
   });
 });

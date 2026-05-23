@@ -29,12 +29,51 @@ export const renderComparisonMarkdown = (comparison: VersionComparison): string 
       `- ${metric}: ${delta.base} -> ${delta.target} (delta ${delta.delta >= 0 ? '+' : ''}${delta.delta})`,
   );
 
+  const challengeLines =
+    comparison.challenge_mode &&
+    (comparison.challenge_mode.base || comparison.challenge_mode.target)
+      ? [
+          '## Challenge mode',
+          '',
+          `- Base: \`${comparison.challenge_mode.base ?? 'default'}\``,
+          `- Target: \`${comparison.challenge_mode.target ?? 'default'}\``,
+          '',
+        ]
+      : [];
+
+  const scenarioPackLines =
+    comparison.scenario_pack &&
+    (comparison.scenario_pack.base || comparison.scenario_pack.target)
+      ? [
+          '## Scenario pack',
+          '',
+          `- Base: \`${comparison.scenario_pack.base ?? 'default'}\``,
+          `- Target: \`${comparison.scenario_pack.target ?? 'default'}\``,
+          '',
+        ]
+      : [];
+
+  const extensionPackLines =
+    comparison.extension_pack &&
+    (comparison.extension_pack.base || comparison.extension_pack.target)
+      ? [
+          '## Extension pack',
+          '',
+          `- Base: \`${comparison.extension_pack.base ?? 'default'}\``,
+          `- Target: \`${comparison.extension_pack.target ?? 'default'}\``,
+          '',
+        ]
+      : [];
+
   return [
     '# Version Comparison',
     '',
     `Base: \`${comparison.baseVersion}\``,
     `Target: \`${comparison.targetVersion}\``,
     '',
+    ...challengeLines,
+    ...scenarioPackLines,
+    ...extensionPackLines,
     '## Interpretation',
     '',
     comparison.interpretation,

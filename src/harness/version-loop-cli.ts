@@ -1,4 +1,4 @@
-import { parseHarnessCliCommonArgs } from './cli-args.js';
+import { parseHarnessCliCommonArgs, parseHarnessLlmCliArgs } from './cli-args.js';
 import { stringifyDeterministicJson } from './json.js';
 import {
   ensureVersionFolder,
@@ -13,20 +13,39 @@ interface ParsedArgs {
   target?: string;
   runsRoot: string;
   onExisting: import('./artifact-write-policy.js').ArtifactWriteMode;
+  challengeMode?: string;
+  scenarioPack?: string;
+  extensionPack?: string;
   stdoutOnly: boolean;
+  useLlmPlayer: boolean;
+  useLlmReviewer: boolean;
 }
 
 const parseArgs = (argv: string[]): ParsedArgs => {
   const common = parseHarnessCliCommonArgs(argv);
+  const llm = parseHarnessLlmCliArgs(argv);
   const args: ParsedArgs = {
     runsRoot: common.runsRoot,
     onExisting: common.onExisting,
+    challengeMode: common.challengeMode,
+    scenarioPack: common.scenarioPack,
+    extensionPack: common.extensionPack,
     stdoutOnly: false,
+    useLlmPlayer: llm.useLlmPlayer,
+    useLlmReviewer: llm.useLlmReviewer,
   };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     const next = argv[index + 1];
     if (arg === '--') {
+      continue;
+    } else if (
+      arg === '--use-llm-player' ||
+      arg === '--llm-player' ||
+      arg === '--use-llm-reviewer' ||
+      arg === '--llm-reviewer' ||
+      arg === '--use-llm'
+    ) {
       continue;
     } else if (arg === '--version' && next) {
       args.version = next;
@@ -39,7 +58,13 @@ const parseArgs = (argv: string[]): ParsedArgs => {
       index += 1;
     } else if (arg === '--stdout-only') {
       args.stdoutOnly = true;
-    } else if (arg === '--runs-root' || arg === '--on-existing') {
+    } else if (
+      arg === '--runs-root' ||
+      arg === '--on-existing' ||
+      arg === '--challenge-mode' ||
+      arg === '--scenario-pack' ||
+      arg === '--extension-pack'
+    ) {
       index += 1;
     } else {
       throw new Error(`Unknown or incomplete argument: ${arg}`);
@@ -69,6 +94,13 @@ export const runRunVersionCli = async (argv: string[] = process.argv.slice(2)): 
   writeJson(
     await runVersion(args.runsRoot, requireArg(args.version, 'version'), undefined, {
       onExisting: args.onExisting,
+      ...(args.challengeMode ? { challengeMode: args.challengeMode } : {}),
+      ...(args.scenarioPack ? { scenarioPack: args.scenarioPack } : {}),
+      ...(args.extensionPack ? { extensionPack: args.extensionPack } : {}),
+      llm: {
+        usePlayer: args.useLlmPlayer,
+        useReviewer: args.useLlmReviewer,
+      },
     }),
   );
 };

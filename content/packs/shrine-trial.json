@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "16C",
+  "items": {
+    "add": [
+      {
+        "id": "trial_tonic",
+        "name": "trial tonic",
+        "displayName": "Trial Tonic",
+        "description": "A shrine-brewed tonic that restores HP during bounded trials.",
+        "kind": "consumable",
+        "effect": "heal",
+        "validUse": "inventory",
+        "stackable": true,
+        "glyph": "+",
+        "healAmount": 6
+      }
+    ]
+  },
+  "enemies": {
+    "add": [
+      {
+        "id": "trial_wisp",
+        "name": "trial wisp",
+        "displayName": "Trial Wisp",
+        "description": "A swift shrine guardian used by scenario packs.",
+        "glyph": "w",
+        "behavior": "bat",
+        "hp": 5,
+        "attack": 2,
+        "defense": 0,
+        "xp": 2,
+        "goldReward": 0,
+        "itemDropIds": ["trial_tonic"]
+      }
+    ]
+  },
+  "floors": {
+    "replace": [
+      {
+        "id": "shrine-trial-floor-1",
+        "floor": 1,
+        "width": 9,
+        "height": 9,
+        "enemyIds": ["trial_wisp"],
+        "itemIds": ["trial_tonic"],
+        "enemySpawnCount": 2,
+        "itemSpawnCount": 1,
+        "trapIds": ["needle"],
+        "trapSpawnCount": 1,
+        "maxTurns": 40
+      },
+      {
+        "id": "shrine-trial-floor-2",
+        "floor": 2,
+        "width": 10,
+        "height": 10,
+        "enemyIds": ["trial_wisp"],
+        "itemIds": ["trial_tonic", "smoke_bomb"],
+        "enemySpawnCount": 1,
+        "itemSpawnCount": 1,
+        "trapIds": ["spike"],
+        "trapSpawnCount": 1,
+        "maxTurns": 44
+      }
+    ]
+  },
+  "events": {
+    "floorEvents": {
+      "add": [
+        {
+          "id": "shrine_trial_intro",
+          "floor": 1,
+          "trigger": "on_enter",
+          "text": "Trial wards flare along the shrine antechamber. The keeper watches from the shadows."
+        }
+      ]
+    },
+    "npcs": {
+      "replace": [
+        {
+          "id": "shrine_keeper",
+          "displayName": "Shrine Keeper",
+          "glyph": "K",
+          "floor": 1,
+          "dialogueTreeId": "keeper_dialogue"
+        }
+      ]
+    }
+  }
+}

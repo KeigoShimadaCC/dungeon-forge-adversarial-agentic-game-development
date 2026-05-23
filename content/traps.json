@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "16A",
+  "traps": [
+    {
+      "id": "spike",
+      "name": "spike",
+      "displayName": "Spike Trap",
+      "description": "Spring-loaded spikes that jab your boots when stepped on.",
+      "glyph": "x",
+      "damage": 3
+    },
+    {
+      "id": "needle",
+      "name": "needle",
+      "displayName": "Needle Trap",
+      "description": "Wall slits that fire needles when you cross the tile.",
+      "glyph": ";",
+      "damage": 2
+    }
+  ]
+}

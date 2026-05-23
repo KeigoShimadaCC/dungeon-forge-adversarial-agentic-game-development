@@ -86,7 +86,7 @@
       "id": "PHASE-16A",
       "plan": "phase-plans/PHASE-16A-TRAPS-AND-RESOURCES.md",
       "dependsOn": ["PHASE-15C"],
-      "allowedPaths": ["src/game/**", "content/**", "tests/**", "docs/**", "phase-plans/**", "PROGRESS.MD"],
+      "allowedPaths": ["src/game/**", "src/harness/**", "content/**", "tests/**", "docs/**", "automation/phase-graph.json", "phase-plans/**", "PROGRESS.MD"],
       "parallelGroup": "16-gameplay-a",
       "automerge": true
     },

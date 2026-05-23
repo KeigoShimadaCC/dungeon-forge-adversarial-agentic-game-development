@@ -2,8 +2,10 @@ import enemiesJson from '../../content/enemies.json' with { type: 'json' };
 import eventsJson from '../../content/events.json' with { type: 'json' };
 import floorRulesJson from '../../content/floor-rules.json' with { type: 'json' };
 import itemsJson from '../../content/items.json' with { type: 'json' };
+import trapsJson from '../../content/traps.json' with { type: 'json' };
 
 export const CONTENT_SCHEMA_VERSION = '02C' as const;
+export const TRAPS_SCHEMA_VERSION = '16A' as const;
 export const EVENTS_SCHEMA_VERSION = '10A' as const;
 export const SHRINE_KEEPER_NPC_ID = 'shrine_keeper' as const;
 
@@ -33,6 +35,9 @@ export const BAT_ENEMY_ID = 'bat' as const;
 export const SHELL_ENEMY_ID = 'shell' as const;
 export const THIEF_ENEMY_ID = 'thief' as const;
 export const GHOST_ENEMY_ID = 'ghost' as const;
+export const SPIKE_TRAP_ID = 'spike' as const;
+export const NEEDLE_TRAP_ID = 'needle' as const;
+export const PHASE_16A_TRAP_IDS = [SPIKE_TRAP_ID, NEEDLE_TRAP_ID] as const;
 
 export const ENEMY_BEHAVIORS = ['chase', 'bat', 'shell', 'thief', 'ghost'] as const;
 export type EnemyBehaviorId = (typeof ENEMY_BEHAVIORS)[number];
@@ -78,6 +83,20 @@ export interface EnemyDefinition {
   itemDropIds: string[];
 }
 
+export interface TrapDefinition {
+  id: string;
+  name: string;
+  displayName: string;
+  description: string;
+  glyph: string;
+  damage: number;
+}
+
+export interface TrapsContentBundle {
+  schemaVersion: string;
+  traps: TrapDefinition[];
+}
+
 export interface FloorRuleDefinition {
   id: string;
   floor: number;
@@ -87,6 +106,8 @@ export interface FloorRuleDefinition {
   itemIds: string[];
   enemySpawnCount: number;
   itemSpawnCount: number;
+  trapIds?: string[];
+  trapSpawnCount?: number;
   maxTurns: number;
 }
 
@@ -157,6 +178,7 @@ export interface GameContent {
   items: ItemsContentBundle;
   enemies: EnemiesContentBundle;
   floors: FloorRulesContentBundle;
+  traps: TrapsContentBundle;
   events: EventsContentBundle;
 }
 
@@ -366,8 +388,8 @@ function parseItemDefinition(value: unknown, path: string): ItemDefinition {
   return item;
 }
 
-export function getItemDefinition(id: string): ItemDefinition {
-  const item = loadGameContent().items.items.find((candidate) => candidate.id === id);
+export function getItemDefinition(id: string, content: GameContent = loadGameContent()): ItemDefinition {
+  const item = content.items.items.find((candidate) => candidate.id === id);
   if (!item) {
     throw new Error(`Missing item content: ${id}`);
   }
@@ -406,11 +428,39 @@ function parseEnemyDefinition(value: unknown, path: string): EnemyDefinition {
   };
 }
 
+function parseTrapDefinition(value: unknown, path: string): TrapDefinition {
+  const record = requireRecord(value, path);
+  const glyph = requireString(record, 'glyph', path);
+  if (glyph.length !== 1) {
+    fail(path, 'glyph must be a single character');
+  }
+  return {
+    id: requireString(record, 'id', path),
+    name: requireString(record, 'name', path),
+    displayName: requireString(record, 'displayName', path),
+    description: requireString(record, 'description', path),
+    glyph,
+    damage: requireNumber(record, 'damage', path, { integer: true, min: 1 }),
+  };
+}
+
 function parseFloorRuleDefinition(
   value: unknown,
   path: string,
 ): FloorRuleDefinition {
   const record = requireRecord(value, path);
+  const trapSpawnCount = optionalNumber(record, 'trapSpawnCount', path, {
+    integer: true,
+    min: 0,
+  });
+  const trapIds =
+    'trapIds' in record ? requireStringArray(record, 'trapIds', path) : undefined;
+  if ((trapSpawnCount ?? 0) > 0 && (!trapIds || trapIds.length === 0)) {
+    fail(path, 'trapIds is required when trapSpawnCount is greater than zero');
+  }
+  if (trapIds && trapIds.length > 0 && (trapSpawnCount ?? 0) === 0) {
+    fail(path, 'trapSpawnCount must be greater than zero when trapIds are set');
+  }
   return {
     id: requireString(record, 'id', path),
     floor: requireNumber(record, 'floor', path, { integer: true, min: 1 }),
@@ -426,11 +476,38 @@ function parseFloorRuleDefinition(
       integer: true,
       min: 0,
     }),
+    trapIds,
+    trapSpawnCount,
     maxTurns: requireNumber(record, 'maxTurns', path, {
       integer: true,
       min: 1,
     }),
   };
+}
+
+export function validateTrapsBundle(raw: unknown): TrapsContentBundle {
+  const root = requireRecord(raw, 'traps.json');
+  const schemaVersion = requireString(root, 'schemaVersion', 'traps.json');
+  if (schemaVersion !== TRAPS_SCHEMA_VERSION) {
+    fail('traps.json', `schemaVersion must be ${TRAPS_SCHEMA_VERSION}`);
+  }
+  const trapsRaw = requireArray(root, 'traps', 'traps.json');
+  const traps = trapsRaw.map((entry, index) =>
+    parseTrapDefinition(entry, `traps.json.traps[${index}]`),
+  );
+  assertUniqueIds(
+    traps.map((trap) => trap.id),
+    'traps.json.traps',
+  );
+  return { schemaVersion, traps };
+}
+
+export function getTrapDefinition(id: string, content: GameContent = loadGameContent()): TrapDefinition {
+  const trap = content.traps.traps.find((candidate) => candidate.id === id);
+  if (!trap) {
+    throw new Error(`Missing trap content: ${id}`);
+  }
+  return trap;
 }
 
 export function validateItemsBundle(raw: unknown): ItemsContentBundle {
@@ -621,6 +698,7 @@ export function validateFloorRulesBundle(raw: unknown): FloorRulesContentBundle 
 export function validateContentReferences(content: GameContent): void {
   const itemIds = new Set(content.items.items.map((item) => item.id));
   const enemyIds = new Set(content.enemies.enemies.map((enemy) => enemy.id));
+  const trapIds = new Set(content.traps.traps.map((trap) => trap.id));
   const floorNumbers = new Set(content.floors.floors.map((floor) => floor.floor));
   const treeIds = new Set(content.events.dialogueTrees.map((tree) => tree.id));
 
@@ -667,6 +745,11 @@ export function validateContentReferences(content: GameContent): void {
         fail(path, `unknown item id "${itemId}"`);
       }
     }
+    for (const trapId of floor.trapIds ?? []) {
+      if (!trapIds.has(trapId)) {
+        fail(path, `unknown trap id "${trapId}"`);
+      }
+    }
   }
 
   for (const enemy of content.enemies.enemies) {
@@ -685,8 +768,9 @@ export function loadGameContent(): GameContent {
   const items = validateItemsBundle(itemsJson);
   const enemies = validateEnemiesBundle(enemiesJson);
   const floors = validateFloorRulesBundle(floorRulesJson);
+  const traps = validateTrapsBundle(trapsJson);
   const events = validateEventsBundle(eventsJson);
-  const content: GameContent = { items, enemies, floors, events };
+  const content: GameContent = { items, enemies, floors, traps, events };
   validateContentReferences(content);
   return content;
 }

@@ -29,19 +29,23 @@ const withTempDir = async (fn: (dir: string) => Promise<void>): Promise<void> =>
 };
 
 describe('phase runner automation core', () => {
-  it('loads the phase graph and finds PHASE-13A as the next Codex orchestration job', async () => {
+  it('loads the phase graph and finds a queued PHASE-13B Codex orchestration job', async () => {
     const config = await loadPhaseRunnerConfig(repoRoot);
+    config.state.currentPhase = 'PHASE-13B';
+    config.state.phases['PHASE-13A'] = { status: 'complete' };
+    config.state.phases['PHASE-13B'] = { status: 'queued' };
+    config.state.phases['PHASE-13C'] = { status: 'queued' };
     expect(validatePhaseGraph(config.graph)).toEqual([]);
 
     const runnable = getRunnablePhases(config, {
       repoRoot,
-      from: 'PHASE-13A',
+      from: 'PHASE-13B',
       parallel: 2,
       runId: 'test-run',
     });
 
     expect(runnable).toHaveLength(1);
-    expect(runnable[0]?.phase.id).toBe('PHASE-13A');
+    expect(runnable[0]?.phase.id).toBe('PHASE-13B');
     expect(runnable[0]?.codexOrchestrator).toMatchObject({
       role: 'codex',
       canUseCursor: true,
@@ -53,6 +57,8 @@ describe('phase runner automation core', () => {
   it('keeps overlapping path scopes out of the same parallel batch', async () => {
     const config = await loadPhaseRunnerConfig(repoRoot);
     config.state.phases['PHASE-13A'] = { status: 'complete' };
+    config.state.phases['PHASE-13B'] = { status: 'queued' };
+    config.state.phases['PHASE-13C'] = { status: 'queued' };
 
     const phase13b = config.graph.phases.find((phase) => phase.id === 'PHASE-13B');
     const phase13c = config.graph.phases.find((phase) => phase.id === 'PHASE-13C');
@@ -148,9 +154,19 @@ describe('phase runner automation core', () => {
 
   it('marks phases complete or blocked in automation state', async () => {
     const config = await loadPhaseRunnerConfig(repoRoot);
+    const state = {
+      ...config.state,
+      currentPhase: 'PHASE-13A',
+      phases: {
+        ...config.state.phases,
+        'PHASE-13A': { status: 'queued' as const },
+        'PHASE-13B': { status: 'queued' as const },
+        'PHASE-13C': { status: 'queued' as const },
+      },
+    };
     const completed = markPhaseComplete(
       config.graph,
-      config.state,
+      state,
       'PHASE-13A',
       {
         branch: 'phase/phase-13a-evidence-retention',
@@ -172,7 +188,7 @@ describe('phase runner automation core', () => {
 
     const blocked = markPhaseBlocked(
       config.graph,
-      config.state,
+      state,
       'PHASE-13A',
       'PR checks failed',
       '2026-05-23',

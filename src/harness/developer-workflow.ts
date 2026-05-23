@@ -1,10 +1,8 @@
 import path from 'node:path';
 
 import type { PlaythroughReview } from './reviewer-client.js';
-import {
-  isScorecardStructurallyUsable,
-  isReviewerPersona,
-} from './reviewer-client.js';
+import { isScorecardStructurallyUsable } from './reviewer-client.js';
+import { isReviewStructurallyUsable } from './review-validation.js';
 import type { PlaythroughScorecard } from './types.js';
 import { getVersionPaths, validateVersionId } from './version-loop.js';
 
@@ -106,99 +104,318 @@ export interface DeveloperTask {
   };
 }
 
+export type DeveloperTaskDiagnosticCategory =
+  | 'blocker'
+  | 'warning'
+  | 'allowed'
+  | 'proposed'
+  | 'forbidden';
+
+export interface DeveloperTaskDiagnostic {
+  category: DeveloperTaskDiagnosticCategory;
+  message: string;
+  field?: string;
+  entry?: string;
+}
+
+export interface DeveloperTaskValidationResult {
+  ok: boolean;
+  diagnostics: DeveloperTaskDiagnostic[];
+  blockers: DeveloperTaskDiagnostic[];
+  warnings: DeveloperTaskDiagnostic[];
+}
+
 export class DeveloperTaskValidationError extends Error {
-  constructor(message: string) {
+  readonly diagnostics: DeveloperTaskDiagnostic[];
+
+  constructor(message: string, diagnostics: DeveloperTaskDiagnostic[] = []) {
     super(message);
     this.name = 'DeveloperTaskValidationError';
+    this.diagnostics = diagnostics;
   }
 }
 
-const isReviewStructurallyUsable = (review: PlaythroughReview): boolean =>
-  typeof review.version === 'string' &&
-  review.version.length > 0 &&
-  typeof review.seed === 'string' &&
-  review.seed.length > 0 &&
-  typeof review.persona === 'string' &&
-  isReviewerPersona(review.persona) &&
-  typeof review.summary === 'string' &&
-  review.summary.trim().length > 0 &&
-  Array.isArray(review.top_issues) &&
-  Array.isArray(review.suggested_next_changes) &&
-  typeof review.scores === 'object' &&
-  review.scores !== null;
-
-const normalizeStringList = (values: string[], fieldName: string): string[] => {
-  const normalized = values.map((value) => value.trim()).filter((value) => value.length > 0);
-  if (normalized.length === 0) {
-    throw new DeveloperTaskValidationError(`${fieldName} must include at least one non-empty entry.`);
-  }
-  return normalized;
-};
-
-const findProtocolBreakingEntry = (entries: string[], fieldName: string): string | undefined => {
+const collectProtocolBreakingDiagnostics = (
+  entries: string[],
+  field: 'allowedChanges' | 'proposedChanges',
+): DeveloperTaskDiagnostic[] => {
+  const diagnostics: DeveloperTaskDiagnostic[] = [];
   for (const entry of entries) {
     for (const rule of PROTOCOL_BREAKING_PATTERNS) {
       if (rule.pattern.test(entry)) {
-        return `${fieldName} contains protocol-breaking text: ${rule.message}`;
+        diagnostics.push({
+          category: 'blocker',
+          field,
+          entry,
+          message: `${field} contains protocol-breaking text: ${rule.message}`,
+        });
       }
+    }
+  }
+  return diagnostics;
+};
+
+const matchesForbiddenPattern = (entry: string): string | undefined => {
+  const lowered = entry.toLowerCase();
+  for (const forbidden of GLOBAL_FORBIDDEN_CHANGES) {
+    const keywords = forbidden
+      .toLowerCase()
+      .split(/[^a-z0-9]+/)
+      .filter((token) => token.length >= 5);
+    const hits = keywords.filter((token) => lowered.includes(token));
+    if (hits.length >= 2) {
+      return `May conflict with global forbidden rule: ${forbidden}`;
     }
   }
   return undefined;
 };
 
-export const validateDeveloperTaskInput = (input: DeveloperTaskInput): void => {
+const tryNormalizeStringList = (
+  values: string[],
+  fieldName: string,
+): { values: string[]; diagnostics: DeveloperTaskDiagnostic[] } => {
+  const normalized = values.map((value) => value.trim()).filter((value) => value.length > 0);
+  if (normalized.length === 0) {
+    return {
+      values: normalized,
+      diagnostics: [
+        {
+          category: 'blocker',
+          field: fieldName,
+          message: `${fieldName} must include at least one non-empty entry.`,
+        },
+      ],
+    };
+  }
+  return { values: normalized, diagnostics: [] };
+};
+
+export const toHandoffDisplayPath = (
+  runsRoot: string,
+  repoRoot: string,
+  targetPath: string,
+): string => {
+  const resolvedRunsRoot = path.resolve(runsRoot);
+  const resolvedRepoRoot = path.resolve(repoRoot);
+  const resolvedTarget = path.resolve(targetPath);
+
+  const relativeToRepo = path.relative(resolvedRepoRoot, resolvedTarget);
+  if (
+    relativeToRepo.length > 0 &&
+    !relativeToRepo.startsWith('..') &&
+    !path.isAbsolute(relativeToRepo)
+  ) {
+    return relativeToRepo.split(path.sep).join('/');
+  }
+
+  const relativeToRuns = path.relative(resolvedRunsRoot, resolvedTarget);
+  if (
+    relativeToRuns.length > 0 &&
+    !relativeToRuns.startsWith('..') &&
+    !path.isAbsolute(relativeToRuns)
+  ) {
+    return relativeToRuns.split(path.sep).join('/');
+  }
+
+  return resolvedTarget.split(path.sep).join('/');
+};
+
+export const collectDeveloperTaskDiagnostics = (
+  input: DeveloperTaskInput,
+): DeveloperTaskValidationResult => {
+  const diagnostics: DeveloperTaskDiagnostic[] = [];
+
   if (!isReviewStructurallyUsable(input.review)) {
-    throw new DeveloperTaskValidationError(
-      'Review JSON is structurally unusable. Require version, seed, persona, summary, scores, top_issues, and suggested_next_changes.',
-    );
+    diagnostics.push({
+      category: 'blocker',
+      field: 'review',
+      message:
+        'Review JSON is structurally unusable. Require version, seed, persona, summary, evidence_quality, scores, top_issues, and suggested_next_changes.',
+    });
   }
 
   if (!isScorecardStructurallyUsable(input.scorecard)) {
-    throw new DeveloperTaskValidationError(
-      'Scorecard JSON is structurally unusable. Require version, seed, persona, result, and turns.',
-    );
+    diagnostics.push({
+      category: 'blocker',
+      field: 'scorecard',
+      message:
+        'Scorecard JSON is structurally unusable. Require version, seed, persona, result, and turns.',
+    });
   }
 
-  if (input.review.version !== input.scorecard.version) {
-    throw new DeveloperTaskValidationError(
-      `Review version "${input.review.version}" does not match scorecard version "${input.scorecard.version}".`,
-    );
+  if (
+    isReviewStructurallyUsable(input.review) &&
+    isScorecardStructurallyUsable(input.scorecard) &&
+    input.review.version !== input.scorecard.version
+  ) {
+    diagnostics.push({
+      category: 'blocker',
+      field: 'version',
+      message: `Review version "${input.review.version}" does not match scorecard version "${input.scorecard.version}".`,
+    });
   }
 
-  if (input.review.seed !== input.scorecard.seed) {
-    throw new DeveloperTaskValidationError(
-      `Review seed "${input.review.seed}" does not match scorecard seed "${input.scorecard.seed}".`,
-    );
+  if (
+    isReviewStructurallyUsable(input.review) &&
+    isScorecardStructurallyUsable(input.scorecard) &&
+    input.review.seed !== input.scorecard.seed
+  ) {
+    diagnostics.push({
+      category: 'blocker',
+      field: 'seed',
+      message: `Review seed "${input.review.seed}" does not match scorecard seed "${input.scorecard.seed}".`,
+    });
   }
 
-  validateVersionId(input.targetVersion);
+  try {
+    validateVersionId(input.targetVersion);
+  } catch (error) {
+    diagnostics.push({
+      category: 'blocker',
+      field: 'targetVersion',
+      message: error instanceof Error ? error.message : String(error),
+    });
+  }
 
   const targetScope = input.targetScope.trim();
   if (targetScope.length === 0) {
-    throw new DeveloperTaskValidationError('targetScope must be a non-empty string.');
+    diagnostics.push({
+      category: 'blocker',
+      field: 'targetScope',
+      message: 'targetScope must be a non-empty string.',
+    });
   }
 
-  const allowedChanges = normalizeStringList(input.allowedChanges, 'allowedChanges');
-  const proposedChanges = normalizeStringList(input.proposedChanges, 'proposedChanges');
+  const allowed = tryNormalizeStringList(input.allowedChanges, 'allowedChanges');
+  diagnostics.push(...allowed.diagnostics);
+  const proposed = tryNormalizeStringList(input.proposedChanges, 'proposedChanges');
+  diagnostics.push(...proposed.diagnostics);
 
-  if (proposedChanges.length > 3) {
-    throw new DeveloperTaskValidationError(
-      `proposedChanges must include at most 3 scoped changes (received ${proposedChanges.length}).`,
-    );
+  if (proposed.values.length > 3) {
+    diagnostics.push({
+      category: 'blocker',
+      field: 'proposedChanges',
+      message: `proposedChanges must include at most 3 scoped changes (received ${proposed.values.length}).`,
+    });
   }
 
-  const protocolIssue =
-    findProtocolBreakingEntry(allowedChanges, 'allowedChanges') ??
-    findProtocolBreakingEntry(proposedChanges, 'proposedChanges');
-  if (protocolIssue) {
-    throw new DeveloperTaskValidationError(protocolIssue);
-  }
+  diagnostics.push(
+    ...collectProtocolBreakingDiagnostics(allowed.values, 'allowedChanges'),
+    ...collectProtocolBreakingDiagnostics(proposed.values, 'proposedChanges'),
+  );
 
   const previousReviewPath = input.previousReviewPath.trim();
   const previousScorecardPath = input.previousScorecardPath.trim();
   if (previousReviewPath.length === 0 || previousScorecardPath.length === 0) {
+    diagnostics.push({
+      category: 'blocker',
+      field: 'paths',
+      message: 'previousReviewPath and previousScorecardPath must be non-empty.',
+    });
+  }
+
+  for (const entry of input.forbiddenChanges ?? []) {
+    const trimmed = entry.trim();
+    if (trimmed.length === 0) {
+      continue;
+    }
+    if (GLOBAL_FORBIDDEN_CHANGES.some((forbidden) => forbidden === trimmed)) {
+      diagnostics.push({
+        category: 'forbidden',
+        field: 'forbiddenChanges',
+        entry: trimmed,
+        message: 'Duplicates a global forbidden rule (already enforced by default).',
+      });
+    }
+  }
+
+  for (const entry of proposed.values) {
+    const conflict = matchesForbiddenPattern(entry);
+    if (conflict) {
+      diagnostics.push({
+        category: 'blocker',
+        field: 'proposedChanges',
+        entry,
+        message: conflict,
+      });
+    }
+    if (entry.length < 12) {
+      diagnostics.push({
+        category: 'proposed',
+        field: 'proposedChanges',
+        entry,
+        message: 'Proposed change is very short; add concrete scope before handing off.',
+      });
+    }
+  }
+
+  for (const entry of allowed.values) {
+    if (/\b(refactor|rewrite|rearchitect)\b/i.test(entry)) {
+      diagnostics.push({
+        category: 'allowed',
+        field: 'allowedChanges',
+        entry,
+        message: 'Allowed change mentions broad refactor language; keep the version scope bounded.',
+      });
+    }
+  }
+
+  if (isReviewStructurallyUsable(input.review) && input.review.top_issues.length === 0) {
+    diagnostics.push({
+      category: 'warning',
+      field: 'review',
+      message: 'Review has no top_issues; confirm the handoff scope is still evidence-backed.',
+    });
+  }
+
+  for (const forbidden of GLOBAL_FORBIDDEN_CHANGES) {
+    diagnostics.push({
+      category: 'forbidden',
+      message: forbidden,
+    });
+  }
+
+  const blockers = diagnostics.filter((entry) => entry.category === 'blocker');
+  const warnings = diagnostics.filter((entry) => entry.category === 'warning');
+  return {
+    ok: blockers.length === 0,
+    diagnostics,
+    blockers,
+    warnings,
+  };
+};
+
+export const formatDeveloperTaskValidationMessage = (
+  result: DeveloperTaskValidationResult,
+): string => {
+  const formatDiagnostic = (diagnostic: DeveloperTaskDiagnostic): string => {
+    const prefix = diagnostic.field
+      ? `${diagnostic.category} (${diagnostic.field})`
+      : diagnostic.category;
+    const entry = diagnostic.entry ? ` "${diagnostic.entry}"` : '';
+    return `- [${prefix}]${entry}: ${diagnostic.message}`;
+  };
+
+  if (result.ok) {
+    const lines = ['Developer task input is valid.'];
+    if (result.diagnostics.length > 0) {
+      lines.push('Diagnostics:');
+      lines.push(...result.diagnostics.map(formatDiagnostic));
+    }
+    return lines.join('\n');
+  }
+
+  const lines = ['Developer task validation failed:'];
+  lines.push(...result.diagnostics.map(formatDiagnostic));
+  return lines.join('\n');
+};
+
+export const validateDeveloperTaskInput = (input: DeveloperTaskInput): void => {
+  const result = collectDeveloperTaskDiagnostics(input);
+  if (!result.ok) {
     throw new DeveloperTaskValidationError(
-      'previousReviewPath and previousScorecardPath must be non-empty.',
+      formatDeveloperTaskValidationMessage(result),
+      result.diagnostics,
     );
   }
 };
@@ -222,10 +439,14 @@ const defaultImplementationSummary = (
 ): string =>
   `Implement ${proposedChanges.length} bounded change(s) for ${targetVersion}, update patch plan and changelog, then rerun required test commands. Do not execute patches autonomously; a human owner approves scope before coding.`;
 
-export const generateDeveloperTask = (input: DeveloperTaskInput): DeveloperTask => {
+export const generateDeveloperTask = (
+  input: DeveloperTaskInput,
+  options?: { repoRoot?: string },
+): DeveloperTask => {
   validateDeveloperTaskInput(input);
 
   const runsRoot = input.runsRoot ?? process.cwd();
+  const repoRoot = options?.repoRoot ?? process.cwd();
   const paths = getVersionPaths(runsRoot, input.targetVersion);
   const proposedChanges = input.proposedChanges.map((value) => value.trim()).filter(Boolean);
   const allowedChanges = input.allowedChanges.map((value) => value.trim()).filter(Boolean);
@@ -239,8 +460,8 @@ export const generateDeveloperTask = (input: DeveloperTaskInput): DeveloperTask 
     forbidden_changes: buildForbiddenChanges(input.forbiddenChanges),
     proposed_changes: proposedChanges,
     required_test_commands: [...(input.requiredTestCommands ?? DEFAULT_DEVELOPER_TEST_COMMANDS)],
-    required_patch_plan_path: paths.patchPlanPath,
-    required_changelog_path: paths.changelogPath,
+    required_patch_plan_path: toHandoffDisplayPath(runsRoot, repoRoot, paths.patchPlanPath),
+    required_changelog_path: toHandoffDisplayPath(runsRoot, repoRoot, paths.changelogPath),
     expected_implementation_summary:
       input.expectedImplementationSummary?.trim() ||
       defaultImplementationSummary(input.targetVersion, proposedChanges),

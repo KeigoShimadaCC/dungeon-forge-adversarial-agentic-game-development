@@ -31,7 +31,9 @@ export type LlmPlayerPersona = (typeof LLM_PLAYER_PERSONA_IDS)[number];
 export type LlmFallbackReason =
   | 'malformed_json'
   | 'missing_action_id'
+  | 'missing_action_type'
   | 'invalid_action_id'
+  | 'invalid_action_type'
   | 'timeout'
   | 'client_error';
 
@@ -40,6 +42,8 @@ export interface TraceDecisionMetadata {
   fallback_used?: boolean;
   fallback_reason?: LlmFallbackReason;
   invalid_action_id?: string;
+  invalid_action_type?: string;
+  model_reason?: string;
   error_category?: LlmFallbackReason;
 }
 
@@ -56,6 +60,69 @@ export interface TraceStep {
   terminalStatus: TerminalStatus;
 }
 
+export interface MapFloorGenerationRecord {
+  floor: number;
+  used_fallback: boolean;
+  generation_attempt: number;
+  width: number;
+  height: number;
+}
+
+export interface PlacementShortfall {
+  floor: number;
+  slot: 'enemy' | 'item' | 'npc' | 'trap';
+  requested: number;
+  placed: number;
+}
+
+export type ProblemRunCategoryKind =
+  | 'aborted'
+  | 'softlock'
+  | 'invalid_actions'
+  | 'impossible_placement'
+  | 'repeated_failure'
+  | 'trap_pressure'
+  | 'resource_pressure';
+
+export interface ProblemRunCategory {
+  category: ProblemRunCategoryKind;
+  code: string;
+  message?: string;
+  detail?: JsonObject;
+}
+
+export interface ProblemRunDiagnostics {
+  categories: ProblemRunCategory[];
+  primary_category: ProblemRunCategoryKind | 'none';
+  abort_cause?: string;
+}
+
+export interface TraceMetadata {
+  map_generation: {
+    floors: MapFloorGenerationRecord[];
+  };
+  placement?: {
+    shortfalls: PlacementShortfall[];
+  };
+  problem_run?: ProblemRunDiagnostics;
+}
+
+export interface EnemyBehaviorMetrics {
+  enemy_attack: number;
+  enemy_move: number;
+  enemy_wait: number;
+  enemy_steal: number;
+  enemy_phase: number;
+  enemy_defeated: number;
+}
+
+export interface ItemEvaluationMetrics {
+  use_item_turns_available: number;
+  items_used: number;
+  tactical_items_used: number;
+  item_pickup_actions: number;
+}
+
 export interface PlaythroughTrace {
   version: string;
   seed: string;
@@ -63,6 +130,25 @@ export interface PlaythroughTrace {
   result: TerminalStatus;
   turns: number;
   steps: TraceStep[];
+  /** Distinguishes harness/agent runs from local human playtest runs. */
+  player_kind?: import('./playtest-metadata.js').PlayerKind;
+  /** Present for agent runs: baseline policy vs LLM persona. */
+  agent_policy_class?: import('./playtest-metadata.js').AgentPolicyClass;
+  /** Present for human playtest runs. */
+  human_play_mode?: import('../human-play/types.js').HumanPlayMode;
+  /** Optional local session label (no private user data required). */
+  session_label?: string;
+  /** Set when an explicit finite challenge preset was selected for the run. */
+  challenge_mode?: string;
+  /** Set when an explicit bounded scenario content pack was selected for the run. */
+  scenario_pack?: string;
+  /** Human-readable label for scenario_pack when available. */
+  scenario_pack_label?: string;
+  /** Set when an explicit local extension pack was selected for the run. */
+  extension_pack?: string;
+  /** Human-readable label for extension_pack when available. */
+  extension_pack_label?: string;
+  metadata?: TraceMetadata;
 }
 
 export interface ReviewerScores {
@@ -81,10 +167,30 @@ export interface ScorecardReviewInput {
 
 export type MockReviewScoreInput = ScorecardReviewInput;
 
+export interface TrapResourceMetrics {
+  traps_triggered: number;
+  trap_damage_taken: number;
+  hunger_damage_taken: number;
+  resource_pressure_events: number;
+}
+
 export interface PlaythroughScorecard {
   version: string;
   seed: string;
   persona: string;
+  /** Mirrors trace player_kind for summary/comparison filtering. */
+  player_kind?: import('./playtest-metadata.js').PlayerKind;
+  agent_policy_class?: import('./playtest-metadata.js').AgentPolicyClass;
+  human_play_mode?: import('../human-play/types.js').HumanPlayMode;
+  session_label?: string;
+  /** Mirrors trace challenge_mode when a finite challenge preset was selected. */
+  challenge_mode?: string;
+  /** Mirrors trace scenario_pack when a bounded scenario pack was selected. */
+  scenario_pack?: string;
+  scenario_pack_label?: string;
+  /** Mirrors trace extension_pack when a local extension pack was selected. */
+  extension_pack?: string;
+  extension_pack_label?: string;
   result: TerminalStatus;
   turns: number;
   floors_reached: number;
@@ -97,6 +203,10 @@ export interface PlaythroughScorecard {
   trace_path: string;
   review_path?: string;
   review_id?: string;
+  enemy_behaviors?: EnemyBehaviorMetrics;
+  item_evaluation?: ItemEvaluationMetrics;
+  trap_resources?: TrapResourceMetrics;
+  diagnostics?: ProblemRunDiagnostics;
 }
 
 export interface PolicyDecision {

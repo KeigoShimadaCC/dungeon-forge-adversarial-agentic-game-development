@@ -25,12 +25,17 @@ import {
   savePlaythroughReview,
 } from './artifacts.js';
 import { stringifyDeterministicJson } from './json.js';
-import { awaitPolicyDecision, resolveBaselinePolicy } from './policy-registry.js';
-import { generateDeterministicReview, type ReviewerPersona } from './reviewer-client.js';
+import {
+  assertRealLlmRunAllowed,
+  createPersonaPolicyForRun,
+  createReviewerForRun,
+  type RunVersionLlmOptions,
+} from './llm-run-options.js';
+import type { ReviewerPersona } from './reviewer-client.js';
 import { runPlaythrough } from './runner.js';
+import { inferPlayerKindFromPersona } from './playtest-metadata.js';
 import { deriveScorecardFromTrace, validateScorecard } from './scorecard.js';
 import type {
-  HarnessPlayerPolicy,
   LlmPlayerPersona,
   PlaythroughScorecard,
   PlaythroughTrace,
@@ -82,6 +87,7 @@ export interface VersionRunResult {
   turns: number;
   tracePath: string;
   reviewPath: string;
+  reviewMarkdownPath: string;
   scorecardPath: string;
   reviewerScores: ReviewerScores;
 }
@@ -101,6 +107,15 @@ export interface ArtifactCoverage {
 export interface VersionSummaryRun {
   seed: string;
   persona: string;
+  player_kind: import('./playtest-metadata.js').PlayerKind;
+  agent_policy_class?: import('./playtest-metadata.js').AgentPolicyClass;
+  human_play_mode?: import('../human-play/types.js').HumanPlayMode;
+  session_label?: string;
+  challenge_mode?: string;
+  scenario_pack?: string;
+  scenario_pack_label?: string;
+  extension_pack?: string;
+  extension_pack_label?: string;
   result: PlaythroughScorecard['result'];
   turns: number;
   metrics: Pick<
@@ -121,6 +136,14 @@ export interface VersionSummaryRun {
 export interface VersionSummary {
   version: string;
   versionDir: string;
+  /** Present when version evidence was produced with an explicit challenge preset. */
+  challenge_mode?: string;
+  /** Present when version evidence was produced with an explicit scenario pack. */
+  scenario_pack?: string;
+  scenario_pack_label?: string;
+  /** Present when version evidence was produced with an explicit extension pack. */
+  extension_pack?: string;
+  extension_pack_label?: string;
   status: 'complete' | 'partial';
   artifact_coverage: ArtifactCoverage;
   runs: VersionSummaryRun[];
@@ -142,6 +165,18 @@ export interface MetricDelta {
 export interface VersionComparison {
   baseVersion: string;
   targetVersion: string;
+  challenge_mode?: {
+    base?: string;
+    target?: string;
+  };
+  scenario_pack?: {
+    base?: string;
+    target?: string;
+  };
+  extension_pack?: {
+    base?: string;
+    target?: string;
+  };
   counts: {
     baseRuns: number;
     targetRuns: number;
@@ -233,7 +268,13 @@ export const buildVersionSummaryRelativePath = (version: string): string =>
 export interface RunVersionOptions {
   onExisting?: ArtifactWriteOptions['onExisting'];
   policyContext?: ArtifactWritePolicyContext;
+  llm?: RunVersionLlmOptions;
+  challengeMode?: string;
+  scenarioPack?: string;
+  extensionPack?: string;
 }
+
+export type { RunVersionLlmOptions } from './llm-run-options.js';
 
 export interface PersistVersionSummaryOptions {
   onExisting?: ArtifactWriteOptions['onExisting'];
@@ -282,22 +323,6 @@ export const ensureVersionFolder = async (
   return { paths, createdMarkdown, preservedMarkdown };
 };
 
-const createPersonaPolicy = (persona: LlmPlayerPersona, seed: string): HarnessPlayerPolicy => {
-  const baselinePolicy = resolveBaselinePolicy(PERSONA_BASELINE_POLICY[persona], seed);
-  return async (input) => {
-    const decision = await awaitPolicyDecision(baselinePolicy(input));
-    return {
-      ...decision,
-      reason: decision.reason ?? `${persona} deterministic local policy.`,
-      decision_metadata: {
-        ...decision.decision_metadata,
-        persona,
-        fallback_used: false,
-      },
-    };
-  };
-};
-
 export const runVersion = async (
   runsRoot: string,
   version: string,
@@ -306,12 +331,14 @@ export const runVersion = async (
 ): Promise<VersionRunOutput> => {
   const resolvedVersion = resolveVersionId(version);
   validateVersionId(version);
+  assertRealLlmRunAllowed(options.llm);
   await ensureVersionFolder(runsRoot, resolvedVersion);
   const runs: VersionRunResult[] = [];
   const saveOptions = {
     write: { onExisting: options.onExisting },
     policyContext: options.policyContext,
   };
+  const reviewer = createReviewerForRun(options.llm);
 
   for (const spec of specs) {
     const playthrough = await runPlaythrough({
@@ -319,13 +346,21 @@ export const runVersion = async (
       policyId: spec.persona,
       version: resolvedVersion,
       runsRoot,
-      policy: createPersonaPolicy(spec.persona, spec.seed),
+      ...(options.challengeMode ? { challengeMode: options.challengeMode } : {}),
+      ...(options.scenarioPack ? { scenarioPack: options.scenarioPack } : {}),
+      ...(options.extensionPack ? { extensionPack: options.extensionPack } : {}),
+      policy: createPersonaPolicyForRun(
+        spec.persona,
+        spec.seed,
+        PERSONA_BASELINE_POLICY,
+        options.llm,
+      ),
       onExisting: options.onExisting,
       policyContext: options.policyContext,
     });
     const tracePath = buildTraceRelativePath(resolvedVersion, spec.seed, spec.persona);
     const traceOnlyScorecard = deriveScorecardFromTrace(playthrough.trace, tracePath);
-    const review = generateDeterministicReview({
+    const review = await reviewer.generateReview({
       trace: playthrough.trace,
       scorecard: traceOnlyScorecard,
       persona: spec.persona as ReviewerPersona,
@@ -353,12 +388,14 @@ export const runVersion = async (
       },
     );
 
-    await savePlaythroughReview(
+    const { reviewPath: savedReviewPath, reviewMarkdownPath } = await savePlaythroughReview(
       runsRoot,
       {
         ...review,
         trace_path: tracePath,
         scorecard_path: buildScorecardRelativePath(resolvedVersion, spec.seed, spec.persona),
+        scorecard_result: traceOnlyScorecard.result,
+        scorecard_turns: traceOnlyScorecard.turns,
       },
       saveOptions,
     );
@@ -369,7 +406,8 @@ export const runVersion = async (
       result: playthrough.trace.result,
       turns: playthrough.trace.turns,
       tracePath: playthrough.artifacts.tracePath,
-      reviewPath: path.join(runsRoot, reviewPath),
+      reviewPath: savedReviewPath,
+      reviewMarkdownPath,
       scorecardPath: playthrough.artifacts.scorecardPath,
       reviewerScores: scorecard.reviewer_scores,
     });
@@ -572,6 +610,21 @@ export const summarizeVersion = async (
   const runs = scorecards.map((scorecard) => ({
     seed: scorecard.seed,
     persona: scorecard.persona,
+    player_kind: scorecard.player_kind ?? inferPlayerKindFromPersona(scorecard.persona),
+    ...(scorecard.agent_policy_class
+      ? { agent_policy_class: scorecard.agent_policy_class }
+      : {}),
+    ...(scorecard.human_play_mode ? { human_play_mode: scorecard.human_play_mode } : {}),
+    ...(scorecard.session_label ? { session_label: scorecard.session_label } : {}),
+    ...(scorecard.challenge_mode ? { challenge_mode: scorecard.challenge_mode } : {}),
+    ...(scorecard.scenario_pack ? { scenario_pack: scorecard.scenario_pack } : {}),
+    ...(scorecard.scenario_pack_label
+      ? { scenario_pack_label: scorecard.scenario_pack_label }
+      : {}),
+    ...(scorecard.extension_pack ? { extension_pack: scorecard.extension_pack } : {}),
+    ...(scorecard.extension_pack_label
+      ? { extension_pack_label: scorecard.extension_pack_label }
+      : {}),
     result: scorecard.result,
     turns: scorecard.turns,
     metrics: {
@@ -592,9 +645,24 @@ export const summarizeVersion = async (
     artifact_coverage.reviews.missing.length +
     artifact_coverage.scorecards.missing.length;
 
+  const challengeMode = scorecards.find((scorecard) => scorecard.challenge_mode)?.challenge_mode;
+  const scenarioPack = scorecards.find((scorecard) => scorecard.scenario_pack)?.scenario_pack;
+  const scenarioPackLabel = scorecards.find(
+    (scorecard) => scorecard.scenario_pack_label,
+  )?.scenario_pack_label;
+  const extensionPack = scorecards.find((scorecard) => scorecard.extension_pack)?.extension_pack;
+  const extensionPackLabel = scorecards.find(
+    (scorecard) => scorecard.extension_pack_label,
+  )?.extension_pack_label;
+
   return {
     version,
     versionDir: paths.versionDir,
+    ...(challengeMode ? { challenge_mode: challengeMode } : {}),
+    ...(scenarioPack ? { scenario_pack: scenarioPack } : {}),
+    ...(scenarioPackLabel ? { scenario_pack_label: scenarioPackLabel } : {}),
+    ...(extensionPack ? { extension_pack: extensionPack } : {}),
+    ...(extensionPackLabel ? { extension_pack_label: extensionPackLabel } : {}),
     status: missingCount === 0 ? 'complete' : 'partial',
     artifact_coverage,
     runs,
@@ -712,9 +780,36 @@ export const compareVersions = async (
                 ? balance_comparison.interpretation
                 : 'Target version has complete evidence coverage with no clear reviewer-score improvement.';
 
+  const challenge_mode =
+    base.challenge_mode || target.challenge_mode
+      ? {
+          ...(base.challenge_mode ? { base: base.challenge_mode } : {}),
+          ...(target.challenge_mode ? { target: target.challenge_mode } : {}),
+        }
+      : undefined;
+
+  const scenario_pack =
+    base.scenario_pack || target.scenario_pack
+      ? {
+          ...(base.scenario_pack ? { base: base.scenario_pack } : {}),
+          ...(target.scenario_pack ? { target: target.scenario_pack } : {}),
+        }
+      : undefined;
+
+  const extension_pack =
+    base.extension_pack || target.extension_pack
+      ? {
+          ...(base.extension_pack ? { base: base.extension_pack } : {}),
+          ...(target.extension_pack ? { target: target.extension_pack } : {}),
+        }
+      : undefined;
+
   return {
     baseVersion,
     targetVersion,
+    ...(challenge_mode ? { challenge_mode } : {}),
+    ...(scenario_pack ? { scenario_pack } : {}),
+    ...(extension_pack ? { extension_pack } : {}),
     counts: {
       baseRuns: base.runs.length,
       targetRuns: target.runs.length,
