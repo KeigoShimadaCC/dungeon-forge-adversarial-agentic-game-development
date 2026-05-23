@@ -6,7 +6,8 @@ export type DashboardArtifactKind =
   | 'review'
   | 'markdown'
   | 'json'
-  | 'comparison';
+  | 'comparison'
+  | 'analytics';
 
 export interface DashboardArtifactRef {
   kind: DashboardArtifactKind;
@@ -55,6 +56,7 @@ export interface DashboardIndex {
   versions: DashboardVersionEntry[];
   leaderboard: DashboardLeaderboardEntry[];
   comparisons: DashboardComparisonRef[];
+  analyticsArtifacts: DashboardArtifactRef[];
 }
 
 export interface LoadedArtifactPayload {

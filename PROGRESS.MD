@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Add higher-level balance analytics over batch runs, problem seeds, policies, and version deltas. |
 | Branch | `phase/phase-18b-balance-analytics` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-18b-balance-analytics-wt` |
-| Base | `origin/main` at `c9bbf75` |
-| Status | `Planned; automation preflight pending` |
+| Base | `origin/main` at `dff9883` |
+| Status | `Implementation complete; PR pending; Cursor recheck passed` |
 
 ### Contract (read before editing)
 
@@ -52,17 +52,18 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Generate Phase 18B automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement balance analytics artifacts, leaderboard/ranking metrics, cohort/delta/problem-run analysis, dashboard-readable output, docs, and tests.
-- [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates, request Cursor read-only recheck, and re-read Phase 18B acceptance.
-- [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
+- _(none)_
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Review implementation diff, add scorecard-backed challenge-mode cohort coverage, run focused/full gates and CLI smokes, and re-read Phase 18B acceptance.
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 18B PASS after retrying without stalled audit mode; merge readiness remains pending PR/CI/phase-runner gate only.
+- [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Cursor implementation pass stalled after updating progress status only; orchestrator implemented balance analytics artifacts, leaderboard/ranking metrics, cohort/delta/problem-run analysis, dashboard-readable output, docs, and tests locally.
+- [x] 2026-05-23 orchestrator — Generated Phase 18B automation bundle under `runs/phase-runner/PHASE-18B/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18b-balance-analytics-wt`, confirmed `composer-2.5`, and seeded progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 18A PR #44 merged at `c9bbf7586f16372f0f76889efb531a60455ca3ae`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 18B.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 18A PASS; no implementation gaps found, and merge readiness remains pending commit/PR/CI only.
 - [x] 2026-05-23 orchestrator — Reviewed dashboard diff, ran focused/full gates, CLI HTML/JSON/artifact smoke, scope audit, `git diff --check`, and re-read Phase 18A acceptance.
@@ -177,18 +178,18 @@ _Derived from `phase-plans/PHASE-18B-BALANCE-ANALYTICS.md`. Tick when verified a
 
 ### Phase 18B — Balance Analytics
 
-- [ ] Balance analytics artifact format exists.
-- [ ] Version leaderboard artifact format exists.
-- [ ] Analyzer command or module exists.
-- [ ] Analytics compute stable results from fixture runs.
-- [ ] Seed and policy cohort breakdowns are available.
-- [ ] Problem-run categories are preserved and drillable.
-- [ ] Version deltas are correct for known sample inputs.
-- [ ] Leaderboard rankings are reproducible and link to underlying evidence.
-- [ ] Missing data is reported without crashing.
-- [ ] Viewer/dashboard-readable integration exists if useful with Phase 18A.
-- [ ] Analytics remain advisory and do not replace reviewer critique.
-- [ ] Local final gates pass: `pnpm run check`, focused analytics tests/smoke, and `git diff --check`.
+- [x] Balance analytics artifact format exists.
+- [x] Version leaderboard artifact format exists.
+- [x] Analyzer command or module exists.
+- [x] Analytics compute stable results from fixture runs.
+- [x] Seed and policy cohort breakdowns are available.
+- [x] Problem-run categories are preserved and drillable.
+- [x] Version deltas are correct for known sample inputs.
+- [x] Leaderboard rankings are reproducible and link to underlying evidence.
+- [x] Missing data is reported without crashing.
+- [x] Viewer/dashboard-readable integration exists if useful with Phase 18A.
+- [x] Analytics remain advisory and do not replace reviewer critique.
+- [x] Local final gates pass: `pnpm run check`, focused analytics tests/smoke, and `git diff --check`.
 
 ---
 
@@ -455,6 +456,12 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 18A PASS against the phase plan, local static viewer, artifact loading/missing states, evidence-backed leaderboard, trace/review/scorecard/changelog/acceptance inspectability, persisted summary/comparison links, docs, read-only boundary, no forbidden scope, no secrets, no `src/game` changes, and full local gates. Recheck was blocked only on expected merge workflow: uncommitted implementation, no PR, and no GitHub `Repo gates` yet. Optional browser smoke and dashboard output-path polish recorded in Future backlog.
 - 2026-05-23 — orchestrator — Phase 18A PR #44 merged at `c9bbf7586f16372f0f76889efb531a60455ca3ae` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-18A --evidence runs/phase-runner/PHASE-18A/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-18B`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 18B with initial task queue and checklist from `phase-plans/PHASE-18B-BALANCE-ANALYTICS.md`.
+- 2026-05-23 — orchestrator — Phase 18B automation start: main handoff commit `dff9883` passed GitHub `Repo gates`; `pnpm run phase -- bundle --phase PHASE-18B --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-18B/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18b-balance-analytics-wt` on branch `phase/phase-18b-balance-analytics` from `origin/main` at `dff9883`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
+- 2026-05-23 — Cursor/composer-2.5 + orchestrator — Cursor implementation pass stalled silently after only changing active status to `Cursor implementation in progress`; orchestrator interrupted it and implemented Phase 18B locally: `src/harness/balance-analytics.ts`, `balance-analytics-cli.ts`, `pnpm run balance-analytics`, harness exports, docs, focused tests, and Phase 18A dashboard integration for `runs/analytics/*.json|*.md`. Added scorecard-backed `by_challenge_mode` cohorts with `default` fallback for older evidence.
+- 2026-05-23 — orchestrator — Local Phase 18B validation PASS: `pnpm test tests/balance-analytics.test.ts tests/version-dashboard.test.ts` (9 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `git diff --check`; ASCII scan with `LC_ALL=C rg -n "[^\\x00-\\x7F]" ...` found no matches; scope audit `git diff -- src/game content concept-and-ideas phase-plans` empty; `pnpm run check` passed 37 test files / 345 tests plus typecheck/lint/build/ci-smoke/acceptance evidence. CLI smokes PASS: `pnpm run balance-analytics -- --runs-root . --out /private/tmp/df-phase18b-balance-smoke/balance_analytics.json --leaderboard-out /private/tmp/df-phase18b-balance-smoke/balance_leaderboard.json`; `rg -n "advisory_only|leaderboard|version_deltas|problem_runs|by_challenge_mode|balance_summary" /private/tmp/df-phase18b-balance-smoke`; `pnpm run balance-analytics -- --runs-root . --versions v001,v002,v003`. Re-read `phase-plans/PHASE-18B-BALANCE-ANALYTICS.md`; deliverables and acceptance criteria are satisfied locally before Cursor read-only recheck.
+- 2026-05-23 — orchestrator — Cursor/composer-2.5 read-only recheck was attempted with the generated Phase 18B recheck prompt, but produced no output for about 90 seconds and was interrupted with `kill -INT 27809` (exit 130, `Aborting operation...`). No files were changed by the recheck. Proceeding with local phase-plan audit, focused/full gates, CLI smokes, scope audit, and `git diff --check` as PR verification evidence.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 18B PASS on retry without the stalled audit mode. Cursor confirmed analytics/leaderboard artifact formats, `pnpm run balance-analytics`, seed/policy/challenge-mode/problem-category cohorts, problem drilldowns, version deltas, dashboard-readable analytics links, advisory boundary, no secrets, no gameplay/engine changes, and local validation evidence. Non-blocking notes: no rich embedded dashboard tables, `generated_at` is wall-clock, and merge readiness remains PR/CI/phase-runner gate only.
 
 ---
 

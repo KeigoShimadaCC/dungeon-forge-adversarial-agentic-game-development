@@ -31,6 +31,7 @@
     "human-play": "pnpm run build && node dist/src/human-play/human-play-cli.js",
     "trace-replay": "pnpm run build && node dist/src/harness/trace-replay-cli.js",
     "version-dashboard": "pnpm run build && node dist/src/dashboard/version-dashboard-cli.js",
+    "balance-analytics": "pnpm run build && node dist/src/harness/balance-analytics-cli.js",
     "check": "pnpm test && pnpm run typecheck && pnpm run lint && pnpm run build && pnpm run ci-smoke && pnpm run verify-acceptance-evidence"
   },
   "devDependencies": {

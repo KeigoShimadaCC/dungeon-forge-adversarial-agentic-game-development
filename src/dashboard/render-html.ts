@@ -192,6 +192,26 @@ const renderComparisonTable = (index: DashboardIndex, linkBase: string): string 
   </table>`;
 };
 
+const renderAnalyticsArtifacts = (index: DashboardIndex, linkBase: string): string => {
+  if (index.analyticsArtifacts.length === 0) {
+    return '<p class="muted">No balance analytics artifacts found under runs/analytics.</p>';
+  }
+  return `<table>
+    <thead><tr><th>Artifact</th><th>Status</th><th>Path</th></tr></thead>
+    <tbody>
+      ${index.analyticsArtifacts
+        .map(
+          (artifact) => `<tr>
+            <td>${optionalArtifactLink(artifact.relativePath, artifact.present, artifact.label, linkBase)}</td>
+            <td><span class="${artifact.present ? 'present' : 'missing'}">${artifact.present ? 'present' : 'missing'}</span></td>
+            <td><code>${escapeHtml(artifact.relativePath)}</code></td>
+          </tr>`,
+        )
+        .join('\n')}
+    </tbody>
+  </table>`;
+};
+
 export const renderDashboardHtml = (
   index: DashboardIndex,
   options: RenderDashboardHtmlOptions = {},
@@ -317,6 +337,11 @@ export const renderDashboardHtml = (
     <section class="panel">
       <h2>Persisted Comparisons</h2>
       ${renderComparisonTable(index, linkBase)}
+    </section>
+
+    <section class="panel">
+      <h2>Balance Analytics</h2>
+      ${renderAnalyticsArtifacts(index, linkBase)}
     </section>
 
     ${index.versions.map((entry) => renderVersionSection(entry, linkBase)).join('\n')}

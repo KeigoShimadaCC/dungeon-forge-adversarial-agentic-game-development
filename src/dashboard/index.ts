@@ -6,6 +6,7 @@ export {
   assertReadableArtifactPath,
   buildArtifactRefsForSummary,
   comparisonsForVersion,
+  listBalanceAnalyticsArtifacts,
   listComparisonArtifacts,
   listVersionIds,
   loadArtifactPayload,
