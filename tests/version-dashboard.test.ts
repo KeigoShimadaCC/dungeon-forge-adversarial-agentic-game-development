@@ -174,6 +174,30 @@ describe('Phase 18A version dashboard', () => {
     });
   });
 
+  it('blocks unsafe artifact hrefs in generated dashboard HTML', async () => {
+    await withTempRunsRoot(async (runsRoot) => {
+      await seedVersionEvidence(runsRoot, 'v001', { accepted: true });
+      const index = await buildDashboardIndex(runsRoot);
+      const firstRun = index.versions[0]?.summary.runs[0];
+      if (!firstRun) {
+        throw new Error('Expected seeded dashboard run');
+      }
+      firstRun.trace_path = 'javascript:alert(1)';
+      index.versions[0]?.artifacts.push({
+        kind: 'trace',
+        label: 'unsafe trace',
+        relativePath: '../outside.json',
+        present: true,
+      });
+
+      const html = renderDashboardHtml(index);
+
+      expect(html).not.toContain('href="javascript:alert(1)"');
+      expect(html).not.toContain('href="../outside.json"');
+      expect(html).toContain('href="#blocked-artifact-link"');
+    });
+  });
+
   it('loads individual artifacts without allowing path traversal', async () => {
     await withTempRunsRoot(async (runsRoot) => {
       await seedVersionEvidence(runsRoot, 'v001');

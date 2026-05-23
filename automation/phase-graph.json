@@ -209,6 +209,54 @@
       "allowedPaths": ["automation/**", "src/harness/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
       "parallelGroup": "22-autopilot-safety",
       "automerge": true
+    },
+    {
+      "id": "PHASE-23A",
+      "plan": "phase-plans/PHASE-23A-NORTH-STAR-GAP-PLANNING.md",
+      "dependsOn": ["PHASE-22A"],
+      "allowedPaths": ["automation/**", "docs/**", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "23-planning",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-23B",
+      "plan": "phase-plans/PHASE-23B-CURRENT-STATE-DOCS-REFRESH.md",
+      "dependsOn": ["PHASE-23A"],
+      "allowedPaths": ["README.md", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "23-docs",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-23C",
+      "plan": "phase-plans/PHASE-23C-LONGITUDINAL-IMPROVEMENT-BENCHMARK.md",
+      "dependsOn": ["PHASE-23B"],
+      "allowedPaths": ["src/harness/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD", "runs/**"],
+      "parallelGroup": "23-benchmark",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-23D",
+      "plan": "phase-plans/PHASE-23D-EVIDENCE-VALIDATION-HARDENING.md",
+      "dependsOn": ["PHASE-23C"],
+      "allowedPaths": ["src/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD", "runs/**"],
+      "parallelGroup": "23-validation",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-24A",
+      "plan": "phase-plans/PHASE-24A-BROWSER-PLAY-AND-REPLAY-UI.md",
+      "dependsOn": ["PHASE-23D"],
+      "allowedPaths": ["src/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "24-browser",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-24B",
+      "plan": "phase-plans/PHASE-24B-GAMEPLAY-EVALUATION-DEPTH.md",
+      "dependsOn": ["PHASE-24A"],
+      "allowedPaths": ["src/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD", "content/**"],
+      "parallelGroup": "24-evaluation",
+      "automerge": true
     }
   ]
 }

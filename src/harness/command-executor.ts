@@ -6,8 +6,17 @@ import { stringifyDeterministicJson } from './json.js';
 
 const SENSITIVE_ENV_KEYS = /^(.*(KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL).*)$/i;
 
+const quoteCommandArg = (value: string): string =>
+  /^[A-Za-z0-9_./:=@+-]+$/.test(value) ? value : JSON.stringify(value);
+
+const formatCommandForEvidence = (command: string, args?: readonly string[]): string =>
+  args && args.length > 0
+    ? [command, ...args].map(quoteCommandArg).join(' ')
+    : command;
+
 export interface CommandExecutionOptions {
   cwd: string;
+  args?: string[];
   env?: NodeJS.ProcessEnv;
   timeoutMs?: number;
   inactivityTimeoutMs?: number;
@@ -88,10 +97,11 @@ export const createSpawnCommandExecutor = (): CommandExecutor => ({
       await writeFile(attemptStdoutPath, '');
       await writeFile(attemptStderrPath, '');
 
-      const child = spawn(command, {
+      const commandForEvidence = formatCommandForEvidence(command, options.args);
+      const child = spawn(command, options.args ?? [], {
         cwd: options.cwd,
         env: { ...process.env, ...options.env },
-        shell: options.shell ?? true,
+        shell: options.shell ?? (options.args ? false : true),
         stdio: ['pipe', 'pipe', 'pipe'],
       });
 
@@ -184,7 +194,7 @@ export const createSpawnCommandExecutor = (): CommandExecutor => ({
       });
 
       result = {
-        command,
+        command: commandForEvidence,
         cwd: options.cwd,
         exitCode: exit.exitCode,
         ...(exit.signal ? { signal: exit.signal } : {}),

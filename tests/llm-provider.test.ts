@@ -15,6 +15,7 @@ import {
   hasLlmProviderCredentials,
   LlmCredentialsMissingError,
   LLM_API_KEY_ENV,
+  LLM_BASE_URL_ENV,
   resolveLlmProviderConfig,
 } from '../src/harness/llm-provider-config.js';
 import { resolveLlmPlayerDecision } from '../src/harness/llm-player.js';
@@ -61,6 +62,38 @@ describe('Phase 14B real LLM provider boundary', () => {
     const combined = parseHarnessLlmCliArgs(['--use-llm']);
     expect(combined.useLlmPlayer).toBe(true);
     expect(combined.useLlmReviewer).toBe(true);
+  });
+
+  it('validates LLM base URL overrides before provider calls', () => {
+    const env = {
+      [LLM_API_KEY_ENV]: 'test-key',
+      [LLM_BASE_URL_ENV]: 'http://169.254.169.254/latest',
+    };
+
+    expect(resolveLlmProviderConfig(env)).toMatchObject({
+      ok: false,
+      message: expect.stringContaining('http only for localhost'),
+    });
+
+    expect(
+      resolveLlmProviderConfig({
+        [LLM_API_KEY_ENV]: 'test-key',
+        [LLM_BASE_URL_ENV]: 'http://localhost:11434/v1/',
+      }),
+    ).toMatchObject({
+      ok: true,
+      config: { baseUrl: 'http://localhost:11434/v1' },
+    });
+
+    expect(
+      resolveLlmProviderConfig({
+        [LLM_API_KEY_ENV]: 'test-key',
+        [LLM_BASE_URL_ENV]: 'https://user:pass@example.test/v1',
+      }),
+    ).toMatchObject({
+      ok: false,
+      message: expect.stringContaining('must not include credentials'),
+    });
   });
 
   it('routes mocked chat completions through the player client with id+type validation', async () => {

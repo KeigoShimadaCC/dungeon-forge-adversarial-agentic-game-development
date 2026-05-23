@@ -85,12 +85,13 @@ const fakeExecutor = (outputs: Record<string, string> = {}): CommandExecutor => 
   async run(command, options) {
     await mkdir(path.dirname(options.stdoutPath), { recursive: true });
     await mkdir(path.dirname(options.stderrPath), { recursive: true });
-    const key = Object.keys(outputs).find((candidate) => command.includes(candidate));
+    const displayedCommand = [command, ...(options.args ?? [])].join(' ');
+    const key = Object.keys(outputs).find((candidate) => displayedCommand.includes(candidate));
     const stdout = key ? outputs[key] : '';
     await writeFile(options.stdoutPath, stdout);
     await writeFile(options.stderrPath, '');
     return {
-      ...commandResult(command, options.cwd),
+      ...commandResult(displayedCommand, options.cwd),
       stdoutPath: options.stdoutPath,
       stderrPath: options.stderrPath,
     };
@@ -228,6 +229,24 @@ describe('phase autopilot execution layer', () => {
       });
       expect(inactive.status).toBe('inactive_timeout');
       expect(inactive.attempts?.[0]?.status).toBe('inactive_timeout');
+    });
+  });
+
+  it('runs argv commands without shell-interpreting metacharacters', async () => {
+    await withTempDir(async (dir) => {
+      const executor = createSpawnCommandExecutor();
+      const injectedPath = path.join(dir, 'argv-injection-created');
+      const result = await executor.run('node', {
+        cwd: repoRoot,
+        args: ['-e', 'console.log(process.argv[1])', `literal; touch ${injectedPath}`],
+        stdoutPath: path.join(dir, 'argv.stdout.log'),
+        stderrPath: path.join(dir, 'argv.stderr.log'),
+      });
+
+      expect(result.status).toBe('pass');
+      expect(result.command).toContain('literal; touch');
+      expect(await readFile(result.stdoutPath, 'utf8')).toContain(`literal; touch ${injectedPath}`);
+      await expect(readFile(injectedPath, 'utf8')).rejects.toThrow();
     });
   });
 
@@ -623,6 +642,37 @@ describe('phase autopilot execution layer', () => {
       expect(diffText).toContain('phase-autopilot');
       await expect(readFile(path.join(repoRoot, '.phase-runner-status.json'), 'utf8')).rejects.toThrow();
       expect(await readFile(path.join(evidenceDir, 'command-results', 'git-status.stdout.log'), 'utf8')).toContain('## main');
+    });
+  });
+
+  it('passes git refs as argv instead of shell templates', async () => {
+    await withTempDir(async (dir) => {
+      const evidenceDir = path.join(dir, 'evidence');
+      const commands: Array<{ command: string; args?: string[] }> = [];
+      const git = createGitAdapter({
+        async run(command, options) {
+          commands.push({ command, args: options.args });
+          await mkdir(path.dirname(options.stdoutPath), { recursive: true });
+          await writeFile(options.stdoutPath, '');
+          await writeFile(options.stderrPath, '');
+          return {
+            ...commandResult([command, ...(options.args ?? [])].join(' '), options.cwd),
+            stdoutPath: options.stdoutPath,
+            stderrPath: options.stderrPath,
+          };
+        },
+      });
+
+      await git.changedPaths(dir, 'origin/main; touch /tmp/df-pwned', evidenceDir);
+
+      expect(commands[0]).toEqual({
+        command: 'git',
+        args: ['diff', '--name-only', 'origin/main; touch /tmp/df-pwned'],
+      });
+      expect(commands[1]).toEqual({
+        command: 'git',
+        args: ['ls-files', '--others', '--exclude-standard'],
+      });
     });
   });
 

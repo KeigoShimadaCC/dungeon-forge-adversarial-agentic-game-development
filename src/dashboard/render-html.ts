@@ -20,7 +20,22 @@ const escapeHtml = (value: string | number | null | undefined): string =>
 
 const normalizeHref = (value: string): string => value.replace(/\\/g, '/');
 
+const isSafeArtifactPath = (value: string): boolean => {
+  const normalized = normalizeHref(value);
+  if (
+    normalized.startsWith('/') ||
+    normalized.startsWith('//') ||
+    /^[A-Za-z][A-Za-z0-9+.-]*:/.test(normalized)
+  ) {
+    return false;
+  }
+  return !normalized.split('/').some((segment) => segment === '..');
+};
+
 const artifactHref = (relativePath: string, linkBase = ''): string => {
+  if (!isSafeArtifactPath(relativePath)) {
+    return '#blocked-artifact-link';
+  }
   const normalizedPath = normalizeHref(relativePath);
   const normalizedBase = normalizeHref(linkBase).replace(/\/$/, '');
   if (!normalizedBase || normalizedBase === '.') {

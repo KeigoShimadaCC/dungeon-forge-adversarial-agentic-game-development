@@ -168,6 +168,29 @@ describe('Phase 18C static demo publishing', () => {
     });
   });
 
+  it('blocks unsafe artifact hrefs in generated static demo HTML', async () => {
+    await withTempRunsRoot(async (runsRoot) => {
+      await seedVersionEvidence(runsRoot, 'v001', { status: 'accepted' });
+      const bundle = await buildStaticDemoBundle(runsRoot);
+      if (!bundle.timeline[0]) {
+        throw new Error('Expected seeded static demo timeline');
+      }
+      bundle.timeline[0].summaryPath = 'javascript:alert(1)';
+      bundle.index.versions[0]?.artifacts.push({
+        kind: 'trace',
+        label: 'unsafe trace',
+        relativePath: '../outside.json',
+        present: true,
+      });
+
+      const html = renderStaticDemoHtml(bundle);
+
+      expect(html).not.toContain('href="javascript:alert(1)"');
+      expect(html).not.toContain('href="../outside.json"');
+      expect(html).toContain('href="#blocked-artifact-link"');
+    });
+  });
+
   it('supports stdout JSON and Markdown modes without writing files', async () => {
     await withTempRunsRoot(async (runsRoot) => {
       await seedVersionEvidence(runsRoot, 'v001', { status: 'blocked' });

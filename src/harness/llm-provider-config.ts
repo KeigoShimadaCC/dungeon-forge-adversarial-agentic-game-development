@@ -28,7 +28,30 @@ export class LlmCredentialsMissingError extends Error {
   }
 }
 
-const normalizeBaseUrl = (value: string): string => value.replace(/\/+$/, '');
+const LOCAL_LLM_HOSTS = new Set(['localhost', '127.0.0.1', '::1']);
+
+const normalizeBaseUrl = (value: string): string => {
+  const trimmed = value.trim();
+  let parsed: URL;
+  try {
+    parsed = new URL(trimmed);
+  } catch {
+    throw new Error(`${LLM_BASE_URL_ENV} must be a valid http(s) URL.`);
+  }
+  if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') {
+    throw new Error(`${LLM_BASE_URL_ENV} must use http or https.`);
+  }
+  if (parsed.protocol === 'http:' && !LOCAL_LLM_HOSTS.has(parsed.hostname)) {
+    throw new Error(`${LLM_BASE_URL_ENV} may use http only for localhost or loopback endpoints.`);
+  }
+  if (parsed.username || parsed.password) {
+    throw new Error(`${LLM_BASE_URL_ENV} must not include credentials.`);
+  }
+  if (parsed.search || parsed.hash) {
+    throw new Error(`${LLM_BASE_URL_ENV} must not include query strings or fragments.`);
+  }
+  return parsed.toString().replace(/\/+$/, '');
+};
 
 export const resolveLlmProviderConfig = (
   env: NodeJS.ProcessEnv = process.env,
@@ -41,9 +64,15 @@ export const resolveLlmProviderConfig = (
     };
   }
 
-  const baseUrl = normalizeBaseUrl(
-    env[LLM_BASE_URL_ENV]?.trim() || DEFAULT_LLM_BASE_URL,
-  );
+  let baseUrl: string;
+  try {
+    baseUrl = normalizeBaseUrl(env[LLM_BASE_URL_ENV]?.trim() || DEFAULT_LLM_BASE_URL);
+  } catch (error: unknown) {
+    return {
+      ok: false,
+      message: error instanceof Error ? error.message : String(error),
+    };
+  }
   const model = env[LLM_MODEL_ENV]?.trim() || DEFAULT_LLM_MODEL;
 
   return {

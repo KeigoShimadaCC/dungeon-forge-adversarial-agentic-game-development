@@ -67,12 +67,13 @@ const runGit = async (
   repoRoot: string,
   evidenceDir: string,
   slug: string,
-  args: string,
+  args: string[],
   timeoutMs?: number,
 ): Promise<CommandExecutionResult> => {
   const paths = commandPaths(evidenceDir, slug);
-  return executor.run(`git ${args}`, {
+  return executor.run('git', {
     cwd: repoRoot,
+    args,
     ...paths,
     timeoutMs,
   });
@@ -128,7 +129,7 @@ const readUntrackedContentForDiff = async (
 
 export const createGitAdapter = (executor: CommandExecutor = createSpawnCommandExecutor()): GitAdapter => ({
   async fetchOrigin(repoRoot, evidenceDir) {
-    return runGit(executor, repoRoot, evidenceDir, 'git-fetch-origin', 'fetch origin');
+    return runGit(executor, repoRoot, evidenceDir, 'git-fetch-origin', ['fetch', 'origin']);
   },
 
   async createWorktree(input) {
@@ -140,32 +141,32 @@ export const createGitAdapter = (executor: CommandExecutor = createSpawnCommandE
       if (!status.clean) {
         throw new Error(`Worktree path exists and is dirty: ${input.worktreePath}`);
       }
-      return runGit(
-        executor,
-        input.repoRoot,
-        input.evidenceDir,
-        'git-worktree-reuse',
-        `worktree list`,
-      );
+      return runGit(executor, input.repoRoot, input.evidenceDir, 'git-worktree-reuse', [
+        'worktree',
+        'list',
+      ]);
     }
-    return runGit(
-      executor,
-      input.repoRoot,
-      input.evidenceDir,
-      'git-worktree-add',
-      `worktree add -b ${quoteShell(input.branch)} ${quoteShell(input.worktreePath)} ${quoteShell(input.baseRef)}`,
-    );
+    return runGit(executor, input.repoRoot, input.evidenceDir, 'git-worktree-add', [
+      'worktree',
+      'add',
+      '-b',
+      input.branch,
+      input.worktreePath,
+      input.baseRef,
+    ]);
   },
 
   async changedPaths(worktreePath, baseRef, evidenceDir) {
     const trackedPaths = commandPaths(evidenceDir, 'git-diff-names');
-    const trackedResult = await executor.run(`git diff --name-only ${quoteShell(baseRef)}`, {
+    const trackedResult = await executor.run('git', {
       cwd: worktreePath,
+      args: ['diff', '--name-only', baseRef],
       ...trackedPaths,
     });
     const untrackedPaths = commandPaths(evidenceDir, 'git-untracked-names');
-    const untrackedResult = await executor.run('git ls-files --others --exclude-standard', {
+    const untrackedResult = await executor.run('git', {
       cwd: worktreePath,
+      args: ['ls-files', '--others', '--exclude-standard'],
       ...untrackedPaths,
     });
     const tracked = commandEvidenceStatus(trackedResult) === 'pass'
@@ -179,16 +180,18 @@ export const createGitAdapter = (executor: CommandExecutor = createSpawnCommandE
 
   async diffText(worktreePath, baseRef, evidenceDir) {
     const paths = commandPaths(evidenceDir, 'git-diff');
-    const result = await executor.run(`git diff ${quoteShell(baseRef)}`, {
+    const result = await executor.run('git', {
       cwd: worktreePath,
+      args: ['diff', baseRef],
       ...paths,
     });
     const diff = commandEvidenceStatus(result) === 'pass'
       ? await readFile(result.stdoutPath, 'utf8')
       : '';
     const untrackedPaths = commandPaths(evidenceDir, 'git-untracked-for-diff');
-    const untrackedResult = await executor.run('git ls-files --others --exclude-standard', {
+    const untrackedResult = await executor.run('git', {
       cwd: worktreePath,
+      args: ['ls-files', '--others', '--exclude-standard'],
       ...untrackedPaths,
     });
     if (commandEvidenceStatus(untrackedResult) !== 'pass') {
@@ -208,8 +211,9 @@ export const createGitAdapter = (executor: CommandExecutor = createSpawnCommandE
           stdoutPath: path.join(worktreePath, '.phase-runner-status.stdout.log'),
           stderrPath: path.join(worktreePath, '.phase-runner-status.stderr.log'),
         };
-    const result = await executor.run('git status --short --branch', {
+    const result = await executor.run('git', {
       cwd: worktreePath,
+      args: ['status', '--short', '--branch'],
       ...paths,
     });
     const raw = await readFile(result.stdoutPath, 'utf8').catch(() => '');
@@ -222,18 +226,28 @@ export const createGitAdapter = (executor: CommandExecutor = createSpawnCommandE
       return { committed: false };
     }
     const message = input.message ?? `${input.phaseId}: complete phase work`;
-    const commitPaths = commandPaths(input.evidenceDir, 'git-commit');
-    const result = await executor.run(`git add -A && git commit -m ${quoteShell(message)}`, {
+    const addPaths = commandPaths(input.evidenceDir, 'git-add');
+    const addResult = await executor.run('git', {
       cwd: input.worktreePath,
+      args: ['add', '-A'],
+      ...addPaths,
+    });
+    if (commandEvidenceStatus(addResult) !== 'pass') {
+      return { committed: false, commandResult: addResult };
+    }
+    const commitPaths = commandPaths(input.evidenceDir, 'git-commit');
+    const result = await executor.run('git', {
+      cwd: input.worktreePath,
+      args: ['commit', '-m', message],
       ...commitPaths,
-      shell: true,
     });
     const committed = commandEvidenceStatus(result) === 'pass';
     let commitSha: string | undefined;
     if (committed) {
       const headPaths = commandPaths(input.evidenceDir, 'git-rev-parse-head');
-      const shaResult = await executor.run('git rev-parse HEAD', {
+      const shaResult = await executor.run('git', {
         cwd: input.worktreePath,
+        args: ['rev-parse', 'HEAD'],
         ...headPaths,
       });
       if (commandEvidenceStatus(shaResult) === 'pass') {
@@ -252,13 +266,11 @@ export const createGitAdapter = (executor: CommandExecutor = createSpawnCommandE
     if (!status.clean && !input.allowDirty) {
       throw new Error(`Refusing to remove dirty worktree: ${input.worktreePath}`);
     }
-    return runGit(
-      executor,
-      input.repoRoot,
-      input.evidenceDir,
-      'git-worktree-remove',
-      `worktree remove ${quoteShell(input.worktreePath)}`,
-    );
+    return runGit(executor, input.repoRoot, input.evidenceDir, 'git-worktree-remove', [
+      'worktree',
+      'remove',
+      input.worktreePath,
+    ]);
   },
 });
 
@@ -300,5 +312,3 @@ export const writeGitArtifacts = async (
     await writeFile(path.join(gitDir, 'commits.json'), stringifyDeterministicJson(artifacts.commits));
   }
 };
-
-const quoteShell = (value: string): string => `'${value.replace(/'/g, "'\\''")}'`;

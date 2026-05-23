@@ -156,12 +156,13 @@ export const createGitHubCliAdapter = (
     repoRoot: string,
     evidenceDir: string,
     slug: string,
-    args: string,
+    args: string[],
     timeoutMs?: number,
   ): Promise<CommandExecutionResult> => {
     const paths = commandPaths(evidenceDir, slug);
-    return executor.run(`${gh} ${args}`, {
+    return executor.run(gh, {
       cwd: repoRoot,
+      args,
       ...paths,
       timeoutMs,
     });
@@ -173,7 +174,7 @@ export const createGitHubCliAdapter = (
         input.repoRoot,
         input.evidenceDir,
         'gh-pr-create',
-        `pr create --fill --base ${quoteShell(input.base)} --head ${quoteShell(input.branch)}`,
+        ['pr', 'create', '--fill', '--base', input.base, '--head', input.branch],
       );
       const { readFile } = await import('node:fs/promises');
       const stdout = await readFile(result.stdoutPath, 'utf8');
@@ -197,7 +198,7 @@ export const createGitHubCliAdapter = (
         input.repoRoot,
         input.evidenceDir,
         'gh-pr-checks',
-        `pr checks ${input.prNumber}`,
+        ['pr', 'checks', String(input.prNumber)],
         input.timeoutMs,
       );
       const { readFile } = await import('node:fs/promises');
@@ -216,12 +217,17 @@ export const createGitHubCliAdapter = (
     },
 
     async mergePullRequest(input) {
-      const deleteFlag = input.deleteBranch ? ' --delete-branch' : '';
       const result = await runGh(
         input.repoRoot,
         input.evidenceDir,
         'gh-pr-merge',
-        `pr merge ${input.prNumber} --${input.mergeMethod}${deleteFlag}`,
+        [
+          'pr',
+          'merge',
+          String(input.prNumber),
+          `--${input.mergeMethod}`,
+          ...(input.deleteBranch ? ['--delete-branch'] : []),
+        ],
       );
       const { readFile } = await import('node:fs/promises');
       const stdout = await readFile(result.stdoutPath, 'utf8');
@@ -246,7 +252,7 @@ export const createGitHubCliAdapter = (
         input.repoRoot,
         input.evidenceDir,
         'gh-pr-view-merge-state',
-        `pr view ${input.prNumber} --json state,mergeCommit,mergedAt`,
+        ['pr', 'view', String(input.prNumber), '--json', 'state,mergeCommit,mergedAt'],
       );
       const { readFile } = await import('node:fs/promises');
       const stdout = await readFile(result.stdoutPath, 'utf8');
@@ -267,5 +273,3 @@ export const createGitHubCliAdapter = (
     },
   };
 };
-
-const quoteShell = (value: string): string => `'${value.replace(/'/g, "'\\''")}'`;

@@ -1,4 +1,4 @@
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
@@ -57,6 +57,45 @@ describe('Phase 19C optional media', () => {
       expect(report.ok).toBe(true);
       expect(report.summary.missingAssets).toBe(loadOptionalMediaManifest().presentations.length);
       expect(report.presentations.every((entry) => entry.assetStatus === 'missing')).toBe(true);
+    });
+  });
+
+  it('does not probe unsafe optional media asset paths during file checks', async () => {
+    await withTempDir(async (repoRoot) => {
+      const manifest = cloneManifest();
+      if (!manifest.presentations[0]) {
+        throw new Error('Expected optional media fixture');
+      }
+      await writeFile(path.join(repoRoot, 'outside-secret.png'), 'secret-like content');
+      manifest.presentations[0].assetPath = '../outside-secret.png';
+
+      const report = await buildOptionalMediaReport({ manifest, repoRoot, checkFiles: true });
+
+      expect(report.ok).toBe(false);
+      expect(report.diagnostics).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ ruleId: 'optional-media-local-asset-only' }),
+        ]),
+      );
+      expect(report.presentations[0]?.assetStatus).toBe('missing');
+    });
+  });
+
+  it('only marks safe media-root asset paths present', async () => {
+    await withTempDir(async (repoRoot) => {
+      const manifest = cloneManifest();
+      if (!manifest.presentations[0]) {
+        throw new Error('Expected optional media fixture');
+      }
+      manifest.presentations = [manifest.presentations[0]];
+      manifest.presentations[0].assetPath = 'media/title-card.txt';
+      await mkdir(path.join(repoRoot, 'media'), { recursive: true });
+      await writeFile(path.join(repoRoot, 'media', 'title-card.txt'), 'optional media placeholder');
+
+      const report = await buildOptionalMediaReport({ manifest, repoRoot, checkFiles: true });
+
+      expect(report.ok).toBe(true);
+      expect(report.presentations[0]?.assetStatus).toBe('present');
     });
   });
 

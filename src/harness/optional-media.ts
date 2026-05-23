@@ -235,6 +235,19 @@ const isUnsafeAssetPath = (assetPath: string): boolean =>
   /^https?:\/\//i.test(assetPath) ||
   !assetPath.startsWith('media/');
 
+const resolveSafeAssetPath = (repoRoot: string, assetPath: string): string | null => {
+  if (isUnsafeAssetPath(assetPath)) {
+    return null;
+  }
+  const resolvedRepoRoot = path.resolve(repoRoot);
+  const resolvedAsset = path.resolve(resolvedRepoRoot, assetPath);
+  const mediaRoot = path.resolve(resolvedRepoRoot, 'media');
+  if (!resolvedAsset.startsWith(mediaRoot + path.sep) && resolvedAsset !== mediaRoot) {
+    return null;
+  }
+  return resolvedAsset;
+};
+
 export const collectOptionalMediaDiagnostics = (
   manifest: OptionalMediaManifest,
 ): OptionalMediaDiagnostic[] => {
@@ -310,8 +323,12 @@ export const collectOptionalMediaDiagnostics = (
 };
 
 const assetExists = async (repoRoot: string, assetPath: string): Promise<boolean> => {
+  const resolvedAsset = resolveSafeAssetPath(repoRoot, assetPath);
+  if (!resolvedAsset) {
+    return false;
+  }
   try {
-    await access(path.resolve(repoRoot, assetPath));
+    await access(resolvedAsset);
     return true;
   } catch (error: unknown) {
     if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
