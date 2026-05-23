@@ -133,6 +133,27 @@ export {
   type ExtensionScenarioPreset,
 } from './extension-packs.js';
 export {
+  CONTENT_GOVERNANCE_SCHEMA_VERSION,
+  CURRENT_CONTENT_BUNDLES,
+  DEFAULT_CONTENT_GOVERNANCE_REPORT_PATH,
+  governGameContent,
+  governRawGameContent,
+  renderContentGovernanceMarkdown,
+  runContentGovernance,
+  summarizeContentDiff,
+  validateRawGameContent,
+  writeContentGovernanceReport,
+  type ContentDiffBucket,
+  type ContentDiffSummary,
+  type ContentGovernanceCategory,
+  type ContentGovernanceDiagnostic,
+  type ContentGovernanceReport,
+  type ContentGovernanceSeverity,
+  type ContentGovernanceSourceResult,
+  type RawGameContentBundles,
+  type RunContentGovernanceOptions,
+} from './content-governance.js';
+export {
   buildArtifactBasename,
   buildReviewRelativePath,
   buildScorecardRelativePath,
