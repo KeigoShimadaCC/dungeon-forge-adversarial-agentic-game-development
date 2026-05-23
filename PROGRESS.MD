@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 19B — Content Governance |
-| Goal | Add governance tooling for authored, generated, or extension-provided content before it enters gameplay. |
-| Branch | `phase/phase-19b-content-governance` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-19b-content-governance-wt` |
-| Base | `origin/main` at `40bbb1a` |
-| Status | `Implementation complete; PR pending` |
+| Phase | Phase 19C — Optional Media Experiments |
+| Goal | Plan optional visual or audio presentation experiments without making media required for gameplay or reviewer evaluation. |
+| Branch | `phase/phase-19c-optional-media-experiments` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-19c-optional-media-experiments-wt` |
+| Base | `origin/main` at `46ae3a6` |
+| Status | `Ready for implementation` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-19B-CONTENT-GOVERNANCE.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-19C-OPTIONAL-MEDIA-EXPERIMENTS.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -56,10 +56,14 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
+- [ ] 2026-05-23 orchestrator — Generate Phase 19C automation bundle, create isolated worktree, confirm `composer-2.5`, and seed a checkpoint before implementation.
+- [ ] 2026-05-23 orchestrator/Cursor — Implement optional media metadata, fallback rules, headless/media-optional checks, docs, and tests within Phase 19C scope.
+- [ ] 2026-05-23 orchestrator — Review implementation diff, run focused/full gates and media-optional smokes, request Cursor read-only recheck, and re-read Phase 19C acceptance.
+- [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and complete automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Phase 19B PR #48 merged at `46ae3a6b999449916880f631eb99af7283b674be`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 19C.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 19B PASS after the infinite-prose fixture was added; no files changed, and merge readiness remains pending PR/CI/phase-runner gate only.
 - [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Cursor implementation pass stalled without edits; orchestrator implemented content governance locally.
 - [x] 2026-05-23 orchestrator — Added `pnpm run content-governance`, harness governance module/CLI, docs, exports, structured diff summaries, and focused tests.
@@ -193,20 +197,20 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-19B-CONTENT-GOVERNANCE.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-19C-OPTIONAL-MEDIA-EXPERIMENTS.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 19B — Content Governance
+### Phase 19C — Optional Media Experiments
 
-- [x] Content governance command or validator module exists.
-- [x] Rule set documentation exists.
-- [x] Content diff summary format exists.
-- [x] Tests cover invalid, forbidden, and warning-only content.
-- [x] Missing references fail validation.
-- [x] Infinite or no-ending content settings are rejected.
-- [x] Required media dependencies are rejected.
-- [x] Valid content passes without warnings or with documented warnings.
-- [x] Content findings are concrete and actionable before content affects playthroughs.
-- [x] The game remains finite, seedable, text/ASCII playable, and harness compatible.
+- [ ] Optional media metadata format exists.
+- [ ] Fallback rules for missing media exist.
+- [ ] Tests or checks prove headless gameplay does not require media files.
+- [ ] Documentation describes allowed and forbidden media use.
+- [ ] Headless harness runs with no media files.
+- [ ] Text/ASCII render remains complete.
+- [ ] Optional media metadata references valid version or scene IDs.
+- [ ] Acceptance report flags any required-media dependency as forbidden.
+- [ ] Media experiments cannot break agent-playable evaluation or replace trace evidence.
+- [ ] Core loop remains finite, turn-based, seedable, text/ASCII, and structured-action based.
 
 ---
 
@@ -509,12 +513,22 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Content-governance smoke PASS: `pnpm run content-governance -- --out /private/tmp/df-phase19b-governance/content_governance_report.json` wrote a schema `19B` report with `ok: true`, scenario-pack and extension-pack sources, and diff summaries; `pnpm run content-governance -- --format markdown` printed a readable report. Current content passes with one documented clarity warning for scenario-pack `trial_tonic.validUse`; no blockers. `rg -n "\"ok\": true|\"schemaVersion\": \"19B\"|scenario pack:shrine_trial|extension pack:reviewer_labs|diffSummaries|trial_tonic|trial_wisp" /private/tmp/df-phase19b-governance/content_governance_report.json` found expected evidence. Re-read `phase-plans/PHASE-19B-CONTENT-GOVERNANCE.md`; deliverables and acceptance criteria are satisfied locally before Cursor read-only recheck.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck + orchestrator — Compact Phase 19B audit PASS. Cursor confirmed the command/module, docs, diff summary, invalid/forbidden/warning-only coverage, missing-reference and required-media rejection, documented current-content warning, actionable findings, clean scope, no secrets, and validation evidence. It noted one non-blocking prose-level `forbidden-infinite-play` fixture gap; orchestrator added that fixture and reran `pnpm test tests/content-governance.test.ts` (9 tests), `pnpm run typecheck`, and final `pnpm run check` (40 files, 362 tests plus typecheck/lint/build/ci-smoke/acceptance evidence). `git diff --check` and `git diff -- concept-and-ideas phase-plans src/game content` remain clean.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck + orchestrator — Final Phase 19B audit PASS after the infinite/no-ending prose fixture. Cursor confirmed 9 focused tests, command/module/docs/exports, diff summaries, current content `ok` with documented `trial_tonic.validUse` warning, actionable findings, `pnpm run check` with 40 files / 362 tests, clean scope, no secrets, and no `GameEngine` changes. Non-blocking JSON CLI unit-test suggestion recorded in Future backlog; live JSON CLI smoke already passed.
+- 2026-05-23 — orchestrator — Phase 19B PR #48 merged at `46ae3a6b999449916880f631eb99af7283b674be` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-19B --evidence runs/phase-runner/PHASE-19B/planned/merge-evidence.json` returned `allow`. Cleanup complete: local `main` fast-forwarded, temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-19C`.
+- 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 19C with initial task queue and checklist from `phase-plans/PHASE-19C-OPTIONAL-MEDIA-EXPERIMENTS.md`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 19B — Content Governance
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-19b-content-governance` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/48
+- **Merge commit:** `46ae3a6b999449916880f631eb99af7283b674be`
+- **Outcome:** Added `pnpm run content-governance`, structured content governance reports, schema/reference/finite-bound/forbidden-scope/text-clarity diagnostics, scenario/extension diff summaries, Markdown/JSON output, docs, exports, and focused tests for invalid, forbidden, warning-only, CLI, and diff paths.
+- **Key evidence:** Cursor/composer-2.5 implementation pass stalled without edits, then compact read-only rechecks passed; the first recheck note was addressed with an infinite/no-ending prose fixture. Local `pnpm run check` passed with 40 files and 362 tests; focused governance tests and JSON/Markdown CLI smokes passed; `git diff --check` passed; PR #48 `Repo gates` passed before merge; phase-runner automerge gate returned `allow`.
 
 ### Phase 19A — Extension Packs
 
