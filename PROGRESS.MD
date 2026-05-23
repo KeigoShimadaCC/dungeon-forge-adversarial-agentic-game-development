@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Plan optional visual or audio presentation experiments without making media required for gameplay or reviewer evaluation. |
 | Branch | `phase/phase-19c-optional-media-experiments` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-19c-optional-media-experiments-wt` |
-| Base | `origin/main` at `46ae3a6` |
-| Status | `Ready for implementation` |
+| Base | `origin/main` at `6bbf04d` |
+| Status | `Preflight complete; implementation pending` |
 
 ### Contract (read before editing)
 
@@ -52,17 +52,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-23 orchestrator/Cursor — Implement optional media metadata, fallback rules, headless/media-optional checks, docs, and tests within Phase 19C scope.
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Generate Phase 19C automation bundle, create isolated worktree, confirm `composer-2.5`, and seed a checkpoint before implementation.
-- [ ] 2026-05-23 orchestrator/Cursor — Implement optional media metadata, fallback rules, headless/media-optional checks, docs, and tests within Phase 19C scope.
 - [ ] 2026-05-23 orchestrator — Review implementation diff, run focused/full gates and media-optional smokes, request Cursor read-only recheck, and re-read Phase 19C acceptance.
 - [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and complete automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Generated Phase 19C automation bundle under `runs/phase-runner/PHASE-19C/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-19c-optional-media-experiments-wt`, confirmed `composer-2.5`, verified main handoff CI passed, and seeded progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 19B PR #48 merged at `46ae3a6b999449916880f631eb99af7283b674be`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 19C.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 19B PASS after the infinite-prose fixture was added; no files changed, and merge readiness remains pending PR/CI/phase-runner gate only.
 - [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Cursor implementation pass stalled without edits; orchestrator implemented content governance locally.
@@ -515,6 +514,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck + orchestrator — Final Phase 19B audit PASS after the infinite/no-ending prose fixture. Cursor confirmed 9 focused tests, command/module/docs/exports, diff summaries, current content `ok` with documented `trial_tonic.validUse` warning, actionable findings, `pnpm run check` with 40 files / 362 tests, clean scope, no secrets, and no `GameEngine` changes. Non-blocking JSON CLI unit-test suggestion recorded in Future backlog; live JSON CLI smoke already passed.
 - 2026-05-23 — orchestrator — Phase 19B PR #48 merged at `46ae3a6b999449916880f631eb99af7283b674be` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-19B --evidence runs/phase-runner/PHASE-19B/planned/merge-evidence.json` returned `allow`. Cleanup complete: local `main` fast-forwarded, temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-19C`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 19C with initial task queue and checklist from `phase-plans/PHASE-19C-OPTIONAL-MEDIA-EXPERIMENTS.md`.
+- 2026-05-23 — orchestrator — Phase 19C automation start: main handoff commit `6bbf04d` pushed and GitHub `Repo gates` passed; `pnpm run phase -- bundle --phase PHASE-19C --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-19C/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-19c-optional-media-experiments-wt` on branch `phase/phase-19c-optional-media-experiments` from `origin/main` at `6bbf04d`; `agent --list-models` confirmed `composer-2.5` is available/current.
 
 ---
 
