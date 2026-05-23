@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Make existing traces easier to replay, inspect, and use for debugging reviewer or human experiences. |
 | Branch | `phase/phase-17c-trace-replay-and-ux` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-17c-trace-replay-and-ux-wt` |
-| Base | `origin/main` at `4eafad3` |
-| Status | `Queued; automation state advanced after Phase 17B merge` |
+| Base | `origin/main` at `032124d` |
+| Status | `Seed checkpoint complete; Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -52,16 +52,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Generate Phase 17C automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
+- [~] 2026-05-23 Cursor/composer-2.5 — Implement trace replay command or mode, step-by-step render/action/event/scorecard context, clear malformed-trace diagnostics, optional replay report, docs, and replay tests.
 
 ### Open
 
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement trace replay command or mode, step-by-step render/action/event/scorecard context, clear malformed-trace diagnostics, optional replay report, docs, and replay tests.
 - [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates, request Cursor read-only recheck, and re-read Phase 17C acceptance.
 - [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Generated Phase 17C automation bundle under `runs/phase-runner/PHASE-17C/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-17c-trace-replay-and-ux-wt`, confirmed `composer-2.5`, and seeded progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 17B PR #42 merged at `4eafad36ffe44e6eadd1e3ec140e04f3b3f68b50`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 17C.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 17B PASS; no implementation gaps found, and merge readiness remains pending commit/PR/CI only.
 - [x] 2026-05-23 orchestrator — Reviewed Cursor diff, hardened direct session API label/notes normalization, ran focused/full gates, human trace smoke, summary evidence check, scope audit, and `git diff --check`.
@@ -426,6 +426,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck — Functional Phase 17B PASS against the phase plan, metadata fields, trace/scorecard/notes artifacts, version summaries, structured replayability, agent-run behavior, no-private-data requirement, protocol invariants, forbidden MVP scope, and secrets scan. Recheck was blocked only on expected merge workflow: uncommitted implementation, no PR, and no GitHub `Repo gates` yet.
 - 2026-05-23 — orchestrator — Phase 17B PR #42 merged at `4eafad36ffe44e6eadd1e3ec140e04f3b3f68b50` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-17B --evidence runs/phase-runner/PHASE-17B/planned/merge-evidence.json` returned `allow`. Cleanup complete: temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-17C`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 17C with initial task queue and checklist from `phase-plans/PHASE-17C-TRACE-REPLAY-AND-UX.md`.
+- 2026-05-23 — orchestrator — Phase 17C automation start: main handoff commit `032124d` passed GitHub `Repo gates`; `pnpm run phase -- bundle --phase PHASE-17C --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-17C/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-17c-trace-replay-and-ux-wt` on branch `phase/phase-17c-trace-replay-and-ux` from `origin/main` at `032124d`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: sandboxed `agent --list-models` hit expected macOS keychain `SecItemCopyMatching failed -50`, and escalated rerun confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
 
 ---
 
