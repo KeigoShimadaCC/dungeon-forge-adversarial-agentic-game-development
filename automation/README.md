@@ -77,7 +77,7 @@ Writes a run plan, prompt bundle, `run-state.json`, progress snapshot, and `fina
 pnpm run phase -- execute --phase PHASE-20A --stage <stage> --run-id <run-id>
 ```
 
-Runs one explicit stage. Supported stages are `bundle`, `preflight`, `setup`, `bootstrap`, `planning`, `plan-acceptance`, `execution`, `recheck`, `local-validation`, `commit`, `pr`, `checks`, `evidence`, `merge`, and `cleanup`.
+Runs one explicit stage. Supported stages are `bundle`, `preflight`, `setup`, `bootstrap`, `planning`, `plan-acceptance`, `execution`, `cursor-subtasks`, `recheck`, `local-validation`, `changed-path-scan`, `secret-scan`, `local-evidence`, `local-gate`, `commit`, `pr`, `checks`, `remote-evidence`, `final-gate`, `merge`, and `cleanup`.
 
 ```bash
 pnpm run phase -- autopilot --phase PHASE-20A --allow-agent-execution --allow-pr --allow-merge
@@ -164,6 +164,8 @@ Planner Codex must not edit files, call Cursor, create branches, open PRs, merge
 
 The deterministic runner validates the planner report before execution. It blocks missing or invalid reports, phase mismatch, out-of-scope task paths, missing tests/smokes/artifacts, unresolved questions, secrets, external-service requirements, forbidden MVP features, and planner `block` recommendations.
 
+The gate also parses the active phase plan's acceptance criteria and requires every criterion to be covered by accepted planner tasks. Safe constraint language such as "do not edit `.env`" is allowed; plans that require secrets, credentials, external services, or forbidden MVP features still block.
+
 Accepted plans are written under `accepted-plan/plan-approval.json`, `accepted-plan/accepted-plan.md`, and `accepted-plan/accepted-plan.json`.
 
 ### Executor Codex
@@ -174,7 +176,7 @@ Executor Codex may delegate Cursor subtasks only when the accepted plan explicit
 
 ### Cursor Subtasks
 
-Cursor prompts are generated from the accepted plan, a specific task ID, allowed paths, relevant phase-plan section, output schema, and required tests/smokes. Cursor output is advisory until Executor Codex and deterministic validation verify it.
+Cursor prompts are generated from the accepted plan, a specific task ID, allowed paths, relevant phase-plan section, output schema, and required tests/smokes. The deterministic `cursor-subtasks` stage runs only accepted-plan tasks with `cursorDelegation.recommended === true` and requires a matching `CursorSubtaskReport` for each delegated task. Cursor output is advisory until Executor Codex and deterministic validation verify it.
 
 ### Recheck Agent
 
@@ -228,9 +230,11 @@ pnpm run build
 git diff --check
 ```
 
+The runner builds local evidence before opening a PR. PR creation is blocked when local validation fails, changed paths exceed the phase `allowedPaths`, diff secret scanning finds credential material, recheck is missing or blocked, phase acceptance is incomplete, or blocking gaps remain. The final gate runs again after remote checks using the post-commit clean-worktree status.
+
 ## Agent Command Templates
 
-`automation/autopilot-config.json` stores non-secret command templates and timeouts. Template variables are:
+`automation/autopilot-config.json` stores non-secret command templates, total timeouts, inactivity timeouts, and retry counts. Template variables are:
 
 - `{{WORKSPACE}}`
 - `{{PROMPT_PATH}}`
@@ -263,6 +267,8 @@ gh pr merge <pr-number> --squash --delete-branch
 ```
 
 If the repository has no GitHub checks, local validation plus acceptance evidence can satisfy the check gate only if `allowNoRemoteChecksWhenLocalGatePasses` is true in `automation/policies/automerge-policy.json`.
+
+The merge stage must inspect `gh pr merge` metadata before cleanup or phase completion. If local merge fails, the runner verifies remote PR state with `gh pr view <pr-number> --json state,mergeCommit,mergedAt`; the phase can continue only if the remote PR is actually merged. Otherwise the phase is blocked and evidence is preserved.
 
 ## Branch Deletion And Rollback
 

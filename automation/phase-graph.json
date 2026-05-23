@@ -193,6 +193,14 @@
       "allowedPaths": ["automation/**", "src/harness/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
       "parallelGroup": "20-autopilot",
       "automerge": true
+    },
+    {
+      "id": "PHASE-21A",
+      "plan": "phase-plans/PHASE-21A-AUTOPILOT-HARDENING.md",
+      "dependsOn": ["PHASE-20A"],
+      "allowedPaths": ["automation/**", "src/harness/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "21-autopilot-hardening",
+      "automerge": true
     }
   ]
 }

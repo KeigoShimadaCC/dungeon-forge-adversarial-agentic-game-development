@@ -20,9 +20,13 @@ const FORBIDDEN_PLAN_TEXT = [
   'infinite floors',
   'free-text gameplay',
   'external api dependency during gameplay',
-  '.env',
-  'secret',
-  'credential',
+];
+
+const REQUIRED_SECRET_PATTERNS = [
+  /\brequires?\s+(?:an?\s+)?(?:secret|credential|api key|token|\.env)\b/i,
+  /\bneeds?\s+(?:an?\s+)?(?:secret|credential|api key|token|\.env)\b/i,
+  /\bmust\s+(?:read|edit|write|create|load)\s+(?:secret|credential|\.env)\b/i,
+  /\bexternal\s+service\s+required\b/i,
 ];
 
 const pathBase = (scope: string): string => (scope.endsWith('/**') ? scope.slice(0, -3) : scope);
@@ -43,6 +47,7 @@ export const validatePlannerReportForAcceptance = (
   phase: PhaseDefinition,
   report: PlannerReport | undefined,
   mode: PlanApprovalMode,
+  phasePlanText = '',
 ): PlanAcceptanceDecision => {
   const reasons: string[] = [];
 
@@ -101,10 +106,34 @@ export const validatePlannerReportForAcceptance = (
     }
   }
 
+  const acceptanceCriteria = parseAcceptanceCriteria(phasePlanText);
+  if (acceptanceCriteria.length > 0) {
+    const covered = new Set(
+      (report.tasks ?? []).flatMap((task) =>
+        (task.acceptanceCriteriaCovered ?? []).map((criterion) => normalizeCriterion(criterion)),
+      ),
+    );
+    for (const criterion of acceptanceCriteria) {
+      const candidates = [
+        criterion.id,
+        criterion.text,
+        `${criterion.id}: ${criterion.text}`,
+      ].map(normalizeCriterion);
+      if (!candidates.some((candidate) => covered.has(candidate))) {
+        reasons.push(`Acceptance criterion is not covered: ${criterion.id} ${criterion.text}`);
+      }
+    }
+  }
+
   const searchable = JSON.stringify(report).toLowerCase();
   for (const forbidden of FORBIDDEN_PLAN_TEXT) {
     if (searchable.includes(forbidden)) {
       reasons.push(`Planner report contains forbidden or secret-related text: ${forbidden}`);
+    }
+  }
+  for (const pattern of REQUIRED_SECRET_PATTERNS) {
+    if (pattern.test(JSON.stringify(report))) {
+      reasons.push(`Planner report appears to require secrets or external services: ${pattern.source}`);
     }
   }
 
@@ -144,3 +173,34 @@ export const writeAcceptedPlanArtifacts = async (
 
 export const readAcceptedPlanPath = (evidenceDir: string): string =>
   path.join(evidenceDir, 'accepted-plan', 'accepted-plan.json');
+
+export interface ParsedAcceptanceCriterion {
+  id: string;
+  text: string;
+}
+
+const normalizeCriterion = (value: string): string =>
+  value.toLowerCase().replace(/[`*_]/g, '').replace(/\s+/g, ' ').trim();
+
+export const parseAcceptanceCriteria = (phasePlanText: string): ParsedAcceptanceCriterion[] => {
+  const lines = phasePlanText.split('\n');
+  const start = lines.findIndex((line) => /^##\s+Acceptance Criteria\s*$/i.test(line.trim()));
+  if (start < 0) {
+    return [];
+  }
+  const criteria: ParsedAcceptanceCriterion[] = [];
+  for (let index = start + 1; index < lines.length; index += 1) {
+    const line = lines[index] ?? '';
+    if (/^##\s+/.test(line)) {
+      break;
+    }
+    const match = line.match(/^\s*-\s+(.*\S)\s*$/);
+    if (match?.[1]) {
+      criteria.push({
+        id: `AC-${criteria.length + 1}`,
+        text: match[1],
+      });
+    }
+  }
+  return criteria;
+};

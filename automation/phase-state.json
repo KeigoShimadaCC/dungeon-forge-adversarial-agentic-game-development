@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-20A",
+  "currentPhase": "PHASE-21A",
   "lastUpdated": "2026-05-23",
   "phases": {
     "PHASE-00A": {
@@ -220,9 +220,17 @@
       "status": "complete"
     },
     "PHASE-20A": {
-      "status": "queued"
+      "branch": "main",
+      "evidenceDir": "runs/phase-runner/PHASE-20A/phase20a-architecture-smoke",
+      "mergeCommit": "302af7c",
+      "status": "complete"
+    },
+    "PHASE-21A": {
+      "branch": "main",
+      "evidenceDir": "runs/phase-runner/PHASE-21A/phase21a-hardening-smoke",
+      "status": "complete"
     }
   },
   "schemaVersion": 1,
-  "sourceNote": "All tracked PHASE-*.md plans from PHASE-00A through PHASE-19C are complete. PHASE-20A is queued for the formal agentic phase autopilot execution layer."
+  "sourceNote": "All tracked PHASE-*.md plans from PHASE-00A through PHASE-21A are complete locally. PHASE-20A introduced the formal autopilot execution layer; PHASE-21A hardened it before real merge automation use."
 }

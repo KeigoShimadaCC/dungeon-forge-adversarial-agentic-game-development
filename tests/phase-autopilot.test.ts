@@ -1,20 +1,31 @@
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
 import { parseAgentStructuredReport, type PlannerReport } from '../src/harness/agent-report-parser.js';
-import { createSpawnCommandExecutor } from '../src/harness/command-executor.js';
-import { collectPhaseMergeEvidence } from '../src/harness/evidence-collector.js';
-import { parseChecksOutput, parsePrCreateOutput } from '../src/harness/github-cli-adapter.js';
+import {
+  createSpawnCommandExecutor,
+  type CommandExecutionResult,
+  type CommandExecutor,
+} from '../src/harness/command-executor.js';
+import { collectPhaseMergeEvidence, writePhaseMergeEvidence } from '../src/harness/evidence-collector.js';
+import { createGitAdapter, type GitAdapter } from '../src/harness/git-adapter.js';
+import {
+  parseChecksOutput,
+  parsePrCreateOutput,
+  parsePrViewMergeState,
+  type GitHubCliAdapter,
+} from '../src/harness/github-cli-adapter.js';
 import {
   buildCursorSubtaskPrompt,
   executeStage,
+  type AutopilotConfig,
   runAutopilotForPhase,
 } from '../src/harness/phase-autopilot.js';
 import { loadPhaseRunnerConfig, type PhaseMergeEvidence } from '../src/harness/phase-runner.js';
-import { validatePlannerReportForAcceptance } from '../src/harness/plan-acceptance.js';
+import { parseAcceptanceCriteria, validatePlannerReportForAcceptance } from '../src/harness/plan-acceptance.js';
 import { scanChangedPathsForSecrets } from '../src/harness/secret-scan.js';
 
 const repoRoot = process.cwd();
@@ -41,6 +52,138 @@ const withTempDir = async (fn: (dir: string) => Promise<void>): Promise<void> =>
   }
 };
 
+const commandResult = (
+  command: string,
+  cwd = repoRoot,
+  status: CommandExecutionResult['status'] = 'pass',
+): CommandExecutionResult => ({
+  command,
+  cwd,
+  exitCode: status === 'pass' ? 0 : 1,
+  startedAt: '2026-05-23T00:00:00.000Z',
+  finishedAt: '2026-05-23T00:00:00.001Z',
+  durationMs: 1,
+  stdoutPath: '/tmp/stdout.log',
+  stderrPath: '/tmp/stderr.log',
+  status,
+});
+
+const fakeAutopilotConfig = (): AutopilotConfig => ({
+  schemaVersion: 1,
+  git: { baseBranch: 'main', baseRef: 'origin/main' },
+  agents: {
+    planner: { provider: 'shell', commandTemplate: 'fake-planner' },
+    executor: { provider: 'shell', commandTemplate: 'fake-executor' },
+    rechecker: { provider: 'shell', commandTemplate: 'fake-rechecker' },
+    cursorSubtask: { provider: 'shell', commandTemplate: 'fake-cursor' },
+  },
+  dependencyBootstrapCommands: [],
+  commandExecutor: { defaultTimeoutMs: 1000, inactivityTimeoutMs: 1000, maxRetries: 0 },
+});
+
+const fakeExecutor = (outputs: Record<string, string> = {}): CommandExecutor => ({
+  async run(command, options) {
+    await mkdir(path.dirname(options.stdoutPath), { recursive: true });
+    await mkdir(path.dirname(options.stderrPath), { recursive: true });
+    const key = Object.keys(outputs).find((candidate) => command.includes(candidate));
+    const stdout = key ? outputs[key] : '';
+    await writeFile(options.stdoutPath, stdout);
+    await writeFile(options.stderrPath, '');
+    return {
+      ...commandResult(command, options.cwd),
+      stdoutPath: options.stdoutPath,
+      stderrPath: options.stderrPath,
+    };
+  },
+});
+
+const fakeGit = (input: {
+  changedPaths?: string[];
+  diffText?: string;
+  clean?: boolean;
+} = {}): GitAdapter => ({
+  async fetchOrigin() {
+    return commandResult('git fetch origin');
+  },
+  async createWorktree() {
+    return commandResult('git worktree add');
+  },
+  async changedPaths() {
+    return input.changedPaths ?? ['src/harness/phase-autopilot.ts'];
+  },
+  async diffText() {
+    return input.diffText ?? 'diff --git a/src/harness/phase-autopilot.ts b/src/harness/phase-autopilot.ts';
+  },
+  async status() {
+    return {
+      branch: 'phase/phase-21a-autopilot-hardening',
+      clean: input.clean ?? true,
+      porcelain: input.clean === false ? ' M src/harness/phase-autopilot.ts' : '',
+      raw: '',
+    };
+  },
+  async commitIfNeeded() {
+    return { committed: true, commitSha: 'abc1234', commandResult: commandResult('git commit') };
+  },
+  async removeWorktree() {
+    return commandResult('git worktree remove');
+  },
+});
+
+const fakeGithub = (input: { mergeSucceeds?: boolean; remoteMerged?: boolean } = {}): GitHubCliAdapter => ({
+  async createPullRequest() {
+    return { number: 123, url: 'https://github.com/acme/repo/pull/123', branch: 'b', base: 'main', rawStdout: '' };
+  },
+  async watchChecks() {
+    return { status: 'pass', rawStdout: 'pass', commandResult: commandResult('gh pr checks') };
+  },
+  async mergePullRequest() {
+    return {
+      merged: input.mergeSucceeds ?? true,
+      ...(input.mergeSucceeds === false ? { failureReason: 'simulated merge failure' } : {}),
+      commandResult: commandResult('gh pr merge', repoRoot, input.mergeSucceeds === false ? 'fail' : 'pass'),
+    };
+  },
+  async verifyPullRequestMerged() {
+    return {
+      merged: input.remoteMerged ?? false,
+      state: input.remoteMerged ? 'MERGED' : 'OPEN',
+      ...(input.remoteMerged ? { mergeCommit: 'def5678', mergedAt: '2026-05-23T00:00:00Z' } : {}),
+      rawStdout: '',
+      commandResult: commandResult('gh pr view'),
+    };
+  },
+});
+
+const writeAllowingMergeEvidence = async (phaseId: string, runId: string): Promise<string> => {
+  const config = await loadPhaseRunnerConfig(repoRoot);
+  const phase = config.graph.phases.find((entry) => entry.id === phaseId);
+  expect(phase).toBeDefined();
+  const evidenceDir = path.join(repoRoot, 'runs', 'phase-runner', phaseId, runId);
+  await mkdir(evidenceDir, { recursive: true });
+  const evidence = collectPhaseMergeEvidence({
+    phase: phase!,
+    policy: config.automergePolicy,
+    localCommandResults: config.automergePolicy.requiredLocalCommands.map((command) =>
+      commandResult(command),
+    ),
+    recheckReport: {
+      schemaVersion: 1,
+      phase: phaseId,
+      status: 'pass',
+      phaseAcceptanceComplete: true,
+      blockingGaps: [],
+    },
+    changedPaths: ['src/harness/phase-autopilot.ts', 'tests/phase-autopilot.test.ts', 'PROGRESS.MD'],
+    worktreeStatus: { branch: 'phase/test', clean: true, porcelain: '', raw: '' },
+    secretScan: { secretsDetected: false, hits: [] },
+    remoteChecks: 'pass',
+  });
+  await writePhaseMergeEvidence(evidenceDir, evidence);
+  await writeFile(path.join(evidenceDir, 'pr.json'), JSON.stringify({ number: 123 }));
+  return evidenceDir;
+};
+
 describe('phase autopilot execution layer', () => {
   it('captures command stdout, stderr, and nonzero status as structured evidence', async () => {
     await withTempDir(async (dir) => {
@@ -59,6 +202,32 @@ describe('phase autopilot execution layer', () => {
       expect(await readFile(result.stdoutPath, 'utf8')).toContain('out');
       expect(await readFile(result.stderrPath, 'utf8')).toContain('err');
       expect(result.resultPath).toBe(path.join(dir, 'command.json'));
+    });
+  });
+
+  it('records retry attempts and classifies inactivity timeouts distinctly', async () => {
+    await withTempDir(async (dir) => {
+      const executor = createSpawnCommandExecutor();
+      const retried = await executor.run('node -e "process.exit(3)"', {
+        cwd: repoRoot,
+        stdoutPath: path.join(dir, 'retry.stdout.log'),
+        stderrPath: path.join(dir, 'retry.stderr.log'),
+        maxRetries: 1,
+      });
+      expect(retried.status).toBe('fail');
+      expect(retried.attempt).toBe(2);
+      expect(retried.attempts).toHaveLength(2);
+      expect(await readFile(path.join(dir, 'retry.attempt-1.stdout.log'), 'utf8')).toBe('');
+
+      const inactive = await executor.run('node -e "setTimeout(() => {}, 1000)"', {
+        cwd: repoRoot,
+        stdoutPath: path.join(dir, 'inactive.stdout.log'),
+        stderrPath: path.join(dir, 'inactive.stderr.log'),
+        timeoutMs: 1000,
+        inactivityTimeoutMs: 20,
+      });
+      expect(inactive.status).toBe('inactive_timeout');
+      expect(inactive.attempts?.[0]?.status).toBe('inactive_timeout');
     });
   });
 
@@ -130,6 +299,11 @@ describe('phase autopilot execution layer', () => {
     expect(parseChecksOutput('Repo gates pass')).toBe('pass');
     expect(parseChecksOutput('Repo gates fail')).toBe('fail');
     expect(parseChecksOutput('no checks reported')).toBe('none');
+    expect(
+      parsePrViewMergeState(
+        '{"state":"MERGED","mergeCommit":{"oid":"abc1234"},"mergedAt":"2026-05-23T00:00:00Z"}',
+      ),
+    ).toMatchObject({ merged: true, state: 'MERGED', mergeCommit: 'abc1234' });
   });
 
   it('writes a dry-run autopilot plan without enabling agents, PRs, or merge', async () => {
@@ -215,5 +389,339 @@ describe('phase autopilot execution layer', () => {
     expect(prompt).toContain('Task ID: task-001');
     expect(prompt).toContain('- src/harness/**');
     expect(prompt).toContain('Do not implement from the raw phase plan');
+  });
+
+  it('detects secret-like values inside ordinary source-file diffs', () => {
+    const scan = scanChangedPathsForSecrets({
+      changedPaths: ['src/harness/example.ts'],
+      diffText: '+const apiKey = "sk-abcdefghijklmnopqrstuvwxyz";',
+    });
+
+    expect(scan.secretsDetected).toBe(true);
+    expect(scan.hits.join('\n')).toContain('diff: matched');
+  });
+
+  it('requires planner coverage for every parsed phase acceptance criterion', async () => {
+    const config = await loadPhaseRunnerConfig(repoRoot);
+    const phase = config.graph.phases.find((entry) => entry.id === 'PHASE-21A');
+    expect(phase).toBeDefined();
+    const planText = await readFile(path.join(repoRoot, 'phase-plans/PHASE-21A-AUTOPILOT-HARDENING.md'), 'utf8');
+    const criteria = parseAcceptanceCriteria(planText);
+    expect(criteria.length).toBeGreaterThan(1);
+    const report: PlannerReport = {
+      schemaVersion: 1,
+      phase: 'PHASE-21A',
+      status: 'pass',
+      summary: 'safe plan that says do not edit .env or secrets',
+      tasks: [
+        {
+          id: 'task-001',
+          title: 'Cover one criterion',
+          description: 'Do not edit .env or secrets.',
+          allowedPaths: ['src/harness/**'],
+          acceptanceCriteriaCovered: ['AC-1'],
+          cursorDelegation: { recommended: false, reason: 'direct implementation' },
+        },
+      ],
+      requiredFocusedTests: ['pnpm test tests/phase-autopilot.test.ts'],
+      requiredSmokeCommands: ['pnpm run phase -- autopilot --phase PHASE-21A --dry-run'],
+      requiredArtifacts: ['runs/phase-runner/PHASE-21A/<run-id>/phase-merge-evidence.json'],
+      risks: [],
+      questions: [],
+      planAcceptanceRecommendation: 'accept',
+    };
+
+    const blocked = validatePlannerReportForAcceptance(phase!, report, 'auto', planText);
+    expect(blocked.decision).toBe('block');
+    expect(blocked.reasons.join('\n')).toContain('Acceptance criterion is not covered');
+    expect(blocked.reasons.join('\n')).not.toContain('secret-related text: .env');
+
+    const accepted = validatePlannerReportForAcceptance(
+      phase!,
+      {
+        ...report,
+        tasks: [
+          {
+            ...report.tasks![0]!,
+            acceptanceCriteriaCovered: criteria.map((criterion) => criterion.id),
+          },
+        ],
+      },
+      'auto',
+      planText,
+    );
+    expect(accepted.decision).toBe('accept');
+  });
+
+  it('runs deterministic Cursor subtasks only from accepted-plan task IDs', async () => {
+    const runId = `cursor-subtask-${Date.now()}`;
+    const evidenceDir = path.join(repoRoot, 'runs', 'phase-runner', 'PHASE-21A', runId);
+    const acceptedPlan: PlannerReport = {
+      schemaVersion: 1,
+      phase: 'PHASE-21A',
+      status: 'pass',
+      summary: 'cursor task',
+      tasks: [
+        {
+          id: 'task-001',
+          title: 'Bounded Cursor task',
+          description: 'Do one thing',
+          allowedPaths: ['src/harness/**', 'tests/**'],
+          acceptanceCriteriaCovered: ['AC-1'],
+          cursorDelegation: { recommended: true, reason: 'bounded' },
+        },
+      ],
+      requiredFocusedTests: ['pnpm test tests/phase-autopilot.test.ts'],
+      requiredSmokeCommands: ['pnpm run phase -- autopilot --phase PHASE-21A --dry-run'],
+      requiredArtifacts: ['runs/phase-runner/PHASE-21A/<run-id>/cursor-tasks/task-001-report.json'],
+      risks: [],
+      questions: [],
+      planAcceptanceRecommendation: 'accept',
+    };
+    await mkdir(path.join(evidenceDir, 'accepted-plan'), { recursive: true });
+    await writeFile(
+      path.join(evidenceDir, 'accepted-plan', 'accepted-plan.json'),
+      JSON.stringify(acceptedPlan),
+    );
+
+    try {
+      const summary = await executeStage(repoRoot, 'PHASE-21A', 'cursor-subtasks', {
+        runId,
+        safetyFlags: { ...safeFlags, allowAgentExecution: true },
+        deps: {
+          autopilotConfig: fakeAutopilotConfig(),
+          executor: fakeExecutor({
+            'fake-cursor': [
+              '```json',
+              '{"schemaVersion":1,"phase":"PHASE-21A","status":"pass","taskId":"task-001","filesChanged":[],"commandsRun":[],"gaps":[]}',
+              '```',
+            ].join('\n'),
+          }),
+        },
+      });
+
+      expect(summary.currentStage).toBe('recheck');
+      const prompt = await readFile(path.join(evidenceDir, 'cursor-tasks', 'task-001-prompt.md'), 'utf8');
+      expect(prompt).toContain('Task ID: task-001');
+      const report = JSON.parse(
+        await readFile(path.join(evidenceDir, 'cursor-tasks', 'task-001-report.json'), 'utf8'),
+      );
+      expect(report.taskId).toBe('task-001');
+    } finally {
+      await rm(evidenceDir, { recursive: true, force: true });
+    }
+  });
+
+  it('blocks merge completion when gh merge fails and remote PR is not merged', async () => {
+    const runId = `merge-fail-${Date.now()}`;
+    const evidenceDir = await writeAllowingMergeEvidence('PHASE-21A', runId);
+    try {
+      await expect(
+        executeStage(repoRoot, 'PHASE-21A', 'merge', {
+          runId,
+          safetyFlags: { ...safeFlags, allowMerge: true },
+          deps: {
+            autopilotConfig: fakeAutopilotConfig(),
+            github: fakeGithub({ mergeSucceeds: false, remoteMerged: false }),
+          },
+        }),
+      ).rejects.toThrow('remote PR is not merged');
+    } finally {
+      await rm(evidenceDir, { recursive: true, force: true });
+    }
+  });
+
+  it('allows merge stage recovery when local gh merge fails after remote merge already happened', async () => {
+    const runId = `merge-remote-ok-${Date.now()}`;
+    const evidenceDir = await writeAllowingMergeEvidence('PHASE-21A', runId);
+    try {
+      const summary = await executeStage(repoRoot, 'PHASE-21A', 'merge', {
+        runId,
+        safetyFlags: { ...safeFlags, allowMerge: true },
+        deps: {
+          autopilotConfig: fakeAutopilotConfig(),
+          github: fakeGithub({ mergeSucceeds: false, remoteMerged: true }),
+        },
+      });
+
+      expect(summary.currentStage).toBe('cleanup');
+      const merge = JSON.parse(await readFile(path.join(evidenceDir, 'merge.json'), 'utf8'));
+      expect(merge).toMatchObject({ merged: true, remoteVerified: true, remoteState: 'MERGED' });
+    } finally {
+      await rm(evidenceDir, { recursive: true, force: true });
+    }
+  });
+
+  it('blocks before PR creation when local gate evidence fails', async () => {
+    const runId = `local-gate-blocks-pr-${Date.now()}`;
+    const evidenceDir = path.join(repoRoot, 'runs', 'phase-runner', 'PHASE-21A', runId);
+    let prCreated = false;
+    try {
+      const config = await loadPhaseRunnerConfig(repoRoot);
+      const phase = config.graph.phases.find((entry) => entry.id === 'PHASE-21A');
+      expect(phase).toBeDefined();
+      await writePhaseMergeEvidence(
+        evidenceDir,
+        collectPhaseMergeEvidence({
+          phase: phase!,
+          policy: config.automergePolicy,
+          localCommandResults: config.automergePolicy.requiredLocalCommands.map((command) =>
+            commandResult(command),
+          ),
+          recheckReport: {
+            schemaVersion: 1,
+            phase: 'PHASE-21A',
+            status: 'pass',
+            phaseAcceptanceComplete: true,
+            blockingGaps: [],
+          },
+          changedPaths: ['src/game/engine.ts'],
+          worktreeStatus: { branch: 'phase/test', clean: false, porcelain: ' M src/game/engine.ts', raw: '' },
+          secretScan: { secretsDetected: false, hits: [] },
+          remoteChecks: 'none',
+        }),
+      );
+
+      await expect(
+        executeStage(repoRoot, 'PHASE-21A', 'local-gate', {
+          runId,
+          safetyFlags: { ...safeFlags, allowPr: true },
+          deps: {
+            autopilotConfig: fakeAutopilotConfig(),
+            github: {
+              ...fakeGithub(),
+              async createPullRequest(input) {
+                prCreated = true;
+                return fakeGithub().createPullRequest(input);
+              },
+            },
+          },
+        }),
+      ).rejects.toThrow('Local gate blocked');
+      expect(prCreated).toBe(false);
+    } finally {
+      await rm(evidenceDir, { recursive: true, force: true });
+    }
+  });
+
+  it('keeps Git scan telemetry under evidence instead of dirtying the worktree', async () => {
+    await withTempDir(async (dir) => {
+      const evidenceDir = path.join(dir, 'evidence');
+      const git = createGitAdapter(fakeExecutor({
+        'git status --short --branch': '## main\n',
+        'git diff --name-only': 'src/harness/phase-autopilot.ts\n',
+        'git diff': 'diff --git a/src/harness/phase-autopilot.ts b/src/harness/phase-autopilot.ts\n',
+      }));
+
+      const status = await git.status(repoRoot, evidenceDir);
+      const changedPaths = await git.changedPaths(repoRoot, 'origin/main', evidenceDir);
+      const diffText = await git.diffText(repoRoot, 'origin/main', evidenceDir);
+
+      expect(status.clean).toBe(true);
+      expect(changedPaths).toEqual(['src/harness/phase-autopilot.ts']);
+      expect(diffText).toContain('phase-autopilot');
+      await expect(readFile(path.join(repoRoot, '.phase-runner-status.json'), 'utf8')).rejects.toThrow();
+      expect(await readFile(path.join(evidenceDir, 'command-results', 'git-status.stdout.log'), 'utf8')).toContain('## main');
+    });
+  });
+
+  it('runs a full fake critical autopilot path through final gate without real external tools', async () => {
+    const runId = `full-fake-${Date.now()}`;
+    const evidenceDir = path.join(repoRoot, 'runs', 'phase-runner', 'PHASE-21A', runId);
+    const criteria = parseAcceptanceCriteria(
+      await readFile(path.join(repoRoot, 'phase-plans/PHASE-21A-AUTOPILOT-HARDENING.md'), 'utf8'),
+    );
+    const plannerReport = {
+      schemaVersion: 1,
+      phase: 'PHASE-21A',
+      status: 'pass',
+      summary: 'fake full path',
+      tasks: [
+        {
+          id: 'task-001',
+          title: 'Fake execution',
+          description: 'Execute fake task',
+          allowedPaths: ['src/harness/**', 'tests/**', 'PROGRESS.MD'],
+          acceptanceCriteriaCovered: criteria.map((criterion) => criterion.id),
+          cursorDelegation: { recommended: false, reason: 'not needed' },
+        },
+      ],
+      requiredFocusedTests: ['pnpm test tests/phase-autopilot.test.ts'],
+      requiredSmokeCommands: ['pnpm run phase -- autopilot --phase PHASE-21A --dry-run'],
+      requiredArtifacts: ['runs/phase-runner/PHASE-21A/<run-id>/phase-merge-evidence.json'],
+      risks: [],
+      questions: [],
+      planAcceptanceRecommendation: 'accept',
+    };
+    const recheckReport = {
+      schemaVersion: 1,
+      phase: 'PHASE-21A',
+      status: 'pass',
+      phaseAcceptanceComplete: true,
+      blockingGaps: [],
+    };
+    const executor = fakeExecutor({
+      'fake-planner': ['```json', JSON.stringify(plannerReport), '```'].join('\n'),
+      'fake-executor': [
+        '```json',
+        '{"schemaVersion":1,"phase":"PHASE-21A","status":"pass","tasksCompleted":["task-001"],"gaps":[]}',
+        '```',
+      ].join('\n'),
+      'fake-rechecker': ['```json', JSON.stringify(recheckReport), '```'].join('\n'),
+    });
+    const deps = {
+      autopilotConfig: fakeAutopilotConfig(),
+      executor,
+      git: fakeGit({
+        changedPaths: ['src/harness/phase-autopilot.ts', 'tests/phase-autopilot.test.ts', 'PROGRESS.MD'],
+        diffText: 'diff --git a/src/harness/phase-autopilot.ts b/src/harness/phase-autopilot.ts\n',
+        clean: true,
+      }),
+      github: fakeGithub({ mergeSucceeds: true }),
+    };
+
+    try {
+      for (const stage of [
+        'bundle',
+        'planning',
+        'plan-acceptance',
+        'execution',
+        'cursor-subtasks',
+        'recheck',
+        'local-validation',
+        'changed-path-scan',
+        'secret-scan',
+        'local-evidence',
+        'local-gate',
+        'commit',
+        'pr',
+        'checks',
+        'remote-evidence',
+        'final-gate',
+        'merge',
+      ] as const) {
+        await executeStage(repoRoot, 'PHASE-21A', stage, {
+          runId,
+          safetyFlags: {
+            ...safeFlags,
+            allowAgentExecution: true,
+            allowPr: true,
+            allowMerge: true,
+            planApproval: 'auto',
+            plannerAgent: 'shell',
+            executorAgent: 'shell',
+            recheckerAgent: 'shell',
+          },
+          deps,
+        });
+      }
+
+      const merge = JSON.parse(await readFile(path.join(evidenceDir, 'merge.json'), 'utf8'));
+      expect(merge.merged).toBe(true);
+      const finalDecision = JSON.parse(await readFile(path.join(evidenceDir, 'final-decision.json'), 'utf8'));
+      expect(finalDecision.decision.decision).toBe('allow');
+    } finally {
+      await rm(evidenceDir, { recursive: true, force: true });
+    }
   });
 });

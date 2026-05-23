@@ -27,6 +27,7 @@ export interface CreateWorktreeInput {
 export interface CommitInput {
   worktreePath: string;
   phaseId: string;
+  evidenceDir: string;
   message?: string;
 }
 
@@ -46,8 +47,9 @@ export interface RemoveWorktreeInput {
 export interface GitAdapter {
   fetchOrigin(repoRoot: string, evidenceDir: string): Promise<CommandExecutionResult>;
   createWorktree(input: CreateWorktreeInput): Promise<CommandExecutionResult>;
-  changedPaths(worktreePath: string, baseRef: string): Promise<string[]>;
-  status(worktreePath: string): Promise<GitStatus>;
+  changedPaths(worktreePath: string, baseRef: string, evidenceDir: string): Promise<string[]>;
+  diffText(worktreePath: string, baseRef: string, evidenceDir: string): Promise<string>;
+  status(worktreePath: string, evidenceDir?: string): Promise<GitStatus>;
   commitIfNeeded(input: CommitInput): Promise<CommitResult>;
   removeWorktree(input: RemoveWorktreeInput): Promise<CommandExecutionResult>;
 }
@@ -96,7 +98,7 @@ export const createGitAdapter = (executor: CommandExecutor = createSpawnCommandE
       .then(() => true)
       .catch(() => false);
     if (exists) {
-      const status = await this.status(input.worktreePath);
+      const status = await this.status(input.worktreePath, input.evidenceDir);
       if (!status.clean) {
         throw new Error(`Worktree path exists and is dirty: ${input.worktreePath}`);
       }
@@ -117,11 +119,11 @@ export const createGitAdapter = (executor: CommandExecutor = createSpawnCommandE
     );
   },
 
-  async changedPaths(worktreePath, baseRef) {
+  async changedPaths(worktreePath, baseRef, evidenceDir) {
+    const paths = commandPaths(evidenceDir, 'git-diff-names');
     const result = await executor.run(`git diff --name-only ${quoteShell(baseRef)}`, {
       cwd: worktreePath,
-      stdoutPath: path.join(worktreePath, '.phase-runner-diff-names.stdout.log'),
-      stderrPath: path.join(worktreePath, '.phase-runner-diff-names.stderr.log'),
+      ...paths,
     });
     if (commandEvidenceStatus(result) !== 'pass') {
       return [];
@@ -133,35 +135,52 @@ export const createGitAdapter = (executor: CommandExecutor = createSpawnCommandE
       .filter((line) => line.length > 0);
   },
 
-  async status(worktreePath) {
+  async diffText(worktreePath, baseRef, evidenceDir) {
+    const paths = commandPaths(evidenceDir, 'git-diff');
+    const result = await executor.run(`git diff ${quoteShell(baseRef)}`, {
+      cwd: worktreePath,
+      ...paths,
+    });
+    if (commandEvidenceStatus(result) !== 'pass') {
+      return '';
+    }
+    return readFile(result.stdoutPath, 'utf8');
+  },
+
+  async status(worktreePath, evidenceDir) {
+    const paths = evidenceDir
+      ? commandPaths(evidenceDir, 'git-status')
+      : {
+          stdoutPath: path.join(worktreePath, '.phase-runner-status.stdout.log'),
+          stderrPath: path.join(worktreePath, '.phase-runner-status.stderr.log'),
+        };
     const result = await executor.run('git status --short --branch', {
       cwd: worktreePath,
-      stdoutPath: path.join(worktreePath, '.phase-runner-status.stdout.log'),
-      stderrPath: path.join(worktreePath, '.phase-runner-status.stderr.log'),
+      ...paths,
     });
     const raw = await readFile(result.stdoutPath, 'utf8').catch(() => '');
     return parsePorcelainStatus(raw);
   },
 
   async commitIfNeeded(input) {
-    const status = await this.status(input.worktreePath);
+    const status = await this.status(input.worktreePath, input.evidenceDir);
     if (status.clean) {
       return { committed: false };
     }
     const message = input.message ?? `${input.phaseId}: complete phase work`;
+    const commitPaths = commandPaths(input.evidenceDir, 'git-commit');
     const result = await executor.run(`git add -A && git commit -m ${quoteShell(message)}`, {
       cwd: input.worktreePath,
-      stdoutPath: path.join(input.worktreePath, '.phase-runner-commit.stdout.log'),
-      stderrPath: path.join(input.worktreePath, '.phase-runner-commit.stderr.log'),
+      ...commitPaths,
       shell: true,
     });
     const committed = commandEvidenceStatus(result) === 'pass';
     let commitSha: string | undefined;
     if (committed) {
+      const headPaths = commandPaths(input.evidenceDir, 'git-rev-parse-head');
       const shaResult = await executor.run('git rev-parse HEAD', {
         cwd: input.worktreePath,
-        stdoutPath: path.join(input.worktreePath, '.phase-runner-head.stdout.log'),
-        stderrPath: path.join(input.worktreePath, '.phase-runner-head.stderr.log'),
+        ...headPaths,
       });
       if (commandEvidenceStatus(shaResult) === 'pass') {
         commitSha = (await readFile(shaResult.stdoutPath, 'utf8')).trim();
@@ -175,7 +194,7 @@ export const createGitAdapter = (executor: CommandExecutor = createSpawnCommandE
   },
 
   async removeWorktree(input) {
-    const status = await this.status(input.worktreePath);
+    const status = await this.status(input.worktreePath, input.evidenceDir);
     if (!status.clean && !input.allowDirty) {
       throw new Error(`Refusing to remove dirty worktree: ${input.worktreePath}`);
     }

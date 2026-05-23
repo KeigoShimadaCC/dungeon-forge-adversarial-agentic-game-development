@@ -26,6 +26,19 @@ export interface RemoteChecksMetadata {
 export interface MergeMetadata {
   merged: boolean;
   mergeCommit?: string;
+  remoteVerified?: boolean;
+  remoteState?: string;
+  mergedAt?: string;
+  failureReason?: string;
+  commandResult: CommandExecutionResult;
+}
+
+export interface RemotePrMergeMetadata {
+  merged: boolean;
+  state?: string;
+  mergeCommit?: string;
+  mergedAt?: string;
+  rawStdout: string;
   commandResult: CommandExecutionResult;
 }
 
@@ -51,10 +64,17 @@ export interface MergePrInput {
   evidenceDir: string;
 }
 
+export interface VerifyPrMergedInput {
+  repoRoot: string;
+  prNumber: number;
+  evidenceDir: string;
+}
+
 export interface GitHubCliAdapter {
   createPullRequest(input: CreatePrInput): Promise<PrMetadata>;
   watchChecks(input: WatchChecksInput): Promise<RemoteChecksMetadata>;
   mergePullRequest(input: MergePrInput): Promise<MergeMetadata>;
+  verifyPullRequestMerged(input: VerifyPrMergedInput): Promise<RemotePrMergeMetadata>;
 }
 
 export interface GitHubCliAdapterOptions {
@@ -100,6 +120,30 @@ export const parseChecksOutput = (stdout: string): RemoteChecksMetadata['status'
     return 'pending';
   }
   return 'none';
+};
+
+export const parsePrViewMergeState = (stdout: string): {
+  merged: boolean;
+  state?: string;
+  mergeCommit?: string;
+  mergedAt?: string;
+} => {
+  const parsed = JSON.parse(stdout) as {
+    state?: string;
+    mergeCommit?: { oid?: string } | string | null;
+    mergedAt?: string | null;
+  };
+  const mergeCommit =
+    typeof parsed.mergeCommit === 'string'
+      ? parsed.mergeCommit
+      : parsed.mergeCommit?.oid;
+  const state = parsed.state;
+  return {
+    merged: state === 'MERGED' || Boolean(parsed.mergedAt && mergeCommit),
+    ...(state ? { state } : {}),
+    ...(mergeCommit ? { mergeCommit } : {}),
+    ...(parsed.mergedAt ? { mergedAt: parsed.mergedAt } : {}),
+  };
 };
 
 export const createGitHubCliAdapter = (
@@ -185,10 +229,38 @@ export const createGitHubCliAdapter = (
       const metadata: MergeMetadata = {
         merged: commandEvidenceStatus(result) === 'pass',
         ...(mergeCommitMatch ? { mergeCommit: mergeCommitMatch[0] } : {}),
+        ...(commandEvidenceStatus(result) === 'pass'
+          ? {}
+          : { failureReason: `gh pr merge failed with status ${result.status}` }),
         commandResult: result,
       };
       await writeFile(
         path.join(input.evidenceDir, 'merge.json'),
+        stringifyDeterministicJson(metadata),
+      );
+      return metadata;
+    },
+
+    async verifyPullRequestMerged(input) {
+      const result = await runGh(
+        input.repoRoot,
+        input.evidenceDir,
+        'gh-pr-view-merge-state',
+        `pr view ${input.prNumber} --json state,mergeCommit,mergedAt`,
+      );
+      const { readFile } = await import('node:fs/promises');
+      const stdout = await readFile(result.stdoutPath, 'utf8');
+      const parsed =
+        commandEvidenceStatus(result) === 'pass'
+          ? parsePrViewMergeState(stdout)
+          : { merged: false };
+      const metadata: RemotePrMergeMetadata = {
+        ...parsed,
+        rawStdout: stdout,
+        commandResult: result,
+      };
+      await writeFile(
+        path.join(input.evidenceDir, 'merge-remote-verification.json'),
         stringifyDeterministicJson(metadata),
       );
       return metadata;

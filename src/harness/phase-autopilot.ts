@@ -2,7 +2,7 @@ import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { createAgentAdapter, type AgentTemplateConfig } from './agent-adapters.js';
-import type { PlannerReport } from './agent-report-parser.js';
+import type { CursorSubtaskReport, PlannerReport } from './agent-report-parser.js';
 import {
   commandEvidenceStatus,
   createSpawnCommandExecutor,
@@ -65,6 +65,8 @@ export interface AutopilotConfig {
   dependencyBootstrapCommands?: string[];
   commandExecutor?: {
     defaultTimeoutMs?: number;
+    inactivityTimeoutMs?: number;
+    maxRetries?: number;
   };
 }
 
@@ -107,15 +109,21 @@ export type ExecuteStageName =
   | 'plan-acceptance'
   | 'bootstrap'
   | 'execution'
+  | 'cursor-subtasks'
   | 'recheck'
   | 'local-validation'
+  | 'changed-path-scan'
+  | 'secret-scan'
+  | 'local-evidence'
+  | 'local-gate'
   | 'commit'
   | 'pr'
   | 'checks'
+  | 'remote-evidence'
+  | 'final-gate'
   | 'merge'
   | 'cleanup'
-  | 'bundle'
-  | 'evidence';
+  | 'bundle';
 
 const defaultAutopilotConfigPath = (repoRoot: string): string =>
   path.join(repoRoot, 'automation', 'autopilot-config.json');
@@ -139,7 +147,7 @@ const runShellCommands = async (
   evidenceDir: string,
   commands: string[],
   slugPrefix: string,
-  options: { dryRun: boolean; timeoutMs?: number },
+  options: { dryRun: boolean; timeoutMs?: number; inactivityTimeoutMs?: number; maxRetries?: number },
 ): Promise<CommandExecutionResult[]> => {
   const results: CommandExecutionResult[] = [];
   let index = 1;
@@ -166,6 +174,8 @@ const runShellCommands = async (
           cwd,
           ...paths,
           timeoutMs: options.timeoutMs,
+          inactivityTimeoutMs: options.inactivityTimeoutMs,
+          maxRetries: options.maxRetries,
         }),
       );
     }
@@ -210,8 +220,9 @@ const writeDryRunPlan = async (
       '',
       'Stages (no git/agent/pr/merge side effects in dry-run):',
       'bundle -> preflight -> setup -> bootstrap -> planning -> plan-acceptance ->',
-      'execution -> recheck -> local-validation -> changed-path-scan -> secret-scan ->',
-      'commit -> pr -> checks -> evidence -> merge -> cleanup -> complete',
+      'execution -> cursor-subtasks -> recheck -> local-validation -> changed-path-scan ->',
+      'secret-scan -> local-evidence -> local-gate -> commit -> pr -> checks ->',
+      'remote-evidence -> final-gate -> merge -> cleanup -> complete',
       '',
       'Preflight:',
       ...bundle.commands.preflight.map((command) => `- ${command}`),
@@ -308,6 +319,17 @@ export const writeCursorSubtaskPrompt = async (
   const promptPath = path.join(taskDir, `task-${String(taskNumber).padStart(3, '0')}-prompt.md`);
   await writeFile(promptPath, prompt);
   return promptPath;
+};
+
+const cursorTaskFilePrefix = (taskNumber: number): string =>
+  `task-${String(taskNumber).padStart(3, '0')}`;
+
+const readJsonFile = async <T>(filePath: string): Promise<T | undefined> => {
+  try {
+    return JSON.parse(await readFile(filePath, 'utf8')) as T;
+  } catch {
+    return undefined;
+  }
 };
 
 export const executeStage = async (
@@ -419,6 +441,8 @@ export const executeStage = async (
       {
         dryRun: options.safetyFlags.dryRun,
         timeoutMs: autopilotConfig.commandExecutor?.defaultTimeoutMs,
+        inactivityTimeoutMs: autopilotConfig.commandExecutor?.inactivityTimeoutMs,
+        maxRetries: autopilotConfig.commandExecutor?.maxRetries,
       },
     );
     await completeStage('bootstrap', 'planning');
@@ -467,7 +491,7 @@ export const executeStage = async (
       agentStage === 'planning'
         ? 'plan-acceptance'
         : agentStage === 'execution'
-          ? 'recheck'
+          ? 'cursor-subtasks'
           : 'local-validation';
     if (options.safetyFlags.dryRun) {
       await completeStage(agentStage, nextStage);
@@ -501,6 +525,7 @@ export const executeStage = async (
       phase,
       plannerReport,
       options.safetyFlags.planApproval,
+      await readFile(path.join(repoRoot, phase.plan), 'utf8').catch(() => ''),
     );
     if (decision.decision === 'block') {
       await writeFinalDecision(evidenceDir, {
@@ -522,6 +547,91 @@ export const executeStage = async (
       'executor-output.md',
     );
   }
+
+  if (stage === 'cursor-subtasks') {
+    const acceptedPlanPath = readAcceptedPlanPath(evidenceDir);
+    const maybeAcceptedPlan = await readJsonFile<PlannerReport>(acceptedPlanPath);
+    if (!maybeAcceptedPlan) {
+      await fail('Cursor subtasks cannot run without accepted-plan/accepted-plan.json');
+      throw new Error('unreachable');
+    }
+    const acceptedPlan = maybeAcceptedPlan;
+    const cursorTasks = (acceptedPlan.tasks ?? []).filter(
+      (task) => task.cursorDelegation?.recommended === true,
+    );
+    const taskDir = path.join(evidenceDir, 'cursor-tasks');
+    await mkdir(taskDir, { recursive: true });
+    if (cursorTasks.length === 0 || options.safetyFlags.dryRun) {
+      await writeFile(
+        path.join(taskDir, 'cursor-subtasks.json'),
+        stringifyDeterministicJson({ tasks: [], status: 'none' }),
+      );
+      await completeStage('cursor-subtasks', 'recheck');
+    } else {
+      const maybeCursorConfig = autopilotConfig.agents.cursorSubtask;
+      if (!maybeCursorConfig) {
+        await fail('Accepted plan requires Cursor subtasks, but cursorSubtask agent is not configured.');
+        throw new Error('unreachable');
+      }
+      const cursorConfig = maybeCursorConfig;
+      const reports: CursorSubtaskReport[] = [];
+      let taskNumber = 1;
+      for (const task of cursorTasks) {
+        const prefix = cursorTaskFilePrefix(taskNumber);
+        const prompt = buildCursorSubtaskPrompt({
+          phaseId,
+          taskId: task.id,
+          taskTitle: task.title,
+          allowedPaths: task.allowedPaths,
+          requiredCommands: [
+            ...(acceptedPlan.requiredFocusedTests ?? []),
+            ...(acceptedPlan.requiredSmokeCommands ?? []),
+          ],
+          acceptedPlanPath,
+        });
+        const promptPath = await writeCursorSubtaskPrompt(evidenceDir, taskNumber, prompt);
+        const reportPath = path.join(taskDir, `${prefix}-report.json`);
+        const existingReport = await readJsonFile<CursorSubtaskReport>(reportPath);
+        if (existingReport) {
+          reports.push(existingReport);
+          taskNumber += 1;
+          continue;
+        }
+        const adapter = createAgentAdapter(
+          cursorConfig,
+          options.safetyFlags.allowAgentExecution && !options.safetyFlags.dryRun,
+          executor,
+        );
+        const result = await adapter.run({
+          role: 'cursor-subtask',
+          workspace: bundle.worktreePath,
+          promptPath,
+          outputPath: path.join(taskDir, `${prefix}-output.md`),
+          evidenceDir,
+          phaseId,
+        });
+        if (result.status === 'fail') {
+          await fail(`Cursor subtask ${task.id} command failed`, 'failed');
+        }
+        if (result.status !== 'pass' || !result.parsedReport) {
+          await fail(`Cursor subtask ${task.id} did not produce a valid report`);
+        }
+        const report = result.parsedReport as CursorSubtaskReport;
+        if (report.taskId !== task.id) {
+          await fail(`Cursor subtask report taskId mismatch: expected ${task.id}, got ${report.taskId}`);
+        }
+        await writeFile(reportPath, stringifyDeterministicJson(report));
+        reports.push(report);
+        taskNumber += 1;
+      }
+      await writeFile(
+        path.join(taskDir, 'cursor-subtasks.json'),
+        stringifyDeterministicJson({ tasks: reports, status: 'pass' }),
+      );
+      await completeStage('cursor-subtasks', 'recheck');
+    }
+  }
+
   if (stage === 'recheck') {
     await runAgentStage('recheck', 'rechecker', 'recheck-prompt.md', 'recheck-output.md');
   }
@@ -536,49 +646,66 @@ export const executeStage = async (
       {
         dryRun: options.safetyFlags.dryRun,
         timeoutMs: autopilotConfig.commandExecutor?.defaultTimeoutMs,
+        inactivityTimeoutMs: autopilotConfig.commandExecutor?.inactivityTimeoutMs,
+        maxRetries: autopilotConfig.commandExecutor?.maxRetries,
       },
     );
     await writeLocalValidationResults(evidenceDir, results);
     if (!options.safetyFlags.dryRun && results.some((result) => commandEvidenceStatus(result) !== 'pass')) {
       await fail('Local validation failed');
     }
-    await completeStage('local-validation', 'commit');
+    await completeStage('local-validation', 'changed-path-scan');
   }
 
-  if (stage === 'commit') {
+  if (stage === 'changed-path-scan') {
     if (!options.safetyFlags.dryRun) {
-      const commit = await git.commitIfNeeded({
-        worktreePath: bundle.worktreePath,
-        phaseId,
-        message: `${phaseId}: complete ${phase.id.toLowerCase()}`,
-      });
-      const statusAfter = await git.status(bundle.worktreePath);
+      const statusBefore = await git.status(bundle.worktreePath, evidenceDir);
+      const changedPaths = await git.changedPaths(
+        bundle.worktreePath,
+        autopilotConfig.git.baseRef,
+        evidenceDir,
+      );
+      const diffText = await git.diffText(bundle.worktreePath, autopilotConfig.git.baseRef, evidenceDir);
       await writeGitArtifacts(evidenceDir, {
-        statusAfter,
-        commits: commit,
+        statusBefore,
+        changedPaths,
+        diffSummary: diffText,
       });
-      if (!statusAfter.clean) {
-        await fail('Worktree is not clean after commit');
-      }
+    } else {
+      await writeGitArtifacts(evidenceDir, {
+        statusBefore: { branch: bundle.branch, clean: true, porcelain: '', raw: '' },
+        changedPaths: [],
+        diffSummary: '',
+      });
     }
-    await completeStage('commit', 'evidence');
+    await completeStage('changed-path-scan', 'secret-scan');
   }
 
-  if (stage === 'evidence') {
-    const statusBefore = options.safetyFlags.dryRun
-      ? { branch: bundle.branch, clean: true, porcelain: '', raw: '' }
-      : await git.status(bundle.worktreePath);
-    const changedPaths = options.safetyFlags.dryRun
-      ? []
-      : await git.changedPaths(bundle.worktreePath, autopilotConfig.git.baseRef);
-    const secretScan = scanChangedPathsForSecrets({ changedPaths });
+  if (stage === 'secret-scan') {
+    const changedPaths = await readJsonFile<string[]>(
+      path.join(evidenceDir, 'git', 'changed-paths.json'),
+    ) ?? [];
+    const diffText = await readFile(path.join(evidenceDir, 'diff-summary.txt'), 'utf8').catch(() => '');
+    const secretScan = scanChangedPathsForSecrets({ changedPaths, diffText });
+    await writeFile(path.join(evidenceDir, 'secret-scan.json'), stringifyDeterministicJson(secretScan));
+    if (!options.safetyFlags.dryRun && secretScan.secretsDetected) {
+      await fail(`Secret scan blocked: ${secretScan.hits.join('; ')}`);
+    }
+    await completeStage('secret-scan', 'local-evidence');
+  }
+
+  if (stage === 'local-evidence') {
+    const statusBefore = await readJsonFile<{ branch: string; clean: boolean; porcelain: string; raw: string }>(
+      path.join(evidenceDir, 'git', 'status-before.json'),
+    ) ?? { branch: bundle.branch, clean: true, porcelain: '', raw: '' };
+    const changedPaths = await readJsonFile<string[]>(
+      path.join(evidenceDir, 'git', 'changed-paths.json'),
+    ) ?? [];
+    const secretScan = await readJsonFile<ReturnType<typeof scanChangedPathsForSecrets>>(
+      path.join(evidenceDir, 'secret-scan.json'),
+    ) ?? scanChangedPathsForSecrets({ changedPaths });
     const recheckReport = await readRecheckReportFromEvidence(evidenceDir);
     const localResults = await readLocalValidationResults(evidenceDir);
-    const checksPath = path.join(evidenceDir, 'checks.json');
-    const remoteChecks = await readFile(checksPath, 'utf8')
-      .then((contents) => JSON.parse(contents) as { status?: 'pass' | 'fail' | 'pending' | 'none' })
-      .then((payload) => payload.status ?? 'none')
-      .catch(() => 'none' as const);
     const evidence = collectPhaseMergeEvidence({
       phase,
       policy: config.automergePolicy,
@@ -587,17 +714,25 @@ export const executeStage = async (
       changedPaths,
       worktreeStatus: statusBefore,
       secretScan,
-      remoteChecks,
-    });
-    await writeGitArtifacts(evidenceDir, {
-      statusBefore,
-      changedPaths,
-      diffSummary: changedPaths.join('\n'),
+      remoteChecks: 'none',
     });
     await writePhaseMergeEvidence(evidenceDir, evidence);
-    const decision = evaluateAutomerge(phase, config.automergePolicy, evidence);
-    await writeFinalDecision(evidenceDir, { decision, evidence });
-    await completeStage('evidence', 'pr');
+    await completeStage('local-evidence', 'local-gate');
+  }
+
+  if (stage === 'local-gate') {
+    const evidence = JSON.parse(
+      await readFile(path.join(evidenceDir, 'phase-merge-evidence.json'), 'utf8'),
+    );
+    const decision = evaluateAutomerge(phase, config.automergePolicy, {
+      ...evidence,
+      worktreeClean: true,
+    });
+    await writeFinalDecision(evidenceDir, { stage: 'local-gate', decision, evidence });
+    if (decision.decision !== 'allow') {
+      await fail(`Local gate blocked: ${decision.reasons.join('; ')}`);
+    }
+    await completeStage('local-gate', 'commit');
     return {
       phaseId,
       runId,
@@ -608,6 +743,26 @@ export const executeStage = async (
       completedStages: runState.completedStages,
       mergeDecision: decision,
     };
+  }
+
+  if (stage === 'commit') {
+    if (!options.safetyFlags.dryRun) {
+      const commit = await git.commitIfNeeded({
+        worktreePath: bundle.worktreePath,
+        phaseId,
+        evidenceDir,
+        message: `${phaseId}: complete ${phase.id.toLowerCase()}`,
+      });
+      const statusAfter = await git.status(bundle.worktreePath, evidenceDir);
+      await writeGitArtifacts(evidenceDir, {
+        statusAfter,
+        commits: commit,
+      });
+      if (!statusAfter.clean) {
+        await fail('Worktree is not clean after commit');
+      }
+    }
+    await completeStage('commit', 'pr');
   }
 
   if (stage === 'pr') {
@@ -635,7 +790,7 @@ export const executeStage = async (
 
   if (stage === 'checks') {
     if (!options.safetyFlags.allowPr || options.safetyFlags.dryRun) {
-      await completeStage('checks', 'merge');
+      await completeStage('checks', 'remote-evidence');
     } else {
       const prPayload = JSON.parse(
         await readFile(path.join(evidenceDir, 'pr.json'), 'utf8'),
@@ -645,8 +800,59 @@ export const executeStage = async (
         prNumber: prPayload.number,
         evidenceDir,
       });
-      await completeStage('checks', 'merge');
+      await completeStage('checks', 'remote-evidence');
     }
+  }
+
+  if (stage === 'remote-evidence') {
+    const statusAfter = options.safetyFlags.dryRun
+      ? { branch: bundle.branch, clean: true, porcelain: '', raw: '' }
+      : await git.status(bundle.worktreePath, evidenceDir);
+    const changedPaths = await readJsonFile<string[]>(
+      path.join(evidenceDir, 'git', 'changed-paths.json'),
+    ) ?? [];
+    const secretScan = await readJsonFile<ReturnType<typeof scanChangedPathsForSecrets>>(
+      path.join(evidenceDir, 'secret-scan.json'),
+    ) ?? scanChangedPathsForSecrets({ changedPaths });
+    const recheckReport = await readRecheckReportFromEvidence(evidenceDir);
+    const localResults = await readLocalValidationResults(evidenceDir);
+    const remoteChecks = await readJsonFile<{ status?: 'pass' | 'fail' | 'pending' | 'none' }>(
+      path.join(evidenceDir, 'checks.json'),
+    ).then((payload) => payload?.status ?? 'none');
+    const evidence = collectPhaseMergeEvidence({
+      phase,
+      policy: config.automergePolicy,
+      localCommandResults: localResults,
+      recheckReport,
+      changedPaths,
+      worktreeStatus: statusAfter,
+      secretScan,
+      remoteChecks,
+    });
+    await writePhaseMergeEvidence(evidenceDir, evidence);
+    await completeStage('remote-evidence', 'final-gate');
+  }
+
+  if (stage === 'final-gate') {
+    const evidence = JSON.parse(
+      await readFile(path.join(evidenceDir, 'phase-merge-evidence.json'), 'utf8'),
+    );
+    const decision = evaluateAutomerge(phase, config.automergePolicy, evidence);
+    await writeFinalDecision(evidenceDir, { stage: 'final-gate', decision, evidence });
+    if (decision.decision !== 'allow') {
+      await fail(`Final gate blocked: ${decision.reasons.join('; ')}`);
+    }
+    await completeStage('final-gate', 'merge');
+    return {
+      phaseId,
+      runId,
+      evidenceDir,
+      status: runState.status,
+      dryRun: options.safetyFlags.dryRun,
+      currentStage: runState.currentStage,
+      completedStages: runState.completedStages,
+      mergeDecision: decision,
+    };
   }
 
   if (stage === 'merge') {
@@ -663,13 +869,37 @@ export const executeStage = async (
       const prPayload = JSON.parse(
         await readFile(path.join(evidenceDir, 'pr.json'), 'utf8'),
       ) as { number: number };
-      await github.mergePullRequest({
+      const merge = await github.mergePullRequest({
         repoRoot,
         prNumber: prPayload.number,
         mergeMethod: config.automergePolicy.mergeMethod,
         deleteBranch: config.automergePolicy.deleteBranchAfterMerge,
         evidenceDir,
       });
+      await writeFile(path.join(evidenceDir, 'merge.json'), stringifyDeterministicJson(merge));
+      if (!merge.merged) {
+        const remote = await github.verifyPullRequestMerged({
+          repoRoot,
+          prNumber: prPayload.number,
+          evidenceDir,
+        });
+        if (!remote.merged) {
+          await fail(
+            `PR merge failed and remote PR is not merged: ${merge.failureReason ?? merge.commandResult.status}`,
+          );
+        }
+        await writeFile(
+          path.join(evidenceDir, 'merge.json'),
+          stringifyDeterministicJson({
+            ...merge,
+            merged: true,
+            remoteVerified: true,
+            remoteState: remote.state,
+            mergeCommit: remote.mergeCommit ?? merge.mergeCommit,
+            mergedAt: remote.mergedAt,
+          }),
+        );
+      }
       await completeStage('merge', 'cleanup');
     }
   }
@@ -712,12 +942,18 @@ const stageOrder: ExecuteStageName[] = [
   'planning',
   'plan-acceptance',
   'execution',
+  'cursor-subtasks',
   'recheck',
   'local-validation',
+  'changed-path-scan',
+  'secret-scan',
+  'local-evidence',
+  'local-gate',
   'commit',
   'pr',
   'checks',
-  'evidence',
+  'remote-evidence',
+  'final-gate',
   'merge',
   'cleanup',
 ];
@@ -816,7 +1052,10 @@ export const runAutopilotForPhase = async (
       if (summary.status === 'blocked' || summary.status === 'failed') {
         return summary;
       }
-      if (stage === 'evidence' && summary.mergeDecision?.decision === 'block') {
+      if (
+        (stage === 'local-gate' || stage === 'final-gate') &&
+        summary.mergeDecision?.decision === 'block'
+      ) {
         const paths = defaultRunnerPaths(repoRoot);
         const blocked = markPhaseBlocked(
           config.graph,

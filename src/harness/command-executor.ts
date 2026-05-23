@@ -10,10 +10,26 @@ export interface CommandExecutionOptions {
   cwd: string;
   env?: NodeJS.ProcessEnv;
   timeoutMs?: number;
+  inactivityTimeoutMs?: number;
+  maxRetries?: number;
   stdoutPath: string;
   stderrPath: string;
   stdin?: string;
   shell?: boolean;
+}
+
+export type CommandExecutionStatus = 'pass' | 'fail' | 'timeout' | 'inactive_timeout';
+
+export interface CommandExecutionAttempt {
+  attempt: number;
+  exitCode: number | null;
+  signal?: string;
+  startedAt: string;
+  finishedAt: string;
+  durationMs: number;
+  stdoutPath: string;
+  stderrPath: string;
+  status: CommandExecutionStatus;
 }
 
 export interface CommandExecutionResult {
@@ -27,7 +43,9 @@ export interface CommandExecutionResult {
   stdoutPath: string;
   stderrPath: string;
   resultPath?: string;
-  status: 'pass' | 'fail' | 'timeout';
+  status: CommandExecutionStatus;
+  attempt?: number;
+  attempts?: CommandExecutionAttempt[];
 }
 
 export interface CommandExecutor {
@@ -47,84 +65,147 @@ export const redactEnvForLogging = (env: NodeJS.ProcessEnv): Record<string, stri
 
 export const createSpawnCommandExecutor = (): CommandExecutor => ({
   async run(command, options): Promise<CommandExecutionResult> {
-    const startedAt = new Date().toISOString();
-    const startMs = Date.now();
     await mkdir(path.dirname(options.stdoutPath), { recursive: true });
     await mkdir(path.dirname(options.stderrPath), { recursive: true });
 
-    await writeFile(options.stdoutPath, '');
-    await writeFile(options.stderrPath, '');
+    const maxRetries = Math.max(0, options.maxRetries ?? 0);
+    const totalAttempts = maxRetries + 1;
+    const attempts: CommandExecutionAttempt[] = [];
+    let result: CommandExecutionResult | undefined;
 
-    const child = spawn(command, {
-      cwd: options.cwd,
-      env: { ...process.env, ...options.env },
-      shell: options.shell ?? true,
-      stdio: ['pipe', 'pipe', 'pipe'],
-    });
+    for (let attempt = 1; attempt <= totalAttempts; attempt += 1) {
+      const attemptStdoutPath =
+        totalAttempts > 1
+          ? options.stdoutPath.replace(/\.stdout\.log$/, `.attempt-${attempt}.stdout.log`)
+          : options.stdoutPath;
+      const attemptStderrPath =
+        totalAttempts > 1
+          ? options.stderrPath.replace(/\.stderr\.log$/, `.attempt-${attempt}.stderr.log`)
+          : options.stderrPath;
+      const startedAt = new Date().toISOString();
+      const startMs = Date.now();
 
-    let timedOut = false;
-    const timeoutMs = options.timeoutMs;
-    const timeoutHandle =
-      timeoutMs !== undefined && timeoutMs > 0
-        ? setTimeout(() => {
-            timedOut = true;
+      await writeFile(attemptStdoutPath, '');
+      await writeFile(attemptStderrPath, '');
+
+      const child = spawn(command, {
+        cwd: options.cwd,
+        env: { ...process.env, ...options.env },
+        shell: options.shell ?? true,
+        stdio: ['pipe', 'pipe', 'pipe'],
+      });
+
+      let timedOut = false;
+      let inactiveTimedOut = false;
+      let inactivityHandle: NodeJS.Timeout | undefined;
+      const resetInactivityTimer = () => {
+        if (inactivityHandle) {
+          clearTimeout(inactivityHandle);
+        }
+        if (options.inactivityTimeoutMs !== undefined && options.inactivityTimeoutMs > 0) {
+          inactivityHandle = setTimeout(() => {
+            inactiveTimedOut = true;
             child.kill('SIGTERM');
-          }, timeoutMs)
-        : undefined;
+          }, options.inactivityTimeoutMs);
+        }
+      };
+      resetInactivityTimer();
 
-    if (options.stdin !== undefined) {
-      child.stdin?.write(options.stdin);
-      child.stdin?.end();
-    } else {
-      child.stdin?.end();
-    }
+      const timeoutHandle =
+        options.timeoutMs !== undefined && options.timeoutMs > 0
+          ? setTimeout(() => {
+              timedOut = true;
+              child.kill('SIGTERM');
+            }, options.timeoutMs)
+          : undefined;
 
-    const stdoutChunks: Buffer[] = [];
-    const stderrChunks: Buffer[] = [];
-    child.stdout?.on('data', (chunk: Buffer) => {
-      stdoutChunks.push(chunk);
-    });
-    child.stderr?.on('data', (chunk: Buffer) => {
-      stderrChunks.push(chunk);
-    });
+      if (options.stdin !== undefined) {
+        child.stdin?.write(options.stdin);
+        child.stdin?.end();
+      } else {
+        child.stdin?.end();
+      }
 
-    const exit = await new Promise<{ exitCode: number | null; signal?: string }>((resolve, reject) => {
-      child.on('error', reject);
-      child.on('close', (code, signal) => {
-        resolve({
-          exitCode: code,
-          ...(signal ? { signal } : {}),
+      const stdoutChunks: Buffer[] = [];
+      const stderrChunks: Buffer[] = [];
+      child.stdout?.on('data', (chunk: Buffer) => {
+        stdoutChunks.push(chunk);
+        resetInactivityTimer();
+      });
+      child.stderr?.on('data', (chunk: Buffer) => {
+        stderrChunks.push(chunk);
+        resetInactivityTimer();
+      });
+
+      const exit = await new Promise<{ exitCode: number | null; signal?: string }>((resolve, reject) => {
+        child.on('error', reject);
+        child.on('close', (code, signal) => {
+          resolve({
+            exitCode: code,
+            ...(signal ? { signal } : {}),
+          });
         });
       });
-    });
 
-    if (timeoutHandle) {
-      clearTimeout(timeoutHandle);
+      if (timeoutHandle) {
+        clearTimeout(timeoutHandle);
+      }
+      if (inactivityHandle) {
+        clearTimeout(inactivityHandle);
+      }
+
+      const stdout = Buffer.concat(stdoutChunks);
+      const stderr = Buffer.concat(stderrChunks);
+      await writeFile(attemptStdoutPath, stdout);
+      await writeFile(attemptStderrPath, stderr);
+      await writeFile(options.stdoutPath, stdout);
+      await writeFile(options.stderrPath, stderr);
+
+      const finishedAt = new Date().toISOString();
+      const durationMs = Date.now() - startMs;
+      const status: CommandExecutionStatus = inactiveTimedOut
+        ? 'inactive_timeout'
+        : timedOut
+          ? 'timeout'
+          : exit.exitCode === 0
+            ? 'pass'
+            : 'fail';
+
+      attempts.push({
+        attempt,
+        exitCode: exit.exitCode,
+        ...(exit.signal ? { signal: exit.signal } : {}),
+        startedAt,
+        finishedAt,
+        durationMs,
+        stdoutPath: attemptStdoutPath,
+        stderrPath: attemptStderrPath,
+        status,
+      });
+
+      result = {
+        command,
+        cwd: options.cwd,
+        exitCode: exit.exitCode,
+        ...(exit.signal ? { signal: exit.signal } : {}),
+        startedAt,
+        finishedAt,
+        durationMs,
+        stdoutPath: options.stdoutPath,
+        stderrPath: options.stderrPath,
+        status,
+        attempt,
+        attempts,
+      };
+
+      if (status === 'pass') {
+        break;
+      }
     }
 
-    await writeFile(options.stdoutPath, Buffer.concat(stdoutChunks));
-    await writeFile(options.stderrPath, Buffer.concat(stderrChunks));
-
-    const finishedAt = new Date().toISOString();
-    const durationMs = Date.now() - startMs;
-    const status: CommandExecutionResult['status'] = timedOut
-      ? 'timeout'
-      : exit.exitCode === 0
-        ? 'pass'
-        : 'fail';
-
-    const result: CommandExecutionResult = {
-      command,
-      cwd: options.cwd,
-      exitCode: exit.exitCode,
-      ...(exit.signal ? { signal: exit.signal } : {}),
-      startedAt,
-      finishedAt,
-      durationMs,
-      stdoutPath: options.stdoutPath,
-      stderrPath: options.stderrPath,
-      status,
-    };
+    if (!result) {
+      throw new Error('Command executor produced no attempts.');
+    }
 
     const resultPath = options.stdoutPath.replace(/\.stdout\.log$/, '.json');
     if (resultPath !== options.stdoutPath) {
@@ -149,6 +230,9 @@ export const commandEvidenceStatus = (
     return 'pass';
   }
   if (result.status === 'timeout') {
+    return 'fail';
+  }
+  if (result.status === 'inactive_timeout') {
     return 'fail';
   }
   return 'fail';

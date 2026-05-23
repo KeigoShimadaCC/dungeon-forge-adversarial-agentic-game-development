@@ -10,6 +10,7 @@ Audit against:
 - Cursor subtask reports under cursor-tasks/
 - actual changed files
 - validation evidence
+- local/final gate evidence, changed-path scan, diff secret scan, and Cursor subtask reports when present
 - PROGRESS.MD
 
 Do not merge, push, delete branches/worktrees, or edit secrets. Minimal in-scope fixes are allowed only if they are clearly required to satisfy the accepted plan.

@@ -8,28 +8,38 @@
     "planner": {
       "provider": "shell",
       "commandTemplate": "codex \"$(cat \\\"{{PROMPT_PATH}}\\\")\"",
-      "timeoutMs": 1800000
+      "timeoutMs": 1800000,
+      "inactivityTimeoutMs": 300000,
+      "maxRetries": 1
     },
     "executor": {
       "provider": "shell",
       "commandTemplate": "codex \"$(cat \\\"{{PROMPT_PATH}}\\\")\"",
-      "timeoutMs": 1800000
+      "timeoutMs": 1800000,
+      "inactivityTimeoutMs": 300000,
+      "maxRetries": 1
     },
     "rechecker": {
       "provider": "shell",
       "commandTemplate": "codex \"$(cat \\\"{{PROMPT_PATH}}\\\")\"",
-      "timeoutMs": 900000
+      "timeoutMs": 900000,
+      "inactivityTimeoutMs": 300000,
+      "maxRetries": 1
     },
     "cursorSubtask": {
       "provider": "shell",
       "commandTemplate": "agent --print --trust --model composer-2.5 --workspace \"{{WORKSPACE}}\" \"$(cat \\\"{{PROMPT_PATH}}\\\")\"",
-      "timeoutMs": 900000
+      "timeoutMs": 900000,
+      "inactivityTimeoutMs": 180000,
+      "maxRetries": 1
     }
   },
   "dependencyBootstrapCommands": [
     "pnpm install --frozen-lockfile"
   ],
   "commandExecutor": {
-    "defaultTimeoutMs": 3600000
+    "defaultTimeoutMs": 3600000,
+    "inactivityTimeoutMs": 300000,
+    "maxRetries": 0
   }
 }

@@ -43,6 +43,8 @@ export interface AgentTemplateConfig {
   provider: 'manual' | 'shell';
   commandTemplate: string;
   timeoutMs?: number;
+  inactivityTimeoutMs?: number;
+  maxRetries?: number;
 }
 
 export const renderAgentCommandTemplate = (
@@ -109,6 +111,8 @@ export class ShellAgentAdapter implements AgentAdapter {
     const commandResult = await this.executor.run(command, {
       cwd: input.workspace,
       timeoutMs: input.timeoutMs ?? this.config.timeoutMs,
+      inactivityTimeoutMs: this.config.inactivityTimeoutMs,
+      maxRetries: this.config.maxRetries,
       stdoutPath,
       stderrPath,
     });

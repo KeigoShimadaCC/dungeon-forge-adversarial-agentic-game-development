@@ -18,6 +18,7 @@ Rules:
 - You may delegate bounded subtasks to Cursor CLI only when the accepted plan explicitly marks that task as Cursor-delegatable.
 - Cursor output is advisory until you verify the diff and command evidence.
 - Do not merge, delete branches/worktrees, fabricate validation, or update phase state.
+- The deterministic runner owns Cursor subtask execution for accepted-plan tasks marked `cursorDelegation.recommended === true`; do not create ad hoc Cursor prompts from the raw phase plan.
 
 If delegating to Cursor, create cursor-tasks/task-NNN-prompt.md, task-NNN.log, and task-NNN-report.json artifacts.
 

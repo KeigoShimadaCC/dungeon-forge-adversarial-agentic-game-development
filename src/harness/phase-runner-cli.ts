@@ -171,14 +171,20 @@ const parseArgs = (argv: string[]): ParsedArgs => {
         'planning',
         'plan-acceptance',
         'execution',
+        'cursor-subtasks',
         'recheck',
         'local-validation',
+        'changed-path-scan',
+        'secret-scan',
+        'local-evidence',
+        'local-gate',
         'commit',
         'pr',
         'checks',
+        'remote-evidence',
+        'final-gate',
         'merge',
         'cleanup',
-        'evidence',
       ]);
       if (!allowedStages.has(next as ExecuteStageName)) {
         throw new Error(`Unknown stage: ${next}\n${usage}`);
