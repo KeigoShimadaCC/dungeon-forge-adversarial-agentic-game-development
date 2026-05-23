@@ -15,6 +15,7 @@ interface ParsedArgs {
   onExisting: import('./artifact-write-policy.js').ArtifactWriteMode;
   challengeMode?: string;
   scenarioPack?: string;
+  extensionPack?: string;
   stdoutOnly: boolean;
   useLlmPlayer: boolean;
   useLlmReviewer: boolean;
@@ -28,6 +29,7 @@ const parseArgs = (argv: string[]): ParsedArgs => {
     onExisting: common.onExisting,
     challengeMode: common.challengeMode,
     scenarioPack: common.scenarioPack,
+    extensionPack: common.extensionPack,
     stdoutOnly: false,
     useLlmPlayer: llm.useLlmPlayer,
     useLlmReviewer: llm.useLlmReviewer,
@@ -60,7 +62,8 @@ const parseArgs = (argv: string[]): ParsedArgs => {
       arg === '--runs-root' ||
       arg === '--on-existing' ||
       arg === '--challenge-mode' ||
-      arg === '--scenario-pack'
+      arg === '--scenario-pack' ||
+      arg === '--extension-pack'
     ) {
       index += 1;
     } else {
@@ -93,6 +96,7 @@ export const runRunVersionCli = async (argv: string[] = process.argv.slice(2)): 
       onExisting: args.onExisting,
       ...(args.challengeMode ? { challengeMode: args.challengeMode } : {}),
       ...(args.scenarioPack ? { scenarioPack: args.scenarioPack } : {}),
+      ...(args.extensionPack ? { extensionPack: args.extensionPack } : {}),
       llm: {
         usePlayer: args.useLlmPlayer,
         useReviewer: args.useLlmReviewer,

@@ -1,12 +1,14 @@
 import { normalizeChallengeModeId } from '../game/challenge-modes.js';
 import { normalizeScenarioPackId } from '../game/scenario-packs.js';
 import { parseArtifactWriteMode, type ArtifactWriteMode } from './artifact-write-policy.js';
+import { normalizeExtensionPackId } from './extension-packs.js';
 
 export interface HarnessCliCommonArgs {
   runsRoot: string;
   onExisting: ArtifactWriteMode;
   challengeMode?: string;
   scenarioPack?: string;
+  extensionPack?: string;
 }
 
 export interface HarnessLlmCliArgs {
@@ -50,6 +52,7 @@ export const parseHarnessCliCommonArgs = (
     onExisting: base.onExisting ?? 'fail',
     challengeMode: normalizeChallengeModeId(base.challengeMode),
     scenarioPack: normalizeScenarioPackId(base.scenarioPack),
+    extensionPack: normalizeExtensionPackId(base.extensionPack),
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -75,6 +78,11 @@ export const parseHarnessCliCommonArgs = (
     }
     if (token === '--scenario-pack' && next) {
       args.scenarioPack = normalizeScenarioPackId(next);
+      index += 1;
+      continue;
+    }
+    if (token === '--extension-pack' && next) {
+      args.extensionPack = normalizeExtensionPackId(next);
       index += 1;
     }
   }

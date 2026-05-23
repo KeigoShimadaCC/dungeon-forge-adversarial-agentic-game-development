@@ -53,6 +53,18 @@ export const renderComparisonMarkdown = (comparison: VersionComparison): string 
         ]
       : [];
 
+  const extensionPackLines =
+    comparison.extension_pack &&
+    (comparison.extension_pack.base || comparison.extension_pack.target)
+      ? [
+          '## Extension pack',
+          '',
+          `- Base: \`${comparison.extension_pack.base ?? 'default'}\``,
+          `- Target: \`${comparison.extension_pack.target ?? 'default'}\``,
+          '',
+        ]
+      : [];
+
   return [
     '# Version Comparison',
     '',
@@ -61,6 +73,7 @@ export const renderComparisonMarkdown = (comparison: VersionComparison): string 
     '',
     ...challengeLines,
     ...scenarioPackLines,
+    ...extensionPackLines,
     '## Interpretation',
     '',
     comparison.interpretation,

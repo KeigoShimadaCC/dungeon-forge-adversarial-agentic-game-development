@@ -144,6 +144,10 @@ export interface PlaythroughTrace {
   scenario_pack?: string;
   /** Human-readable label for scenario_pack when available. */
   scenario_pack_label?: string;
+  /** Set when an explicit local extension pack was selected for the run. */
+  extension_pack?: string;
+  /** Human-readable label for extension_pack when available. */
+  extension_pack_label?: string;
   metadata?: TraceMetadata;
 }
 
@@ -184,6 +188,9 @@ export interface PlaythroughScorecard {
   /** Mirrors trace scenario_pack when a bounded scenario pack was selected. */
   scenario_pack?: string;
   scenario_pack_label?: string;
+  /** Mirrors trace extension_pack when a local extension pack was selected. */
+  extension_pack?: string;
+  extension_pack_label?: string;
   result: TerminalStatus;
   turns: number;
   floors_reached: number;

@@ -140,6 +140,8 @@ export const deriveScorecardFromTrace = (
     ...(trace.challenge_mode ? { challenge_mode: trace.challenge_mode } : {}),
     ...(trace.scenario_pack ? { scenario_pack: trace.scenario_pack } : {}),
     ...(trace.scenario_pack_label ? { scenario_pack_label: trace.scenario_pack_label } : {}),
+    ...(trace.extension_pack ? { extension_pack: trace.extension_pack } : {}),
+    ...(trace.extension_pack_label ? { extension_pack_label: trace.extension_pack_label } : {}),
     result: trace.result,
     turns: trace.turns,
     floors_reached: floorsReached,
@@ -239,6 +241,21 @@ export const validateScorecard = (scorecard: PlaythroughScorecard): void => {
     (typeof record.scenario_pack_label !== 'string' || record.scenario_pack_label.length === 0)
   ) {
     throw new Error('Scorecard scenario_pack_label must be a non-empty string when present');
+  }
+
+  if (
+    record.extension_pack !== undefined &&
+    (typeof record.extension_pack !== 'string' || record.extension_pack.length === 0)
+  ) {
+    throw new Error('Scorecard extension_pack must be a non-empty string when present');
+  }
+
+  if (
+    record.extension_pack_label !== undefined &&
+    (typeof record.extension_pack_label !== 'string' ||
+      record.extension_pack_label.length === 0)
+  ) {
+    throw new Error('Scorecard extension_pack_label must be a non-empty string when present');
   }
 
   if (record.player_kind !== undefined) {
