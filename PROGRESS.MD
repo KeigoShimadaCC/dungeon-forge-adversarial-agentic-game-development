@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-19c-optional-media-experiments` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-19c-optional-media-experiments-wt` |
 | Base | `origin/main` at `6bbf04d` |
-| Status | `Preflight complete; implementation pending` |
+| Status | `Cursor read-only recheck passed; PR pending` |
 
 ### Contract (read before editing)
 
@@ -52,15 +52,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator/Cursor — Implement optional media metadata, fallback rules, headless/media-optional checks, docs, and tests within Phase 19C scope.
+- [~] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and complete automation state.
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Review implementation diff, run focused/full gates and media-optional smokes, request Cursor read-only recheck, and re-read Phase 19C acceptance.
-- [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and complete automation state.
+_(none)_
 
 ### Done
 
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 19C PASS; no implementation gaps found, no files changed, and merge readiness remains pending PR/CI/phase-runner gate only.
+- [x] 2026-05-23 orchestrator/Cursor — Cursor implementation pass stalled after partial optional-media scaffolding; orchestrator completed Phase 19C locally with optional media metadata, fallback validation, headless checks, acceptance-gate integration, CLI, docs, exports, and focused tests.
+- [x] 2026-05-23 orchestrator — Reviewed the Phase 19C implementation diff, ran focused/full gates and optional-media CLI smokes, and re-read Phase 19C deliverables/acceptance against the repo.
 - [x] 2026-05-23 orchestrator — Generated Phase 19C automation bundle under `runs/phase-runner/PHASE-19C/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-19c-optional-media-experiments-wt`, confirmed `composer-2.5`, verified main handoff CI passed, and seeded progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 19B PR #48 merged at `46ae3a6b999449916880f631eb99af7283b674be`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 19C.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 19B PASS after the infinite-prose fixture was added; no files changed, and merge readiness remains pending PR/CI/phase-runner gate only.
@@ -200,16 +202,16 @@ _Derived from `phase-plans/PHASE-19C-OPTIONAL-MEDIA-EXPERIMENTS.md`. Tick when v
 
 ### Phase 19C — Optional Media Experiments
 
-- [ ] Optional media metadata format exists.
-- [ ] Fallback rules for missing media exist.
-- [ ] Tests or checks prove headless gameplay does not require media files.
-- [ ] Documentation describes allowed and forbidden media use.
-- [ ] Headless harness runs with no media files.
-- [ ] Text/ASCII render remains complete.
-- [ ] Optional media metadata references valid version or scene IDs.
-- [ ] Acceptance report flags any required-media dependency as forbidden.
-- [ ] Media experiments cannot break agent-playable evaluation or replace trace evidence.
-- [ ] Core loop remains finite, turn-based, seedable, text/ASCII, and structured-action based.
+- [x] Optional media metadata format exists.
+- [x] Fallback rules for missing media exist.
+- [x] Tests or checks prove headless gameplay does not require media files.
+- [x] Documentation describes allowed and forbidden media use.
+- [x] Headless harness runs with no media files.
+- [x] Text/ASCII render remains complete.
+- [x] Optional media metadata references valid version or scene IDs.
+- [x] Acceptance report flags any required-media dependency as forbidden.
+- [x] Media experiments cannot break agent-playable evaluation or replace trace evidence.
+- [x] Core loop remains finite, turn-based, seedable, text/ASCII, and structured-action based.
 
 ---
 
@@ -515,6 +517,9 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Phase 19B PR #48 merged at `46ae3a6b999449916880f631eb99af7283b674be` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-19B --evidence runs/phase-runner/PHASE-19B/planned/merge-evidence.json` returned `allow`. Cleanup complete: local `main` fast-forwarded, temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-19C`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 19C with initial task queue and checklist from `phase-plans/PHASE-19C-OPTIONAL-MEDIA-EXPERIMENTS.md`.
 - 2026-05-23 — orchestrator — Phase 19C automation start: main handoff commit `6bbf04d` pushed and GitHub `Repo gates` passed; `pnpm run phase -- bundle --phase PHASE-19C --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-19C/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-19c-optional-media-experiments-wt` on branch `phase/phase-19c-optional-media-experiments` from `origin/main` at `6bbf04d`; `agent --list-models` confirmed `composer-2.5` is available/current.
+- 2026-05-23 — Cursor/composer-2.5 + orchestrator — Cursor implementation pass produced no stdout for about 90 seconds and was interrupted. It left partial `content/optional-media.json` and `src/harness/optional-media.ts`; the orchestrator replaced the broken partial module and completed Phase 19C locally with `src/harness/optional-media.ts`, `src/harness/optional-media-cli.ts`, `pnpm run optional-media`, harness exports, acceptance-gate optional-media check, `docs/OPTIONAL-MEDIA.md`, and focused tests.
+- 2026-05-23 — orchestrator — Local Phase 19C validation PASS. `pnpm install` was needed because the fresh worktree lacked `node_modules`; lockfile stayed unchanged. Focused tests PASS: `pnpm test tests/optional-media.test.ts tests/acceptance-gate.test.ts` (20 tests). Gates PASS: `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `pnpm run check` (41 files, 371 tests plus typecheck/lint/build/ci-smoke/acceptance evidence); `git diff --check`; `git diff -- concept-and-ideas phase-plans src/game` empty. Optional-media smokes PASS: `pnpm run optional-media -- --check-files --out /private/tmp/df-phase19c-optional-media/optional_media_report.json` produced schema `19C`, `ok: true`, and `missingAssets: 3` as non-blocking; `pnpm run optional-media -- --format markdown` printed a pass report. Re-read `phase-plans/PHASE-19C-OPTIONAL-MEDIA-EXPERIMENTS.md`; deliverables and acceptance criteria are satisfied locally before Cursor read-only recheck.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 19C PASS. Cursor confirmed metadata schema/fallbacks, non-blocking missing media, headless render check without asset I/O, version/scene ID validation, acceptance check failure for required media, docs, clean scope (`src/game/**`, `concept-and-ideas/`, `phase-plans/` untouched), no secrets, and validation evidence. Cursor made no file changes; remaining work is PR, GitHub checks, phase-runner gate, merge, and cleanup.
 
 ---
 

@@ -14,6 +14,7 @@ import {
   type VersionRunSpec,
   type VersionSummary,
 } from './version-loop.js';
+import { buildOptionalMediaAcceptanceCheck } from './optional-media.js';
 
 export const ACCEPTANCE_CHECK_STATUSES = [
   'pass',
@@ -448,6 +449,7 @@ export const evaluateAcceptanceGate = async (
 
   checks.push(buildForbiddenChecklist());
   checks.push(buildGlobalInvariantChecklist());
+  checks.push(buildOptionalMediaAcceptanceCheck());
 
   const blockers = collectBlockers(checks, markdownEvidence.blockers);
   const machine_recommendation = deriveMachineRecommendation(checks);

@@ -11,6 +11,11 @@ import {
   writeAcceptanceReport,
 } from '../src/harness/acceptance-gate.js';
 import {
+  buildOptionalMediaAcceptanceCheck,
+  loadOptionalMediaManifest,
+  type OptionalMediaManifest,
+} from '../src/harness/optional-media.js';
+import {
   ensureVersionFolder,
   getVersionPaths,
   runVersion,
@@ -64,6 +69,12 @@ describe('Phase 11A acceptance gate', () => {
       expect(markdown).toContain('Forbidden MVP feature checklist');
       expect(markdown).toContain(FORBIDDEN_MVP_FEATURES[0]);
       expect(result.checks.some((check) => check.status === 'pass')).toBe(true);
+      expect(result.checks.find((check) => check.id === 'optional_media_not_required')).toEqual(
+        expect.objectContaining({
+          status: 'pass',
+          summary: expect.stringContaining('no media is required'),
+        }),
+      );
 
       const summary = await summarizeVersion(runsRoot, 'v001');
       expect(summary.acceptance_status).toBe('pending');
@@ -351,5 +362,19 @@ describe('Phase 11A acceptance gate', () => {
       const summary = await summarizeVersion(runsRoot, 'v001');
       expect(summary.acceptance_status).toBe('blocked');
     });
+  });
+
+  it('flags required optional media as forbidden acceptance evidence', () => {
+    const manifest = structuredClone(loadOptionalMediaManifest()) as OptionalMediaManifest;
+    if (manifest.presentations[0]) {
+      manifest.presentations[0].required = true;
+    }
+
+    const check = buildOptionalMediaAcceptanceCheck(manifest);
+
+    expect(check.status).toBe('fail');
+    expect(check.details).toEqual(
+      expect.arrayContaining([expect.stringContaining('optional-media-required-forbidden')]),
+    );
   });
 });
