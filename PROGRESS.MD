@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Generate shareable static demo bundles from local adversarial-loop evidence. |
 | Branch | `phase/phase-18c-static-demo-publishing` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-18c-static-demo-publishing-wt` |
-| Base | `origin/main` at `5b2e98b` |
-| Status | `Queued; automation bundle/worktree pending` |
+| Base | `origin/main` at `e3cee62` |
+| Status | `Seed checkpoint complete; Cursor implementation pending` |
 
 ### Contract (read before editing)
 
@@ -52,17 +52,16 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- _(none)_
+- [~] 2026-05-23 Cursor/composer-2.5 — Implement static demo export command, bundle format, version timeline, honest missing-evidence labels, docs, and tests.
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Generate Phase 18C automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement static demo export command, bundle format, version timeline, honest missing-evidence labels, docs, and tests.
 - [ ] 2026-05-23 orchestrator — Review Cursor diff, run focused/full gates and static demo smoke, request Cursor read-only recheck, and re-read Phase 18C acceptance.
 - [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Generated Phase 18C automation bundle under `runs/phase-runner/PHASE-18C/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18c-static-demo-publishing-wt`, confirmed `composer-2.5`, and seeded progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 18B PR #45 merged at `5b2e98b22238421360f51389a48a37fbea9fa992`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 18C.
 - [x] 2026-05-23 orchestrator — Review implementation diff, add scorecard-backed challenge-mode cohort coverage, run focused/full gates and CLI smokes, and re-read Phase 18B acceptance.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 18B PASS after retrying without stalled audit mode; merge readiness remains pending PR/CI/phase-runner gate only.
@@ -470,6 +469,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 18B PASS on retry without the stalled audit mode. Cursor confirmed analytics/leaderboard artifact formats, `pnpm run balance-analytics`, seed/policy/challenge-mode/problem-category cohorts, problem drilldowns, version deltas, dashboard-readable analytics links, advisory boundary, no secrets, no gameplay/engine changes, and local validation evidence. Non-blocking notes: no rich embedded dashboard tables, `generated_at` is wall-clock, and merge readiness remains PR/CI/phase-runner gate only.
 - 2026-05-23 — orchestrator — Phase 18B PR #45 merged at `5b2e98b22238421360f51389a48a37fbea9fa992` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-18B --evidence runs/phase-runner/PHASE-18B/planned/merge-evidence.json` returned `allow`. `gh pr merge` reported a local checkout error because `main` is already a separate worktree, but GitHub confirmed the PR was merged. Cleanup complete: local `main` fast-forwarded, temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-18C`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 18C with initial task queue and checklist from `phase-plans/PHASE-18C-STATIC-DEMO-PUBLISHING.md`.
+- 2026-05-23 — orchestrator — Phase 18C automation start: main handoff commit `e3cee62` pushed; `pnpm run phase -- bundle --phase PHASE-18C --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-18C/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18c-static-demo-publishing-wt` on branch `phase/phase-18c-static-demo-publishing` from `origin/main` at `e3cee62`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
 
 ---
 
