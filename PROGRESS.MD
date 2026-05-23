@@ -13,7 +13,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Branch | `phase/phase-18c-static-demo-publishing` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-18c-static-demo-publishing-wt` |
 | Base | `origin/main` at `e3cee62` |
-| Status | `Implementation complete; Cursor recheck blocked; PR pending` |
+| Status | `Implementation complete; PR pending` |
 
 ### Contract (read before editing)
 
@@ -61,6 +61,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 ### Done
 
 - [x] 2026-05-23 orchestrator — Generated Phase 18C automation bundle under `runs/phase-runner/PHASE-18C/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18c-static-demo-publishing-wt`, confirmed `composer-2.5`, and seeded progress before implementation.
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 18C PASS on compact retry after larger audit prompts stalled; no files changed, and merge readiness remains pending PR/CI/phase-runner gate only.
 - [x] 2026-05-23 orchestrator — Review implementation diff, run focused/full gates and static demo smoke, and re-read Phase 18C acceptance.
 - [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Cursor implementation pass stalled after creating a partial `src/static-demo/` tree; orchestrator completed the static demo export command, bundle format, timeline, honest evidence labels, docs, and tests locally.
 - [x] 2026-05-23 orchestrator — Phase 18B PR #45 merged at `5b2e98b22238421360f51389a48a37fbea9fa992`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 18C.
@@ -174,7 +175,7 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Blocked / skipped
 
-- [!] 2026-05-23 orchestrator — Cursor read-only recheck was attempted twice and stalled with no stdout/report; no files changed. Proceeding with local validation evidence and recorded blocker.
+- _(none)_
 
 ## Phase checklist
 
@@ -477,6 +478,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Static demo smoke PASS: `pnpm run export-static-demo -- --runs-root . --out /private/tmp/df-phase18c-static-demo-smoke` wrote `index.html`, `index.md`, and `manifest.json`; `rg -n "Dungeon Forge Static Demo|Version timeline|Trace-backed artifacts|runs/v003/acceptance.md|runs/comparisons/v001_vs_v003|accepted|partial|missing" /private/tmp/df-phase18c-static-demo-smoke` found expected evidence; `pnpm run export-static-demo -- --runs-root . --json` and `pnpm run export-static-demo -- --runs-root . --markdown` both passed. Re-read `phase-plans/PHASE-18C-STATIC-DEMO-PUBLISHING.md`; deliverables and acceptance criteria are satisfied locally before Cursor read-only recheck.
 - 2026-05-23 — orchestrator — Cursor read-only recheck blocker: generated `--mode=ask` audit prompt produced no output for about 90 seconds and was interrupted with Ctrl-C (exit 130, `Aborting operation...`); shorter read-only audit without `--mode=ask` also produced no output for about 90 seconds and was interrupted with Ctrl-C (exit 130). `git status --short --branch` showed no Cursor recheck edits beyond the existing Phase 18C implementation/progress files. Local tests, smokes, scope audit, and phase-plan audit remain the verification evidence for PR.
 - 2026-05-23 — orchestrator — Final pre-commit validation PASS after progress/recheck-blocker updates: `pnpm run check` passed 38 files / 348 tests plus typecheck, lint, build, CI smoke, and acceptance evidence; `git diff --check` PASS; `git diff -- src/game content concept-and-ideas phase-plans` empty. No generated `runs/` churn appeared in `git status --short --branch`.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck + orchestrator — Compact Cursor audit PASS after a tiny sanity check proved the CLI responsive. Cursor reported PHASE-18C meets the phase plan: `export-static-demo` exists, static bundle files are produced, timeline/comparison/artifact links and generated/accepted/rejected/blocked/partial/missing labels are present, missing evidence is not fabricated, export behavior is read-only, no hosting/marketing/gameplay scope was added, no secrets were found, and `git diff -- src/game content concept-and-ideas phase-plans` is empty. Cursor reported no file changes and `pnpm test tests/static-demo.test.ts` PASS (3/3).
 
 ---
 
