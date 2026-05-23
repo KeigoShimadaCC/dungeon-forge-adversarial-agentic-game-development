@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 19A — Extension Packs |
-| Goal | Define a bounded extension-pack model for local content, policies, personas, and scenarios. |
-| Branch | `phase/phase-19a-extension-packs` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-19a-extension-packs-wt` |
-| Base | `origin/main` at `c62b779` |
-| Status | `Implementation complete; PR pending` |
+| Phase | Phase 19B — Content Governance |
+| Goal | Add governance tooling for authored, generated, or extension-provided content before it enters gameplay. |
+| Branch | `phase/phase-19b-content-governance` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-19b-content-governance-wt` |
+| Base | `origin/main` at `6f53304` |
+| Status | `Ready for implementation` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-19A-EXTENSION-PACKS.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-19B-CONTENT-GOVERNANCE.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -56,10 +56,14 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
+- [ ] 2026-05-23 orchestrator — Generate Phase 19B automation bundle, create isolated worktree, confirm `composer-2.5`, and seed a checkpoint before implementation.
+- [ ] 2026-05-23 orchestrator/Cursor — Implement content governance command or validator module, rule docs, content diff summaries, and tests within Phase 19B scope.
+- [ ] 2026-05-23 orchestrator — Review implementation diff, run focused/full gates and governance smokes, request Cursor read-only recheck, and re-read Phase 19B acceptance.
 - [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Phase 19A PR #47 merged at `6f53304c53733c50b00900b5fe88887807c61c05`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 19B.
 - [x] 2026-05-23 orchestrator — Generated Phase 19A automation bundle under `runs/phase-runner/PHASE-19A/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-19a-extension-packs-wt`, confirmed `composer-2.5`, verified main handoff CI passed, and seeded progress before implementation.
 - [x] 2026-05-23 orchestrator — Review implementation diff, run focused/full gates and extension-pack smokes, and re-read Phase 19A acceptance.
 - [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Cursor implementation pass stalled after starting extension-pack fixtures, progress tasks, and protocol constants; orchestrator completed the loader/validator, run-evidence metadata plumbing, docs, exports, and tests locally.
@@ -187,20 +191,20 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-19A-EXTENSION-PACKS.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-19B-CONTENT-GOVERNANCE.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 19A — Extension Packs
+### Phase 19B — Content Governance
 
-- [x] Extension pack manifest exists.
-- [x] Loader and validator exist.
-- [x] Example accepted and rejected packs exist.
-- [x] Compatibility and security-limit documentation exists.
-- [x] Valid extension pack loads deterministically.
-- [x] Invalid manifest or forbidden capability is rejected.
-- [x] Extension metadata appears in run evidence.
-- [x] Default game works without extensions.
-- [x] Extensions preserve finite, turn-based, text/ASCII, seedable, structured-action gameplay and harness compatibility.
-- [x] Local final gates pass: `pnpm run check`, focused extension-pack tests/smokes, and `git diff --check`.
+- [ ] Content governance command or validator module exists.
+- [ ] Rule set documentation exists.
+- [ ] Content diff summary format exists.
+- [ ] Tests cover invalid, forbidden, and warning-only content.
+- [ ] Missing references fail validation.
+- [ ] Infinite or no-ending content settings are rejected.
+- [ ] Required media dependencies are rejected.
+- [ ] Valid content passes without warnings or with documented warnings.
+- [ ] Content findings are concrete and actionable before content affects playthroughs.
+- [ ] The game remains finite, seedable, text/ASCII playable, and harness compatible.
 
 ---
 
@@ -494,12 +498,22 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Extension-pack smoke PASS: `pnpm run run-version -- --version v019 --extension-pack reviewer_labs --runs-root /private/tmp/df-phase19a-extension-smoke --on-existing overwrite` wrote complete v019 trace/review/scorecard evidence; `pnpm run summarize-version -- --version v019 --runs-root /private/tmp/df-phase19a-extension-smoke --stdout-only` reported `extension_pack: reviewer_labs`, `extension_pack_label: Reviewer Labs`, `scenario_pack: shrine_trial`, and complete artifact coverage; `rg -n "extension_pack|extension_pack_label|scenario_pack|Reviewer Labs|reviewer_labs|shrine_trial" /private/tmp/df-phase19a-extension-smoke/runs/v019` found metadata in traces and scorecards. Re-read `phase-plans/PHASE-19A-EXTENSION-PACKS.md`; deliverables and acceptance criteria are satisfied locally before Cursor read-only recheck.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck + orchestrator — Compact Phase 19A audit PASS. Cursor confirmed the manifest, loader/validator, accepted/rejected examples, compatibility checks, local-only/security docs, trace/scorecard/version summary/comparison metadata, default-game behavior, validation evidence, no secrets, and no scope issues. Cursor reported no file changes and only PR/CI/phase-runner gate work remains.
 - 2026-05-23 — orchestrator — Final pre-commit check PASS after Cursor recheck/progress update: `git diff --check` produced no output and `pnpm test tests/extension-packs.test.ts` passed 1 file / 5 tests.
+- 2026-05-23 — orchestrator — Phase 19A PR #47 merged at `6f53304c53733c50b00900b5fe88887807c61c05` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-19A --evidence runs/phase-runner/PHASE-19A/planned/merge-evidence.json` returned `allow`. Cleanup complete: local `main` fast-forwarded, temporary worktree removed, local branch deleted, remote branch deleted, and automation state advanced to `PHASE-19B`.
+- 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 19B with initial task queue and checklist from `phase-plans/PHASE-19B-CONTENT-GOVERNANCE.md`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 19A — Extension Packs
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-19a-extension-packs` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/47
+- **Merge commit:** `6f53304c53733c50b00900b5fe88887807c61c05`
+- **Outcome:** Added local extension-pack manifest support, accepted `reviewer_labs` and rejected forbidden-capability fixtures, protocol compatibility constants, loader/validator, harness `--extension-pack` selection, default scenario-pack resolution, trace/scorecard/summary/comparison metadata, docs, exports, and focused tests.
+- **Key evidence:** Cursor/composer-2.5 partial implementation plus compact read-only recheck PASS; local `pnpm run check` passed with 39 files and 353 tests; focused extension/scenario/version-loop tests and extension-pack smoke evidence passed; `git diff --check` passed; PR #47 `Repo gates` passed before merge; phase-runner automerge gate returned `allow`.
 
 ### Phase 18C — Static Demo Publishing
 
