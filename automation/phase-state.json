@@ -221,5 +221,5 @@
     }
   },
   "schemaVersion": 1,
-  "sourceNote": "Initialized from user statement that work is complete through PHASE-12A and PHASE-13A is next. PROGRESS.MD may still need rotation on main."
+  "sourceNote": "All tracked PHASE-*.md plans from PHASE-00A through PHASE-19C are complete. PHASE-19C is the final planned phase in the current graph; PROGRESS.MD is rotated to post-completion audit state."
 }
