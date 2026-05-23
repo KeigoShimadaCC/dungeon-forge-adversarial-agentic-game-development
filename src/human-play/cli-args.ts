@@ -7,6 +7,9 @@ export interface ParsedHumanPlayCliArgs {
   scenarioPack?: string;
   mode: HumanPlayMode;
   scriptIndices?: number[];
+  sessionLabel?: string;
+  playtestNotes?: string;
+  notesFile?: string;
   maxSteps?: number;
   runsRoot: string;
   saveTrace: boolean;
@@ -26,6 +29,9 @@ Options:
   --script <i,j,...>     Non-interactive scripted indices into available actions
   --max-steps <n>        Optional step cap (default: derived from maxTurns)
   --save-trace           Write harness-compatible trace/scorecard under runs/
+  --label <text>         Optional local session label (max 64 chars, no PII required)
+  --notes <text>         Optional post-run feedback saved with --save-trace (max 2000 chars)
+  --notes-file <path>    Read post-run feedback from a local text file (used with --save-trace)
   --runs-root <path>     Root directory for saved traces (default: cwd)
   --help                 Show this help
 
@@ -43,6 +49,9 @@ export const parseHumanPlayCliArgs = (argv: string[]): ParsedHumanPlayCliArgs =>
   let maxSteps: number | undefined;
   let runsRoot = process.cwd();
   let saveTrace = false;
+  let sessionLabel: string | undefined;
+  let playtestNotes: string | undefined;
+  let notesFile: string | undefined;
   let help = false;
 
   for (let index = 0; index < tokens.length; index += 1) {
@@ -98,6 +107,21 @@ export const parseHumanPlayCliArgs = (argv: string[]): ParsedHumanPlayCliArgs =>
       saveTrace = true;
       continue;
     }
+    if (token === '--label') {
+      sessionLabel = tokens[index + 1];
+      index += 1;
+      continue;
+    }
+    if (token === '--notes') {
+      playtestNotes = tokens[index + 1];
+      index += 1;
+      continue;
+    }
+    if (token === '--notes-file') {
+      notesFile = tokens[index + 1];
+      index += 1;
+      continue;
+    }
     throw new Error(`Unknown argument: ${token}`);
   }
 
@@ -113,6 +137,9 @@ export const parseHumanPlayCliArgs = (argv: string[]): ParsedHumanPlayCliArgs =>
       ...(scenarioPack ? { scenarioPack } : {}),
       ...(scriptIndices ? { scriptIndices } : {}),
       ...(maxSteps !== undefined ? { maxSteps } : {}),
+      ...(sessionLabel ? { sessionLabel } : {}),
+      ...(playtestNotes ? { playtestNotes } : {}),
+      ...(notesFile ? { notesFile } : {}),
     };
   }
 
@@ -131,5 +158,8 @@ export const parseHumanPlayCliArgs = (argv: string[]): ParsedHumanPlayCliArgs =>
     ...(scenarioPack ? { scenarioPack } : {}),
     ...(scriptIndices ? { scriptIndices } : {}),
     ...(maxSteps !== undefined ? { maxSteps } : {}),
+    ...(sessionLabel ? { sessionLabel } : {}),
+    ...(playtestNotes ? { playtestNotes } : {}),
+    ...(notesFile ? { notesFile } : {}),
   };
 };

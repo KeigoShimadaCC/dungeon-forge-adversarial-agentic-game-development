@@ -13,9 +13,18 @@ import {
 import { normalizeChallengeModeId } from '../game/challenge-modes.js';
 import type { GameEvent, GameState, PlayerAction, TerminalStatus } from '../game/types.js';
 import {
+  buildScorecardRelativePath,
   buildTraceRelativePath,
   savePlaythroughArtifacts,
 } from '../harness/artifacts.js';
+import {
+  applyPlaytestMetadataToTrace,
+  assertHumanPlaytestTraceShape,
+  buildHumanPlaytestMetadata,
+  normalizeHumanPlaytestNotes,
+  normalizeSessionLabel,
+  saveHumanPlaytestNotes,
+} from '../harness/playtest-metadata.js';
 import {
   deterministicFallback,
   findMatchingAvailableAction,
@@ -118,12 +127,18 @@ export const runHumanPlaySession = async (
     scenarioPack,
     mode = 'auto',
     scriptIndices,
+    sessionLabel,
+    playtestNotes,
     saveTrace = false,
     runsRoot = process.cwd(),
   } = options;
 
   const normalizedChallenge = normalizeChallengeModeId(challengeMode);
   const normalizedPack = normalizeScenarioPackId(scenarioPack);
+  const normalizedSessionLabel = sessionLabel ? normalizeSessionLabel(sessionLabel) : undefined;
+  const normalizedPlaytestNotes = playtestNotes
+    ? normalizeHumanPlaytestNotes(playtestNotes)
+    : undefined;
   const gameConfig = resolveGameConfigForRun(version, normalizedChallenge, normalizedPack);
   let state = start(seed, gameConfig);
   const baseMetadata = buildTraceMetadata(seed, version, normalizedChallenge, normalizedPack);
@@ -141,24 +156,27 @@ export const runHumanPlaySession = async (
   let stepsTaken = 0;
   let aborted = false;
 
-  const traceBase: PlaythroughTrace = {
-    version,
-    seed,
-    persona: HUMAN_PLAYER_PERSONA,
-    result: 'ACTIVE',
-    turns: 0,
-    steps,
-    ...(normalizedChallenge ? { challenge_mode: normalizedChallenge } : {}),
-    ...(normalizedPack
-      ? {
-          scenario_pack: normalizedPack,
-          ...(getScenarioPackLabel(normalizedPack)
-            ? { scenario_pack_label: getScenarioPackLabel(normalizedPack) }
-            : {}),
-        }
-      : {}),
-    metadata: baseMetadata,
-  };
+  const traceBase = applyPlaytestMetadataToTrace(
+    {
+      version,
+      seed,
+      persona: HUMAN_PLAYER_PERSONA,
+      result: 'ACTIVE',
+      turns: 0,
+      steps,
+      ...(normalizedChallenge ? { challenge_mode: normalizedChallenge } : {}),
+      ...(normalizedPack
+        ? {
+            scenario_pack: normalizedPack,
+            ...(getScenarioPackLabel(normalizedPack)
+              ? { scenario_pack_label: getScenarioPackLabel(normalizedPack) }
+              : {}),
+          }
+        : {}),
+      metadata: baseMetadata,
+    },
+    buildHumanPlaytestMetadata(mode, normalizedSessionLabel),
+  );
 
   while (!isTerminal(state) && stepsTaken < maxSteps && !aborted) {
     const turn = state.turn;
@@ -292,14 +310,30 @@ export const runHumanPlaySession = async (
   };
   const scorecard = deriveScorecardFromTrace(trace, traceRelative, undefined, trace.metadata);
   validateScorecard(scorecard);
+  assertHumanPlaytestTraceShape(trace);
 
   let tracePath: string | undefined;
   let scorecardPath: string | undefined;
+  let notesPath: string | undefined;
 
   if (saveTrace) {
     const artifacts = await savePlaythroughArtifacts(runsRoot, trace, scorecard);
     tracePath = artifacts.tracePath;
     scorecardPath = artifacts.scorecardPath;
+
+    if (normalizedPlaytestNotes) {
+      const notes = await saveHumanPlaytestNotes(runsRoot, {
+        version,
+        seed,
+        persona: HUMAN_PLAYER_PERSONA,
+        humanPlayMode: mode,
+        tracePath: buildTraceRelativePath(version, seed, HUMAN_PLAYER_PERSONA),
+        scorecardPath: buildScorecardRelativePath(version, seed, HUMAN_PLAYER_PERSONA),
+        ...(normalizedSessionLabel ? { sessionLabel: normalizedSessionLabel } : {}),
+        notes: normalizedPlaytestNotes,
+      });
+      notesPath = notes.notesPath;
+    }
   }
 
   return {
@@ -308,5 +342,6 @@ export const runHumanPlaySession = async (
     aborted,
     ...(tracePath ? { tracePath } : {}),
     ...(scorecardPath ? { scorecardPath } : {}),
+    ...(notesPath ? { notesPath } : {}),
   };
 };

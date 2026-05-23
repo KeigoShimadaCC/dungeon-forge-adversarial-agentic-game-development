@@ -130,6 +130,14 @@ export interface PlaythroughTrace {
   result: TerminalStatus;
   turns: number;
   steps: TraceStep[];
+  /** Distinguishes harness/agent runs from local human playtest runs. */
+  player_kind?: import('./playtest-metadata.js').PlayerKind;
+  /** Present for agent runs: baseline policy vs LLM persona. */
+  agent_policy_class?: import('./playtest-metadata.js').AgentPolicyClass;
+  /** Present for human playtest runs. */
+  human_play_mode?: import('../human-play/types.js').HumanPlayMode;
+  /** Optional local session label (no private user data required). */
+  session_label?: string;
   /** Set when an explicit finite challenge preset was selected for the run. */
   challenge_mode?: string;
   /** Set when an explicit bounded scenario content pack was selected for the run. */
@@ -166,6 +174,11 @@ export interface PlaythroughScorecard {
   version: string;
   seed: string;
   persona: string;
+  /** Mirrors trace player_kind for summary/comparison filtering. */
+  player_kind?: import('./playtest-metadata.js').PlayerKind;
+  agent_policy_class?: import('./playtest-metadata.js').AgentPolicyClass;
+  human_play_mode?: import('../human-play/types.js').HumanPlayMode;
+  session_label?: string;
   /** Mirrors trace challenge_mode when a finite challenge preset was selected. */
   challenge_mode?: string;
   /** Mirrors trace scenario_pack when a bounded scenario pack was selected. */

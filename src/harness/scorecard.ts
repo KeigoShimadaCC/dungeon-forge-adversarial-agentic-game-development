@@ -4,6 +4,7 @@ import {
   deriveItemEvaluationMetrics,
   deriveProblemRunDiagnostics,
 } from './trace-diagnostics.js';
+import { playtestMetadataFromTrace } from './playtest-metadata.js';
 import type {
   PlaythroughScorecard,
   PlaythroughTrace,
@@ -130,10 +131,12 @@ export const deriveScorecardFromTrace = (
   const item_evaluation = deriveItemEvaluationMetrics(trace);
   const trap_resources = deriveTrapResourceMetricsFromEvents(trace.steps);
 
+  const playtestMetadata = playtestMetadataFromTrace(trace);
   const baseScorecard: PlaythroughScorecard = {
     version: trace.version,
     seed: trace.seed,
     persona: trace.persona,
+    ...playtestMetadata,
     ...(trace.challenge_mode ? { challenge_mode: trace.challenge_mode } : {}),
     ...(trace.scenario_pack ? { scenario_pack: trace.scenario_pack } : {}),
     ...(trace.scenario_pack_label ? { scenario_pack_label: trace.scenario_pack_label } : {}),
@@ -236,6 +239,38 @@ export const validateScorecard = (scorecard: PlaythroughScorecard): void => {
     (typeof record.scenario_pack_label !== 'string' || record.scenario_pack_label.length === 0)
   ) {
     throw new Error('Scorecard scenario_pack_label must be a non-empty string when present');
+  }
+
+  if (record.player_kind !== undefined) {
+    if (record.player_kind !== 'agent' && record.player_kind !== 'human') {
+      throw new Error('Scorecard player_kind must be "agent" or "human" when present');
+    }
+  }
+
+  if (record.agent_policy_class !== undefined) {
+    if (record.agent_policy_class !== 'baseline' && record.agent_policy_class !== 'llm_persona') {
+      throw new Error(
+        'Scorecard agent_policy_class must be "baseline" or "llm_persona" when present',
+      );
+    }
+  }
+
+  if (record.human_play_mode !== undefined) {
+    if (
+      record.human_play_mode !== 'terminal' &&
+      record.human_play_mode !== 'auto' &&
+      record.human_play_mode !== 'script'
+    ) {
+      throw new Error(
+        'Scorecard human_play_mode must be terminal, auto, or script when present',
+      );
+    }
+  }
+
+  if (record.session_label !== undefined) {
+    if (typeof record.session_label !== 'string' || record.session_label.length === 0) {
+      throw new Error('Scorecard session_label must be a non-empty string when present');
+    }
   }
 
   if (record.enemy_behaviors !== undefined) {
