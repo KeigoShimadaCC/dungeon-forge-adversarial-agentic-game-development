@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "19A",
+  "id": "rejected_forbidden",
+  "label": "Rejected Example",
+  "description": "Example pack that must fail validation because it requests forbidden capabilities. Not registered in extension-packs.json.",
+  "compatibility": {
+    "engineProtocolVersion": "1",
+    "artifactSchemaVersion": "1"
+  },
+  "capabilities": ["execute_code"],
+  "components": {}
+}

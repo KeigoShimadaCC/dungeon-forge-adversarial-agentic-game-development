@@ -110,6 +110,29 @@ export {
 } from './artifact-write-policy.js';
 export { parseHarnessCliCommonArgs, type HarnessCliCommonArgs } from './cli-args.js';
 export {
+  DEFAULT_EXTENSION_PACK_ID,
+  EXTENSION_PACKS_SCHEMA_VERSION,
+  ExtensionPackValidationError,
+  REJECTED_FORBIDDEN_CAPABILITY_EXTENSION_PACK,
+  assertExtensionPackId,
+  getExtensionPackLabel,
+  getExtensionPackManifestEntry,
+  listExtensionPackIds,
+  loadExtensionPack,
+  loadExtensionPacksManifest,
+  normalizeExtensionPackId,
+  resolveExtensionRunSelection,
+  validateExtensionPack,
+  validateExtensionPacksManifest,
+  type ExtensionPack,
+  type ExtensionPackCapability,
+  type ExtensionPackComponents,
+  type ExtensionPacksManifest,
+  type ExtensionPacksManifestEntry,
+  type ExtensionRunSelection,
+  type ExtensionScenarioPreset,
+} from './extension-packs.js';
+export {
   buildArtifactBasename,
   buildReviewRelativePath,
   buildScorecardRelativePath,

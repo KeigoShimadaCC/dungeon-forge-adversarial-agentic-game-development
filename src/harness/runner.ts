@@ -11,6 +11,7 @@ import {
   normalizeScenarioPackId,
   resolveGameConfigForRun,
 } from '../game/scenario-packs.js';
+import { resolveExtensionRunSelection } from './extension-packs.js';
 import type { GameEvent, GameState, JsonObject, TerminalStatus } from '../game/types.js';
 import { findMatchingAvailableAction } from './baseline-players/helpers.js';
 import type { BaselinePlayerInput } from './baseline-players/types.js';
@@ -60,6 +61,8 @@ export interface RunPlaythroughOptions {
   challengeMode?: string;
   /** Explicit bounded scenario content pack id (omit for default gameplay). */
   scenarioPack?: string;
+  /** Explicit local extension pack id (omit for default gameplay). */
+  extensionPack?: string;
   /** When true, run the harness loop without writing trace/scorecard artifacts. */
   dryRun?: boolean;
 }
@@ -126,7 +129,11 @@ export const runPlaythrough = async (
           })());
 
   const challengeMode = normalizeChallengeModeId(options.challengeMode);
-  const scenarioPack = normalizeScenarioPackId(options.scenarioPack);
+  const extensionSelection = resolveExtensionRunSelection(
+    options.extensionPack,
+    options.scenarioPack,
+  );
+  const scenarioPack = extensionSelection.scenarioPackId;
   const gameConfig = resolveGameConfigForRun(version, challengeMode, scenarioPack);
   let state = start(seed, gameConfig);
   const baseMetadata = buildTraceMetadata(seed, version, challengeMode, scenarioPack);
@@ -150,6 +157,14 @@ export const runPlaythrough = async (
           scenario_pack: scenarioPack,
           ...(getScenarioPackLabel(scenarioPack)
             ? { scenario_pack_label: getScenarioPackLabel(scenarioPack) }
+            : {}),
+        }
+      : {}),
+    ...(extensionSelection.extensionPackId
+      ? {
+          extension_pack: extensionSelection.extensionPackId,
+          ...(extensionSelection.extensionPackLabel
+            ? { extension_pack_label: extensionSelection.extensionPackLabel }
             : {}),
         }
       : {}),
@@ -346,6 +361,7 @@ export const parseSimulateSeedArgs = (
   maxSteps?: number;
   challengeMode?: string;
   scenarioPack?: string;
+  extensionPack?: string;
   policy?: HarnessPlayerPolicy;
 } => {
   let seed: string | undefined;
@@ -354,6 +370,7 @@ export const parseSimulateSeedArgs = (
   let maxSteps: number | undefined;
   let challengeMode: string | undefined;
   let scenarioPack: string | undefined;
+  let extensionPack: string | undefined;
   const llm = parseHarnessLlmCliArgs(argv);
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -395,6 +412,11 @@ export const parseSimulateSeedArgs = (
     if (token === '--scenario-pack' && argv[index + 1]) {
       scenarioPack = normalizeScenarioPackId(argv[index + 1]);
       index += 1;
+      continue;
+    }
+    if (token === '--extension-pack' && argv[index + 1]) {
+      extensionPack = argv[index + 1];
+      index += 1;
     }
   }
 
@@ -425,6 +447,7 @@ export const parseSimulateSeedArgs = (
       maxSteps,
       challengeMode,
       scenarioPack,
+      extensionPack,
       policy: createPersonaPolicyForRun(
         policyId,
         seed,
@@ -440,7 +463,7 @@ export const parseSimulateSeedArgs = (
     );
   }
 
-  return { seed, policyId, version, maxSteps, challengeMode, scenarioPack };
+  return { seed, policyId, version, maxSteps, challengeMode, scenarioPack, extensionPack };
 };
 
 export { isBaselinePolicyId, BASELINE_POLICY_IDS, isLlmPlayerPersona, LLM_PLAYER_PERSONA_IDS } from './policy-registry.js';

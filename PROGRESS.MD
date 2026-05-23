@@ -12,8 +12,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | Goal | Define a bounded extension-pack model for local content, policies, personas, and scenarios. |
 | Branch | `phase/phase-19a-extension-packs` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-19a-extension-packs-wt` |
-| Base | `origin/main` at `c835f5a` |
-| Status | `Queued; automation handoff pending` |
+| Base | `origin/main` at `c62b779` |
+| Status | `Implementation complete; PR pending` |
 
 ### Contract (read before editing)
 
@@ -56,13 +56,17 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### Open
 
-- [ ] 2026-05-23 orchestrator — Generate Phase 19A automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
-- [ ] 2026-05-23 Cursor/composer-2.5 — Implement extension manifest, loader/validator, accepted/rejected example packs, compatibility checks, run-evidence metadata, docs, and tests within Phase 19A scope.
-- [ ] 2026-05-23 orchestrator — Review implementation diff, run focused/full gates and extension-pack smokes, request Cursor read-only recheck, and re-read Phase 19A acceptance.
 - [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
+- [x] 2026-05-23 orchestrator — Generated Phase 19A automation bundle under `runs/phase-runner/PHASE-19A/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-19a-extension-packs-wt`, confirmed `composer-2.5`, verified main handoff CI passed, and seeded progress before implementation.
+- [x] 2026-05-23 orchestrator — Review implementation diff, run focused/full gates and extension-pack smokes, and re-read Phase 19A acceptance.
+- [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Cursor implementation pass stalled after starting extension-pack fixtures, progress tasks, and protocol constants; orchestrator completed the loader/validator, run-evidence metadata plumbing, docs, exports, and tests locally.
+- [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Added protocol version constants and extension-pack manifest/loader/validator module.
+- [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Wired `--extension-pack` / extension scenario resolution through harness, traces, scorecards, summaries, and comparisons.
+- [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Added accepted/rejected example packs, `docs/EXTENSION-PACKS.md`, focused tests, and local validation gates.
+- [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 19A PASS; no implementation gaps found, no files changed, and merge readiness remains pending PR/CI/phase-runner gate only.
 - [x] 2026-05-23 orchestrator — Generated Phase 18C automation bundle under `runs/phase-runner/PHASE-18C/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18c-static-demo-publishing-wt`, confirmed `composer-2.5`, and seeded progress before implementation.
 - [x] 2026-05-23 orchestrator — Phase 18C PR #46 merged at `c835f5a3c18b7a63f26cbf0242e8f19c6ad90a79`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 19A.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 18C PASS on compact retry after larger audit prompts stalled; no files changed, and merge readiness remains pending PR/CI/phase-runner gate only.
@@ -187,16 +191,16 @@ _Derived from `phase-plans/PHASE-19A-EXTENSION-PACKS.md`. Tick when verified aga
 
 ### Phase 19A — Extension Packs
 
-- [ ] Extension pack manifest exists.
-- [ ] Loader and validator exist.
-- [ ] Example accepted and rejected packs exist.
-- [ ] Compatibility and security-limit documentation exists.
-- [ ] Valid extension pack loads deterministically.
-- [ ] Invalid manifest or forbidden capability is rejected.
-- [ ] Extension metadata appears in run evidence.
-- [ ] Default game works without extensions.
-- [ ] Extensions preserve finite, turn-based, text/ASCII, seedable, structured-action gameplay and harness compatibility.
-- [ ] Local final gates pass: `pnpm run check`, focused extension-pack tests/smokes, and `git diff --check`.
+- [x] Extension pack manifest exists.
+- [x] Loader and validator exist.
+- [x] Example accepted and rejected packs exist.
+- [x] Compatibility and security-limit documentation exists.
+- [x] Valid extension pack loads deterministically.
+- [x] Invalid manifest or forbidden capability is rejected.
+- [x] Extension metadata appears in run evidence.
+- [x] Default game works without extensions.
+- [x] Extensions preserve finite, turn-based, text/ASCII, seedable, structured-action gameplay and harness compatibility.
+- [x] Local final gates pass: `pnpm run check`, focused extension-pack tests/smokes, and `git diff --check`.
 
 ---
 
@@ -483,6 +487,13 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck + orchestrator — Compact Cursor audit PASS after a tiny sanity check proved the CLI responsive. Cursor reported PHASE-18C meets the phase plan: `export-static-demo` exists, static bundle files are produced, timeline/comparison/artifact links and generated/accepted/rejected/blocked/partial/missing labels are present, missing evidence is not fabricated, export behavior is read-only, no hosting/marketing/gameplay scope was added, no secrets were found, and `git diff -- src/game content concept-and-ideas phase-plans` is empty. Cursor reported no file changes and `pnpm test tests/static-demo.test.ts` PASS (3/3).
 - 2026-05-23 — orchestrator — Phase 18C PR #46 merged at `c835f5a3c18b7a63f26cbf0242e8f19c6ad90a79` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-18C --evidence runs/phase-runner/PHASE-18C/planned/merge-evidence.json` returned `allow`. `gh pr merge` reported a local checkout error because `main` is already a separate worktree, but GitHub confirmed the PR was merged. Cleanup complete: local `main` fast-forwarded, temporary worktree removed, local branch deleted, remote branch pruned, and automation state advanced to `PHASE-19A`.
 - 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 19A with initial task queue and checklist from `phase-plans/PHASE-19A-EXTENSION-PACKS.md`.
+- 2026-05-23 — orchestrator — Phase 19A automation start: main handoff commit `c62b779` pushed and GitHub `Repo gates` passed; `pnpm run phase -- bundle --phase PHASE-19A --run-id planned` wrote Codex/Cursor prompt bundle under ignored `runs/phase-runner/PHASE-19A/planned`; created worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-19a-extension-packs-wt` on branch `phase/phase-19a-extension-packs` from `origin/main` at `c62b779`; `command -v agent` resolved `/Users/keigoshimada/.local/bin/agent`.
+- 2026-05-23 — orchestrator — Cursor preflight PASS: escalated `agent --list-models` confirmed `composer-2.5` is available/current. Seed checkpoint next before implementation delegation.
+- 2026-05-23 — Cursor/composer-2.5 + orchestrator — Cursor implementation pass produced no stdout and was interrupted after a bounded wait. It left useful Phase 19A scaffolding (`content/extension-packs.json`, `content/extensions/**`, `src/game/protocol-versions.ts`, and progress task updates). Orchestrator completed the phase locally: `src/harness/extension-packs.ts`, harness `--extension-pack` parsing, extension default scenario resolution, trace/scorecard/summary/comparison metadata, docs, exports, accepted/rejected fixtures, and focused tests.
+- 2026-05-23 — orchestrator — Local Phase 19A validation PASS. `pnpm install` was needed because the fresh worktree lacked `node_modules`; lockfile stayed unchanged. Focused tests PASS: `pnpm test tests/extension-packs.test.ts` (5 tests), then `pnpm test tests/extension-packs.test.ts tests/scenario-packs.test.ts tests/version-loop.test.ts` (26 tests). Gates PASS: `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `pnpm run check` (39 files, 353 tests plus typecheck/lint/build/ci-smoke/acceptance evidence); `git diff --check`; `git diff -- concept-and-ideas phase-plans` empty.
+- 2026-05-23 — orchestrator — Extension-pack smoke PASS: `pnpm run run-version -- --version v019 --extension-pack reviewer_labs --runs-root /private/tmp/df-phase19a-extension-smoke --on-existing overwrite` wrote complete v019 trace/review/scorecard evidence; `pnpm run summarize-version -- --version v019 --runs-root /private/tmp/df-phase19a-extension-smoke --stdout-only` reported `extension_pack: reviewer_labs`, `extension_pack_label: Reviewer Labs`, `scenario_pack: shrine_trial`, and complete artifact coverage; `rg -n "extension_pack|extension_pack_label|scenario_pack|Reviewer Labs|reviewer_labs|shrine_trial" /private/tmp/df-phase19a-extension-smoke/runs/v019` found metadata in traces and scorecards. Re-read `phase-plans/PHASE-19A-EXTENSION-PACKS.md`; deliverables and acceptance criteria are satisfied locally before Cursor read-only recheck.
+- 2026-05-23 — Cursor/composer-2.5 read-only recheck + orchestrator — Compact Phase 19A audit PASS. Cursor confirmed the manifest, loader/validator, accepted/rejected examples, compatibility checks, local-only/security docs, trace/scorecard/version summary/comparison metadata, default-game behavior, validation evidence, no secrets, and no scope issues. Cursor reported no file changes and only PR/CI/phase-runner gate work remains.
+- 2026-05-23 — orchestrator — Final pre-commit check PASS after Cursor recheck/progress update: `git diff --check` produced no output and `pnpm test tests/extension-packs.test.ts` passed 1 file / 5 tests.
 
 ---
 

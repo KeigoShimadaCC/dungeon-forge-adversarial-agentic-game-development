@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "19A",
+  "packs": [
+    {
+      "id": "reviewer_labs",
+      "label": "Reviewer Labs",
+      "description": "Local extension bundling shrine trial content, baseline policies, reviewer personas, and a smoke preset for bounded experimentation.",
+      "packFile": "extensions/reviewer-labs.json"
+    }
+  ]
+}

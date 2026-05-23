@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "19A",
+  "id": "reviewer_labs",
+  "label": "Reviewer Labs",
+  "description": "Bundles shrine trial content with reviewer-focused presets for local experimentation.",
+  "compatibility": {
+    "engineProtocolVersion": "1",
+    "artifactSchemaVersion": "1"
+  },
+  "capabilities": [
+    "local_content",
+    "baseline_policies",
+    "reviewer_personas",
+    "scenario_presets"
+  ],
+  "components": {
+    "scenarioPack": "shrine_trial",
+    "baselinePolicies": ["greedy-item-picker", "stairs-seeking"],
+    "reviewerPersonas": [
+      {
+        "id": "bug_hunter",
+        "notes": "Primary persona for protocol probing in this pack."
+      },
+      {
+        "id": "careful_player"
+      }
+    ],
+    "scenarioPresets": [
+      {
+        "id": "labs_smoke",
+        "label": "Labs smoke",
+        "description": "Quick shrine trial smoke run with stairs-seeking on seed_002.",
+        "seed": "seed_002",
+        "policy": "stairs-seeking",
+        "scenarioPack": "shrine_trial"
+      }
+    ]
+  }
+}
