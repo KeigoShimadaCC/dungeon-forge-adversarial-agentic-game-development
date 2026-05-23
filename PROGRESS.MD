@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | Phase 18C — Static Demo Publishing |
-| Goal | Generate shareable static demo bundles from local adversarial-loop evidence. |
-| Branch | `phase/phase-18c-static-demo-publishing` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-18c-static-demo-publishing-wt` |
-| Base | `origin/main` at `e3cee62` |
-| Status | `Implementation complete; PR pending` |
+| Phase | Phase 19A — Extension Packs |
+| Goal | Define a bounded extension-pack model for local content, policies, personas, and scenarios. |
+| Branch | `phase/phase-19a-extension-packs` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-19a-extension-packs-wt` |
+| Base | `origin/main` at `c835f5a` |
+| Status | `Queued; automation handoff pending` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-18C-STATIC-DEMO-PUBLISHING.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-19A-EXTENSION-PACKS.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -52,15 +52,19 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ### In progress
 
-- [~] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
+- _(none)_
 
 ### Open
 
-- _(none)_
+- [ ] 2026-05-23 orchestrator — Generate Phase 19A automation bundle, create isolated worktree, confirm `composer-2.5`, and seed progress before implementation.
+- [ ] 2026-05-23 Cursor/composer-2.5 — Implement extension manifest, loader/validator, accepted/rejected example packs, compatibility checks, run-evidence metadata, docs, and tests within Phase 19A scope.
+- [ ] 2026-05-23 orchestrator — Review implementation diff, run focused/full gates and extension-pack smokes, request Cursor read-only recheck, and re-read Phase 19A acceptance.
+- [ ] 2026-05-23 orchestrator — Open PR, verify GitHub `Repo gates`, run phase-runner merge gate, merge, cleanup worktree/branches, and advance automation state.
 
 ### Done
 
 - [x] 2026-05-23 orchestrator — Generated Phase 18C automation bundle under `runs/phase-runner/PHASE-18C/planned`, created isolated worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-18c-static-demo-publishing-wt`, confirmed `composer-2.5`, and seeded progress before implementation.
+- [x] 2026-05-23 orchestrator — Phase 18C PR #46 merged at `c835f5a3c18b7a63f26cbf0242e8f19c6ad90a79`; verified `Repo gates`, phase-runner gate `allow`, deleted local/remote branches, removed clean worktree, and advanced automation state to Phase 19A.
 - [x] 2026-05-23 Cursor/composer-2.5 read-only recheck + orchestrator — Functional Phase 18C PASS on compact retry after larger audit prompts stalled; no files changed, and merge readiness remains pending PR/CI/phase-runner gate only.
 - [x] 2026-05-23 orchestrator — Review implementation diff, run focused/full gates and static demo smoke, and re-read Phase 18C acceptance.
 - [x] 2026-05-23 Cursor/composer-2.5 + orchestrator — Cursor implementation pass stalled after creating a partial `src/static-demo/` tree; orchestrator completed the static demo export command, bundle format, timeline, honest evidence labels, docs, and tests locally.
@@ -179,22 +183,20 @@ _Agents add and own granular tasks here. Prefer small, verifiable items. Include
 
 ## Phase checklist
 
-_Derived from `phase-plans/PHASE-18C-STATIC-DEMO-PUBLISHING.md`. Tick when verified against the repo, not when merely attempted._
+_Derived from `phase-plans/PHASE-19A-EXTENSION-PACKS.md`. Tick when verified against the repo, not when merely attempted._
 
-### Phase 18C — Static Demo Publishing
+### Phase 19A — Extension Packs
 
-- [x] Static demo export command exists.
-- [x] Exported demo bundle format exists.
-- [x] Version timeline summary is included.
-- [x] Traces, reviews, scorecards, changelogs, and acceptance evidence are linked or summarized.
-- [x] Generated, accepted, rejected, blocked, and partial evidence are clearly labeled.
-- [x] Complete evidence produces a complete static bundle.
-- [x] Missing artifacts are called out in the bundle.
-- [x] Export does not mutate original evidence.
-- [x] Generated bundle includes version comparisons and acceptance status.
-- [x] Claims in the demo trace back to saved artifacts.
-- [x] Partial or rejected versions remain visible when included.
-- [x] Local final gates pass: `pnpm run check`, focused static demo tests/smoke, and `git diff --check`.
+- [ ] Extension pack manifest exists.
+- [ ] Loader and validator exist.
+- [ ] Example accepted and rejected packs exist.
+- [ ] Compatibility and security-limit documentation exists.
+- [ ] Valid extension pack loads deterministically.
+- [ ] Invalid manifest or forbidden capability is rejected.
+- [ ] Extension metadata appears in run evidence.
+- [ ] Default game works without extensions.
+- [ ] Extensions preserve finite, turn-based, text/ASCII, seedable, structured-action gameplay and harness compatibility.
+- [ ] Local final gates pass: `pnpm run check`, focused extension-pack tests/smokes, and `git diff --check`.
 
 ---
 
@@ -479,12 +481,22 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — Cursor read-only recheck blocker: generated `--mode=ask` audit prompt produced no output for about 90 seconds and was interrupted with Ctrl-C (exit 130, `Aborting operation...`); shorter read-only audit without `--mode=ask` also produced no output for about 90 seconds and was interrupted with Ctrl-C (exit 130). `git status --short --branch` showed no Cursor recheck edits beyond the existing Phase 18C implementation/progress files. Local tests, smokes, scope audit, and phase-plan audit remain the verification evidence for PR.
 - 2026-05-23 — orchestrator — Final pre-commit validation PASS after progress/recheck-blocker updates: `pnpm run check` passed 38 files / 348 tests plus typecheck, lint, build, CI smoke, and acceptance evidence; `git diff --check` PASS; `git diff -- src/game content concept-and-ideas phase-plans` empty. No generated `runs/` churn appeared in `git status --short --branch`.
 - 2026-05-23 — Cursor/composer-2.5 read-only recheck + orchestrator — Compact Cursor audit PASS after a tiny sanity check proved the CLI responsive. Cursor reported PHASE-18C meets the phase plan: `export-static-demo` exists, static bundle files are produced, timeline/comparison/artifact links and generated/accepted/rejected/blocked/partial/missing labels are present, missing evidence is not fabricated, export behavior is read-only, no hosting/marketing/gameplay scope was added, no secrets were found, and `git diff -- src/game content concept-and-ideas phase-plans` is empty. Cursor reported no file changes and `pnpm test tests/static-demo.test.ts` PASS (3/3).
+- 2026-05-23 — orchestrator — Phase 18C PR #46 merged at `c835f5a3c18b7a63f26cbf0242e8f19c6ad90a79` after GitHub `Repo gates` passed and `pnpm run phase -- gate --phase PHASE-18C --evidence runs/phase-runner/PHASE-18C/planned/merge-evidence.json` returned `allow`. `gh pr merge` reported a local checkout error because `main` is already a separate worktree, but GitHub confirmed the PR was merged. Cleanup complete: local `main` fast-forwarded, temporary worktree removed, local branch deleted, remote branch pruned, and automation state advanced to `PHASE-19A`.
+- 2026-05-23 — orchestrator — Rotated active progress handoff to Phase 19A with initial task queue and checklist from `phase-plans/PHASE-19A-EXTENSION-PACKS.md`.
 
 ---
 
 ## Phase archive
 
 _Completed phases: summary only. Do not edit except to fix factual errors. Start a fresh checklist when rotating the active phase._
+
+### Phase 18C — Static Demo Publishing
+
+- **Status:** `done`
+- **Branch / PR:** `phase/phase-18c-static-demo-publishing` — https://github.com/KeigoShimadaCC/dungeon-forge-adversarial-agentic-game-development/pull/46
+- **Merge commit:** `c835f5a3c18b7a63f26cbf0242e8f19c6ad90a79`
+- **Outcome:** Added `pnpm run export-static-demo`, read-only static demo bundle generation, HTML/Markdown/manifest outputs, version timeline and comparison summaries, trace/review/scorecard/changelog/acceptance links, generated/accepted/rejected/blocked/partial/missing labels, missing-evidence visibility, docs, exports, and focused tests.
+- **Key evidence:** Cursor/composer-2.5 partial implementation plus compact read-only recheck PASS; local `pnpm run check` passed with 38 files and 348 tests; focused static-demo/dashboard tests and HTML/JSON/Markdown CLI smokes passed; `git diff --check` passed; PR #46 `Repo gates` passed before merge; phase-runner automerge gate returned `allow`.
 
 ### Phase 18B — Balance Analytics
 
