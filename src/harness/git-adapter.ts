@@ -1,4 +1,4 @@
-import { access, readFile } from 'node:fs/promises';
+import { access, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 
 import {
@@ -88,6 +88,44 @@ const parsePorcelainStatus = (raw: string): GitStatus => {
   return { branch, clean, porcelain, raw };
 };
 
+const parsePathList = (stdout: string): string[] =>
+  stdout
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+
+const uniqueSortedPaths = (paths: string[]): string[] =>
+  [...new Set(paths.filter((changedPath) => changedPath.length > 0))].sort((a, b) =>
+    a.localeCompare(b),
+  );
+
+const readUntrackedContentForDiff = async (
+  worktreePath: string,
+  changedPath: string,
+): Promise<string> => {
+  const fullPath = path.join(worktreePath, changedPath);
+  const fileStat = await stat(fullPath).catch(() => undefined);
+  if (!fileStat?.isFile()) {
+    return `\n--- untracked file skipped: ${changedPath} (not a regular file)\n`;
+  }
+  if (fileStat.size > 1024 * 1024) {
+    return `\n--- untracked file skipped: ${changedPath} (larger than 1 MiB)\n`;
+  }
+  const buffer = await readFile(fullPath).catch(() => undefined);
+  if (!buffer) {
+    return `\n--- untracked file skipped: ${changedPath} (unreadable)\n`;
+  }
+  if (buffer.includes(0)) {
+    return `\n--- untracked file skipped: ${changedPath} (binary content)\n`;
+  }
+  return [
+    '',
+    `--- untracked file: ${changedPath}`,
+    `+++ untracked file: ${changedPath}`,
+    buffer.toString('utf8'),
+  ].join('\n');
+};
+
 export const createGitAdapter = (executor: CommandExecutor = createSpawnCommandExecutor()): GitAdapter => ({
   async fetchOrigin(repoRoot, evidenceDir) {
     return runGit(executor, repoRoot, evidenceDir, 'git-fetch-origin', 'fetch origin');
@@ -120,19 +158,23 @@ export const createGitAdapter = (executor: CommandExecutor = createSpawnCommandE
   },
 
   async changedPaths(worktreePath, baseRef, evidenceDir) {
-    const paths = commandPaths(evidenceDir, 'git-diff-names');
-    const result = await executor.run(`git diff --name-only ${quoteShell(baseRef)}`, {
+    const trackedPaths = commandPaths(evidenceDir, 'git-diff-names');
+    const trackedResult = await executor.run(`git diff --name-only ${quoteShell(baseRef)}`, {
       cwd: worktreePath,
-      ...paths,
+      ...trackedPaths,
     });
-    if (commandEvidenceStatus(result) !== 'pass') {
-      return [];
-    }
-    const stdout = await readFile(result.stdoutPath, 'utf8');
-    return stdout
-      .split('\n')
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0);
+    const untrackedPaths = commandPaths(evidenceDir, 'git-untracked-names');
+    const untrackedResult = await executor.run('git ls-files --others --exclude-standard', {
+      cwd: worktreePath,
+      ...untrackedPaths,
+    });
+    const tracked = commandEvidenceStatus(trackedResult) === 'pass'
+      ? parsePathList(await readFile(trackedResult.stdoutPath, 'utf8'))
+      : [];
+    const untracked = commandEvidenceStatus(untrackedResult) === 'pass'
+      ? parsePathList(await readFile(untrackedResult.stdoutPath, 'utf8'))
+      : [];
+    return uniqueSortedPaths([...tracked, ...untracked]);
   },
 
   async diffText(worktreePath, baseRef, evidenceDir) {
@@ -141,10 +183,22 @@ export const createGitAdapter = (executor: CommandExecutor = createSpawnCommandE
       cwd: worktreePath,
       ...paths,
     });
-    if (commandEvidenceStatus(result) !== 'pass') {
-      return '';
+    const diff = commandEvidenceStatus(result) === 'pass'
+      ? await readFile(result.stdoutPath, 'utf8')
+      : '';
+    const untrackedPaths = commandPaths(evidenceDir, 'git-untracked-for-diff');
+    const untrackedResult = await executor.run('git ls-files --others --exclude-standard', {
+      cwd: worktreePath,
+      ...untrackedPaths,
+    });
+    if (commandEvidenceStatus(untrackedResult) !== 'pass') {
+      return diff;
     }
-    return readFile(result.stdoutPath, 'utf8');
+    const untracked = uniqueSortedPaths(parsePathList(await readFile(untrackedResult.stdoutPath, 'utf8')));
+    const untrackedDiff = await Promise.all(
+      untracked.map((changedPath) => readUntrackedContentForDiff(worktreePath, changedPath)),
+    );
+    return [diff, ...untrackedDiff].filter((entry) => entry.length > 0).join('\n');
   },
 
   async status(worktreePath, evidenceDir) {

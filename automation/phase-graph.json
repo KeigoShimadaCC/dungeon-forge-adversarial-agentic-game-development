@@ -201,6 +201,14 @@
       "allowedPaths": ["automation/**", "src/harness/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
       "parallelGroup": "21-autopilot-hardening",
       "automerge": true
+    },
+    {
+      "id": "PHASE-22A",
+      "plan": "phase-plans/PHASE-22A-UNTRACKED-FILE-AUTOPILOT-SAFETY.md",
+      "dependsOn": ["PHASE-21A"],
+      "allowedPaths": ["automation/**", "src/harness/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "22-autopilot-safety",
+      "automerge": true
     }
   ]
 }

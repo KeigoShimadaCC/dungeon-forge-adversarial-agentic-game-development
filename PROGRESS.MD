@@ -8,8 +8,8 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-21A - Autopilot Hardening |
-| Goal | Harden Phase 20A before real PR/merge automation use: merge verification, pre-PR gates, evidence-dir telemetry, deterministic Cursor subtasks, stall/retry handling, diff secret scan, stronger plan acceptance, and fake end-to-end tests. |
+| Phase | PHASE-22A - Untracked File Autopilot Safety |
+| Goal | Close the remaining changed-path safety gap by including untracked files in pre-PR scope and secret evidence before `git add -A` can commit them. |
 | Branch | `main` |
 | Worktree | `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development` |
 | Base | `origin/main` after Phase 19C close-out |
@@ -19,7 +19,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-21A-AUTOPILOT-HARDENING.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-22A-UNTRACKED-FILE-AUTOPILOT-SAFETY.md` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,7 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 orchestrator — Implemented PHASE-22A untracked-file changed-path/secret-scan hardening, graph/state wiring, focused tests, dry-run smoke, and full validation.
 - [x] 2026-05-23 orchestrator — Implemented Phase 21A hardening in graph/state, runner stages, adapters, secret/plan gates, docs, and fake safety tests.
 - [x] 2026-05-23 orchestrator — Added `phase-plans/PHASE-21A-AUTOPILOT-HARDENING.md` to capture the Phase 20A hardening plan before continuing implementation.
 - [x] 2026-05-23 orchestrator — Formalized Phase 20A in phase plans, graph, state, and progress before implementation.
@@ -205,17 +206,16 @@ _(none)_
 
 ## Phase checklist
 
-_PHASE-21A - Autopilot Hardening._
+_PHASE-22A - Untracked File Autopilot Safety._
 
-- [x] Formal `PHASE-21A` plan added and queued in `automation/phase-graph.json` / `automation/phase-state.json`.
-- [x] Merge failure handling requires local result check plus remote PR merged verification.
-- [x] Local safety evidence and gate run before PR creation.
-- [x] Git command telemetry writes under evidence `command-results/`, not worktree `.phase-runner-*` files.
-- [x] Deterministic Cursor subtask stage validates accepted-plan task reports.
-- [x] Agent command execution supports inactivity timeout, retries, and stall classification.
-- [x] Secret scan uses changed paths plus diff text.
-- [x] Plan acceptance covers parsed phase acceptance criteria without blocking safe constraint language.
-- [x] Full fake end-to-end autopilot and focused hardening tests pass.
+- [x] Formal `PHASE-22A` plan added and queued in `automation/phase-graph.json` / `automation/phase-state.json`.
+- [x] `changedPaths()` includes tracked diffs plus untracked files.
+- [x] Changed path list is repo-relative, de-duplicated, and sorted.
+- [x] Untracked file content is included in secret-scan evidence where practical.
+- [x] Local gate blocks untracked out-of-scope files before PR creation.
+- [x] Secret scan blocks untracked `.env` / credential-like paths and secret-like content.
+- [x] Focused tests cover untracked path/content cases and existing tracked behavior.
+- [x] Dry-run smoke for `PHASE-22A` passes.
 - [x] Real repo validation commands pass.
 
 ---
@@ -279,6 +279,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-23 — orchestrator — User architectural correction implemented: deterministic runner now enforces Planner Codex read-only planning, plan acceptance artifacts/gate, Executor Codex execution from accepted plan only, Cursor subtasks only from accepted-plan tasks, Recheck agent audit against accepted plan plus diff/evidence, and safe default CLI flags. Validation PASS: `pnpm test tests/phase-autopilot.test.ts tests/phase-runner.test.ts` (14 tests); `pnpm run typecheck`; `pnpm run lint`; `git diff --check`; `pnpm run phase -- autopilot --phase PHASE-20A --dry-run --run-id phase20a-architecture-smoke`; `pnpm test` (42 files, 379 tests); `pnpm run build`; `pnpm run check` (42 files, 379 tests plus typecheck/lint/build/ci-smoke/acceptance evidence).
 - 2026-05-23 — orchestrator — Phase 21A hardening implemented locally: added graph/state wiring, revised stage order, pre-PR local evidence/gate, final gate, merge remote verification, evidence-dir Git telemetry, deterministic Cursor subtask stage, command inactivity/retry metadata, diff-aware secret scan, acceptance-criteria plan coverage, docs/prompt updates, and fake end-to-end safety tests. Validation PASS: `pnpm test tests/phase-autopilot.test.ts tests/phase-runner.test.ts` (21 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (42 files, 386 tests); `pnpm run build`; `git diff --check`; `pnpm run phase -- autopilot --phase PHASE-21A --dry-run --run-id phase21a-hardening-smoke`; `pnpm run check` (42 files, 386 tests plus typecheck/lint/build/ci-smoke/acceptance evidence).
 - 2026-05-23 — orchestrator — Triple-check gap fill: added direct tests for command retry attempts, inactivity timeout classification, and local-gate blocking before PR creation. Re-audit validation PASS: `pnpm test tests/phase-autopilot.test.ts tests/phase-runner.test.ts` (23 tests); `pnpm run typecheck`; `pnpm run lint`; `git diff --check`; `pnpm test` (42 files, 388 tests); `pnpm run build`; `pnpm run phase -- autopilot --phase PHASE-21A --dry-run --run-id phase21a-hardening-smoke-2`; `pnpm run check` (42 files, 388 tests plus typecheck/lint/build/ci-smoke/acceptance evidence).
+- 2026-05-24 — orchestrator — PHASE-22A untracked-file safety hardening implemented: added phase plan and graph/state wiring, changed `git.changedPaths()` to combine tracked diffs with `git ls-files --others --exclude-standard`, appended readable untracked file content to diff/secret evidence, and added focused tests for untracked in-scope paths, out-of-scope local-gate blocking, credential-like paths, and secret-like untracked source content. Validation PASS: `pnpm test tests/phase-autopilot.test.ts tests/phase-runner.test.ts` (27 tests); `pnpm run typecheck`; `pnpm run lint`; `git diff --check`; `pnpm test` (42 files, 392 tests); `pnpm run build`; `pnpm run phase -- autopilot --phase PHASE-22A --dry-run --run-id phase22a-untracked-hardening-smoke`; `pnpm run check` (42 files, 392 tests plus typecheck/lint/build/ci-smoke/acceptance evidence).
 
 - 2026-05-23 — Cursor/composer-2.5 + orchestrator — Phase 12A Pass 2: implemented `v002` profile with starting Smoke Bomb inventory/opening guidance, inventory/tactical render clarity, baseline policy smoke use, `demo-loop-handoff` (reviewer-driven `developer_task.md`/`patch_plan.md` from `v001` seed_001 careful_player), comparison artifacts under `runs/comparisons/`, generated acceptance reports from `demo-loop`, and regenerated `runs/v001`/`runs/v002` through commands. Concrete signal: v001→v002 comparison shows `items_used` 2→28, tactical-depth average 4→5.33, clarity average 5.33→5.67, and softlocks 15→14; comparison also records newly problematic balance runs for v003 tuning. Validation PASS: focused tests (36); `pnpm run typecheck`; `pnpm run lint`; `pnpm run demo-loop -- --runs-root . --versions v001,v002`; `pnpm run compare-versions -- --base v001 --target v002 --runs-root .`; `pnpm run accept-version -- --version v002 --runs-root . --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass --reviewer-driven`.
 - 2026-05-23 — orchestrator — Phase 12A Pass 3: implemented `v003` tuned one-floor balance/clarity profile with Slime-only pressure, starting Smoke Bomb + Potion, and explicit opening guidance; extended `demo-loop` to generate adjacent comparisons plus final `v001_vs_v003` comparison. Generated `runs/v003`, `runs/comparisons/v002_vs_v003.*`, and `runs/comparisons/v001_vs_v003.*` through `pnpm run demo-loop -- --runs-root .`. Concrete signal: v002→v003 damage taken `190 -> 130`, turns `1609 -> 1014`, item use `28 -> 32`, balance win rate `0.2 -> 0.3`, and no new problematic balance runs; v001→v003 keeps tactical-depth gain `4 -> 5.33` and item use `2 -> 32`. Validation PASS: focused tests (37); `pnpm run typecheck`; `pnpm run lint`; `pnpm run demo-loop -- --runs-root .`; `pnpm run compare-versions -- --base v002 --target v003 --runs-root .`; `pnpm run compare-versions -- --base v001 --target v003 --runs-root .`; `pnpm run accept-version -- --version v003 --runs-root . --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass --reviewer-driven`.

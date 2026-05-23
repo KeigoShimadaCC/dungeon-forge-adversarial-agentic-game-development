@@ -610,6 +610,7 @@ describe('phase autopilot execution layer', () => {
       const git = createGitAdapter(fakeExecutor({
         'git status --short --branch': '## main\n',
         'git diff --name-only': 'src/harness/phase-autopilot.ts\n',
+        'git ls-files --others --exclude-standard': '',
         'git diff': 'diff --git a/src/harness/phase-autopilot.ts b/src/harness/phase-autopilot.ts\n',
       }));
 
@@ -623,6 +624,147 @@ describe('phase autopilot execution layer', () => {
       await expect(readFile(path.join(repoRoot, '.phase-runner-status.json'), 'utf8')).rejects.toThrow();
       expect(await readFile(path.join(evidenceDir, 'command-results', 'git-status.stdout.log'), 'utf8')).toContain('## main');
     });
+  });
+
+  it('includes untracked files in changed-path evidence', async () => {
+    await withTempDir(async (dir) => {
+      const evidenceDir = path.join(dir, 'evidence');
+      const git = createGitAdapter(fakeExecutor({
+        'git diff --name-only': 'src/harness/phase-autopilot.ts\nsrc/harness/new-helper.ts\n',
+        'git ls-files --others --exclude-standard': [
+          'src/harness/new-helper.ts',
+          'tests/untracked-safety.test.ts',
+        ].join('\n'),
+      }));
+
+      const changedPaths = await git.changedPaths(dir, 'origin/main', evidenceDir);
+
+      expect(changedPaths).toEqual([
+        'src/harness/new-helper.ts',
+        'src/harness/phase-autopilot.ts',
+        'tests/untracked-safety.test.ts',
+      ]);
+      expect(
+        await readFile(path.join(evidenceDir, 'command-results', 'git-untracked-names.stdout.log'), 'utf8'),
+      ).toContain('tests/untracked-safety.test.ts');
+    });
+  });
+
+  it('includes readable untracked file content in secret-scan diff text', async () => {
+    await withTempDir(async (dir) => {
+      const evidenceDir = path.join(dir, 'evidence');
+      const untrackedPath = path.join(dir, 'src', 'harness', 'new-secret.ts');
+      await mkdir(path.dirname(untrackedPath), { recursive: true });
+      await writeFile(untrackedPath, 'export const token = "ghp_123456789012345678901234";\n');
+      const git = createGitAdapter(fakeExecutor({
+        'git diff': '',
+        'git ls-files --others --exclude-standard': 'src/harness/new-secret.ts\n',
+      }));
+
+      const diffText = await git.diffText(dir, 'origin/main', evidenceDir);
+      const scan = scanChangedPathsForSecrets({
+        changedPaths: ['src/harness/new-secret.ts'],
+        diffText,
+      });
+
+      expect(diffText).toContain('--- untracked file: src/harness/new-secret.ts');
+      expect(scan.secretsDetected).toBe(true);
+      expect(scan.hits.join('\n')).toContain('diff: matched');
+    });
+  });
+
+  it('blocks local gate on untracked out-of-scope paths before PR creation', async () => {
+    const runId = `untracked-out-of-scope-${Date.now()}`;
+    const evidenceDir = path.join(repoRoot, 'runs', 'phase-runner', 'PHASE-22A', runId);
+    let prCreated = false;
+    try {
+      const config = await loadPhaseRunnerConfig(repoRoot);
+      const phase = config.graph.phases.find((entry) => entry.id === 'PHASE-22A');
+      expect(phase).toBeDefined();
+      await writePhaseMergeEvidence(
+        evidenceDir,
+        collectPhaseMergeEvidence({
+          phase: phase!,
+          policy: config.automergePolicy,
+          localCommandResults: config.automergePolicy.requiredLocalCommands.map((command) =>
+            commandResult(command),
+          ),
+          recheckReport: {
+            schemaVersion: 1,
+            phase: 'PHASE-22A',
+            status: 'pass',
+            phaseAcceptanceComplete: true,
+            blockingGaps: [],
+          },
+          changedPaths: ['src/game/untracked-out-of-scope.ts'],
+          worktreeStatus: { branch: 'phase/test', clean: false, porcelain: '?? src/game/untracked-out-of-scope.ts', raw: '' },
+          secretScan: { secretsDetected: false, hits: [] },
+          remoteChecks: 'none',
+        }),
+      );
+
+      await expect(
+        executeStage(repoRoot, 'PHASE-22A', 'local-gate', {
+          runId,
+          safetyFlags: { ...safeFlags, allowPr: true },
+          deps: {
+            autopilotConfig: fakeAutopilotConfig(),
+            github: {
+              ...fakeGithub(),
+              async createPullRequest(input) {
+                prCreated = true;
+                return fakeGithub().createPullRequest(input);
+              },
+            },
+          },
+        }),
+      ).rejects.toThrow('Local gate blocked');
+      expect(prCreated).toBe(false);
+    } finally {
+      await rm(evidenceDir, { recursive: true, force: true });
+    }
+  });
+
+  it('blocks untracked credential-like paths before PR creation', async () => {
+    const runId = `untracked-env-${Date.now()}`;
+    const evidenceDir = path.join(repoRoot, 'runs', 'phase-runner', 'PHASE-22A', runId);
+    try {
+      const config = await loadPhaseRunnerConfig(repoRoot);
+      const phase = config.graph.phases.find((entry) => entry.id === 'PHASE-22A');
+      expect(phase).toBeDefined();
+      const changedPaths = ['.env.local'];
+      await writePhaseMergeEvidence(
+        evidenceDir,
+        collectPhaseMergeEvidence({
+          phase: phase!,
+          policy: config.automergePolicy,
+          localCommandResults: config.automergePolicy.requiredLocalCommands.map((command) =>
+            commandResult(command),
+          ),
+          recheckReport: {
+            schemaVersion: 1,
+            phase: 'PHASE-22A',
+            status: 'pass',
+            phaseAcceptanceComplete: true,
+            blockingGaps: [],
+          },
+          changedPaths,
+          worktreeStatus: { branch: 'phase/test', clean: false, porcelain: '?? .env.local', raw: '' },
+          secretScan: scanChangedPathsForSecrets({ changedPaths }),
+          remoteChecks: 'none',
+        }),
+      );
+
+      await expect(
+        executeStage(repoRoot, 'PHASE-22A', 'local-gate', {
+          runId,
+          safetyFlags: { ...safeFlags, allowPr: true },
+          deps: { autopilotConfig: fakeAutopilotConfig() },
+        }),
+      ).rejects.toThrow('Local gate blocked');
+    } finally {
+      await rm(evidenceDir, { recursive: true, force: true });
+    }
   });
 
   it('runs a full fake critical autopilot path through final gate without real external tools', async () => {
