@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-25A - Control Room Timeline Artifacts |
-| Goal | Define deterministic local timeline artifacts for human-facing control-room history across ideas, version summaries, reviewer summaries, human comments, base-version selection, and prepared next steps. |
-| Branch | `phase/phase-25a-control-room-timeline-artifacts` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-25a-control-room-timeline-artifacts-wt` |
-| Base | `origin/main` after PHASE-24B completion and phase-state handoff |
+| Phase | PHASE-25B - Agent Roles Personas And Models |
+| Goal | Define safe local control-room role, persona, prompt-visibility, and model-choice metadata for future UI/handoff use without launching provider calls or exposing credentials. |
+| Branch | `phase/phase-25b-agent-roles-personas-and-models` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-25b-agent-roles-personas-and-models-wt` |
+| Base | `origin/main` after PHASE-24B completion and parallel PHASE-25A scope split |
 | Status | `Implementation complete; required local validation passed; merge/phase-state updates intentionally not performed` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-25A-CONTROL-ROOM-TIMELINE-ARTIFACTS.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-25A/2026-05-24T04:06:47Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
+3. Active `phase-plans/PHASE-25B-AGENT-ROLES-PERSONAS-AND-MODELS.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-25B/2026-05-24T04:28:53Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,11 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 Executor Codex — PHASE-25B task-001: seeded active progress/checklist from deterministic runner accepted plan and confirmed allowed paths before implementation.
+- [x] 2026-05-24 Executor Codex — PHASE-25B task-002/task-003/task-004/task-005: defined typed role catalog, exposed canonical reviewer personas, added safe prompt visibility metadata, and added advisory model-choice metadata without provider calls.
+- [x] 2026-05-24 Executor Codex — PHASE-25B task-006: documented control-room role kinds, persona selection, prompt visibility, model metadata, and credential-free boundaries.
+- [x] 2026-05-24 Executor Codex — PHASE-25B task-007: added focused control-room role tests and deterministic catalog fixture.
+- [x] 2026-05-24 Executor Codex — PHASE-25B task-008: ran targeted/full validation and recorded evidence.
 - [x] 2026-05-24 Executor Codex — PHASE-25A task-006: documented the local artifact boundary and recorded deterministic sample timeline artifact `runs/control-room/timeline/v001-v002-v003.timeline.json`.
 - [x] 2026-05-24 Executor Codex — PHASE-25A task-005: added focused validation coverage for creation, ordering, serialization, missing evidence, malformed records, human comments, and base-version selection.
 - [x] 2026-05-24 Executor Codex — PHASE-25A task-004: built `v001 -> v002 -> v003` fixture/sample timeline and UI-ready projection helper.
@@ -247,16 +252,16 @@ _(none)_
 
 ## Phase checklist
 
-_PHASE-25A - Control Room Timeline Artifacts._
+_PHASE-25B - Agent Roles Personas And Models._
 
-- [x] Timeline schema includes session metadata, optional initial idea, active base version, ordered events, actor/source classification, version IDs, summaries, evidence refs, and missing-evidence notes.
-- [x] Deterministic read/write helpers serialize timeline JSON stably under `runs/control-room/timeline/**`.
-- [x] Read-only loading helpers validate required records, normalize safe repo-relative evidence paths, and label missing optional evidence without fabricating content.
-- [x] `v001 -> v002 -> v003` fixture/sample covers human idea, developer summary, reviewer summary, human comment, base-version selection, prepared next step, and version-linked evidence refs.
-- [x] UI-ready projection helper exposes high-level events so future UI code does not need to parse raw artifact JSON directly.
-- [x] Focused tests cover creation, deterministic ordering/serialization, missing evidence, malformed records, human comments as human input, and non-destructive base-version selection.
-- [x] Documentation explains the local artifact boundary and confirms no UI, command runner, LLM call, or game/harness behavior change is introduced.
-- [x] Required validation recorded: focused test, typecheck, lint, full test, build, and `git diff --check`.
+- [x] Role catalog includes stable records for `game_developer`, `game_reviewer`, `narrator`, and `human`.
+- [x] Reviewer persona metadata is selectable, stable, and sourced from existing canonical harness metadata.
+- [x] Developer and narrator role descriptions are human-facing metadata only, not runnable agent implementations.
+- [x] Prompt visibility metadata exposes safe repo prompt references or dynamic-prompt descriptions without copying hidden/runtime or environment-derived values.
+- [x] Model-choice metadata is advisory only and does not resolve credentials, call providers, or serialize environment values.
+- [x] Focused tests cover catalog validity, reviewer persona stability, safe prompt display, and no-secret/no-env output.
+- [x] Documentation explains role kinds, prompt visibility levels, model metadata, and the credential-free boundary.
+- [x] Required validation recorded: focused test, targeted no-secret scan, typecheck, lint, full test, build, and `git diff --check`.
 
 ---
 
@@ -314,6 +319,10 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
+- 2026-05-24 — Executor Codex — PHASE-25B pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-25B/2026-05-24T04:28:53Z/accepted-plan/accepted-plan.json`. Allowed implementation paths are `src/control-room/roles/**`, `tests/control-room-roles.test.ts`, `tests/fixtures/control-room-roles/**`, `docs/CONTROL-ROOM-ROLES.md`, and `PROGRESS.MD`. Planned validation: `pnpm test tests/control-room-roles.test.ts`; targeted no-secret scan over role/test/doc artifacts; `pnpm run typecheck`; `pnpm run lint`; `pnpm test`; `pnpm run build`; `git diff --check`. Cursor delegation not used initially; the deterministic runner owns accepted-plan Cursor task execution, and credential-safety tasks are being implemented directly.
+- 2026-05-24 — Executor Codex — PHASE-25B implementation complete locally from accepted runner plan. Added `src/control-room/roles/**` typed catalog helpers, canonical reviewer-persona projection, safe prompt visibility metadata, advisory-only model metadata, deterministic role catalog fixture, focused tests, and `docs/CONTROL-ROOM-ROLES.md`. Cursor delegation not used; no provider config resolution, live LLM call, shared control-room barrel export, timeline integration, game/harness behavior change, or automation phase-state update was added.
+- 2026-05-24 — Executor Codex — PHASE-25B validation PASS: `pnpm test tests/control-room-roles.test.ts` (1 file, 6 tests); targeted no-secret scan `rg -n "DUNGEON_FORGE_LLM_API_KEY|OPENAI_API_KEY|your_key_here|sk-|apiKey|process\\.env" src/control-room/roles tests/fixtures/control-room-roles docs/CONTROL-ROOM-ROLES.md tests/control-room-roles.test.ts` returned one intentional docs-only `process.env` prose reference in `docs/CONTROL-ROOM-ROLES.md` and no source/fixture/test credential exposure; `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (47 files, 440 tests); `pnpm run build`; `git diff --check`.
+- 2026-05-24 — Executor Codex — PHASE-25B completion check against `phase-plans/PHASE-25B-AGENT-ROLES-PERSONAS-AND-MODELS.md` and accepted plan PASS: changed paths are limited to `src/control-room/roles/**`, `tests/control-room-roles.test.ts`, `tests/fixtures/control-room-roles/**`, `docs/CONTROL-ROOM-ROLES.md`, and `PROGRESS.MD`; model choices are metadata only; prompt inspection exposes safe references/descriptions; reviewer output still cannot mutate game state. Merge, branch deletion, worktree cleanup, and automation phase-state updates intentionally not performed.
 - 2026-05-24 — Executor Codex — PHASE-24B pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-24B/2026-05-24T02:39:24Z/accepted-plan/accepted-plan.json`. Re-read `PROGRESS.MD`, active `phase-plans/PHASE-24B-GAMEPLAY-EVALUATION-DEPTH.md`, `src/harness/trace-diagnostics.ts`, `src/harness/scorecard.ts`, `src/harness/balance-tuning.ts`, `src/harness/balance-analytics.ts`, focused diagnostics/analytics tests, and docs. Cursor delegation not used because the accepted runner owns Cursor execution for delegatable tasks.
 - 2026-05-24 — Executor Codex — PHASE-24B implementation complete locally from accepted runner plan. Added additive `tactical_depth` scorecard metrics derived from trace steps/events, richer problem categories (`protocol_failure`, `expected_hard_loss`, `balance_outlier`, `policy_issue`, `missing_evidence`), tactical-depth summaries in balance summaries/analytics cohorts, focused tests, and interpretation docs. Added narrow `v024b-smoke -> v024` alias so the accepted runner smoke command works without relaxing version-id validation. Generated smoke artifacts under ignored `runs/v024/` during validation and removed them afterward because `runs/**` is outside executor edit scope.
 - 2026-05-24 — Executor Codex — PHASE-24B validation PASS: `pnpm test tests/trace-scorecard-diagnostics.test.ts` (1 file, 9 tests); `pnpm test tests/balance-analytics.test.ts` (1 file, 4 tests); `pnpm test tests/evidence-retention.test.ts tests/trace-scorecard-diagnostics.test.ts tests/balance-analytics.test.ts` (3 files, 19 tests); initial `pnpm run run-balance -- --version v024b-smoke --seeds seed_001,seed_002 --policies random,stairs-seeking --on-existing overwrite` failed before alias support with invalid version id, then PASSed after alias support and printed `runs/v024/balance_summary.json` with `tactical_depth_summary`, expected hard-loss, protocol-failure, resource/trap, and repeated-failure categories; `pnpm run balance-analytics -- --runs-root . --versions v001,v002,v003` PASSed and printed advisory analytics with `tactical_depth_summary`; `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (45 files, 429 tests); `pnpm run build`; `git diff --check`.
