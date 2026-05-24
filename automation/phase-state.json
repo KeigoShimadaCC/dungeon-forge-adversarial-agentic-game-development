@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-29B",
+  "currentPhase": "PHASE-29C",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -335,7 +335,11 @@
       "status": "complete"
     },
     "PHASE-29B": {
-      "status": "planned"
+      "branch": "phase/phase-29b-restricted-agent-context-builder",
+      "evidenceDir": "runs/phase-runner/PHASE-29B/2026-05-24T07:10:34Z",
+      "mergeCommit": "7cd3eace579ffb98db2131d62ef56e6f14302595",
+      "pr": 66,
+      "status": "complete"
     },
     "PHASE-29C": {
       "status": "planned"
