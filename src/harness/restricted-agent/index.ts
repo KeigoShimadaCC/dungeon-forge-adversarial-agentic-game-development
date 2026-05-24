@@ -32,3 +32,22 @@ export {
   type RestrictedAgentEvidenceDecision,
   type RestrictedAgentEvidenceRecord,
 } from './evidence.js';
+export {
+  DEFAULT_RESTRICTED_AGENT_CONTEXT_BUDGETS,
+  buildRestrictedAgentContext,
+  diagnoseRestrictedAgentPath,
+  normalizeRestrictedAgentPath,
+  readRestrictedAgentFileRange,
+  searchRestrictedAgentAllowed,
+  type BuildRestrictedAgentContextInput,
+  type BuildRestrictedAgentContextResult,
+  type RestrictedAgentContextBudgets,
+  type RestrictedAgentContextDiagnostic,
+  type RestrictedAgentContextDiagnosticCode,
+  type RestrictedAgentContextExposure,
+  type RestrictedAgentContextExposureReport,
+  type RestrictedAgentContextScope,
+  type RestrictedAgentContextSnippet,
+  type RestrictedAgentSearchResult,
+  type RestrictedAgentSnippetRequest,
+} from './context-builder.js';

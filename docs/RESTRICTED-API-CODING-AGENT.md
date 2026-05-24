@@ -19,8 +19,9 @@ phase/autopilot runner
   -> local/autopilot gate
 ```
 
-PHASE-29A defines only the contract and schema boundary. It does not call an LLM,
-read files for context, apply patches, run checks, or integrate with autopilot.
+PHASE-29A defined only the contract and schema boundary. PHASE-29B adds
+deterministic context packaging and bounded read/search helpers. Neither phase
+calls an LLM, applies patches, runs checks, or integrates with autopilot.
 
 ## Trust Boundary
 
@@ -52,7 +53,64 @@ The harness packages a bounded turn input:
 - patch budget
 - available command IDs
 
-Future phases will build the context package. This phase only defines the type.
+The context builder only exposes snippets requested through deterministic local
+policy. It does not dump whole worktrees or silently add hidden context.
+
+## Context Builder
+
+The PHASE-29B context builder packages a `RestrictedAgentTurnInput` from:
+
+- phase and accepted-plan task IDs
+- task objective
+- accepted-task allowed paths
+- forbidden paths
+- requested snippets
+- previous failed check summaries
+- patch budgets
+- available command IDs
+
+Every requested file must pass both scopes:
+
+- the phase allowed paths
+- the accepted-plan task allowed paths
+
+Paths are denied before reading if they are absolute, contain parent traversal,
+match forbidden paths, point at `.env`, credentials, secret/private paths,
+generated evidence under `runs/`, or fall outside either allowed-path set.
+
+### Read Ranges
+
+`read_file_range` requires explicit positive line ranges. The harness enforces
+per-snippet line/byte budgets, total line/byte budgets, binary-file detection,
+missing-file diagnostics, and oversized-file diagnostics.
+
+Large files are not included wholesale. The model receives exact snippets only
+after the local harness approves the path and range.
+
+### Search
+
+`search_allowed` scans only the allowed intersection. Results are deterministic:
+normalized path order, then line number. Each result contains only:
+
+- path
+- line number
+- short matched-line preview
+
+Search does not expose full files and stops at configured result/preview budgets.
+
+### Context Evidence
+
+The exposure report records metadata for snippets that reached the model:
+
+- path
+- start line
+- end line
+- byte length
+- diagnostics
+
+Evidence intentionally does not store hidden extra snippet text. Denied, missing,
+binary, oversized, out-of-scope, and budget-exhausted context requests are
+diagnostics, not silent omissions.
 
 ## Model Output
 
@@ -151,6 +209,7 @@ text. Later phases will add context-builder and patch-application evidence.
 ## Current Status
 
 PHASE-29A provides the schema, command registry, validator, evidence types, docs,
-and focused tests. Later phases will add context building, provider adapters,
-deterministic patch validation/application, whitelisted checks, and optional
-autopilot delegate integration.
+and focused tests. PHASE-29B adds deterministic context packaging, read ranges,
+allowed-path search, and exposure evidence. Later phases will add provider
+adapters, deterministic patch validation/application, whitelisted checks, and
+optional autopilot delegate integration.
