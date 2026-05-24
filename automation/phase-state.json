@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-25B",
+  "currentPhase": "PHASE-26A",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -279,7 +279,11 @@
       "status": "complete"
     },
     "PHASE-25B": {
-      "status": "planned"
+      "branch": "phase/phase-25b-agent-roles-personas-and-models",
+      "evidenceDir": "/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-25B/2026-05-24T04:28:53Z",
+      "mergeCommit": "6af3c9c1407b0f67fe69d1d665e9899add39b354",
+      "pr": 58,
+      "status": "complete"
     },
     "PHASE-26A": {
       "status": "planned"
