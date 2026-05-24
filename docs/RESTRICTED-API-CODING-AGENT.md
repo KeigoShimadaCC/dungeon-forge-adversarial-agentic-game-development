@@ -21,8 +21,9 @@ phase/autopilot runner
 
 PHASE-29A defined only the contract and schema boundary. PHASE-29B adds
 deterministic context packaging and bounded read/search helpers. PHASE-29C adds
-a non-mutating dry-run API loop. These phases still do not apply patches, run
-model-requested checks, or integrate with autopilot.
+a non-mutating dry-run API loop. PHASE-30A adds deterministic source patch
+validation. These phases still do not apply patches, run model-requested checks,
+or integrate with autopilot.
 
 ## Trust Boundary
 
@@ -238,6 +239,38 @@ The validator rejects direct-authority fields such as `command`, `shell`, `git`,
 `delete`, `rename`, `packageInstall`, `dependencyChange`, `lockfileChange`,
 `directWrite`, `commit`, and `merge`.
 
+## Patch Validation
+
+PHASE-30A validates model-proposed patch intents before any file can be changed.
+Validation is non-mutating: it reads target files, checks policy, and returns a
+normalized patch plan only when every operation is safe.
+
+Supported v1 patch kinds:
+
+- `replace_exact`
+- `insert_before_exact`
+- `insert_after_exact`
+- `create_file`
+
+Hard blockers include:
+
+- paths outside both phase and accepted-task allowed paths
+- `.env`, credential, secret, private, generated-evidence, lockfile, or package
+  manifest targets
+- unsupported file extensions
+- unknown operations, delete requests, rename requests, or malformed intents
+- missing target files for edit operations
+- existing target files for `create_file`
+- expected text not found exactly once
+- duplicate/ambiguous anchors
+- max file, operation, per-replacement byte, or total byte budget violations
+- secret-like replacement or created-file content
+
+The normalized plan records path, kind, expected text when applicable,
+replacement text, replacement byte length, and the budgets used for validation.
+Later phases may apply only a validated plan; they must not reinterpret raw model
+text.
+
 ## Evidence
 
 Restricted-agent evidence records capture:
@@ -258,6 +291,6 @@ text. Later phases will add context-builder and patch-application evidence.
 PHASE-29A provides the schema, command registry, validator, evidence types, docs,
 and focused tests. PHASE-29B adds deterministic context packaging, read ranges,
 allowed-path search, and exposure evidence. PHASE-29C adds the credential-gated,
-non-mutating dry-run API loop. Later phases will add deterministic patch
-validation/application, whitelisted checks, and optional autopilot delegate
-integration.
+non-mutating dry-run API loop. PHASE-30A adds conservative source patch
+validation. Later phases will add deterministic patch application, whitelisted
+checks, and optional autopilot delegate integration.

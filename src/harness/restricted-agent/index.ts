@@ -70,3 +70,14 @@ export {
   RESTRICTED_AGENT_DRY_RUN_USAGE,
   runRestrictedAgentDryRunCli,
 } from './api-loop-cli.js';
+export {
+  DEFAULT_RESTRICTED_SOURCE_PATCH_BUDGETS,
+  validateRestrictedSourcePatches,
+  type NormalizedRestrictedSourcePatchOperation,
+  type NormalizedRestrictedSourcePatchPlan,
+  type RestrictedSourcePatchDiagnostic,
+  type RestrictedSourcePatchDiagnosticCode,
+  type RestrictedSourcePatchValidationInput,
+  type RestrictedSourcePatchValidationResult,
+  type RestrictedSourcePatchValidatorBudgets,
+} from './patch-validator.js';
