@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest';
 
 import type { PlannerReport } from '../src/harness/agent-report-parser.js';
 import { executeStage, type AutopilotConfig } from '../src/harness/phase-autopilot.js';
+import type { RestrictedAgentCommandExecutor } from '../src/harness/restricted-agent/index.js';
 
 const repoRoot = process.cwd();
 
@@ -48,6 +49,13 @@ const writeAcceptedPlan = async (phase: string, runId: string, plan: PlannerRepo
   await writeFile(path.join(evidenceDir, 'accepted-plan', 'accepted-plan.json'), JSON.stringify(plan));
   return evidenceDir;
 };
+
+const passingRestrictedCheckExecutor: RestrictedAgentCommandExecutor = async () => ({
+  exitCode: 0,
+  stdout: 'fake focused tests passed',
+  stderr: '',
+  durationMs: 1,
+});
 
 describe('Phase 31A restricted delegate autopilot integration', () => {
   it('blocks restricted delegate execution without an accepted plan', async () => {
@@ -102,7 +110,10 @@ describe('Phase 31A restricted delegate autopilot integration', () => {
       const summary = await executeStage(repoRoot, 'PHASE-31A', 'restricted-agent-delegate', {
         runId,
         safetyFlags: safeFlags,
-        deps: { autopilotConfig: config(true) },
+        deps: {
+          autopilotConfig: config(true),
+          restrictedAgentCommandExecutor: passingRestrictedCheckExecutor,
+        },
       });
 
       expect(summary.currentStage).toBe('recheck');

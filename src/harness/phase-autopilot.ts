@@ -38,6 +38,7 @@ import { scanChangedPathsForSecrets } from './secret-scan.js';
 import {
   DEFAULT_RESTRICTED_AGENT_COMMAND_REGISTRY,
   runRestrictedAgentRepairLoop,
+  type RestrictedAgentCommandExecutor,
   type RestrictedAgentTurnInput,
 } from './restricted-agent/index.js';
 import {
@@ -104,6 +105,7 @@ export interface AutopilotDependencies {
   git?: GitAdapter;
   github?: GitHubCliAdapter;
   autopilotConfig?: AutopilotConfig;
+  restrictedAgentCommandExecutor?: RestrictedAgentCommandExecutor;
 }
 
 export interface AutopilotRunSummary {
@@ -715,6 +717,7 @@ export const executeStage = async (
           outDir: taskDir,
           maxAttempts: delegateConfig.maxAttempts,
           registry: DEFAULT_RESTRICTED_AGENT_COMMAND_REGISTRY,
+          executor: options.deps?.restrictedAgentCommandExecutor,
           fakeResponses: [
             stringifyDeterministicJson({
               schemaVersion: 1,
