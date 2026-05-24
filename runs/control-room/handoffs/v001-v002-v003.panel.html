@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prepared Control Room Handoff</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fa;
+      --panel: #ffffff;
+      --text: #17202a;
+      --muted: #5f6b7a;
+      --line: #d1d9e0;
+      --ok: #0f7b45;
+      --warn: #9a5b00;
+      --bad: #b42318;
+      --accent: #1d4ed8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+    header, main { width: min(1080px, calc(100vw - 32px)); margin: 0 auto; }
+    header { padding: 24px 0 12px; }
+    h1 { margin: 0 0 8px; font-size: 28px; letter-spacing: 0; }
+    h2 { margin: 0 0 10px; font-size: 19px; letter-spacing: 0; }
+    p { margin: 8px 0; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 0 0 16px;
+    }
+    .strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .strip span, .badge {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: #fff;
+    }
+    .badge-ready { color: var(--ok); border-color: #8bd3ad; }
+    .badge-blocked, .badge-missing_evidence, .badge-needs_human_decision {
+      color: var(--bad);
+      border-color: #f2a7a2;
+    }
+    ul { padding-left: 20px; }
+    li { margin: 8px 0; }
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+    }
+    pre {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px;
+      background: #f8fafc;
+    }
+    .missing { color: var(--bad); font-weight: 700; }
+    .muted { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Prepared Control Room Handoff</h1>
+    <div class="strip">
+      <span>Session: <strong>control-room-v001-v002-v003</strong></span>
+      <span>Base: <strong>v002</strong></span>
+      <span class="badge badge-missing_evidence">Status: <strong>missing_evidence</strong></span>
+      <span>Prepared: <strong>2026-05-24T05:32:22.000Z</strong></span>
+    </div>
+  </header>
+  <main>
+    <section class="panel">
+      <h2>Next Step</h2>
+      <p>Next iteration is missing evidence; resolve blockers before executing any suggested command.</p>
+      <p class="muted">Suggested commands are inert text. This panel does not execute commands, start agents, create commits, open PRs, merge branches, or call providers.</p>
+    </section>
+    <section class="panel">
+      <h2>Human Context</h2>
+      <p>Make a tiny dungeon loop that can improve through trace-backed review.</p>
+      <ul><li><strong>v002</strong> <time datetime="2026-05-24T04:09:00.000Z">2026-05-24T04:09:00.000Z</time><p>Human comment: keep the Smoke Bomb clarity improvement.</p></li></ul>
+    </section>
+    <section class="panel">
+      <h2>Developer And Reviewer Context</h2>
+      <p><strong>Developer:</strong> Developer produced the baseline version evidence.</p>
+      <p><strong>Reviewer:</strong> Reviewer summary is linked to expected evidence, with absent optional evidence labeled.</p>
+      <p><strong>Version:</strong> Select v002 as the active base without deleting or rolling back later versions.</p>
+    </section>
+    <section class="panel">
+      <h2>Evidence</h2>
+      <ul><li class="present"><span>comparison</span><a href="../../../runs/comparisons/v001_vs_v002.json">comparison: runs/comparisons/v001_vs_v002.json</a><code>runs/comparisons/v001_vs_v002.json</code></li><li class="present"><span>comparison</span><a href="../../../runs/comparisons/v002_vs_v003.json">comparison: runs/comparisons/v002_vs_v003.json</a><code>runs/comparisons/v002_vs_v003.json</code></li><li class="present"><span>developer_notes</span><a href="../../../runs/v001/developer_notes.md">developer_notes: runs/v001/developer_notes.md</a><code>runs/v001/developer_notes.md</code></li><li class="present"><span>review</span><a href="../../../runs/v001/reviews/seed_001_careful_player.json">review: runs/v001/reviews/seed_001_careful_player.json</a><code>runs/v001/reviews/seed_001_careful_player.json</code></li><li class="present"><span>scorecard</span><a href="../../../runs/v001/scorecards/seed_001_careful_player.json">scorecard: runs/v001/scorecards/seed_001_careful_player.json</a><code>runs/v001/scorecards/seed_001_careful_player.json</code></li><li class="present"><span>trace</span><a href="../../../runs/v001/traces/seed_001_careful_player.json">trace: runs/v001/traces/seed_001_careful_player.json</a><code>runs/v001/traces/seed_001_careful_player.json</code></li><li class="present"><span>version_summary</span><a href="../../../runs/v001/version_summary.json">version_summary: runs/v001/version_summary.json</a><code>runs/v001/version_summary.json</code></li><li class="present"><span>changelog</span><a href="../../../runs/v002/changelog.md">changelog: runs/v002/changelog.md</a><code>runs/v002/changelog.md</code></li><li class="present"><span>acceptance</span><a href="../../../runs/v003/acceptance.md">v003 acceptance notes</a><code>runs/v003/acceptance.md</code></li><li class="present"><span>balance_summary</span><a href="../../../runs/v003/balance_summary.json">balance_summary: runs/v003/balance_summary.json</a><code>runs/v003/balance_summary.json</code></li><li class="missing"><span>review</span><span class="missing">review: runs/v003/reviews/missing_optional_review.json</span><code>runs/v003/reviews/missing_optional_review.json</code><p>Missing on disk: runs/v003/reviews/missing_optional_review.json</p></li></ul>
+    </section>
+    <section class="panel">
+      <h2>Blockers</h2>
+      <ul><li class="missing">Missing evidence: review: runs/v003/reviews/missing_optional_review.json</li></ul>
+    </section>
+    <section class="panel">
+      <h2>Suggested Commands</h2>
+      <ul><li><strong>Generate developer handoff</strong><pre><code>pnpm run developer-task -- --target-version v002 --runs-root .</code></pre><p>Build a developer-facing task from existing local evidence.</p></li><li><strong>Run bounded version evidence</strong><pre><code>pnpm run run-version -- --version v002 --runs-root . --on-existing archive</code></pre><p>Regenerate deterministic local playthrough evidence for the selected base when the orchestrator chooses to proceed.</p></li><li><strong>Compare local versions</strong><pre><code>pnpm run compare-versions -- --left v001 --right v003 --runs-root .</code></pre><p>Refresh local comparison evidence before deciding the next implementation task.</p></li></ul>
+    </section>
+    <section class="panel">
+      <h2>Developer Task Text</h2>
+      <pre><code>Prepared next iteration handoff
+Selected base version: v002
+Human idea: Make a tiny dungeon loop that can improve through trace-backed review.
+Developer context: Developer produced the baseline version evidence.
+Reviewer summary: Reviewer summary is linked to expected evidence, with absent optional evidence labeled.
+Human comments: 1
+- v002 2026-05-24T04:09:00.000Z: Human comment: keep the Smoke Bomb clarity improvement.
+Evidence paths: 11
+- present comparison runs/comparisons/v001_vs_v002.json
+- present comparison runs/comparisons/v002_vs_v003.json
+- present developer_notes runs/v001/developer_notes.md
+- present review runs/v001/reviews/seed_001_careful_player.json
+- present scorecard runs/v001/scorecards/seed_001_careful_player.json
+- present trace runs/v001/traces/seed_001_careful_player.json
+- present version_summary runs/v001/version_summary.json
+- present changelog runs/v002/changelog.md
+- present acceptance runs/v003/acceptance.md
+- present balance_summary runs/v003/balance_summary.json
+- missing review runs/v003/reviews/missing_optional_review.json
+Blockers:
+- Missing evidence: review: runs/v003/reviews/missing_optional_review.json</code></pre>
+    </section>
+  </main>
+</body>
+</html>

@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-26B - Human Idea And Feedback Capture |
-| Goal | Capture initial human game ideas and per-version comments as durable, clearly attributed control-room timeline events for later handoff context. |
-| Branch | `phase/phase-26b-human-idea-and-feedback-capture` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-26b-human-idea-and-feedback-capture-wt` |
-| Base | `origin/main` after PHASE-26A dependency slice |
+| Phase | PHASE-27A - Prepared Iteration Handoffs |
+| Goal | Prepare evidence-backed next-iteration handoff artifacts and an inert panel from control-room timeline evidence without browser-side command execution. |
+| Branch | `phase/phase-27a-prepared-iteration-handoffs` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-27a-prepared-iteration-handoffs-wt` |
+| Base | `origin/main` after PHASE-26B dependency slice |
 | Status | `Implementation complete; required local validation passed; merge/phase-state updates intentionally not performed by executor` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-26B-HUMAN-IDEA-AND-FEEDBACK-CAPTURE.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-26B/2026-05-24T05:09:36Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
+3. Active `phase-plans/PHASE-27A-PREPARED-ITERATION-HANDOFFS.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-27A/2026-05-24T05:32:22Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,12 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 Executor Codex — PHASE-27A task-001: seeded progress state/checklist from deterministic runner accepted plan before code edits.
+- [x] 2026-05-24 Executor Codex — PHASE-27A task-002/task-003: added deterministic prepared handoff data model, builder, and inert panel renderer under `src/control-room/handoffs/**`.
+- [x] 2026-05-24 Executor Codex — PHASE-27A task-004: added handoff-boundary timeline event helper without broad timeline edits or execution behavior.
+- [x] 2026-05-24 Executor Codex — PHASE-27A task-005: added focused ready/blocked/inert/deterministic tests and fixtures.
+- [x] 2026-05-24 Executor Codex — PHASE-27A task-006: documented human/orchestrator-owned execution boundary and generated sample handoff artifacts.
+- [x] 2026-05-24 Executor Codex — PHASE-27A validation: ran accepted focused tests, smoke commands, typecheck, lint, full tests, and `git diff --check`.
 - [x] 2026-05-24 Executor Codex — PHASE-26A task-001/task-002: built the control-room web-shell view model and static HTML renderer from timeline + role catalog data.
 - [x] 2026-05-24 Executor Codex — PHASE-26B task-001: seeded progress state/checklist from accepted runner plan before code edits.
 - [x] 2026-05-24 Executor Codex — PHASE-26B task-002/task-003: added validated human idea/comment timeline write helpers and prepared human feedback context.
@@ -263,16 +269,17 @@ _(none)_
 
 ## Phase checklist
 
-_PHASE-26B - Human Idea And Feedback Capture._
+_PHASE-27A - Prepared Iteration Handoffs._
 
-- [x] Initial human game idea can be validated, persisted, and rendered as a human-authored timeline event.
-- [x] Per-version human comments can be validated, attached to the intended version, persisted, and rendered visibly.
-- [x] Empty and oversized human input is rejected with clear diagnostics before any timeline write.
-- [x] Prepared human feedback context exposes initial idea, selected/target version, comment text, timestamp, source, and actor for later handoff logic.
-- [x] Human-authored feedback remains distinguishable from developer/reviewer/narrator events and is not counted as reviewer trace-backed evidence.
-- [x] Local capture path mutates only the timeline artifact and does not run agents, provider calls, gameplay commands, or shell commands from the browser.
-- [x] Documentation and deterministic sample artifacts describe local plain-text capture, limits, diagnostics, and non-agent boundaries.
-- [x] Required focused tests, smokes, typecheck, lint, full tests, and `git diff --check` are recorded or blockers are explained.
+- [x] Progress state seeded from accepted runner plan before implementation.
+- [x] Prepared handoff data structure includes selected base version, human idea/comments, reviewer summary, developer context, evidence paths, blockers, and suggested commands/task text.
+- [x] Handoff status is deterministic and limited to ready, blocked, missing evidence, or needs human decision.
+- [x] Missing required evidence produces blockers and never marks the handoff ready.
+- [x] Self-contained handoff panel/render model is inert: no scripts, command-executing buttons/forms, agent launch controls, commit/PR/merge controls, or browser execution hooks.
+- [x] Prepared handoff timeline event helper records preparation with artifact/evidence links and no command/agent/acceptance side effects.
+- [x] Ready and blocked fixtures/sample artifacts are generated under the accepted handoff boundaries.
+- [x] Documentation explains fields, statuses, blockers, local evidence backing, suggested command preview, and human/orchestrator-owned execution.
+- [x] Required focused tests, smoke commands, typecheck, lint, full tests, and `git diff --check` are recorded or blockers are explained.
 
 ---
 
@@ -329,6 +336,10 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 ## Validation log
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
+
+- 2026-05-24 — Executor Codex — PHASE-27A pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-27A/2026-05-24T05:32:22Z/accepted-plan/accepted-plan.json`. Accepted tasks: progress rotation, deterministic prepared handoff builder, inert renderer/panel, prepared-next-step timeline event helper, focused ready/blocked/inert tests and fixtures, documentation, generated sample artifacts, and required validation. Cursor delegation not used; the deterministic runner owns accepted-plan Cursor subtask execution for tasks marked `cursorDelegation.recommended === true`.
+- 2026-05-24 — Executor Codex — PHASE-27A implementation checkpoint: added `src/control-room/handoffs/**` prepared handoff types, deterministic builder, timeline event helper, inert panel renderer, direct built CLI entrypoint, `tests/control-room-handoffs.test.ts`, ready/blocked fixtures under `tests/fixtures/control-room-handoffs/**`, `docs/CONTROL-ROOM-HANDOFFS.md`, and generated sample artifacts under `runs/control-room/handoffs/**`. The handoff panel contains no scripts, command-running controls, agent launches, commit/PR/merge controls, or provider calls.
+- 2026-05-24 — Executor Codex — PHASE-27A validation PASS: `pnpm test tests/control-room-handoffs.test.ts` (1 file, 7 tests); `pnpm test tests/control-room-web-shell.test.ts tests/control-room-human-feedback.test.ts` (2 files, 10 tests); `pnpm run build`; `node dist/src/control-room/handoffs/control-room-handoff-cli.js --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --out runs/control-room/handoffs/v001-v002-v003.prepared-handoff.json --html runs/control-room/handoffs/v001-v002-v003.panel.html` (generated sample handoff with `missing_evidence` status from known missing optional review evidence); `rg "<script|<button|Launch Cursor|gh pr|git commit|git merge|agent --print" runs/control-room/handoffs docs/CONTROL-ROOM-HANDOFFS.md` returned no matches; `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (50 files, 457 tests); `git diff --check`.
 
 - 2026-05-24 — Executor Codex — PHASE-26B pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-26B/2026-05-24T05:09:36Z/accepted-plan/accepted-plan.json`. Accepted tasks: progress rotation, validated timeline human feedback helpers, prepared context projection, safe web-shell controls, narrow timeline-only capture path, focused regression tests, docs/sample artifacts, and required validation. Cursor delegation not used; the deterministic runner owns accepted-plan Cursor subtask execution for tasks marked `cursorDelegation.recommended === true`.
 - 2026-05-24 — Executor Codex — PHASE-26B implementation checkpoint: added human feedback validation/mutation helpers and prepared context projection in `src/control-room/timeline/**`, added timeline-only capture flags to `control-room-web-shell`, rendered static human input controls and human-feedback labels, documented capture boundaries/diagnostics/context fields, and added `tests/control-room-human-feedback.test.ts`. Validation so far: PASS `pnpm test tests/control-room-human-feedback.test.ts tests/control-room-timeline.test.ts tests/control-room-web-shell.test.ts` (3 files, 15 tests); PASS `pnpm run typecheck`; PASS `pnpm run lint`; PASS accepted smokes `pnpm run control-room-web-shell -- --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --json` and `pnpm run control-room-web-shell -- --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --out runs/control-room/web-shell/index.html`.
