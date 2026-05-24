@@ -1,0 +1,182 @@
+{
+  "blockers": [
+    "Missing evidence: review: runs/v003/reviews/missing_optional_review.json"
+  ],
+  "developerContext": "Developer produced the baseline version evidence.",
+  "developerTaskText": "Prepared next iteration handoff\nSelected base version: v002\nHuman idea: Make a tiny dungeon loop that can improve through trace-backed review.\nDeveloper context: Developer produced the baseline version evidence.\nReviewer summary: Reviewer summary is linked to expected evidence, with absent optional evidence labeled.\nHuman comments: 1\n- v002 2026-05-24T04:09:00.000Z: Human comment: keep the Smoke Bomb clarity improvement.\nEvidence paths: 11\n- present comparison runs/comparisons/v001_vs_v002.json\n- present comparison runs/comparisons/v002_vs_v003.json\n- present developer_notes runs/v001/developer_notes.md\n- present review runs/v001/reviews/seed_001_careful_player.json\n- present scorecard runs/v001/scorecards/seed_001_careful_player.json\n- present trace runs/v001/traces/seed_001_careful_player.json\n- present version_summary runs/v001/version_summary.json\n- present changelog runs/v002/changelog.md\n- present acceptance runs/v003/acceptance.md\n- present balance_summary runs/v003/balance_summary.json\n- missing review runs/v003/reviews/missing_optional_review.json\nBlockers:\n- Missing evidence: review: runs/v003/reviews/missing_optional_review.json",
+  "evidence": [
+    {
+      "kind": "comparison",
+      "label": "comparison: runs/comparisons/v001_vs_v002.json",
+      "present": true,
+      "relativePath": "runs/comparisons/v001_vs_v002.json",
+      "sourceEventId": "v002-004-human_comment",
+      "sourceEventType": "human_comment"
+    },
+    {
+      "kind": "comparison",
+      "label": "comparison: runs/comparisons/v002_vs_v003.json",
+      "present": true,
+      "relativePath": "runs/comparisons/v002_vs_v003.json",
+      "sourceEventId": "v002-005-version_selected_as_base",
+      "sourceEventType": "version_selected_as_base"
+    },
+    {
+      "kind": "developer_notes",
+      "label": "developer_notes: runs/v001/developer_notes.md",
+      "present": true,
+      "relativePath": "runs/v001/developer_notes.md",
+      "sourceEventId": "v001-002-developer_summary",
+      "sourceEventType": "developer_summary"
+    },
+    {
+      "kind": "review",
+      "label": "review: runs/v001/reviews/seed_001_careful_player.json",
+      "present": true,
+      "relativePath": "runs/v001/reviews/seed_001_careful_player.json",
+      "sourceEventId": "v001-003-reviewer_summary",
+      "sourceEventType": "reviewer_summary"
+    },
+    {
+      "kind": "scorecard",
+      "label": "scorecard: runs/v001/scorecards/seed_001_careful_player.json",
+      "present": true,
+      "relativePath": "runs/v001/scorecards/seed_001_careful_player.json",
+      "sourceEventId": "v001-003-reviewer_summary",
+      "sourceEventType": "reviewer_summary"
+    },
+    {
+      "kind": "trace",
+      "label": "trace: runs/v001/traces/seed_001_careful_player.json",
+      "present": true,
+      "relativePath": "runs/v001/traces/seed_001_careful_player.json",
+      "sourceEventId": "v001-002-developer_summary",
+      "sourceEventType": "developer_summary"
+    },
+    {
+      "kind": "version_summary",
+      "label": "version_summary: runs/v001/version_summary.json",
+      "present": true,
+      "relativePath": "runs/v001/version_summary.json",
+      "sourceEventId": "v001-002-developer_summary",
+      "sourceEventType": "developer_summary"
+    },
+    {
+      "kind": "changelog",
+      "label": "changelog: runs/v002/changelog.md",
+      "present": true,
+      "relativePath": "runs/v002/changelog.md",
+      "sourceEventId": "v002-004-human_comment",
+      "sourceEventType": "human_comment"
+    },
+    {
+      "kind": "acceptance",
+      "label": "v003 acceptance notes",
+      "present": true,
+      "relativePath": "runs/v003/acceptance.md",
+      "sourceEventId": "v003-006-prepared_next_step",
+      "sourceEventType": "prepared_next_step"
+    },
+    {
+      "kind": "balance_summary",
+      "label": "balance_summary: runs/v003/balance_summary.json",
+      "present": true,
+      "relativePath": "runs/v003/balance_summary.json",
+      "sourceEventId": "v003-007-reviewer_summary",
+      "sourceEventType": "reviewer_summary"
+    },
+    {
+      "kind": "review",
+      "label": "review: runs/v003/reviews/missing_optional_review.json",
+      "missingReason": "Missing on disk: runs/v003/reviews/missing_optional_review.json",
+      "present": false,
+      "relativePath": "runs/v003/reviews/missing_optional_review.json",
+      "sourceEventId": "v003-007-reviewer_summary",
+      "sourceEventType": "reviewer_summary"
+    }
+  ],
+  "humanComments": [
+    {
+      "actor": "human",
+      "targetVersion": "v002",
+      "text": "Human comment: keep the Smoke Bomb clarity improvement.",
+      "timestamp": "2026-05-24T04:09:00.000Z"
+    }
+  ],
+  "humanIdea": "Make a tiny dungeon loop that can improve through trace-backed review.",
+  "humanSummary": "Next iteration is missing evidence; resolve blockers before executing any suggested command.",
+  "preparedAt": "2026-05-24T05:32:22.000Z",
+  "reviewerSummary": "Reviewer summary is linked to expected evidence, with absent optional evidence labeled.",
+  "schemaVersion": 1,
+  "selectedBaseVersion": "v002",
+  "sessionId": "control-room-v001-v002-v003",
+  "status": "missing_evidence",
+  "suggestedCommands": [
+    {
+      "command": "pnpm run developer-task -- --target-version v002 --runs-root .",
+      "label": "Generate developer handoff",
+      "reason": "Build a developer-facing task from existing local evidence."
+    },
+    {
+      "command": "pnpm run run-version -- --version v002 --runs-root . --on-existing archive",
+      "label": "Run bounded version evidence",
+      "reason": "Regenerate deterministic local playthrough evidence for the selected base when the orchestrator chooses to proceed."
+    },
+    {
+      "command": "pnpm run compare-versions -- --left v001 --right v003 --runs-root .",
+      "label": "Compare local versions",
+      "reason": "Refresh local comparison evidence before deciding the next implementation task."
+    }
+  ],
+  "timelineEvent": {
+    "actor": "orchestrator",
+    "evidence": [
+      {
+        "kind": "comparison",
+        "label": "comparison: runs/comparisons/v001_vs_v002.json",
+        "present": true,
+        "relativePath": "runs/comparisons/v001_vs_v002.json"
+      },
+      {
+        "kind": "comparison",
+        "label": "comparison: runs/comparisons/v002_vs_v003.json",
+        "present": true,
+        "relativePath": "runs/comparisons/v002_vs_v003.json"
+      },
+      {
+        "kind": "developer_notes",
+        "label": "developer_notes: runs/v001/developer_notes.md",
+        "present": true,
+        "relativePath": "runs/v001/developer_notes.md"
+      },
+      {
+        "kind": "review",
+        "label": "review: runs/v001/reviews/seed_001_careful_player.json",
+        "present": true,
+        "relativePath": "runs/v001/reviews/seed_001_careful_player.json"
+      },
+      {
+        "kind": "scorecard",
+        "label": "scorecard: runs/v001/scorecards/seed_001_careful_player.json",
+        "present": true,
+        "relativePath": "runs/v001/scorecards/seed_001_careful_player.json"
+      },
+      {
+        "kind": "trace",
+        "label": "trace: runs/v001/traces/seed_001_careful_player.json",
+        "present": true,
+        "relativePath": "runs/v001/traces/seed_001_careful_player.json"
+      }
+    ],
+    "id": "v002-008-prepared_next_step",
+    "missingEvidence": [
+      "Missing evidence: review: runs/v003/reviews/missing_optional_review.json"
+    ],
+    "source": "system",
+    "summary": "Next iteration is missing evidence; resolve blockers before executing any suggested command.",
+    "timestamp": "2026-05-24T05:32:22.000Z",
+    "type": "prepared_next_step",
+    "versionId": "v002"
+  },
+  "versionSummary": "Select v002 as the active base without deleting or rolling back later versions."
+}
