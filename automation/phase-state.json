@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-29C",
+  "currentPhase": "PHASE-30A",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -342,7 +342,11 @@
       "status": "complete"
     },
     "PHASE-29C": {
-      "status": "planned"
+      "branch": "phase/phase-29c-restricted-agent-api-dry-run-loop",
+      "evidenceDir": "runs/phase-runner/PHASE-29C/2026-05-24T07:29:19Z",
+      "mergeCommit": "c4870092481a14205aa244719117ac9fe0735103",
+      "pr": 67,
+      "status": "complete"
     },
     "PHASE-30A": {
       "status": "planned"
