@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-31A",
+  "currentPhase": "PHASE-31B",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -370,7 +370,11 @@
       "status": "complete"
     },
     "PHASE-31A": {
-      "status": "planned"
+      "branch": "phase/phase-31a-restricted-delegate-autopilot-integration",
+      "evidenceDir": "runs/phase-runner/PHASE-31A/2026-05-24T08:33:38Z",
+      "mergeCommit": "d97e66c3737d144926f821b172280918327c6eb0",
+      "pr": 71,
+      "status": "complete"
     },
     "PHASE-31B": {
       "status": "planned"
