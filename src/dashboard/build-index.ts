@@ -2,6 +2,7 @@ import { stat } from 'node:fs/promises';
 import path from 'node:path';
 
 import type { VersionSummary, VersionSummaryRun } from '../harness/version-loop.js';
+import { validateVersionEvidenceIntegrity } from '../harness/evidence-integrity.js';
 import {
   comparisonsForVersion,
   buildArtifactRefsForSummary,
@@ -114,6 +115,8 @@ export const buildDashboardIndex = async (runsRoot: string): Promise<DashboardIn
   for (const version of versionIds) {
     const { summary, summaryPath } = await loadVersionSummaryForDashboard(runsRoot, version);
     const artifacts = await buildArtifactRefsForSummary(runsRoot, summary);
+    const evidenceIntegrity = await validateVersionEvidenceIntegrity(runsRoot, summary);
+    const integrityProblemCount = evidenceIntegrity.diagnostics.length;
     const balanceRelative = path.join('runs', version, 'balance_summary.json');
     let balanceSummaryPath: string | undefined;
     try {
@@ -132,7 +135,10 @@ export const buildDashboardIndex = async (runsRoot: string): Promise<DashboardIn
       summaryPath,
       comparisons: comparisonsForVersion(comparisons, version),
       artifacts,
-      missingArtifactCount: artifacts.filter((artifact) => !artifact.present).length,
+      evidenceIntegrity,
+      integrityProblemCount,
+      missingArtifactCount:
+        artifacts.filter((artifact) => !artifact.present).length + integrityProblemCount,
       ...(balanceSummaryPath ? { balanceSummaryPath } : {}),
     });
   }

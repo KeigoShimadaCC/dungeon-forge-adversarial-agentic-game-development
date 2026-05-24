@@ -158,6 +158,29 @@ describe('Phase 19B content governance', () => {
     expect(output).toContain('No blockers or warnings');
   });
 
+  it('prints parseable JSON from the credential-free CLI smoke path', async () => {
+    let output = '';
+    await runContentGovernanceCli(['--format', 'json'], {
+      stdout: (value) => {
+        output += value;
+      },
+    });
+
+    const parsed = JSON.parse(output) as {
+      ok: boolean;
+      schemaVersion: string;
+      summary: { blockers: number; warnings: number };
+      sources: Array<{ source: string }>;
+    };
+
+    expect(parsed.schemaVersion).toBe(CONTENT_GOVERNANCE_SCHEMA_VERSION);
+    expect(parsed.ok).toBe(true);
+    expect(parsed.summary.blockers).toBe(0);
+    expect(parsed.sources.map((source) => source.source)).toEqual(
+      expect.arrayContaining(['base content', 'scenario pack:shrine_trial']),
+    );
+  });
+
   it('exposes structured validation for raw content bundles', () => {
     const content = validateRawGameContent(cloneCurrentRaw());
     expect(content.items.items.length).toBeGreaterThan(0);

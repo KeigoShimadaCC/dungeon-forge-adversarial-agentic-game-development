@@ -1,11 +1,43 @@
 {
+  "agent_policy_class": "baseline",
   "damage_taken": 4,
+  "diagnostics": {
+    "categories": [
+      {
+        "category": "resource_pressure",
+        "code": "starvation_damage",
+        "detail": {
+          "hunger_damage_taken": 16,
+          "resource_pressure_events": 26,
+          "trap_damage_taken": 0,
+          "traps_triggered": 0
+        },
+        "message": "Hunger pressure dealt 16 damage."
+      }
+    ],
+    "primary_category": "resource_pressure"
+  },
   "enemies_defeated": 0,
+  "enemy_behaviors": {
+    "enemy_attack": 2,
+    "enemy_defeated": 0,
+    "enemy_move": 55,
+    "enemy_phase": 0,
+    "enemy_steal": 0,
+    "enemy_wait": 1
+  },
   "floors_reached": 1,
   "invalid_actions": 0,
+  "item_evaluation": {
+    "item_pickup_actions": 0,
+    "items_used": 1,
+    "tactical_items_used": 1,
+    "use_item_turns_available": 4
+  },
   "items_used": 1,
   "persona": "cautious-low-hp",
-  "result": "ABORTED",
+  "player_kind": "agent",
+  "result": "LOSS",
   "reviewer_scores": {
     "clarity": null,
     "fairness": null,
@@ -14,8 +46,14 @@
     "tactical_depth": null
   },
   "seed": "seed_002",
-  "softlocks": 1,
+  "softlocks": 0,
   "trace_path": "runs/v002/traces/seed_002_cautious-low-hp.json",
-  "turns": 100,
+  "trap_resources": {
+    "hunger_damage_taken": 16,
+    "resource_pressure_events": 26,
+    "trap_damage_taken": 0,
+    "traps_triggered": 0
+  },
+  "turns": 58,
   "version": "v002"
 }

@@ -7,7 +7,7 @@ Generated: 2026-05-22T17:52:24.110Z
 
 Status: pass
 
-Checks: 7 pass, 0 fail, 3 warning, 5 skipped, 0 blocked.
+Checks: 9 pass, 0 fail, 2 warning, 5 skipped, 0 blocked.
 
 Passing machine checks do **not** auto-accept this version. The human owner remains the final governor.
 
@@ -25,7 +25,7 @@ Notes:
 
 ## Risks
 
-- 15 run(s) ended in ABORTED; inspect traces for invalid actions, softlocks, or protocol failures.
+- 8 run(s) ended in ABORTED; inspect traces for invalid actions, softlocks, or protocol failures.
 - Machine checks passed, but final acceptance still requires explicit human owner approval.
 
 ## Checks
@@ -40,33 +40,14 @@ Notes:
 | Review coverage | PASS | All 3 expected review files are present. |
 | Scorecard coverage | PASS | All 3 expected scorecard files are present. |
 | Terminal outcomes | PASS | All recorded runs reached WIN, LOSS, or ABORTED. |
-| Protocol stability metrics | WARNING | 15 run(s) recorded invalid actions or softlocks. |
+| Protocol stability metrics | PASS | No invalid actions or softlocks recorded across scorecards. |
 | Changelog evidence | PASS | changelog.md exists with non-placeholder content. |
 | Developer notes evidence | PASS | developer_notes.md exists with non-placeholder implementation notes. |
 | Reviewer-driven handoff | SKIPPED | Version was not classified as reviewer-driven; patch plan/developer task not required. |
 | Default evidence matrix | PASS | Default trace/review/scorecard matrix is complete. |
 | Forbidden MVP feature checklist | WARNING | Manual verification required: confirm no forbidden MVP feature was introduced in this version. |
 | Global forbidden change checklist | WARNING | Manual verification required: confirm developer work respected harness/global forbidden changes. |
-
-## Check details
-
-### Protocol stability metrics
-
-- seed_001/careful_player: invalid_actions=0, softlocks=1
-- seed_001/cautious-low-hp: invalid_actions=0, softlocks=1
-- seed_001/random: invalid_actions=0, softlocks=1
-- seed_001/stairs-seeking: invalid_actions=0, softlocks=1
-- seed_002/cautious-low-hp: invalid_actions=0, softlocks=1
-- seed_002/naive_player: invalid_actions=0, softlocks=1
-- seed_002/random: invalid_actions=0, softlocks=1
-- seed_003/cautious-low-hp: invalid_actions=0, softlocks=1
-- seed_003/greedy-item-picker: invalid_actions=0, softlocks=1
-- seed_003/random: invalid_actions=0, softlocks=1
-- seed_004/cautious-low-hp: invalid_actions=0, softlocks=1
-- seed_004/greedy-item-picker: invalid_actions=0, softlocks=1
-- seed_004/stairs-seeking: invalid_actions=0, softlocks=1
-- seed_005/cautious-low-hp: invalid_actions=0, softlocks=1
-- seed_005/random: invalid_actions=0, softlocks=1
+| Optional media dependency | PASS | Optional media metadata is additive; no media is required for play or review. |
 
 ## Forbidden MVP feature checklist
 
@@ -101,4 +82,6 @@ Manual verification required before final acceptance:
 - Changelog: `runs/v001/changelog.md`
 - Developer notes: `runs/v001/developer_notes.md`
 - Summary status: complete
+- Challenge mode: default
+- Scenario pack: default
 - Artifact coverage: 3/3 traces, 3/3 reviews, 3/3 scorecards

@@ -7,7 +7,7 @@ Generated: 2026-05-22T17:52:24.323Z
 
 Status: pass
 
-Checks: 12 pass, 0 fail, 3 warning, 0 skipped, 0 blocked.
+Checks: 9 pass, 0 fail, 3 warning, 4 skipped, 0 blocked.
 
 Passing machine checks do **not** auto-accept this version. The human owner remains the final governor.
 
@@ -25,28 +25,29 @@ Notes:
 
 ## Risks
 
-- 14 run(s) ended in ABORTED; inspect traces for invalid actions, softlocks, or protocol failures.
+- 13 run(s) ended in ABORTED; inspect traces for invalid actions, softlocks, or protocol failures.
 - Machine checks passed, but final acceptance still requires explicit human owner approval.
 
 ## Checks
 
 | Check | Status | Summary |
 | --- | --- | --- |
-| Typecheck | PASS | Typecheck reported pass. |
-| Tests | PASS | Tests reported pass. |
-| Lint | PASS | Lint reported pass. |
-| Build | PASS | Build reported pass. |
+| Typecheck | SKIPPED | Typecheck was intentionally skipped. |
+| Tests | SKIPPED | Tests was intentionally skipped. |
+| Lint | SKIPPED | Lint was intentionally skipped. |
+| Build | SKIPPED | Build was intentionally skipped. |
 | Trace coverage | PASS | All 3 expected trace files are present. |
 | Review coverage | PASS | All 3 expected review files are present. |
 | Scorecard coverage | PASS | All 3 expected scorecard files are present. |
 | Terminal outcomes | PASS | All recorded runs reached WIN, LOSS, or ABORTED. |
-| Protocol stability metrics | WARNING | 14 run(s) recorded invalid actions or softlocks. |
+| Protocol stability metrics | WARNING | 7 run(s) recorded invalid actions or softlocks. |
 | Changelog evidence | PASS | changelog.md exists with non-placeholder content. |
 | Developer notes evidence | PASS | developer_notes.md exists with non-placeholder implementation notes. |
 | Reviewer-driven handoff | PASS | developer_task.md is present for reviewer-driven work. |
 | Default evidence matrix | PASS | Default trace/review/scorecard matrix is complete. |
 | Forbidden MVP feature checklist | WARNING | Manual verification required: confirm no forbidden MVP feature was introduced in this version. |
 | Global forbidden change checklist | WARNING | Manual verification required: confirm developer work respected harness/global forbidden changes. |
+| Optional media dependency | PASS | Optional media metadata is additive; no media is required for play or review. |
 
 ## Check details
 
@@ -55,17 +56,10 @@ Notes:
 - seed_001/careful_player: invalid_actions=0, softlocks=1
 - seed_001/cautious-low-hp: invalid_actions=0, softlocks=1
 - seed_001/greedy-item-picker: invalid_actions=0, softlocks=1
-- seed_001/random: invalid_actions=0, softlocks=1
-- seed_001/stairs-seeking: invalid_actions=0, softlocks=1
-- seed_002/cautious-low-hp: invalid_actions=0, softlocks=1
 - seed_003/cautious-low-hp: invalid_actions=0, softlocks=1
 - seed_003/greedy-item-picker: invalid_actions=0, softlocks=1
-- seed_003/random: invalid_actions=0, softlocks=1
 - seed_004/cautious-low-hp: invalid_actions=0, softlocks=1
 - seed_004/greedy-item-picker: invalid_actions=0, softlocks=1
-- seed_004/random: invalid_actions=0, softlocks=1
-- seed_005/cautious-low-hp: invalid_actions=0, softlocks=1
-- seed_005/random: invalid_actions=0, softlocks=1
 
 ## Forbidden MVP feature checklist
 
@@ -100,4 +94,6 @@ Manual verification required before final acceptance:
 - Changelog: `runs/v003/changelog.md`
 - Developer notes: `runs/v003/developer_notes.md`
 - Summary status: complete
+- Challenge mode: default
+- Scenario pack: default
 - Artifact coverage: 3/3 traces, 3/3 reviews, 3/3 scorecards

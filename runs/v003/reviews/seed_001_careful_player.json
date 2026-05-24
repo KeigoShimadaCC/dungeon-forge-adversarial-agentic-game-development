@@ -1,7 +1,22 @@
 {
   "evidence_quality": "full",
   "persona": "careful_player",
+  "persona_metadata": {
+    "description": "Reads state carefully, prioritizes survivability, and judges fairness and tactical depth from trace evidence.",
+    "display_name": "Careful Player",
+    "emphasis": [
+      "fairness",
+      "clarity",
+      "tactical_depth",
+      "readable_renders"
+    ],
+    "id": "careful_player",
+    "player_policy_hint": "baseline policy: cautious-low-hp"
+  },
+  "review_markdown_path": "runs/v003/reviews/seed_001_careful_player.md",
   "scorecard_path": "runs/v003/scorecards/seed_001_careful_player.json",
+  "scorecard_result": "ABORTED",
+  "scorecard_turns": 64,
   "scores": {
     "clarity": 5,
     "fairness": 4,
@@ -44,7 +59,7 @@
           "quote": "ABORTED"
         },
         {
-          "detail": "Turn 63 emitted abort-related events: move, enemy_move, aborted.",
+          "detail": "Turn 63 emitted abort-related events: move, resource_hunger, enemy_move, aborted.",
           "kind": "event",
           "turn": 63
         }

@@ -1,6 +1,37 @@
 {
+  "agent_policy_class": "baseline",
+  "metadata": {
+    "map_generation": {
+      "floors": [
+        {
+          "floor": 1,
+          "generation_attempt": 4,
+          "height": 9,
+          "used_fallback": false,
+          "width": 9
+        }
+      ]
+    },
+    "problem_run": {
+      "categories": [
+        {
+          "category": "resource_pressure",
+          "code": "starvation_damage",
+          "detail": {
+            "hunger_damage_taken": 16,
+            "resource_pressure_events": 26,
+            "trap_damage_taken": 0,
+            "traps_triggered": 0
+          },
+          "message": "Hunger pressure dealt 16 damage."
+        }
+      ],
+      "primary_category": "resource_pressure"
+    }
+  },
   "persona": "random",
-  "result": "ABORTED",
+  "player_kind": "agent",
+  "result": "LOSS",
   "seed": "seed_001",
   "steps": [
     {
@@ -69,10 +100,13 @@
       "events": [
         {
           "id": "turn-1-inspect",
-          "message": "You inspect the dungeon state.",
+          "message": "You inspect the dungeon state. Rations 85/100 | Torch 100/100",
           "payload": {
             "floor": 1,
-            "hp": 20
+            "hp": 20,
+            "hunger": 85,
+            "torch": 100,
+            "trapCount": 1
           },
           "turn": 1,
           "type": "inspect"
@@ -92,7 +126,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 0/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##...s.##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n- Tuned v003: one focused floor, a Potion, and a Smoke Bomb reduce sudden losses.\n- Use Smoke Bomb to escape pursuit; use Potion only after taking damage.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 0/64\nStatus: ACTIVE | HP: 20/20\nRations 85/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##...s.##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n- Tuned v003: one focused floor, a Potion, and a Smoke Bomb reduce sudden losses.\n- Use Smoke Bomb to escape pursuit; use Potion only after taking damage.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -182,10 +216,13 @@
       "events": [
         {
           "id": "turn-2-inspect",
-          "message": "You inspect the dungeon state.",
+          "message": "You inspect the dungeon state. Rations 83/100 | Torch 100/100",
           "payload": {
             "floor": 1,
-            "hp": 20
+            "hp": 20,
+            "hunger": 83,
+            "torch": 100,
+            "trapCount": 1
           },
           "turn": 2,
           "type": "inspect"
@@ -205,7 +242,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 1/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!..s.##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Use Smoke Bomb to escape pursuit; use Potion only after taking damage.\n- You inspect the dungeon state.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 1/64\nStatus: ACTIVE | HP: 20/20\nRations 83/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!..s.##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Use Smoke Bomb to escape pursuit; use Potion only after taking damage.\n- You inspect the dungeon state. Rations 85/100 | Torch 100/100\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -319,7 +356,7 @@
           "type": "enemy_wait"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 2/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##...s###\n##....###\n##....###\n##@...###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You inspect the dungeon state.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 2/64\nStatus: ACTIVE | HP: 20/20\nRations 81/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##...s###\n##....###\n##....###\n##@...###\n#########\nInventory: Smoke Bomb, Healing Potion\n  - ~ Smoke Bomb: Enemies lose pursuit tracking for a few turns.\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You inspect the dungeon state. Rations 83/100 | Torch 100/100\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -422,7 +459,7 @@
           "type": "enemy_wait"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 3/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##...s###\n##....###\n##....###\n##@...###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 6.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You hurl Smoke Bomb. Enemies lose pursuit tracking for 3 turns.\n- Green Slime loses your trail in the smoke.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 3/64\nStatus: ACTIVE | HP: 20/20\nRations 79/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##...s###\n##....###\n##....###\n##@...###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 6.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You hurl Smoke Bomb. Enemies lose pursuit tracking for 3 turns.\n- Green Slime loses your trail in the smoke.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -529,7 +566,7 @@
           "type": "enemy_wait"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 4/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##...s###\n##....###\n##....###\n##.@..###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 6.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime loses your trail in the smoke.\n- You move to 3,7.\n- Green Slime loses your trail in the smoke.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 4/64\nStatus: ACTIVE | HP: 20/20\nRations 77/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##...s###\n##....###\n##....###\n##.@..###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 6.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Green Slime loses your trail in the smoke.\n- You move to 3,7.\n- Green Slime loses your trail in the smoke.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -642,7 +679,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 5/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##...s###\n##....###\n##....###\n##.@..###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 6.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime loses your trail in the smoke.\n- You wait for one turn.\n- Green Slime loses your trail in the smoke.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 5/64\nStatus: ACTIVE | HP: 20/20\nRations 75/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##...s###\n##....###\n##....###\n##.@..###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: enemy pursuit blinded until turn 6.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Green Slime loses your trail in the smoke.\n- You wait for one turn.\n- Green Slime loses your trail in the smoke.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -760,7 +797,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 6/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##..s.###\n##....###\n##.@..###\n##....###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime loses your trail in the smoke.\n- You move to 3,6.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 6/64\nStatus: ACTIVE | HP: 20/20\nRations 73/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##..s.###\n##....###\n##.@..###\n##....###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Green Slime loses your trail in the smoke.\n- You move to 3,6.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -882,7 +919,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 7/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##..s.###\n##.@..###\n##....###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You wait for one turn.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 7/64\nStatus: ACTIVE | HP: 20/20\nRations 71/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##..s.###\n##.@..###\n##....###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You wait for one turn.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -994,7 +1031,7 @@
           "type": "enemy_attack"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 8/64\nStatus: ACTIVE | HP: 20/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##..s.###\n##.@..###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 3,7.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 8/64\nStatus: ACTIVE | HP: 20/20\nRations 69/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##..s.###\n##.@..###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 3,7.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1115,7 +1152,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 9/64\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##.@s.###\n##....###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 3,6.\n- Green Slime hits you for 2.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 9/64\nStatus: ACTIVE | HP: 18/20\nRations 67/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##.@s.###\n##....###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You move to 3,6.\n- Green Slime hits you for 2.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1227,7 +1264,7 @@
           "type": "enemy_attack"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 10/64\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##@s..###\n##....###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 2,6.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 10/64\nStatus: ACTIVE | HP: 18/20\nRations 65/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##@s..###\n##....###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 2,6.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1329,7 +1366,7 @@
           "type": "enemy_attack"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 11/64\nStatus: ACTIVE | HP: 18/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##@s..###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You use Healing Potion.\n- Green Slime hits you for 2.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 11/64\nStatus: ACTIVE | HP: 18/20\nRations 63/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##@s..###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You use Healing Potion.\n- Green Slime hits you for 2.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1430,7 +1467,7 @@
           "type": "enemy_move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 12/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##@s..###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You hit Green Slime for 4.\n- Green Slime hits you for 2.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 12/64\nStatus: ACTIVE | HP: 16/20\nRations 61/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##@s..###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You hit Green Slime for 4.\n- Green Slime hits you for 2.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1517,7 +1554,7 @@
           "type": "enemy_defeated"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 13/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##s...###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 2,7.\n- Green Slime shuffles closer.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 13/64\nStatus: ACTIVE | HP: 16/20\nRations 59/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##s...###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Green Slime hits you for 2.\n- You move to 2,7.\n- Green Slime shuffles closer.",
       "state_summary": {
         "enemyCount": 1,
         "floor": 1,
@@ -1586,16 +1623,19 @@
       "events": [
         {
           "id": "turn-15-inspect",
-          "message": "You inspect the dungeon state.",
+          "message": "You inspect the dungeon state. Rations 57/100 | Torch 100/100",
           "payload": {
             "floor": 1,
-            "hp": 16
+            "hp": 16,
+            "hunger": 57,
+            "torch": 100,
+            "trapCount": 1
           },
           "turn": 15,
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 14/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You hit Green Slime for 4.\n- Green Slime dissolves.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 14/64\nStatus: ACTIVE | HP: 16/20\nRations 57/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Green Slime shuffles closer.\n- You hit Green Slime for 4.\n- Green Slime dissolves.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -1674,7 +1714,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 15/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You hit Green Slime for 4.\n- Green Slime dissolves.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 15/64\nStatus: ACTIVE | HP: 16/20\nRations 55/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You hit Green Slime for 4.\n- Green Slime dissolves.\n- You inspect the dungeon state. Rations 57/100 | Torch 100/100",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -1762,7 +1802,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 16/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##@...###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- Green Slime dissolves.\n- You inspect the dungeon state.\n- You move to 2,6.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 16/64\nStatus: ACTIVE | HP: 16/20\nRations 53/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##@...###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Green Slime dissolves.\n- You inspect the dungeon state. Rations 57/100 | Torch 100/100\n- You move to 2,6.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -1859,7 +1899,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 17/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##.@..###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 2,6.\n- You move to 3,6.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 17/64\nStatus: ACTIVE | HP: 16/20\nRations 51/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##.@..###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state. Rations 57/100 | Torch 100/100\n- You move to 2,6.\n- You move to 3,6.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -1947,7 +1987,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 18/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##.@..###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,6.\n- You move to 3,6.\n- You move to 3,7.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 18/64\nStatus: ACTIVE | HP: 16/20\nRations 49/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##.@..###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You move to 2,6.\n- You move to 3,6.\n- You move to 3,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2022,7 +2062,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 19/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,6.\n- You move to 3,7.\n- You move to 2,7.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 19/64\nStatus: ACTIVE | HP: 16/20\nRations 47/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You move to 3,6.\n- You move to 3,7.\n- You move to 2,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2101,7 +2141,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 20/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,7.\n- You move to 2,7.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 20/64\nStatus: ACTIVE | HP: 16/20\nRations 45/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You move to 3,7.\n- You move to 2,7.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2189,7 +2229,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 21/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##@...###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,7.\n- You wait for one turn.\n- You move to 2,6.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 21/64\nStatus: ACTIVE | HP: 16/20\nRations 43/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##@...###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You move to 2,7.\n- You wait for one turn.\n- You move to 2,6.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2268,7 +2308,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 22/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 2,6.\n- You move to 2,7.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 22/64\nStatus: ACTIVE | HP: 16/20\nRations 41/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 2,6.\n- You move to 2,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2356,7 +2396,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 23/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##.@..###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,6.\n- You move to 2,7.\n- You move to 3,7.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 23/64\nStatus: ACTIVE | HP: 16/20\nRations 39/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##.@..###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You move to 2,6.\n- You move to 2,7.\n- You move to 3,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2431,7 +2471,7 @@
           "type": "wait"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 24/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,7.\n- You move to 3,7.\n- You move to 2,7.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 24/64\nStatus: ACTIVE | HP: 16/20\nRations 37/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You move to 2,7.\n- You move to 3,7.\n- You move to 2,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2510,7 +2550,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 25/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,7.\n- You move to 2,7.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 25/64\nStatus: ACTIVE | HP: 16/20\nRations 35/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##@...###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You move to 3,7.\n- You move to 2,7.\n- You wait for one turn.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2588,16 +2628,19 @@
       "events": [
         {
           "id": "turn-27-inspect",
-          "message": "You inspect the dungeon state.",
+          "message": "You inspect the dungeon state. Rations 33/100 | Torch 100/100",
           "payload": {
             "floor": 1,
-            "hp": 16
+            "hp": 16,
+            "hunger": 33,
+            "torch": 100,
+            "trapCount": 1
           },
           "turn": 27,
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 26/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##.@..###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,7.\n- You wait for one turn.\n- You move to 3,7.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 26/64\nStatus: ACTIVE | HP: 16/20\nRations 33/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##.@..###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You move to 2,7.\n- You wait for one turn.\n- You move to 3,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2675,16 +2718,19 @@
       "events": [
         {
           "id": "turn-28-inspect",
-          "message": "You inspect the dungeon state.",
+          "message": "You inspect the dungeon state. Rations 31/100 | Torch 100/100",
           "payload": {
             "floor": 1,
-            "hp": 16
+            "hp": 16,
+            "hunger": 31,
+            "torch": 100,
+            "trapCount": 1
           },
           "turn": 28,
           "type": "inspect"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 27/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##.@..###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 3,7.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 27/64\nStatus: ACTIVE | HP: 16/20\nRations 31/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##.@..###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 3,7.\n- You inspect the dungeon state. Rations 33/100 | Torch 100/100",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2772,7 +2818,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 28/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##.@..###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,7.\n- You inspect the dungeon state.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 28/64\nStatus: ACTIVE | HP: 16/20\nRations 29/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##.@..###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You move to 3,7.\n- You inspect the dungeon state. Rations 33/100 | Torch 100/100\n- You inspect the dungeon state. Rations 31/100 | Torch 100/100",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2860,7 +2906,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 29/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##..@.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You inspect the dungeon state.\n- You move to 4,7.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 29/64\nStatus: ACTIVE | HP: 16/20\nRations 27/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##..@.###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state. Rations 33/100 | Torch 100/100\n- You inspect the dungeon state. Rations 31/100 | Torch 100/100\n- You move to 4,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -2939,7 +2985,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 30/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##...@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 4,7.\n- You move to 5,7.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 30/64\nStatus: ACTIVE | HP: 16/20\nRations 25/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##...@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state. Rations 31/100 | Torch 100/100\n- You move to 4,7.\n- You move to 5,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3027,7 +3073,7 @@
           "type": "move"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 31/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##...@###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,7.\n- You move to 5,7.\n- You move to 5,6.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 31/64\nStatus: ACTIVE | HP: 16/20\nRations 23/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##...@###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You move to 4,7.\n- You move to 5,7.\n- You move to 5,6.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3104,9 +3150,19 @@
           },
           "turn": 33,
           "type": "move"
+        },
+        {
+          "id": "turn-33-resource_hunger",
+          "message": "Your stomach growls; rations are low.",
+          "payload": {
+            "damage": 0,
+            "hunger": 19
+          },
+          "turn": 33,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 32/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##...@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,7.\n- You move to 5,6.\n- You move to 5,7.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 32/64\nStatus: ACTIVE | HP: 16/20\nRations 21/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##...@###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You move to 5,7.\n- You move to 5,6.\n- You move to 5,7.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3192,9 +3248,19 @@
           },
           "turn": 34,
           "type": "move"
+        },
+        {
+          "id": "turn-34-resource_hunger",
+          "message": "Your stomach growls; rations are low.",
+          "payload": {
+            "damage": 0,
+            "hunger": 17
+          },
+          "turn": 34,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 33/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##....###\n##...@###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,6.\n- You move to 5,7.\n- You move to 5,6.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 33/64\nStatus: ACTIVE | HP: 16/20\nRations 19/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##....###\n##...@###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- You move to 5,7.\n- You move to 5,6.\n- Your stomach growls; rations are low.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3272,16 +3338,29 @@
       "events": [
         {
           "id": "turn-35-inspect",
-          "message": "You inspect the dungeon state.",
+          "message": "You inspect the dungeon state. Rations 17/100 | Torch 100/100",
           "payload": {
             "floor": 1,
-            "hp": 16
+            "hp": 16,
+            "hunger": 17,
+            "torch": 100,
+            "trapCount": 1
           },
           "turn": 35,
           "type": "inspect"
+        },
+        {
+          "id": "turn-35-resource_hunger",
+          "message": "Your stomach growls; rations are low.",
+          "payload": {
+            "damage": 0,
+            "hunger": 15
+          },
+          "turn": 35,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 34/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##...@###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,7.\n- You move to 5,6.\n- You move to 5,5.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 34/64\nStatus: ACTIVE | HP: 16/20\nRations 17/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##...@###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Your stomach growls; rations are low.\n- You move to 5,5.\n- Your stomach growls; rations are low.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3367,9 +3446,19 @@
           },
           "turn": 36,
           "type": "move"
+        },
+        {
+          "id": "turn-36-resource_hunger",
+          "message": "Your stomach growls; rations are low.",
+          "payload": {
+            "damage": 0,
+            "hunger": 13
+          },
+          "turn": 36,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 35/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##....###\n##...@###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,6.\n- You move to 5,5.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 35/64\nStatus: ACTIVE | HP: 16/20\nRations 15/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##....###\n##...@###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Your stomach growls; rations are low.\n- You inspect the dungeon state. Rations 17/100 | Torch 100/100\n- Your stomach growls; rations are low.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3455,9 +3544,19 @@
           },
           "turn": 37,
           "type": "move"
+        },
+        {
+          "id": "turn-37-resource_hunger",
+          "message": "Your stomach growls; rations are low.",
+          "payload": {
+            "damage": 0,
+            "hunger": 11
+          },
+          "turn": 37,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 36/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!....##\n##...@###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,5.\n- You inspect the dungeon state.\n- You move to 5,4.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 36/64\nStatus: ACTIVE | HP: 16/20\nRations 13/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!....##\n##...@###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Your stomach growls; rations are low.\n- You move to 5,4.\n- Your stomach growls; rations are low.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3544,16 +3643,29 @@
       "events": [
         {
           "id": "turn-38-inspect",
-          "message": "You inspect the dungeon state.",
+          "message": "You inspect the dungeon state. Rations 11/100 | Torch 100/100",
           "payload": {
             "floor": 1,
-            "hp": 16
+            "hp": 16,
+            "hunger": 11,
+            "torch": 100,
+            "trapCount": 1
           },
           "turn": 38,
           "type": "inspect"
+        },
+        {
+          "id": "turn-38-resource_hunger",
+          "message": "Your stomach growls; rations are low.",
+          "payload": {
+            "damage": 0,
+            "hunger": 9
+          },
+          "turn": 38,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 37/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!..@.##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 5,4.\n- You move to 5,3.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 37/64\nStatus: ACTIVE | HP: 16/20\nRations 11/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!..@.##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Your stomach growls; rations are low.\n- You move to 5,3.\n- Your stomach growls; rations are low.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3644,9 +3756,19 @@
           "payload": {},
           "turn": 39,
           "type": "wait"
+        },
+        {
+          "id": "turn-39-resource_hunger",
+          "message": "Your stomach growls; rations are low.",
+          "payload": {
+            "damage": 0,
+            "hunger": 7
+          },
+          "turn": 39,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 38/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!..@.##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,4.\n- You move to 5,3.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 38/64\nStatus: ACTIVE | HP: 16/20\nRations 9/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!..@.##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Your stomach growls; rations are low.\n- You inspect the dungeon state. Rations 11/100 | Torch 100/100\n- Your stomach growls; rations are low.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3741,9 +3863,19 @@
           },
           "turn": 40,
           "type": "move"
+        },
+        {
+          "id": "turn-40-resource_hunger",
+          "message": "Your stomach growls; rations are low.",
+          "payload": {
+            "damage": 0,
+            "hunger": 5
+          },
+          "turn": 40,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 39/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!..@.##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,3.\n- You inspect the dungeon state.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 39/64\nStatus: ACTIVE | HP: 16/20\nRations 7/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!..@.##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Your stomach growls; rations are low.\n- You wait for one turn.\n- Your stomach growls; rations are low.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3820,9 +3952,19 @@
           },
           "turn": 41,
           "type": "move"
+        },
+        {
+          "id": "turn-41-resource_hunger",
+          "message": "Your stomach growls; rations are low.",
+          "payload": {
+            "damage": 0,
+            "hunger": 3
+          },
+          "turn": 41,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 40/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##!...@##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You wait for one turn.\n- You move to 6,3.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 40/64\nStatus: ACTIVE | HP: 16/20\nRations 5/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.....##\n##!...@##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Your stomach growls; rations are low.\n- You move to 6,3.\n- Your stomach growls; rations are low.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3904,9 +4046,19 @@
           "payload": {},
           "turn": 42,
           "type": "wait"
+        },
+        {
+          "id": "turn-42-resource_hunger",
+          "message": "Your stomach growls; rations are low.",
+          "payload": {
+            "damage": 0,
+            "hunger": 1
+          },
+          "turn": 42,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 41/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##....@##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 6,3.\n- You move to 6,2.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 41/64\nStatus: ACTIVE | HP: 16/20\nRations 3/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##....@##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Your stomach growls; rations are low.\n- You move to 6,2.\n- Your stomach growls; rations are low.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -3984,16 +4136,29 @@
       "events": [
         {
           "id": "turn-43-inspect",
-          "message": "You inspect the dungeon state.",
+          "message": "You inspect the dungeon state. Rations 1/100 | Torch 100/100",
           "payload": {
             "floor": 1,
-            "hp": 16
+            "hp": 16,
+            "hunger": 1,
+            "torch": 100,
+            "trapCount": 1
           },
           "turn": 43,
           "type": "inspect"
+        },
+        {
+          "id": "turn-43-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 43,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 42/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##....@##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,3.\n- You move to 6,2.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 42/64\nStatus: ACTIVE | HP: 16/20\nRations 1/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##....@##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Your stomach growls; rations are low.\n- You wait for one turn.\n- Your stomach growls; rations are low.",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
@@ -4079,13 +4244,23 @@
           },
           "turn": 44,
           "type": "move"
+        },
+        {
+          "id": "turn-44-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 44,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 43/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##....@##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,2.\n- You wait for one turn.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 43/64\nStatus: ACTIVE | HP: 15/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##....@##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Your stomach growls; rations are low.\n- You inspect the dungeon state. Rations 1/100 | Torch 100/100\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 15,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -4166,13 +4341,23 @@
           },
           "turn": 45,
           "type": "move"
+        },
+        {
+          "id": "turn-45-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 45,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 44/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....@##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You inspect the dungeon state.\n- You move to 6,1.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 44/64\nStatus: ACTIVE | HP: 14/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...@##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Hunger bites for 1 damage (rations empty).\n- You move to 6,1.\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 14,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -4254,13 +4439,23 @@
           },
           "turn": 46,
           "type": "move"
+        },
+        {
+          "id": "turn-46-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 46,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 45/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##...@>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 6,1.\n- You move to 5,1.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 45/64\nStatus: ACTIVE | HP: 13/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x..@>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Hunger bites for 1 damage (rations empty).\n- You move to 5,1.\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 13,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -4342,13 +4537,23 @@
           },
           "turn": 47,
           "type": "move"
+        },
+        {
+          "id": "turn-47-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 47,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 46/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##..@.>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 6,1.\n- You move to 5,1.\n- You move to 4,1.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 46/64\nStatus: ACTIVE | HP: 12/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x.@.>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Hunger bites for 1 damage (rations empty).\n- You move to 4,1.\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 12,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -4426,13 +4631,23 @@
           "payload": {},
           "turn": 48,
           "type": "wait"
+        },
+        {
+          "id": "turn-48-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 48,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 47/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##.@..>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 5,1.\n- You move to 4,1.\n- You move to 3,1.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 47/64\nStatus: ACTIVE | HP: 11/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x@..>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Hunger bites for 1 damage (rations empty).\n- You move to 3,1.\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 11,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -4514,13 +4729,23 @@
           },
           "turn": 49,
           "type": "move"
+        },
+        {
+          "id": "turn-49-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 49,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 48/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##.@..>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,1.\n- You move to 3,1.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 48/64\nStatus: ACTIVE | HP: 10/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x@..>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Hunger bites for 1 damage (rations empty).\n- You wait for one turn.\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 10,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -4602,13 +4827,23 @@
           },
           "turn": 50,
           "type": "move"
+        },
+        {
+          "id": "turn-50-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 50,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 49/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##..@.>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,1.\n- You wait for one turn.\n- You move to 4,1.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 49/64\nStatus: ACTIVE | HP: 9/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x.@.>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Hunger bites for 1 damage (rations empty).\n- You move to 4,1.\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 9,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -4690,13 +4925,23 @@
           },
           "turn": 51,
           "type": "move"
+        },
+        {
+          "id": "turn-51-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 51,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 50/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##.@..>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 4,1.\n- You move to 3,1.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 50/64\nStatus: ACTIVE | HP: 8/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x@..>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Hunger bites for 1 damage (rations empty).\n- You move to 3,1.\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 8,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -4787,13 +5032,23 @@
           },
           "turn": 52,
           "type": "move"
+        },
+        {
+          "id": "turn-52-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 52,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 51/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.@...##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,1.\n- You move to 3,1.\n- You move to 3,2.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 51/64\nStatus: ACTIVE | HP: 7/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.@...##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Hunger bites for 1 damage (rations empty).\n- You move to 3,2.\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 7,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -4880,13 +5135,23 @@
           "payload": {},
           "turn": 53,
           "type": "wait"
+        },
+        {
+          "id": "turn-53-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 53,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 52/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##..@..##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,1.\n- You move to 3,2.\n- You move to 4,2.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 52/64\nStatus: ACTIVE | HP: 6/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##..@..##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Hunger bites for 1 damage (rations empty).\n- You move to 4,2.\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 6,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -4977,13 +5242,23 @@
           },
           "turn": 54,
           "type": "move"
+        },
+        {
+          "id": "turn-54-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 54,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 53/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##..@..##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,2.\n- You move to 4,2.\n- You wait for one turn.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 53/64\nStatus: ACTIVE | HP: 5/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##..@..##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Hunger bites for 1 damage (rations empty).\n- You wait for one turn.\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 5,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -5065,13 +5340,23 @@
           },
           "turn": 55,
           "type": "move"
+        },
+        {
+          "id": "turn-55-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 55,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 54/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##..@.>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,2.\n- You wait for one turn.\n- You move to 4,1.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 54/64\nStatus: ACTIVE | HP: 4/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x.@.>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Hunger bites for 1 damage (rations empty).\n- You move to 4,1.\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 4,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -5145,20 +5430,33 @@
       "events": [
         {
           "id": "turn-56-inspect",
-          "message": "You inspect the dungeon state.",
+          "message": "You inspect the dungeon state. Rations 0/100 | Torch 100/100",
           "payload": {
             "floor": 1,
-            "hp": 16
+            "hp": 3,
+            "hunger": 0,
+            "torch": 100,
+            "trapCount": 1
           },
           "turn": 56,
           "type": "inspect"
+        },
+        {
+          "id": "turn-56-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 56,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 55/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##.@..>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 4,1.\n- You move to 3,1.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 55/64\nStatus: ACTIVE | HP: 3/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x@..>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Hunger bites for 1 damage (rations empty).\n- You move to 3,1.\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 3,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -5240,13 +5538,23 @@
           },
           "turn": 57,
           "type": "move"
+        },
+        {
+          "id": "turn-57-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 57,
+          "type": "resource_hunger"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 56/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##.@..>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 4,1.\n- You move to 3,1.\n- You inspect the dungeon state.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 56/64\nStatus: ACTIVE | HP: 2/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x@..>##\n##.....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Hunger bites for 1 damage (rations empty).\n- You inspect the dungeon state. Rations 0/100 | Torch 100/100\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 2,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -5333,13 +5641,32 @@
           "payload": {},
           "turn": 58,
           "type": "wait"
+        },
+        {
+          "id": "turn-58-resource_hunger",
+          "message": "Hunger bites for 1 damage (rations empty).",
+          "payload": {
+            "damage": 1,
+            "hunger": 0
+          },
+          "turn": 58,
+          "type": "resource_hunger"
+        },
+        {
+          "id": "turn-58-loss",
+          "message": "You collapse in the dungeon.",
+          "payload": {
+            "terminalStatus": "LOSS"
+          },
+          "turn": 58,
+          "type": "loss"
         }
       ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 57/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.@...##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,1.\n- You inspect the dungeon state.\n- You move to 3,2.",
+      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 57/64\nStatus: ACTIVE | HP: 1/20\nRations 0/100 | Torch 100/100\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##x...>##\n##.@...##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nTraps armed: 1 (1 visible)\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, x/; Traps (? hidden), > Stairs, # Wall, . Floor\nLog:\n- Hunger bites for 1 damage (rations empty).\n- You move to 3,2.\n- Hunger bites for 1 damage (rations empty).",
       "state_summary": {
         "enemyCount": 0,
         "floor": 1,
-        "hp": 16,
+        "hp": 1,
         "inDialogue": false,
         "inventory": [],
         "itemCount": 1,
@@ -5352,606 +5679,11 @@
         "terminalStatus": "ACTIVE",
         "turn": 57
       },
-      "terminalStatus": "ACTIVE",
+      "terminalStatus": "LOSS",
       "turn": 57,
-      "valid": true
-    },
-    {
-      "available_actions": [
-        {
-          "id": "move_north",
-          "label": "Move north",
-          "payload": {
-            "dx": 0,
-            "dy": -1
-          },
-          "type": "move"
-        },
-        {
-          "id": "move_south",
-          "label": "Move south",
-          "payload": {
-            "dx": 0,
-            "dy": 1
-          },
-          "type": "move"
-        },
-        {
-          "id": "move_west",
-          "label": "Move west",
-          "payload": {
-            "dx": -1,
-            "dy": 0
-          },
-          "type": "move"
-        },
-        {
-          "id": "move_east",
-          "label": "Move east",
-          "payload": {
-            "dx": 1,
-            "dy": 0
-          },
-          "type": "move"
-        },
-        {
-          "id": "wait",
-          "label": "Wait",
-          "payload": {
-            "turns": 1
-          },
-          "type": "wait"
-        },
-        {
-          "id": "inspect_status",
-          "label": "Inspect status",
-          "payload": {
-            "subject": "status"
-          },
-          "type": "inspect"
-        }
-      ],
-      "chosen_action": {
-        "id": "move_west",
-        "label": "Move west",
-        "payload": {
-          "dx": -1,
-          "dy": 0
-        },
-        "type": "move"
-      },
-      "events": [
-        {
-          "id": "turn-59-move",
-          "message": "You move to 2,2.",
-          "payload": {
-            "x": 2,
-            "y": 2
-          },
-          "turn": 59,
-          "type": "move"
-        }
-      ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 58/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.@...##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You inspect the dungeon state.\n- You move to 3,2.\n- You wait for one turn.",
-      "state_summary": {
-        "enemyCount": 0,
-        "floor": 1,
-        "hp": 16,
-        "inDialogue": false,
-        "inventory": [],
-        "itemCount": 1,
-        "maxHp": 20,
-        "npcCount": 0,
-        "playerPosition": {
-          "x": 3,
-          "y": 2
-        },
-        "terminalStatus": "ACTIVE",
-        "turn": 58
-      },
-      "terminalStatus": "ACTIVE",
-      "turn": 58,
-      "valid": true
-    },
-    {
-      "available_actions": [
-        {
-          "id": "move_north",
-          "label": "Move north",
-          "payload": {
-            "dx": 0,
-            "dy": -1
-          },
-          "type": "move"
-        },
-        {
-          "id": "move_south",
-          "label": "Move south",
-          "payload": {
-            "dx": 0,
-            "dy": 1
-          },
-          "type": "move"
-        },
-        {
-          "id": "move_east",
-          "label": "Move east",
-          "payload": {
-            "dx": 1,
-            "dy": 0
-          },
-          "type": "move"
-        },
-        {
-          "id": "wait",
-          "label": "Wait",
-          "payload": {
-            "turns": 1
-          },
-          "type": "wait"
-        },
-        {
-          "id": "inspect_status",
-          "label": "Inspect status",
-          "payload": {
-            "subject": "status"
-          },
-          "type": "inspect"
-        }
-      ],
-      "chosen_action": {
-        "id": "move_south",
-        "label": "Move south",
-        "payload": {
-          "dx": 0,
-          "dy": 1
-        },
-        "type": "move"
-      },
-      "events": [
-        {
-          "id": "turn-60-move",
-          "message": "You move to 2,3.",
-          "payload": {
-            "x": 2,
-            "y": 3
-          },
-          "turn": 60,
-          "type": "move"
-        }
-      ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 59/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##@....##\n##!....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 3,2.\n- You wait for one turn.\n- You move to 2,2.",
-      "state_summary": {
-        "enemyCount": 0,
-        "floor": 1,
-        "hp": 16,
-        "inDialogue": false,
-        "inventory": [],
-        "itemCount": 1,
-        "maxHp": 20,
-        "npcCount": 0,
-        "playerPosition": {
-          "x": 2,
-          "y": 2
-        },
-        "terminalStatus": "ACTIVE",
-        "turn": 59
-      },
-      "terminalStatus": "ACTIVE",
-      "turn": 59,
-      "valid": true
-    },
-    {
-      "available_actions": [
-        {
-          "id": "move_north",
-          "label": "Move north",
-          "payload": {
-            "dx": 0,
-            "dy": -1
-          },
-          "type": "move"
-        },
-        {
-          "id": "move_south",
-          "label": "Move south",
-          "payload": {
-            "dx": 0,
-            "dy": 1
-          },
-          "type": "move"
-        },
-        {
-          "id": "move_east",
-          "label": "Move east",
-          "payload": {
-            "dx": 1,
-            "dy": 0
-          },
-          "type": "move"
-        },
-        {
-          "id": "pickup_potion-1-1",
-          "label": "Pick up Healing Potion",
-          "payload": {
-            "itemId": "potion-1-1"
-          },
-          "type": "pickup"
-        },
-        {
-          "id": "wait",
-          "label": "Wait",
-          "payload": {
-            "turns": 1
-          },
-          "type": "wait"
-        },
-        {
-          "id": "inspect_status",
-          "label": "Inspect status",
-          "payload": {
-            "subject": "status"
-          },
-          "type": "inspect"
-        }
-      ],
-      "chosen_action": {
-        "id": "pickup_potion-1-1",
-        "label": "Pick up Healing Potion",
-        "payload": {
-          "itemId": "potion-1-1"
-        },
-        "type": "pickup"
-      },
-      "events": [
-        {
-          "id": "turn-61-pickup",
-          "message": "You pick up Healing Potion.",
-          "payload": {
-            "itemId": "potion-1-1",
-            "itemType": "potion"
-          },
-          "turn": 61,
-          "type": "pickup"
-        }
-      ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 60/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##@....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: (empty)\nVisible items: ! Healing Potion: Restores a modest amount of HP when used from inventory.\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You wait for one turn.\n- You move to 2,2.\n- You move to 2,3.",
-      "state_summary": {
-        "enemyCount": 0,
-        "floor": 1,
-        "hp": 16,
-        "inDialogue": false,
-        "inventory": [],
-        "itemCount": 1,
-        "maxHp": 20,
-        "npcCount": 0,
-        "playerPosition": {
-          "x": 2,
-          "y": 3
-        },
-        "terminalStatus": "ACTIVE",
-        "turn": 60
-      },
-      "terminalStatus": "ACTIVE",
-      "turn": 60,
-      "valid": true
-    },
-    {
-      "available_actions": [
-        {
-          "id": "move_north",
-          "label": "Move north",
-          "payload": {
-            "dx": 0,
-            "dy": -1
-          },
-          "type": "move"
-        },
-        {
-          "id": "move_south",
-          "label": "Move south",
-          "payload": {
-            "dx": 0,
-            "dy": 1
-          },
-          "type": "move"
-        },
-        {
-          "id": "move_east",
-          "label": "Move east",
-          "payload": {
-            "dx": 1,
-            "dy": 0
-          },
-          "type": "move"
-        },
-        {
-          "id": "use_potion",
-          "label": "Use Healing Potion",
-          "payload": {
-            "effect": "heal",
-            "itemType": "potion"
-          },
-          "type": "use_item"
-        },
-        {
-          "id": "wait",
-          "label": "Wait",
-          "payload": {
-            "turns": 1
-          },
-          "type": "wait"
-        },
-        {
-          "id": "inspect_status",
-          "label": "Inspect status",
-          "payload": {
-            "subject": "status"
-          },
-          "type": "inspect"
-        }
-      ],
-      "chosen_action": {
-        "id": "inspect_status",
-        "label": "Inspect status",
-        "payload": {
-          "subject": "status"
-        },
-        "type": "inspect"
-      },
-      "events": [
-        {
-          "id": "turn-62-inspect",
-          "message": "You inspect the dungeon state.",
-          "payload": {
-            "floor": 1,
-            "hp": 16
-          },
-          "turn": 62,
-          "type": "inspect"
-        }
-      ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 61/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##@....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: (none)\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,2.\n- You move to 2,3.\n- You pick up Healing Potion.",
-      "state_summary": {
-        "enemyCount": 0,
-        "floor": 1,
-        "hp": 16,
-        "inDialogue": false,
-        "inventory": [
-          "potion"
-        ],
-        "itemCount": 0,
-        "maxHp": 20,
-        "npcCount": 0,
-        "playerPosition": {
-          "x": 2,
-          "y": 3
-        },
-        "terminalStatus": "ACTIVE",
-        "turn": 61
-      },
-      "terminalStatus": "ACTIVE",
-      "turn": 61,
-      "valid": true
-    },
-    {
-      "available_actions": [
-        {
-          "id": "move_north",
-          "label": "Move north",
-          "payload": {
-            "dx": 0,
-            "dy": -1
-          },
-          "type": "move"
-        },
-        {
-          "id": "move_south",
-          "label": "Move south",
-          "payload": {
-            "dx": 0,
-            "dy": 1
-          },
-          "type": "move"
-        },
-        {
-          "id": "move_east",
-          "label": "Move east",
-          "payload": {
-            "dx": 1,
-            "dy": 0
-          },
-          "type": "move"
-        },
-        {
-          "id": "use_potion",
-          "label": "Use Healing Potion",
-          "payload": {
-            "effect": "heal",
-            "itemType": "potion"
-          },
-          "type": "use_item"
-        },
-        {
-          "id": "wait",
-          "label": "Wait",
-          "payload": {
-            "turns": 1
-          },
-          "type": "wait"
-        },
-        {
-          "id": "inspect_status",
-          "label": "Inspect status",
-          "payload": {
-            "subject": "status"
-          },
-          "type": "inspect"
-        }
-      ],
-      "chosen_action": {
-        "id": "move_east",
-        "label": "Move east",
-        "payload": {
-          "dx": 1,
-          "dy": 0
-        },
-        "type": "move"
-      },
-      "events": [
-        {
-          "id": "turn-63-move",
-          "message": "You move to 3,3.",
-          "payload": {
-            "x": 3,
-            "y": 3
-          },
-          "turn": 63,
-          "type": "move"
-        }
-      ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 62/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##@....##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: (none)\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You move to 2,3.\n- You pick up Healing Potion.\n- You inspect the dungeon state.",
-      "state_summary": {
-        "enemyCount": 0,
-        "floor": 1,
-        "hp": 16,
-        "inDialogue": false,
-        "inventory": [
-          "potion"
-        ],
-        "itemCount": 0,
-        "maxHp": 20,
-        "npcCount": 0,
-        "playerPosition": {
-          "x": 2,
-          "y": 3
-        },
-        "terminalStatus": "ACTIVE",
-        "turn": 62
-      },
-      "terminalStatus": "ACTIVE",
-      "turn": 62,
-      "valid": true
-    },
-    {
-      "available_actions": [
-        {
-          "id": "move_north",
-          "label": "Move north",
-          "payload": {
-            "dx": 0,
-            "dy": -1
-          },
-          "type": "move"
-        },
-        {
-          "id": "move_south",
-          "label": "Move south",
-          "payload": {
-            "dx": 0,
-            "dy": 1
-          },
-          "type": "move"
-        },
-        {
-          "id": "move_west",
-          "label": "Move west",
-          "payload": {
-            "dx": -1,
-            "dy": 0
-          },
-          "type": "move"
-        },
-        {
-          "id": "move_east",
-          "label": "Move east",
-          "payload": {
-            "dx": 1,
-            "dy": 0
-          },
-          "type": "move"
-        },
-        {
-          "id": "use_potion",
-          "label": "Use Healing Potion",
-          "payload": {
-            "effect": "heal",
-            "itemType": "potion"
-          },
-          "type": "use_item"
-        },
-        {
-          "id": "wait",
-          "label": "Wait",
-          "payload": {
-            "turns": 1
-          },
-          "type": "wait"
-        },
-        {
-          "id": "inspect_status",
-          "label": "Inspect status",
-          "payload": {
-            "subject": "status"
-          },
-          "type": "inspect"
-        }
-      ],
-      "chosen_action": {
-        "id": "use_potion",
-        "label": "Use Healing Potion",
-        "payload": {
-          "effect": "heal",
-          "itemType": "potion"
-        },
-        "type": "use_item"
-      },
-      "events": [
-        {
-          "id": "turn-64-use_item",
-          "message": "You use Healing Potion.",
-          "payload": {
-            "effect": "heal",
-            "healed": 4,
-            "itemType": "potion"
-          },
-          "turn": 64,
-          "type": "use_item"
-        },
-        {
-          "id": "turn-64-aborted",
-          "message": "The run aborted after reaching the maximum turn limit.",
-          "payload": {
-            "terminalStatus": "ABORTED"
-          },
-          "turn": 64,
-          "type": "aborted"
-        }
-      ],
-      "render": "Seven Floors to Dawn v003\nSeed: seed_001 | Floor: 1/1 | Turn: 63/64\nStatus: ACTIVE | HP: 16/20\nOutcome: ACTIVE - Run in progress.\nObjective: Clear the shorter tuned demo floor with tactical item support.\nOpening: The Dawn Bell tolls above Seven Floors. Descend, recover it, and escape before sunrise seals the paths.\n#########\n##....>##\n##.....##\n##.@...##\n##....###\n##....###\n##....###\n##....###\n#########\nInventory: Healing Potion\n  - ! Healing Potion: Restores a modest amount of HP when used from inventory.\nVisible items: (none)\nTactical: none active.\nLegend: @ You, K Keeper, s Slime, b Bat, S Shell, t Thief, g Ghost, ! Potion, ~ Smoke, % Swap, * Fire, ^ Warp, > Stairs, # Wall, . Floor\nLog:\n- You pick up Healing Potion.\n- You inspect the dungeon state.\n- You move to 3,3.",
-      "state_summary": {
-        "enemyCount": 0,
-        "floor": 1,
-        "hp": 16,
-        "inDialogue": false,
-        "inventory": [
-          "potion"
-        ],
-        "itemCount": 0,
-        "maxHp": 20,
-        "npcCount": 0,
-        "playerPosition": {
-          "x": 3,
-          "y": 3
-        },
-        "terminalStatus": "ACTIVE",
-        "turn": 63
-      },
-      "terminalStatus": "ABORTED",
-      "turn": 63,
       "valid": true
     }
   ],
-  "turns": 64,
+  "turns": 58,
   "version": "v003"
 }

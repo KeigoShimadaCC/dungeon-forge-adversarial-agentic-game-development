@@ -16,6 +16,7 @@ export interface StaticDemoTimelineEntry {
   acceptanceStatus: VersionSummary['acceptance_status'];
   runCount: number;
   missingArtifactCount: number;
+  integrityProblemCount: number;
   winRate: number;
   evidenceScore: number | null;
   summaryPath: string;

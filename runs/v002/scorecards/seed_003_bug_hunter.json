@@ -1,23 +1,71 @@
 {
-  "damage_taken": 13,
+  "agent_policy_class": "llm_persona",
+  "damage_taken": 2,
+  "diagnostics": {
+    "abort_cause": "invalid_state",
+    "categories": [
+      {
+        "category": "aborted",
+        "code": "invalid_state",
+        "detail": {
+          "result": "ABORTED",
+          "turns": 9
+        },
+        "message": "Run aborted: invalid_state."
+      },
+      {
+        "category": "trap_pressure",
+        "code": "trap_encountered",
+        "detail": {
+          "hunger_damage_taken": 0,
+          "resource_pressure_events": 0,
+          "trap_damage_taken": 3,
+          "traps_triggered": 1
+        },
+        "message": "Trap pressure recorded (1 triggers, 3 damage)."
+      }
+    ],
+    "primary_category": "aborted"
+  },
   "enemies_defeated": 0,
-  "floors_reached": 2,
+  "enemy_behaviors": {
+    "enemy_attack": 1,
+    "enemy_defeated": 0,
+    "enemy_move": 5,
+    "enemy_phase": 0,
+    "enemy_steal": 0,
+    "enemy_wait": 2
+  },
+  "floors_reached": 1,
   "invalid_actions": 0,
-  "items_used": 2,
+  "item_evaluation": {
+    "item_pickup_actions": 0,
+    "items_used": 1,
+    "tactical_items_used": 1,
+    "use_item_turns_available": 5
+  },
+  "items_used": 1,
   "persona": "bug_hunter",
-  "result": "WIN",
+  "player_kind": "agent",
+  "result": "ABORTED",
   "review_id": "bug_hunter:seed_003",
   "review_path": "runs/v002/reviews/seed_003_bug_hunter.json",
   "reviewer_scores": {
-    "clarity": 7,
-    "fairness": 6,
-    "fun": 7,
-    "replay_value": 6,
+    "clarity": 6,
+    "fairness": 3,
+    "fun": 3,
+    "replay_value": 5,
     "tactical_depth": 6
   },
   "seed": "seed_003",
   "softlocks": 0,
   "trace_path": "runs/v002/traces/seed_003_bug_hunter.json",
-  "turns": 29,
+  "trap_resources": {
+    "hunger_damage_taken": 0,
+    "resource_pressure_events": 0,
+    "trap_damage_taken": 3,
+    "traps_triggered": 1
+  },
+  "turns": 9,
   "version": "v002"
 }

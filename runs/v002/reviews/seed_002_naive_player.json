@@ -1,7 +1,22 @@
 {
   "evidence_quality": "full",
   "persona": "naive_player",
+  "persona_metadata": {
+    "description": "Plays plausibly but may miss tactical detail; focuses on whether items, enemies, and actions are understandable.",
+    "display_name": "Naive Player",
+    "emphasis": [
+      "clarity",
+      "fun",
+      "action_labels",
+      "item_feedback"
+    ],
+    "id": "naive_player",
+    "player_policy_hint": "baseline policy: random"
+  },
+  "review_markdown_path": "runs/v002/reviews/seed_002_naive_player.md",
   "scorecard_path": "runs/v002/scorecards/seed_002_naive_player.json",
+  "scorecard_result": "LOSS",
+  "scorecard_turns": 24,
   "scores": {
     "clarity": 5,
     "fairness": 4,

@@ -1,11 +1,43 @@
 {
+  "agent_policy_class": "baseline",
   "damage_taken": 6,
+  "diagnostics": {
+    "categories": [
+      {
+        "category": "resource_pressure",
+        "code": "starvation_damage",
+        "detail": {
+          "hunger_damage_taken": 14,
+          "resource_pressure_events": 24,
+          "trap_damage_taken": 0,
+          "traps_triggered": 0
+        },
+        "message": "Hunger pressure dealt 14 damage."
+      }
+    ],
+    "primary_category": "resource_pressure"
+  },
   "enemies_defeated": 1,
+  "enemy_behaviors": {
+    "enemy_attack": 3,
+    "enemy_defeated": 1,
+    "enemy_move": 12,
+    "enemy_phase": 0,
+    "enemy_steal": 0,
+    "enemy_wait": 3
+  },
   "floors_reached": 1,
   "invalid_actions": 0,
-  "items_used": 2,
+  "item_evaluation": {
+    "item_pickup_actions": 0,
+    "items_used": 1,
+    "tactical_items_used": 1,
+    "use_item_turns_available": 3
+  },
+  "items_used": 1,
   "persona": "random",
-  "result": "ABORTED",
+  "player_kind": "agent",
+  "result": "LOSS",
   "reviewer_scores": {
     "clarity": null,
     "fairness": null,
@@ -14,8 +46,14 @@
     "tactical_depth": null
   },
   "seed": "seed_001",
-  "softlocks": 1,
+  "softlocks": 0,
   "trace_path": "runs/v002/traces/seed_001_random.json",
-  "turns": 100,
+  "trap_resources": {
+    "hunger_damage_taken": 14,
+    "resource_pressure_events": 24,
+    "trap_damage_taken": 0,
+    "traps_triggered": 0
+  },
+  "turns": 56,
   "version": "v002"
 }

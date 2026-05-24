@@ -4,13 +4,10 @@ Target version: v002
 
 ## Review issues being addressed
 
-1. **[major]** The scorecard reports 1 softlock indicator(s) from repeated or stalled states.
-   - Diagnosis: Players can get stuck repeating the same summary state without meaningful progress, which reads as a loop rather than tactics.
-   - Recommendation: Break repeated-state loops with clearer goals, new events, or bounded auto-advance rules while keeping turns finite.
-2. **[major]** The run ended in ABORTED rather than a player-facing WIN or LOSS.
-   - Diagnosis: An abort usually means invalid state, protocol failure, or an unfinished run that should not be scored like a fair loss.
-   - Recommendation: Investigate abort events in the trace and add deterministic regression coverage for the failing path.
-3. **[minor]** Notable event "move" occurred during play.
+1. **[major]** The player lost on floor 1 after 60 turns with 2 damage taken.
+   - Diagnosis: Early losses can be fair tension, but repeated low-floor deaths suggest onboarding or pressure tuning problems.
+   - Recommendation: Tune early enemy pressure, healing cadence, or tutorial log hints without removing LOSS or changing structured actions.
+2. **[minor]** Notable event "move" occurred during play.
    - Diagnosis: Combat and item events are present, but their impact on player choices should be visible in render and action labels.
    - Recommendation: Surface item and enemy outcomes in the ASCII render or recent log so reviewers can connect events to decisions.
 

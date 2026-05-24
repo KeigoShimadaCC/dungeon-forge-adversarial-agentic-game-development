@@ -2,6 +2,7 @@ import { mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import { loadBalanceSummary, type BalanceSummary } from './balance-tuning.js';
+import { validateVersionEvidenceIntegrity } from './evidence-integrity.js';
 import { stringifyDeterministicJson } from './json.js';
 import {
   buildVersionSummaryRelativePath,
@@ -248,6 +249,14 @@ const buildEvidenceState = async (
       missingReasons.push(`${version}: missing scorecard ${scorecardPath}`);
     }
   }
+  if (versionSummary) {
+    const integrity = await validateVersionEvidenceIntegrity(runsRoot, versionSummary);
+    missingReasons.push(
+      ...integrity.diagnostics
+        .filter((entry) => entry.code !== 'missing_source')
+        .map((entry) => entry.message),
+    );
+  }
 
   const status: LongitudinalEvidenceStatus =
     missingReasons.length === 0 ? 'complete' : versionSummary || balanceSummary ? 'partial' : 'missing';
@@ -319,20 +328,20 @@ const buildVersion = async (
   };
 
   const traceBacked = evidenceState.source_paths.traces.length > 0;
-  const hasMissingTrace = evidenceState.missing_reasons.some((reason) =>
-    reason.includes('missing trace'),
+  const hasTraceProblem = evidenceState.missing_reasons.some((reason) =>
+    reason.includes(' trace '),
   );
-  const hasMissingScorecard = evidenceState.missing_reasons.some((reason) =>
-    reason.includes('missing scorecard'),
+  const hasScorecardProblem = evidenceState.missing_reasons.some((reason) =>
+    reason.includes(' scorecard '),
   );
 
-  if (versionSummary && traceBacked && !hasMissingTrace && !hasMissingScorecard) {
+  if (versionSummary && traceBacked && !hasTraceProblem && !hasScorecardProblem) {
     versionReport.outcome_metrics = buildOutcomeMetrics(versionSummary.runs);
     versionReport.average_metrics = buildAverageMetrics(versionSummary.runs);
     versionReport.scorecard_averages = buildScorecardAverages(versionSummary.runs);
   }
 
-  if (balanceSummary && !hasMissingTrace && !hasMissingScorecard) {
+  if (balanceSummary && !hasTraceProblem && !hasScorecardProblem) {
     versionReport.balance_metrics = {
       total_runs: balanceSummary.aggregates.total_runs,
       problem_run_count: balanceSummary.problem_run_count,

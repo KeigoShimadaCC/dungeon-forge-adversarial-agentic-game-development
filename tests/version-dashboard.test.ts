@@ -219,6 +219,31 @@ describe('Phase 18A version dashboard', () => {
     });
   });
 
+  it('prints parseable JSON for the credential-free dashboard smoke path', async () => {
+    await withTempRunsRoot(async (runsRoot) => {
+      await seedVersionEvidence(runsRoot, 'v001', { accepted: true });
+      let stdout = '';
+
+      await runVersionDashboardCli(['--runs-root', runsRoot, '--json'], {
+        stdout: (value) => {
+          stdout += value;
+        },
+      });
+
+      const parsed = JSON.parse(stdout) as {
+        readOnly: boolean;
+        versions: Array<{ version: string; integrityProblemCount: number }>;
+      };
+
+      expect(parsed.readOnly).toBe(true);
+      expect(parsed.versions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ version: 'v001', integrityProblemCount: 0 }),
+        ]),
+      );
+    });
+  });
+
   it('writes only an explicit derived HTML dashboard and leaves source evidence unchanged', async () => {
     await withTempRunsRoot(async (runsRoot) => {
       await seedVersionEvidence(runsRoot, 'v001', { accepted: true });

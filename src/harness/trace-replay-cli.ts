@@ -41,6 +41,11 @@ Notes:
 
 export type TraceReplayCliMode = 'inspect' | 'verify' | 'both';
 
+export interface TraceReplayCliIo {
+  stdout?: (value: string) => void;
+  stderr?: (value: string) => void;
+}
+
 interface ParsedTraceReplayArgs {
   tracePath?: string;
   scorecardPath?: string;
@@ -119,10 +124,14 @@ const resolveInspectRange = (
   };
 };
 
-export const runTraceReplayCli = async (argv: string[] = process.argv.slice(2)): Promise<void> => {
+export const runTraceReplayCli = async (
+  argv: string[] = process.argv.slice(2),
+  io: TraceReplayCliIo = {},
+): Promise<void> => {
+  const stdout = io.stdout ?? ((value: string) => process.stdout.write(value));
   const args = parseTraceReplayCliArgs(argv);
   if (args.help) {
-    process.stdout.write(`${TRACE_REPLAY_CLI_USAGE}\n`);
+    stdout(`${TRACE_REPLAY_CLI_USAGE}\n`);
     return;
   }
 
@@ -181,7 +190,7 @@ export const runTraceReplayCli = async (argv: string[] = process.argv.slice(2)):
   }
 
   if (outputParts.length > 0) {
-    process.stdout.write(`${outputParts.join('\n\n')}\n`);
+    stdout(`${outputParts.join('\n\n')}\n`);
   }
 
   const afterSnapshot = await readTraceFileSnapshot(tracePath);
