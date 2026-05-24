@@ -278,8 +278,32 @@
     },
     "PHASE-28B": {
       "status": "planned"
+    },
+    "PHASE-29A": {
+      "status": "planned"
+    },
+    "PHASE-29B": {
+      "status": "planned"
+    },
+    "PHASE-29C": {
+      "status": "planned"
+    },
+    "PHASE-30A": {
+      "status": "planned"
+    },
+    "PHASE-30B": {
+      "status": "planned"
+    },
+    "PHASE-30C": {
+      "status": "planned"
+    },
+    "PHASE-31A": {
+      "status": "planned"
+    },
+    "PHASE-31B": {
+      "status": "planned"
     }
   },
   "schemaVersion": 1,
-  "sourceNote": "All tracked PHASE-*.md plans from PHASE-00A through PHASE-23A are complete locally. PHASE-23A adds the North Star gap audit and queues PHASE-23B through PHASE-24B; the control-room frontend roadmap is queued as PHASE-25A through PHASE-28B. PHASE-23B remains the next planned implementation phase."
+  "sourceNote": "All tracked PHASE-*.md plans from PHASE-00A through PHASE-23A are complete locally. PHASE-23A adds the North Star gap audit and queues PHASE-23B through PHASE-24B; the control-room frontend roadmap is queued as PHASE-25A through PHASE-28B; the restricted API coding agent roadmap is queued as PHASE-29A through PHASE-31B. PHASE-23B remains the next planned implementation phase."
 }

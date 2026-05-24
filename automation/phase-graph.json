@@ -321,6 +321,70 @@
       "allowedPaths": ["src/**", "tests/**", "docs/**", "package.json", "phase-plans/**", "PROGRESS.MD", "runs/**"],
       "parallelGroup": "28-control-room-polish",
       "automerge": true
+    },
+    {
+      "id": "PHASE-29A",
+      "plan": "phase-plans/PHASE-29A-RESTRICTED-API-CODING-AGENT-ARCHITECTURE-AND-SCHEMAS.md",
+      "dependsOn": ["PHASE-28B"],
+      "allowedPaths": ["src/harness/restricted-agent/**", "src/harness/index.ts", "tests/restricted-agent*.test.ts", "docs/RESTRICTED-API-CODING-AGENT.md", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "29-restricted-agent-foundation",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-29B",
+      "plan": "phase-plans/PHASE-29B-RESTRICTED-AGENT-CONTEXT-BUILDER.md",
+      "dependsOn": ["PHASE-29A"],
+      "allowedPaths": ["src/harness/restricted-agent/**", "tests/restricted-agent-context.test.ts", "docs/RESTRICTED-API-CODING-AGENT.md", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "29-restricted-agent-foundation",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-29C",
+      "plan": "phase-plans/PHASE-29C-RESTRICTED-AGENT-API-DRY-RUN-LOOP.md",
+      "dependsOn": ["PHASE-29B"],
+      "allowedPaths": ["src/harness/restricted-agent/**", "src/harness/llm-provider*.ts", "tests/restricted-agent-api-loop.test.ts", "docs/RESTRICTED-API-CODING-AGENT.md", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "29-restricted-agent-foundation",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-30A",
+      "plan": "phase-plans/PHASE-30A-RESTRICTED-SOURCE-PATCH-VALIDATOR.md",
+      "dependsOn": ["PHASE-29C"],
+      "allowedPaths": ["src/harness/restricted-agent/**", "src/harness/secret-scan.ts", "tests/restricted-agent-patch-validator.test.ts", "docs/RESTRICTED-API-CODING-AGENT.md", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "30-restricted-agent-patching",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-30B",
+      "plan": "phase-plans/PHASE-30B-RESTRICTED-PATCH-APPLIER-AND-ROLLBACK.md",
+      "dependsOn": ["PHASE-30A"],
+      "allowedPaths": ["src/harness/restricted-agent/**", "tests/restricted-agent-patch-applier.test.ts", "docs/RESTRICTED-API-CODING-AGENT.md", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "30-restricted-agent-patching",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-30C",
+      "plan": "phase-plans/PHASE-30C-RESTRICTED-CHECK-RUNNER-AND-REPAIR-LOOP.md",
+      "dependsOn": ["PHASE-30B"],
+      "allowedPaths": ["src/harness/restricted-agent/**", "tests/restricted-agent-check-runner.test.ts", "docs/RESTRICTED-API-CODING-AGENT.md", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "30-restricted-agent-patching",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-31A",
+      "plan": "phase-plans/PHASE-31A-RESTRICTED-DELEGATE-AUTOPILOT-INTEGRATION.md",
+      "dependsOn": ["PHASE-30C"],
+      "allowedPaths": ["automation/**", "src/harness/**", "tests/phase-autopilot.test.ts", "tests/restricted-agent-autopilot.test.ts", "docs/RESTRICTED-API-CODING-AGENT.md", "automation/README.md", "USING_AUTOMATED_AGENT_MODE.md", "package.json", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "31-restricted-agent-integration",
+      "automerge": true
+    },
+    {
+      "id": "PHASE-31B",
+      "plan": "phase-plans/PHASE-31B-RESTRICTED-AGENT-DOGFOOD-AND-HARDENING.md",
+      "dependsOn": ["PHASE-31A"],
+      "allowedPaths": ["src/harness/restricted-agent/**", "tests/restricted-agent*.test.ts", "docs/**", "automation/**", "phase-plans/**", "PROGRESS.MD"],
+      "parallelGroup": "31-restricted-agent-integration",
+      "automerge": true
     }
   ]
 }
