@@ -4,6 +4,8 @@ import path from 'node:path';
 import { stringifyDeterministicJson } from '../../harness/json.js';
 import {
   buildTimelineEventId,
+  getHistoricalVersionsAfterActiveBase,
+  getLatestKnownControlRoomVersion,
   projectHumanFeedbackContext,
   resolveEvidenceAbsolutePath,
   sortTimelineEvents,
@@ -72,6 +74,28 @@ const buildEvidence = (
       ),
     );
 
+const isSelectedBaseRequiredEvidenceEvent = (
+  event: ControlRoomTimelineEvent,
+  selectedBaseVersion: string | undefined,
+): boolean =>
+  selectedBaseVersion !== undefined
+  && event.versionId === selectedBaseVersion
+  && (
+    event.type === 'developer_summary'
+    || event.type === 'reviewer_summary'
+    || event.type === 'version_selected_as_base'
+  );
+
+const buildSelectedBaseEvidenceBlockers = (
+  events: readonly ControlRoomTimelineEvent[],
+  selectedBaseVersion: string | undefined,
+): string[] =>
+  events
+    .filter((event) => isSelectedBaseRequiredEvidenceEvent(event, selectedBaseVersion))
+    .flatMap((event) => event.evidence ?? [])
+    .filter((ref) => !ref.present)
+    .map((ref) => `Missing evidence: ${ref.kind}: ${ref.relativePath}`);
+
 const latestEvent = (
   events: readonly ControlRoomTimelineEvent[],
   type: ControlRoomTimelineEvent['type'],
@@ -134,6 +158,8 @@ const statusFor = (
 
 const buildDeveloperTaskText = (input: {
   selectedBaseVersion?: string;
+  latestKnownVersion?: string;
+  historicalVersionsAfterSelectedBase: readonly string[];
   humanIdea?: string;
   humanComments: readonly ControlRoomPreparedHandoffComment[];
   reviewerSummary?: string;
@@ -144,6 +170,12 @@ const buildDeveloperTaskText = (input: {
   const lines = [
     'Prepared next iteration handoff',
     `Selected base version: ${input.selectedBaseVersion ?? 'needs human decision'}`,
+    `Latest known version: ${input.latestKnownVersion ?? 'none recorded'}`,
+    `Historical versions after selected base: ${
+      input.historicalVersionsAfterSelectedBase.length > 0
+        ? input.historicalVersionsAfterSelectedBase.join(', ')
+        : 'none'
+    }`,
     `Human idea: ${input.humanIdea ?? 'none recorded'}`,
     `Developer context: ${input.developerContext ?? 'none recorded'}`,
     `Reviewer summary: ${input.reviewerSummary ?? 'none recorded'}`,
@@ -219,14 +251,14 @@ export const buildControlRoomPreparedHandoff = (
   options: BuildControlRoomPreparedHandoffOptions = {},
 ): ControlRoomPreparedHandoff => {
   const selectedBaseVersion = timeline.activeBaseVersion;
+  const latestKnownVersion = getLatestKnownControlRoomVersion(timeline);
+  const historicalVersionsAfterSelectedBase = getHistoricalVersionsAfterActiveBase(timeline);
   const sortedEvents = sortTimelineEvents(timeline.events);
   const developerEvent = selectedBaseVersion
     ? latestEvent(sortedEvents, 'developer_summary', selectedBaseVersion)
-      ?? latestEvent(sortedEvents, 'developer_summary')
     : latestEvent(sortedEvents, 'developer_summary');
   const reviewerEvent = selectedBaseVersion
     ? latestEvent(sortedEvents, 'reviewer_summary', selectedBaseVersion)
-      ?? latestEvent(sortedEvents, 'reviewer_summary')
     : latestEvent(sortedEvents, 'reviewer_summary');
   const versionEvent = selectedBaseVersion
     ? latestEvent(sortedEvents, 'version_selected_as_base', selectedBaseVersion)
@@ -237,11 +269,9 @@ export const buildControlRoomPreparedHandoff = (
   const humanComments = buildHumanComments(timeline);
   const blockers = [
     ...(!selectedBaseVersion ? ['No selected base version is recorded.'] : []),
-    ...(!developerEvent ? ['No developer summary is available for handoff context.'] : []),
-    ...(!reviewerEvent ? ['No reviewer summary is available for handoff context.'] : []),
-    ...evidence
-      .filter((ref) => !ref.present)
-      .map((ref) => `Missing evidence: ${ref.kind}: ${ref.relativePath}`),
+    ...(!developerEvent ? [`No developer summary is available for selected base ${selectedBaseVersion ?? 'none'}.`] : []),
+    ...(!reviewerEvent ? [`No reviewer summary is available for selected base ${selectedBaseVersion ?? 'none'}.`] : []),
+    ...buildSelectedBaseEvidenceBlockers(sortedEvents, selectedBaseVersion),
   ].sort((left, right) => left.localeCompare(right));
   const status = statusFor(selectedBaseVersion, blockers);
   const suggestedCommands = buildSuggestedCommands(selectedBaseVersion);
@@ -251,6 +281,8 @@ export const buildControlRoomPreparedHandoff = (
     sessionId: timeline.sessionId,
     status,
     selectedBaseVersion,
+    latestKnownVersion,
+    historicalVersionsAfterSelectedBase,
     humanIdea,
     humanComments,
     reviewerSummary: reviewerEvent?.summary,
@@ -267,7 +299,7 @@ export const buildControlRoomPreparedHandoff = (
   };
   const developerTaskText = buildDeveloperTaskText(handoffBase);
   const humanSummary = status === 'ready'
-    ? `Next iteration is ready from ${selectedBaseVersion}; an orchestrator can use the suggested local commands after reviewing the evidence.`
+    ? `Next iteration is ready from selected base ${selectedBaseVersion}; later versions (${historicalVersionsAfterSelectedBase.join(', ') || 'none'}) remain historical evidence.`
     : `Next iteration is ${status.replaceAll('_', ' ')}; resolve blockers before executing any suggested command.`;
   const withoutEvent = {
     ...handoffBase,

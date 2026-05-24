@@ -114,6 +114,8 @@ export const renderControlRoomHandoffPanelHtml = (
     <div class="strip">
       <span>Session: <strong>${escapeHtml(handoff.sessionId)}</strong></span>
       <span>Base: <strong>${escapeHtml(handoff.selectedBaseVersion ?? 'needs decision')}</strong></span>
+      <span>Latest known: <strong>${escapeHtml(handoff.latestKnownVersion ?? 'none')}</strong></span>
+      <span>Historical after base: <strong>${escapeHtml(handoff.historicalVersionsAfterSelectedBase.join(', ') || 'none')}</strong></span>
       <span class="badge badge-${escapeHtml(handoff.status)}">Status: <strong>${escapeHtml(handoff.status)}</strong></span>
       <span>Prepared: <strong>${escapeHtml(handoff.preparedAt)}</strong></span>
     </div>

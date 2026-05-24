@@ -43,6 +43,8 @@ export interface ControlRoomPreparedHandoff {
   sessionId: string;
   status: ControlRoomHandoffStatus;
   selectedBaseVersion?: string;
+  latestKnownVersion?: string;
+  historicalVersionsAfterSelectedBase: string[];
   humanIdea?: string;
   humanComments: ControlRoomPreparedHandoffComment[];
   reviewerSummary?: string;

@@ -128,6 +128,22 @@ export const buildV001V002V003TimelineEvents = (): ControlRoomTimelineEvent[] =>
       },
     ],
   },
+  {
+    id: buildTimelineEventId(8, 'version_selected_as_base', 'v001'),
+    type: 'version_selected_as_base',
+    timestamp: '2026-05-24T04:13:00.000Z',
+    actor: 'human',
+    source: 'human',
+    versionId: 'v001',
+    summary: 'Select v001 as the next active base without deleting v002 or v003 historical evidence.',
+    evidence: [
+      {
+        kind: 'version_summary',
+        relativePath: 'runs/v001/version_summary.json',
+        label: 'v001 selected-base summary',
+      },
+    ],
+  },
 ];
 
 export const buildV001V002V003TimelineArtifact = (): ControlRoomTimelineArtifact =>
@@ -136,6 +152,6 @@ export const buildV001V002V003TimelineArtifact = (): ControlRoomTimelineArtifact
     timestamp: V001_V002_V003_TIMELINE_TIMESTAMP,
     runsRoot: 'runs',
     initialGameIdea: 'Make a tiny dungeon loop that improves through review.',
-    activeBaseVersion: 'v002',
+    activeBaseVersion: 'v001',
     events: buildV001V002V003TimelineEvents(),
   });

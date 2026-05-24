@@ -5,6 +5,7 @@ import { stringifyDeterministicJson } from '../../harness/json.js';
 import { buildControlRoomRoleCatalog } from '../roles/index.js';
 import {
   loadAndApplyHumanFeedbackToTimeline,
+  loadAndSelectControlRoomBaseVersion,
   loadControlRoomTimeline,
 } from '../timeline/index.js';
 import {
@@ -23,6 +24,8 @@ Options:
                        Add or replace the initial human game idea in the timeline
   --capture-comment <text>
                        Add a human comment event to the timeline
+  --select-base-version <id>
+                       Select an existing v001-style version as active base
   --target-version <id>
                        Attach --capture-comment to a v001-style version id
   --timestamp <iso>    Timestamp for capture writes (defaults to current time)
@@ -40,6 +43,7 @@ interface ParsedControlRoomWebShellArgs {
   outPath?: string;
   captureIdea?: string;
   captureComment?: string;
+  selectBaseVersion?: string;
   targetVersion?: string;
   timestamp?: string;
   json: boolean;
@@ -79,6 +83,9 @@ export const parseControlRoomWebShellCliArgs = (
     } else if (arg === '--capture-comment' && hasNext) {
       args.captureComment = next;
       index += 1;
+    } else if (arg === '--select-base-version' && hasNext) {
+      args.selectBaseVersion = next;
+      index += 1;
     } else if (arg === '--target-version' && hasNext) {
       args.targetVersion = next;
       index += 1;
@@ -98,11 +105,16 @@ export const parseControlRoomWebShellCliArgs = (
   if (args.captureIdea !== undefined && args.captureComment !== undefined) {
     throw new Error('--capture-idea cannot be combined with --capture-comment.');
   }
+  if (args.selectBaseVersion !== undefined && (
+    args.captureIdea !== undefined || args.captureComment !== undefined
+  )) {
+    throw new Error('--select-base-version cannot be combined with capture options.');
+  }
   if (args.targetVersion !== undefined && args.captureComment === undefined) {
     throw new Error('--target-version requires --capture-comment.');
   }
-  if ((args.captureIdea !== undefined || args.captureComment !== undefined) && args.outPath) {
-    throw new Error('Capture options cannot be combined with --out.');
+  if ((args.captureIdea !== undefined || args.captureComment !== undefined || args.selectBaseVersion !== undefined) && args.outPath) {
+    throw new Error('Timeline mutation options cannot be combined with --out.');
   }
   if (!args.help && !args.timelinePath) {
     throw new Error('--timeline is required.');
@@ -150,6 +162,27 @@ export const runControlRoomWebShellCli = async (
     const payload = {
       ok: true,
       savedPath: result.savedPath,
+      eventCount: result.timeline.events.length,
+      updatedAt: result.timeline.updatedAt,
+    };
+    stdout(`${stringifyDeterministicJson(payload)}\n`);
+    return;
+  }
+  if (args.selectBaseVersion !== undefined) {
+    const result = await loadAndSelectControlRoomBaseVersion(repoRoot, args.timelinePath!, {
+      versionId: args.selectBaseVersion,
+      timestamp: args.timestamp ?? new Date().toISOString(),
+    });
+    if (!result.ok || !result.timeline) {
+      const diagnostics = result.diagnostics
+        .map((diagnostic) => `${diagnostic.path}: ${diagnostic.message}`)
+        .join('\n');
+      throw new Error(`Control-room base-version selection failed:\n${diagnostics}`);
+    }
+    const payload = {
+      ok: true,
+      savedPath: result.savedPath,
+      activeBaseVersion: result.timeline.activeBaseVersion,
       eventCount: result.timeline.events.length,
       updatedAt: result.timeline.updatedAt,
     };

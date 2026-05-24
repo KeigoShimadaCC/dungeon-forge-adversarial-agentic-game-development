@@ -70,10 +70,12 @@ describe('PHASE-27A prepared control-room handoffs', () => {
       expect(handoff).toMatchObject({
         schemaVersion: 1,
         status: 'ready',
-        selectedBaseVersion: 'v002',
+        selectedBaseVersion: 'v001',
+        latestKnownVersion: 'v003',
+        historicalVersionsAfterSelectedBase: ['v002', 'v003'],
         humanIdea: 'Make a tiny dungeon loop that can improve through trace-backed review.',
         developerContext: 'Developer produced the baseline version evidence.',
-        reviewerSummary: 'Reviewer summary is linked to expected evidence, with absent optional evidence labeled.',
+        reviewerSummary: 'Reviewer flagged shallow item use and limited tactical choices.',
       });
       expect(handoff.humanComments).toEqual([
         expect.objectContaining({
@@ -91,28 +93,32 @@ describe('PHASE-27A prepared control-room handoffs', () => {
       expect(handoff.blockers).toEqual([]);
       expect(handoff.suggestedCommands.map((command) => command.command)).toEqual(
         expect.arrayContaining([
-          'pnpm run developer-task -- --target-version v002 --runs-root .',
+          'pnpm run developer-task -- --target-version v001 --runs-root .',
         ]),
       );
-      expect(handoff.developerTaskText).toContain('Selected base version: v002');
+      expect(handoff.developerTaskText).toContain('Selected base version: v001');
+      expect(handoff.developerTaskText).toContain('Historical versions after selected base: v002, v003');
       expect(handoff.timelineEvent).toMatchObject({
         type: 'prepared_next_step',
         source: 'system',
-        versionId: 'v002',
+        versionId: 'v001',
       });
     });
   });
 
   it('marks missing evidence as blocked and never ready', async () => {
-    const timeline = await labelMissingTimelineEvidence(
-      process.cwd(),
-      buildV001V002V003TimelineArtifact(),
-    );
+    const timeline = await labelMissingTimelineEvidence(process.cwd(), {
+      ...buildV001V002V003TimelineArtifact(),
+      activeBaseVersion: 'v003',
+    });
     const handoff = buildControlRoomPreparedHandoff(timeline, { preparedAt: PREPARED_AT });
 
     expect(handoff.status).toBe('missing_evidence');
     expect(handoff.blockers).toContain(
       'Missing evidence: review: runs/v003/reviews/missing_optional_review.json',
+    );
+    expect(handoff.blockers).toContain(
+      'No developer summary is available for selected base v003.',
     );
     expect(handoff.humanSummary).toContain('missing evidence');
   });
@@ -163,7 +169,10 @@ describe('PHASE-27A prepared control-room handoffs', () => {
 
   it('keeps blocked fixture output deterministic', async () => {
     const handoff = buildControlRoomPreparedHandoff(
-      await labelMissingTimelineEvidence(process.cwd(), buildV001V002V003TimelineArtifact()),
+      await labelMissingTimelineEvidence(process.cwd(), {
+        ...buildV001V002V003TimelineArtifact(),
+        activeBaseVersion: 'v003',
+      }),
       { preparedAt: PREPARED_AT },
     );
     const fixtureRaw = await readFile(
@@ -208,7 +217,7 @@ describe('PHASE-27A prepared control-room handoffs', () => {
       expect(JSON.parse(await readFile(
         path.join(repoRoot, 'runs/control-room/handoffs/v001-v002-v003.prepared-handoff.json'),
         'utf8',
-      ))).toMatchObject({ status: 'ready', selectedBaseVersion: 'v002' });
+      ))).toMatchObject({ status: 'ready', selectedBaseVersion: 'v001' });
       expect(await readFile(
         path.join(repoRoot, 'runs/control-room/handoffs/v001-v002-v003.panel.html'),
         'utf8',

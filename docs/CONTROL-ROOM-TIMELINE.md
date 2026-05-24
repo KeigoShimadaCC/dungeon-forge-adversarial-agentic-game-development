@@ -87,6 +87,19 @@ review: runs/v003/reviews/missing_optional_review.json
 
 `projectControlRoomTimeline` returns a high-level render model for future UI work. It exposes event summaries, evidence refs, and missing-evidence counts so a UI can render the human-facing `v001 -> v002 -> v003` history without parsing raw version evidence directly.
 
+## Active Base Selection
+
+PHASE-28A treats "go back to v005" as pointer selection, not rollback. `selectControlRoomBaseVersion` only accepts a known `v001`-style version already present in timeline evidence. On success it:
+
+- updates `activeBaseVersion`,
+- updates `updatedAt`,
+- appends a new `version_selected_as_base` event, and
+- preserves every later event and evidence reference.
+
+Unknown versions are rejected and the timeline is left unchanged. The projection also exposes `latestKnownVersion`, `knownVersions`, and `historicalVersionsAfterActiveBase` so consumers can label the active base separately from later historical versions.
+
+This feature does not delete, hide, rewrite, reset git history, create branches, or move files. Later versions remain inspectable evidence.
+
 ## Sample Artifact
 
 The committed sample is:
@@ -103,4 +116,5 @@ It shows:
 - a `v002` human comment,
 - a non-destructive `v002` base-version selection,
 - a `v003` reviewer summary with one missing optional review labeled honestly,
-- a prepared next step linked to `v003` acceptance notes.
+- a prepared next step linked to `v003` acceptance notes,
+- a later non-destructive `v001` base-version selection that keeps `v002` and `v003` visible as historical evidence.

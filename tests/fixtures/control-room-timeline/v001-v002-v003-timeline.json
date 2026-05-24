@@ -1,5 +1,5 @@
 {
-  "activeBaseVersion": "v002",
+  "activeBaseVersion": "v001",
   "createdAt": "2026-05-24T04:06:47.000Z",
   "events": [
     {
@@ -120,6 +120,22 @@
       "timestamp": "2026-05-24T04:12:00.000Z",
       "type": "prepared_next_step",
       "versionId": "v003"
+    },
+    {
+      "actor": "human",
+      "evidence": [
+        {
+          "kind": "version_summary",
+          "label": "v001 selected-base summary",
+          "relativePath": "runs/v001/version_summary.json"
+        }
+      ],
+      "id": "v001-008-version_selected_as_base",
+      "source": "human",
+      "summary": "Select v001 as the next active base without deleting v002 or v003 historical evidence.",
+      "timestamp": "2026-05-24T04:13:00.000Z",
+      "type": "version_selected_as_base",
+      "versionId": "v001"
     }
   ],
   "initialGameIdea": "Make a tiny dungeon loop that improves through review.",

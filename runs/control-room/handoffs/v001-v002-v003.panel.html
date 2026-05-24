@@ -80,15 +80,17 @@
     <h1>Prepared Control Room Handoff</h1>
     <div class="strip">
       <span>Session: <strong>control-room-v001-v002-v003</strong></span>
-      <span>Base: <strong>v002</strong></span>
-      <span class="badge badge-missing_evidence">Status: <strong>missing_evidence</strong></span>
+      <span>Base: <strong>v001</strong></span>
+      <span>Latest known: <strong>v003</strong></span>
+      <span>Historical after base: <strong>v002, v003</strong></span>
+      <span class="badge badge-ready">Status: <strong>ready</strong></span>
       <span>Prepared: <strong>2026-05-24T05:32:22.000Z</strong></span>
     </div>
   </header>
   <main>
     <section class="panel">
       <h2>Next Step</h2>
-      <p>Next iteration is missing evidence; resolve blockers before executing any suggested command.</p>
+      <p>Next iteration is ready from selected base v001; later versions (v002, v003) remain historical evidence.</p>
       <p class="muted">Suggested commands are inert text. This panel does not execute commands, start agents, create commits, open PRs, merge branches, or call providers.</p>
     </section>
     <section class="panel">
@@ -99,31 +101,33 @@
     <section class="panel">
       <h2>Developer And Reviewer Context</h2>
       <p><strong>Developer:</strong> Developer produced the baseline version evidence.</p>
-      <p><strong>Reviewer:</strong> Reviewer summary is linked to expected evidence, with absent optional evidence labeled.</p>
-      <p><strong>Version:</strong> Select v002 as the active base without deleting or rolling back later versions.</p>
+      <p><strong>Reviewer:</strong> Reviewer flagged shallow item use and limited tactical choices.</p>
+      <p><strong>Version:</strong> Select v001 as the next active base without deleting v002 or v003 historical evidence.</p>
     </section>
     <section class="panel">
       <h2>Evidence</h2>
-      <ul><li class="present"><span>comparison</span><a href="../../../runs/comparisons/v001_vs_v002.json">comparison: runs/comparisons/v001_vs_v002.json</a><code>runs/comparisons/v001_vs_v002.json</code></li><li class="present"><span>comparison</span><a href="../../../runs/comparisons/v002_vs_v003.json">comparison: runs/comparisons/v002_vs_v003.json</a><code>runs/comparisons/v002_vs_v003.json</code></li><li class="present"><span>developer_notes</span><a href="../../../runs/v001/developer_notes.md">developer_notes: runs/v001/developer_notes.md</a><code>runs/v001/developer_notes.md</code></li><li class="present"><span>review</span><a href="../../../runs/v001/reviews/seed_001_careful_player.json">review: runs/v001/reviews/seed_001_careful_player.json</a><code>runs/v001/reviews/seed_001_careful_player.json</code></li><li class="present"><span>scorecard</span><a href="../../../runs/v001/scorecards/seed_001_careful_player.json">scorecard: runs/v001/scorecards/seed_001_careful_player.json</a><code>runs/v001/scorecards/seed_001_careful_player.json</code></li><li class="present"><span>trace</span><a href="../../../runs/v001/traces/seed_001_careful_player.json">trace: runs/v001/traces/seed_001_careful_player.json</a><code>runs/v001/traces/seed_001_careful_player.json</code></li><li class="present"><span>version_summary</span><a href="../../../runs/v001/version_summary.json">version_summary: runs/v001/version_summary.json</a><code>runs/v001/version_summary.json</code></li><li class="present"><span>changelog</span><a href="../../../runs/v002/changelog.md">changelog: runs/v002/changelog.md</a><code>runs/v002/changelog.md</code></li><li class="present"><span>acceptance</span><a href="../../../runs/v003/acceptance.md">v003 acceptance notes</a><code>runs/v003/acceptance.md</code></li><li class="present"><span>balance_summary</span><a href="../../../runs/v003/balance_summary.json">balance_summary: runs/v003/balance_summary.json</a><code>runs/v003/balance_summary.json</code></li><li class="missing"><span>review</span><span class="missing">review: runs/v003/reviews/missing_optional_review.json</span><code>runs/v003/reviews/missing_optional_review.json</code><p>Missing on disk: runs/v003/reviews/missing_optional_review.json</p></li></ul>
+      <ul><li class="present"><span>comparison</span><a href="../../../runs/comparisons/v001_vs_v002.json">comparison: runs/comparisons/v001_vs_v002.json</a><code>runs/comparisons/v001_vs_v002.json</code></li><li class="present"><span>comparison</span><a href="../../../runs/comparisons/v002_vs_v003.json">comparison: runs/comparisons/v002_vs_v003.json</a><code>runs/comparisons/v002_vs_v003.json</code></li><li class="present"><span>developer_notes</span><a href="../../../runs/v001/developer_notes.md">developer_notes: runs/v001/developer_notes.md</a><code>runs/v001/developer_notes.md</code></li><li class="present"><span>review</span><a href="../../../runs/v001/reviews/seed_001_careful_player.json">review: runs/v001/reviews/seed_001_careful_player.json</a><code>runs/v001/reviews/seed_001_careful_player.json</code></li><li class="present"><span>scorecard</span><a href="../../../runs/v001/scorecards/seed_001_careful_player.json">scorecard: runs/v001/scorecards/seed_001_careful_player.json</a><code>runs/v001/scorecards/seed_001_careful_player.json</code></li><li class="present"><span>trace</span><a href="../../../runs/v001/traces/seed_001_careful_player.json">trace: runs/v001/traces/seed_001_careful_player.json</a><code>runs/v001/traces/seed_001_careful_player.json</code></li><li class="present"><span>version_summary</span><a href="../../../runs/v001/version_summary.json">version_summary: runs/v001/version_summary.json</a><code>runs/v001/version_summary.json</code></li><li class="present"><span>version_summary</span><a href="../../../runs/v001/version_summary.json">v001 selected-base summary</a><code>runs/v001/version_summary.json</code></li><li class="present"><span>changelog</span><a href="../../../runs/v002/changelog.md">changelog: runs/v002/changelog.md</a><code>runs/v002/changelog.md</code></li><li class="present"><span>acceptance</span><a href="../../../runs/v003/acceptance.md">v003 acceptance notes</a><code>runs/v003/acceptance.md</code></li><li class="present"><span>balance_summary</span><a href="../../../runs/v003/balance_summary.json">balance_summary: runs/v003/balance_summary.json</a><code>runs/v003/balance_summary.json</code></li><li class="missing"><span>review</span><span class="missing">review: runs/v003/reviews/missing_optional_review.json</span><code>runs/v003/reviews/missing_optional_review.json</code><p>Missing on disk: runs/v003/reviews/missing_optional_review.json</p></li></ul>
     </section>
     <section class="panel">
       <h2>Blockers</h2>
-      <ul><li class="missing">Missing evidence: review: runs/v003/reviews/missing_optional_review.json</li></ul>
+      <p>No blockers recorded.</p>
     </section>
     <section class="panel">
       <h2>Suggested Commands</h2>
-      <ul><li><strong>Generate developer handoff</strong><pre><code>pnpm run developer-task -- --target-version v002 --runs-root .</code></pre><p>Build a developer-facing task from existing local evidence.</p></li><li><strong>Run bounded version evidence</strong><pre><code>pnpm run run-version -- --version v002 --runs-root . --on-existing archive</code></pre><p>Regenerate deterministic local playthrough evidence for the selected base when the orchestrator chooses to proceed.</p></li><li><strong>Compare local versions</strong><pre><code>pnpm run compare-versions -- --left v001 --right v003 --runs-root .</code></pre><p>Refresh local comparison evidence before deciding the next implementation task.</p></li></ul>
+      <ul><li><strong>Generate developer handoff</strong><pre><code>pnpm run developer-task -- --target-version v001 --runs-root .</code></pre><p>Build a developer-facing task from existing local evidence.</p></li><li><strong>Run bounded version evidence</strong><pre><code>pnpm run run-version -- --version v001 --runs-root . --on-existing archive</code></pre><p>Regenerate deterministic local playthrough evidence for the selected base when the orchestrator chooses to proceed.</p></li><li><strong>Compare local versions</strong><pre><code>pnpm run compare-versions -- --left v001 --right v003 --runs-root .</code></pre><p>Refresh local comparison evidence before deciding the next implementation task.</p></li></ul>
     </section>
     <section class="panel">
       <h2>Developer Task Text</h2>
       <pre><code>Prepared next iteration handoff
-Selected base version: v002
+Selected base version: v001
+Latest known version: v003
+Historical versions after selected base: v002, v003
 Human idea: Make a tiny dungeon loop that can improve through trace-backed review.
 Developer context: Developer produced the baseline version evidence.
-Reviewer summary: Reviewer summary is linked to expected evidence, with absent optional evidence labeled.
+Reviewer summary: Reviewer flagged shallow item use and limited tactical choices.
 Human comments: 1
 - v002 2026-05-24T04:09:00.000Z: Human comment: keep the Smoke Bomb clarity improvement.
-Evidence paths: 11
+Evidence paths: 12
 - present comparison runs/comparisons/v001_vs_v002.json
 - present comparison runs/comparisons/v002_vs_v003.json
 - present developer_notes runs/v001/developer_notes.md
@@ -131,12 +135,11 @@ Evidence paths: 11
 - present scorecard runs/v001/scorecards/seed_001_careful_player.json
 - present trace runs/v001/traces/seed_001_careful_player.json
 - present version_summary runs/v001/version_summary.json
+- present version_summary runs/v001/version_summary.json
 - present changelog runs/v002/changelog.md
 - present acceptance runs/v003/acceptance.md
 - present balance_summary runs/v003/balance_summary.json
-- missing review runs/v003/reviews/missing_optional_review.json
-Blockers:
-- Missing evidence: review: runs/v003/reviews/missing_optional_review.json</code></pre>
+- missing review runs/v003/reviews/missing_optional_review.json</code></pre>
     </section>
   </main>
 </body>
