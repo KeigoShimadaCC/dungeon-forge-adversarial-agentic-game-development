@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-23C",
+  "currentPhase": "PHASE-23D",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -246,7 +246,9 @@
       "status": "complete"
     },
     "PHASE-23C": {
-      "status": "planned"
+      "branch": "phase/phase-23c-longitudinal-improvement-benchmark",
+      "evidenceDir": "/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-23C/2026-05-24T00:45:05Z",
+      "status": "complete"
     },
     "PHASE-23D": {
       "status": "planned"
