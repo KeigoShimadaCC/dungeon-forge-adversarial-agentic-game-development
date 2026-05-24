@@ -3,6 +3,7 @@ import {
   deriveEnemyBehaviorMetrics,
   deriveItemEvaluationMetrics,
   deriveProblemRunDiagnostics,
+  deriveTacticalDepthMetrics,
 } from './trace-diagnostics.js';
 import { playtestMetadataFromTrace } from './playtest-metadata.js';
 import type {
@@ -130,6 +131,12 @@ export const deriveScorecardFromTrace = (
   const enemy_behaviors = deriveEnemyBehaviorMetrics(trace);
   const item_evaluation = deriveItemEvaluationMetrics(trace);
   const trap_resources = deriveTrapResourceMetricsFromEvents(trace.steps);
+  const tactical_depth = deriveTacticalDepthMetrics(
+    trace,
+    enemy_behaviors,
+    item_evaluation,
+    trap_resources,
+  );
 
   const playtestMetadata = playtestMetadataFromTrace(trace);
   const baseScorecard: PlaythroughScorecard = {
@@ -154,6 +161,7 @@ export const deriveScorecardFromTrace = (
     trace_path: tracePath,
     enemy_behaviors,
     item_evaluation,
+    tactical_depth,
     trap_resources,
     ...(reviewInput?.review_path ? { review_path: reviewInput.review_path } : {}),
     ...(reviewInput?.review_id ? { review_id: reviewInput.review_id } : {}),
@@ -300,6 +308,35 @@ export const validateScorecard = (scorecard: PlaythroughScorecard): void => {
   if (record.item_evaluation !== undefined) {
     if (typeof record.item_evaluation !== 'object' || record.item_evaluation === null) {
       throw new Error('Scorecard item_evaluation must be an object when present');
+    }
+  }
+
+  if (record.tactical_depth !== undefined) {
+    if (typeof record.tactical_depth !== 'object' || record.tactical_depth === null) {
+      throw new Error('Scorecard tactical_depth must be an object when present');
+    }
+    const tacticalDepth = record.tactical_depth as Record<string, unknown>;
+    for (const field of [
+      'enemy_pressure_events',
+      'enemy_pressure_per_turn',
+      'combat_engagements',
+      'navigation_actions',
+      'navigation_friction_turns',
+      'floor_transition_count',
+      'average_turns_per_floor',
+      'tactical_item_opportunities',
+      'tactical_item_uses',
+      'tactical_item_use_rate',
+      'tactical_item_value_events',
+      'trap_resource_pressure_events',
+      'trap_resource_damage',
+      'content_interaction_events',
+      'scenario_depth_signals',
+    ] as const) {
+      const value = tacticalDepth[field];
+      if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) {
+        throw new Error(`Scorecard tactical_depth.${field} must be a non-negative finite number`);
+      }
     }
   }
 

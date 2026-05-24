@@ -31,10 +31,13 @@ const withTempRunsRoot = async (fn: (runsRoot: string) => Promise<void>): Promis
 describe('Phase 13A evidence retention', () => {
   it('resolves descriptive smoke aliases to canonical version ids', () => {
     expect(resolveVersionId('v09c-smoke')).toBe('v009');
+    expect(resolveVersionId('v024b-smoke')).toBe('v024');
     expect(() => validateVersionId('v09c-smoke')).not.toThrow();
+    expect(() => validateVersionId('v024b-smoke')).not.toThrow();
     const paths = path.join('runs', resolveVersionId('v09c-smoke'));
     expect(paths).toBe('runs/v009');
     expect(buildBalanceSummaryRelativePath('v09c-smoke')).toBe('runs/v009/balance_summary.json');
+    expect(buildBalanceSummaryRelativePath('v024b-smoke')).toBe('runs/v024/balance_summary.json');
     expect(buildComparisonArtifactBasename('v09c-smoke', 'v010')).toBe('v009_vs_v010');
   });
 

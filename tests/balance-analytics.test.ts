@@ -19,6 +19,7 @@ import {
 } from '../src/harness/balance-tuning.js';
 import { ensureVersionFolder } from '../src/harness/version-loop.js';
 import { stringifyDeterministicJson } from '../src/harness/json.js';
+import type { TacticalDepthMetrics } from '../src/harness/types.js';
 
 const withTempRunsRoot = async (fn: (runsRoot: string) => Promise<void>): Promise<void> => {
   const runsRoot = await mkdtemp(path.join(os.tmpdir(), 'df-balance-analytics-'));
@@ -28,6 +29,25 @@ const withTempRunsRoot = async (fn: (runsRoot: string) => Promise<void>): Promis
     await rm(runsRoot, { recursive: true, force: true });
   }
 };
+
+const tacticalDepthFixture = (overrides: Partial<TacticalDepthMetrics> = {}): TacticalDepthMetrics => ({
+  enemy_pressure_events: 4,
+  enemy_pressure_per_turn: 0.25,
+  combat_engagements: 2,
+  navigation_actions: 6,
+  navigation_friction_turns: 1,
+  floor_transition_count: 1,
+  average_turns_per_floor: 6,
+  tactical_item_opportunities: 2,
+  tactical_item_uses: 1,
+  tactical_item_use_rate: 0.5,
+  tactical_item_value_events: 1,
+  trap_resource_pressure_events: 1,
+  trap_resource_damage: 2,
+  content_interaction_events: 5,
+  scenario_depth_signals: 4,
+  ...overrides,
+});
 
 const makeRun = (
   version: string,
@@ -47,6 +67,11 @@ const makeRun = (
     enemies_defeated: result === 'WIN' ? 2 : 0,
     invalid_actions: 0,
     softlocks: problem ? 1 : 0,
+    tactical_depth: tacticalDepthFixture({
+      enemy_pressure_events: result === 'WIN' ? 4 : 9,
+      tactical_item_use_rate: result === 'WIN' ? 0.5 : 0,
+      scenario_depth_signals: result === 'WIN' ? 5 : 2,
+    }),
   },
   trace_path: `runs/${version}/traces/${seed}_${policy}.json`,
   scorecard_path: `runs/${version}/scorecards/${seed}_${policy}.json`,
@@ -161,6 +186,14 @@ describe('Phase 18B balance analytics', () => {
         key: 'seed_001',
         total_runs: 2,
         problem_run_count: 1,
+        tactical_depth_summary: {
+          average_enemy_pressure_events: 6.5,
+          average_scenario_depth_signals: 3.5,
+        },
+      });
+      expect(report.versions[0]?.tactical_depth_summary).toMatchObject({
+        average_enemy_pressure_events: 6.5,
+        average_tactical_item_use_rate: 0.25,
       });
       expect(report.versions[0]?.cohorts.by_policy.map((cohort) => cohort.key)).toEqual([
         'random',
