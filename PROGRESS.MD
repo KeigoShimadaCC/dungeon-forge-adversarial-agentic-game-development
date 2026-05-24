@@ -8,10 +8,10 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-27A - Prepared Iteration Handoffs |
-| Goal | Prepare evidence-backed next-iteration handoff artifacts and an inert panel from control-room timeline evidence without browser-side command execution. |
-| Branch | `phase/phase-27a-prepared-iteration-handoffs` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-27a-prepared-iteration-handoffs-wt` |
+| Phase | PHASE-27B - Narrated Version Summaries |
+| Goal | Add deterministic narrator-style version summaries from existing control-room timeline and run evidence, with separate developer/reviewer/narrator/human labels and traceable source links. |
+| Branch | `phase/phase-27b-narrated-version-summaries` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-27b-narrated-version-summaries-wt` |
 | Base | `origin/main` after PHASE-26B dependency slice |
 | Status | `Implementation complete; required local validation passed; merge/phase-state updates intentionally not performed by executor` |
 
@@ -19,7 +19,7 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-27A-PREPARED-ITERATION-HANDOFFS.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-27A/2026-05-24T05:32:22Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
+3. Active `phase-plans/PHASE-27B-NARRATED-VERSION-SUMMARIES.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-27B/2026-05-24T05:50:52Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,9 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 Executor Codex — PHASE-27B task-001/task-002/task-003/task-004: defined narration schema, deterministic artifact-backed builder, inert render model/HTML, and local CLI/sample narration artifacts.
+- [x] 2026-05-24 Executor Codex — PHASE-27B task-005: added focused narration tests and fixtures for backed evidence, missing evidence, role separation, credential-free determinism, safe links, and CLI writes.
+- [x] 2026-05-24 Executor Codex — PHASE-27B task-006: documented narrator limits and updated progress validation evidence.
 - [x] 2026-05-24 Executor Codex — PHASE-27A task-001: seeded progress state/checklist from deterministic runner accepted plan before code edits.
 - [x] 2026-05-24 Executor Codex — PHASE-27A task-002/task-003: added deterministic prepared handoff data model, builder, and inert panel renderer under `src/control-room/handoffs/**`.
 - [x] 2026-05-24 Executor Codex — PHASE-27A task-004: added handoff-boundary timeline event helper without broad timeline edits or execution behavior.
@@ -269,16 +272,16 @@ _(none)_
 
 ## Phase checklist
 
-_PHASE-27A - Prepared Iteration Handoffs._
+_PHASE-27B - Narrated Version Summaries._
 
 - [x] Progress state seeded from accepted runner plan before implementation.
-- [x] Prepared handoff data structure includes selected base version, human idea/comments, reviewer summary, developer context, evidence paths, blockers, and suggested commands/task text.
-- [x] Handoff status is deterministic and limited to ready, blocked, missing evidence, or needs human decision.
-- [x] Missing required evidence produces blockers and never marks the handoff ready.
-- [x] Self-contained handoff panel/render model is inert: no scripts, command-executing buttons/forms, agent launch controls, commit/PR/merge controls, or browser execution hooks.
-- [x] Prepared handoff timeline event helper records preparation with artifact/evidence links and no command/agent/acceptance side effects.
-- [x] Ready and blocked fixtures/sample artifacts are generated under the accepted handoff boundaries.
-- [x] Documentation explains fields, statuses, blockers, local evidence backing, suggested command preview, and human/orchestrator-owned execution.
+- [x] Narration artifact/schema separates developer summary, reviewer summary, narrator summary, and human comment roles.
+- [x] Deterministic builder reads existing timeline/run artifacts and keeps every claim source-backed or marked unavailable.
+- [x] Missing, unsupported, or unparsable evidence becomes explicit unavailable markers instead of fabricated prose.
+- [x] Self-contained narration render model/static HTML is inert and keeps evidence links visible.
+- [x] Local CLI writes deterministic JSON/HTML narration artifacts under `runs/control-room/narration/**` without package-script edits.
+- [x] Focused tests and fixtures cover evidence-backed summaries, missing evidence, role separation, credential-free fallback, safe links, deterministic serialization, and CLI writes.
+- [x] Documentation explains deterministic fallback behavior, supported sources, no-fabrication limits, missing-evidence labels, and non-authoritative narration boundaries.
 - [x] Required focused tests, smoke commands, typecheck, lint, full tests, and `git diff --check` are recorded or blockers are explained.
 
 ---
@@ -336,6 +339,10 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 ## Validation log
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
+
+- 2026-05-24 — Executor Codex — PHASE-27B pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-27B/2026-05-24T05:50:52Z/accepted-plan/accepted-plan.json`. Accepted tasks: narration schema/render model, deterministic artifact-backed builder, inert HTML renderer, direct built CLI entrypoint, focused tests/fixtures, sample narration artifacts, documentation, and required validation. Cursor delegation not used; the deterministic runner owns accepted-plan Cursor subtask execution for tasks marked `cursorDelegation.recommended === true`.
+- 2026-05-24 — Executor Codex — PHASE-27B implementation checkpoint: added `src/control-room/narration/**` narration types, deterministic builder, render model, inert HTML renderer, direct built CLI entrypoint, `tests/control-room-narration.test.ts`, fixtures under `tests/fixtures/control-room-narration/**`, `docs/CONTROL-ROOM-NARRATION.md`, and generated sample JSON/HTML under `runs/control-room/narration/**`. No provider call, package script, shared web-shell wiring, acceptance decision, developer/reviewer agent execution, game/harness behavior change, or command execution hook was added.
+- 2026-05-24 — Executor Codex — PHASE-27B validation PASS: `pnpm test tests/control-room-narration.test.ts` (1 file, 5 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run build && node dist/src/control-room/narration/control-room-narration-cli.js --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --out runs/control-room/narration/v001-v002-v003.narration.json --html runs/control-room/narration/v001-v002-v003.narration.html --generated-at 2026-05-24T06:00:00.000Z`; `pnpm test` (51 files, 462 tests); `git diff --check`.
 
 - 2026-05-24 — Executor Codex — PHASE-27A pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-27A/2026-05-24T05:32:22Z/accepted-plan/accepted-plan.json`. Accepted tasks: progress rotation, deterministic prepared handoff builder, inert renderer/panel, prepared-next-step timeline event helper, focused ready/blocked/inert tests and fixtures, documentation, generated sample artifacts, and required validation. Cursor delegation not used; the deterministic runner owns accepted-plan Cursor subtask execution for tasks marked `cursorDelegation.recommended === true`.
 - 2026-05-24 — Executor Codex — PHASE-27A implementation checkpoint: added `src/control-room/handoffs/**` prepared handoff types, deterministic builder, timeline event helper, inert panel renderer, direct built CLI entrypoint, `tests/control-room-handoffs.test.ts`, ready/blocked fixtures under `tests/fixtures/control-room-handoffs/**`, `docs/CONTROL-ROOM-HANDOFFS.md`, and generated sample artifacts under `runs/control-room/handoffs/**`. The handoff panel contains no scripts, command-running controls, agent launches, commit/PR/merge controls, or provider calls.

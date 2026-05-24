@@ -1,0 +1,524 @@
+{
+  "activeBaseVersion": "v002",
+  "generatedAt": "2026-05-24T06:00:00.000Z",
+  "schemaVersion": 1,
+  "sessionId": "control-room-v001-v002-v003",
+  "sessionMessages": [
+    {
+      "actor": "human",
+      "id": "message-001-human_idea",
+      "label": "Human comment",
+      "role": "human_comment",
+      "sourceArtifacts": [
+        {
+          "extractedClaims": [
+            "Make a tiny dungeon loop that can improve through trace-backed review."
+          ],
+          "kind": "timeline_event",
+          "label": "human_idea: 001-human_idea",
+          "relativePath": "timeline:001-human_idea",
+          "sourceEventId": "001-human_idea",
+          "sourceEventType": "human_idea",
+          "status": "present"
+        }
+      ],
+      "text": "Make a tiny dungeon loop that can improve through trace-backed review.",
+      "timestamp": "2026-05-24T04:06:47.000Z",
+      "unavailable": []
+    }
+  ],
+  "summary": "Narration covers 3 version(s) from deterministic local evidence.",
+  "timelinePath": "runs/control-room/timeline/v001-v002-v003.timeline.json",
+  "versions": [
+    {
+      "evidenceStatus": "partial",
+      "likelyNextFocus": "As a careful player, the v001 play on seed seed_001 lost before the end in 60 turns (floors reached 1, invalid actions 0). The player lost on floor 1 after 60 turns with 2 damage taken.",
+      "messages": [
+        {
+          "actor": "developer",
+          "id": "message-v001-002-developer_summary",
+          "label": "Developer summary",
+          "role": "developer_summary",
+          "sourceArtifacts": [
+            {
+              "extractedClaims": [
+                "Baseline evidence shows repeated ABORTED/softlock problem signals in the balance batch.",
+                "Reviewer evidence calls out stalled states and asks for clearer item/enemy outcomes in render/log output.",
+                "No reviewer-driven code patch is claimed for v001; it is the comparison baseline.",
+                "Persona matrix: 3 seeded playthroughs under `runs/v001/`.",
+                "Balance batch: `runs/v001/balance_summary.json`."
+              ],
+              "kind": "developer_notes",
+              "label": "developer_notes: runs/v001/developer_notes.md",
+              "relativePath": "runs/v001/developer_notes.md",
+              "sourceEventId": "v001-002-developer_summary",
+              "sourceEventType": "developer_summary",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [],
+              "kind": "trace",
+              "label": "trace: runs/v001/traces/seed_001_careful_player.json",
+              "missingReason": "Evidence exists, but no supported summary fields were found.",
+              "relativePath": "runs/v001/traces/seed_001_careful_player.json",
+              "sourceEventId": "v001-002-developer_summary",
+              "sourceEventType": "developer_summary",
+              "status": "unparsed"
+            },
+            {
+              "extractedClaims": [
+                "Acceptance status: pending.",
+                "Version summary covers 23 runs (15 LOSS, 8 ABORTED)."
+              ],
+              "kind": "version_summary",
+              "label": "version_summary: runs/v001/version_summary.json",
+              "relativePath": "runs/v001/version_summary.json",
+              "sourceEventId": "v001-002-developer_summary",
+              "sourceEventType": "developer_summary",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [
+                "Developer produced the baseline version evidence."
+              ],
+              "kind": "timeline_event",
+              "label": "developer_summary: v001-002-developer_summary",
+              "relativePath": "timeline:v001-002-developer_summary",
+              "sourceEventId": "v001-002-developer_summary",
+              "sourceEventType": "developer_summary",
+              "status": "present"
+            }
+          ],
+          "text": "Developer produced the baseline version evidence.",
+          "timestamp": "2026-05-24T04:07:00.000Z",
+          "unavailable": [
+            "trace: runs/v001/traces/seed_001_careful_player.json: Evidence exists, but no supported summary fields were found."
+          ],
+          "versionId": "v001"
+        },
+        {
+          "actor": "reviewer",
+          "id": "message-v001-003-reviewer_summary",
+          "label": "Reviewer summary",
+          "role": "reviewer_summary",
+          "sourceArtifacts": [
+            {
+              "extractedClaims": [
+                "As a careful player, the v001 play on seed seed_001 lost before the end in 60 turns (floors reached 1, invalid actions 0). The player lost on floor 1 after 60 turns with 2 damage taken.",
+                "The player lost on floor 1 after 60 turns with 2 damage taken.",
+                "Notable event \"move\" occurred during play.",
+                "Suggested next change: Tune early enemy pressure, healing cadence, or tutorial log hints without removing LOSS or changing structured actions.",
+                "Suggested next change: Surface item and enemy outcomes in the ASCII render or recent log so reviewers can connect events to decisions."
+              ],
+              "kind": "review",
+              "label": "review: runs/v001/reviews/seed_001_careful_player.json",
+              "relativePath": "runs/v001/reviews/seed_001_careful_player.json",
+              "sourceEventId": "v001-003-reviewer_summary",
+              "sourceEventType": "reviewer_summary",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [
+                "Scorecard result: LOSS in 60 turns.",
+                "Primary diagnostic category: resource_pressure."
+              ],
+              "kind": "scorecard",
+              "label": "scorecard: runs/v001/scorecards/seed_001_careful_player.json",
+              "relativePath": "runs/v001/scorecards/seed_001_careful_player.json",
+              "sourceEventId": "v001-003-reviewer_summary",
+              "sourceEventType": "reviewer_summary",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [
+                "Reviewer flagged shallow item use and limited tactical choices."
+              ],
+              "kind": "timeline_event",
+              "label": "reviewer_summary: v001-003-reviewer_summary",
+              "relativePath": "timeline:v001-003-reviewer_summary",
+              "sourceEventId": "v001-003-reviewer_summary",
+              "sourceEventType": "reviewer_summary",
+              "status": "present"
+            }
+          ],
+          "text": "Reviewer flagged shallow item use and limited tactical choices.",
+          "timestamp": "2026-05-24T04:08:00.000Z",
+          "unavailable": [],
+          "versionId": "v001"
+        },
+        {
+          "actor": "narrator",
+          "id": "v001-narrator_summary",
+          "label": "Narrator summary",
+          "role": "narrator_summary",
+          "sourceArtifacts": [
+            {
+              "extractedClaims": [
+                "Baseline evidence shows repeated ABORTED/softlock problem signals in the balance batch.",
+                "Reviewer evidence calls out stalled states and asks for clearer item/enemy outcomes in render/log output.",
+                "No reviewer-driven code patch is claimed for v001; it is the comparison baseline.",
+                "Persona matrix: 3 seeded playthroughs under `runs/v001/`.",
+                "Balance batch: `runs/v001/balance_summary.json`."
+              ],
+              "kind": "developer_notes",
+              "label": "developer_notes: runs/v001/developer_notes.md",
+              "relativePath": "runs/v001/developer_notes.md",
+              "sourceEventId": "v001-002-developer_summary",
+              "sourceEventType": "developer_summary",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [
+                "As a careful player, the v001 play on seed seed_001 lost before the end in 60 turns (floors reached 1, invalid actions 0). The player lost on floor 1 after 60 turns with 2 damage taken.",
+                "The player lost on floor 1 after 60 turns with 2 damage taken.",
+                "Notable event \"move\" occurred during play.",
+                "Suggested next change: Tune early enemy pressure, healing cadence, or tutorial log hints without removing LOSS or changing structured actions.",
+                "Suggested next change: Surface item and enemy outcomes in the ASCII render or recent log so reviewers can connect events to decisions."
+              ],
+              "kind": "review",
+              "label": "review: runs/v001/reviews/seed_001_careful_player.json",
+              "relativePath": "runs/v001/reviews/seed_001_careful_player.json",
+              "sourceEventId": "v001-003-reviewer_summary",
+              "sourceEventType": "reviewer_summary",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [
+                "Scorecard result: LOSS in 60 turns.",
+                "Primary diagnostic category: resource_pressure."
+              ],
+              "kind": "scorecard",
+              "label": "scorecard: runs/v001/scorecards/seed_001_careful_player.json",
+              "relativePath": "runs/v001/scorecards/seed_001_careful_player.json",
+              "sourceEventId": "v001-003-reviewer_summary",
+              "sourceEventType": "reviewer_summary",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [],
+              "kind": "trace",
+              "label": "trace: runs/v001/traces/seed_001_careful_player.json",
+              "missingReason": "Evidence exists, but no supported summary fields were found.",
+              "relativePath": "runs/v001/traces/seed_001_careful_player.json",
+              "sourceEventId": "v001-002-developer_summary",
+              "sourceEventType": "developer_summary",
+              "status": "unparsed"
+            },
+            {
+              "extractedClaims": [
+                "Acceptance status: pending.",
+                "Version summary covers 23 runs (15 LOSS, 8 ABORTED)."
+              ],
+              "kind": "version_summary",
+              "label": "version_summary: runs/v001/version_summary.json",
+              "relativePath": "runs/v001/version_summary.json",
+              "sourceEventId": "v001-002-developer_summary",
+              "sourceEventType": "developer_summary",
+              "status": "present"
+            }
+          ],
+          "text": "What changed: Baseline evidence shows repeated ABORTED/softlock problem signals in the balance batch. What the reviewer found: As a careful player, the v001 play on seed seed_001 lost before the end in 60 turns (floors reached 1, invalid actions 0). The player lost on floor 1 after 60 turns with 2 damage taken. Evidence status: 4 source artifact(s) parsed; 1 unavailable or unsupported. Likely next: As a careful player, the v001 play on seed seed_001 lost before the end in 60 turns (floors reached 1, invalid actions 0). The player lost on floor 1 after 60 turns with 2 damage taken.",
+          "timestamp": "2026-05-24T06:00:00.000Z",
+          "unavailable": [
+            "trace: runs/v001/traces/seed_001_careful_player.json: Evidence exists, but no supported summary fields were found."
+          ],
+          "versionId": "v001"
+        }
+      ],
+      "missingEvidence": [
+        "trace: runs/v001/traces/seed_001_careful_player.json: Evidence exists, but no supported summary fields were found."
+      ],
+      "versionId": "v001"
+    },
+    {
+      "evidenceStatus": "available",
+      "likelyNextFocus": "Target balance batch introduced new problematic seed/policy runs; inspect failed_runs before accepting.",
+      "messages": [
+        {
+          "actor": "human",
+          "id": "message-v002-004-human_comment",
+          "label": "Human comment",
+          "role": "human_comment",
+          "sourceArtifacts": [
+            {
+              "extractedClaims": [
+                "Target balance batch introduced new problematic seed/policy runs; inspect failed_runs before accepting.",
+                "Items used: 3 -> 24 (delta +21).",
+                "Invalid actions: 0 -> 0 (delta +0).",
+                "Tactical depth score: 5.33 -> 6 (delta +0.67)."
+              ],
+              "kind": "comparison",
+              "label": "comparison: runs/comparisons/v001_vs_v002.json",
+              "relativePath": "runs/comparisons/v001_vs_v002.json",
+              "sourceEventId": "v002-004-human_comment",
+              "sourceEventType": "human_comment",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [
+                "Implemented v002 demo profile with a starting Smoke Bomb and Potion/Smoke Bomb evidence path.",
+                "Added opening log guidance and inventory effect details so tactical item purpose is visible before use.",
+                "Taught baseline policies to use Smoke Bombs when enemies are close so item use appears in traces.",
+                "v001 softlock/ABORTED paths may still appear on some seeds; v002 adds tactical escape without claiming full loop fixes.",
+                "Status: implemented"
+              ],
+              "kind": "changelog",
+              "label": "changelog: runs/v002/changelog.md",
+              "relativePath": "runs/v002/changelog.md",
+              "sourceEventId": "v002-004-human_comment",
+              "sourceEventType": "human_comment",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [
+                "Human comment: keep the Smoke Bomb clarity improvement."
+              ],
+              "kind": "timeline_event",
+              "label": "human_comment: v002-004-human_comment",
+              "relativePath": "timeline:v002-004-human_comment",
+              "sourceEventId": "v002-004-human_comment",
+              "sourceEventType": "human_comment",
+              "status": "present"
+            }
+          ],
+          "text": "Human comment: keep the Smoke Bomb clarity improvement.",
+          "timestamp": "2026-05-24T04:09:00.000Z",
+          "unavailable": [],
+          "versionId": "v002"
+        },
+        {
+          "actor": "human",
+          "id": "message-v002-005-version_selected_as_base",
+          "label": "Narrator summary",
+          "role": "narrator_summary",
+          "sourceArtifacts": [
+            {
+              "extractedClaims": [
+                "Target version regressed on protocol stability metrics and needs review before acceptance.",
+                "Items used: 24 -> 37 (delta +13).",
+                "Invalid actions: 0 -> 0 (delta +0).",
+                "Tactical depth score: 6 -> 5.33 (delta -0.67)."
+              ],
+              "kind": "comparison",
+              "label": "comparison: runs/comparisons/v002_vs_v003.json",
+              "relativePath": "runs/comparisons/v002_vs_v003.json",
+              "sourceEventId": "v002-005-version_selected_as_base",
+              "sourceEventType": "version_selected_as_base",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [
+                "Select v002 as the active base without deleting or rolling back later versions."
+              ],
+              "kind": "timeline_event",
+              "label": "version_selected_as_base: v002-005-version_selected_as_base",
+              "relativePath": "timeline:v002-005-version_selected_as_base",
+              "sourceEventId": "v002-005-version_selected_as_base",
+              "sourceEventType": "version_selected_as_base",
+              "status": "present"
+            }
+          ],
+          "text": "Select v002 as the active base without deleting or rolling back later versions.",
+          "timestamp": "2026-05-24T04:10:00.000Z",
+          "unavailable": [],
+          "versionId": "v002"
+        },
+        {
+          "actor": "narrator",
+          "id": "v002-narrator_summary",
+          "label": "Narrator summary",
+          "role": "narrator_summary",
+          "sourceArtifacts": [
+            {
+              "extractedClaims": [
+                "Target balance batch introduced new problematic seed/policy runs; inspect failed_runs before accepting.",
+                "Items used: 3 -> 24 (delta +21).",
+                "Invalid actions: 0 -> 0 (delta +0).",
+                "Tactical depth score: 5.33 -> 6 (delta +0.67)."
+              ],
+              "kind": "comparison",
+              "label": "comparison: runs/comparisons/v001_vs_v002.json",
+              "relativePath": "runs/comparisons/v001_vs_v002.json",
+              "sourceEventId": "v002-004-human_comment",
+              "sourceEventType": "human_comment",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [
+                "Target version regressed on protocol stability metrics and needs review before acceptance.",
+                "Items used: 24 -> 37 (delta +13).",
+                "Invalid actions: 0 -> 0 (delta +0).",
+                "Tactical depth score: 6 -> 5.33 (delta -0.67)."
+              ],
+              "kind": "comparison",
+              "label": "comparison: runs/comparisons/v002_vs_v003.json",
+              "relativePath": "runs/comparisons/v002_vs_v003.json",
+              "sourceEventId": "v002-005-version_selected_as_base",
+              "sourceEventType": "version_selected_as_base",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [
+                "Implemented v002 demo profile with a starting Smoke Bomb and Potion/Smoke Bomb evidence path.",
+                "Added opening log guidance and inventory effect details so tactical item purpose is visible before use.",
+                "Taught baseline policies to use Smoke Bombs when enemies are close so item use appears in traces.",
+                "v001 softlock/ABORTED paths may still appear on some seeds; v002 adds tactical escape without claiming full loop fixes.",
+                "Status: implemented"
+              ],
+              "kind": "changelog",
+              "label": "changelog: runs/v002/changelog.md",
+              "relativePath": "runs/v002/changelog.md",
+              "sourceEventId": "v002-004-human_comment",
+              "sourceEventType": "human_comment",
+              "status": "present"
+            }
+          ],
+          "text": "What changed: Implemented v002 demo profile with a starting Smoke Bomb and Potion/Smoke Bomb evidence path. What the reviewer found: Target balance batch introduced new problematic seed/policy runs; inspect failed_runs before accepting. Evidence status: 3 source artifact(s) parsed; 0 unavailable or unsupported. Likely next: Target balance batch introduced new problematic seed/policy runs; inspect failed_runs before accepting.",
+          "timestamp": "2026-05-24T06:00:00.000Z",
+          "unavailable": [],
+          "versionId": "v002"
+        }
+      ],
+      "missingEvidence": [],
+      "versionId": "v002"
+    },
+    {
+      "evidenceStatus": "partial",
+      "likelyNextFocus": "_(none)_",
+      "messages": [
+        {
+          "actor": "reviewer",
+          "id": "message-v003-007-reviewer_summary",
+          "label": "Reviewer summary",
+          "role": "reviewer_summary",
+          "sourceArtifacts": [
+            {
+              "extractedClaims": [
+                "Balance summary reports 16 problem runs."
+              ],
+              "kind": "balance_summary",
+              "label": "balance_summary: runs/v003/balance_summary.json",
+              "relativePath": "runs/v003/balance_summary.json",
+              "sourceEventId": "v003-007-reviewer_summary",
+              "sourceEventType": "reviewer_summary",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [],
+              "kind": "review",
+              "label": "review: runs/v003/reviews/missing_optional_review.json",
+              "missingReason": "Missing on disk: runs/v003/reviews/missing_optional_review.json",
+              "relativePath": "runs/v003/reviews/missing_optional_review.json",
+              "sourceEventId": "v003-007-reviewer_summary",
+              "sourceEventType": "reviewer_summary",
+              "status": "missing"
+            },
+            {
+              "extractedClaims": [
+                "Reviewer summary is linked to expected evidence, with absent optional evidence labeled."
+              ],
+              "kind": "timeline_event",
+              "label": "reviewer_summary: v003-007-reviewer_summary",
+              "relativePath": "timeline:v003-007-reviewer_summary",
+              "sourceEventId": "v003-007-reviewer_summary",
+              "sourceEventType": "reviewer_summary",
+              "status": "present"
+            }
+          ],
+          "text": "Reviewer summary is linked to expected evidence, with absent optional evidence labeled.",
+          "timestamp": "2026-05-24T04:11:00.000Z",
+          "unavailable": [
+            "review: runs/v003/reviews/missing_optional_review.json: Missing on disk: runs/v003/reviews/missing_optional_review.json"
+          ],
+          "versionId": "v003"
+        },
+        {
+          "actor": "orchestrator",
+          "id": "message-v003-006-prepared_next_step",
+          "label": "Narrator summary",
+          "role": "narrator_summary",
+          "sourceArtifacts": [
+            {
+              "extractedClaims": [
+                "_(none)_",
+                "Status: pass"
+              ],
+              "kind": "acceptance",
+              "label": "v003 acceptance notes",
+              "relativePath": "runs/v003/acceptance.md",
+              "sourceEventId": "v003-006-prepared_next_step",
+              "sourceEventType": "prepared_next_step",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [
+                "Prepare the next bounded improvement from v003 evidence without executing it."
+              ],
+              "kind": "timeline_event",
+              "label": "prepared_next_step: v003-006-prepared_next_step",
+              "relativePath": "timeline:v003-006-prepared_next_step",
+              "sourceEventId": "v003-006-prepared_next_step",
+              "sourceEventType": "prepared_next_step",
+              "status": "present"
+            }
+          ],
+          "text": "Prepare the next bounded improvement from v003 evidence without executing it.",
+          "timestamp": "2026-05-24T04:12:00.000Z",
+          "unavailable": [],
+          "versionId": "v003"
+        },
+        {
+          "actor": "narrator",
+          "id": "v003-narrator_summary",
+          "label": "Narrator summary",
+          "role": "narrator_summary",
+          "sourceArtifacts": [
+            {
+              "extractedClaims": [
+                "_(none)_",
+                "Status: pass"
+              ],
+              "kind": "acceptance",
+              "label": "v003 acceptance notes",
+              "relativePath": "runs/v003/acceptance.md",
+              "sourceEventId": "v003-006-prepared_next_step",
+              "sourceEventType": "prepared_next_step",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [
+                "Balance summary reports 16 problem runs."
+              ],
+              "kind": "balance_summary",
+              "label": "balance_summary: runs/v003/balance_summary.json",
+              "relativePath": "runs/v003/balance_summary.json",
+              "sourceEventId": "v003-007-reviewer_summary",
+              "sourceEventType": "reviewer_summary",
+              "status": "present"
+            },
+            {
+              "extractedClaims": [],
+              "kind": "review",
+              "label": "review: runs/v003/reviews/missing_optional_review.json",
+              "missingReason": "Missing on disk: runs/v003/reviews/missing_optional_review.json",
+              "relativePath": "runs/v003/reviews/missing_optional_review.json",
+              "sourceEventId": "v003-007-reviewer_summary",
+              "sourceEventType": "reviewer_summary",
+              "status": "missing"
+            }
+          ],
+          "text": "What changed: Balance summary reports 16 problem runs. What the reviewer found: Balance summary reports 16 problem runs. Evidence status: 2 source artifact(s) parsed; 1 unavailable or unsupported. Likely next: _(none)_",
+          "timestamp": "2026-05-24T06:00:00.000Z",
+          "unavailable": [
+            "review: runs/v003/reviews/missing_optional_review.json: Missing on disk: runs/v003/reviews/missing_optional_review.json"
+          ],
+          "versionId": "v003"
+        }
+      ],
+      "missingEvidence": [
+        "review: runs/v003/reviews/missing_optional_review.json: Missing on disk: runs/v003/reviews/missing_optional_review.json"
+      ],
+      "versionId": "v003"
+    }
+  ]
+}

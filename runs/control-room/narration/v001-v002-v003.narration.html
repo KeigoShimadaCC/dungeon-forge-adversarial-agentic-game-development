@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Control Room Narration</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --text: #17202a;
+      --muted: #5f6b7a;
+      --line: #d5dce5;
+      --accent: #176b87;
+      --developer: #0f766e;
+      --reviewer: #9a3412;
+      --narrator: #334155;
+      --human: #1d4ed8;
+      --bad: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+    header.page, main { width: min(1120px, calc(100vw - 32px)); margin: 0 auto; }
+    header.page { padding: 24px 0 12px; }
+    h1 { margin: 0 0 8px; font-size: 28px; letter-spacing: 0; }
+    h2 { margin: 22px 0 10px; font-size: 20px; letter-spacing: 0; }
+    h3 { margin: 0; font-size: 17px; letter-spacing: 0; }
+    p { margin: 8px 0; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .strip span {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: #fff;
+    }
+    .version {
+      border-top: 1px solid var(--line);
+      padding: 16px 0 4px;
+    }
+    .message {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--narrator);
+      border-radius: 8px;
+      padding: 14px;
+      margin: 10px 0;
+    }
+    .developer_summary { border-left-color: var(--developer); }
+    .reviewer_summary { border-left-color: var(--reviewer); }
+    .human_comment { border-left-color: var(--human); }
+    .message header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .role {
+      color: var(--text);
+      font-weight: 700;
+    }
+    details {
+      margin-top: 10px;
+      border-top: 1px solid var(--line);
+      padding-top: 8px;
+    }
+    ul { padding-left: 20px; }
+    li { margin: 6px 0; }
+    code {
+      display: block;
+      overflow-wrap: anywhere;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+    }
+    .unavailable, .missing { color: var(--bad); }
+    .muted { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header class="page">
+    <h1>Control Room Narration</h1>
+    <p>Narration covers 3 version(s) from deterministic local evidence.</p>
+    <div class="strip">
+      <span>Session: <strong>control-room-v001-v002-v003</strong></span>
+      <span>Base: <strong>v002</strong></span>
+      <span>Generated: <strong>2026-05-24T06:00:00.000Z</strong></span>
+      <span>Credential-free fallback: <strong>true</strong></span>
+    </div>
+  </header>
+  <main>
+    <section><h2>Session</h2><article class="message human_comment">
+    <header>
+      <span class="role">Human comment</span>
+      <span>session</span>
+      <time datetime="2026-05-24T04:06:47.000Z">2026-05-24T04:06:47.000Z</time>
+    </header>
+    <p>Make a tiny dungeon loop that can improve through trace-backed review.</p>
+    <details><summary>Evidence</summary><ul><li class="present"><span>timeline_event</span><span>human_idea: 001-human_idea</span><code>timeline:001-human_idea</code></li></ul></details>
+    
+  </article></section>
+    <section class="version"><h2>v001</h2><p class="muted">Evidence status: partial. Likely next: As a careful player, the v001 play on seed seed_001 lost before the end in 60 turns (floors reached 1, invalid actions 0). The player lost on floor 1 after 60 turns with 2 damage taken.</p><article class="message developer_summary">
+    <header>
+      <span class="role">Developer summary</span>
+      <span>v001</span>
+      <time datetime="2026-05-24T04:07:00.000Z">2026-05-24T04:07:00.000Z</time>
+    </header>
+    <p>Developer produced the baseline version evidence.</p>
+    <details><summary>Evidence</summary><ul><li class="present"><span>developer_notes</span><a href="../../../runs/v001/developer_notes.md">developer_notes: runs/v001/developer_notes.md</a><code>runs/v001/developer_notes.md</code></li><li class="unavailable"><span>trace</span><span>trace: runs/v001/traces/seed_001_careful_player.json</span><code>runs/v001/traces/seed_001_careful_player.json</code><p>Evidence exists, but no supported summary fields were found.</p></li><li class="present"><span>version_summary</span><a href="../../../runs/v001/version_summary.json">version_summary: runs/v001/version_summary.json</a><code>runs/v001/version_summary.json</code></li><li class="present"><span>timeline_event</span><span>developer_summary: v001-002-developer_summary</span><code>timeline:v001-002-developer_summary</code></li></ul></details>
+    <ul class="missing"><li>trace: runs/v001/traces/seed_001_careful_player.json: Evidence exists, but no supported summary fields were found.</li></ul>
+  </article><article class="message reviewer_summary">
+    <header>
+      <span class="role">Reviewer summary</span>
+      <span>v001</span>
+      <time datetime="2026-05-24T04:08:00.000Z">2026-05-24T04:08:00.000Z</time>
+    </header>
+    <p>Reviewer flagged shallow item use and limited tactical choices.</p>
+    <details><summary>Evidence</summary><ul><li class="present"><span>review</span><a href="../../../runs/v001/reviews/seed_001_careful_player.json">review: runs/v001/reviews/seed_001_careful_player.json</a><code>runs/v001/reviews/seed_001_careful_player.json</code></li><li class="present"><span>scorecard</span><a href="../../../runs/v001/scorecards/seed_001_careful_player.json">scorecard: runs/v001/scorecards/seed_001_careful_player.json</a><code>runs/v001/scorecards/seed_001_careful_player.json</code></li><li class="present"><span>timeline_event</span><span>reviewer_summary: v001-003-reviewer_summary</span><code>timeline:v001-003-reviewer_summary</code></li></ul></details>
+    
+  </article><article class="message narrator_summary">
+    <header>
+      <span class="role">Narrator summary</span>
+      <span>v001</span>
+      <time datetime="2026-05-24T06:00:00.000Z">2026-05-24T06:00:00.000Z</time>
+    </header>
+    <p>What changed: Baseline evidence shows repeated ABORTED/softlock problem signals in the balance batch. What the reviewer found: As a careful player, the v001 play on seed seed_001 lost before the end in 60 turns (floors reached 1, invalid actions 0). The player lost on floor 1 after 60 turns with 2 damage taken. Evidence status: 4 source artifact(s) parsed; 1 unavailable or unsupported. Likely next: As a careful player, the v001 play on seed seed_001 lost before the end in 60 turns (floors reached 1, invalid actions 0). The player lost on floor 1 after 60 turns with 2 damage taken.</p>
+    <details><summary>Evidence</summary><ul><li class="present"><span>developer_notes</span><a href="../../../runs/v001/developer_notes.md">developer_notes: runs/v001/developer_notes.md</a><code>runs/v001/developer_notes.md</code></li><li class="present"><span>review</span><a href="../../../runs/v001/reviews/seed_001_careful_player.json">review: runs/v001/reviews/seed_001_careful_player.json</a><code>runs/v001/reviews/seed_001_careful_player.json</code></li><li class="present"><span>scorecard</span><a href="../../../runs/v001/scorecards/seed_001_careful_player.json">scorecard: runs/v001/scorecards/seed_001_careful_player.json</a><code>runs/v001/scorecards/seed_001_careful_player.json</code></li><li class="unavailable"><span>trace</span><span>trace: runs/v001/traces/seed_001_careful_player.json</span><code>runs/v001/traces/seed_001_careful_player.json</code><p>Evidence exists, but no supported summary fields were found.</p></li><li class="present"><span>version_summary</span><a href="../../../runs/v001/version_summary.json">version_summary: runs/v001/version_summary.json</a><code>runs/v001/version_summary.json</code></li></ul></details>
+    <ul class="missing"><li>trace: runs/v001/traces/seed_001_careful_player.json: Evidence exists, but no supported summary fields were found.</li></ul>
+  </article></section><section class="version"><h2>v002</h2><p class="muted">Evidence status: available. Likely next: Target balance batch introduced new problematic seed/policy runs; inspect failed_runs before accepting.</p><article class="message human_comment">
+    <header>
+      <span class="role">Human comment</span>
+      <span>v002</span>
+      <time datetime="2026-05-24T04:09:00.000Z">2026-05-24T04:09:00.000Z</time>
+    </header>
+    <p>Human comment: keep the Smoke Bomb clarity improvement.</p>
+    <details><summary>Evidence</summary><ul><li class="present"><span>comparison</span><a href="../../../runs/comparisons/v001_vs_v002.json">comparison: runs/comparisons/v001_vs_v002.json</a><code>runs/comparisons/v001_vs_v002.json</code></li><li class="present"><span>changelog</span><a href="../../../runs/v002/changelog.md">changelog: runs/v002/changelog.md</a><code>runs/v002/changelog.md</code></li><li class="present"><span>timeline_event</span><span>human_comment: v002-004-human_comment</span><code>timeline:v002-004-human_comment</code></li></ul></details>
+    
+  </article><article class="message narrator_summary">
+    <header>
+      <span class="role">Narrator summary</span>
+      <span>v002</span>
+      <time datetime="2026-05-24T04:10:00.000Z">2026-05-24T04:10:00.000Z</time>
+    </header>
+    <p>Select v002 as the active base without deleting or rolling back later versions.</p>
+    <details><summary>Evidence</summary><ul><li class="present"><span>comparison</span><a href="../../../runs/comparisons/v002_vs_v003.json">comparison: runs/comparisons/v002_vs_v003.json</a><code>runs/comparisons/v002_vs_v003.json</code></li><li class="present"><span>timeline_event</span><span>version_selected_as_base: v002-005-version_selected_as_base</span><code>timeline:v002-005-version_selected_as_base</code></li></ul></details>
+    
+  </article><article class="message narrator_summary">
+    <header>
+      <span class="role">Narrator summary</span>
+      <span>v002</span>
+      <time datetime="2026-05-24T06:00:00.000Z">2026-05-24T06:00:00.000Z</time>
+    </header>
+    <p>What changed: Implemented v002 demo profile with a starting Smoke Bomb and Potion/Smoke Bomb evidence path. What the reviewer found: Target balance batch introduced new problematic seed/policy runs; inspect failed_runs before accepting. Evidence status: 3 source artifact(s) parsed; 0 unavailable or unsupported. Likely next: Target balance batch introduced new problematic seed/policy runs; inspect failed_runs before accepting.</p>
+    <details><summary>Evidence</summary><ul><li class="present"><span>comparison</span><a href="../../../runs/comparisons/v001_vs_v002.json">comparison: runs/comparisons/v001_vs_v002.json</a><code>runs/comparisons/v001_vs_v002.json</code></li><li class="present"><span>comparison</span><a href="../../../runs/comparisons/v002_vs_v003.json">comparison: runs/comparisons/v002_vs_v003.json</a><code>runs/comparisons/v002_vs_v003.json</code></li><li class="present"><span>changelog</span><a href="../../../runs/v002/changelog.md">changelog: runs/v002/changelog.md</a><code>runs/v002/changelog.md</code></li></ul></details>
+    
+  </article></section><section class="version"><h2>v003</h2><p class="muted">Evidence status: partial. Likely next: _(none)_</p><article class="message reviewer_summary">
+    <header>
+      <span class="role">Reviewer summary</span>
+      <span>v003</span>
+      <time datetime="2026-05-24T04:11:00.000Z">2026-05-24T04:11:00.000Z</time>
+    </header>
+    <p>Reviewer summary is linked to expected evidence, with absent optional evidence labeled.</p>
+    <details><summary>Evidence</summary><ul><li class="present"><span>balance_summary</span><a href="../../../runs/v003/balance_summary.json">balance_summary: runs/v003/balance_summary.json</a><code>runs/v003/balance_summary.json</code></li><li class="unavailable"><span>review</span><span>review: runs/v003/reviews/missing_optional_review.json</span><code>runs/v003/reviews/missing_optional_review.json</code><p>Missing on disk: runs/v003/reviews/missing_optional_review.json</p></li><li class="present"><span>timeline_event</span><span>reviewer_summary: v003-007-reviewer_summary</span><code>timeline:v003-007-reviewer_summary</code></li></ul></details>
+    <ul class="missing"><li>review: runs/v003/reviews/missing_optional_review.json: Missing on disk: runs/v003/reviews/missing_optional_review.json</li></ul>
+  </article><article class="message narrator_summary">
+    <header>
+      <span class="role">Narrator summary</span>
+      <span>v003</span>
+      <time datetime="2026-05-24T04:12:00.000Z">2026-05-24T04:12:00.000Z</time>
+    </header>
+    <p>Prepare the next bounded improvement from v003 evidence without executing it.</p>
+    <details><summary>Evidence</summary><ul><li class="present"><span>acceptance</span><a href="../../../runs/v003/acceptance.md">v003 acceptance notes</a><code>runs/v003/acceptance.md</code></li><li class="present"><span>timeline_event</span><span>prepared_next_step: v003-006-prepared_next_step</span><code>timeline:v003-006-prepared_next_step</code></li></ul></details>
+    
+  </article><article class="message narrator_summary">
+    <header>
+      <span class="role">Narrator summary</span>
+      <span>v003</span>
+      <time datetime="2026-05-24T06:00:00.000Z">2026-05-24T06:00:00.000Z</time>
+    </header>
+    <p>What changed: Balance summary reports 16 problem runs. What the reviewer found: Balance summary reports 16 problem runs. Evidence status: 2 source artifact(s) parsed; 1 unavailable or unsupported. Likely next: _(none)_</p>
+    <details><summary>Evidence</summary><ul><li class="present"><span>acceptance</span><a href="../../../runs/v003/acceptance.md">v003 acceptance notes</a><code>runs/v003/acceptance.md</code></li><li class="present"><span>balance_summary</span><a href="../../../runs/v003/balance_summary.json">balance_summary: runs/v003/balance_summary.json</a><code>runs/v003/balance_summary.json</code></li><li class="unavailable"><span>review</span><span>review: runs/v003/reviews/missing_optional_review.json</span><code>runs/v003/reviews/missing_optional_review.json</code><p>Missing on disk: runs/v003/reviews/missing_optional_review.json</p></li></ul></details>
+    <ul class="missing"><li>review: runs/v003/reviews/missing_optional_review.json: Missing on disk: runs/v003/reviews/missing_optional_review.json</li></ul>
+  </article></section>
+  </main>
+</body>
+</html>
