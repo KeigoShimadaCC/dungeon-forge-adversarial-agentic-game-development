@@ -2,7 +2,7 @@
   "name": "dungeon-forge",
   "version": "0.0.0",
   "private": true,
-  "description": "Agentic adversarial game-development testbed (Phase 01A scaffold)",
+  "description": "Local adversarial game-development testbed with deterministic text/ASCII game evidence",
   "type": "module",
   "engines": {
     "node": "^20.19.0 || >=22.12.0"
