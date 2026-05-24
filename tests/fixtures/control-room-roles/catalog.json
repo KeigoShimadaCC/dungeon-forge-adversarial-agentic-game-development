@@ -1,0 +1,244 @@
+{
+  "roles": [
+    {
+      "defaultPromptReference": "src/agents/prompts/developer.md",
+      "displayName": "Game Developer",
+      "id": "game_developer",
+      "modelChoices": [
+        {
+          "advisoryOnly": true,
+          "configurableEnvVars": [
+            "DUNGEON_FORGE_LLM_MODEL"
+          ],
+          "credentialsRequiredForRealProvider": true,
+          "default": true,
+          "displayName": "Configured developer model",
+          "id": "configured_developer_model",
+          "modelLabel": "gpt-4o-mini",
+          "notes": [
+            "Metadata only: this catalog does not resolve provider configuration.",
+            "Later handoff phases may use this label to preselect an optional provider-backed run."
+          ],
+          "providerCallEnabled": false,
+          "providerKind": "configured_llm_provider"
+        }
+      ],
+      "personas": [],
+      "prompts": [
+        {
+          "description": "Repo-stored instructions for bounded developer-agent tasks.",
+          "diagnostics": [
+            "Safe repo reference only; consumers should load text deliberately before display."
+          ],
+          "label": "Developer workflow prompt",
+          "level": "safe_repo_reference",
+          "sourceReferences": [
+            {
+              "description": "Repo-stored instructions for bounded developer-agent tasks.",
+              "kind": "repo_markdown",
+              "path": "src/agents/prompts/developer.md"
+            }
+          ]
+        }
+      ],
+      "roleKind": "developer_ai",
+      "shortDescription": "Implements bounded game improvements from trace-backed tasks after human approval."
+    },
+    {
+      "defaultPersonaId": "careful_player",
+      "defaultPromptReference": "src/agents/prompts/reviewer.md",
+      "displayName": "Game Reviewer",
+      "id": "game_reviewer",
+      "modelChoices": [
+        {
+          "advisoryOnly": true,
+          "configurableEnvVars": [],
+          "credentialsRequiredForRealProvider": false,
+          "default": true,
+          "displayName": "Local deterministic harness",
+          "id": "local_deterministic",
+          "modelLabel": "deterministic local logic",
+          "notes": [
+            "Credential-free default behavior for gameplay, tests, scorecards, and deterministic reviews."
+          ],
+          "providerCallEnabled": false,
+          "providerKind": "local_deterministic"
+        },
+        {
+          "advisoryOnly": true,
+          "configurableEnvVars": [
+            "DUNGEON_FORGE_LLM_MODEL"
+          ],
+          "credentialsRequiredForRealProvider": true,
+          "default": true,
+          "displayName": "Configured reviewer model",
+          "id": "configured_reviewer_model",
+          "modelLabel": "gpt-4o-mini",
+          "notes": [
+            "Metadata only: this catalog does not resolve provider configuration.",
+            "Later handoff phases may use this label to preselect an optional provider-backed run."
+          ],
+          "providerCallEnabled": false,
+          "providerKind": "configured_llm_provider"
+        }
+      ],
+      "personas": [
+        {
+          "description": "Reads state carefully, prioritizes survivability, and judges fairness and tactical depth from trace evidence.",
+          "displayName": "Careful Player",
+          "emphasis": [
+            "fairness",
+            "clarity",
+            "tactical_depth",
+            "readable_renders"
+          ],
+          "id": "careful_player",
+          "playerPolicyHint": "baseline policy: cautious-low-hp",
+          "selectable": true
+        },
+        {
+          "description": "Plays plausibly but may miss tactical detail; focuses on whether items, enemies, and actions are understandable.",
+          "displayName": "Naive Player",
+          "emphasis": [
+            "clarity",
+            "fun",
+            "action_labels",
+            "item_feedback"
+          ],
+          "id": "naive_player",
+          "playerPolicyHint": "baseline policy: random",
+          "selectable": true
+        },
+        {
+          "description": "Probes edge cases, invalid actions, ABORTED paths, and thin renders to surface protocol and harness failures.",
+          "displayName": "Bug Hunter",
+          "emphasis": [
+            "invalid_actions",
+            "aborted_paths",
+            "protocol_edge_cases",
+            "render_completeness"
+          ],
+          "id": "bug_hunter",
+          "playerPolicyHint": "baseline policy: stairs-seeking",
+          "selectable": true
+        }
+      ],
+      "prompts": [
+        {
+          "description": "Repo-stored structured review instructions for trace-backed critique.",
+          "diagnostics": [
+            "Safe repo reference only; consumers should load text deliberately before display."
+          ],
+          "label": "Reviewer artifact prompt",
+          "level": "safe_repo_reference",
+          "sourceReferences": [
+            {
+              "description": "Repo-stored structured review instructions for trace-backed critique.",
+              "kind": "repo_markdown",
+              "path": "src/agents/prompts/reviewer.md"
+            }
+          ]
+        },
+        {
+          "description": "Runtime prompt builder that includes selected persona, trace, scorecard, and rendered-state evidence.",
+          "diagnostics": [
+            "Prompt text is assembled from runtime state and artifact evidence; catalog exposes source references instead of copied prompt text."
+          ],
+          "label": "LLM reviewer runtime prompt",
+          "level": "dynamic_runtime_reference",
+          "sourceReferences": [
+            {
+              "description": "Runtime prompt builder that includes selected persona, trace, scorecard, and rendered-state evidence.",
+              "exportName": "buildLlmReviewerPrompt",
+              "kind": "typescript_builder",
+              "path": "src/agents/prompts/llm-reviewer.ts"
+            }
+          ]
+        }
+      ],
+      "roleKind": "reviewer_ai",
+      "shortDescription": "Reviews playthrough traces and scorecards through selectable evidence-grounded personas."
+    },
+    {
+      "displayName": "Narrator",
+      "id": "narrator",
+      "modelChoices": [
+        {
+          "advisoryOnly": true,
+          "configurableEnvVars": [
+            "DUNGEON_FORGE_LLM_MODEL"
+          ],
+          "credentialsRequiredForRealProvider": true,
+          "default": true,
+          "displayName": "Configured narrator model",
+          "id": "configured_narrator_model",
+          "modelLabel": "gpt-4o-mini",
+          "notes": [
+            "Metadata only: this catalog does not resolve provider configuration.",
+            "Later handoff phases may use this label to preselect an optional provider-backed run."
+          ],
+          "providerCallEnabled": false,
+          "providerKind": "configured_llm_provider"
+        }
+      ],
+      "personas": [],
+      "prompts": [
+        {
+          "description": "No runnable narrator prompt exists yet; later phases should derive narration from version summaries and trace-backed artifacts.",
+          "diagnostics": [
+            "Narrator is display metadata in this phase, not an executable agent."
+          ],
+          "label": "Narration role description",
+          "level": "safe_repo_reference",
+          "sourceReferences": [
+            {
+              "description": "Future narrator behavior plan and credential-free fallback boundary.",
+              "kind": "repo_markdown",
+              "path": "phase-plans/PHASE-27B-NARRATED-VERSION-SUMMARIES.md"
+            }
+          ]
+        }
+      ],
+      "roleKind": "narrator_ai",
+      "shortDescription": "Summarizes versions and control-room context for humans without changing game state."
+    },
+    {
+      "displayName": "Human",
+      "id": "human",
+      "modelChoices": [
+        {
+          "advisoryOnly": true,
+          "configurableEnvVars": [],
+          "credentialsRequiredForRealProvider": false,
+          "default": true,
+          "displayName": "Human input",
+          "id": "human_input",
+          "modelLabel": "human-authored",
+          "notes": [
+            "Represents a person speaking or choosing; no model is selected."
+          ],
+          "providerCallEnabled": false,
+          "providerKind": "human"
+        }
+      ],
+      "personas": [],
+      "prompts": [
+        {
+          "description": "Human comments, ideas, and decisions are captured as explicit local artifacts by later control-room phases.",
+          "diagnostics": [],
+          "label": "Human-authored text",
+          "level": "not_applicable",
+          "sourceReferences": [
+            {
+              "description": "No system prompt applies to the human actor.",
+              "kind": "human_input"
+            }
+          ]
+        }
+      ],
+      "roleKind": "human",
+      "shortDescription": "Represents human ideas, comments, approvals, and base-version choices in control-room history."
+    }
+  ],
+  "schemaVersion": 1
+}
