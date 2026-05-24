@@ -14,6 +14,7 @@ export type {
   ProblemRunDiagnostics,
   ScorecardReviewInput,
   StateSummary,
+  TacticalDepthMetrics,
   TraceDecisionMetadata,
   TraceMetadata,
   TraceStep,
@@ -89,6 +90,7 @@ export {
   deriveEnemyBehaviorMetrics,
   deriveItemEvaluationMetrics,
   deriveProblemRunDiagnostics,
+  deriveTacticalDepthMetrics,
   finalizeTraceMetadata,
   isBalanceProblemRun,
 } from './trace-diagnostics.js';

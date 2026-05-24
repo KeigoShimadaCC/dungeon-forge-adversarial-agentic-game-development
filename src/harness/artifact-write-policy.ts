@@ -24,6 +24,7 @@ export interface ArtifactWritePolicyContext {
 
 const VERSION_ID_ALIASES: Readonly<Record<string, string>> = {
   'v09c-smoke': 'v009',
+  'v024b-smoke': 'v024',
 };
 
 export const VERSION_ID_ALIAS_ENTRIES = Object.entries(VERSION_ID_ALIASES) as ReadonlyArray<

@@ -82,7 +82,12 @@ export type ProblemRunCategoryKind =
   | 'impossible_placement'
   | 'repeated_failure'
   | 'trap_pressure'
-  | 'resource_pressure';
+  | 'resource_pressure'
+  | 'protocol_failure'
+  | 'expected_hard_loss'
+  | 'balance_outlier'
+  | 'policy_issue'
+  | 'missing_evidence';
 
 export interface ProblemRunCategory {
   category: ProblemRunCategoryKind;
@@ -121,6 +126,24 @@ export interface ItemEvaluationMetrics {
   items_used: number;
   tactical_items_used: number;
   item_pickup_actions: number;
+}
+
+export interface TacticalDepthMetrics {
+  enemy_pressure_events: number;
+  enemy_pressure_per_turn: number;
+  combat_engagements: number;
+  navigation_actions: number;
+  navigation_friction_turns: number;
+  floor_transition_count: number;
+  average_turns_per_floor: number;
+  tactical_item_opportunities: number;
+  tactical_item_uses: number;
+  tactical_item_use_rate: number;
+  tactical_item_value_events: number;
+  trap_resource_pressure_events: number;
+  trap_resource_damage: number;
+  content_interaction_events: number;
+  scenario_depth_signals: number;
 }
 
 export interface PlaythroughTrace {
@@ -205,6 +228,7 @@ export interface PlaythroughScorecard {
   review_id?: string;
   enemy_behaviors?: EnemyBehaviorMetrics;
   item_evaluation?: ItemEvaluationMetrics;
+  tactical_depth?: TacticalDepthMetrics;
   trap_resources?: TrapResourceMetrics;
   diagnostics?: ProblemRunDiagnostics;
 }

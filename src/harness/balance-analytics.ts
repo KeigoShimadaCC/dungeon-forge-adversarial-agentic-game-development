@@ -10,6 +10,7 @@ import {
   type BalanceRunRecord,
   type BalanceSummary,
   type BalanceSummaryComparison,
+  type TacticalDepthAggregateMetrics,
 } from './balance-tuning.js';
 import { VERSION_ID_PATTERN, type VersionSummary } from './version-loop.js';
 import type { BaselinePolicyId } from './policy-registry.js';
@@ -32,6 +33,7 @@ export interface BalanceAnalyticsCohort {
   average_items_used: number;
   average_invalid_actions: number;
   softlock_count: number;
+  tactical_depth_summary: TacticalDepthAggregateMetrics;
   problem_category_counts: Record<string, number>;
   evidence_paths: string[];
 }
@@ -60,6 +62,7 @@ export interface BalanceVersionAnalytics {
   };
   acceptance_status: VersionSummary['acceptance_status'] | 'unknown';
   aggregates?: BalanceAggregateMetrics;
+  tactical_depth_summary?: TacticalDepthAggregateMetrics;
   problem_category_counts: Record<string, number>;
   repeated_problem_seeds: string[];
   cohorts: {
@@ -149,6 +152,46 @@ const average = (values: readonly number[]): number => {
   return round2(values.reduce((total, value) => total + value, 0) / values.length);
 };
 
+const emptyTacticalDepthSummary = (): TacticalDepthAggregateMetrics => ({
+  average_enemy_pressure_events: 0,
+  average_enemy_pressure_per_turn: 0,
+  average_navigation_friction_turns: 0,
+  average_tactical_item_use_rate: 0,
+  average_trap_resource_pressure_events: 0,
+  average_content_interaction_events: 0,
+  average_scenario_depth_signals: 0,
+});
+
+const aggregateRunTacticalDepth = (
+  runs: readonly BalanceAnalyticsRunRecord[],
+): TacticalDepthAggregateMetrics => {
+  const metrics = runs
+    .map((run) => run.metrics.tactical_depth)
+    .filter((entry): entry is NonNullable<BalanceRunRecord['metrics']['tactical_depth']> =>
+      entry !== undefined,
+    );
+  if (metrics.length === 0) {
+    return emptyTacticalDepthSummary();
+  }
+  return {
+    average_enemy_pressure_events: average(metrics.map((entry) => entry.enemy_pressure_events)),
+    average_enemy_pressure_per_turn: average(
+      metrics.map((entry) => entry.enemy_pressure_per_turn),
+    ),
+    average_navigation_friction_turns: average(
+      metrics.map((entry) => entry.navigation_friction_turns),
+    ),
+    average_tactical_item_use_rate: average(metrics.map((entry) => entry.tactical_item_use_rate)),
+    average_trap_resource_pressure_events: average(
+      metrics.map((entry) => entry.trap_resource_pressure_events),
+    ),
+    average_content_interaction_events: average(
+      metrics.map((entry) => entry.content_interaction_events),
+    ),
+    average_scenario_depth_signals: average(metrics.map((entry) => entry.scenario_depth_signals)),
+  };
+};
+
 type BalanceAnalyticsRunRecord = BalanceRunRecord & {
   challenge_mode: string;
 };
@@ -190,6 +233,7 @@ const buildCohort = (
     average_items_used: average(runs.map((run) => run.metrics.items_used)),
     average_invalid_actions: average(runs.map((run) => run.metrics.invalid_actions)),
     softlock_count: runs.reduce((total, run) => total + run.metrics.softlocks, 0),
+    tactical_depth_summary: aggregateRunTacticalDepth(runs),
     problem_category_counts: countCategories(runs),
     evidence_paths: [...new Set(runs.flatMap((run) => [run.trace_path, run.scorecard_path]))].sort(),
   };
@@ -329,6 +373,7 @@ const buildVersionAnalytics = async (
         },
         acceptance_status,
         problem_category_counts: {},
+        tactical_depth_summary: emptyTacticalDepthSummary(),
         repeated_problem_seeds: [],
         cohorts: {
           by_seed: [],
@@ -358,6 +403,7 @@ const buildVersionAnalytics = async (
       },
       acceptance_status,
       aggregates: summary.aggregates,
+      tactical_depth_summary: summary.tactical_depth_summary,
       problem_category_counts: summary.problem_category_counts,
       repeated_problem_seeds: summary.repeated_problem_seeds,
       cohorts: buildCohorts(enrichedRuns),

@@ -12,6 +12,7 @@ import {
   buildTraceMetadata,
   deriveEnemyBehaviorMetrics,
   deriveProblemRunDiagnostics,
+  deriveTacticalDepthMetrics,
 } from '../src/harness/trace-diagnostics.js';
 import { stringifyDeterministicJson } from '../src/harness/json.js';
 
@@ -68,6 +69,8 @@ describe('Phase 13C trace and scorecard diagnostics', () => {
 
       expect(totalBehaviors).toBeGreaterThan(0);
       expect(scorecard.enemy_behaviors).toEqual(metrics);
+      expect(scorecard.tactical_depth?.enemy_pressure_events).toBe(totalBehaviors);
+      expect(scorecard.tactical_depth?.enemy_pressure_per_turn).toBeGreaterThan(0);
     });
   });
 
@@ -83,6 +86,8 @@ describe('Phase 13C trace and scorecard diagnostics', () => {
 
       expect(scorecard.item_evaluation?.use_item_turns_available ?? 0).toBeGreaterThan(0);
       expect(scorecard.item_evaluation?.tactical_items_used ?? 0).toBeGreaterThan(0);
+      expect(scorecard.tactical_depth?.tactical_item_opportunities ?? 0).toBeGreaterThan(0);
+      expect(scorecard.tactical_depth?.tactical_item_uses ?? 0).toBeGreaterThan(0);
       expect(
         scorecard.items_used + (scorecard.item_evaluation?.item_pickup_actions ?? 0),
       ).toBeGreaterThan(0);
@@ -113,6 +118,38 @@ describe('Phase 13C trace and scorecard diagnostics', () => {
       );
       expect(scorecard.diagnostics?.categories.some((entry) => entry.category === 'invalid_actions'))
         .toBe(true);
+      expect(scorecard.diagnostics?.categories.some((entry) => entry.category === 'policy_issue'))
+        .toBe(true);
+    });
+  });
+
+  it('derives deterministic tactical-depth metrics from trace evidence', async () => {
+    await withTempRunsRoot(async (runsRoot) => {
+      const { trace, scorecard } = await runPlaythrough({
+        seed: 'seed_002',
+        policyId: 'greedy-item-picker',
+        version: 'v002',
+        runsRoot,
+        maxSteps: 80,
+      });
+
+      const first = deriveTacticalDepthMetrics(
+        trace,
+        scorecard.enemy_behaviors,
+        scorecard.item_evaluation,
+        scorecard.trap_resources,
+      );
+      const second = deriveTacticalDepthMetrics(
+        trace,
+        scorecard.enemy_behaviors,
+        scorecard.item_evaluation,
+        scorecard.trap_resources,
+      );
+
+      expect(first).toEqual(second);
+      expect(scorecard.tactical_depth).toEqual(first);
+      expect(first.content_interaction_events).toBeGreaterThan(0);
+      expect(first.scenario_depth_signals).toBeGreaterThan(0);
     });
   });
 
@@ -176,6 +213,104 @@ describe('Phase 13C trace and scorecard diagnostics', () => {
       diagnostics.categories.some((entry) => entry.category === 'impossible_placement'),
     ).toBe(true);
     expect(diagnostics.categories.some((entry) => entry.category === 'softlock')).toBe(true);
+  });
+
+  it('separates expected hard losses, balance outliers, protocol failures, and missing evidence', () => {
+    const lossTrace = {
+      version: 'v-diagnostics',
+      seed: 'seed_001',
+      persona: 'fixture',
+      result: 'LOSS' as const,
+      turns: 1,
+      steps: [
+        {
+          turn: 1,
+          state_summary: {
+            turn: 1,
+            floor: 1,
+            hp: 0,
+            maxHp: 12,
+            terminalStatus: 'LOSS' as const,
+            playerPosition: { x: 1, y: 1 },
+            inventory: [],
+            enemyCount: 1,
+            itemCount: 0,
+            npcCount: 0,
+            inDialogue: false,
+          },
+          render: '',
+          available_actions: [],
+          chosen_action: { id: 'wait', type: 'wait' as const, label: 'Wait' },
+          valid: true,
+          events: [{ id: 'enemy_attack', type: 'enemy_attack', message: 'hit', turn: 1, payload: { damage: 18 } }],
+          terminalStatus: 'LOSS' as const,
+        },
+      ],
+    };
+    const lossDiagnostics = deriveProblemRunDiagnostics(lossTrace, {
+      result: 'LOSS',
+      invalid_actions: 0,
+      softlocks: 0,
+      items_used: 0,
+      turns: 1,
+      floors_reached: 1,
+      damage_taken: 18,
+    });
+    expect(lossDiagnostics.categories.map((entry) => entry.category)).toEqual([
+      'expected_hard_loss',
+      'balance_outlier',
+    ]);
+
+    const emptyAbort = deriveProblemRunDiagnostics(
+      { ...lossTrace, result: 'ABORTED' as const, turns: 4, steps: [] },
+      {
+        result: 'ABORTED',
+        invalid_actions: 0,
+        softlocks: 0,
+        items_used: 0,
+        turns: 4,
+        floors_reached: 0,
+        damage_taken: 0,
+      },
+    );
+    expect(emptyAbort.categories.some((entry) => entry.category === 'missing_evidence')).toBe(
+      true,
+    );
+    expect(emptyAbort.categories.some((entry) => entry.category === 'aborted')).toBe(true);
+
+    const protocolDiagnostics = deriveProblemRunDiagnostics(
+      {
+        ...lossTrace,
+        result: 'ABORTED' as const,
+        turns: 1,
+        steps: [
+          {
+            ...lossTrace.steps[0]!,
+            events: [
+              {
+                id: 'invalid_state',
+                type: 'invalid_state',
+                message: 'invalid',
+                turn: 1,
+              },
+            ],
+            terminalStatus: 'ABORTED' as const,
+          },
+        ],
+      },
+      {
+        result: 'ABORTED',
+        invalid_actions: 0,
+        softlocks: 0,
+        items_used: 0,
+        turns: 1,
+        floors_reached: 1,
+        damage_taken: 0,
+      },
+    );
+    expect(
+      protocolDiagnostics.categories.some((entry) => entry.category === 'protocol_failure'),
+    ).toBe(true);
   });
 
   it('builds version-scoped trace metadata from demo profiles', () => {

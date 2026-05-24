@@ -16,6 +16,7 @@ import type {
   PlaythroughTrace,
   ProblemRunCategory,
   ProblemRunDiagnostics,
+  TacticalDepthMetrics,
   TraceMetadata,
 } from './types.js';
 
@@ -31,6 +32,9 @@ const ENEMY_BEHAVIOR_EVENT_TYPES = [
 type EnemyBehaviorEventType = (typeof ENEMY_BEHAVIOR_EVENT_TYPES)[number];
 
 const TACTICAL_ITEM_IDS = new Set<string>(PHASE_09A_ITEM_IDS);
+
+const round2 = (value: number): number => Number(value.toFixed(2));
+const round4 = (value: number): number => Number(value.toFixed(4));
 
 const positionKey = (position: { x: number; y: number }): string =>
   `${position.x},${position.y}`;
@@ -312,6 +316,115 @@ export const deriveItemEvaluationMetrics = (trace: PlaythroughTrace): ItemEvalua
   };
 };
 
+export const deriveTacticalDepthMetrics = (
+  trace: PlaythroughTrace,
+  enemyBehaviors: EnemyBehaviorMetrics = deriveEnemyBehaviorMetrics(trace),
+  itemEvaluation: ItemEvaluationMetrics = deriveItemEvaluationMetrics(trace),
+  trapResources?: PlaythroughScorecard['trap_resources'],
+): TacticalDepthMetrics => {
+  let navigationActions = 0;
+  let navigationFrictionTurns = 0;
+  let combatEngagements = 0;
+  let tacticalItemValueEvents = 0;
+  let contentInteractionEvents = 0;
+  let floorTransitionCount = 0;
+  const floorsObserved = new Set<number>();
+  const enemyEventTypes = new Set<string>();
+  const tacticalItemTypes = new Set<string>();
+
+  let previousFloor: number | undefined;
+  let previousPosition: string | undefined;
+
+  for (const step of trace.steps) {
+    floorsObserved.add(step.state_summary.floor);
+    const position = positionKey(step.state_summary.playerPosition);
+    if (previousFloor !== undefined && step.state_summary.floor !== previousFloor) {
+      floorTransitionCount += 1;
+    }
+    if (
+      previousPosition !== undefined &&
+      position === previousPosition &&
+      ['move', 'wait', 'inspect'].includes(step.chosen_action.type)
+    ) {
+      navigationFrictionTurns += 1;
+    }
+    previousFloor = step.state_summary.floor;
+    previousPosition = position;
+
+    if (step.chosen_action.type === 'move' || step.chosen_action.type === 'descend') {
+      navigationActions += 1;
+    }
+    if (step.chosen_action.type === 'attack') {
+      combatEngagements += 1;
+      contentInteractionEvents += 1;
+    }
+    if (['pickup', 'use_item', 'talk', 'descend'].includes(step.chosen_action.type)) {
+      contentInteractionEvents += 1;
+    }
+
+    for (const event of step.events) {
+      if ((ENEMY_BEHAVIOR_EVENT_TYPES as readonly string[]).includes(event.type)) {
+        enemyEventTypes.add(event.type);
+      }
+      if (event.type === 'enemy_defeated') {
+        combatEngagements += 1;
+      }
+      if (event.type === 'use_item') {
+        const itemType = event.payload?.itemType;
+        if (typeof itemType === 'string' && TACTICAL_ITEM_IDS.has(itemType)) {
+          tacticalItemTypes.add(itemType);
+          tacticalItemValueEvents += 1;
+        }
+      }
+      if (
+        event.type === 'trap_triggered' ||
+        event.type === 'resource_hunger' ||
+        event.type === 'resource_torch'
+      ) {
+        contentInteractionEvents += 1;
+      }
+    }
+  }
+
+  const enemyPressureEvents =
+    enemyBehaviors.enemy_attack +
+    enemyBehaviors.enemy_move +
+    enemyBehaviors.enemy_wait +
+    enemyBehaviors.enemy_steal +
+    enemyBehaviors.enemy_phase;
+  const turns = Math.max(trace.turns, trace.steps.length, 1);
+  const distinctFloors = Math.max(floorsObserved.size, trace.steps.length > 0 ? 1 : 0);
+  const trapResourcePressureEvents = trapResources?.resource_pressure_events ?? 0;
+  const trapResourceDamage =
+    (trapResources?.trap_damage_taken ?? 0) + (trapResources?.hunger_damage_taken ?? 0);
+  const scenarioLabelSignals =
+    (trace.challenge_mode ? 1 : 0) +
+    (trace.scenario_pack ? 1 : 0) +
+    (trace.extension_pack ? 1 : 0);
+
+  return {
+    enemy_pressure_events: enemyPressureEvents,
+    enemy_pressure_per_turn: round4(enemyPressureEvents / turns),
+    combat_engagements: combatEngagements,
+    navigation_actions: navigationActions,
+    navigation_friction_turns: navigationFrictionTurns,
+    floor_transition_count: floorTransitionCount,
+    average_turns_per_floor: distinctFloors === 0 ? 0 : round2(trace.turns / distinctFloors),
+    tactical_item_opportunities: itemEvaluation.use_item_turns_available,
+    tactical_item_uses: itemEvaluation.tactical_items_used,
+    tactical_item_use_rate:
+      itemEvaluation.use_item_turns_available === 0
+        ? 0
+        : round4(itemEvaluation.tactical_items_used / itemEvaluation.use_item_turns_available),
+    tactical_item_value_events: tacticalItemValueEvents,
+    trap_resource_pressure_events: trapResourcePressureEvents,
+    trap_resource_damage: trapResourceDamage,
+    content_interaction_events: contentInteractionEvents,
+    scenario_depth_signals:
+      distinctFloors + enemyEventTypes.size + tacticalItemTypes.size + scenarioLabelSignals,
+  };
+};
+
 const findAbortCause = (trace: PlaythroughTrace): string | undefined => {
   if (trace.result !== 'ABORTED') {
     return undefined;
@@ -348,21 +461,48 @@ const findAbortCause = (trace: PlaythroughTrace): string | undefined => {
 
 export const deriveProblemRunDiagnostics = (
   trace: PlaythroughTrace,
-  scorecard: Pick<
-    PlaythroughScorecard,
-    'result' | 'invalid_actions' | 'softlocks' | 'items_used'
-  >,
+  scorecard: Pick<PlaythroughScorecard, 'result' | 'invalid_actions' | 'softlocks' | 'items_used'> &
+    Partial<
+      Pick<
+        PlaythroughScorecard,
+        'turns' | 'floors_reached' | 'damage_taken' | 'trace_path' | 'tactical_depth'
+      >
+    >,
   metadata?: TraceMetadata,
 ): ProblemRunDiagnostics => {
   const categories: ProblemRunCategory[] = [];
+  const abortCause = findAbortCause(trace);
+
+  if (trace.steps.length === 0 || trace.turns !== trace.steps.length) {
+    categories.push({
+      category: 'missing_evidence',
+      code: trace.steps.length === 0 ? 'empty_trace_steps' : 'turn_step_mismatch',
+      message:
+        trace.steps.length === 0
+          ? 'Trace has no step evidence.'
+          : `Trace turns (${trace.turns}) do not match step evidence (${trace.steps.length}).`,
+      detail: { turns: trace.turns, steps: trace.steps.length, trace_path: scorecard.trace_path ?? '' },
+    });
+  }
 
   if (scorecard.result === 'ABORTED') {
-    const abort_cause = findAbortCause(trace);
     categories.push({
       category: 'aborted',
-      code: abort_cause ?? 'aborted_unknown',
-      ...(abort_cause ? { message: `Run aborted: ${abort_cause}.` } : {}),
+      code: abortCause ?? 'aborted_unknown',
+      ...(abortCause ? { message: `Run aborted: ${abortCause}.` } : {}),
       detail: { result: scorecard.result, turns: trace.turns },
+    });
+  }
+
+  if (
+    abortCause &&
+    ['no_available_actions', 'invalid_state'].includes(abortCause)
+  ) {
+    categories.push({
+      category: 'protocol_failure',
+      code: abortCause,
+      message: `Run hit a protocol or state failure: ${abortCause}.`,
+      detail: { abort_cause: abortCause },
     });
   }
 
@@ -381,6 +521,18 @@ export const deriveProblemRunDiagnostics = (
       code: 'invalid_policy_or_step',
       message: `Recorded ${scorecard.invalid_actions} invalid action(s).`,
       detail: { invalid_actions: scorecard.invalid_actions },
+    });
+  }
+
+  if (
+    scorecard.invalid_actions > 0 ||
+    (abortCause && ['policy_invalid_action', 'policy_cloned_action', 'invalid_step'].includes(abortCause))
+  ) {
+    categories.push({
+      category: 'policy_issue',
+      code: abortCause ?? 'invalid_action_output',
+      message: 'Player/reviewer policy produced unusable or invalid action evidence.',
+      detail: { invalid_actions: scorecard.invalid_actions, abort_cause: abortCause ?? null },
     });
   }
 
@@ -407,7 +559,46 @@ export const deriveProblemRunDiagnostics = (
     ),
   );
 
-  const abortCause = findAbortCause(trace);
+  if (
+    scorecard.result === 'LOSS' &&
+    scorecard.invalid_actions === 0 &&
+    scorecard.softlocks === 0 &&
+    trace.steps.length > 0
+  ) {
+    categories.push({
+      category: 'expected_hard_loss',
+      code:
+        (scorecard.damage_taken ?? 0) > 0
+          ? 'combat_or_resource_death'
+          : 'loss_without_protocol_issue',
+      message: 'Run lost cleanly without protocol, policy, or softlock evidence.',
+      detail: {
+        damage_taken: scorecard.damage_taken ?? 0,
+        floors_reached: scorecard.floors_reached ?? 0,
+        turns: scorecard.turns ?? trace.turns,
+      },
+    });
+  }
+
+  if (
+    (scorecard.result === 'ABORTED' && abortCause === 'max_steps') ||
+    (scorecard.result === 'LOSS' &&
+      (scorecard.floors_reached ?? 0) <= 1 &&
+      (scorecard.damage_taken ?? 0) >= 15 &&
+      scorecard.invalid_actions === 0)
+  ) {
+    categories.push({
+      category: 'balance_outlier',
+      code: scorecard.result === 'ABORTED' ? 'max_steps_exhausted' : 'early_high_damage_loss',
+      message: 'Run may indicate a balance outlier; inspect trace before tuning.',
+      detail: {
+        result: scorecard.result,
+        turns: scorecard.turns ?? trace.turns,
+        floors_reached: scorecard.floors_reached ?? 0,
+        damage_taken: scorecard.damage_taken ?? 0,
+      },
+    });
+  }
 
   return {
     categories,
@@ -428,6 +619,11 @@ export const collectBalanceProblemCategories = (
         'impossible_placement',
         'trap_pressure',
         'resource_pressure',
+        'protocol_failure',
+        'expected_hard_loss',
+        'balance_outlier',
+        'policy_issue',
+        'missing_evidence',
       ].includes(entry.category),
     );
   }

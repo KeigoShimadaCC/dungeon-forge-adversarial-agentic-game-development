@@ -21,7 +21,7 @@ import {
   summarizeProblemCategoryCounts,
 } from './trace-diagnostics.js';
 import type { TerminalStatus } from '../game/types.js';
-import type { PlaythroughScorecard, ProblemRunCategory } from './types.js';
+import type { PlaythroughScorecard, ProblemRunCategory, TacticalDepthMetrics } from './types.js';
 import {
   ensureVersionFolder,
   getVersionPaths,
@@ -45,6 +45,7 @@ export interface BalanceRunMetrics {
   enemies_defeated: number;
   invalid_actions: number;
   softlocks: number;
+  tactical_depth?: TacticalDepthMetrics;
 }
 
 export interface BalanceRunRecord {
@@ -85,6 +86,16 @@ export interface BalanceAggregateMetrics {
   softlock_count: number;
 }
 
+export interface TacticalDepthAggregateMetrics {
+  average_enemy_pressure_events: number;
+  average_enemy_pressure_per_turn: number;
+  average_navigation_friction_turns: number;
+  average_tactical_item_use_rate: number;
+  average_trap_resource_pressure_events: number;
+  average_content_interaction_events: number;
+  average_scenario_depth_signals: number;
+}
+
 export interface BalanceSummary {
   version: string;
   mode: 'baseline';
@@ -95,6 +106,7 @@ export interface BalanceSummary {
   problem_category_counts: Record<string, number>;
   repeated_problem_seeds: string[];
   aggregates: BalanceAggregateMetrics;
+  tactical_depth_summary: TacticalDepthAggregateMetrics;
   aggregates_by_policy: Record<BaselinePolicyId, BalanceAggregateMetrics>;
   failed_runs: BalanceFailedRun[];
   runs: BalanceRunRecord[];
@@ -156,6 +168,7 @@ const scorecardToRunMetrics = (scorecard: PlaythroughScorecard): BalanceRunMetri
   enemies_defeated: scorecard.enemies_defeated,
   invalid_actions: scorecard.invalid_actions,
   softlocks: scorecard.softlocks,
+  ...(scorecard.tactical_depth ? { tactical_depth: scorecard.tactical_depth } : {}),
 });
 
 export {
@@ -201,6 +214,32 @@ export const aggregateBalanceMetrics = (
   };
 };
 
+export const aggregateTacticalDepthMetrics = (
+  records: readonly Pick<BalanceRunRecord, 'metrics'>[],
+): TacticalDepthAggregateMetrics => {
+  const metrics = records
+    .map((record) => record.metrics.tactical_depth)
+    .filter((entry): entry is TacticalDepthMetrics => entry !== undefined);
+
+  return {
+    average_enemy_pressure_events: average(metrics.map((entry) => entry.enemy_pressure_events)),
+    average_enemy_pressure_per_turn: average(
+      metrics.map((entry) => entry.enemy_pressure_per_turn),
+    ),
+    average_navigation_friction_turns: average(
+      metrics.map((entry) => entry.navigation_friction_turns),
+    ),
+    average_tactical_item_use_rate: average(metrics.map((entry) => entry.tactical_item_use_rate)),
+    average_trap_resource_pressure_events: average(
+      metrics.map((entry) => entry.trap_resource_pressure_events),
+    ),
+    average_content_interaction_events: average(
+      metrics.map((entry) => entry.content_interaction_events),
+    ),
+    average_scenario_depth_signals: average(metrics.map((entry) => entry.scenario_depth_signals)),
+  };
+};
+
 const toFailedRun = (record: BalanceRunRecord): BalanceFailedRun => ({
   seed: record.seed,
   policy: record.policy,
@@ -222,6 +261,7 @@ export const buildBalanceSummary = (
   const mutableRuns = [...runs];
   attachRepeatedFailureCategories({ failed_runs, runs: mutableRuns }, repeated_problem_seeds);
   const aggregates = aggregateBalanceMetrics(runs);
+  const tactical_depth_summary = aggregateTacticalDepthMetrics(runs);
   const aggregates_by_policy = {} as Record<BaselinePolicyId, BalanceAggregateMetrics>;
 
   for (const policy of policies) {
@@ -240,6 +280,7 @@ export const buildBalanceSummary = (
     problem_category_counts: summarizeProblemCategoryCounts(runs),
     repeated_problem_seeds,
     aggregates,
+    tactical_depth_summary,
     aggregates_by_policy,
     failed_runs,
     runs: [...runs],
