@@ -103,3 +103,18 @@ export interface LoadControlRoomTimelineResult {
   timeline?: ControlRoomTimelineArtifact;
   diagnostics: ControlRoomTimelineDiagnostic[];
 }
+
+export interface ControlRoomHumanFeedbackContextEntry {
+  type: 'initial_idea' | 'version_comment';
+  timestamp: string;
+  actor: string;
+  source: 'human';
+  text: string;
+  selectedVersion?: string;
+  targetVersion?: string;
+}
+
+export interface ControlRoomHumanFeedbackContext {
+  initialIdea?: ControlRoomHumanFeedbackContextEntry;
+  comments: ControlRoomHumanFeedbackContextEntry[];
+}

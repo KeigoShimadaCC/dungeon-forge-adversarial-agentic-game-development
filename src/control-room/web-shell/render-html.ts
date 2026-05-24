@@ -37,7 +37,9 @@ const renderEvent = (event: ControlRoomWebShellEvent): string => {
       ? `<details><summary>Evidence links (${event.evidence.length})</summary><ul>${event.evidence.map(evidenceLink).join('')}</ul></details>`
       : '<p class="muted">No raw evidence links recorded for this timeline event.</p>';
   const missingLabel =
-    event.missingEvidence.length > 0
+    event.isHumanFeedback
+      ? '<span class="badge badge-human">human feedback</span>'
+      : event.missingEvidence.length > 0
       ? `<span class="badge badge-missing">${event.missingEvidence.length} missing</span>`
       : '<span class="badge badge-present">evidence ok</span>';
 
@@ -66,6 +68,36 @@ const renderVersion = (version: ControlRoomWebShellVersionSection): string =>
     </div>
     <p class="version-summary">${escapeHtml(version.summary)}</p>
     <div class="feed">${version.events.map(renderEvent).join('\n')}</div>
+  </section>`;
+
+const renderHumanCaptureControls = (viewModel: ControlRoomWebShellViewModel): string =>
+  `<section class="panel capture-panel" aria-labelledby="human-capture-heading">
+    <div class="section-heading">
+      <h2 id="human-capture-heading">Human Input</h2>
+      <div class="summary-strip">
+        <span>Initial idea: <strong>${viewModel.humanFeedback.initialIdea ? 'captured' : 'none'}</strong></span>
+        <span>Comments: <strong>${viewModel.humanFeedback.comments.length}</strong></span>
+      </div>
+    </div>
+    <div class="capture-grid">
+      <form class="capture-form" data-capture-kind="initial-idea">
+        <label for="initial-game-idea">Initial game idea</label>
+        <textarea id="initial-game-idea" name="idea" maxlength="4000">${escapeHtml(viewModel.humanFeedback.initialIdea?.text ?? '')}</textarea>
+        <output class="diagnostic" name="idea-diagnostic">Use the local capture command to persist plain text into the timeline artifact.</output>
+      </form>
+      <form class="capture-form" data-capture-kind="version-comment">
+        <label for="target-version">Target version</label>
+        <select id="target-version" name="targetVersion">
+          <option value="">Session</option>
+          ${viewModel.versions
+            .map((version) => `<option value="${escapeHtml(version.versionId)}">${escapeHtml(version.versionId)}</option>`)
+            .join('')}
+        </select>
+        <label for="human-comment">Human comment</label>
+        <textarea id="human-comment" name="comment" maxlength="4000"></textarea>
+        <output class="diagnostic" name="comment-diagnostic">Empty or oversized text is rejected before timeline writes.</output>
+      </form>
+    </div>
   </section>`;
 
 const renderPrompt = (roleId: string, label: string, content: string): string =>
@@ -237,6 +269,7 @@ export const renderControlRoomWebShellHtml = (
       font-weight: 700;
     }
     .badge-present { background: #e7f6ed; color: var(--ok); }
+    .badge-human { background: #ffedd5; color: #8a3f00; }
     .badge-missing, .missing { color: var(--bad); }
     .badge-missing { background: #fee4e2; }
     .muted { color: var(--muted); }
@@ -259,6 +292,37 @@ export const renderControlRoomWebShellHtml = (
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 12px;
+    }
+    .capture-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .capture-form {
+      display: grid;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcfd;
+    }
+    label { font-weight: 700; }
+    textarea, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+    }
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+    .diagnostic {
+      color: var(--muted);
+      font-size: 12px;
     }
     .role-card {
       border: 1px solid var(--line);
@@ -298,6 +362,7 @@ export const renderControlRoomWebShellHtml = (
   </header>
   <main>
     ${emptyTimeline}
+    ${renderHumanCaptureControls(viewModel)}
     ${unversioned}
     <section class="panel">
       <h2>Version timeline</h2>

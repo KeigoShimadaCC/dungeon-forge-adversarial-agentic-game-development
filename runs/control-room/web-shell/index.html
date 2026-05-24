@@ -99,6 +99,7 @@
       font-weight: 700;
     }
     .badge-present { background: #e7f6ed; color: var(--ok); }
+    .badge-human { background: #ffedd5; color: #8a3f00; }
     .badge-missing, .missing { color: var(--bad); }
     .badge-missing { background: #fee4e2; }
     .muted { color: var(--muted); }
@@ -121,6 +122,37 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 12px;
+    }
+    .capture-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .capture-form {
+      display: grid;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcfd;
+    }
+    label { font-weight: 700; }
+    textarea, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+    }
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+    .diagnostic {
+      color: var(--muted);
+      font-size: 12px;
     }
     .role-card {
       border: 1px solid var(--line);
@@ -160,12 +192,38 @@
   </header>
   <main>
     
+    <section class="panel capture-panel" aria-labelledby="human-capture-heading">
+    <div class="section-heading">
+      <h2 id="human-capture-heading">Human Input</h2>
+      <div class="summary-strip">
+        <span>Initial idea: <strong>captured</strong></span>
+        <span>Comments: <strong>1</strong></span>
+      </div>
+    </div>
+    <div class="capture-grid">
+      <form class="capture-form" data-capture-kind="initial-idea">
+        <label for="initial-game-idea">Initial game idea</label>
+        <textarea id="initial-game-idea" name="idea" maxlength="4000">Make a tiny dungeon loop that can improve through trace-backed review.</textarea>
+        <output class="diagnostic" name="idea-diagnostic">Use the local capture command to persist plain text into the timeline artifact.</output>
+      </form>
+      <form class="capture-form" data-capture-kind="version-comment">
+        <label for="target-version">Target version</label>
+        <select id="target-version" name="targetVersion">
+          <option value="">Session</option>
+          <option value="v001">v001</option><option value="v002">v002</option><option value="v003">v003</option>
+        </select>
+        <label for="human-comment">Human comment</label>
+        <textarea id="human-comment" name="comment" maxlength="4000"></textarea>
+        <output class="diagnostic" name="comment-diagnostic">Empty or oversized text is rejected before timeline writes.</output>
+      </form>
+    </div>
+  </section>
     <section class="panel"><h2>Session Notes</h2><div class="feed"><article class="message role-human" id="event-001-human_idea">
     <div class="message-meta">
       <span class="actor">Human</span>
       <span>human_idea</span>
       <time datetime="2026-05-24T04:06:47.000Z">2026-05-24T04:06:47.000Z</time>
-      <span class="badge badge-present">evidence ok</span>
+      <span class="badge badge-human">human feedback</span>
     </div>
     <p>Make a tiny dungeon loop that can improve through trace-backed review.</p>
     
@@ -223,7 +281,7 @@
       <span class="actor">Human</span>
       <span>human_comment</span>
       <time datetime="2026-05-24T04:09:00.000Z">2026-05-24T04:09:00.000Z</time>
-      <span class="badge badge-present">evidence ok</span>
+      <span class="badge badge-human">human feedback</span>
     </div>
     <p>Human comment: keep the Smoke Bomb clarity improvement.</p>
     

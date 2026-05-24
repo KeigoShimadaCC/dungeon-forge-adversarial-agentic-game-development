@@ -11,6 +11,8 @@ import {
   type ControlRoomTimelineDiagnostic,
   type ControlRoomTimelineEvent,
   type ControlRoomTimelineEvidenceRef,
+  type ControlRoomHumanFeedbackContext,
+  type ControlRoomHumanFeedbackContextEntry,
   type ControlRoomTimelineProjection,
   type ControlRoomTimelineProjectionEvent,
   type ControlRoomTimelineValidationResult,
@@ -18,6 +20,7 @@ import {
 } from './types.js';
 
 export const CONTROL_ROOM_TIMELINE_ROOT = path.join('runs', 'control-room', 'timeline');
+export const CONTROL_ROOM_HUMAN_FEEDBACK_MAX_LENGTH = 4000;
 
 const VERSION_ID_PATTERN = /^v\d{3}$/;
 
@@ -46,6 +49,147 @@ export const buildTimelineEventId = (
 ): string => {
   const prefix = versionId ? `${versionId}-` : '';
   return `${prefix}${String(sequence).padStart(3, '0')}-${type}`;
+};
+
+export const normalizeHumanFeedbackText = (value: string): string =>
+  value.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+
+export const validateHumanFeedbackText = (
+  value: string,
+  pathLabel = '$.text',
+): { ok: true; text: string; diagnostics: [] } | {
+  ok: false;
+  diagnostics: ControlRoomTimelineDiagnostic[];
+} => {
+  const text = normalizeHumanFeedbackText(value);
+  if (text.length === 0) {
+    return {
+      ok: false,
+      diagnostics: [{ path: pathLabel, message: 'Human feedback text must not be empty.' }],
+    };
+  }
+  if (text.length > CONTROL_ROOM_HUMAN_FEEDBACK_MAX_LENGTH) {
+    return {
+      ok: false,
+      diagnostics: [{
+        path: pathLabel,
+        message: `Human feedback text must be ${CONTROL_ROOM_HUMAN_FEEDBACK_MAX_LENGTH} characters or fewer.`,
+      }],
+    };
+  }
+  return { ok: true, text, diagnostics: [] };
+};
+
+const nextTimelineEventId = (
+  events: readonly ControlRoomTimelineEvent[],
+  type: ControlRoomTimelineEvent['type'],
+  versionId?: string,
+): string => {
+  const existingIds = new Set(events.map((event) => event.id));
+  let sequence = events.length + 1;
+  let id = buildTimelineEventId(sequence, type, versionId);
+  while (existingIds.has(id)) {
+    sequence += 1;
+    id = buildTimelineEventId(sequence, type, versionId);
+  }
+  return id;
+};
+
+const validateHumanFeedbackVersion = (
+  versionId: string | undefined,
+  pathLabel: string,
+): ControlRoomTimelineDiagnostic[] => {
+  if (versionId === undefined) {
+    return [];
+  }
+  if (!VERSION_ID_PATTERN.test(versionId)) {
+    return [{ path: pathLabel, message: 'target version must be a v001-style version id when set.' }];
+  }
+  return [];
+};
+
+export const addHumanIdeaToTimeline = (
+  timeline: ControlRoomTimelineArtifact,
+  input: {
+    text: string;
+    timestamp: string;
+    actor?: string;
+  },
+): { ok: true; timeline: ControlRoomTimelineArtifact; diagnostics: [] } | {
+  ok: false;
+  diagnostics: ControlRoomTimelineDiagnostic[];
+} => {
+  const textValidation = validateHumanFeedbackText(input.text, '$.idea');
+  if (!textValidation.ok) {
+    return textValidation;
+  }
+  if (!isString(input.timestamp)) {
+    return {
+      ok: false,
+      diagnostics: [{ path: '$.timestamp', message: 'timestamp is required and must be a string.' }],
+    };
+  }
+
+  const event: ControlRoomTimelineEvent = {
+    id: nextTimelineEventId(timeline.events, 'human_idea'),
+    type: 'human_idea',
+    timestamp: input.timestamp,
+    actor: input.actor ?? 'human',
+    source: 'human',
+    summary: textValidation.text,
+  };
+  return {
+    ok: true,
+    timeline: {
+      ...timeline,
+      initialGameIdea: textValidation.text,
+      updatedAt: input.timestamp,
+      events: sortTimelineEvents([...timeline.events, event]),
+    },
+    diagnostics: [],
+  };
+};
+
+export const addHumanCommentToTimeline = (
+  timeline: ControlRoomTimelineArtifact,
+  input: {
+    text: string;
+    timestamp: string;
+    targetVersion?: string;
+    actor?: string;
+  },
+): { ok: true; timeline: ControlRoomTimelineArtifact; diagnostics: [] } | {
+  ok: false;
+  diagnostics: ControlRoomTimelineDiagnostic[];
+} => {
+  const textValidation = validateHumanFeedbackText(input.text, '$.comment');
+  const versionDiagnostics = validateHumanFeedbackVersion(input.targetVersion, '$.targetVersion');
+  const diagnostics = [...(textValidation.ok ? [] : textValidation.diagnostics), ...versionDiagnostics];
+  if (!isString(input.timestamp)) {
+    diagnostics.push({ path: '$.timestamp', message: 'timestamp is required and must be a string.' });
+  }
+  if (diagnostics.length > 0 || !textValidation.ok) {
+    return { ok: false, diagnostics };
+  }
+
+  const event: ControlRoomTimelineEvent = {
+    id: nextTimelineEventId(timeline.events, 'human_comment', input.targetVersion),
+    type: 'human_comment',
+    timestamp: input.timestamp,
+    actor: input.actor ?? 'human',
+    source: 'human',
+    versionId: input.targetVersion,
+    summary: textValidation.text,
+  };
+  return {
+    ok: true,
+    timeline: {
+      ...timeline,
+      updatedAt: input.timestamp,
+      events: sortTimelineEvents([...timeline.events, event]),
+    },
+    diagnostics: [],
+  };
 };
 
 export const normalizeEvidenceRelativePath = (relativePath: string): string => {
@@ -311,6 +455,45 @@ export const saveControlRoomTimeline = async (
   return relativePath;
 };
 
+export const saveControlRoomTimelineAtPath = async (
+  repoRoot: string,
+  relativePath: string,
+  timeline: ControlRoomTimelineArtifact,
+): Promise<string> => {
+  const { absolutePath, normalizedRelative } = resolveEvidenceAbsolutePath(repoRoot, relativePath);
+  if (!normalizedRelative.startsWith(`${CONTROL_ROOM_TIMELINE_ROOT.replace(/\\/g, '/')}/`)) {
+    throw new Error(`Timeline path must stay under ${CONTROL_ROOM_TIMELINE_ROOT.replace(/\\/g, '/')}/.`);
+  }
+  await mkdir(path.dirname(absolutePath), { recursive: true });
+  await writeFile(absolutePath, stringifyControlRoomTimeline(timeline), 'utf8');
+  return normalizedRelative;
+};
+
+export const loadAndApplyHumanFeedbackToTimeline = async (
+  repoRoot: string,
+  relativePath: string,
+  input: {
+    kind: 'idea' | 'comment';
+    text: string;
+    timestamp: string;
+    targetVersion?: string;
+    actor?: string;
+  },
+): Promise<LoadControlRoomTimelineResult & { savedPath?: string }> => {
+  const loaded = await loadControlRoomTimeline(repoRoot, relativePath);
+  if (!loaded.ok || !loaded.timeline) {
+    return loaded;
+  }
+  const updated = input.kind === 'idea'
+    ? addHumanIdeaToTimeline(loaded.timeline, input)
+    : addHumanCommentToTimeline(loaded.timeline, input);
+  if (!updated.ok) {
+    return { ok: false, diagnostics: updated.diagnostics };
+  }
+  const savedPath = await saveControlRoomTimelineAtPath(repoRoot, relativePath, updated.timeline);
+  return { ok: true, timeline: updated.timeline, diagnostics: [], savedPath };
+};
+
 export const loadControlRoomTimeline = async (
   repoRoot: string,
   relativePath: string,
@@ -400,3 +583,33 @@ export const projectControlRoomTimeline = (
   initialGameIdea: timeline.initialGameIdea,
   events: listControlRoomTimelineEvents(timeline),
 });
+
+export const projectHumanFeedbackContext = (
+  timeline: ControlRoomTimelineArtifact,
+): ControlRoomHumanFeedbackContext => {
+  const humanEvents = sortTimelineEvents(timeline.events).filter(
+    (event) => event.source === 'human' && (
+      event.type === 'human_idea' || event.type === 'human_comment'
+    ),
+  );
+  const toEntry = (
+    event: ControlRoomTimelineEvent,
+  ): ControlRoomHumanFeedbackContextEntry => ({
+    type: event.type === 'human_idea' ? 'initial_idea' : 'version_comment',
+    timestamp: event.timestamp,
+    actor: event.actor,
+    source: 'human',
+    text: event.summary,
+    selectedVersion: timeline.activeBaseVersion,
+    targetVersion: event.versionId,
+  });
+  const humanIdeas = humanEvents.filter((event) => event.type === 'human_idea');
+  return {
+    initialIdea: humanIdeas.length > 0
+      ? toEntry(humanIdeas[humanIdeas.length - 1])
+      : undefined,
+    comments: humanEvents
+      .filter((event) => event.type === 'human_comment')
+      .map(toEntry),
+  };
+};
