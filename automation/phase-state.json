@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-24A",
+  "currentPhase": "PHASE-24B",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -258,7 +258,11 @@
       "status": "complete"
     },
     "PHASE-24A": {
-      "status": "planned"
+      "branch": "phase/phase-24a-browser-play-and-replay-ui",
+      "evidenceDir": "/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-24A/2026-05-24T02:07:38Z",
+      "mergeCommit": "d8fb5228781e34a878dde1fd930ab809175ee9bd",
+      "pr": 55,
+      "status": "complete"
     },
     "PHASE-24B": {
       "status": "planned"
