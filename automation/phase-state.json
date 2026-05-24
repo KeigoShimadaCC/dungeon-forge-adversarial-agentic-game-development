@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-25A",
+  "currentPhase": "PHASE-25B",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -272,7 +272,11 @@
       "status": "complete"
     },
     "PHASE-25A": {
-      "status": "planned"
+      "branch": "phase/phase-25a-control-room-timeline-artifacts",
+      "evidenceDir": "/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-25A/2026-05-24T04:06:47Z",
+      "mergeCommit": "9b8fcca277da372e8e30c8dbda1fec0871a7a357",
+      "pr": 57,
+      "status": "complete"
     },
     "PHASE-25B": {
       "status": "planned"
