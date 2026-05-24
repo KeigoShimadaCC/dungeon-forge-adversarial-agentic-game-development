@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-24B - Gameplay Evaluation Depth |
-| Goal | Deepen trace-backed gameplay evaluation metrics, problem-run categories, balance analytics summaries, and interpretation docs without turning metrics into acceptance authority. |
-| Branch | `phase/phase-24b-gameplay-evaluation-depth` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-24b-gameplay-evaluation-depth-wt` |
-| Base | `origin/main` after PHASE-24A accepted-plan handoff |
+| Phase | PHASE-25A - Control Room Timeline Artifacts |
+| Goal | Define deterministic local timeline artifacts for human-facing control-room history across ideas, version summaries, reviewer summaries, human comments, base-version selection, and prepared next steps. |
+| Branch | `phase/phase-25a-control-room-timeline-artifacts` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-25a-control-room-timeline-artifacts-wt` |
+| Base | `origin/main` after PHASE-24B completion and phase-state handoff |
 | Status | `Implementation complete; required local validation passed; merge/phase-state updates intentionally not performed` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-24B-GAMEPLAY-EVALUATION-DEPTH.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-24B/2026-05-24T02:39:24Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
+3. Active `phase-plans/PHASE-25A-CONTROL-ROOM-TIMELINE-ARTIFACTS.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-25A/2026-05-24T04:06:47Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,12 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 Executor Codex — PHASE-25A task-006: documented the local artifact boundary and recorded deterministic sample timeline artifact `runs/control-room/timeline/v001-v002-v003.timeline.json`.
+- [x] 2026-05-24 Executor Codex — PHASE-25A task-005: added focused validation coverage for creation, ordering, serialization, missing evidence, malformed records, human comments, and base-version selection.
+- [x] 2026-05-24 Executor Codex — PHASE-25A task-004: built `v001 -> v002 -> v003` fixture/sample timeline and UI-ready projection helper.
+- [x] 2026-05-24 Executor Codex — PHASE-25A task-003: added scoped read/write helpers and read-only artifact loading with missing-evidence labels.
+- [x] 2026-05-24 Executor Codex — PHASE-25A task-002: defined timeline schema, event types, source classification, deterministic sorting, and stable serialization.
+- [x] 2026-05-24 Executor Codex — PHASE-25A task-001: seeded active progress/checklist from deterministic runner accepted plan and confirmed PHASE-24B dependency readiness from `origin/main` commit `225c848` plus `automation/phase-state.json` current phase `PHASE-25A`.
 - [x] 2026-05-24 Executor Codex — PHASE-24B task-007: ran focused tests, accepted smokes, typecheck, lint, full test, build, `git diff --check`, and final acceptance re-read.
 - [x] 2026-05-24 Executor Codex — PHASE-24B task-006: documented tactical-depth metric interpretation, evidence sources, problem categories, and human-gate boundaries.
 - [x] 2026-05-24 Executor Codex — PHASE-24B task-005: added focused metric/category/analytics regression tests, including reproducibility, missing evidence, expected hard losses, protocol failures, and balance outliers.
@@ -241,14 +247,16 @@ _(none)_
 
 ## Phase checklist
 
-_PHASE-24B - Gameplay Evaluation Depth._
+_PHASE-25A - Control Room Timeline Artifacts._
 
-- [x] Scorecards include additive tactical-depth metrics derived from trace steps/events, including enemy pressure, map/navigation friction, tactical item value, trap/resource interaction, and scenario/content-depth signals.
-- [x] Problem-run diagnostics separate protocol/bug failures, expected hard losses, balance outliers, softlocks, policy issues, and missing evidence with actionable category codes.
-- [x] Balance summaries and analytics expose deeper tactical metrics, problem-category drilldowns, and evidence links while remaining `advisory_only`.
-- [x] Focused diagnostics and analytics tests cover metric calculation, reproducibility, missing evidence, hard losses, policy/protocol failures, softlocks, and balance outliers.
-- [x] Documentation explains metric interpretation, evidence sources, limitations, and the rule that human acceptance is the final creative gate.
-- [x] Required validation recorded: focused tests, accepted smokes, typecheck, lint, full test, build, and `git diff --check`.
+- [x] Timeline schema includes session metadata, optional initial idea, active base version, ordered events, actor/source classification, version IDs, summaries, evidence refs, and missing-evidence notes.
+- [x] Deterministic read/write helpers serialize timeline JSON stably under `runs/control-room/timeline/**`.
+- [x] Read-only loading helpers validate required records, normalize safe repo-relative evidence paths, and label missing optional evidence without fabricating content.
+- [x] `v001 -> v002 -> v003` fixture/sample covers human idea, developer summary, reviewer summary, human comment, base-version selection, prepared next step, and version-linked evidence refs.
+- [x] UI-ready projection helper exposes high-level events so future UI code does not need to parse raw artifact JSON directly.
+- [x] Focused tests cover creation, deterministic ordering/serialization, missing evidence, malformed records, human comments as human input, and non-destructive base-version selection.
+- [x] Documentation explains the local artifact boundary and confirms no UI, command runner, LLM call, or game/harness behavior change is introduced.
+- [x] Required validation recorded: focused test, typecheck, lint, full test, build, and `git diff --check`.
 
 ---
 
@@ -310,6 +318,10 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-24 — Executor Codex — PHASE-24B implementation complete locally from accepted runner plan. Added additive `tactical_depth` scorecard metrics derived from trace steps/events, richer problem categories (`protocol_failure`, `expected_hard_loss`, `balance_outlier`, `policy_issue`, `missing_evidence`), tactical-depth summaries in balance summaries/analytics cohorts, focused tests, and interpretation docs. Added narrow `v024b-smoke -> v024` alias so the accepted runner smoke command works without relaxing version-id validation. Generated smoke artifacts under ignored `runs/v024/` during validation and removed them afterward because `runs/**` is outside executor edit scope.
 - 2026-05-24 — Executor Codex — PHASE-24B validation PASS: `pnpm test tests/trace-scorecard-diagnostics.test.ts` (1 file, 9 tests); `pnpm test tests/balance-analytics.test.ts` (1 file, 4 tests); `pnpm test tests/evidence-retention.test.ts tests/trace-scorecard-diagnostics.test.ts tests/balance-analytics.test.ts` (3 files, 19 tests); initial `pnpm run run-balance -- --version v024b-smoke --seeds seed_001,seed_002 --policies random,stairs-seeking --on-existing overwrite` failed before alias support with invalid version id, then PASSed after alias support and printed `runs/v024/balance_summary.json` with `tactical_depth_summary`, expected hard-loss, protocol-failure, resource/trap, and repeated-failure categories; `pnpm run balance-analytics -- --runs-root . --versions v001,v002,v003` PASSed and printed advisory analytics with `tactical_depth_summary`; `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (45 files, 429 tests); `pnpm run build`; `git diff --check`.
 - 2026-05-24 — Executor Codex — PHASE-24B completion check against `phase-plans/PHASE-24B-GAMEPLAY-EVALUATION-DEPTH.md` and accepted plan PASS: implementation is limited to allowed `src/**`, `tests/**`, `docs/**`, and `PROGRESS.MD`; no GameEngine rewrite, browser UI, real LLM, infinite/open-ended gameplay, or metric-only acceptance authority was added. Merge, branch deletion, worktree cleanup, and automation phase-state updates intentionally not performed.
+- 2026-05-24 — Executor Codex — PHASE-25A implemented from accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-25A/2026-05-24T04:06:47Z/accepted-plan/accepted-plan.json`. Added timeline schema/types, deterministic serialization, scoped save/load helpers, read-only validation diagnostics, safe evidence path normalization, missing-evidence labels, UI-ready projection, `v001 -> v002 -> v003` fixture/sample artifact, and docs. Cursor delegation not used; the deterministic runner owns Cursor execution for accepted-plan tasks marked delegatable.
+- 2026-05-24 — Executor Codex — PHASE-25A validation PASS: `pnpm test tests/control-room-timeline.test.ts` (1 file, 4 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (46 files, 433 tests); `pnpm run build`; `git diff --check`.
+- 2026-05-24 — Executor Codex — PHASE-25A completion check against `phase-plans/PHASE-25A-CONTROL-ROOM-TIMELINE-ARTIFACTS.md` and accepted plan PASS: implementation is limited to `src/control-room/timeline/**`, `tests/control-room-timeline.test.ts`, `tests/fixtures/control-room-timeline/**`, `docs/CONTROL-ROOM-TIMELINE.md`, `PROGRESS.MD`, and `runs/control-room/timeline/**`; no browser UI, command execution, LLM call, game/harness behavior change, destructive rollback, deletion, or shared control-room barrel export was added. Merge, branch deletion, worktree cleanup, and automation phase-state updates intentionally not performed.
+- 2026-05-24 — Recheck Codex — PHASE-25A recheck PASS against the phase plan, accepted runner plan, executor report, Cursor subtask report, actual changed paths, validation evidence, and scope. Reran `pnpm test tests/control-room-timeline.test.ts` (1 file, 5 tests), `pnpm run typecheck`, `pnpm run lint`, `pnpm test` (46 files, 434 tests), `pnpm run build`, `git diff --check`, changed-path scan, out-of-scope diff audit, and high-confidence diff/untracked secret scan. No blocking gaps found; no code/doc artifact fixes required.
 - 2026-05-24 — Executor Codex — PHASE-23D pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-23D/2026-05-24T01:07:08Z/accepted-plan/accepted-plan.json`. Re-read `PROGRESS.MD`, active `phase-plans/PHASE-23D-EVIDENCE-VALIDATION-HARDENING.md`, `docs/VALIDATION.md`, existing dashboard/static-demo/longitudinal/content-governance tests and source modules. Backlog triage status: F-19B-001, F-18B-002, F-18A-001, and F-17C-001 selected for PHASE-23D closure; F-13A-002 selected for partial evidence-validation closure; F-16D-002 marked obsolete for this phase because it is patch-workflow dry-run coverage rather than evidence validation. No Cursor delegation used; accepted plan says deterministic runner owns Cursor execution for accepted-plan tasks marked `cursorDelegation.recommended === true`.
 - 2026-05-24 — Executor Codex — PHASE-23D implementation complete locally: added `src/harness/evidence-integrity.ts`, wired source-backed trace/scorecard diagnostics into dashboard/static-demo/longitudinal reports, added `tests/evidence-validation-hardening.test.ts`, documented credential-free evidence smokes and timestamp comparison rules in `docs/VALIDATION.md`, and updated Future backlog statuses. External evidence write blocker: requested path `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-23D/2026-05-24T01:07:08Z/agent-results/` was outside writable roots (`Operation not permitted`), so fallback evidence was written under `runs/phase-runner/PHASE-23D/2026-05-24T01-07-08Z/`.
 - 2026-05-24 — Executor Codex — PHASE-23D validation: PASS `pnpm test tests/evidence-validation-hardening.test.ts` (1 file, 5 tests); PASS `pnpm test tests/evidence-validation-hardening.test.ts tests/content-governance.test.ts tests/trace-replay.test.ts tests/version-dashboard.test.ts tests/static-demo.test.ts tests/longitudinal-benchmark.test.ts tests/ci-checks.test.ts` (7 files, 45 tests); PASS `pnpm run typecheck`; PASS `pnpm run lint`; STALE EVIDENCE DETECTED `pnpm run trace-replay -- --trace runs/v001/traces/seed_001_careful_player.json --mode verify` because saved historical trace expected `ABORTED`/100 turns but current replay reached `LOSS`/60 turns; PASS `pnpm run version-dashboard -- --runs-root . --json` (`readOnly: true`, versions `v001`-`v003`, integrity problem counts 0); PASS `pnpm run export-static-demo -- --runs-root . --json` (`readOnly: true`, versions `v001`-`v003`, integrity problem counts 0); PASS `pnpm run content-governance -- --format json` (`ok: true`, 0 blockers, 1 warning); PASS `pnpm run verify-acceptance-evidence -- --runs-root . --version v003`; PASS `pnpm run check` (44 files, 413 tests plus typecheck/lint/build/ci-smoke/acceptance evidence); PASS `git diff --check`. User required fixing/regenerating the stale trace evidence before continuing automation.
