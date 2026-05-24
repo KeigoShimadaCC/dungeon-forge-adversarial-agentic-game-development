@@ -377,7 +377,11 @@
       "status": "complete"
     },
     "PHASE-31B": {
-      "status": "planned"
+      "branch": "phase/phase-31b-restricted-agent-dogfood-and-hardening",
+      "evidenceDir": "runs/phase-runner/PHASE-31B/2026-05-24T08:54:52Z",
+      "mergeCommit": "5a7f16ea9a63d10ca0b36d5643517e86be83e972",
+      "pr": 72,
+      "status": "complete"
     }
   },
   "schemaVersion": 1,
