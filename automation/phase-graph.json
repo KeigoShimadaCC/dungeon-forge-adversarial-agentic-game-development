@@ -326,7 +326,7 @@
       "id": "PHASE-29A",
       "plan": "phase-plans/PHASE-29A-RESTRICTED-API-CODING-AGENT-ARCHITECTURE-AND-SCHEMAS.md",
       "dependsOn": ["PHASE-28B"],
-      "allowedPaths": ["src/harness/restricted-agent/**", "src/harness/index.ts", "tests/restricted-agent*.test.ts", "docs/RESTRICTED-API-CODING-AGENT.md", "phase-plans/**", "PROGRESS.MD"],
+      "allowedPaths": ["src/harness/restricted-agent/**", "src/harness/index.ts", "tests/restricted-agent-schemas.test.ts", "docs/RESTRICTED-API-CODING-AGENT.md", "phase-plans/**", "PROGRESS.MD"],
       "parallelGroup": "29-restricted-agent-foundation",
       "automerge": true
     },

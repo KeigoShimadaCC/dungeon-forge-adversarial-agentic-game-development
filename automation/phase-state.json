@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-29A",
+  "currentPhase": "PHASE-29B",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -328,7 +328,11 @@
       "status": "complete"
     },
     "PHASE-29A": {
-      "status": "planned"
+      "branch": "phase/phase-29a-restricted-api-coding-agent-architecture-and-schemas",
+      "evidenceDir": "runs/phase-runner/PHASE-29A/2026-05-24T06:51:05Z",
+      "mergeCommit": "1f6db9b7fd644b71b7d49f4cea7a20dd2c57dc89",
+      "pr": 65,
+      "status": "complete"
     },
     "PHASE-29B": {
       "status": "planned"
