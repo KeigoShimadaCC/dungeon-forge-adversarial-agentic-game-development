@@ -400,6 +400,7 @@ export const buildPhaseRunBundle = async (
     PHASE_PLAN_PATH: phase.plan,
     PHASE_PLAN_CONTENTS: phasePlanContents,
     WORKTREE_PATH: runnable.worktreePath,
+    EVIDENCE_DIR: runnable.evidenceDir,
     ALLOWED_PATHS: phase.allowedPaths.map((allowedPath) => `- ${allowedPath}`).join('\n'),
   };
 

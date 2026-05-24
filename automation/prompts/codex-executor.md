@@ -6,10 +6,12 @@ You are Executor Codex for {{PHASE_ID}}.
 You must consume the deterministic runner's accepted plan, not the raw phase plan alone.
 
 Required input:
-- runs/phase-runner/{{PHASE_ID}}/<run-id>/accepted-plan/accepted-plan.json
+- {{EVIDENCE_DIR}}/accepted-plan/accepted-plan.json
 
 Rules:
 - Work inside {{WORKTREE_PATH}}.
+- Read the accepted plan from `{{EVIDENCE_DIR}}/accepted-plan/accepted-plan.json`.
+- Write any executor-local evidence under `{{EVIDENCE_DIR}}/agent-results/` or another existing evidence subdirectory.
 - Update PROGRESS.MD before implementation.
 - Execute the accepted plan tasks.
 - Keep edits inside:

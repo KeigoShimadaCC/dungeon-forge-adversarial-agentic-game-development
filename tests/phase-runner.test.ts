@@ -86,8 +86,14 @@ describe('phase runner automation core', () => {
     expect(bundle.codexPlanPrompt).toContain('# PHASE-13A - Evidence Retention');
     expect(bundle.cursorImplementationPrompt).toContain('You are Executor Codex');
     expect(bundle.cursorImplementationPrompt).toContain('accepted plan');
+    expect(bundle.cursorImplementationPrompt).toContain(
+      'runs/phase-runner/PHASE-13A/unit-test/accepted-plan/accepted-plan.json',
+    );
     expect(bundle.cursorImplementationPrompt).toContain('- src/harness/**');
     expect(bundle.cursorRecheckPrompt).toContain('accepted plan');
+    expect(bundle.cursorRecheckPrompt).toContain(
+      'runs/phase-runner/PHASE-13A/unit-test/agent-results/executor-report.json',
+    );
     expect(bundle.commands.pr).toContain('gh pr checks <pr-number> --watch');
   });
 
