@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-28B",
+  "currentPhase": "PHASE-29A",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -321,7 +321,11 @@
       "status": "complete"
     },
     "PHASE-28B": {
-      "status": "planned"
+      "branch": "phase/phase-28b-control-room-polish-and-scalability",
+      "evidenceDir": "runs/phase-runner/PHASE-28B/2026-05-24T06:31:11Z",
+      "mergeCommit": "e01c4f99857d88534412fb56f1e77833c56aac32",
+      "pr": 64,
+      "status": "complete"
     },
     "PHASE-29A": {
       "status": "planned"
