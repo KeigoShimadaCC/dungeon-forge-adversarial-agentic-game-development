@@ -19,6 +19,15 @@ Allowed paths:
 
 Produce a concrete implementation plan that maps acceptance criteria to tasks, tests, smokes, and artifacts. Identify bounded Cursor-delegatable subtasks only when they are safe and specific.
 
+PlannerReport requirements enforced by the deterministic plan-acceptance gate:
+- `requiredFocusedTests` must be a non-empty array. For docs-only phases, put the narrow validation commands there, such as `pnpm run typecheck`, `pnpm run lint`, or a targeted `rg` stale-text check.
+- `requiredSmokeCommands` must be a non-empty array.
+- `requiredArtifacts` must be a non-empty array.
+- Every task must include at least one `acceptanceCriteriaCovered` entry.
+- Every acceptance criterion from the phase plan must be covered by at least one task.
+- Use exact acceptance criterion IDs or exact criterion text from the phase plan. The safest format is `AC-N: <exact text from the Acceptance Criteria bullet>`.
+- Do not add setup-only tasks with empty acceptance coverage. Fold setup/progress work into a task that covers the criterion it supports.
+
 End with a fenced JSON PlannerReport:
 {
   "schemaVersion": 1,
