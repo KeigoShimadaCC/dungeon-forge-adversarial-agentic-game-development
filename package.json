@@ -32,6 +32,7 @@
     "trace-replay": "pnpm run build && node dist/src/harness/trace-replay-cli.js",
     "version-dashboard": "pnpm run build && node dist/src/dashboard/version-dashboard-cli.js",
     "balance-analytics": "pnpm run build && node dist/src/harness/balance-analytics-cli.js",
+    "longitudinal-benchmark": "pnpm run build && node dist/src/harness/longitudinal-benchmark-cli.js",
     "export-static-demo": "pnpm run build && node dist/src/static-demo/static-demo-export-cli.js",
     "content-governance": "pnpm run build && node dist/src/harness/content-governance-cli.js",
     "optional-media": "pnpm run build && node dist/src/harness/optional-media-cli.js",
