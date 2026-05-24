@@ -20,8 +20,9 @@ phase/autopilot runner
 ```
 
 PHASE-29A defined only the contract and schema boundary. PHASE-29B adds
-deterministic context packaging and bounded read/search helpers. Neither phase
-calls an LLM, applies patches, runs checks, or integrates with autopilot.
+deterministic context packaging and bounded read/search helpers. PHASE-29C adds
+a non-mutating dry-run API loop. These phases still do not apply patches, run
+model-requested checks, or integrate with autopilot.
 
 ## Trust Boundary
 
@@ -136,6 +137,11 @@ The model must return a strict JSON object:
 }
 ```
 
+For the restricted-agent path, strict JSON means the raw response must be one
+JSON object. Markdown fences and surrounding prose are rejected before schema
+validation. This is intentionally stricter than older reviewer/player helpers
+that may extract JSON from prose.
+
 Supported patch intent kinds for v1:
 
 - `replace_exact`
@@ -169,6 +175,47 @@ Default command IDs are:
 - `build`
 - `repo_check`
 - `diff_check`
+
+## Dry-Run API Loop
+
+`pnpm run restricted-agent-dry-run` runs the first API loop in dry-run mode. It
+writes evidence only and never applies patches, runs requested checks, commits,
+opens pull requests, merges, or reads extra files beyond the provided context.
+
+Fake provider mode is deterministic and credential-free:
+
+```bash
+pnpm run restricted-agent-dry-run -- --provider fake --phase PHASE-29C --task task-001 --out runs/restricted-agent/PHASE-29C/smoke-valid
+```
+
+Malformed fake output is useful for blocked-evidence smokes:
+
+```bash
+pnpm run restricted-agent-dry-run -- --provider fake --fake-response malformed --phase PHASE-29C --task task-001 --out runs/restricted-agent/PHASE-29C/smoke-blocked
+```
+
+Real provider mode is explicit:
+
+```bash
+pnpm run restricted-agent-dry-run -- --provider real --phase PHASE-29C --task task-001 --out runs/restricted-agent/PHASE-29C/smoke-real
+```
+
+Real mode uses the existing OpenAI-compatible provider configuration:
+
+- `DUNGEON_FORGE_LLM_API_KEY` or `OPENAI_API_KEY`
+- `DUNGEON_FORGE_LLM_BASE_URL`
+- `DUNGEON_FORGE_LLM_MODEL`
+
+If credentials are missing, the dry-run decision is `blocked` and no provider
+network call is made.
+
+Dry-run evidence files:
+
+- `prompt-context.json`
+- `raw-response.txt`
+- `parsed-response.json`, only when strict JSON and schema validation pass
+- `validation-diagnostics.json`
+- `dry-run-decision.json`
 
 ## Forbidden In V1
 
@@ -210,6 +257,7 @@ text. Later phases will add context-builder and patch-application evidence.
 
 PHASE-29A provides the schema, command registry, validator, evidence types, docs,
 and focused tests. PHASE-29B adds deterministic context packaging, read ranges,
-allowed-path search, and exposure evidence. Later phases will add provider
-adapters, deterministic patch validation/application, whitelisted checks, and
-optional autopilot delegate integration.
+allowed-path search, and exposure evidence. PHASE-29C adds the credential-gated,
+non-mutating dry-run API loop. Later phases will add deterministic patch
+validation/application, whitelisted checks, and optional autopilot delegate
+integration.
