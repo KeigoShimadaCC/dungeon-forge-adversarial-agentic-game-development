@@ -13,6 +13,7 @@ import {
   loadControlRoomTimeline,
   projectControlRoomTimeline,
   saveControlRoomTimeline,
+  selectControlRoomBaseVersion,
   stringifyControlRoomTimeline,
   validateControlRoomTimeline,
 } from '../src/control-room/timeline/index.js';
@@ -48,6 +49,7 @@ describe('PHASE-25A control-room timeline artifacts', () => {
       'version_selected_as_base',
       'reviewer_summary',
       'prepared_next_step',
+      'version_selected_as_base',
     ]);
     expect(events.map((event) => event.versionId ?? null)).toEqual([
       null,
@@ -57,6 +59,7 @@ describe('PHASE-25A control-room timeline artifacts', () => {
       'v002',
       'v003',
       'v003',
+      'v001',
     ]);
     expect(events[3]).toMatchObject({
       type: 'human_comment',
@@ -98,6 +101,7 @@ describe('PHASE-25A control-room timeline artifacts', () => {
         'v002-005-version_selected_as_base',
         'v003-007-reviewer_summary',
         'v003-006-prepared_next_step',
+        'v001-008-version_selected_as_base',
       ]);
       expect(labeledTimeline.events[3]).toMatchObject({
         type: 'human_comment',
@@ -120,7 +124,9 @@ describe('PHASE-25A control-room timeline artifacts', () => {
       expect(loaded.diagnostics).toEqual([]);
       expect(projectControlRoomTimeline(loaded.timeline!)).toMatchObject({
         sessionId: 'control-room-v001-v002-v003',
-        activeBaseVersion: 'v002',
+        activeBaseVersion: 'v001',
+        latestKnownVersion: 'v003',
+        historicalVersionsAfterActiveBase: ['v002', 'v003'],
         events: [
           { id: '001-human_idea', evidenceCount: 0, missingEvidenceCount: 0 },
           { id: 'v001-002-developer_summary', evidenceCount: 3, missingEvidenceCount: 0 },
@@ -129,9 +135,80 @@ describe('PHASE-25A control-room timeline artifacts', () => {
           { id: 'v002-005-version_selected_as_base', evidenceCount: 1, missingEvidenceCount: 0 },
           { id: 'v003-007-reviewer_summary', evidenceCount: 2, missingEvidenceCount: 1 },
           { id: 'v003-006-prepared_next_step', evidenceCount: 1, missingEvidenceCount: 0 },
+          { id: 'v001-008-version_selected_as_base', evidenceCount: 1, missingEvidenceCount: 0 },
         ],
       });
     });
+  });
+
+  it('selects an older existing base without removing later version evidence', () => {
+    const timeline = {
+      ...buildV001V002V003TimelineArtifact(),
+      activeBaseVersion: 'v006',
+      events: [
+        ...buildV001V002V003TimelineEvents(),
+        {
+          id: 'v005-009-developer_summary',
+          type: 'developer_summary' as const,
+          timestamp: '2026-05-24T04:14:00.000Z',
+          actor: 'developer',
+          source: 'developer_ai' as const,
+          versionId: 'v005',
+          summary: 'Developer summary for version five.',
+        },
+        {
+          id: 'v006-010-reviewer_summary',
+          type: 'reviewer_summary' as const,
+          timestamp: '2026-05-24T04:15:00.000Z',
+          actor: 'reviewer',
+          source: 'reviewer_ai' as const,
+          versionId: 'v006',
+          summary: 'Reviewer summary for version six.',
+        },
+      ],
+    };
+
+    const result = selectControlRoomBaseVersion(timeline, {
+      versionId: 'v005',
+      timestamp: '2026-05-24T04:16:00.000Z',
+    });
+
+    expect(result.ok).toBe(true);
+    if (!result.ok) {
+      return;
+    }
+    expect(result.timeline.activeBaseVersion).toBe('v005');
+    expect(result.timeline.updatedAt).toBe('2026-05-24T04:16:00.000Z');
+    expect(result.timeline.events.map((event) => event.versionId).filter(Boolean)).toEqual(
+      expect.arrayContaining(['v005', 'v006']),
+    );
+    expect(result.timeline.events).toContainEqual(
+      expect.objectContaining({
+        type: 'version_selected_as_base',
+        versionId: 'v005',
+        summary: 'Select v005 as the active base for the next iteration without deleting later versions.',
+      }),
+    );
+    expect(projectControlRoomTimeline(result.timeline)).toMatchObject({
+      activeBaseVersion: 'v005',
+      latestKnownVersion: 'v006',
+      historicalVersionsAfterActiveBase: ['v006'],
+    });
+  });
+
+  it('rejects selecting an unknown base version', () => {
+    const result = selectControlRoomBaseVersion(buildV001V002V003TimelineArtifact(), {
+      versionId: 'v999',
+      timestamp: '2026-05-24T04:16:00.000Z',
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.diagnostics).toEqual([
+      {
+        path: '$.versionId',
+        message: 'selected base version must exist in timeline evidence: v999',
+      },
+    ]);
   });
 
   it('keeps stable serialization for equivalent unsorted input and the committed fixture', async () => {

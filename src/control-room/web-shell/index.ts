@@ -44,6 +44,9 @@ export interface ControlRoomWebShellVersionSection {
   evidenceCount: number;
   missingEvidenceCount: number;
   summary: string;
+  isActiveBase: boolean;
+  isLatestKnown: boolean;
+  isHistoricalAfterActiveBase: boolean;
 }
 
 export interface ControlRoomWebShellViewModel {
@@ -54,6 +57,8 @@ export interface ControlRoomWebShellViewModel {
     sessionId: string;
     runsRoot: string;
     activeBaseVersion?: string;
+    latestKnownVersion?: string;
+    historicalVersionsAfterActiveBase: string[];
     initialGameIdea?: string;
     eventCount: number;
   };
@@ -217,6 +222,9 @@ export const buildControlRoomWebShellViewModel = (
         0,
       ),
       summary: summarizeVersion(versionId, versionEvents),
+      isActiveBase: versionId === projection.activeBaseVersion,
+      isLatestKnown: versionId === projection.latestKnownVersion,
+      isHistoricalAfterActiveBase: projection.historicalVersionsAfterActiveBase.includes(versionId),
     };
   });
 
@@ -228,6 +236,8 @@ export const buildControlRoomWebShellViewModel = (
       sessionId: timeline.sessionId,
       runsRoot: timeline.runsRoot,
       activeBaseVersion: timeline.activeBaseVersion,
+      latestKnownVersion: projection.latestKnownVersion,
+      historicalVersionsAfterActiveBase: projection.historicalVersionsAfterActiveBase,
       initialGameIdea: timeline.initialGameIdea,
       eventCount: events.length,
     },

@@ -67,6 +67,13 @@ export interface ControlRoomTimelineArtifact {
   events: ControlRoomTimelineEvent[];
 }
 
+export interface SelectControlRoomBaseVersionInput {
+  versionId: string;
+  timestamp: string;
+  actor?: string;
+  summary?: string;
+}
+
 export interface ControlRoomTimelineProjectionEvent {
   id: string;
   type: ControlRoomTimelineEventType;
@@ -84,6 +91,9 @@ export interface ControlRoomTimelineProjectionEvent {
 export interface ControlRoomTimelineProjection {
   sessionId: string;
   activeBaseVersion?: string;
+  latestKnownVersion?: string;
+  knownVersions: string[];
+  historicalVersionsAfterActiveBase: string[];
   initialGameIdea?: string;
   events: ControlRoomTimelineProjectionEvent[];
 }

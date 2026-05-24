@@ -26,15 +26,18 @@ describe('PHASE-26A control-room web shell', () => {
 
     expect(viewModel.session).toMatchObject({
       sessionId: 'control-room-v001-v002-v003',
-      activeBaseVersion: 'v002',
+      activeBaseVersion: 'v001',
+      latestKnownVersion: 'v003',
+      historicalVersionsAfterActiveBase: ['v002', 'v003'],
       runsRoot: 'runs',
-      eventCount: 7,
+      eventCount: 8,
     });
     expect(viewModel.unversionedEvents.map((event) => event.id)).toEqual(['001-human_idea']);
     expect(viewModel.versions.map((version) => version.versionId)).toEqual(['v001', 'v002', 'v003']);
     expect(viewModel.versions.flatMap((version) => version.events.map((event) => event.id))).toEqual([
       'v001-002-developer_summary',
       'v001-003-reviewer_summary',
+      'v001-008-version_selected_as_base',
       'v002-004-human_comment',
       'v002-005-version_selected_as_base',
       'v003-007-reviewer_summary',
@@ -64,7 +67,11 @@ describe('PHASE-26A control-room web shell', () => {
     expect(html).toContain('Game Reviewer');
     expect(html).toContain('Human');
     expect(html).toContain('Narrator');
-    expect(html).toContain('Active base: <strong>v002</strong>');
+    expect(html).toContain('Active base: <strong>v001</strong>');
+    expect(html).toContain('Latest known: <strong>v003</strong>');
+    expect(html).toContain('Historical after base: <strong>2</strong>');
+    expect(html).toContain('Base Version Selection');
+    expect(html).toContain('historical after base');
     expect(html).toContain('Human Input');
     expect(html).toContain('Initial game idea');
     expect(html).toContain('Target version');

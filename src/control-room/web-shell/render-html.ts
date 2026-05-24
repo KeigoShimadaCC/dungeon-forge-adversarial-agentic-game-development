@@ -61,6 +61,9 @@ const renderVersion = (version: ControlRoomWebShellVersionSection): string =>
     <div class="section-heading">
       <h2>${escapeHtml(version.versionId)}</h2>
       <div class="summary-strip">
+        ${version.isActiveBase ? '<span><strong>Active base</strong></span>' : ''}
+        ${version.isLatestKnown ? '<span><strong>Latest known</strong></span>' : ''}
+        ${version.isHistoricalAfterActiveBase ? '<span>Historical after active base</span>' : ''}
         <span>Events: <strong>${version.eventCount}</strong></span>
         <span>Evidence links: <strong>${version.evidenceCount}</strong></span>
         <span>Missing: <strong>${version.missingEvidenceCount}</strong></span>
@@ -168,7 +171,7 @@ export const renderControlRoomWebShellHtml = (
       ? `<section class="panel"><h2>Session Notes</h2><div class="feed">${viewModel.unversionedEvents.map(renderEvent).join('\n')}</div></section>`
       : '';
 
-  return `<!doctype html>
+  const html = `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -354,6 +357,8 @@ export const renderControlRoomWebShellHtml = (
     <div class="session-strip">
       <span>Session: <strong>${escapeHtml(viewModel.session.sessionId)}</strong></span>
       <span>Active base: <strong>${escapeHtml(viewModel.session.activeBaseVersion ?? 'none')}</strong></span>
+      <span>Latest known: <strong>${escapeHtml(viewModel.session.latestKnownVersion ?? 'none')}</strong></span>
+      <span>Historical after base: <strong>${viewModel.session.historicalVersionsAfterActiveBase.length}</strong></span>
       <span>Runs root: <strong>${escapeHtml(viewModel.session.runsRoot)}</strong></span>
       <span>Events: <strong>${viewModel.session.eventCount}</strong></span>
       <span>Read-only: <strong>${viewModel.readOnly}</strong></span>
@@ -363,6 +368,24 @@ export const renderControlRoomWebShellHtml = (
   <main>
     ${emptyTimeline}
     ${renderHumanCaptureControls(viewModel)}
+    <section class="panel capture-panel" aria-labelledby="base-selection-heading">
+      <div class="section-heading">
+        <h2 id="base-selection-heading">Base Version Selection</h2>
+        <div class="summary-strip">
+          <span>Active base: <strong>${escapeHtml(viewModel.session.activeBaseVersion ?? 'none')}</strong></span>
+          <span>Latest known: <strong>${escapeHtml(viewModel.session.latestKnownVersion ?? 'none')}</strong></span>
+        </div>
+      </div>
+      <form class="capture-form" data-capture-kind="base-version">
+        <label for="active-base-version">Active base version</label>
+        <select id="active-base-version" name="baseVersion">
+          ${viewModel.versions
+            .map((version) => `<option value="${escapeHtml(version.versionId)}"${version.isActiveBase ? ' selected' : ''}>${escapeHtml(version.versionId)}${version.isLatestKnown ? ' - latest known' : ''}${version.isHistoricalAfterActiveBase ? ' - historical after base' : ''}</option>`)
+            .join('')}
+        </select>
+        <output class="diagnostic" name="base-version-diagnostic">Use the local selection command to persist the active-base pointer; later versions stay visible as historical evidence.</output>
+      </form>
+    </section>
     ${unversioned}
     <section class="panel">
       <h2>Version timeline</h2>
@@ -373,4 +396,9 @@ export const renderControlRoomWebShellHtml = (
   </main>
 </body>
 </html>`;
+
+  return html
+    .split('\n')
+    .map((line) => line.trimEnd())
+    .join('\n');
 };

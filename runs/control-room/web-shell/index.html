@@ -183,15 +183,17 @@
     <h1>Dungeon Forge Control Room</h1>
     <div class="session-strip">
       <span>Session: <strong>control-room-v001-v002-v003</strong></span>
-      <span>Active base: <strong>v002</strong></span>
+      <span>Active base: <strong>v001</strong></span>
+      <span>Latest known: <strong>v003</strong></span>
+      <span>Historical after base: <strong>2</strong></span>
       <span>Runs root: <strong>runs</strong></span>
-      <span>Events: <strong>7</strong></span>
+      <span>Events: <strong>8</strong></span>
       <span>Read-only: <strong>true</strong></span>
     </div>
     <p>Make a tiny dungeon loop that improves through review.</p>
   </header>
   <main>
-    
+
     <section class="panel capture-panel" aria-labelledby="human-capture-heading">
     <div class="section-heading">
       <h2 id="human-capture-heading">Human Input</h2>
@@ -218,6 +220,22 @@
       </form>
     </div>
   </section>
+    <section class="panel capture-panel" aria-labelledby="base-selection-heading">
+      <div class="section-heading">
+        <h2 id="base-selection-heading">Base Version Selection</h2>
+        <div class="summary-strip">
+          <span>Active base: <strong>v001</strong></span>
+          <span>Latest known: <strong>v003</strong></span>
+        </div>
+      </div>
+      <form class="capture-form" data-capture-kind="base-version">
+        <label for="active-base-version">Active base version</label>
+        <select id="active-base-version" name="baseVersion">
+          <option value="v001" selected>v001</option><option value="v002">v002 - historical after base</option><option value="v003">v003 - latest known - historical after base</option>
+        </select>
+        <output class="diagnostic" name="base-version-diagnostic">Use the local selection command to persist the active-base pointer; later versions stay visible as historical evidence.</output>
+      </form>
+    </section>
     <section class="panel"><h2>Session Notes</h2><div class="feed"><article class="message role-human" id="event-001-human_idea">
     <div class="message-meta">
       <span class="actor">Human</span>
@@ -226,7 +244,7 @@
       <span class="badge badge-human">human feedback</span>
     </div>
     <p>Make a tiny dungeon loop that can improve through trace-backed review.</p>
-    
+
     <p class="muted">No raw evidence links recorded for this timeline event.</p>
   </article></div></section>
     <section class="panel">
@@ -237,8 +255,11 @@
     <div class="section-heading">
       <h2>v001</h2>
       <div class="summary-strip">
-        <span>Events: <strong>2</strong></span>
-        <span>Evidence links: <strong>5</strong></span>
+        <span><strong>Active base</strong></span>
+
+
+        <span>Events: <strong>3</strong></span>
+        <span>Evidence links: <strong>6</strong></span>
         <span>Missing: <strong>0</strong></span>
       </div>
     </div>
@@ -251,7 +272,7 @@
       <span class="badge badge-present">evidence ok</span>
     </div>
     <p>Developer produced the baseline version evidence.</p>
-    
+
     <details><summary>Evidence links (3)</summary><ul><li><span class="evidence-kind">trace</span> <a href="../../../runs/v001/traces/seed_001_careful_player.json">trace: runs/v001/traces/seed_001_careful_player.json</a><code>runs/v001/traces/seed_001_careful_player.json</code></li><li><span class="evidence-kind">version_summary</span> <a href="../../../runs/v001/version_summary.json">version_summary: runs/v001/version_summary.json</a><code>runs/v001/version_summary.json</code></li><li><span class="evidence-kind">developer_notes</span> <a href="../../../runs/v001/developer_notes.md">developer_notes: runs/v001/developer_notes.md</a><code>runs/v001/developer_notes.md</code></li></ul></details>
   </article>
 <article class="message role-game_reviewer" id="event-v001-003-reviewer_summary">
@@ -262,14 +283,28 @@
       <span class="badge badge-present">evidence ok</span>
     </div>
     <p>Reviewer flagged shallow item use and limited tactical choices.</p>
-    
+
     <details><summary>Evidence links (2)</summary><ul><li><span class="evidence-kind">review</span> <a href="../../../runs/v001/reviews/seed_001_careful_player.json">review: runs/v001/reviews/seed_001_careful_player.json</a><code>runs/v001/reviews/seed_001_careful_player.json</code></li><li><span class="evidence-kind">scorecard</span> <a href="../../../runs/v001/scorecards/seed_001_careful_player.json">scorecard: runs/v001/scorecards/seed_001_careful_player.json</a><code>runs/v001/scorecards/seed_001_careful_player.json</code></li></ul></details>
+  </article>
+<article class="message role-human" id="event-v001-008-version_selected_as_base">
+    <div class="message-meta">
+      <span class="actor">Human</span>
+      <span>version_selected_as_base</span>
+      <time datetime="2026-05-24T04:13:00.000Z">2026-05-24T04:13:00.000Z</time>
+      <span class="badge badge-present">evidence ok</span>
+    </div>
+    <p>Select v001 as the next active base without deleting v002 or v003 historical evidence.</p>
+
+    <details><summary>Evidence links (1)</summary><ul><li><span class="evidence-kind">version_summary</span> <a href="../../../runs/v001/version_summary.json">v001 selected-base summary</a><code>runs/v001/version_summary.json</code></li></ul></details>
   </article></div>
   </section>
 <section class="version" id="version-v002">
     <div class="section-heading">
       <h2>v002</h2>
       <div class="summary-strip">
+
+
+        <span>Historical after active base</span>
         <span>Events: <strong>2</strong></span>
         <span>Evidence links: <strong>3</strong></span>
         <span>Missing: <strong>0</strong></span>
@@ -284,7 +319,7 @@
       <span class="badge badge-human">human feedback</span>
     </div>
     <p>Human comment: keep the Smoke Bomb clarity improvement.</p>
-    
+
     <details><summary>Evidence links (2)</summary><ul><li><span class="evidence-kind">comparison</span> <a href="../../../runs/comparisons/v001_vs_v002.json">comparison: runs/comparisons/v001_vs_v002.json</a><code>runs/comparisons/v001_vs_v002.json</code></li><li><span class="evidence-kind">changelog</span> <a href="../../../runs/v002/changelog.md">changelog: runs/v002/changelog.md</a><code>runs/v002/changelog.md</code></li></ul></details>
   </article>
 <article class="message role-human" id="event-v002-005-version_selected_as_base">
@@ -295,7 +330,7 @@
       <span class="badge badge-present">evidence ok</span>
     </div>
     <p>Select v002 as the active base without deleting or rolling back later versions.</p>
-    
+
     <details><summary>Evidence links (1)</summary><ul><li><span class="evidence-kind">comparison</span> <a href="../../../runs/comparisons/v002_vs_v003.json">comparison: runs/comparisons/v002_vs_v003.json</a><code>runs/comparisons/v002_vs_v003.json</code></li></ul></details>
   </article></div>
   </section>
@@ -303,6 +338,9 @@
     <div class="section-heading">
       <h2>v003</h2>
       <div class="summary-strip">
+
+        <span><strong>Latest known</strong></span>
+        <span>Historical after active base</span>
         <span>Events: <strong>2</strong></span>
         <span>Evidence links: <strong>3</strong></span>
         <span>Missing: <strong>1</strong></span>
@@ -328,7 +366,7 @@
       <span class="badge badge-present">evidence ok</span>
     </div>
     <p>Prepare the next bounded improvement from v003 evidence without executing it.</p>
-    
+
     <details><summary>Evidence links (1)</summary><ul><li><span class="evidence-kind">acceptance</span> <a href="../../../runs/v003/acceptance.md">v003 acceptance notes</a><code>runs/v003/acceptance.md</code></li></ul></details>
   </article></div>
   </section>

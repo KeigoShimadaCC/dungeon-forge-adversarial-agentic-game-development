@@ -13,6 +13,7 @@ import {
   type ControlRoomTimelineEvidenceRef,
   type ControlRoomHumanFeedbackContext,
   type ControlRoomHumanFeedbackContextEntry,
+  type SelectControlRoomBaseVersionInput,
   type ControlRoomTimelineProjection,
   type ControlRoomTimelineProjectionEvent,
   type ControlRoomTimelineValidationResult,
@@ -106,6 +107,79 @@ const validateHumanFeedbackVersion = (
     return [{ path: pathLabel, message: 'target version must be a v001-style version id when set.' }];
   }
   return [];
+};
+
+const versionSortKey = (versionId: string): number => Number.parseInt(versionId.slice(1), 10);
+
+export const listKnownControlRoomVersions = (
+  timeline: ControlRoomTimelineArtifact,
+): string[] =>
+  [...new Set(timeline.events.flatMap((event) => event.versionId ? [event.versionId] : []))]
+    .sort((left, right) => versionSortKey(left) - versionSortKey(right));
+
+export const getLatestKnownControlRoomVersion = (
+  timeline: ControlRoomTimelineArtifact,
+): string | undefined => listKnownControlRoomVersions(timeline).at(-1);
+
+export const getHistoricalVersionsAfterActiveBase = (
+  timeline: ControlRoomTimelineArtifact,
+): string[] => {
+  const activeBaseVersion = timeline.activeBaseVersion;
+  if (!activeBaseVersion) {
+    return [];
+  }
+  const activeSortKey = versionSortKey(activeBaseVersion);
+  return listKnownControlRoomVersions(timeline).filter(
+    (versionId) => versionSortKey(versionId) > activeSortKey,
+  );
+};
+
+export const selectControlRoomBaseVersion = (
+  timeline: ControlRoomTimelineArtifact,
+  input: SelectControlRoomBaseVersionInput,
+): { ok: true; timeline: ControlRoomTimelineArtifact; diagnostics: [] } | {
+  ok: false;
+  diagnostics: ControlRoomTimelineDiagnostic[];
+} => {
+  const diagnostics: ControlRoomTimelineDiagnostic[] = [];
+  const versionDiagnostics = validateHumanFeedbackVersion(input.versionId, '$.versionId');
+  diagnostics.push(...versionDiagnostics);
+  if (!isString(input.timestamp)) {
+    diagnostics.push({ path: '$.timestamp', message: 'timestamp is required and must be a string.' });
+  }
+
+  const knownVersions = listKnownControlRoomVersions(timeline);
+  if (versionDiagnostics.length === 0 && !knownVersions.includes(input.versionId)) {
+    diagnostics.push({
+      path: '$.versionId',
+      message: `selected base version must exist in timeline evidence: ${input.versionId}`,
+    });
+  }
+  if (diagnostics.length > 0) {
+    return { ok: false, diagnostics };
+  }
+
+  const summary = input.summary
+    ?? `Select ${input.versionId} as the active base for the next iteration without deleting later versions.`;
+  const event: ControlRoomTimelineEvent = {
+    id: nextTimelineEventId(timeline.events, 'version_selected_as_base', input.versionId),
+    type: 'version_selected_as_base',
+    timestamp: input.timestamp,
+    actor: input.actor ?? 'human',
+    source: 'human',
+    versionId: input.versionId,
+    summary,
+  };
+  return {
+    ok: true,
+    timeline: {
+      ...timeline,
+      activeBaseVersion: input.versionId,
+      updatedAt: input.timestamp,
+      events: sortTimelineEvents([...timeline.events, event]),
+    },
+    diagnostics: [],
+  };
 };
 
 export const addHumanIdeaToTimeline = (
@@ -494,6 +568,23 @@ export const loadAndApplyHumanFeedbackToTimeline = async (
   return { ok: true, timeline: updated.timeline, diagnostics: [], savedPath };
 };
 
+export const loadAndSelectControlRoomBaseVersion = async (
+  repoRoot: string,
+  relativePath: string,
+  input: SelectControlRoomBaseVersionInput,
+): Promise<LoadControlRoomTimelineResult & { savedPath?: string }> => {
+  const loaded = await loadControlRoomTimeline(repoRoot, relativePath);
+  if (!loaded.ok || !loaded.timeline) {
+    return loaded;
+  }
+  const updated = selectControlRoomBaseVersion(loaded.timeline, input);
+  if (!updated.ok) {
+    return { ok: false, diagnostics: updated.diagnostics };
+  }
+  const savedPath = await saveControlRoomTimelineAtPath(repoRoot, relativePath, updated.timeline);
+  return { ok: true, timeline: updated.timeline, diagnostics: [], savedPath };
+};
+
 export const loadControlRoomTimeline = async (
   repoRoot: string,
   relativePath: string,
@@ -580,6 +671,9 @@ export const projectControlRoomTimeline = (
 ): ControlRoomTimelineProjection => ({
   sessionId: timeline.sessionId,
   activeBaseVersion: timeline.activeBaseVersion,
+  latestKnownVersion: getLatestKnownControlRoomVersion(timeline),
+  knownVersions: listKnownControlRoomVersions(timeline),
+  historicalVersionsAfterActiveBase: getHistoricalVersionsAfterActiveBase(timeline),
   initialGameIdea: timeline.initialGameIdea,
   events: listControlRoomTimelineEvents(timeline),
 });

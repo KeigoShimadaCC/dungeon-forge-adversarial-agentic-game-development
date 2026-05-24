@@ -1,9 +1,9 @@
 {
   "blockers": [
-    "Missing evidence: review: runs/v003/reviews/missing_optional_review.json"
+    "Missing evidence: review: runs/v003/reviews/missing_optional_review.json",
+    "No developer summary is available for selected base v003."
   ],
-  "developerContext": "Developer produced the baseline version evidence.",
-  "developerTaskText": "Prepared next iteration handoff\nSelected base version: v002\nHuman idea: Make a tiny dungeon loop that can improve through trace-backed review.\nDeveloper context: Developer produced the baseline version evidence.\nReviewer summary: Reviewer summary is linked to expected evidence, with absent optional evidence labeled.\nHuman comments: 1\n- v002 2026-05-24T04:09:00.000Z: Human comment: keep the Smoke Bomb clarity improvement.\nEvidence paths: 11\n- present comparison runs/comparisons/v001_vs_v002.json\n- present comparison runs/comparisons/v002_vs_v003.json\n- present developer_notes runs/v001/developer_notes.md\n- present review runs/v001/reviews/seed_001_careful_player.json\n- present scorecard runs/v001/scorecards/seed_001_careful_player.json\n- present trace runs/v001/traces/seed_001_careful_player.json\n- present version_summary runs/v001/version_summary.json\n- present changelog runs/v002/changelog.md\n- present acceptance runs/v003/acceptance.md\n- present balance_summary runs/v003/balance_summary.json\n- missing review runs/v003/reviews/missing_optional_review.json\nBlockers:\n- Missing evidence: review: runs/v003/reviews/missing_optional_review.json",
+  "developerTaskText": "Prepared next iteration handoff\nSelected base version: v003\nLatest known version: v003\nHistorical versions after selected base: none\nHuman idea: Make a tiny dungeon loop that can improve through trace-backed review.\nDeveloper context: none recorded\nReviewer summary: Reviewer summary is linked to expected evidence, with absent optional evidence labeled.\nHuman comments: 1\n- v002 2026-05-24T04:09:00.000Z: Human comment: keep the Smoke Bomb clarity improvement.\nEvidence paths: 12\n- present comparison runs/comparisons/v001_vs_v002.json\n- present comparison runs/comparisons/v002_vs_v003.json\n- present developer_notes runs/v001/developer_notes.md\n- present review runs/v001/reviews/seed_001_careful_player.json\n- present scorecard runs/v001/scorecards/seed_001_careful_player.json\n- present trace runs/v001/traces/seed_001_careful_player.json\n- present version_summary runs/v001/version_summary.json\n- present version_summary runs/v001/version_summary.json\n- present changelog runs/v002/changelog.md\n- present acceptance runs/v003/acceptance.md\n- present balance_summary runs/v003/balance_summary.json\n- missing review runs/v003/reviews/missing_optional_review.json\nBlockers:\n- Missing evidence: review: runs/v003/reviews/missing_optional_review.json\n- No developer summary is available for selected base v003.",
   "evidence": [
     {
       "kind": "comparison",
@@ -62,6 +62,14 @@
       "sourceEventType": "developer_summary"
     },
     {
+      "kind": "version_summary",
+      "label": "v001 selected-base summary",
+      "present": true,
+      "relativePath": "runs/v001/version_summary.json",
+      "sourceEventId": "v001-008-version_selected_as_base",
+      "sourceEventType": "version_selected_as_base"
+    },
+    {
       "kind": "changelog",
       "label": "changelog: runs/v002/changelog.md",
       "present": true,
@@ -95,6 +103,7 @@
       "sourceEventType": "reviewer_summary"
     }
   ],
+  "historicalVersionsAfterSelectedBase": [],
   "humanComments": [
     {
       "actor": "human",
@@ -105,20 +114,21 @@
   ],
   "humanIdea": "Make a tiny dungeon loop that can improve through trace-backed review.",
   "humanSummary": "Next iteration is missing evidence; resolve blockers before executing any suggested command.",
+  "latestKnownVersion": "v003",
   "preparedAt": "2026-05-24T05:32:22.000Z",
   "reviewerSummary": "Reviewer summary is linked to expected evidence, with absent optional evidence labeled.",
   "schemaVersion": 1,
-  "selectedBaseVersion": "v002",
+  "selectedBaseVersion": "v003",
   "sessionId": "control-room-v001-v002-v003",
   "status": "missing_evidence",
   "suggestedCommands": [
     {
-      "command": "pnpm run developer-task -- --target-version v002 --runs-root .",
+      "command": "pnpm run developer-task -- --target-version v003 --runs-root .",
       "label": "Generate developer handoff",
       "reason": "Build a developer-facing task from existing local evidence."
     },
     {
-      "command": "pnpm run run-version -- --version v002 --runs-root . --on-existing archive",
+      "command": "pnpm run run-version -- --version v003 --runs-root . --on-existing archive",
       "label": "Run bounded version evidence",
       "reason": "Regenerate deterministic local playthrough evidence for the selected base when the orchestrator chooses to proceed."
     },
@@ -168,7 +178,7 @@
         "relativePath": "runs/v001/traces/seed_001_careful_player.json"
       }
     ],
-    "id": "v002-008-prepared_next_step",
+    "id": "v003-009-prepared_next_step",
     "missingEvidence": [
       "Missing evidence: review: runs/v003/reviews/missing_optional_review.json"
     ],
@@ -176,7 +186,6 @@
     "summary": "Next iteration is missing evidence; resolve blockers before executing any suggested command.",
     "timestamp": "2026-05-24T05:32:22.000Z",
     "type": "prepared_next_step",
-    "versionId": "v002"
-  },
-  "versionSummary": "Select v002 as the active base without deleting or rolling back later versions."
+    "versionId": "v003"
+  }
 }

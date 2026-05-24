@@ -71,7 +71,7 @@ describe('PHASE-26B human idea and feedback capture', () => {
       source: 'human',
       actor: 'human',
       text: 'Build a tiny haunted vault loop.',
-      selectedVersion: 'v002',
+      selectedVersion: 'v001',
       targetVersion: undefined,
     });
   });
@@ -84,7 +84,7 @@ describe('PHASE-26B human idea and feedback capture', () => {
       targetVersion: 'v003',
     }));
 
-    const comment = result.timeline.events.find((event) => event.id === 'v003-008-human_comment');
+    const comment = result.timeline.events.find((event) => event.id === 'v003-009-human_comment');
     expect(comment).toMatchObject({
       type: 'human_comment',
       source: 'human',
@@ -98,7 +98,7 @@ describe('PHASE-26B human idea and feedback capture', () => {
       source: 'human',
       actor: 'human',
       text: 'The v003 review should consider whether exits are too hidden.',
-      selectedVersion: 'v002',
+      selectedVersion: 'v001',
       targetVersion: 'v003',
     });
   });
@@ -157,7 +157,7 @@ describe('PHASE-26B human idea and feedback capture', () => {
       expect(JSON.parse(stdout.join(''))).toMatchObject({
         ok: true,
         savedPath: relativePath,
-        eventCount: 8,
+        eventCount: 9,
         updatedAt: HUMAN_TIMESTAMP,
       });
       const saved = JSON.parse(await readTimelineRaw(repoRoot, relativePath));
