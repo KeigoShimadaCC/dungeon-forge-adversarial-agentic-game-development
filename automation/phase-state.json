@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-28A",
+  "currentPhase": "PHASE-28B",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -314,7 +314,11 @@
       "status": "complete"
     },
     "PHASE-28A": {
-      "status": "planned"
+      "branch": "phase/phase-28a-nondestructive-version-base-selection",
+      "evidenceDir": "runs/phase-runner/PHASE-28A/2026-05-24T06:08:34Z",
+      "mergeCommit": "fc943e775836bab7d8059e86f09c0d90f4779afe",
+      "pr": 63,
+      "status": "complete"
     },
     "PHASE-28B": {
       "status": "planned"
