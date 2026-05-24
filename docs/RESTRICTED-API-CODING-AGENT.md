@@ -371,6 +371,34 @@ subtasks that need normal coding-agent ergonomics; use the restricted delegate
 for small tasks where the model should remain constrained to JSON intent,
 validated patches, whitelisted checks, and evidence.
 
+## Dogfood Operating Rules
+
+PHASE-31B dogfooding keeps the restricted agent on small, low-risk tasks. The
+agent is still untrusted during dogfood runs.
+
+Recommended operating rules:
+
+- Start with fake or dry-run provider mode.
+- Select one accepted-plan task with narrow allowed paths.
+- Prefer docs, prompt text, fixtures, or tests over broad source changes.
+- Keep `restrictedAgentDelegate.enabled` off by default in shared config.
+- Use command IDs only; never accept model-supplied shell strings.
+- Treat `propose_patch` as intent only until deterministic validation passes.
+- Apply patches only in a worktree and only from normalized validated plans.
+- Run recheck, local validation, changed-path scan, secret scan, PR checks, and
+  final gates after any dogfood result.
+- Skip real provider dogfood when credentials, explicit approval, or a safe task
+  boundary are missing.
+
+Dogfood evidence should state whether the run was fake, dry-run, or real
+supervised. A skipped real run is acceptable when it records the concrete
+blocker and does not weaken local harness policy.
+
+The restricted agent has no release authority by default. Repair-loop reports
+must continue to record `canCommit: false`, `canMerge: false`, and
+`canChangePhaseState: false`; Automated Agent Mode remains responsible for
+commit, PR, merge, cleanup, and phase-state transitions.
+
 ## Evidence
 
 Restricted-agent evidence records capture:
@@ -396,4 +424,5 @@ validation. PHASE-30B adds deterministic application of normalized validated
 patch plans with dry-run previews and rollback evidence. PHASE-30C adds
 whitelisted check execution and bounded repair-loop evidence. PHASE-31A adds
 optional default-off Automated Agent Mode delegation while preserving recheck and
-deterministic gates as release authority.
+deterministic gates as release authority. PHASE-31B records dogfood evidence,
+failure modes, real-run blockers, and operating rules for broader supervised use.
