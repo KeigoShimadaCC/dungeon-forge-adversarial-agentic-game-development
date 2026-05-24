@@ -35,6 +35,7 @@ Real supervised dogfood:
 | FM-006 | Unit tests accidentally execute real nested checks and become suite-order or environment sensitive. | PHASE-31A remote CI failure on `tests/restricted-agent-autopilot.test.ts`. | Inject fake executors in tests; reserve real command execution for explicit smoke/gate commands. |
 | FM-007 | Merge or phase-state authority is inferred from a passing restricted-agent result. | PHASE-31A integration review. | Keep reports explicit: `canCommit: false`, `canMerge: false`, `canChangePhaseState: false`; recheck and release gates remain mandatory. |
 | FM-008 | Real provider mode is attempted without credentials or explicit approval. | PHASE-29C and PHASE-31B dogfood. | Block before network access and record the missing-credential or approval blocker. |
+| FM-009 | `propose_patch` is parsed but not routed through deterministic validation/application before a repair loop passes. | Post-merge phase-plan audit after PHASE-31B. | Validate proposed patches with PHASE-30A, apply only normalized plans with PHASE-30B, and write patch evidence before checks can pass. |
 
 ## Hardening Decisions
 
@@ -43,6 +44,8 @@ Real supervised dogfood:
 - Keep real provider dogfood opt-in and outside required CI gates.
 - Keep test-only fake check executors injectable so integration tests do not
   depend on nested Vitest or shell behavior.
+- Keep `propose_patch` handling wired to deterministic validator/applier
+  evidence. A parsed patch proposal is never implementation proof by itself.
 - Keep generated dogfood evidence under `runs/restricted-agent/**`; do not hand
   edit generated reports.
 

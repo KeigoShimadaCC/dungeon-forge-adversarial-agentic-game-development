@@ -1,4 +1,4 @@
-import { mkdtemp, readFile } from 'node:fs/promises';
+import { mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
@@ -160,6 +160,80 @@ describe('Phase 30C restricted check runner and repair loop', () => {
       canChangePhaseState: false,
     });
     expect(await readFile(path.join(outDir, 'repair-loop-report.json'), 'utf8')).toContain('"status": "pass"');
+  });
+
+  it('validates and applies proposed repair patches before passing checks', async () => {
+    const repoRoot = await mkdtemp(path.join(os.tmpdir(), 'df-repair-loop-patch-'));
+    const outDir = await mkdtemp(path.join(os.tmpdir(), 'df-repair-loop-patch-evidence-'));
+    await writeFile(path.join(repoRoot, 'target.md'), 'before\n', 'utf8');
+    const response = JSON.stringify({
+      schemaVersion: 1,
+      phase: 'PHASE-30C',
+      taskId: 'task-001',
+      action: 'propose_patch',
+      rationale: 'Apply a bounded fake repair patch.',
+      patches: [
+        {
+          path: 'target.md',
+          kind: 'replace_exact',
+          expected: 'before\n',
+          replacement: 'after\n',
+        },
+      ],
+      requestedChecks: ['focused_tests'],
+    });
+
+    const report = await runRestrictedAgentRepairLoop({
+      turnInput: {
+        ...baseTurnInput(),
+        allowedPaths: ['target.md'],
+        patchBudget: { maxFiles: 1, maxBytes: 100 },
+      },
+      cwd: repoRoot,
+      outDir,
+      maxAttempts: 1,
+      registry,
+      fakeResponses: [response],
+      executor: fakeExecutor({
+        focused_tests: { exitCode: 0, stdout: 'patched tests passed' },
+      }),
+    });
+
+    expect(report.status).toBe('pass');
+    expect(await readFile(path.join(repoRoot, 'target.md'), 'utf8')).toBe('after\n');
+    expect(report.attempts[0]).toEqual(
+      expect.objectContaining({
+        patchValidationPath: expect.stringContaining('patch-validation.json'),
+        patchApplyReportPath: expect.stringContaining('patch-report.json'),
+      }),
+    );
+    expect(await readFile(path.join(outDir, 'attempt-001', 'patch-apply', 'patch-report.json'), 'utf8')).toContain(
+      '"status": "applied"',
+    );
+  });
+
+  it('blocks unsupported context actions inside the repair loop', async () => {
+    const outDir = await mkdtemp(path.join(os.tmpdir(), 'df-repair-loop-context-action-'));
+    const response = JSON.stringify({
+      schemaVersion: 1,
+      phase: 'PHASE-30C',
+      taskId: 'task-001',
+      action: 'search_allowed',
+      rationale: 'Try to search during repair execution.',
+    });
+
+    const report = await runRestrictedAgentRepairLoop({
+      turnInput: baseTurnInput(),
+      cwd: process.cwd(),
+      outDir,
+      maxAttempts: 1,
+      registry,
+      fakeResponses: [response],
+      executor: fakeExecutor({}),
+    });
+
+    expect(report.status).toBe('max_attempts');
+    expect(report.finalFailedChecks[0]?.summary).toContain('not executable inside the repair loop');
   });
 
   it('rejects model outputs that try to claim commit or merge authority', () => {

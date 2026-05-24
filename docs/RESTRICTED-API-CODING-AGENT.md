@@ -330,10 +330,17 @@ exit code, bounded stdout/stderr excerpts, duration, diagnostics, and a
 deterministic failure summary.
 
 The repair loop is bounded by `maxAttempts`. Each attempt writes prompt context,
-raw response, parsed response when valid, validation diagnostics, check results,
-and the final repair-loop report. Failed checks are summarized into
-`previousFailedChecks` for the next model turn. The report explicitly records
-that the restricted agent cannot commit, merge, or change phase state.
+raw response, parsed response when valid, validation diagnostics, patch
+validation evidence when the model proposes a patch, patch-apply evidence when a
+validated patch is applied, check results, and the final repair-loop report.
+Failed checks or blocked patch diagnostics are summarized into
+`previousFailedChecks` for the next model turn.
+
+`propose_patch` responses go through the PHASE-30A validator and PHASE-30B
+applier before checks can pass. `request_check` responses may run whitelisted
+command IDs. `search_allowed` and `read_file_range` remain context-building
+actions and are blocked inside the repair execution loop. The report explicitly
+records that the restricted agent cannot commit, merge, or change phase state.
 
 The local smoke command uses fake provider mode:
 
