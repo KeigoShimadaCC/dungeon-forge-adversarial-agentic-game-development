@@ -6,9 +6,9 @@ The project is intentionally bounded. It is not a commercial engine, a real-time
 
 ## Current Status
 
-The repository now contains an implemented TypeScript/pnpm/Vitest project, a finite text/ASCII dungeon game, deterministic harness commands, generated version evidence, optional credential-gated LLM paths, local human play/replay tools, static evidence viewers, content governance, optional-media metadata checks, and phase automation through the PHASE-23A planning tail.
+The repository now contains an implemented TypeScript/pnpm/Vitest project, a finite text/ASCII dungeon game, deterministic harness commands, generated version evidence, optional credential-gated LLM paths, local human and browser play/replay tools, static evidence viewers, content governance, optional-media metadata checks, control-room artifacts, and a restricted API coding-agent harness.
 
-Current coordination state lives in `PROGRESS.MD`. The active phase at the time of this refresh is `PHASE-23B - Current State Docs Refresh`, whose purpose is to update scaffold-era public docs without changing runtime behavior.
+Current coordination state lives in `PROGRESS.MD`. Phase state currently records the PHASE-23 through PHASE-31 automation stretch as complete; `phase-plans/` remains the source of truth for individual phase contracts and acceptance criteria.
 
 Important sources:
 
@@ -19,6 +19,8 @@ Important sources:
 | `PROGRESS.MD` | Live handoff, active task queue, checklist, and validation log |
 | `src/game/**` | Game rules, state transitions, seeded randomness, content, and rendering |
 | `src/harness/**` | Playthrough runners, traces, reviews, scorecards, evidence, validation, and automation |
+| `src/browser-play/**` | Local browser play and read-only replay surface over structured game actions |
+| `src/control-room/**` | Local timeline, role metadata, static web shell, handoffs, narration, and base-selection artifacts |
 | `src/dashboard/**` | Local static version-dashboard generation from existing evidence |
 | `src/static-demo/**` | Local static demo export from existing evidence |
 | `content/**` | Static finite game data, scenario packs, extension packs, and optional-media metadata |
@@ -57,9 +59,9 @@ The game remains finite, serializable, turn-based, seedable, and text/ASCII-firs
 
 ### Harness And Evidence
 
-`src/harness/**` implements deterministic playthrough execution, baseline players, trace and scorecard generation, reviewer artifacts, version summaries, version comparisons, balance analytics, developer-task handoffs, patch proposal validation, acceptance reports, trace replay, content governance, optional-media checks, and phase automation commands.
+`src/harness/**` implements deterministic playthrough execution, baseline players, trace and scorecard generation, reviewer artifacts, version summaries, version comparisons, longitudinal benchmarking, balance analytics, developer-task handoffs, patch proposal validation, acceptance reports, trace replay, content governance, optional-media checks, phase automation commands, and the restricted-agent validation/application loop.
 
-Generated evidence exists under `runs/v001`, `runs/v002`, `runs/v003`, and `runs/comparisons`. These artifacts demonstrate the fixed local demo loop and provide audit material for current docs and dashboards. They are not a substitute for future longitudinal proof, which is scheduled as later roadmap work.
+Generated evidence exists under `runs/v001`, `runs/v002`, `runs/v003`, and `runs/comparisons`. These artifacts demonstrate the fixed local demo loop and provide audit material for current docs and dashboards. Longitudinal proof is supported by `pnpm run longitudinal-benchmark`, which inspects local version evidence and writes advisory trend artifacts without making acceptance decisions.
 
 ### Reviewer And LLM Paths
 
@@ -69,9 +71,7 @@ See `docs/REAL-LLM-RUNS.md` for the credential-gated path.
 
 ### Human And Static Viewing Surfaces
 
-The repo includes a local terminal human-play path, trace replay tooling, a version-dashboard exporter, and a static-demo exporter. These surfaces inspect or present existing game/evidence data; they do not become the source of truth for game rules.
-
-Browser play/replay is still future roadmap work. Current static viewing is generated from local evidence.
+The repo includes a local terminal human-play path, browser play/replay tooling, trace replay tooling, a version-dashboard exporter, a static-demo exporter, and a control-room static shell. These surfaces inspect or present existing game/evidence data; they do not become the source of truth for game rules.
 
 ### Phase Automation
 
@@ -113,16 +113,21 @@ pnpm run patch-proposal
 pnpm run worktree-task
 pnpm run loop-coordinator
 pnpm run phase
+pnpm run restricted-agent-dry-run
+pnpm run restricted-agent-repair-loop
 ```
 
 Human play, replay, viewing, and governance commands:
 
 ```sh
 pnpm run human-play
+pnpm run browser-play
 pnpm run trace-replay
 pnpm run version-dashboard
 pnpm run balance-analytics
+pnpm run longitudinal-benchmark
 pnpm run export-static-demo
+pnpm run control-room-web-shell
 pnpm run content-governance
 pnpm run optional-media
 ```
@@ -150,11 +155,26 @@ src/
     run-version.ts
     summarize-version.ts
     compare-versions.ts
+    longitudinal-benchmark-cli.ts
     accept-version.ts
     phase-runner-cli.ts
     trace-replay-cli.ts
     balance-analytics-cli.ts
     content-governance-cli.ts
+    restricted-agent/
+
+  browser-play/
+    browser-play-cli.ts
+    session.ts
+    replay.ts
+    server.ts
+
+  control-room/
+    timeline/
+    roles/
+    web-shell/
+    handoffs/
+    narration/
 
   dashboard/
     version-dashboard-cli.ts
@@ -181,6 +201,8 @@ Boundary rules:
 - `src/game/**` owns game rules, state transitions, seeded randomness, rendering, and serializable state.
 - `src/harness/**` owns playthrough execution, trace saving, scorecards, reviewer/client boundaries, validation, and automation.
 - `src/agents/prompts/**` owns prompt templates, not game logic.
+- `src/browser-play/**` owns local browser play/replay adapters over structured actions and saved traces.
+- `src/control-room/**` owns local artifact projection, metadata, handoff preparation, narration, and static control-room presentation.
 - `src/dashboard/**` and `src/static-demo/**` render existing evidence; they do not author game state or acceptance facts.
 - `content/**` owns finite static data and metadata.
 - `tests/**` owns contract, engine, harness, content, automation, and regression coverage.
@@ -318,17 +340,15 @@ Reviewer requests that conflict with these constraints should be translated into
 
 ## Roadmap Boundary
 
-The repo has moved beyond the initial project-structure scaffold and through the fixed v001-v003 demo loop. Current known next roadmap work from `docs/NORTH_STAR_GAP_AUDIT.md` is:
+The repo has moved beyond the initial project-structure scaffold, fixed v001-v003 demo loop, and the PHASE-23 through PHASE-31 automation stretch. Recent completed roadmap work includes:
 
 | Phase | Purpose |
 | --- | --- |
-| `PHASE-23B` | Refresh current-state docs |
-| `PHASE-23C` | Reproducible longitudinal improvement benchmark |
-| `PHASE-23D` | Evidence validation hardening |
-| `PHASE-24A` | Browser play and replay UI |
-| `PHASE-24B` | Deeper gameplay evaluation |
+| `PHASE-23B` - `PHASE-24B` | Current-state docs refresh, longitudinal benchmark, evidence hardening, browser play/replay, and deeper gameplay evaluation |
+| `PHASE-25A` - `PHASE-28B` | Control-room timeline, role metadata, web shell, human feedback capture, prepared handoffs, narration, base selection, and polish |
+| `PHASE-29A` - `PHASE-31B` | Restricted API coding-agent schemas, context, dry-run loop, source patch validation/application, check repair loop, autopilot delegate integration, and dogfood hardening |
 
-Do not describe PHASE-23C, PHASE-23D, PHASE-24A, or PHASE-24B outcomes as already complete. They are planned follow-up work.
+These features are still bounded by the same safety rules: generated evidence is not design truth, UI surfaces do not own game state, and restricted-agent outputs are untrusted JSON intent until the local harness validates and applies them.
 
 ## Working Rules For Agents
 

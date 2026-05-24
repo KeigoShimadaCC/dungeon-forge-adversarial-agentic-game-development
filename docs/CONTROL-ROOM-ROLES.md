@@ -100,7 +100,7 @@ Runtime prompt builders may include renders, traces, scorecards, available actio
 | --- | --- |
 | `game_developer` | `safe_repo_reference` → `src/agents/prompts/developer.md` |
 | `game_reviewer` | `safe_repo_reference` → `src/agents/prompts/reviewer.md`; `dynamic_runtime_reference` → `buildLlmReviewerPrompt` in `src/agents/prompts/llm-reviewer.ts` |
-| `narrator` | `safe_repo_reference` → `phase-plans/PHASE-27B-NARRATED-VERSION-SUMMARIES.md` (future behavior plan) |
+| `narrator` | `safe_repo_reference` -> `phase-plans/PHASE-27B-NARRATED-VERSION-SUMMARIES.md` and deterministic narration docs |
 | `human` | `not_applicable` |
 
 ## Model Metadata (Advisory Only)

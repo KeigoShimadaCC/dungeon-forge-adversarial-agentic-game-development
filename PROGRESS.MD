@@ -10,10 +10,10 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 | --- | --- |
 | Phase | PHASE-31B - Restricted Agent Dogfood And Hardening |
 | Goal | Dogfood the restricted API coding agent on low-risk fake/dry-run paths, record failure modes, and harden operating rules without expanding authority. |
-| Branch | `phase/phase-31b-restricted-agent-dogfood-and-hardening` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-31b-restricted-agent-dogfood-and-hardening-wt` |
+| Branch | `main` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development` |
 | Base | `origin/main` after PHASE-31A |
-| Status | `Implementation in progress after shell planner recovery` |
+| Status | `Complete in automation state; post-completion audit passed` |
 
 ### Contract (read before editing)
 
@@ -60,6 +60,8 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 Executor Codex — Post-automation audit: rechecked PHASE-23A through PHASE-31B plans against live phase state, source/docs/tests, and found stale README/NORTH_STAR/control-room wording that still described completed work as future.
+- [x] 2026-05-24 Executor Codex — Post-automation audit fix: updated README, `docs/NORTH_STAR.md`, `docs/CONTROL-ROOM-ROLES.md`, and this handoff so repo-facing docs reflect completed PHASE-23 through PHASE-31 capabilities.
 - [x] 2026-05-24 Executor Codex — PHASE-31B task-001: recorded fake/dry-run dogfood target and evidence expectations for `PHASE-31B` / `dogfood-fake`.
 - [x] 2026-05-24 Executor Codex — PHASE-31B task-002: documented that real supervised provider dogfood is skipped in this automation run because no explicit real-provider dogfood approval/task or credential requirement exists.
 - [x] 2026-05-24 Executor Codex — PHASE-31B task-003: added restricted-agent failure-mode log and recommended operating rules, including no default merge/phase-state authority.
@@ -374,6 +376,7 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
+- 2026-05-24 — Executor Codex — Post-automation PHASE-23A through PHASE-31B audit validation PASS: phase-plan/state check found 22 PHASE-23+ plan files, 0 missing state entries, and 0 incomplete PHASE-23+ statuses; stale roadmap scan found no remaining live README/NORTH_STAR/control-room strings that described completed PHASE-23B through PHASE-31B work as future; `pnpm run check` PASSed (59 test files, 506 tests, typecheck, lint, build, `ci-smoke`, and `verify-acceptance-evidence`); `git diff --check` PASSed.
 - 2026-05-24 — Orchestrator — Post-merge restricted-agent phase-plan audit checked `PHASE-29A` through `PHASE-31B` against implementation. Found and fixed one PHASE-30C/31A gap: `propose_patch` repair-loop responses are now routed through deterministic patch validation and patch application evidence before checks can pass; context-building actions are blocked inside repair execution. Updated restricted-agent docs/failure-mode log and added focused repair-loop regression tests. Validation PASS: focused restricted-agent tests; `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `git diff --check`; `pnpm test` (59 files, 506 tests); `pnpm run check`.
 - 2026-05-24 — Executor Codex — PHASE-31B implementation checkpoint after shell planner recovery: added `docs/RESTRICTED-API-CODING-AGENT-FAILURE-MODES.md`, updated restricted-agent operating rules in `docs/RESTRICTED-API-CODING-AGENT.md`, recorded fake dogfood path and real-provider blocker, and preserved no commit/merge/phase-state authority defaults.
 - 2026-05-24 — Executor Codex — PHASE-31B validation PASS: `pnpm run restricted-agent-dry-run -- --provider fake --phase PHASE-31B --task dogfood-fake --out runs/restricted-agent/PHASE-31B/fake-dogfood --fake-response valid`; `pnpm test tests/restricted-agent-check-runner.test.ts tests/restricted-agent-api-loop.test.ts tests/restricted-agent-autopilot.test.ts` (3 files, 14 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `git diff --check`; `pnpm test` (59 files, 504 tests).
