@@ -619,6 +619,42 @@ describe('phase autopilot execution layer', () => {
     expect(accepted.decision).toBe('accept');
   });
 
+  it('allows planner reports that mention forbidden gameplay only as constraints', async () => {
+    const config = await loadPhaseRunnerConfig(repoRoot);
+    const phase = config.graph.phases.find((entry) => entry.id === 'PHASE-24A');
+    expect(phase).toBeDefined();
+    const planText = await readFile(
+      path.join(repoRoot, 'phase-plans/PHASE-24A-BROWSER-PLAY-AND-REPLAY-UI.md'),
+      'utf8',
+    );
+    const criteria = parseAcceptanceCriteria(planText);
+    const report: PlannerReport = {
+      schemaVersion: 1,
+      phase: 'PHASE-24A',
+      status: 'pass',
+      summary:
+        'Implement browser play without introducing image-only or free-text gameplay scope.',
+      tasks: criteria.map((criterion, index) => ({
+        id: `task-${String(index + 1).padStart(3, '0')}`,
+        title: `Cover ${criterion.id}`,
+        description:
+          'Use structured actions; do not add image-only output or free-text gameplay.',
+        allowedPaths: ['src/**', 'tests/**', 'docs/**', 'package.json', 'PROGRESS.MD'],
+        acceptanceCriteriaCovered: [`${criterion.id}: ${criterion.text}`],
+        cursorDelegation: { recommended: false, reason: 'direct implementation' },
+      })),
+      requiredFocusedTests: ['pnpm test tests/browser-play-ui.test.ts'],
+      requiredSmokeCommands: ['pnpm run browser-play -- --smoke'],
+      requiredArtifacts: ['docs/BROWSER-PLAY-AND-REPLAY.md'],
+      risks: ['Avoid image-only and free-text gameplay regressions.'],
+      questions: [],
+      planAcceptanceRecommendation: 'accept',
+    };
+
+    const decision = validatePlannerReportForAcceptance(phase!, report, 'auto', planText);
+    expect(decision.decision).toBe('accept');
+  });
+
   it('runs deterministic Cursor subtasks only from accepted-plan task IDs', async () => {
     const runId = `cursor-subtask-${Date.now()}`;
     const evidenceDir = path.join(repoRoot, 'runs', 'phase-runner', 'PHASE-21A', runId);

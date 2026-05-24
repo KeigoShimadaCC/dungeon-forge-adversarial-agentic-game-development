@@ -29,6 +29,22 @@ const REQUIRED_SECRET_PATTERNS = [
   /\bexternal\s+service\s+required\b/i,
 ];
 
+const NEGATED_FORBIDDEN_CONTEXT =
+  /\b(?:avoid|avoids|avoiding|block|blocks|blocked|blocking|forbid|forbids|forbidden|forbidding|no|not|never|without|do not|does not|must not|should not|out of scope)\b/i;
+
+const containsRequiredForbiddenText = (searchable: string, forbidden: string): boolean => {
+  let index = searchable.indexOf(forbidden);
+  while (index >= 0) {
+    const contextStart = Math.max(0, index - 90);
+    const context = searchable.slice(contextStart, index);
+    if (!NEGATED_FORBIDDEN_CONTEXT.test(context)) {
+      return true;
+    }
+    index = searchable.indexOf(forbidden, index + forbidden.length);
+  }
+  return false;
+};
+
 const pathBase = (scope: string): string => (scope.endsWith('/**') ? scope.slice(0, -3) : scope);
 
 const isTaskPathAllowed = (phase: PhaseDefinition, taskPath: string): boolean => {
@@ -127,7 +143,7 @@ export const validatePlannerReportForAcceptance = (
 
   const searchable = JSON.stringify(report).toLowerCase();
   for (const forbidden of FORBIDDEN_PLAN_TEXT) {
-    if (searchable.includes(forbidden)) {
+    if (containsRequiredForbiddenText(searchable, forbidden)) {
       reasons.push(`Planner report contains forbidden or secret-related text: ${forbidden}`);
     }
   }
