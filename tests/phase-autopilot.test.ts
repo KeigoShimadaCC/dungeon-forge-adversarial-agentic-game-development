@@ -13,6 +13,7 @@ import {
 import { collectPhaseMergeEvidence, writePhaseMergeEvidence } from '../src/harness/evidence-collector.js';
 import { createGitAdapter, type GitAdapter } from '../src/harness/git-adapter.js';
 import {
+  createGitHubCliAdapter,
   parseChecksOutput,
   parsePrCreateOutput,
   parsePrViewMergeState,
@@ -323,6 +324,59 @@ describe('phase autopilot execution layer', () => {
         '{"state":"MERGED","mergeCommit":{"oid":"abc1234"},"mergedAt":"2026-05-23T00:00:00Z"}',
       ),
     ).toMatchObject({ merged: true, state: 'MERGED', mergeCommit: 'abc1234' });
+  });
+
+  it('pushes the phase branch before creating a pull request', async () => {
+    await withTempDir(async (dir) => {
+      const evidenceDir = path.join(dir, 'evidence');
+      const commands: Array<{ command: string; args?: string[] }> = [];
+      const github = createGitHubCliAdapter({
+        executor: {
+          async run(command, options) {
+            commands.push({ command, args: options.args });
+            await mkdir(path.dirname(options.stdoutPath), { recursive: true });
+            await writeFile(
+              options.stdoutPath,
+              command === 'gh' ? 'https://github.com/acme/repo/pull/456\n' : '',
+            );
+            await writeFile(options.stderrPath, '');
+            return {
+              ...commandResult([command, ...(options.args ?? [])].join(' '), options.cwd),
+              stdoutPath: options.stdoutPath,
+              stderrPath: options.stderrPath,
+            };
+          },
+        },
+      });
+
+      const pr = await github.createPullRequest({
+        repoRoot,
+        branch: 'phase/phase-23b-current-state-docs-refresh',
+        base: 'main',
+        evidenceDir,
+      });
+
+      expect(commands[0]).toEqual({
+        command: 'git',
+        args: ['push', '-u', 'origin', 'phase/phase-23b-current-state-docs-refresh'],
+      });
+      expect(commands[1]).toEqual({
+        command: 'gh',
+        args: [
+          'pr',
+          'create',
+          '--fill',
+          '--base',
+          'main',
+          '--head',
+          'phase/phase-23b-current-state-docs-refresh',
+        ],
+      });
+      expect(pr.number).toBe(456);
+      await expect(
+        readFile(path.join(evidenceDir, 'command-results', 'git-push-pr-branch.stdout.log'), 'utf8'),
+      ).resolves.toBe('');
+    });
   });
 
   it('writes a dry-run autopilot plan without enabling agents, PRs, or merge', async () => {

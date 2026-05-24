@@ -170,6 +170,16 @@ export const createGitHubCliAdapter = (
 
   return {
     async createPullRequest(input) {
+      const pushPaths = commandPaths(input.evidenceDir, 'git-push-pr-branch');
+      const pushResult = await executor.run('git', {
+        cwd: input.repoRoot,
+        args: ['push', '-u', 'origin', input.branch],
+        ...pushPaths,
+      });
+      if (commandEvidenceStatus(pushResult) !== 'pass') {
+        throw new Error(`git push failed with status ${pushResult.status}`);
+      }
+
       const result = await runGh(
         input.repoRoot,
         input.evidenceDir,
