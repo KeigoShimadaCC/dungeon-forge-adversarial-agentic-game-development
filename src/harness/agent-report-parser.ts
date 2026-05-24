@@ -117,8 +117,9 @@ export const parseAgentStructuredReport = (
         errors.push('report must be a JSON object');
         continue;
       }
-      errors.push(...validateBase(parsed, expectedPhase));
-      if (errors.length > 0) {
+      const blockErrors = validateBase(parsed, expectedPhase);
+      if (blockErrors.length > 0) {
+        errors.push(...blockErrors);
         continue;
       }
       return {

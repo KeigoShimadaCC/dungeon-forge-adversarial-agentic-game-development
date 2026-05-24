@@ -270,6 +270,30 @@ describe('phase autopilot execution layer', () => {
     });
   });
 
+  it('ignores earlier non-json fences when a later structured report is valid', () => {
+    const parsed = parseAgentStructuredReport(
+      [
+        'verification',
+        '```bash',
+        'pnpm test tests/longitudinal-benchmark.test.ts',
+        '```',
+        'final report',
+        '```json',
+        '{"schemaVersion":1,"phase":"PHASE-23C","status":"pass","taskId":"task-003"}',
+        '```',
+      ].join('\n'),
+      'cursor-subtask',
+      'PHASE-23C',
+    );
+
+    expect(parsed.ok).toBe(true);
+    expect(parsed.report).toMatchObject({
+      phase: 'PHASE-23C',
+      status: 'pass',
+      taskId: 'task-003',
+    });
+  });
+
   it('builds merge evidence from actual command and scope inputs', async () => {
     const config = await loadPhaseRunnerConfig(repoRoot);
     const phase = config.graph.phases.find((entry) => entry.id === 'PHASE-20A');
