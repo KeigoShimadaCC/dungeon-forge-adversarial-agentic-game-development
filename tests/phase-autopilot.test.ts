@@ -379,6 +379,38 @@ describe('phase autopilot execution layer', () => {
     });
   });
 
+  it('treats gh no-checks stderr as absent remote checks', async () => {
+    await withTempDir(async (dir) => {
+      const evidenceDir = path.join(dir, 'evidence');
+      const github = createGitHubCliAdapter({
+        executor: {
+          async run(command, options) {
+            await mkdir(path.dirname(options.stdoutPath), { recursive: true });
+            await writeFile(options.stdoutPath, '');
+            await writeFile(
+              options.stderrPath,
+              "no checks reported on the 'phase/phase-23b-current-state-docs-refresh' branch\n",
+            );
+            return {
+              ...commandResult([command, ...(options.args ?? [])].join(' '), options.cwd, 'fail'),
+              stdoutPath: options.stdoutPath,
+              stderrPath: options.stderrPath,
+            };
+          },
+        },
+      });
+
+      const checks = await github.watchChecks({
+        repoRoot,
+        prNumber: 52,
+        evidenceDir,
+      });
+
+      expect(checks.status).toBe('none');
+      expect(checks.rawStdout).toContain('no checks reported');
+    });
+  });
+
   it('writes a dry-run autopilot plan without enabling agents, PRs, or merge', async () => {
     const runId = `unit-dry-run-${Date.now()}`;
     const summary = await runAutopilotForPhase(repoRoot, 'PHASE-20A', {

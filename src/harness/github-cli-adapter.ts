@@ -213,10 +213,12 @@ export const createGitHubCliAdapter = (
       );
       const { readFile } = await import('node:fs/promises');
       const stdout = await readFile(result.stdoutPath, 'utf8');
-      const status = parseChecksOutput(stdout);
+      const stderr = await readFile(result.stderrPath, 'utf8').catch(() => '');
+      const combinedOutput = [stdout, stderr].filter((value) => value.length > 0).join('\n');
+      const status = parseChecksOutput(combinedOutput);
       const metadata: RemoteChecksMetadata = {
-        status: commandEvidenceStatus(result) === 'pass' ? status : 'fail',
-        rawStdout: stdout,
+        status: commandEvidenceStatus(result) === 'pass' || status === 'none' ? status : 'fail',
+        rawStdout: combinedOutput,
         commandResult: result,
       };
       await writeFile(
