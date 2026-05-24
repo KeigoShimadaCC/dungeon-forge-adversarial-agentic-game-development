@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-29A - Restricted API Coding Agent Architecture And Schemas |
-| Goal | Define the restricted API coding agent architecture, action/patch/check/evidence schemas, deterministic validation boundary, and safety invariants without real LLM calls or mutation behavior. |
-| Branch | `phase/phase-29a-restricted-api-coding-agent-architecture-and-schemas` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-29a-restricted-api-coding-agent-architecture-and-schemas-wt` |
-| Base | `origin/main` after PHASE-28B dependency slice |
+| Phase | PHASE-29B - Restricted Agent Context Builder |
+| Goal | Build deterministic restricted-agent context packaging, allowed-path search, bounded file-range reads, context budgets, denial diagnostics, and exposure evidence. |
+| Branch | `phase/phase-29b-restricted-agent-context-builder` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-29b-restricted-agent-context-builder-wt` |
+| Base | `origin/main` after PHASE-29A dependency slice |
 | Status | `Implementation and local validation complete after shell executor recovery; phase runner resume pending` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-29A-RESTRICTED-API-CODING-AGENT-ARCHITECTURE-AND-SCHEMAS.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-29A/2026-05-24T06:51:05Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
+3. Active `phase-plans/PHASE-29B-RESTRICTED-AGENT-CONTEXT-BUILDER.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-29B/2026-05-24T07:10:34Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,10 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 Executor Codex — PHASE-29B task-001/task-002: defined context-builder contracts, diagnostics, and scoped path policy helpers requiring phase and accepted-task path approval.
+- [x] 2026-05-24 Executor Codex — PHASE-29B task-003/task-004: implemented deterministic allowed-path search and bounded file-range reads with budgets and denial diagnostics.
+- [x] 2026-05-24 Executor Codex — PHASE-29B task-005/task-006: built turn input/exposure report packaging, focused context-builder tests, documentation updates, and validation evidence.
+- [x] 2026-05-24 Executor Codex — PHASE-29B validation: ran focused context-builder tests, typecheck, lint, full tests, and `git diff --check`.
 - [x] 2026-05-24 Executor Codex — PHASE-29A task-001/task-002: defined restricted-agent turn input/output, action, patch, blocker, diagnostic, and validation result contracts.
 - [x] 2026-05-24 Executor Codex — PHASE-29A task-003: added command-ID registry and deterministic unknown-command/raw-shell blocking.
 - [x] 2026-05-24 Executor Codex — PHASE-29A task-004/task-005: documented the restricted API coding agent boundary and added focused schema validation tests.
@@ -285,16 +289,17 @@ _(none)_
 
 ## Phase checklist
 
-_PHASE-29A - Restricted API Coding Agent Architecture And Schemas._
+_PHASE-29B - Restricted Agent Context Builder._
 
-- [x] Progress state seeded from accepted runner plan before implementation recovery.
-- [x] JSON schema/types exist for restricted-agent turn input and model output.
-- [x] Invalid action names block.
-- [x] Unknown command IDs block at schema/registry validation boundary.
-- [x] Forbidden operation shapes block.
-- [x] Documentation explains why the model cannot directly edit files, run shell, use git, or merge.
-- [x] No real credentials or external LLM calls are required for tests.
-- [x] Focused restricted-agent schema tests, typecheck, lint, full tests, and `git diff --check` are recorded or blockers are explained.
+- [x] Progress state seeded from accepted runner plan before implementation.
+- [x] Context-builder contracts and denial diagnostics exist.
+- [x] Scoped path policy requires phase allowed paths and accepted-task allowed paths.
+- [x] `search_allowed` returns deterministic path/line/preview results within budgets.
+- [x] `read_file_range` enforces explicit bounded ranges, binary/missing/oversized diagnostics, and line/byte budgets.
+- [x] Turn input packaging includes objective, allowed/forbidden paths, snippets, previous failed checks, patch budget, and command IDs.
+- [x] Exposure report records metadata for exposed snippets without hidden snippet text.
+- [x] Documentation describes context-building behavior, denied-context diagnostics, budgets, and no-hidden-context rule.
+- [x] Focused context-builder tests, typecheck, lint, full tests, and `git diff --check` are recorded or blockers are explained.
 
 ---
 
@@ -356,6 +361,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-24 — Executor Codex — PHASE-28B validation PASS after runner recovery: `pnpm test tests/control-room-web-shell.test.ts tests/control-room-handoffs.test.ts tests/control-room-roles.test.ts tests/control-room-narration.test.ts tests/control-room-timeline.test.ts` (5 files, 30 tests); `pnpm test tests/control-room-polish.test.ts` (1 file, 3 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run control-room-web-shell -- --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --out runs/control-room/web-shell/index.html`; `node dist/src/control-room/handoffs/control-room-handoff-cli.js --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --out runs/control-room/handoffs/v001-v002-v003.prepared-handoff.json --html runs/control-room/handoffs/v001-v002-v003.panel.html --reviewer-persona bug_hunter --reviewer-model configured_reviewer_model`; `rg "Careful Player|Configured reviewer model|Prompt|Prepared|Active base|Historical after base" runs/control-room/web-shell/index.html runs/control-room/handoffs/v001-v002-v003.panel.html`; smoke JSON generation; `pnpm test` (52 files, 467 tests); `git diff --check`.
 - 2026-05-24 — Executor Codex — PHASE-29A implementation checkpoint after shell executor recovery: added `src/harness/restricted-agent/**` schema/types, command registry, response validator, evidence record helper, public harness exports, `docs/RESTRICTED-API-CODING-AGENT.md`, and `tests/restricted-agent-schemas.test.ts`. No real LLM/API calls, context reads, patch application, check execution, filesystem write authority, git authority, PR/merge authority, or gameplay behavior changes were added.
 - 2026-05-24 — Executor Codex — PHASE-29A validation PASS after shell executor recovery: `pnpm test tests/restricted-agent-schemas.test.ts` (1 file, 8 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (53 files, 475 tests); `git diff --check`.
+- 2026-05-24 — Executor Codex — PHASE-29B implementation checkpoint after shell executor recovery: added `src/harness/restricted-agent/context-builder.ts`, exported context-builder APIs, updated `docs/RESTRICTED-API-CODING-AGENT.md`, and added `tests/restricted-agent-context.test.ts`. The context builder uses deterministic path normalization, requires both phase and accepted-task allowed paths, denies credential/private/generated-evidence/out-of-scope paths before reading, supports bounded line-range reads, deterministic allowed search previews, aggregate context budgets, and exposure metadata without hidden snippet text. No real LLM/API calls, patch application, check execution, shell/git authority, provider access, or gameplay behavior changes were added.
+- 2026-05-24 — Executor Codex — PHASE-29B validation PASS after shell executor recovery: `pnpm test tests/restricted-agent-context.test.ts` (1 file, 5 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (54 files, 480 tests); `git diff --check`.
 
 - 2026-05-24 — Executor Codex — PHASE-28A pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-28A/2026-05-24T06:08:34Z/accepted-plan/accepted-plan.json`. Accepted tasks: validated active-base timeline helper, inert web-shell selector plus timeline-only CLI selection, base-aware prepared handoffs, regenerated sample artifacts/docs, and required validation. Cursor delegation not used; the deterministic runner owns Cursor subtask execution for accepted-plan tasks marked `cursorDelegation.recommended === true`.
 - 2026-05-24 — Executor Codex — PHASE-28A implementation checkpoint: added validated active-base selection helpers in `src/control-room/timeline/**`, base-selection CLI support in the inert control-room web shell, selected-base/historical-version projection fields, base-aware prepared handoff fields/rendering, regenerated sample timeline/web-shell/handoff artifacts, aligned dependent human-feedback/narration fixtures, and documented nondestructive pointer selection in `docs/CONTROL-ROOM-TIMELINE.md`. No delete/rollback/git operation, branch creation, command execution hook, provider call, gameplay behavior change, or acceptance/merge authority was added.
