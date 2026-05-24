@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-30B",
+  "currentPhase": "PHASE-30C",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -356,7 +356,11 @@
       "status": "complete"
     },
     "PHASE-30B": {
-      "status": "planned"
+      "branch": "phase/phase-30b-restricted-patch-applier-and-rollback",
+      "evidenceDir": "runs/phase-runner/PHASE-30B/2026-05-24T08:00:49Z",
+      "mergeCommit": "fcfd9a31cef1e495c5d0db5f2acf0073eee0be5a",
+      "pr": 69,
+      "status": "complete"
     },
     "PHASE-30C": {
       "status": "planned"
