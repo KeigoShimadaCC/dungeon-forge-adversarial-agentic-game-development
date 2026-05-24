@@ -1,0 +1,130 @@
+{
+  "activeBaseVersion": "v002",
+  "createdAt": "2026-05-24T04:06:47.000Z",
+  "events": [
+    {
+      "actor": "human",
+      "id": "001-human_idea",
+      "source": "human",
+      "summary": "Make a tiny dungeon loop that can improve through trace-backed review.",
+      "timestamp": "2026-05-24T04:06:47.000Z",
+      "type": "human_idea"
+    },
+    {
+      "actor": "developer",
+      "evidence": [
+        {
+          "kind": "trace",
+          "relativePath": "runs/v001/traces/seed_001_careful_player.json"
+        },
+        {
+          "kind": "version_summary",
+          "relativePath": "runs/v001/version_summary.json"
+        },
+        {
+          "kind": "developer_notes",
+          "relativePath": "runs/v001/developer_notes.md"
+        }
+      ],
+      "id": "v001-002-developer_summary",
+      "source": "developer_ai",
+      "summary": "Developer produced the baseline version evidence.",
+      "timestamp": "2026-05-24T04:07:00.000Z",
+      "type": "developer_summary",
+      "versionId": "v001"
+    },
+    {
+      "actor": "reviewer",
+      "evidence": [
+        {
+          "kind": "review",
+          "relativePath": "runs/v001/reviews/seed_001_careful_player.json"
+        },
+        {
+          "kind": "scorecard",
+          "relativePath": "runs/v001/scorecards/seed_001_careful_player.json"
+        }
+      ],
+      "id": "v001-003-reviewer_summary",
+      "source": "reviewer_ai",
+      "summary": "Reviewer flagged shallow item use and limited tactical choices.",
+      "timestamp": "2026-05-24T04:08:00.000Z",
+      "type": "reviewer_summary",
+      "versionId": "v001"
+    },
+    {
+      "actor": "human",
+      "evidence": [
+        {
+          "kind": "comparison",
+          "relativePath": "runs/comparisons/v001_vs_v002.json"
+        },
+        {
+          "kind": "changelog",
+          "relativePath": "runs/v002/changelog.md"
+        }
+      ],
+      "id": "v002-004-human_comment",
+      "source": "human",
+      "summary": "Human comment: keep the Smoke Bomb clarity improvement.",
+      "timestamp": "2026-05-24T04:09:00.000Z",
+      "type": "human_comment",
+      "versionId": "v002"
+    },
+    {
+      "actor": "human",
+      "evidence": [
+        {
+          "kind": "comparison",
+          "relativePath": "runs/comparisons/v002_vs_v003.json"
+        }
+      ],
+      "id": "v002-005-version_selected_as_base",
+      "source": "human",
+      "summary": "Select v002 as the active base without deleting or rolling back later versions.",
+      "timestamp": "2026-05-24T04:10:00.000Z",
+      "type": "version_selected_as_base",
+      "versionId": "v002"
+    },
+    {
+      "actor": "reviewer",
+      "evidence": [
+        {
+          "kind": "review",
+          "relativePath": "runs/v003/reviews/missing_optional_review.json"
+        },
+        {
+          "kind": "balance_summary",
+          "relativePath": "runs/v003/balance_summary.json"
+        }
+      ],
+      "id": "v003-007-reviewer_summary",
+      "source": "reviewer_ai",
+      "summary": "Reviewer summary is linked to expected evidence, with absent optional evidence labeled.",
+      "timestamp": "2026-05-24T04:11:00.000Z",
+      "type": "reviewer_summary",
+      "versionId": "v003"
+    },
+    {
+      "actor": "orchestrator",
+      "evidence": [
+        {
+          "kind": "acceptance",
+          "label": "v003 acceptance notes",
+          "relativePath": "runs/v003/acceptance.md"
+        }
+      ],
+      "id": "v003-006-prepared_next_step",
+      "source": "system",
+      "summary": "Prepare the next bounded improvement from v003 evidence without executing it.",
+      "timestamp": "2026-05-24T04:12:00.000Z",
+      "type": "prepared_next_step",
+      "versionId": "v003"
+    }
+  ],
+  "initialGameIdea": "Make a tiny dungeon loop that improves through review.",
+  "runsRoot": "runs",
+  "schemaVersion": 1,
+  "sessionId": "control-room-v001-v002-v003",
+  "updatedAt": "2026-05-24T04:06:47.000Z"
+}
