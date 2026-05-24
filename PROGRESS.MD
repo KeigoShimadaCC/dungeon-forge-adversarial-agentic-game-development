@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-31A - Restricted Delegate Autopilot Integration |
-| Goal | Integrate the restricted API coding agent as an optional accepted-plan delegate while preserving recheck, validation, gate, PR, merge, and phase-state authority. |
-| Branch | `phase/phase-31a-restricted-delegate-autopilot-integration` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-31a-restricted-delegate-autopilot-integration-wt` |
-| Base | `origin/main` after PHASE-30C dependency slice |
-| Status | `Implementation in progress after shell executor recovery` |
+| Phase | PHASE-31B - Restricted Agent Dogfood And Hardening |
+| Goal | Dogfood the restricted API coding agent on low-risk fake/dry-run paths, record failure modes, and harden operating rules without expanding authority. |
+| Branch | `phase/phase-31b-restricted-agent-dogfood-and-hardening` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-31b-restricted-agent-dogfood-and-hardening-wt` |
+| Base | `origin/main` after PHASE-31A |
+| Status | `Implementation in progress after shell planner recovery` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-31A-RESTRICTED-DELEGATE-AUTOPILOT-INTEGRATION.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-31A/2026-05-24T08:33:38Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
+3. Active `phase-plans/PHASE-31B-RESTRICTED-AGENT-DOGFOOD-AND-HARDENING.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-31B/2026-05-24T08:54:52Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,9 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 Executor Codex — PHASE-31B task-001: recorded fake/dry-run dogfood target and evidence expectations for `PHASE-31B` / `dogfood-fake`.
+- [x] 2026-05-24 Executor Codex — PHASE-31B task-002: documented that real supervised provider dogfood is skipped in this automation run because no explicit real-provider dogfood approval/task or credential requirement exists.
+- [x] 2026-05-24 Executor Codex — PHASE-31B task-003: added restricted-agent failure-mode log and recommended operating rules, including no default merge/phase-state authority.
 - [x] 2026-05-24 Executor Codex — PHASE-31A task-001/task-002: added default-off restricted delegate config, stage typing, CLI stage support, stage sequencing, and accepted-plan-only task selection via `restrictedAgentDelegation`.
 - [x] 2026-05-24 Executor Codex — PHASE-31A task-003/task-004: added restricted-agent delegate stage evidence under `restricted-agent-tasks/`, repair-loop execution, and continuation into recheck/local/final gates rather than release authority.
 - [x] 2026-05-24 Executor Codex — PHASE-31A task-005/task-006: added focused restricted-agent autopilot tests and documented restricted delegate versus Cursor behavior.
@@ -306,17 +309,14 @@ _(none)_
 
 ## Phase checklist
 
-_PHASE-31A - Restricted Delegate Autopilot Integration._
+_PHASE-31B - Restricted Agent Dogfood And Hardening._
 
 - [x] Progress state seeded from accepted runner plan before implementation recovery.
-- [x] Restricted delegate config is optional and default-off.
-- [x] Restricted delegate cannot run without `accepted-plan/accepted-plan.json`.
-- [x] Restricted delegate runs only accepted-plan tasks marked with `restrictedAgentDelegation.recommended === true`.
-- [x] Restricted delegate evidence is written under phase-runner `restricted-agent-tasks/`.
-- [x] Restricted delegate advances into recheck and cannot bypass local/final gates.
-- [x] Cursor subtask support remains optional and unchanged.
-- [x] Documentation explains restricted delegate versus Cursor usage and authority boundaries.
-- [x] Focused restricted-agent autopilot tests, phase-autopilot regression tests, typecheck, lint, full tests, build, and `git diff --check` are recorded or blockers are explained.
+- [x] Fake/dry-run dogfood path is recorded.
+- [x] Real low-risk supervised run is completed if appropriate, or skipped with a concrete blocker.
+- [x] No merge authority is granted by default.
+- [x] Failure modes and recommended operating rules are documented.
+- [x] Focused hardening tests, restricted-agent dogfood smoke, typecheck, lint, full tests, build, and `git diff --check` are recorded or blockers are explained.
 
 ---
 
@@ -374,6 +374,8 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
+- 2026-05-24 — Executor Codex — PHASE-31B implementation checkpoint after shell planner recovery: added `docs/RESTRICTED-API-CODING-AGENT-FAILURE-MODES.md`, updated restricted-agent operating rules in `docs/RESTRICTED-API-CODING-AGENT.md`, recorded fake dogfood path and real-provider blocker, and preserved no commit/merge/phase-state authority defaults.
+- 2026-05-24 — Executor Codex — PHASE-31B validation PASS: `pnpm run restricted-agent-dry-run -- --provider fake --phase PHASE-31B --task dogfood-fake --out runs/restricted-agent/PHASE-31B/fake-dogfood --fake-response valid`; `pnpm test tests/restricted-agent-check-runner.test.ts tests/restricted-agent-api-loop.test.ts tests/restricted-agent-autopilot.test.ts` (3 files, 14 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run build`; `git diff --check`; `pnpm test` (59 files, 504 tests).
 - 2026-05-24 — Executor Codex — PHASE-28B implementation checkpoint after runner recovery: added prepared handoff reviewer persona/model metadata with validation, CLI flags, and inert panel rendering; expanded the web shell with version summary cards, prepared handoff state, reviewer metadata controls, and safe prompt inspection; added `tests/control-room-polish.test.ts`; regenerated handoff/web-shell artifacts; added smoke evidence at `runs/control-room/smokes/PHASE-28B/control-room-polish-smoke.json`; and documented the local workflow in `docs/CONTROL-ROOM-WORKFLOW.md`. No provider call, browser command execution, agent launch, commit/PR/merge control, gameplay behavior change, or destructive timeline operation was added.
 - 2026-05-24 — Executor Codex — PHASE-28B validation PASS after runner recovery: `pnpm test tests/control-room-web-shell.test.ts tests/control-room-handoffs.test.ts tests/control-room-roles.test.ts tests/control-room-narration.test.ts tests/control-room-timeline.test.ts` (5 files, 30 tests); `pnpm test tests/control-room-polish.test.ts` (1 file, 3 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run control-room-web-shell -- --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --out runs/control-room/web-shell/index.html`; `node dist/src/control-room/handoffs/control-room-handoff-cli.js --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --out runs/control-room/handoffs/v001-v002-v003.prepared-handoff.json --html runs/control-room/handoffs/v001-v002-v003.panel.html --reviewer-persona bug_hunter --reviewer-model configured_reviewer_model`; `rg "Careful Player|Configured reviewer model|Prompt|Prepared|Active base|Historical after base" runs/control-room/web-shell/index.html runs/control-room/handoffs/v001-v002-v003.panel.html`; smoke JSON generation; `pnpm test` (52 files, 467 tests); `git diff --check`.
 - 2026-05-24 — Executor Codex — PHASE-29A implementation checkpoint after shell executor recovery: added `src/harness/restricted-agent/**` schema/types, command registry, response validator, evidence record helper, public harness exports, `docs/RESTRICTED-API-CODING-AGENT.md`, and `tests/restricted-agent-schemas.test.ts`. No real LLM/API calls, context reads, patch application, check execution, filesystem write authority, git authority, PR/merge authority, or gameplay behavior changes were added.
