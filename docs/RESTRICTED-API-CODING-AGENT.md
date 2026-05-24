@@ -23,8 +23,8 @@ PHASE-29A defined only the contract and schema boundary. PHASE-29B adds
 deterministic context packaging and bounded read/search helpers. PHASE-29C adds
 a non-mutating dry-run API loop. PHASE-30A adds deterministic source patch
 validation. PHASE-30B adds deterministic application of already-validated patch
-plans inside a worktree. These phases still do not run model-requested checks or
-integrate with autopilot.
+plans inside a worktree. PHASE-30C adds whitelisted check execution and a
+bounded repair loop. These phases still do not integrate with autopilot.
 
 ## Trust Boundary
 
@@ -305,6 +305,41 @@ Patch reports include:
 - before/after byte counts
 - rollback paths for changed existing files
 
+## Check Runner And Repair Loop
+
+PHASE-30C lets the model request whitelisted command IDs only. The model never
+provides shell text. The harness maps IDs to argv arrays and executes those
+arrays through a local runner.
+
+Supported command IDs continue to come from the harness registry, such as:
+
+- `focused_tests`
+- `all_tests`
+- `typecheck`
+- `lint`
+- `build`
+- `repo_check`
+- `diff_check`
+
+Unknown command IDs block. Strings that look like shell commands, such as
+`pnpm test` or `git status`, block even if the words resemble known tools.
+
+Check evidence records include command ID, harness-owned argv metadata, status,
+exit code, bounded stdout/stderr excerpts, duration, diagnostics, and a
+deterministic failure summary.
+
+The repair loop is bounded by `maxAttempts`. Each attempt writes prompt context,
+raw response, parsed response when valid, validation diagnostics, check results,
+and the final repair-loop report. Failed checks are summarized into
+`previousFailedChecks` for the next model turn. The report explicitly records
+that the restricted agent cannot commit, merge, or change phase state.
+
+The local smoke command uses fake provider mode:
+
+```bash
+pnpm run restricted-agent-repair-loop -- --provider fake --phase PHASE-30C --task task-001 --max-attempts 1 --checks focused_tests --out runs/restricted-agent/PHASE-30C/smoke-repair-loop
+```
+
 ## Evidence
 
 Restricted-agent evidence records capture:
@@ -327,5 +362,6 @@ and focused tests. PHASE-29B adds deterministic context packaging, read ranges,
 allowed-path search, and exposure evidence. PHASE-29C adds the credential-gated,
 non-mutating dry-run API loop. PHASE-30A adds conservative source patch
 validation. PHASE-30B adds deterministic application of normalized validated
-patch plans with dry-run previews and rollback evidence. Later phases will add
-whitelisted checks and optional autopilot delegate integration.
+patch plans with dry-run previews and rollback evidence. PHASE-30C adds
+whitelisted check execution and bounded repair-loop evidence. Later phases will
+add optional autopilot delegate integration.

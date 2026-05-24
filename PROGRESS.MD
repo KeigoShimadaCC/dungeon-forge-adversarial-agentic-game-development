@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-30B - Restricted Patch Applier And Rollback |
-| Goal | Apply only normalized validated restricted-agent patch plans in a worktree, with dry-run previews, rollback evidence, hashes, and failed-apply no-mutation behavior. |
-| Branch | `phase/phase-30b-restricted-patch-applier-and-rollback` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-30b-restricted-patch-applier-and-rollback-wt` |
-| Base | `origin/main` after PHASE-30A dependency slice |
-| Status | `Implementation in progress after shell executor recovery` |
+| Phase | PHASE-30C - Restricted Check Runner And Repair Loop |
+| Goal | Let the restricted agent request whitelisted check IDs and run a bounded repair loop with harness-owned command execution and evidence. |
+| Branch | `phase/phase-30c-restricted-check-runner-and-repair-loop` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-30c-restricted-check-runner-and-repair-loop-wt` |
+| Base | `origin/main` after PHASE-30B dependency slice |
+| Status | `Implementation in progress after planner question resolution and shell executor recovery` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-30B-RESTRICTED-PATCH-APPLIER-AND-ROLLBACK.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-30B/2026-05-24T08:00:49Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
+3. Active `phase-plans/PHASE-30C-RESTRICTED-CHECK-RUNNER-AND-REPAIR-LOOP.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-30C/2026-05-24T08:15:25Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,9 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 Executor Codex — PHASE-30C task-001/task-002: added restricted check runner, command-ID validation, injectable execution, check evidence, and failed-check summaries.
+- [x] 2026-05-24 Executor Codex — PHASE-30C task-003/task-005: added bounded repair-loop coordinator, fake-provider smoke CLI, package script, exports, and explicit no commit/merge/phase-state authority in reports.
+- [x] 2026-05-24 Executor Codex — PHASE-30C task-004/task-006: added focused fake-runner tests and documented command-ID-only checks plus repair-loop evidence.
 - [x] 2026-05-24 Executor Codex — PHASE-30B task-001/task-002: added normalized-plan-only patch applier API, deterministic dry-run/apply reports, operation summaries, file summaries, hashes, byte counts, diagnostics, and exports.
 - [x] 2026-05-24 Executor Codex — PHASE-30B task-003/task-004: implemented apply-mode rollback evidence before target writes and precomputed all writes so failed apply attempts leave target files unchanged.
 - [x] 2026-05-24 Executor Codex — PHASE-30B task-005/task-006: added focused patch-applier tests and documented the PHASE-30B applier boundary.
@@ -300,17 +303,17 @@ _(none)_
 
 ## Phase checklist
 
-_PHASE-30B - Restricted Patch Applier And Rollback._
+_PHASE-30C - Restricted Check Runner And Repair Loop._
 
 - [x] Progress state seeded from accepted runner plan before implementation recovery.
-- [x] Restricted patch applier accepts only normalized validated plans, not raw model output.
-- [x] Dry-run preview computes intended changes and writes no target files.
-- [x] Apply mode writes expected files only after precomputing the whole patch set.
-- [x] Rollback evidence exists for changed existing files before target writes.
-- [x] Patch reports include mode, status, diagnostics, operation summaries, file summaries, hashes, bytes, changed flags, and rollback paths when applicable.
-- [x] Failed apply attempts leave target files unchanged.
-- [x] Documentation describes the applier boundary, rollback evidence, dry-run default, and lack of git/package/merge authority.
-- [x] Focused patch-applier tests, validator regression tests, typecheck, lint, full tests, and `git diff --check` are recorded or blockers are explained.
+- [x] Unknown command IDs block before execution.
+- [x] Raw shell-looking requested checks are rejected.
+- [x] Failed checks are summarized into repair context for the next turn.
+- [x] Repair loop stops at max attempts.
+- [x] Passing checks produce evidence.
+- [x] Reports explicitly show the model cannot commit, merge, or change phase state.
+- [x] Documentation describes command-ID-only execution, max attempts, evidence, and authority boundaries.
+- [x] Focused check-runner tests, dependent restricted-agent tests, fake CLI smoke, typecheck, lint, full tests, and `git diff --check` are recorded or blockers are explained.
 
 ---
 
@@ -380,6 +383,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-24 — Executor Codex — PHASE-30A validation PASS: `pnpm test tests/restricted-agent-patch-validator.test.ts` (1 file, 5 tests); `pnpm test tests/restricted-agent-schemas.test.ts tests/restricted-agent-api-loop.test.ts` (2 files, 14 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (56 files, 491 tests); `git diff --check`.
 - 2026-05-24 — Executor Codex — PHASE-30B implementation checkpoint after shell executor recovery: added `src/harness/restricted-agent/patch-applier.ts`, exported applier APIs, updated `docs/RESTRICTED-API-CODING-AGENT.md`, and added `tests/restricted-agent-patch-applier.test.ts`. The applier accepts only normalized validator plans, defaults to dry-run, precomputes all writes before mutation, writes rollback evidence before apply-mode target writes, records hashes/bytes/diagnostics, and blocks failed apply attempts without changing target files. No raw model output application, git authority, provider calls, requested-check execution, package/dependency mutation, automatic rollback command, or gameplay behavior changes were added.
 - 2026-05-24 — Executor Codex — PHASE-30B validation PASS: `pnpm test tests/restricted-agent-patch-applier.test.ts` (1 file, 5 tests); `pnpm test tests/restricted-agent-patch-validator.test.ts` (1 file, 5 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (57 files, 496 tests); `git diff --check`.
+- 2026-05-24 — Executor Codex — PHASE-30C implementation checkpoint after planner question resolution and shell executor recovery: added `src/harness/restricted-agent/check-runner.ts`, `src/harness/restricted-agent/repair-loop.ts`, `src/harness/restricted-agent/repair-loop-cli.ts`, public exports, package script `restricted-agent-repair-loop`, docs, and `tests/restricted-agent-check-runner.test.ts`. The check runner accepts command IDs only, rejects unknown/raw-shell-looking checks, executes harness-owned argv arrays with injectable fake execution, records bounded check evidence, summarizes failures into repair context, and reports no commit/merge/phase-state authority. No model-authored shell, git authority, package installation, provider credential path, or gameplay behavior change was added.
+- 2026-05-24 — Executor Codex — PHASE-30C validation PASS: `pnpm test tests/restricted-agent-check-runner.test.ts` (1 file, 5 tests); `pnpm test tests/restricted-agent-schemas.test.ts tests/restricted-agent-api-loop.test.ts tests/restricted-agent-patch-validator.test.ts tests/restricted-agent-patch-applier.test.ts` (4 files, 24 tests); `pnpm run restricted-agent-repair-loop -- --provider fake --phase PHASE-30C --task task-001 --max-attempts 1 --checks focused_tests --out runs/restricted-agent/PHASE-30C/smoke-repair-loop` (accepted, wrote ignored local smoke evidence); `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (58 files, 501 tests); `git diff --check`.
 
 - 2026-05-24 — Executor Codex — PHASE-28A pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-28A/2026-05-24T06:08:34Z/accepted-plan/accepted-plan.json`. Accepted tasks: validated active-base timeline helper, inert web-shell selector plus timeline-only CLI selection, base-aware prepared handoffs, regenerated sample artifacts/docs, and required validation. Cursor delegation not used; the deterministic runner owns Cursor subtask execution for accepted-plan tasks marked `cursorDelegation.recommended === true`.
 - 2026-05-24 — Executor Codex — PHASE-28A implementation checkpoint: added validated active-base selection helpers in `src/control-room/timeline/**`, base-selection CLI support in the inert control-room web shell, selected-base/historical-version projection fields, base-aware prepared handoff fields/rendering, regenerated sample timeline/web-shell/handoff artifacts, aligned dependent human-feedback/narration fixtures, and documented nondestructive pointer selection in `docs/CONTROL-ROOM-TIMELINE.md`. No delete/rollback/git operation, branch creation, command execution hook, provider call, gameplay behavior change, or acceptance/merge authority was added.

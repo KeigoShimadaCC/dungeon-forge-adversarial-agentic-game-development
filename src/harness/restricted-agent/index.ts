@@ -90,3 +90,25 @@ export {
   type RestrictedSourcePatchFileSummary,
   type RestrictedSourcePatchOperationSummary,
 } from './patch-applier.js';
+export {
+  executeRestrictedAgentCommand,
+  runRestrictedAgentChecks,
+  summarizeRestrictedAgentFailedChecks,
+  type RestrictedAgentCheckResult,
+  type RestrictedAgentCheckRunnerOptions,
+  type RestrictedAgentCheckStatus,
+  type RestrictedAgentCommandExecutionResult,
+  type RestrictedAgentCommandExecutor,
+} from './check-runner.js';
+export {
+  runRestrictedAgentRepairLoop,
+  type RestrictedAgentRepairLoopAttempt,
+  type RestrictedAgentRepairLoopOptions,
+  type RestrictedAgentRepairLoopReport,
+  type RestrictedAgentRepairLoopStatus,
+} from './repair-loop.js';
+export {
+  RESTRICTED_AGENT_REPAIR_LOOP_USAGE,
+  buildRepairLoopTurnInput,
+  runRestrictedAgentRepairLoopCli,
+} from './repair-loop-cli.js';

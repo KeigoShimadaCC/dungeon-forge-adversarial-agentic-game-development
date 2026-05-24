@@ -26,6 +26,7 @@
     "demo-loop": "pnpm run build && node dist/src/harness/demo-loop-cli.js",
     "phase": "pnpm run build && node dist/src/harness/phase-runner-cli.js",
     "restricted-agent-dry-run": "pnpm run build && node dist/src/harness/restricted-agent/api-loop-cli.js",
+    "restricted-agent-repair-loop": "pnpm run build && node dist/src/harness/restricted-agent/repair-loop-cli.js",
     "ci-smoke": "pnpm run build && node dist/src/harness/ci-smoke-cli.js",
     "verify-acceptance-evidence": "pnpm run build && node dist/src/harness/verify-acceptance-evidence-cli.js",
     "repo-checks": "pnpm run build && node dist/src/harness/repo-checks-cli.js",
