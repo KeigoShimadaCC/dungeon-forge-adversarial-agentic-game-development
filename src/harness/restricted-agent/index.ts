@@ -81,3 +81,12 @@ export {
   type RestrictedSourcePatchValidationResult,
   type RestrictedSourcePatchValidatorBudgets,
 } from './patch-validator.js';
+export {
+  applyRestrictedSourcePatchPlan,
+  type RestrictedSourcePatchApplyInput,
+  type RestrictedSourcePatchApplyMode,
+  type RestrictedSourcePatchApplyReport,
+  type RestrictedSourcePatchApplyStatus,
+  type RestrictedSourcePatchFileSummary,
+  type RestrictedSourcePatchOperationSummary,
+} from './patch-applier.js';

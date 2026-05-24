@@ -22,8 +22,9 @@ phase/autopilot runner
 PHASE-29A defined only the contract and schema boundary. PHASE-29B adds
 deterministic context packaging and bounded read/search helpers. PHASE-29C adds
 a non-mutating dry-run API loop. PHASE-30A adds deterministic source patch
-validation. These phases still do not apply patches, run model-requested checks,
-or integrate with autopilot.
+validation. PHASE-30B adds deterministic application of already-validated patch
+plans inside a worktree. These phases still do not run model-requested checks or
+integrate with autopilot.
 
 ## Trust Boundary
 
@@ -271,6 +272,39 @@ replacement text, replacement byte length, and the budgets used for validation.
 Later phases may apply only a validated plan; they must not reinterpret raw model
 text.
 
+## Patch Application
+
+PHASE-30B applies only a normalized validated plan produced by the PHASE-30A
+validator. The applier does not accept raw model responses, raw patch intents,
+shell strings, git commands, package changes, dependency changes, generated
+evidence mutations, commits, pull requests, merges, or arbitrary filesystem
+writes.
+
+Dry-run is the default mode. It computes the same intended after-content,
+hashes, byte counts, operation summaries, file summaries, and diagnostics that
+apply mode would report, but it does not create, edit, truncate, or delete target
+files.
+
+Apply mode is still bounded to the supplied worktree and precomputes the entire
+patch set before mutating any target file. If any exact anchor is missing,
+ambiguous, or otherwise cannot be applied, the whole plan is blocked and target
+files are left unchanged.
+
+For changed existing files, apply mode writes rollback copies under the supplied
+evidence directory before target-file writes. Created files are reported as
+creation evidence with `beforeSha256: null`; PHASE-30B does not introduce an
+automatic rollback command that mutates files after the fact.
+
+Patch reports include:
+
+- mode and status
+- diagnostics
+- operation summaries
+- per-file changed flags
+- before/after SHA-256 hashes
+- before/after byte counts
+- rollback paths for changed existing files
+
 ## Evidence
 
 Restricted-agent evidence records capture:
@@ -292,5 +326,6 @@ PHASE-29A provides the schema, command registry, validator, evidence types, docs
 and focused tests. PHASE-29B adds deterministic context packaging, read ranges,
 allowed-path search, and exposure evidence. PHASE-29C adds the credential-gated,
 non-mutating dry-run API loop. PHASE-30A adds conservative source patch
-validation. Later phases will add deterministic patch application, whitelisted
-checks, and optional autopilot delegate integration.
+validation. PHASE-30B adds deterministic application of normalized validated
+patch plans with dry-run previews and rollback evidence. Later phases will add
+whitelisted checks and optional autopilot delegate integration.
