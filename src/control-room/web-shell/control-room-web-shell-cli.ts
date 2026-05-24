@@ -3,7 +3,10 @@ import path from 'node:path';
 
 import { stringifyDeterministicJson } from '../../harness/json.js';
 import { buildControlRoomRoleCatalog } from '../roles/index.js';
-import { loadControlRoomTimeline } from '../timeline/index.js';
+import {
+  loadAndApplyHumanFeedbackToTimeline,
+  loadControlRoomTimeline,
+} from '../timeline/index.js';
 import {
   buildControlRoomWebShellViewModel,
   renderControlRoomWebShellHtml,
@@ -16,10 +19,18 @@ Options:
   --timeline <path>    Timeline artifact under runs/control-room/timeline/
   --out <path>         Write static HTML to this path
   --json               Print view-model JSON instead of HTML
+  --capture-idea <text>
+                       Add or replace the initial human game idea in the timeline
+  --capture-comment <text>
+                       Add a human comment event to the timeline
+  --target-version <id>
+                       Attach --capture-comment to a v001-style version id
+  --timestamp <iso>    Timestamp for capture writes (defaults to current time)
   --help, -h           Show this help text
 
 Notes:
   The shell reads local timeline and role metadata only.
+  Capture options mutate only the selected timeline artifact.
   Without --out, output is written to stdout and no files are created.
   With --out, only the derived HTML viewer is written; source evidence is not edited.
 `;
@@ -27,6 +38,10 @@ Notes:
 interface ParsedControlRoomWebShellArgs {
   timelinePath?: string;
   outPath?: string;
+  captureIdea?: string;
+  captureComment?: string;
+  targetVersion?: string;
+  timestamp?: string;
   json: boolean;
   help: boolean;
 }
@@ -46,16 +61,29 @@ export const parseControlRoomWebShellCliArgs = (
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     const next = argv[index + 1];
+    const hasNext = index + 1 < argv.length;
     if (arg === '--') {
       continue;
     }
     if (arg === '--help' || arg === '-h') {
       args.help = true;
-    } else if (arg === '--timeline' && next) {
+    } else if (arg === '--timeline' && hasNext) {
       args.timelinePath = next;
       index += 1;
-    } else if (arg === '--out' && next) {
+    } else if (arg === '--out' && hasNext) {
       args.outPath = next;
+      index += 1;
+    } else if (arg === '--capture-idea' && hasNext) {
+      args.captureIdea = next;
+      index += 1;
+    } else if (arg === '--capture-comment' && hasNext) {
+      args.captureComment = next;
+      index += 1;
+    } else if (arg === '--target-version' && hasNext) {
+      args.targetVersion = next;
+      index += 1;
+    } else if (arg === '--timestamp' && hasNext) {
+      args.timestamp = next;
       index += 1;
     } else if (arg === '--json') {
       args.json = true;
@@ -66,6 +94,15 @@ export const parseControlRoomWebShellCliArgs = (
 
   if (args.json && args.outPath) {
     throw new Error('--json cannot be combined with --out.');
+  }
+  if (args.captureIdea !== undefined && args.captureComment !== undefined) {
+    throw new Error('--capture-idea cannot be combined with --capture-comment.');
+  }
+  if (args.targetVersion !== undefined && args.captureComment === undefined) {
+    throw new Error('--target-version requires --capture-comment.');
+  }
+  if ((args.captureIdea !== undefined || args.captureComment !== undefined) && args.outPath) {
+    throw new Error('Capture options cannot be combined with --out.');
   }
   if (!args.help && !args.timelinePath) {
     throw new Error('--timeline is required.');
@@ -97,6 +134,29 @@ export const runControlRoomWebShellCli = async (
   }
 
   const repoRoot = process.cwd();
+  if (args.captureIdea !== undefined || args.captureComment !== undefined) {
+    const result = await loadAndApplyHumanFeedbackToTimeline(repoRoot, args.timelinePath!, {
+      kind: args.captureIdea !== undefined ? 'idea' : 'comment',
+      text: args.captureIdea ?? args.captureComment!,
+      timestamp: args.timestamp ?? new Date().toISOString(),
+      targetVersion: args.targetVersion,
+    });
+    if (!result.ok || !result.timeline) {
+      const diagnostics = result.diagnostics
+        .map((diagnostic) => `${diagnostic.path}: ${diagnostic.message}`)
+        .join('\n');
+      throw new Error(`Control-room human feedback capture failed:\n${diagnostics}`);
+    }
+    const payload = {
+      ok: true,
+      savedPath: result.savedPath,
+      eventCount: result.timeline.events.length,
+      updatedAt: result.timeline.updatedAt,
+    };
+    stdout(`${stringifyDeterministicJson(payload)}\n`);
+    return;
+  }
+
   const loaded = await loadControlRoomTimeline(repoRoot, args.timelinePath!);
   if (!loaded.ok || !loaded.timeline) {
     const diagnostics = loaded.diagnostics

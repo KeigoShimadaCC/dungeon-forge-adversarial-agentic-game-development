@@ -5,8 +5,10 @@ import type {
 } from '../roles/index.js';
 import {
   projectControlRoomTimeline,
+  projectHumanFeedbackContext,
   type ControlRoomTimelineArtifact,
   type ControlRoomTimelineEvidenceRef,
+  type ControlRoomHumanFeedbackContext,
   type ControlRoomTimelineProjectionEvent,
   type ControlRoomTimelineSource,
 } from '../timeline/index.js';
@@ -28,6 +30,7 @@ export interface ControlRoomWebShellEvent {
   actorLabel: string;
   source: ControlRoomTimelineSource;
   roleId: ControlRoomRoleCatalogEntry['id'];
+  isHumanFeedback: boolean;
   versionId?: string;
   summary: string;
   evidence: ControlRoomWebShellEvidenceLink[];
@@ -54,6 +57,7 @@ export interface ControlRoomWebShellViewModel {
     initialGameIdea?: string;
     eventCount: number;
   };
+  humanFeedback: ControlRoomHumanFeedbackContext;
   unversionedEvents: ControlRoomWebShellEvent[];
   versions: ControlRoomWebShellVersionSection[];
   roles: ControlRoomRoleCatalogEntry[];
@@ -114,7 +118,14 @@ export const controlRoomArtifactHref = (relativePath: string, linkBase = ''): st
   }
   const normalizedPath = normalizeHref(relativePath);
   const normalizedBase = normalizeHref(linkBase).replace(/\/$/, '');
-  if (normalizedBase && !isSafeControlRoomHrefPath(normalizedBase)) {
+  if (
+    normalizedBase
+    && (
+      normalizedBase.startsWith('/')
+      || normalizedBase.startsWith('//')
+      || /^[A-Za-z][A-Za-z0-9+.-]*:/.test(normalizedBase)
+    )
+  ) {
     return normalizedPath;
   }
   if (!normalizedBase || normalizedBase === '.') {
@@ -141,6 +152,9 @@ const buildEvent = (
     actorLabel: role?.displayName ?? roleFallbackLabel(roleId),
     source: event.source,
     roleId,
+    isHumanFeedback: event.source === 'human' && (
+      event.type === 'human_idea' || event.type === 'human_comment'
+    ),
     versionId: event.versionId,
     summary: event.summary,
     evidence: event.evidence.map((evidence) => ({
@@ -186,6 +200,7 @@ export const buildControlRoomWebShellViewModel = (
   }));
   const roleById = new Map(roles.map((role) => [role.id, role]));
   const projection = projectControlRoomTimeline(timeline);
+  const humanFeedback = projectHumanFeedbackContext(timeline);
   const events = projection.events.map((event) =>
     buildEvent(event, roleById, options.linkBase ?? ''),
   );
@@ -216,6 +231,7 @@ export const buildControlRoomWebShellViewModel = (
       initialGameIdea: timeline.initialGameIdea,
       eventCount: events.length,
     },
+    humanFeedback,
     unversionedEvents: events.filter((event) => !event.versionId),
     versions,
     roles,

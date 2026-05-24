@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-26A - Control Room Web Shell |
-| Goal | Add the first read-only local browser control-room shell for timeline, version summary, actor, role/persona/model, and evidence-link inspection. |
-| Branch | `phase/phase-26a-control-room-web-shell` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-26a-control-room-web-shell-wt` |
-| Base | `origin/main` after PHASE-25A and PHASE-25B dependency slices |
-| Status | `Implementation complete; required local validation passed; merge/phase-state updates intentionally not performed` |
+| Phase | PHASE-26B - Human Idea And Feedback Capture |
+| Goal | Capture initial human game ideas and per-version comments as durable, clearly attributed control-room timeline events for later handoff context. |
+| Branch | `phase/phase-26b-human-idea-and-feedback-capture` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-26b-human-idea-and-feedback-capture-wt` |
+| Base | `origin/main` after PHASE-26A dependency slice |
+| Status | `Implementation complete; required local validation passed; merge/phase-state updates intentionally not performed by executor` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-26A-CONTROL-ROOM-WEB-SHELL.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-26A/2026-05-24T04:49:06Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
+3. Active `phase-plans/PHASE-26B-HUMAN-IDEA-AND-FEEDBACK-CAPTURE.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-26B/2026-05-24T05:09:36Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -61,6 +61,12 @@ _(none)_
 ### Done
 
 - [x] 2026-05-24 Executor Codex — PHASE-26A task-001/task-002: built the control-room web-shell view model and static HTML renderer from timeline + role catalog data.
+- [x] 2026-05-24 Executor Codex — PHASE-26B task-001: seeded progress state/checklist from accepted runner plan before code edits.
+- [x] 2026-05-24 Executor Codex — PHASE-26B task-002/task-003: added validated human idea/comment timeline write helpers and prepared human feedback context.
+- [x] 2026-05-24 Executor Codex — PHASE-26B task-004: rendered safe human idea/comment controls and visible human-authored timeline messages in the control-room shell.
+- [x] 2026-05-24 Executor Codex — PHASE-26B task-005: added narrow local capture CLI path that only mutates timeline artifacts.
+- [x] 2026-05-24 Executor Codex — PHASE-26B task-006: added regression tests proving human feedback is not reviewer trace evidence.
+- [x] 2026-05-24 Executor Codex — PHASE-26B task-007: regenerated sample web-shell evidence, completed full validation, and finalized validation log.
 - [x] 2026-05-24 Executor Codex — PHASE-26A task-003: added optional `pnpm run control-room-web-shell` generator CLI and package script.
 - [x] 2026-05-24 Executor Codex — PHASE-26A task-004: documented local generation/opening and read-only evidence boundaries.
 - [x] 2026-05-24 Executor Codex — PHASE-26A task-005: added focused render/safety tests for ordering, missing evidence, roles, safe links, and no command controls.
@@ -257,17 +263,16 @@ _(none)_
 
 ## Phase checklist
 
-_PHASE-26A - Control Room Web Shell._
+_PHASE-26B - Human Idea And Feedback Capture._
 
-- [x] Local control-room web shell consumes `PHASE-25A` timeline artifacts and `PHASE-25B` role/persona/model metadata.
-- [x] Timeline renders chronologically, grouped by version, with a top-level session header and active base version.
-- [x] Version summary strips show event/evidence/missing-evidence status.
-- [x] Actor labels clearly distinguish Human, Game Developer, Game Reviewer, and Narrator/system messages.
-- [x] Evidence panels link back to trace, review, scorecard, changelog, developer notes, comparison, acceptance, and summary artifacts without replacing source evidence.
-- [x] Empty and missing-evidence states render honestly.
-- [x] Role/persona/model panels render read-only metadata without secrets or provider calls.
-- [x] Optional generator CLI is documented and does not run agents, commands from the browser, provider calls, or mutate source evidence.
-- [x] Focused tests and required smokes cover render order, missing evidence, safe links, role panels, and existing workflow compatibility.
+- [x] Initial human game idea can be validated, persisted, and rendered as a human-authored timeline event.
+- [x] Per-version human comments can be validated, attached to the intended version, persisted, and rendered visibly.
+- [x] Empty and oversized human input is rejected with clear diagnostics before any timeline write.
+- [x] Prepared human feedback context exposes initial idea, selected/target version, comment text, timestamp, source, and actor for later handoff logic.
+- [x] Human-authored feedback remains distinguishable from developer/reviewer/narrator events and is not counted as reviewer trace-backed evidence.
+- [x] Local capture path mutates only the timeline artifact and does not run agents, provider calls, gameplay commands, or shell commands from the browser.
+- [x] Documentation and deterministic sample artifacts describe local plain-text capture, limits, diagnostics, and non-agent boundaries.
+- [x] Required focused tests, smokes, typecheck, lint, full tests, and `git diff --check` are recorded or blockers are explained.
 
 ---
 
@@ -324,6 +329,10 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 ## Validation log
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
+
+- 2026-05-24 — Executor Codex — PHASE-26B pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-26B/2026-05-24T05:09:36Z/accepted-plan/accepted-plan.json`. Accepted tasks: progress rotation, validated timeline human feedback helpers, prepared context projection, safe web-shell controls, narrow timeline-only capture path, focused regression tests, docs/sample artifacts, and required validation. Cursor delegation not used; the deterministic runner owns accepted-plan Cursor subtask execution for tasks marked `cursorDelegation.recommended === true`.
+- 2026-05-24 — Executor Codex — PHASE-26B implementation checkpoint: added human feedback validation/mutation helpers and prepared context projection in `src/control-room/timeline/**`, added timeline-only capture flags to `control-room-web-shell`, rendered static human input controls and human-feedback labels, documented capture boundaries/diagnostics/context fields, and added `tests/control-room-human-feedback.test.ts`. Validation so far: PASS `pnpm test tests/control-room-human-feedback.test.ts tests/control-room-timeline.test.ts tests/control-room-web-shell.test.ts` (3 files, 15 tests); PASS `pnpm run typecheck`; PASS `pnpm run lint`; PASS accepted smokes `pnpm run control-room-web-shell -- --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --json` and `pnpm run control-room-web-shell -- --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --out runs/control-room/web-shell/index.html`.
+- 2026-05-24 — Executor Codex — PHASE-26B validation PASS: `pnpm test tests/control-room-human-feedback.test.ts tests/control-room-timeline.test.ts tests/control-room-web-shell.test.ts` (3 files, 15 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run control-room-web-shell -- --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --json`; `pnpm run control-room-web-shell -- --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --out runs/control-room/web-shell/index.html`; `pnpm test` (49 files, 450 tests); `git diff --check`.
 
 - 2026-05-24 — Executor Codex — PHASE-26A pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-26A/2026-05-24T04:49:06Z/accepted-plan/accepted-plan.json`. Accepted tasks: web-shell view model, static renderer, optional CLI/package wiring, docs, focused tests, and regression smokes. Cursor delegation not used; the runner owns Cursor subtask execution for accepted-plan Cursor-recommended tasks.
 - 2026-05-24 — Executor Codex — PHASE-26A implementation complete locally from accepted runner plan. Added `src/control-room/web-shell/**`, `tests/control-room-web-shell.test.ts`, `docs/CONTROL-ROOM-WEB-SHELL.md`, package script `control-room-web-shell`, required sample timeline `runs/control-room/timeline/v001-v002-v003.timeline.json`, and generated shell `runs/control-room/web-shell/index.html`. Validation so far: PASS `pnpm test tests/control-room-web-shell.test.ts` (1 file, 5 tests); PASS `pnpm run control-room-web-shell -- --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --out runs/control-room/web-shell/index.html`.

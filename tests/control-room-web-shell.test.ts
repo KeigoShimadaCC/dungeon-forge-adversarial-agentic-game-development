@@ -65,13 +65,17 @@ describe('PHASE-26A control-room web shell', () => {
     expect(html).toContain('Human');
     expect(html).toContain('Narrator');
     expect(html).toContain('Active base: <strong>v002</strong>');
-    expect(html).toContain('href="runs/v001/traces/seed_001_careful_player.json"');
+    expect(html).toContain('Human Input');
+    expect(html).toContain('Initial game idea');
+    expect(html).toContain('Target version');
+    expect(html).toContain('human feedback');
+    expect(html).toContain('href="../runs/v001/traces/seed_001_careful_player.json"');
     expect(html).toContain('review: runs/v003/reviews/missing_optional_review.json');
     expect(html).toContain('missing');
     expect(html).not.toContain('<script');
     expect(html).not.toContain('<button');
-    expect(html).not.toContain('<form');
     expect(html).not.toContain('Launch Cursor');
+    expect(html).not.toContain('pnpm run');
   });
 
   it('renders role, persona, prompt, and model panels without secret-like values', async () => {
@@ -133,6 +137,9 @@ describe('PHASE-26A control-room web shell', () => {
     expect(controlRoomArtifactHref('/tmp/outside.json')).toBe('#blocked-artifact-link');
     expect(controlRoomArtifactHref('javascript:alert(1)')).toBe('#blocked-artifact-link');
     expect(controlRoomArtifactHref('runs/v001/version_summary.json', '..')).toBe(
+      '../runs/v001/version_summary.json',
+    );
+    expect(controlRoomArtifactHref('runs/v001/version_summary.json', 'javascript:alert(1)')).toBe(
       'runs/v001/version_summary.json',
     );
   });
