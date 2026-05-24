@@ -3,7 +3,7 @@ import type { PlaythroughTrace, TraceStep } from '../harness/types.js';
 
 export const HUMAN_PLAYER_PERSONA = 'human_player' as const;
 
-export type HumanPlayMode = 'terminal' | 'auto' | 'script';
+export type HumanPlayMode = 'terminal' | 'auto' | 'script' | 'browser';
 
 export interface HumanPlayChooseInput {
   state: GameState;

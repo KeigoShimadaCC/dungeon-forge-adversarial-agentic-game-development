@@ -276,10 +276,11 @@ export const validateScorecard = (scorecard: PlaythroughScorecard): void => {
     if (
       record.human_play_mode !== 'terminal' &&
       record.human_play_mode !== 'auto' &&
-      record.human_play_mode !== 'script'
+      record.human_play_mode !== 'script' &&
+      record.human_play_mode !== 'browser'
     ) {
       throw new Error(
-        'Scorecard human_play_mode must be terminal, auto, or script when present',
+        'Scorecard human_play_mode must be terminal, auto, script, or browser when present',
       );
     }
   }

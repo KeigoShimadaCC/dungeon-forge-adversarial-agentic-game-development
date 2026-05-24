@@ -25,6 +25,7 @@ Options:
   --version <id>         Game version profile (default: 0.3.0-minimal-dungeon)
   --challenge-mode <id>  Optional finite challenge preset
   --scenario-pack <id>   Optional bounded scenario pack
+  --mode <auto|script|terminal>
   --auto                 Non-interactive auto-play using deterministic action fallback
   --script <i,j,...>     Non-interactive scripted indices into available actions
   --max-steps <n>        Optional step cap (default: derived from maxTurns)
@@ -78,6 +79,19 @@ export const parseHumanPlayCliArgs = (argv: string[]): ParsedHumanPlayCliArgs =>
     if (token === '--scenario-pack') {
       scenarioPack = tokens[index + 1];
       index += 1;
+      continue;
+    }
+    if (token === '--mode') {
+      const requestedMode = tokens[index + 1];
+      index += 1;
+      if (
+        requestedMode !== 'auto' &&
+        requestedMode !== 'script' &&
+        requestedMode !== 'terminal'
+      ) {
+        throw new Error('--mode must be auto, script, or terminal.');
+      }
+      mode = requestedMode;
       continue;
     }
     if (token === '--auto') {
