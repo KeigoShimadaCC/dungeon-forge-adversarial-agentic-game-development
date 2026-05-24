@@ -59,6 +59,7 @@ const buildTimeline = (index: Awaited<ReturnType<typeof buildDashboardIndex>>): 
         acceptanceStatus: versionEntry.summary.acceptance_status,
         runCount: versionEntry.summary.runs.length,
         missingArtifactCount: versionEntry.missingArtifactCount,
+        integrityProblemCount: versionEntry.integrityProblemCount,
         winRate: computeWinRate(versionEntry.summary.runs),
         evidenceScore: leaderboardEntry?.evidenceScore ?? null,
         summaryPath: versionEntry.summaryPath,

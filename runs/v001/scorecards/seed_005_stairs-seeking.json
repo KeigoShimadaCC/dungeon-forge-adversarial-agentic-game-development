@@ -1,11 +1,42 @@
 {
-  "damage_taken": 20,
+  "agent_policy_class": "baseline",
+  "damage_taken": 0,
+  "diagnostics": {
+    "abort_cause": "invalid_state",
+    "categories": [
+      {
+        "category": "aborted",
+        "code": "invalid_state",
+        "detail": {
+          "result": "ABORTED",
+          "turns": 3
+        },
+        "message": "Run aborted: invalid_state."
+      }
+    ],
+    "primary_category": "aborted"
+  },
   "enemies_defeated": 0,
-  "floors_reached": 2,
+  "enemy_behaviors": {
+    "enemy_attack": 0,
+    "enemy_defeated": 0,
+    "enemy_move": 2,
+    "enemy_phase": 0,
+    "enemy_steal": 0,
+    "enemy_wait": 0
+  },
+  "floors_reached": 1,
   "invalid_actions": 0,
+  "item_evaluation": {
+    "item_pickup_actions": 0,
+    "items_used": 0,
+    "tactical_items_used": 0,
+    "use_item_turns_available": 0
+  },
   "items_used": 0,
   "persona": "stairs-seeking",
-  "result": "LOSS",
+  "player_kind": "agent",
+  "result": "ABORTED",
   "reviewer_scores": {
     "clarity": null,
     "fairness": null,
@@ -16,6 +47,12 @@
   "seed": "seed_005",
   "softlocks": 0,
   "trace_path": "runs/v001/traces/seed_005_stairs-seeking.json",
-  "turns": 17,
+  "trap_resources": {
+    "hunger_damage_taken": 0,
+    "resource_pressure_events": 0,
+    "trap_damage_taken": 0,
+    "traps_triggered": 0
+  },
+  "turns": 3,
   "version": "v001"
 }

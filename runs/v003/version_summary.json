@@ -47,15 +47,17 @@
   },
   "runs": [
     {
+      "agent_policy_class": "llm_persona",
       "metrics": {
-        "damage_taken": 2,
+        "damage_taken": 4,
         "enemies_defeated": 0,
         "floors_reached": 1,
         "invalid_actions": 0,
-        "items_used": 1,
+        "items_used": 2,
         "softlocks": 1
       },
       "persona": "careful_player",
+      "player_kind": "agent",
       "result": "ABORTED",
       "review_path": "runs/v003/reviews/seed_001_careful_player.json",
       "reviewer_scores": {
@@ -71,15 +73,17 @@
       "turns": 64
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
-        "damage_taken": 2,
+        "damage_taken": 4,
         "enemies_defeated": 0,
         "floors_reached": 1,
         "invalid_actions": 0,
-        "items_used": 1,
+        "items_used": 2,
         "softlocks": 1
       },
       "persona": "cautious-low-hp",
+      "player_kind": "agent",
       "result": "ABORTED",
       "reviewer_scores": {
         "clarity": null,
@@ -94,15 +98,17 @@
       "turns": 64
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
-        "damage_taken": 0,
+        "damage_taken": 4,
         "enemies_defeated": 0,
         "floors_reached": 1,
         "invalid_actions": 0,
-        "items_used": 1,
+        "items_used": 3,
         "softlocks": 1
       },
       "persona": "greedy-item-picker",
+      "player_kind": "agent",
       "result": "ABORTED",
       "reviewer_scores": {
         "clarity": null,
@@ -117,16 +123,18 @@
       "turns": 64
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
         "damage_taken": 6,
         "enemies_defeated": 1,
         "floors_reached": 1,
         "invalid_actions": 0,
-        "items_used": 3,
-        "softlocks": 1
+        "items_used": 2,
+        "softlocks": 0
       },
       "persona": "random",
-      "result": "ABORTED",
+      "player_kind": "agent",
+      "result": "LOSS",
       "reviewer_scores": {
         "clarity": null,
         "fairness": null,
@@ -137,19 +145,21 @@
       "scorecard_path": "runs/v003/scorecards/seed_001_random.json",
       "seed": "seed_001",
       "trace_path": "runs/v003/traces/seed_001_random.json",
-      "turns": 64
+      "turns": 58
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
         "damage_taken": 4,
         "enemies_defeated": 0,
         "floors_reached": 1,
         "invalid_actions": 0,
         "items_used": 1,
-        "softlocks": 1
+        "softlocks": 0
       },
       "persona": "stairs-seeking",
-      "result": "ABORTED",
+      "player_kind": "agent",
+      "result": "LOSS",
       "reviewer_scores": {
         "clarity": null,
         "fairness": null,
@@ -160,19 +170,21 @@
       "scorecard_path": "runs/v003/scorecards/seed_001_stairs-seeking.json",
       "seed": "seed_001",
       "trace_path": "runs/v003/traces/seed_001_stairs-seeking.json",
-      "turns": 64
+      "turns": 58
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
-        "damage_taken": 4,
+        "damage_taken": 6,
         "enemies_defeated": 0,
         "floors_reached": 1,
         "invalid_actions": 0,
-        "items_used": 1,
-        "softlocks": 1
+        "items_used": 2,
+        "softlocks": 0
       },
       "persona": "cautious-low-hp",
-      "result": "ABORTED",
+      "player_kind": "agent",
+      "result": "LOSS",
       "reviewer_scores": {
         "clarity": null,
         "fairness": null,
@@ -186,6 +198,7 @@
       "turns": 64
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
         "damage_taken": 2,
         "enemies_defeated": 0,
@@ -195,6 +208,7 @@
         "softlocks": 0
       },
       "persona": "greedy-item-picker",
+      "player_kind": "agent",
       "result": "WIN",
       "reviewer_scores": {
         "clarity": null,
@@ -209,6 +223,7 @@
       "turns": 12
     },
     {
+      "agent_policy_class": "llm_persona",
       "metrics": {
         "damage_taken": 20,
         "enemies_defeated": 0,
@@ -218,6 +233,7 @@
         "softlocks": 0
       },
       "persona": "naive_player",
+      "player_kind": "agent",
       "result": "LOSS",
       "review_path": "runs/v003/reviews/seed_002_naive_player.json",
       "reviewer_scores": {
@@ -233,6 +249,7 @@
       "turns": 22
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
         "damage_taken": 20,
         "enemies_defeated": 0,
@@ -242,6 +259,7 @@
         "softlocks": 0
       },
       "persona": "random",
+      "player_kind": "agent",
       "result": "LOSS",
       "reviewer_scores": {
         "clarity": null,
@@ -256,6 +274,7 @@
       "turns": 22
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
         "damage_taken": 2,
         "enemies_defeated": 0,
@@ -265,6 +284,7 @@
         "softlocks": 0
       },
       "persona": "stairs-seeking",
+      "player_kind": "agent",
       "result": "WIN",
       "reviewer_scores": {
         "clarity": null,
@@ -279,6 +299,7 @@
       "turns": 12
     },
     {
+      "agent_policy_class": "llm_persona",
       "metrics": {
         "damage_taken": 2,
         "enemies_defeated": 0,
@@ -288,30 +309,33 @@
         "softlocks": 0
       },
       "persona": "bug_hunter",
-      "result": "WIN",
+      "player_kind": "agent",
+      "result": "ABORTED",
       "review_path": "runs/v003/reviews/seed_003_bug_hunter.json",
       "reviewer_scores": {
-        "clarity": 7,
-        "fairness": 5,
-        "fun": 6,
-        "replay_value": 6,
+        "clarity": 6,
+        "fairness": 3,
+        "fun": 3,
+        "replay_value": 5,
         "tactical_depth": 6
       },
       "scorecard_path": "runs/v003/scorecards/seed_003_bug_hunter.json",
       "seed": "seed_003",
       "trace_path": "runs/v003/traces/seed_003_bug_hunter.json",
-      "turns": 11
+      "turns": 9
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
-        "damage_taken": 2,
+        "damage_taken": 4,
         "enemies_defeated": 0,
         "floors_reached": 1,
         "invalid_actions": 0,
-        "items_used": 1,
+        "items_used": 2,
         "softlocks": 1
       },
       "persona": "cautious-low-hp",
+      "player_kind": "agent",
       "result": "ABORTED",
       "reviewer_scores": {
         "clarity": null,
@@ -326,15 +350,17 @@
       "turns": 64
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
-        "damage_taken": 2,
+        "damage_taken": 6,
         "enemies_defeated": 0,
         "floors_reached": 1,
         "invalid_actions": 0,
-        "items_used": 1,
+        "items_used": 3,
         "softlocks": 1
       },
       "persona": "greedy-item-picker",
+      "player_kind": "agent",
       "result": "ABORTED",
       "reviewer_scores": {
         "clarity": null,
@@ -349,16 +375,18 @@
       "turns": 64
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
         "damage_taken": 8,
         "enemies_defeated": 1,
         "floors_reached": 1,
         "invalid_actions": 0,
-        "items_used": 3,
-        "softlocks": 1
+        "items_used": 2,
+        "softlocks": 0
       },
       "persona": "random",
-      "result": "ABORTED",
+      "player_kind": "agent",
+      "result": "LOSS",
       "reviewer_scores": {
         "clarity": null,
         "fairness": null,
@@ -369,9 +397,10 @@
       "scorecard_path": "runs/v003/scorecards/seed_003_random.json",
       "seed": "seed_003",
       "trace_path": "runs/v003/traces/seed_003_random.json",
-      "turns": 64
+      "turns": 54
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
         "damage_taken": 2,
         "enemies_defeated": 0,
@@ -381,7 +410,8 @@
         "softlocks": 0
       },
       "persona": "stairs-seeking",
-      "result": "WIN",
+      "player_kind": "agent",
+      "result": "ABORTED",
       "reviewer_scores": {
         "clarity": null,
         "fairness": null,
@@ -392,18 +422,20 @@
       "scorecard_path": "runs/v003/scorecards/seed_003_stairs-seeking.json",
       "seed": "seed_003",
       "trace_path": "runs/v003/traces/seed_003_stairs-seeking.json",
-      "turns": 11
+      "turns": 9
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
-        "damage_taken": 2,
+        "damage_taken": 4,
         "enemies_defeated": 0,
         "floors_reached": 1,
         "invalid_actions": 0,
-        "items_used": 1,
+        "items_used": 2,
         "softlocks": 1
       },
       "persona": "cautious-low-hp",
+      "player_kind": "agent",
       "result": "ABORTED",
       "reviewer_scores": {
         "clarity": null,
@@ -418,15 +450,17 @@
       "turns": 64
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
-        "damage_taken": 2,
+        "damage_taken": 6,
         "enemies_defeated": 0,
         "floors_reached": 1,
         "invalid_actions": 0,
-        "items_used": 1,
+        "items_used": 3,
         "softlocks": 1
       },
       "persona": "greedy-item-picker",
+      "player_kind": "agent",
       "result": "ABORTED",
       "reviewer_scores": {
         "clarity": null,
@@ -441,16 +475,18 @@
       "turns": 64
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
         "damage_taken": 10,
         "enemies_defeated": 1,
         "floors_reached": 1,
         "invalid_actions": 0,
         "items_used": 3,
-        "softlocks": 1
+        "softlocks": 0
       },
       "persona": "random",
-      "result": "ABORTED",
+      "player_kind": "agent",
+      "result": "LOSS",
       "reviewer_scores": {
         "clarity": null,
         "fairness": null,
@@ -461,9 +497,10 @@
       "scorecard_path": "runs/v003/scorecards/seed_004_random.json",
       "seed": "seed_004",
       "trace_path": "runs/v003/traces/seed_004_random.json",
-      "turns": 64
+      "turns": 62
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
         "damage_taken": 2,
         "enemies_defeated": 0,
@@ -473,6 +510,7 @@
         "softlocks": 0
       },
       "persona": "stairs-seeking",
+      "player_kind": "agent",
       "result": "WIN",
       "reviewer_scores": {
         "clarity": null,
@@ -487,15 +525,17 @@
       "turns": 8
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
-        "damage_taken": 2,
+        "damage_taken": 0,
         "enemies_defeated": 0,
         "floors_reached": 1,
         "invalid_actions": 0,
-        "items_used": 1,
-        "softlocks": 1
+        "items_used": 0,
+        "softlocks": 0
       },
       "persona": "cautious-low-hp",
+      "player_kind": "agent",
       "result": "ABORTED",
       "reviewer_scores": {
         "clarity": null,
@@ -507,11 +547,12 @@
       "scorecard_path": "runs/v003/scorecards/seed_005_cautious-low-hp.json",
       "seed": "seed_005",
       "trace_path": "runs/v003/traces/seed_005_cautious-low-hp.json",
-      "turns": 64
+      "turns": 3
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
-        "damage_taken": 4,
+        "damage_taken": 0,
         "enemies_defeated": 0,
         "floors_reached": 1,
         "invalid_actions": 0,
@@ -519,7 +560,8 @@
         "softlocks": 0
       },
       "persona": "greedy-item-picker",
-      "result": "WIN",
+      "player_kind": "agent",
+      "result": "ABORTED",
       "reviewer_scores": {
         "clarity": null,
         "fairness": null,
@@ -530,18 +572,20 @@
       "scorecard_path": "runs/v003/scorecards/seed_005_greedy-item-picker.json",
       "seed": "seed_005",
       "trace_path": "runs/v003/traces/seed_005_greedy-item-picker.json",
-      "turns": 10
+      "turns": 6
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
-        "damage_taken": 24,
-        "enemies_defeated": 1,
+        "damage_taken": 0,
+        "enemies_defeated": 0,
         "floors_reached": 1,
         "invalid_actions": 0,
-        "items_used": 2,
-        "softlocks": 1
+        "items_used": 0,
+        "softlocks": 0
       },
       "persona": "random",
+      "player_kind": "agent",
       "result": "ABORTED",
       "reviewer_scores": {
         "clarity": null,
@@ -553,19 +597,21 @@
       "scorecard_path": "runs/v003/scorecards/seed_005_random.json",
       "seed": "seed_005",
       "trace_path": "runs/v003/traces/seed_005_random.json",
-      "turns": 64
+      "turns": 3
     },
     {
+      "agent_policy_class": "baseline",
       "metrics": {
-        "damage_taken": 6,
+        "damage_taken": 0,
         "enemies_defeated": 0,
         "floors_reached": 1,
         "invalid_actions": 0,
-        "items_used": 1,
+        "items_used": 0,
         "softlocks": 0
       },
       "persona": "stairs-seeking",
-      "result": "WIN",
+      "player_kind": "agent",
+      "result": "ABORTED",
       "reviewer_scores": {
         "clarity": null,
         "fairness": null,
@@ -576,7 +622,7 @@
       "scorecard_path": "runs/v003/scorecards/seed_005_stairs-seeking.json",
       "seed": "seed_005",
       "trace_path": "runs/v003/traces/seed_005_stairs-seeking.json",
-      "turns": 10
+      "turns": 3
     }
   ],
   "status": "complete",

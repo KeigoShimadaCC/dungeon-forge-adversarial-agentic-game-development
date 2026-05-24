@@ -15,6 +15,7 @@ import {
   runCiSmoke,
 } from '../src/harness/ci-smoke.js';
 import { runRepoChecks } from '../src/harness/repo-checks.js';
+import { runVerifyAcceptanceEvidenceCli } from '../src/harness/verify-acceptance-evidence-cli.js';
 import type { PlaythroughScorecard } from '../src/harness/types.js';
 import {
   ensureVersionFolder,
@@ -145,6 +146,42 @@ describe('Phase 13B CI and acceptance checks', () => {
       expect(result.ok).toBe(false);
       expect(result.smoke.ok).toBe(true);
       expect(result.acceptance.ok).toBe(false);
+    });
+  });
+
+  it('prints parseable JSON from the verify-acceptance-evidence CLI smoke path', async () => {
+    await withTempRunsRoot(async (runsRoot) => {
+      await runVersion(runsRoot, 'v001');
+      const paths = getVersionPaths(runsRoot, 'v001');
+      await writeFile(
+        paths.changelogPath,
+        '# Changelog\n\n- Stable changelog for acceptance verification.\n',
+        'utf8',
+      );
+      await writeFile(
+        paths.developerNotesPath,
+        '# Developer Notes\n\n- Stable developer notes for acceptance verification.\n',
+        'utf8',
+      );
+
+      let stdout = '';
+      await runVerifyAcceptanceEvidenceCli(['--runs-root', runsRoot, '--version', 'v001'], {
+        stdout: (value) => {
+          stdout += value;
+        },
+      });
+
+      const parsed = JSON.parse(stdout) as {
+        ok: boolean;
+        runsRoot: string;
+        versions: Array<{ version: string; status: string }>;
+      };
+
+      expect(parsed.ok).toBe(true);
+      expect(parsed.runsRoot).toBe(runsRoot);
+      expect(parsed.versions).toEqual([
+        expect.objectContaining({ version: 'v001', status: 'pass' }),
+      ]);
     });
   });
 

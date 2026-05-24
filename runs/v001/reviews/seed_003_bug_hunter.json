@@ -1,39 +1,53 @@
 {
   "evidence_quality": "full",
   "persona": "bug_hunter",
+  "persona_metadata": {
+    "description": "Probes edge cases, invalid actions, ABORTED paths, and thin renders to surface protocol and harness failures.",
+    "display_name": "Bug Hunter",
+    "emphasis": [
+      "invalid_actions",
+      "aborted_paths",
+      "protocol_edge_cases",
+      "render_completeness"
+    ],
+    "id": "bug_hunter",
+    "player_policy_hint": "baseline policy: stairs-seeking"
+  },
+  "review_markdown_path": "runs/v001/reviews/seed_003_bug_hunter.md",
   "scorecard_path": "runs/v001/scorecards/seed_003_bug_hunter.json",
+  "scorecard_result": "ABORTED",
+  "scorecard_turns": 8,
   "scores": {
-    "clarity": 7,
-    "fairness": 6,
-    "fun": 7,
-    "replay_value": 6,
+    "clarity": 6,
+    "fairness": 4,
+    "fun": 4,
+    "replay_value": 5,
     "tactical_depth": 5
   },
   "seed": "seed_003",
   "suggested_next_changes": [
-    "Surface item and enemy outcomes in the ASCII render or recent log so reviewers can connect events to decisions.",
+    "Investigate abort events in the trace and add deterministic regression coverage for the failing path.",
     "Add regression coverage for invalid-action handling and terminal ABORTED paths without changing the GameEngine interface."
   ],
-  "summary": "As a bug-hunting reviewer, the v001 play on seed seed_003 reached a win in 17 turns (floors reached 2, invalid actions 0). Notable event \"move\" occurred during play.",
+  "summary": "As a bug-hunting reviewer, the v001 play on seed seed_003 ended in ABORTED in 8 turns (floors reached 1, invalid actions 0). The run ended in ABORTED rather than a player-facing WIN or LOSS.",
   "top_issues": [
     {
-      "diagnosis": "Combat and item events are present, but their impact on player choices should be visible in render and action labels.",
+      "diagnosis": "An abort usually means invalid state, protocol failure, or an unfinished run that should not be scored like a fair loss.",
       "evidence": [
         {
-          "detail": "Turn 11 event move: You move to 5,4.",
-          "kind": "event",
-          "quote": "You move to 5,4.",
-          "turn": 11
+          "detail": "Playthrough ended with terminal result ABORTED after 8 recorded turns.",
+          "kind": "result",
+          "quote": "ABORTED"
         },
         {
-          "detail": "Turn 11 inventory: (empty).",
-          "kind": "turn",
-          "turn": 11
+          "detail": "Turn 7 emitted abort-related events: invalid_state.",
+          "kind": "event",
+          "turn": 7
         }
       ],
-      "observation": "Notable event \"move\" occurred during play.",
-      "recommendation": "Surface item and enemy outcomes in the ASCII render or recent log so reviewers can connect events to decisions.",
-      "severity": "minor"
+      "observation": "The run ended in ABORTED rather than a player-facing WIN or LOSS.",
+      "recommendation": "Investigate abort events in the trace and add deterministic regression coverage for the failing path.",
+      "severity": "critical"
     }
   ],
   "trace_path": "runs/v001/traces/seed_003_bug_hunter.json",

@@ -1,56 +1,52 @@
 {
   "evidence_quality": "full",
   "persona": "careful_player",
+  "persona_metadata": {
+    "description": "Reads state carefully, prioritizes survivability, and judges fairness and tactical depth from trace evidence.",
+    "display_name": "Careful Player",
+    "emphasis": [
+      "fairness",
+      "clarity",
+      "tactical_depth",
+      "readable_renders"
+    ],
+    "id": "careful_player",
+    "player_policy_hint": "baseline policy: cautious-low-hp"
+  },
+  "review_markdown_path": "runs/v001/reviews/seed_001_careful_player.md",
   "scorecard_path": "runs/v001/scorecards/seed_001_careful_player.json",
+  "scorecard_result": "LOSS",
+  "scorecard_turns": 60,
   "scores": {
-    "clarity": 5,
-    "fairness": 4,
-    "fun": 3,
-    "replay_value": 4,
-    "tactical_depth": 4
+    "clarity": 6,
+    "fairness": 5,
+    "fun": 4,
+    "replay_value": 5,
+    "tactical_depth": 6
   },
   "seed": "seed_001",
   "suggested_next_changes": [
-    "Break repeated-state loops with clearer goals, new events, or bounded auto-advance rules while keeping turns finite.",
-    "Investigate abort events in the trace and add deterministic regression coverage for the failing path.",
+    "Tune early enemy pressure, healing cadence, or tutorial log hints without removing LOSS or changing structured actions.",
     "Surface item and enemy outcomes in the ASCII render or recent log so reviewers can connect events to decisions."
   ],
-  "summary": "As a careful player, the v001 play on seed seed_001 ended in ABORTED in 100 turns (floors reached 1, invalid actions 0). The scorecard reports 1 softlock indicator(s) from repeated or stalled states.",
+  "summary": "As a careful player, the v001 play on seed seed_001 lost before the end in 60 turns (floors reached 1, invalid actions 0). The player lost on floor 1 after 60 turns with 2 damage taken.",
   "top_issues": [
     {
-      "diagnosis": "Players can get stuck repeating the same summary state without meaningful progress, which reads as a loop rather than tactics.",
+      "diagnosis": "Early losses can be fair tension, but repeated low-floor deaths suggest onboarding or pressure tuning problems.",
       "evidence": [
         {
-          "detail": "Scorecard softlocks is greater than zero.",
+          "detail": "Playthrough ended with terminal result LOSS after 60 recorded turns.",
+          "kind": "result",
+          "quote": "LOSS"
+        },
+        {
+          "detail": "Floors reached 1; damage_taken 2.",
           "kind": "scorecard",
-          "quote": "{\"invalid_actions\":0,\"softlocks\":1,\"floors_reached\":1,\"result\":\"ABORTED\"}"
-        },
-        {
-          "detail": "Playthrough ended with terminal result ABORTED after 100 recorded turns.",
-          "kind": "result",
-          "quote": "ABORTED"
+          "quote": "{\"invalid_actions\":0,\"softlocks\":0,\"floors_reached\":1,\"result\":\"LOSS\"}"
         }
       ],
-      "observation": "The scorecard reports 1 softlock indicator(s) from repeated or stalled states.",
-      "recommendation": "Break repeated-state loops with clearer goals, new events, or bounded auto-advance rules while keeping turns finite.",
-      "severity": "major"
-    },
-    {
-      "diagnosis": "An abort usually means invalid state, protocol failure, or an unfinished run that should not be scored like a fair loss.",
-      "evidence": [
-        {
-          "detail": "Playthrough ended with terminal result ABORTED after 100 recorded turns.",
-          "kind": "result",
-          "quote": "ABORTED"
-        },
-        {
-          "detail": "Turn 99 emitted abort-related events: move, enemy_move, aborted.",
-          "kind": "event",
-          "turn": 99
-        }
-      ],
-      "observation": "The run ended in ABORTED rather than a player-facing WIN or LOSS.",
-      "recommendation": "Investigate abort events in the trace and add deterministic regression coverage for the failing path.",
+      "observation": "The player lost on floor 1 after 60 turns with 2 damage taken.",
+      "recommendation": "Tune early enemy pressure, healing cadence, or tutorial log hints without removing LOSS or changing structured actions.",
       "severity": "major"
     },
     {

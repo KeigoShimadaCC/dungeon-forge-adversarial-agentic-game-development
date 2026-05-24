@@ -1,4 +1,5 @@
 import type { VersionComparison, VersionSummary } from '../harness/version-loop.js';
+import type { EvidenceIntegrityResult } from '../harness/evidence-integrity.js';
 
 export type DashboardArtifactKind =
   | 'trace'
@@ -23,6 +24,8 @@ export interface DashboardVersionEntry {
   balanceSummaryPath?: string;
   comparisons: DashboardComparisonRef[];
   artifacts: DashboardArtifactRef[];
+  evidenceIntegrity: EvidenceIntegrityResult;
+  integrityProblemCount: number;
   missingArtifactCount: number;
 }
 

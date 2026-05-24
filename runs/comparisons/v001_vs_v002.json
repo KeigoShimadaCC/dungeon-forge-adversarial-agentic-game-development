@@ -2,29 +2,29 @@
   "balance_comparison": {
     "aggregate_metric_deltas": {
       "abort_count": {
-        "base": 13,
-        "delta": 0,
-        "target": 13
+        "base": 7,
+        "delta": 1,
+        "target": 8
       },
       "average_damage_taken": {
-        "base": 6.9,
-        "delta": 0.85,
-        "target": 7.75
+        "base": 4.7,
+        "delta": -0.25,
+        "target": 4.45
       },
       "average_death_floor": {
-        "base": 1.75,
+        "base": 1.08,
         "delta": -0.08,
-        "target": 1.67
+        "target": 1
       },
       "average_enemies_defeated": {
-        "base": 0.2,
+        "base": 0.15,
         "delta": 0,
-        "target": 0.2
+        "target": 0.15
       },
       "average_floors_reached": {
-        "base": 1.3,
+        "base": 1.15,
         "delta": 0,
-        "target": 1.3
+        "target": 1.15
       },
       "average_invalid_actions": {
         "base": 0,
@@ -32,24 +32,24 @@
         "target": 0
       },
       "average_items_used": {
-        "base": 0.1,
-        "delta": 1.1,
-        "target": 1.2
+        "base": 0.15,
+        "delta": 0.9,
+        "target": 1.05
       },
       "average_turns": {
-        "base": 71.75,
-        "delta": 1.05,
-        "target": 72.8
+        "base": 38.75,
+        "delta": -0.85,
+        "target": 37.9
       },
       "softlock_count": {
-        "base": 13,
+        "base": 0,
         "delta": 0,
-        "target": 13
+        "target": 0
       },
       "win_rate": {
-        "base": 0.15,
-        "delta": 0.05,
-        "target": 0.2
+        "base": 0,
+        "delta": 0,
+        "target": 0
       }
     },
     "available": true,
@@ -59,33 +59,27 @@
       {
         "policy": "greedy-item-picker",
         "problem_reasons": [
-          "aborted",
-          "softlock"
+          "resource_pressure"
         ],
         "seed": "seed_001"
       },
       {
         "policy": "random",
         "problem_reasons": [
-          "aborted",
-          "softlock"
+          "resource_pressure"
         ],
         "seed": "seed_004"
       }
     ],
     "problem_run_count": {
-      "base": 13,
-      "delta": 0,
-      "target": 13
+      "base": 18,
+      "delta": 1,
+      "target": 19
     },
     "resolved_problematic_runs": [
       {
         "policy": "random",
         "seed": "seed_002"
-      },
-      {
-        "policy": "stairs-seeking",
-        "seed": "seed_004"
       }
     ],
     "target_summary_path": "runs/v002/balance_summary.json"
@@ -104,19 +98,19 @@
   },
   "objective_metric_deltas": {
     "damage_taken": {
-      "base": 144,
-      "delta": 46,
-      "target": 190
+      "base": 98,
+      "delta": 15,
+      "target": 113
     },
     "enemies_defeated": {
-      "base": 5,
+      "base": 4,
       "delta": -1,
-      "target": 4
+      "target": 3
     },
     "floors_reached": {
-      "base": 30,
+      "base": 26,
       "delta": 0,
-      "target": 30
+      "target": 26
     },
     "invalid_actions": {
       "base": 0,
@@ -124,46 +118,46 @@
       "target": 0
     },
     "items_used": {
-      "base": 2,
-      "delta": 26,
-      "target": 28
+      "base": 3,
+      "delta": 21,
+      "target": 24
     },
     "softlocks": {
-      "base": 15,
-      "delta": -1,
-      "target": 14
+      "base": 0,
+      "delta": 0,
+      "target": 0
     },
     "turns": {
-      "base": 1652,
-      "delta": -43,
-      "target": 1609
+      "base": 903,
+      "delta": -52,
+      "target": 851
     }
   },
   "reviewer_score_deltas": {
     "clarity": {
-      "base": 5.33,
-      "delta": 0.34,
+      "base": 5.67,
+      "delta": 0,
       "target": 5.67
     },
     "fairness": {
       "base": 4.33,
-      "delta": 0.34,
-      "target": 4.67
+      "delta": -0.33,
+      "target": 4
     },
     "fun": {
-      "base": 4.33,
-      "delta": 0.34,
-      "target": 4.67
+      "base": 4,
+      "delta": -0.33,
+      "target": 3.67
     },
     "replay_value": {
-      "base": 4.67,
-      "delta": 0.33,
+      "base": 5,
+      "delta": 0,
       "target": 5
     },
     "tactical_depth": {
-      "base": 4,
-      "delta": 1.33,
-      "target": 5.33
+      "base": 5.33,
+      "delta": 0.67,
+      "target": 6
     }
   },
   "targetVersion": "v002"

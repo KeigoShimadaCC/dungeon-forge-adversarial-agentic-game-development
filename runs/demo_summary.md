@@ -17,15 +17,15 @@ pnpm run accept-version -- --version v003 --runs-root . --command-status typeche
 
 ## Versions
 
-- v001: completed, 23 summarized runs, balance win rate 0.15
-- v002: completed, 23 summarized runs, balance win rate 0.2
-- v003: completed, 23 summarized runs, balance win rate 0.3
+- v001: completed, 23 summarized runs, balance win rate 0
+- v002: completed, 23 summarized runs, balance win rate 0
+- v003: completed, 23 summarized runs, balance win rate 0.15
 
 ## Comparisons
 
-- v001 -> v002: Target balance batch introduced new problematic seed/policy runs; inspect failed_runs before accepting. items 2->28, damage 144->190
-- v002 -> v003: Target balance batch has no new problematic runs and no clear stability regression. items 28->32, damage 190->130
-- v001 -> v003: Target balance batch introduced new problematic seed/policy runs; inspect failed_runs before accepting. items 2->32, damage 144->130
+- v001 -> v002: Target balance batch introduced new problematic seed/policy runs; inspect failed_runs before accepting. items 3->24, damage 98->113
+- v002 -> v003: Target version regressed on protocol stability metrics and needs review before acceptance. items 24->37, damage 113->116
+- v001 -> v003: Target balance batch introduced new problematic seed/policy runs; inspect failed_runs before accepting. items 3->37, damage 98->116
 
 ## Governance
 

@@ -468,6 +468,13 @@ export {
   type AcceptanceEvidenceCheckResult,
   type AcceptanceEvidenceVersionResult,
 } from './acceptance-evidence-check.js';
+export {
+  validateVersionEvidenceIntegrity,
+  type EvidenceIntegrityArtifactKind,
+  type EvidenceIntegrityDiagnostic,
+  type EvidenceIntegrityDiagnosticCode,
+  type EvidenceIntegrityResult,
+} from './evidence-integrity.js';
 export { runRepoChecks, type RepoChecksResult } from './repo-checks.js';
 export {
   TRACE_REPLAY_REPORT_SCHEMA_VERSION,

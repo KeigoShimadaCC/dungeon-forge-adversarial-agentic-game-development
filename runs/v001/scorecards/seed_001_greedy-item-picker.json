@@ -1,10 +1,30 @@
 {
-  "damage_taken": 20,
+  "agent_policy_class": "baseline",
+  "damage_taken": 28,
+  "diagnostics": {
+    "categories": [],
+    "primary_category": "none"
+  },
   "enemies_defeated": 0,
+  "enemy_behaviors": {
+    "enemy_attack": 14,
+    "enemy_defeated": 0,
+    "enemy_move": 23,
+    "enemy_phase": 0,
+    "enemy_steal": 0,
+    "enemy_wait": 0
+  },
   "floors_reached": 2,
   "invalid_actions": 0,
-  "items_used": 0,
+  "item_evaluation": {
+    "item_pickup_actions": 1,
+    "items_used": 1,
+    "tactical_items_used": 0,
+    "use_item_turns_available": 17
+  },
+  "items_used": 1,
   "persona": "greedy-item-picker",
+  "player_kind": "agent",
   "result": "LOSS",
   "reviewer_scores": {
     "clarity": null,
@@ -16,6 +36,12 @@
   "seed": "seed_001",
   "softlocks": 0,
   "trace_path": "runs/v001/traces/seed_001_greedy-item-picker.json",
-  "turns": 23,
+  "trap_resources": {
+    "hunger_damage_taken": 0,
+    "resource_pressure_events": 0,
+    "trap_damage_taken": 0,
+    "traps_triggered": 0
+  },
+  "turns": 25,
   "version": "v001"
 }

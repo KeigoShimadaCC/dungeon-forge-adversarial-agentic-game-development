@@ -34,6 +34,29 @@ No API credentials or external services are required for these gates.
 | `pnpm run repo-checks` | Smoke plus acceptance verification in one step |
 | `git diff --check` | Whitespace/conflict marker check before commit |
 
+## Evidence validation smokes
+
+PHASE-23D keeps these checks local-first and credential-free. Use them when validating generated evidence claims without requiring a browser or API keys:
+
+```bash
+pnpm test tests/evidence-validation-hardening.test.ts
+pnpm test tests/content-governance.test.ts tests/trace-replay.test.ts tests/version-dashboard.test.ts tests/static-demo.test.ts tests/longitudinal-benchmark.test.ts tests/ci-checks.test.ts
+pnpm run version-dashboard -- --runs-root . --json
+pnpm run export-static-demo -- --runs-root . --json
+pnpm run export-static-demo -- --runs-root . --markdown
+pnpm run content-governance -- --format json
+pnpm run trace-replay -- --trace runs/v001/traces/seed_001_careful_player.json --mode verify
+pnpm run verify-acceptance-evidence -- --runs-root . --version v003
+```
+
+The dashboard, static demo, and longitudinal benchmark read source artifacts from `runs/**`. Their generated summaries are not proof by themselves: trace and scorecard source files must exist, parse as JSON, and match the version/seed/persona/result recorded in `version_summary.json`. Missing, malformed, or mismatched sources must be reported as explicit diagnostics or missing evidence.
+
+Browser validation is optional in this phase. If a local browser cannot launch, use the JSON/Markdown/HTML commands above as the fallback and record the browser blocker separately from product validation. Real browser play UI work belongs to PHASE-24A.
+
+Generated report timestamps such as `generated_at` and `generatedAt` are derived metadata. Compare stable report content separately from these timestamp fields unless a command explicitly documents a stable timestamp mode.
+
+Committed trace replay verification is a required stale-evidence smoke for the canonical demo evidence. If `pnpm run trace-replay -- --trace runs/v001/traces/seed_001_careful_player.json --mode verify` fails after gameplay or harness changes, regenerate the canonical evidence with `pnpm run demo-loop -- --runs-root .` and rerun the replay command before treating dashboard, static demo, benchmark, or acceptance summaries as current.
+
 ### Useful flags
 
 ```bash

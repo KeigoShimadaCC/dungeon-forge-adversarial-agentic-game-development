@@ -1,10 +1,30 @@
 {
+  "agent_policy_class": "baseline",
   "damage_taken": 2,
+  "diagnostics": {
+    "categories": [],
+    "primary_category": "none"
+  },
   "enemies_defeated": 0,
+  "enemy_behaviors": {
+    "enemy_attack": 1,
+    "enemy_defeated": 0,
+    "enemy_move": 4,
+    "enemy_phase": 0,
+    "enemy_steal": 0,
+    "enemy_wait": 2
+  },
   "floors_reached": 1,
   "invalid_actions": 0,
+  "item_evaluation": {
+    "item_pickup_actions": 0,
+    "items_used": 1,
+    "tactical_items_used": 1,
+    "use_item_turns_available": 8
+  },
   "items_used": 1,
   "persona": "stairs-seeking",
+  "player_kind": "agent",
   "result": "WIN",
   "reviewer_scores": {
     "clarity": null,
@@ -16,6 +36,12 @@
   "seed": "seed_004",
   "softlocks": 0,
   "trace_path": "runs/v003/traces/seed_004_stairs-seeking.json",
+  "trap_resources": {
+    "hunger_damage_taken": 0,
+    "resource_pressure_events": 0,
+    "trap_damage_taken": 0,
+    "traps_triggered": 0
+  },
   "turns": 8,
   "version": "v003"
 }

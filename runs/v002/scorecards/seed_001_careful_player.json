@@ -1,23 +1,61 @@
 {
+  "agent_policy_class": "llm_persona",
   "damage_taken": 2,
+  "diagnostics": {
+    "categories": [
+      {
+        "category": "resource_pressure",
+        "code": "starvation_damage",
+        "detail": {
+          "hunger_damage_taken": 18,
+          "resource_pressure_events": 28,
+          "trap_damage_taken": 0,
+          "traps_triggered": 0
+        },
+        "message": "Hunger pressure dealt 18 damage."
+      }
+    ],
+    "primary_category": "resource_pressure"
+  },
   "enemies_defeated": 0,
+  "enemy_behaviors": {
+    "enemy_attack": 1,
+    "enemy_defeated": 0,
+    "enemy_move": 56,
+    "enemy_phase": 0,
+    "enemy_steal": 0,
+    "enemy_wait": 3
+  },
   "floors_reached": 1,
   "invalid_actions": 0,
+  "item_evaluation": {
+    "item_pickup_actions": 0,
+    "items_used": 1,
+    "tactical_items_used": 1,
+    "use_item_turns_available": 4
+  },
   "items_used": 1,
   "persona": "careful_player",
-  "result": "ABORTED",
+  "player_kind": "agent",
+  "result": "LOSS",
   "review_id": "careful_player:seed_001",
   "review_path": "runs/v002/reviews/seed_001_careful_player.json",
   "reviewer_scores": {
-    "clarity": 5,
-    "fairness": 4,
-    "fun": 3,
-    "replay_value": 4,
-    "tactical_depth": 5
+    "clarity": 6,
+    "fairness": 5,
+    "fun": 4,
+    "replay_value": 5,
+    "tactical_depth": 7
   },
   "seed": "seed_001",
-  "softlocks": 1,
+  "softlocks": 0,
   "trace_path": "runs/v002/traces/seed_001_careful_player.json",
-  "turns": 100,
+  "trap_resources": {
+    "hunger_damage_taken": 18,
+    "resource_pressure_events": 28,
+    "trap_damage_taken": 0,
+    "traps_triggered": 0
+  },
+  "turns": 60,
   "version": "v002"
 }
