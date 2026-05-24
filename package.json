@@ -35,6 +35,7 @@
     "balance-analytics": "pnpm run build && node dist/src/harness/balance-analytics-cli.js",
     "longitudinal-benchmark": "pnpm run build && node dist/src/harness/longitudinal-benchmark-cli.js",
     "export-static-demo": "pnpm run build && node dist/src/static-demo/static-demo-export-cli.js",
+    "control-room-web-shell": "pnpm run build && node dist/src/control-room/web-shell/control-room-web-shell-cli.js",
     "content-governance": "pnpm run build && node dist/src/harness/content-governance-cli.js",
     "optional-media": "pnpm run build && node dist/src/harness/optional-media-cli.js",
     "check": "pnpm test && pnpm run typecheck && pnpm run lint && pnpm run build && pnpm run ci-smoke && pnpm run verify-acceptance-evidence"

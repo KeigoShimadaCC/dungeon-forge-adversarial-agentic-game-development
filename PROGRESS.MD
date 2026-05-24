@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-25B - Agent Roles Personas And Models |
-| Goal | Define safe local control-room role, persona, prompt-visibility, and model-choice metadata for future UI/handoff use without launching provider calls or exposing credentials. |
-| Branch | `phase/phase-25b-agent-roles-personas-and-models` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-25b-agent-roles-personas-and-models-wt` |
-| Base | `origin/main` after PHASE-24B completion and parallel PHASE-25A scope split |
+| Phase | PHASE-26A - Control Room Web Shell |
+| Goal | Add the first read-only local browser control-room shell for timeline, version summary, actor, role/persona/model, and evidence-link inspection. |
+| Branch | `phase/phase-26a-control-room-web-shell` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-26a-control-room-web-shell-wt` |
+| Base | `origin/main` after PHASE-25A and PHASE-25B dependency slices |
 | Status | `Implementation complete; required local validation passed; merge/phase-state updates intentionally not performed` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-25B-AGENT-ROLES-PERSONAS-AND-MODELS.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-25B/2026-05-24T04:28:53Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
+3. Active `phase-plans/PHASE-26A-CONTROL-ROOM-WEB-SHELL.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-26A/2026-05-24T04:49:06Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,11 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 Executor Codex — PHASE-26A task-001/task-002: built the control-room web-shell view model and static HTML renderer from timeline + role catalog data.
+- [x] 2026-05-24 Executor Codex — PHASE-26A task-003: added optional `pnpm run control-room-web-shell` generator CLI and package script.
+- [x] 2026-05-24 Executor Codex — PHASE-26A task-004: documented local generation/opening and read-only evidence boundaries.
+- [x] 2026-05-24 Executor Codex — PHASE-26A task-005: added focused render/safety tests for ordering, missing evidence, roles, safe links, and no command controls.
+- [x] 2026-05-24 Executor Codex — PHASE-26A task-006: ran targeted tests, accepted smokes, typecheck, lint, full tests, and diff check.
 - [x] 2026-05-24 Executor Codex — PHASE-25B task-001: seeded active progress/checklist from deterministic runner accepted plan and confirmed allowed paths before implementation.
 - [x] 2026-05-24 Executor Codex — PHASE-25B task-002/task-003/task-004/task-005: defined typed role catalog, exposed canonical reviewer personas, added safe prompt visibility metadata, and added advisory model-choice metadata without provider calls.
 - [x] 2026-05-24 Executor Codex — PHASE-25B task-006: documented control-room role kinds, persona selection, prompt visibility, model metadata, and credential-free boundaries.
@@ -252,16 +257,17 @@ _(none)_
 
 ## Phase checklist
 
-_PHASE-25B - Agent Roles Personas And Models._
+_PHASE-26A - Control Room Web Shell._
 
-- [x] Role catalog includes stable records for `game_developer`, `game_reviewer`, `narrator`, and `human`.
-- [x] Reviewer persona metadata is selectable, stable, and sourced from existing canonical harness metadata.
-- [x] Developer and narrator role descriptions are human-facing metadata only, not runnable agent implementations.
-- [x] Prompt visibility metadata exposes safe repo prompt references or dynamic-prompt descriptions without copying hidden/runtime or environment-derived values.
-- [x] Model-choice metadata is advisory only and does not resolve credentials, call providers, or serialize environment values.
-- [x] Focused tests cover catalog validity, reviewer persona stability, safe prompt display, and no-secret/no-env output.
-- [x] Documentation explains role kinds, prompt visibility levels, model metadata, and the credential-free boundary.
-- [x] Required validation recorded: focused test, targeted no-secret scan, typecheck, lint, full test, build, and `git diff --check`.
+- [x] Local control-room web shell consumes `PHASE-25A` timeline artifacts and `PHASE-25B` role/persona/model metadata.
+- [x] Timeline renders chronologically, grouped by version, with a top-level session header and active base version.
+- [x] Version summary strips show event/evidence/missing-evidence status.
+- [x] Actor labels clearly distinguish Human, Game Developer, Game Reviewer, and Narrator/system messages.
+- [x] Evidence panels link back to trace, review, scorecard, changelog, developer notes, comparison, acceptance, and summary artifacts without replacing source evidence.
+- [x] Empty and missing-evidence states render honestly.
+- [x] Role/persona/model panels render read-only metadata without secrets or provider calls.
+- [x] Optional generator CLI is documented and does not run agents, commands from the browser, provider calls, or mutate source evidence.
+- [x] Focused tests and required smokes cover render order, missing evidence, safe links, role panels, and existing workflow compatibility.
 
 ---
 
@@ -319,6 +325,9 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
 
+- 2026-05-24 — Executor Codex — PHASE-26A pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-26A/2026-05-24T04:49:06Z/accepted-plan/accepted-plan.json`. Accepted tasks: web-shell view model, static renderer, optional CLI/package wiring, docs, focused tests, and regression smokes. Cursor delegation not used; the runner owns Cursor subtask execution for accepted-plan Cursor-recommended tasks.
+- 2026-05-24 — Executor Codex — PHASE-26A implementation complete locally from accepted runner plan. Added `src/control-room/web-shell/**`, `tests/control-room-web-shell.test.ts`, `docs/CONTROL-ROOM-WEB-SHELL.md`, package script `control-room-web-shell`, required sample timeline `runs/control-room/timeline/v001-v002-v003.timeline.json`, and generated shell `runs/control-room/web-shell/index.html`. Validation so far: PASS `pnpm test tests/control-room-web-shell.test.ts` (1 file, 5 tests); PASS `pnpm run control-room-web-shell -- --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --out runs/control-room/web-shell/index.html`.
+- 2026-05-24 — Executor Codex — PHASE-26A validation PASS: `pnpm test tests/control-room-web-shell.test.ts` (1 file, 5 tests); `pnpm test tests/control-room-timeline.test.ts tests/control-room-roles.test.ts` (2 files, 11 tests); `pnpm run control-room-web-shell -- --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --out /tmp/dungeon-forge-control-room/index.html`; `rg "Dungeon Forge Control Room|Version timeline|Game Developer|Game Reviewer|missing" /tmp/dungeon-forge-control-room/index.html`; `pnpm run version-dashboard -- --runs-root . --json`; `pnpm run export-static-demo -- --runs-root . --json`; `pnpm run browser-play -- --smoke --seed seed_001 --max-steps 3`; `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (48 files, 445 tests); `git diff --check`. Required generated `runs/control-room/**` artifacts exist locally but are ignored by the repo-wide `runs/**/*` rule unless force-added later by the merge orchestrator.
 - 2026-05-24 — Executor Codex — PHASE-25B pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-25B/2026-05-24T04:28:53Z/accepted-plan/accepted-plan.json`. Allowed implementation paths are `src/control-room/roles/**`, `tests/control-room-roles.test.ts`, `tests/fixtures/control-room-roles/**`, `docs/CONTROL-ROOM-ROLES.md`, and `PROGRESS.MD`. Planned validation: `pnpm test tests/control-room-roles.test.ts`; targeted no-secret scan over role/test/doc artifacts; `pnpm run typecheck`; `pnpm run lint`; `pnpm test`; `pnpm run build`; `git diff --check`. Cursor delegation not used initially; the deterministic runner owns accepted-plan Cursor task execution, and credential-safety tasks are being implemented directly.
 - 2026-05-24 — Executor Codex — PHASE-25B implementation complete locally from accepted runner plan. Added `src/control-room/roles/**` typed catalog helpers, canonical reviewer-persona projection, safe prompt visibility metadata, advisory-only model metadata, deterministic role catalog fixture, focused tests, and `docs/CONTROL-ROOM-ROLES.md`. Cursor delegation not used; no provider config resolution, live LLM call, shared control-room barrel export, timeline integration, game/harness behavior change, or automation phase-state update was added.
 - 2026-05-24 — Executor Codex — PHASE-25B validation PASS: `pnpm test tests/control-room-roles.test.ts` (1 file, 6 tests); targeted no-secret scan `rg -n "DUNGEON_FORGE_LLM_API_KEY|OPENAI_API_KEY|your_key_here|sk-|apiKey|process\\.env" src/control-room/roles tests/fixtures/control-room-roles docs/CONTROL-ROOM-ROLES.md tests/control-room-roles.test.ts` returned one intentional docs-only `process.env` prose reference in `docs/CONTROL-ROOM-ROLES.md` and no source/fixture/test credential exposure; `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (47 files, 440 tests); `pnpm run build`; `git diff --check`.

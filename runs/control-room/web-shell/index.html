@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dungeon Forge Control Room</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --text: #17202a;
+      --muted: #5f6b7a;
+      --line: #d1d9e0;
+      --accent: #1d4ed8;
+      --ok: #0f7b45;
+      --warn: #9a5b00;
+      --bad: #b42318;
+      --developer: #dbeafe;
+      --reviewer: #dcfce7;
+      --human: #fff7ed;
+      --narrator: #f1f5f9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+    header, main { width: min(1180px, calc(100vw - 32px)); margin: 0 auto; }
+    header { padding: 24px 0 12px; }
+    h1 { margin: 0 0 8px; font-size: 28px; letter-spacing: 0; }
+    h2 { margin: 0 0 10px; font-size: 20px; letter-spacing: 0; }
+    h3 { margin: 0 0 8px; font-size: 15px; letter-spacing: 0; }
+    p { margin: 8px 0; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code {
+      display: inline-block;
+      margin-left: 8px;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+    .panel, .version {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 0 0 16px;
+    }
+    .session-strip, .summary-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .session-strip span, .summary-strip span {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: #fff;
+    }
+    .section-heading {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 14px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+    .feed { display: grid; gap: 12px; }
+    .message {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: var(--narrator);
+    }
+    .role-game_developer { background: var(--developer); }
+    .role-game_reviewer { background: var(--reviewer); }
+    .role-human { background: var(--human); }
+    .message-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .actor { color: var(--text); font-weight: 700; }
+    .badge {
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-weight: 700;
+    }
+    .badge-present { background: #e7f6ed; color: var(--ok); }
+    .badge-missing, .missing { color: var(--bad); }
+    .badge-missing { background: #fee4e2; }
+    .muted { color: var(--muted); }
+    details {
+      border-top: 1px solid rgba(0,0,0,0.08);
+      margin-top: 10px;
+      padding-top: 8px;
+    }
+    summary { cursor: pointer; font-weight: 700; }
+    ul { margin: 8px 0 0 18px; padding: 0; }
+    li { margin: 6px 0; }
+    .evidence-kind {
+      display: inline-block;
+      min-width: 110px;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 12px;
+    }
+    .role-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcfd;
+    }
+    .compact {
+      list-style: none;
+      margin-left: 0;
+    }
+    .compact li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-top: 1px solid var(--line);
+      padding-top: 6px;
+    }
+    @media (max-width: 720px) {
+      header, main { width: min(100vw - 20px, 1180px); }
+      .section-heading { display: block; }
+      .compact li { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Dungeon Forge Control Room</h1>
+    <div class="session-strip">
+      <span>Session: <strong>control-room-v001-v002-v003</strong></span>
+      <span>Active base: <strong>v002</strong></span>
+      <span>Runs root: <strong>runs</strong></span>
+      <span>Events: <strong>7</strong></span>
+      <span>Read-only: <strong>true</strong></span>
+    </div>
+    <p>Make a tiny dungeon loop that improves through review.</p>
+  </header>
+  <main>
+    
+    <section class="panel"><h2>Session Notes</h2><div class="feed"><article class="message role-human" id="event-001-human_idea">
+    <div class="message-meta">
+      <span class="actor">Human</span>
+      <span>human_idea</span>
+      <time datetime="2026-05-24T04:06:47.000Z">2026-05-24T04:06:47.000Z</time>
+      <span class="badge badge-present">evidence ok</span>
+    </div>
+    <p>Make a tiny dungeon loop that can improve through trace-backed review.</p>
+    
+    <p class="muted">No raw evidence links recorded for this timeline event.</p>
+  </article></div></section>
+    <section class="panel">
+      <h2>Version timeline</h2>
+      <p class="muted">Chronological local evidence view. Links open source artifacts; this page does not execute commands.</p>
+    </section>
+    <section class="version" id="version-v001">
+    <div class="section-heading">
+      <h2>v001</h2>
+      <div class="summary-strip">
+        <span>Events: <strong>2</strong></span>
+        <span>Evidence links: <strong>5</strong></span>
+        <span>Missing: <strong>0</strong></span>
+      </div>
+    </div>
+    <p class="version-summary">Developer produced the baseline version evidence.</p>
+    <div class="feed"><article class="message role-game_developer" id="event-v001-002-developer_summary">
+    <div class="message-meta">
+      <span class="actor">Game Developer</span>
+      <span>developer_summary</span>
+      <time datetime="2026-05-24T04:07:00.000Z">2026-05-24T04:07:00.000Z</time>
+      <span class="badge badge-present">evidence ok</span>
+    </div>
+    <p>Developer produced the baseline version evidence.</p>
+    
+    <details><summary>Evidence links (3)</summary><ul><li><span class="evidence-kind">trace</span> <a href="../../../runs/v001/traces/seed_001_careful_player.json">trace: runs/v001/traces/seed_001_careful_player.json</a><code>runs/v001/traces/seed_001_careful_player.json</code></li><li><span class="evidence-kind">version_summary</span> <a href="../../../runs/v001/version_summary.json">version_summary: runs/v001/version_summary.json</a><code>runs/v001/version_summary.json</code></li><li><span class="evidence-kind">developer_notes</span> <a href="../../../runs/v001/developer_notes.md">developer_notes: runs/v001/developer_notes.md</a><code>runs/v001/developer_notes.md</code></li></ul></details>
+  </article>
+<article class="message role-game_reviewer" id="event-v001-003-reviewer_summary">
+    <div class="message-meta">
+      <span class="actor">Game Reviewer</span>
+      <span>reviewer_summary</span>
+      <time datetime="2026-05-24T04:08:00.000Z">2026-05-24T04:08:00.000Z</time>
+      <span class="badge badge-present">evidence ok</span>
+    </div>
+    <p>Reviewer flagged shallow item use and limited tactical choices.</p>
+    
+    <details><summary>Evidence links (2)</summary><ul><li><span class="evidence-kind">review</span> <a href="../../../runs/v001/reviews/seed_001_careful_player.json">review: runs/v001/reviews/seed_001_careful_player.json</a><code>runs/v001/reviews/seed_001_careful_player.json</code></li><li><span class="evidence-kind">scorecard</span> <a href="../../../runs/v001/scorecards/seed_001_careful_player.json">scorecard: runs/v001/scorecards/seed_001_careful_player.json</a><code>runs/v001/scorecards/seed_001_careful_player.json</code></li></ul></details>
+  </article></div>
+  </section>
+<section class="version" id="version-v002">
+    <div class="section-heading">
+      <h2>v002</h2>
+      <div class="summary-strip">
+        <span>Events: <strong>2</strong></span>
+        <span>Evidence links: <strong>3</strong></span>
+        <span>Missing: <strong>0</strong></span>
+      </div>
+    </div>
+    <p class="version-summary">Human comment: keep the Smoke Bomb clarity improvement.</p>
+    <div class="feed"><article class="message role-human" id="event-v002-004-human_comment">
+    <div class="message-meta">
+      <span class="actor">Human</span>
+      <span>human_comment</span>
+      <time datetime="2026-05-24T04:09:00.000Z">2026-05-24T04:09:00.000Z</time>
+      <span class="badge badge-present">evidence ok</span>
+    </div>
+    <p>Human comment: keep the Smoke Bomb clarity improvement.</p>
+    
+    <details><summary>Evidence links (2)</summary><ul><li><span class="evidence-kind">comparison</span> <a href="../../../runs/comparisons/v001_vs_v002.json">comparison: runs/comparisons/v001_vs_v002.json</a><code>runs/comparisons/v001_vs_v002.json</code></li><li><span class="evidence-kind">changelog</span> <a href="../../../runs/v002/changelog.md">changelog: runs/v002/changelog.md</a><code>runs/v002/changelog.md</code></li></ul></details>
+  </article>
+<article class="message role-human" id="event-v002-005-version_selected_as_base">
+    <div class="message-meta">
+      <span class="actor">Human</span>
+      <span>version_selected_as_base</span>
+      <time datetime="2026-05-24T04:10:00.000Z">2026-05-24T04:10:00.000Z</time>
+      <span class="badge badge-present">evidence ok</span>
+    </div>
+    <p>Select v002 as the active base without deleting or rolling back later versions.</p>
+    
+    <details><summary>Evidence links (1)</summary><ul><li><span class="evidence-kind">comparison</span> <a href="../../../runs/comparisons/v002_vs_v003.json">comparison: runs/comparisons/v002_vs_v003.json</a><code>runs/comparisons/v002_vs_v003.json</code></li></ul></details>
+  </article></div>
+  </section>
+<section class="version" id="version-v003">
+    <div class="section-heading">
+      <h2>v003</h2>
+      <div class="summary-strip">
+        <span>Events: <strong>2</strong></span>
+        <span>Evidence links: <strong>3</strong></span>
+        <span>Missing: <strong>1</strong></span>
+      </div>
+    </div>
+    <p class="version-summary">Reviewer summary is linked to expected evidence, with absent optional evidence labeled.</p>
+    <div class="feed"><article class="message role-game_reviewer" id="event-v003-007-reviewer_summary">
+    <div class="message-meta">
+      <span class="actor">Game Reviewer</span>
+      <span>reviewer_summary</span>
+      <time datetime="2026-05-24T04:11:00.000Z">2026-05-24T04:11:00.000Z</time>
+      <span class="badge badge-missing">1 missing</span>
+    </div>
+    <p>Reviewer summary is linked to expected evidence, with absent optional evidence labeled.</p>
+    <ul class="missing-list"><li>review: runs/v003/reviews/missing_optional_review.json</li></ul>
+    <details><summary>Evidence links (2)</summary><ul><li><span class="evidence-kind">review</span> <span class="missing">review: runs/v003/reviews/missing_optional_review.json (missing)</span><code>runs/v003/reviews/missing_optional_review.json</code><p>Missing on disk: runs/v003/reviews/missing_optional_review.json</p></li><li><span class="evidence-kind">balance_summary</span> <a href="../../../runs/v003/balance_summary.json">balance_summary: runs/v003/balance_summary.json</a><code>runs/v003/balance_summary.json</code></li></ul></details>
+  </article>
+<article class="message role-narrator" id="event-v003-006-prepared_next_step">
+    <div class="message-meta">
+      <span class="actor">Narrator</span>
+      <span>prepared_next_step</span>
+      <time datetime="2026-05-24T04:12:00.000Z">2026-05-24T04:12:00.000Z</time>
+      <span class="badge badge-present">evidence ok</span>
+    </div>
+    <p>Prepare the next bounded improvement from v003 evidence without executing it.</p>
+    
+    <details><summary>Evidence links (1)</summary><ul><li><span class="evidence-kind">acceptance</span> <a href="../../../runs/v003/acceptance.md">v003 acceptance notes</a><code>runs/v003/acceptance.md</code></li></ul></details>
+  </article></div>
+  </section>
+    <section class="panel">
+    <h2>Roles, Personas, And Models</h2>
+    <p class="muted">Read-only catalog metadata. Provider calls are disabled here.</p>
+    <div class="role-grid">
+      <article class="role-card">
+          <h3>Game Developer</h3>
+          <p>Implements bounded game improvements from trace-backed tasks after human approval.</p>
+          <ul class="compact">
+            <li><strong>Role kind</strong><span>developer_ai</span></li>
+            <li><strong>Default persona</strong><span>none</span></li>
+            <li><strong>Prompt reference</strong><span>src/agents/prompts/developer.md</span></li>
+          </ul>
+          <details>
+            <summary>Personas (0)</summary>
+            <p class="muted">No selectable personas for this role.</p>
+          </details>
+          <details>
+            <summary>Prompt visibility (1)</summary>
+            <ul><li><strong>Developer workflow prompt</strong><span>Repo-stored instructions for bounded developer-agent tasks. Sources: src/agents/prompts/developer.md</span><code>safe_repo_reference</code></li></ul>
+          </details>
+          <details>
+            <summary>Model choices (1)</summary>
+            <ul><li><strong>Configured developer model</strong><span>gpt-4o-mini; advisoryOnly=true; providerCallEnabled=false</span><code>configured_llm_provider</code></li></ul>
+          </details>
+        </article>
+<article class="role-card">
+          <h3>Game Reviewer</h3>
+          <p>Reviews playthrough traces and scorecards through selectable evidence-grounded personas.</p>
+          <ul class="compact">
+            <li><strong>Role kind</strong><span>reviewer_ai</span></li>
+            <li><strong>Default persona</strong><span>careful_player</span></li>
+            <li><strong>Prompt reference</strong><span>src/agents/prompts/reviewer.md</span></li>
+          </ul>
+          <details>
+            <summary>Personas (3)</summary>
+            <ul><li><strong>Careful Player</strong><span>Reads state carefully, prioritizes survivability, and judges fairness and tactical depth from trace evidence.</span><code>careful_player</code></li><li><strong>Naive Player</strong><span>Plays plausibly but may miss tactical detail; focuses on whether items, enemies, and actions are understandable.</span><code>naive_player</code></li><li><strong>Bug Hunter</strong><span>Probes edge cases, invalid actions, ABORTED paths, and thin renders to surface protocol and harness failures.</span><code>bug_hunter</code></li></ul>
+          </details>
+          <details>
+            <summary>Prompt visibility (2)</summary>
+            <ul><li><strong>Reviewer artifact prompt</strong><span>Repo-stored structured review instructions for trace-backed critique. Sources: src/agents/prompts/reviewer.md</span><code>safe_repo_reference</code></li><li><strong>LLM reviewer runtime prompt</strong><span>Runtime prompt builder that includes selected persona, trace, scorecard, and rendered-state evidence. Sources: src/agents/prompts/llm-reviewer.ts</span><code>dynamic_runtime_reference</code></li></ul>
+          </details>
+          <details>
+            <summary>Model choices (2)</summary>
+            <ul><li><strong>Local deterministic harness</strong><span>deterministic local logic; advisoryOnly=true; providerCallEnabled=false</span><code>local_deterministic</code></li><li><strong>Configured reviewer model</strong><span>gpt-4o-mini; advisoryOnly=true; providerCallEnabled=false</span><code>configured_llm_provider</code></li></ul>
+          </details>
+        </article>
+<article class="role-card">
+          <h3>Narrator</h3>
+          <p>Summarizes versions and control-room context for humans without changing game state.</p>
+          <ul class="compact">
+            <li><strong>Role kind</strong><span>narrator_ai</span></li>
+            <li><strong>Default persona</strong><span>none</span></li>
+            <li><strong>Prompt reference</strong><span>none</span></li>
+          </ul>
+          <details>
+            <summary>Personas (0)</summary>
+            <p class="muted">No selectable personas for this role.</p>
+          </details>
+          <details>
+            <summary>Prompt visibility (1)</summary>
+            <ul><li><strong>Narration role description</strong><span>No runnable narrator prompt exists yet; later phases should derive narration from version summaries and trace-backed artifacts. Sources: phase-plans/PHASE-27B-NARRATED-VERSION-SUMMARIES.md</span><code>safe_repo_reference</code></li></ul>
+          </details>
+          <details>
+            <summary>Model choices (1)</summary>
+            <ul><li><strong>Configured narrator model</strong><span>gpt-4o-mini; advisoryOnly=true; providerCallEnabled=false</span><code>configured_llm_provider</code></li></ul>
+          </details>
+        </article>
+<article class="role-card">
+          <h3>Human</h3>
+          <p>Represents human ideas, comments, approvals, and base-version choices in control-room history.</p>
+          <ul class="compact">
+            <li><strong>Role kind</strong><span>human</span></li>
+            <li><strong>Default persona</strong><span>none</span></li>
+            <li><strong>Prompt reference</strong><span>none</span></li>
+          </ul>
+          <details>
+            <summary>Personas (0)</summary>
+            <p class="muted">No selectable personas for this role.</p>
+          </details>
+          <details>
+            <summary>Prompt visibility (1)</summary>
+            <ul><li><strong>Human-authored text</strong><span>Human comments, ideas, and decisions are captured as explicit local artifacts by later control-room phases. Sources: human_input</span><code>not_applicable</code></li></ul>
+          </details>
+          <details>
+            <summary>Model choices (1)</summary>
+            <ul><li><strong>Human input</strong><span>human-authored; advisoryOnly=true; providerCallEnabled=false</span><code>human</code></li></ul>
+          </details>
+        </article>
+    </div>
+  </section>
+  </main>
+</body>
+</html>
