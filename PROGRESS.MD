@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-23B - Current State Docs Refresh |
-| Goal | Refresh public-facing and coordination documentation so it describes the implemented repository instead of the Phase 01A scaffold. |
-| Branch | `phase/phase-23b-current-state-docs-refresh` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-23b-current-state-docs-refresh-wt` |
-| Base | `origin/main` after PHASE-23A planning and security-audit remediation close-out |
-| Status | `In progress` |
+| Phase | PHASE-23C - Longitudinal Improvement Benchmark |
+| Goal | Add a deterministic benchmark workflow that compares repeated-version evidence and reports trend, regression, unchanged, missing, trace, scorecard, and acceptance states. |
+| Branch | `phase/phase-23c-longitudinal-improvement-benchmark` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-23c-longitudinal-improvement-benchmark-wt` |
+| Base | `origin/main` after PHASE-23B current-state docs refresh planning handoff |
+| Status | `Implementation validated; runner/recheck pending` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-23B-CURRENT-STATE-DOCS-REFRESH.md` — implementation contract for this slice
+3. Active `phase-plans/PHASE-23C-LONGITUDINAL-IMPROVEMENT-BENCHMARK.md` plus accepted runner plan `runs/phase-runner/PHASE-23C/2026-05-24T00:45:05Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,7 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 Executor Codex — Implemented PHASE-23C accepted-plan tasks: longitudinal benchmark artifact model/evidence loader, metric comparison semantics, CLI/script, focused tests, docs, generated summary artifact, and validation log evidence. Canonical artifact generated at `runs/benchmarks/PHASE-23C/longitudinal_summary.json`.
 - [x] 2026-05-24 Cursor CLI/composer-2.5 — Cross-checked docs against live commands and evidence (accepted plan task-005) in worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-23b-current-state-docs-refresh-wt`. Compared `README.md`, `docs/NORTH_STAR.md`, `docs/RULES.md`, and `package.json` against live scripts, `automation/phase-graph.json`, `automation/phase-state.json` (`currentPhase: PHASE-23B`), `docs/NORTH_STAR_GAP_AUDIT.md`, and `runs/v001`-`runs/v003` plus `runs/comparisons`. All 27 executable `package.json` scripts are named in README/NORTH_STAR/RULES; no phantom README commands. Roadmap table keeps PHASE-23C/23D/24A/24B as future work. README evidence tree updated to include `balance_summary.json` per version. Allowed edits: `README.md`, `PROGRESS.MD`. Validation PASS: required gates and smokes (see validation log). Gap: branch behind `origin/main` by 3 commits; `AGENTS.md` still mentions Phase 01A scaffold (out of task-005 allowed paths).
 - [x] 2026-05-24 Cursor CLI/composer-2.5 — Verified README current-state overview (accepted plan task-001); added missing `pnpm run new-version` to workflow commands; stale scaffold scan clean; required smokes PASS.
 - [x] 2026-05-24 Cursor CLI/composer-2.5 — Refreshed `docs/NORTH_STAR.md` (accepted plan task-002); replaced scaffold mirror with current-system summary; named `version-dashboard` and `export-static-demo`; stale scaffold scan clean; required smokes PASS.
@@ -221,16 +222,15 @@ _(none)_
 
 ## Phase checklist
 
-_PHASE-23B - Current State Docs Refresh._
+_PHASE-23C - Longitudinal Improvement Benchmark._
 
-- [x] README current status, command list, architecture summary, and evidence overview are updated.
-- [x] `docs/NORTH_STAR.md` is refreshed from scaffold mirror to current system summary while preserving the North Star.
-- [x] `docs/RULES.md` is refreshed from scaffold mirror to current invariants, interfaces, and validation expectations.
-- [x] `package.json` description is updated if it still describes the project as Phase 01A scaffold.
-- [x] Docs distinguish product vision, implemented capabilities, optional credential-gated LLM paths, generated evidence/static viewers, and known next roadmap phases.
-- [x] Documentation does not promise future browser UI, deeper evaluation, or longitudinal proof as already complete.
-- [x] `PROGRESS.MD` validation log records the exact files reviewed and checks run.
-- [x] Required validation passes: `git diff --check`, `pnpm run typecheck`, and `pnpm run lint`.
+- [x] Benchmark runner or documented reproducible workflow exists for canonical multi-version evidence.
+- [x] Longitudinal summary artifact format reports completion, win/loss, turns, damage, item use, invalid actions, softlocks, scorecard averages, and acceptance status.
+- [x] Regression, unchanged, and missing-evidence states are explicit in adjacent-version comparisons.
+- [x] Benchmark flow runs without API credentials and is grounded in trace plus acceptance artifacts.
+- [x] Focused tests cover summary shape, missing evidence, regression reporting, unchanged labels, and CLI write behavior.
+- [x] `docs/LONGITUDINAL-BENCHMARK.md` explains commands, outputs, interpretation, and demo-loop distinction.
+- [x] Required validation recorded: focused test, `pnpm run typecheck`, `pnpm run lint`, benchmark smokes, full `pnpm test`, and `git diff --check`.
 
 ---
 
@@ -305,6 +305,7 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-24 — Cursor CLI/composer-2.5 — Accepted-plan task-002 (`Refresh docs/NORTH_STAR.md`) completed in worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-23b-current-state-docs-refresh-wt`. Reviewed `docs/NORTH_STAR.md` against `concept-and-ideas/01_NORTH_STAR_AND_VISION.md`, `docs/NORTH_STAR_GAP_AUDIT.md`, and live `package.json` scripts. Replaced scaffold-mirror title/sections with current-system summary; preserved North Star question; documented game, harness, reviewer, version evidence, dashboard/static-demo commands, automation, optional LLM boundaries, and roadmap limits without claiming PHASE-23C/23D/24A/24B complete. Allowed edits: `docs/NORTH_STAR.md`, `PROGRESS.MD`. Validation PASS: `git diff --check`; `pnpm run typecheck`; `pnpm run lint`; stale scaffold scan on `README.md docs/NORTH_STAR.md docs/RULES.md package.json` returned no matches; `pnpm run version-dashboard -- --runs-root . --json` (exit 0, `readOnly: true`, versions `v001`-`v003`); `pnpm run export-static-demo -- --runs-root . --json` (exit 0, `readOnly: true`, `coverageStatus: complete` for `v001`-`v003`). Gap: branch still behind `origin/main` by 3 commits; no merge/fetch performed per subtask constraints.
 - 2026-05-24 — Cursor CLI/composer-2.5 — Accepted-plan task-003 (`Refresh docs/RULES.md`) completed in worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-23b-current-state-docs-refresh-wt`. Reviewed `docs/RULES.md` against `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md`, `concept-and-ideas/`, `docs/NORTH_STAR.md`, and live `package.json` scripts. Replaced `# Rules (scaffold mirror)` and Phase 01A scaffold-only boundary with current non-negotiables, `GameEngine` contract, evidence rules, validation expectations, security/LLM boundaries, and forbidden scope; preserved stable protocol constraints without inventing commands. Allowed edits: `docs/RULES.md`, `PROGRESS.MD`. Validation PASS: `git diff --check`; `pnpm run typecheck`; `pnpm run lint`; stale scaffold scan on `README.md docs/NORTH_STAR.md docs/RULES.md package.json` returned no matches; `pnpm run version-dashboard -- --runs-root . --json` (exit 0, `readOnly: true`, versions `v001`-`v003`); `pnpm run export-static-demo -- --runs-root . --json` (exit 0, `readOnly: true`, versions `v001`-`v003`, timeline coverage complete). Gap: branch still behind `origin/main` by 3 commits; no merge/fetch performed per subtask constraints.
 - 2026-05-24 — Cursor CLI/composer-2.5 — Accepted-plan task-005 (`Cross-check docs against live commands and evidence`) in worktree `/Users/keigoshimada/Documents/dungeon-forge-phase-23b-current-state-docs-refresh-wt`. Reviewed `README.md`, `docs/NORTH_STAR.md`, `docs/RULES.md`, `package.json`, `docs/NORTH_STAR_GAP_AUDIT.md`, `automation/phase-graph.json`, `automation/phase-state.json`, and generated evidence `runs/v001`-`runs/v003` plus `runs/comparisons`. Script cross-check: all 27 executable `package.json` scripts appear in README/NORTH_STAR/RULES; README lists no unknown commands. Evidence cross-check: smokes report `readOnly: true`, versions `v001`-`v003`, and `coverageStatus: complete` for static demo; comparison paths match `runs/comparisons/*`. Roadmap cross-check: README and `docs/NORTH_STAR.md` do not claim PHASE-23C/23D/24A/24B complete. Allowed edits: `README.md` (added `balance_summary.json` to per-version evidence trees), `PROGRESS.MD`. Validation PASS: `git diff --check`; `pnpm run typecheck`; `pnpm run lint`; stale scaffold scan on `README.md docs/NORTH_STAR.md docs/RULES.md package.json` returned no matches; `pnpm run version-dashboard -- --runs-root . --json` (exit 0); `pnpm run export-static-demo -- --runs-root . --json` (exit 0). Gaps: branch behind `origin/main` by 3 commits (no fetch/merge per constraints); `AGENTS.md` still says Phase 01A scaffold exists (outside allowed paths); `docs/NORTH_STAR_GAP_AUDIT.md` intentionally retains pre-refresh findings as audit history.
+- 2026-05-24 — Executor Codex — PHASE-23C longitudinal benchmark implemented from accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-23C/2026-05-24T00:45:05Z/accepted-plan/accepted-plan.json`. Changed allowed paths: `src/harness/longitudinal-benchmark.ts`, `src/harness/longitudinal-benchmark-cli.ts`, `src/harness/index.ts`, `tests/longitudinal-benchmark.test.ts`, `docs/LONGITUDINAL-BENCHMARK.md`, `package.json`, and `PROGRESS.MD`; generated executor evidence at ignored path `runs/benchmarks/PHASE-23C/longitudinal_summary.json`. Validation PASS: `pnpm test tests/longitudinal-benchmark.test.ts` (3 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run longitudinal-benchmark -- --versions v001,v002,v003 --runs-root . --out runs/benchmarks/PHASE-23C/longitudinal_summary.json`; `pnpm run longitudinal-benchmark -- --versions v001,v002,v003 --runs-root .`; `pnpm test` (43 files, 405 tests); `git diff --check`. Artifact evidence: `v001`, `v002`, and `v003` all report complete evidence, `missing_evidence: 0`, comparisons include improved/regressed/unchanged labels, and acceptance status remains human-governed as `pending`.
 
 - 2026-05-23 — Cursor/composer-2.5 + orchestrator — Phase 12A Pass 2: implemented `v002` profile with starting Smoke Bomb inventory/opening guidance, inventory/tactical render clarity, baseline policy smoke use, `demo-loop-handoff` (reviewer-driven `developer_task.md`/`patch_plan.md` from `v001` seed_001 careful_player), comparison artifacts under `runs/comparisons/`, generated acceptance reports from `demo-loop`, and regenerated `runs/v001`/`runs/v002` through commands. Concrete signal: v001→v002 comparison shows `items_used` 2→28, tactical-depth average 4→5.33, clarity average 5.33→5.67, and softlocks 15→14; comparison also records newly problematic balance runs for v003 tuning. Validation PASS: focused tests (36); `pnpm run typecheck`; `pnpm run lint`; `pnpm run demo-loop -- --runs-root . --versions v001,v002`; `pnpm run compare-versions -- --base v001 --target v002 --runs-root .`; `pnpm run accept-version -- --version v002 --runs-root . --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass --reviewer-driven`.
 - 2026-05-23 — orchestrator — Phase 12A Pass 3: implemented `v003` tuned one-floor balance/clarity profile with Slime-only pressure, starting Smoke Bomb + Potion, and explicit opening guidance; extended `demo-loop` to generate adjacent comparisons plus final `v001_vs_v003` comparison. Generated `runs/v003`, `runs/comparisons/v002_vs_v003.*`, and `runs/comparisons/v001_vs_v003.*` through `pnpm run demo-loop -- --runs-root .`. Concrete signal: v002→v003 damage taken `190 -> 130`, turns `1609 -> 1014`, item use `28 -> 32`, balance win rate `0.2 -> 0.3`, and no new problematic balance runs; v001→v003 keeps tactical-depth gain `4 -> 5.33` and item use `2 -> 32`. Validation PASS: focused tests (37); `pnpm run typecheck`; `pnpm run lint`; `pnpm run demo-loop -- --runs-root .`; `pnpm run compare-versions -- --base v002 --target v003 --runs-root .`; `pnpm run compare-versions -- --base v001 --target v003 --runs-root .`; `pnpm run accept-version -- --version v003 --runs-root . --command-status typecheck:pass --command-status test:pass --command-status lint:pass --command-status build:pass --reviewer-driven`.

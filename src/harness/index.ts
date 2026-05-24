@@ -529,6 +529,26 @@ export {
   type BalanceAnalyticsCliIo,
 } from './balance-analytics-cli.js';
 export {
+  DEFAULT_LONGITUDINAL_BENCHMARK_PATH,
+  LONGITUDINAL_BENCHMARK_SCHEMA_VERSION,
+  buildLongitudinalBenchmarkReport,
+  writeLongitudinalBenchmarkReport,
+  type BuildLongitudinalBenchmarkOptions,
+  type LongitudinalAdjacentComparison,
+  type LongitudinalBenchmarkReport,
+  type LongitudinalEvidenceState,
+  type LongitudinalMetricComparison,
+  type LongitudinalMetricSource,
+  type LongitudinalTrendLabel,
+  type LongitudinalVersionSummary,
+} from './longitudinal-benchmark.js';
+export {
+  LONGITUDINAL_BENCHMARK_CLI_USAGE,
+  parseLongitudinalBenchmarkCliArgs,
+  runLongitudinalBenchmarkCli,
+  type LongitudinalBenchmarkCliIo,
+} from './longitudinal-benchmark-cli.js';
+export {
   VERSION_ARTIFACT_DIRS,
   VERSION_ID_PATTERN,
   VERSION_MARKDOWN_FILES,
