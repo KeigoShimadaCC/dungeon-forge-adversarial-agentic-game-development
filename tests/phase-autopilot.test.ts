@@ -382,9 +382,11 @@ describe('phase autopilot execution layer', () => {
   it('treats gh no-checks stderr as absent remote checks', async () => {
     await withTempDir(async (dir) => {
       const evidenceDir = path.join(dir, 'evidence');
+      const commands: Array<{ command: string; args?: string[] }> = [];
       const github = createGitHubCliAdapter({
         executor: {
           async run(command, options) {
+            commands.push({ command, args: options.args });
             await mkdir(path.dirname(options.stdoutPath), { recursive: true });
             await writeFile(options.stdoutPath, '');
             await writeFile(
@@ -408,6 +410,41 @@ describe('phase autopilot execution layer', () => {
 
       expect(checks.status).toBe('none');
       expect(checks.rawStdout).toContain('no checks reported');
+      expect(commands[0]).toEqual({
+        command: 'gh',
+        args: ['pr', 'checks', '52', '--watch'],
+      });
+    });
+  });
+
+  it('preserves pending PR check status from nonzero gh output', async () => {
+    await withTempDir(async (dir) => {
+      const evidenceDir = path.join(dir, 'evidence');
+      const github = createGitHubCliAdapter({
+        executor: {
+          async run(command, options) {
+            await mkdir(path.dirname(options.stdoutPath), { recursive: true });
+            await writeFile(
+              options.stdoutPath,
+              'Repo gates\tpending\t0\thttps://github.com/acme/repo/actions/runs/1/job/2\t\n',
+            );
+            await writeFile(options.stderrPath, '');
+            return {
+              ...commandResult([command, ...(options.args ?? [])].join(' '), options.cwd, 'fail'),
+              stdoutPath: options.stdoutPath,
+              stderrPath: options.stderrPath,
+            };
+          },
+        },
+      });
+
+      const checks = await github.watchChecks({
+        repoRoot,
+        prNumber: 52,
+        evidenceDir,
+      });
+
+      expect(checks.status).toBe('pending');
     });
   });
 

@@ -208,7 +208,7 @@ export const createGitHubCliAdapter = (
         input.repoRoot,
         input.evidenceDir,
         'gh-pr-checks',
-        ['pr', 'checks', String(input.prNumber)],
+        ['pr', 'checks', String(input.prNumber), '--watch'],
         input.timeoutMs,
       );
       const { readFile } = await import('node:fs/promises');
@@ -217,7 +217,9 @@ export const createGitHubCliAdapter = (
       const combinedOutput = [stdout, stderr].filter((value) => value.length > 0).join('\n');
       const status = parseChecksOutput(combinedOutput);
       const metadata: RemoteChecksMetadata = {
-        status: commandEvidenceStatus(result) === 'pass' || status === 'none' ? status : 'fail',
+        status: commandEvidenceStatus(result) === 'pass' || status === 'none' || status === 'pending'
+          ? status
+          : 'fail',
         rawStdout: combinedOutput,
         commandResult: result,
       };
