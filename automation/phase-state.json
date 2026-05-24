@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-27A",
+  "currentPhase": "PHASE-27B",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -300,7 +300,11 @@
       "status": "complete"
     },
     "PHASE-27A": {
-      "status": "planned"
+      "branch": "phase/phase-27a-prepared-iteration-handoffs",
+      "evidenceDir": "runs/phase-runner/PHASE-27A/2026-05-24T05:32:22Z",
+      "mergeCommit": "e521835c21235b7d06dc4a179c7b5657d92db6ef",
+      "pr": 61,
+      "status": "complete"
     },
     "PHASE-27B": {
       "status": "planned"
