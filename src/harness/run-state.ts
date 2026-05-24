@@ -14,6 +14,7 @@ export type AutopilotStage =
   | 'plan-acceptance'
   | 'execution'
   | 'cursor-subtasks'
+  | 'restricted-agent-delegate'
   | 'recheck'
   | 'local-validation'
   | 'changed-path-scan'

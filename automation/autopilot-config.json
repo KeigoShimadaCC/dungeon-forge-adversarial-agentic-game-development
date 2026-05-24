@@ -41,5 +41,16 @@
     "defaultTimeoutMs": 3600000,
     "inactivityTimeoutMs": 300000,
     "maxRetries": 0
+  },
+  "restrictedAgentDelegate": {
+    "enabled": false,
+    "providerMode": "fake",
+    "maxAttempts": 1,
+    "commandIds": ["focused_tests"],
+    "patchBudget": {
+      "maxFiles": 1,
+      "maxBytes": 2000
+    },
+    "evidenceDirName": "restricted-agent-tasks"
   }
 }

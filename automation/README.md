@@ -77,7 +77,7 @@ Writes a run plan, prompt bundle, `run-state.json`, progress snapshot, and `fina
 pnpm run phase -- execute --phase PHASE-20A --stage <stage> --run-id <run-id>
 ```
 
-Runs one explicit stage. Supported stages are `bundle`, `preflight`, `setup`, `bootstrap`, `planning`, `plan-acceptance`, `execution`, `cursor-subtasks`, `recheck`, `local-validation`, `changed-path-scan`, `secret-scan`, `local-evidence`, `local-gate`, `commit`, `pr`, `checks`, `remote-evidence`, `final-gate`, `merge`, and `cleanup`.
+Runs one explicit stage. Supported stages are `bundle`, `preflight`, `setup`, `bootstrap`, `planning`, `plan-acceptance`, `execution`, `cursor-subtasks`, `restricted-agent-delegate`, `recheck`, `local-validation`, `changed-path-scan`, `secret-scan`, `local-evidence`, `local-gate`, `commit`, `pr`, `checks`, `remote-evidence`, `final-gate`, `merge`, and `cleanup`.
 
 ```bash
 pnpm run phase -- autopilot --phase PHASE-20A --allow-agent-execution --allow-pr --allow-merge
@@ -177,6 +177,14 @@ Executor Codex may delegate Cursor subtasks only when the accepted plan explicit
 ### Cursor Subtasks
 
 Cursor prompts are generated from the accepted plan, a specific task ID, allowed paths, relevant phase-plan section, output schema, and required tests/smokes. The deterministic `cursor-subtasks` stage runs only accepted-plan tasks with `cursorDelegation.recommended === true` and requires a matching `CursorSubtaskReport` for each delegated task. Cursor output is advisory until Executor Codex and deterministic validation verify it.
+
+### Restricted Agent Delegate
+
+The `restricted-agent-delegate` stage is optional and default-off in `automation/autopilot-config.json`. It runs only after `cursor-subtasks` and only against tasks from `accepted-plan/accepted-plan.json` that explicitly mark `restrictedAgentDelegation.recommended === true`.
+
+The restricted delegate receives the accepted task objective, allowed paths, forbidden paths, configured patch budget, and whitelisted command IDs. It writes evidence under `restricted-agent-tasks/`, including repair-loop reports. A restricted delegate pass is not release authority: recheck, local validation, changed-path scan, secret scan, local/final gates, PR policy, merge policy, and phase-state completion still run afterward.
+
+Use restricted delegate for small bounded patch/check tasks where the model should not receive direct filesystem, shell, git, PR, or merge authority. Keep Cursor available for broader implementation subtasks that are explicitly delegated and reviewed.
 
 ### Recheck Agent
 

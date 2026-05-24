@@ -702,7 +702,7 @@ describe('phase autopilot execution layer', () => {
         },
       });
 
-      expect(summary.currentStage).toBe('recheck');
+      expect(summary.currentStage).toBe('restricted-agent-delegate');
       const prompt = await readFile(path.join(evidenceDir, 'cursor-tasks', 'task-001-prompt.md'), 'utf8');
       expect(prompt).toContain('Task ID: task-001');
       const report = JSON.parse(
@@ -1062,6 +1062,7 @@ describe('phase autopilot execution layer', () => {
         'plan-acceptance',
         'execution',
         'cursor-subtasks',
+        'restricted-agent-delegate',
         'recheck',
         'local-validation',
         'changed-path-scan',

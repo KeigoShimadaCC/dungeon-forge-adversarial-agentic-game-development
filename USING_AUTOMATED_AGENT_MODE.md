@@ -305,7 +305,29 @@ Cursor output is advisory until Executor Codex and deterministic validation veri
 
 ---
 
-## 4.6 Recheck Agent
+## 4.6 Restricted Agent Delegate
+
+The restricted API coding agent can be enabled as an optional delegate after
+Cursor subtasks and before recheck. It is default-off and only runs accepted-plan
+tasks with `restrictedAgentDelegation.recommended === true`.
+
+Restricted delegate evidence is written under:
+
+```text
+restricted-agent-tasks/
+  restricted-agent-tasks.json
+  task-001/
+    repair-loop-report.json
+```
+
+The restricted delegate is not a release controller. Recheck, local validation,
+changed-path scan, secret scan, local/final gates, PR policy, merge policy, and
+phase-state completion remain authoritative. Cursor remains supported for
+explicitly delegated broader subtasks.
+
+---
+
+## 4.7 Recheck Agent
 
 The recheck agent audits the implementation.
 
@@ -349,6 +371,7 @@ planning
 plan-acceptance
 execution
 cursor-subtasks
+restricted-agent-delegate
 recheck
 local-validation
 changed-path-scan
@@ -503,6 +526,7 @@ planning
 plan-acceptance
 execution
 cursor-subtasks
+restricted-agent-delegate
 recheck
 local-validation
 changed-path-scan
