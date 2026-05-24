@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-30C",
+  "currentPhase": "PHASE-31A",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -363,7 +363,11 @@
       "status": "complete"
     },
     "PHASE-30C": {
-      "status": "planned"
+      "branch": "phase/phase-30c-restricted-check-runner-and-repair-loop",
+      "evidenceDir": "runs/phase-runner/PHASE-30C/2026-05-24T08:15:25Z",
+      "mergeCommit": "db35eb747a1f586c91df760c1fe44392efc037eb",
+      "pr": 70,
+      "status": "complete"
     },
     "PHASE-31A": {
       "status": "planned"
