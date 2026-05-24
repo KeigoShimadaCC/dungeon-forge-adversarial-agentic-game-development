@@ -29,6 +29,7 @@
     "verify-acceptance-evidence": "pnpm run build && node dist/src/harness/verify-acceptance-evidence-cli.js",
     "repo-checks": "pnpm run build && node dist/src/harness/repo-checks-cli.js",
     "human-play": "pnpm run build && node dist/src/human-play/human-play-cli.js",
+    "browser-play": "pnpm run build && node dist/src/browser-play/browser-play-cli.js",
     "trace-replay": "pnpm run build && node dist/src/harness/trace-replay-cli.js",
     "version-dashboard": "pnpm run build && node dist/src/dashboard/version-dashboard-cli.js",
     "balance-analytics": "pnpm run build && node dist/src/harness/balance-analytics-cli.js",
