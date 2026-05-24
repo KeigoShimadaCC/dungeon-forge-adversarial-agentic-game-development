@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-28A - Nondestructive Version Base Selection |
-| Goal | Let the control room choose an older existing version as the active base for the next prepared handoff while preserving later versions as historical evidence. |
-| Branch | `phase/phase-28a-nondestructive-version-base-selection` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-28a-nondestructive-version-base-selection-wt` |
-| Base | `origin/main` after PHASE-27B dependency slice |
+| Phase | PHASE-28B - Control Room Polish And Scalability |
+| Goal | Polish the local control room into a coherent read-only command center with quick summaries, persona/model metadata controls, safe prompt inspection, prepared handoff state, and scalable empty/blocked/missing evidence states. |
+| Branch | `phase/phase-28b-control-room-polish-and-scalability` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-28b-control-room-polish-and-scalability-wt` |
+| Base | `origin/main` after PHASE-28A dependency slice |
 | Status | `Implementation and local validation complete; phase runner recovery/resume pending` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-28A-NONDESTRUCTIVE-VERSION-BASE-SELECTION.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-28A/2026-05-24T06:08:34Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
+3. Active `phase-plans/PHASE-28B-CONTROL-ROOM-POLISH-AND-SCALABILITY.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-28B/2026-05-24T06:31:11Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,10 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 Executor Codex — PHASE-28B task-001/task-004: built polished integrated view model with compact version summaries plus empty/blocked/missing/scalable states.
+- [x] 2026-05-24 Executor Codex — PHASE-28B task-002/task-003: wired inert reviewer persona/model metadata and safe prompt inspection into web shell and prepared handoffs.
+- [x] 2026-05-24 Executor Codex — PHASE-28B task-005: documented and smoked the complete local control-room workflow.
+- [x] 2026-05-24 Executor Codex — PHASE-28B validation: ran accepted focused tests, polish tests, smokes, typecheck, lint, full tests, and `git diff --check`.
 - [x] 2026-05-24 Executor Codex — PHASE-28A task-001: added validated active-base selection timeline helper, event append semantics, unknown-version rejection, and history preservation coverage.
 - [x] 2026-05-24 Executor Codex — PHASE-28A task-002: exposed base selection state/affordance in the inert control-room web shell and added narrow timeline-only CLI selection path.
 - [x] 2026-05-24 Executor Codex — PHASE-28A task-003: made prepared handoffs explicitly use selected-base context and block on missing required selected-base evidence.
@@ -277,17 +281,16 @@ _(none)_
 
 ## Phase checklist
 
-_PHASE-28A - Nondestructive Version Base Selection._
+_PHASE-28B - Control Room Polish And Scalability._
 
 - [x] Progress state seeded from accepted runner plan before implementation.
-- [x] Timeline helper validates selected base versions against known timeline versions, appends `version_selected_as_base`, updates `activeBaseVersion`/`updatedAt`, and preserves later evidence/events.
-- [x] Unknown or malformed selected versions are rejected with actionable diagnostics.
-- [x] Web shell shows active base version, latest known version, historical versions after the active base, and inert base-selection affordance.
-- [x] Web-shell CLI can select a base version by mutating only the timeline artifact through the validated helper.
-- [x] Prepared handoffs clearly state selected-base context and read developer/reviewer/version context from the selected base.
-- [x] Prepared handoffs block when required evidence for the selected base is missing while later versions remain visible/inspectable.
-- [x] Sample timeline, web-shell, and handoff artifacts demonstrate nondestructive older-base selection.
-- [x] Documentation explains pointer selection only: no deletion, hiding, git reset/revert, branch creation, command execution, or filesystem rollback.
+- [x] Integrated control-room view model shows one-page iteration history, compact per-version summaries, selected-base/latest/historical labels, evidence counts, missing-evidence counts, and ready/blocked state.
+- [x] Persona/model selection controls are inert and persist only as prepared handoff metadata or view-model options.
+- [x] Unknown reviewer persona/model ids are rejected with actionable diagnostics while deterministic defaults remain stable.
+- [x] Prompt inspection panel displays safe metadata and safe text only, while runtime prompt inputs, env values, credentials, evidence JSON, and assembled hidden prompts remain excluded.
+- [x] Empty, loading, blocked, no-selected-base, missing-evidence, missing narration/handoff, and larger timeline states are covered by deterministic helper tests.
+- [x] End-to-end local workflow documentation covers human idea/comment capture, persona/model metadata, prompt inspection, base-version selection, prepared handoff viewing, and evidence boundaries.
+- [x] Sample web-shell and handoff artifacts plus smoke evidence demonstrate the read-only/prepared-command flow.
 - [x] Required focused tests, smoke commands, typecheck, lint, full tests, and `git diff --check` are recorded or blockers are explained.
 
 ---
@@ -345,6 +348,9 @@ _Add rows as you go. Promote to Task queue when a phase plan or user explicitly 
 ## Validation log
 
 _Append-only evidence for the active phase: commands run, pass/fail, commits, PRs, blockers. Newest entries at the bottom._
+
+- 2026-05-24 — Executor Codex — PHASE-28B implementation checkpoint after runner recovery: added prepared handoff reviewer persona/model metadata with validation, CLI flags, and inert panel rendering; expanded the web shell with version summary cards, prepared handoff state, reviewer metadata controls, and safe prompt inspection; added `tests/control-room-polish.test.ts`; regenerated handoff/web-shell artifacts; added smoke evidence at `runs/control-room/smokes/PHASE-28B/control-room-polish-smoke.json`; and documented the local workflow in `docs/CONTROL-ROOM-WORKFLOW.md`. No provider call, browser command execution, agent launch, commit/PR/merge control, gameplay behavior change, or destructive timeline operation was added.
+- 2026-05-24 — Executor Codex — PHASE-28B validation PASS after runner recovery: `pnpm test tests/control-room-web-shell.test.ts tests/control-room-handoffs.test.ts tests/control-room-roles.test.ts tests/control-room-narration.test.ts tests/control-room-timeline.test.ts` (5 files, 30 tests); `pnpm test tests/control-room-polish.test.ts` (1 file, 3 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm run control-room-web-shell -- --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --out runs/control-room/web-shell/index.html`; `node dist/src/control-room/handoffs/control-room-handoff-cli.js --timeline runs/control-room/timeline/v001-v002-v003.timeline.json --out runs/control-room/handoffs/v001-v002-v003.prepared-handoff.json --html runs/control-room/handoffs/v001-v002-v003.panel.html --reviewer-persona bug_hunter --reviewer-model configured_reviewer_model`; `rg "Careful Player|Configured reviewer model|Prompt|Prepared|Active base|Historical after base" runs/control-room/web-shell/index.html runs/control-room/handoffs/v001-v002-v003.panel.html`; smoke JSON generation; `pnpm test` (52 files, 467 tests); `git diff --check`.
 
 - 2026-05-24 — Executor Codex — PHASE-28A pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-28A/2026-05-24T06:08:34Z/accepted-plan/accepted-plan.json`. Accepted tasks: validated active-base timeline helper, inert web-shell selector plus timeline-only CLI selection, base-aware prepared handoffs, regenerated sample artifacts/docs, and required validation. Cursor delegation not used; the deterministic runner owns Cursor subtask execution for accepted-plan tasks marked `cursorDelegation.recommended === true`.
 - 2026-05-24 — Executor Codex — PHASE-28A implementation checkpoint: added validated active-base selection helpers in `src/control-room/timeline/**`, base-selection CLI support in the inert control-room web shell, selected-base/historical-version projection fields, base-aware prepared handoff fields/rendering, regenerated sample timeline/web-shell/handoff artifacts, aligned dependent human-feedback/narration fixtures, and documented nondestructive pointer selection in `docs/CONTROL-ROOM-TIMELINE.md`. No delete/rollback/git operation, branch creation, command execution hook, provider call, gameplay behavior change, or acceptance/merge authority was added.

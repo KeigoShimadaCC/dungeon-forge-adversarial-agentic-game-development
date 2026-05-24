@@ -99,3 +99,13 @@ export interface ControlRoomRoleCatalog {
   schemaVersion: typeof CONTROL_ROOM_ROLE_CATALOG_SCHEMA_VERSION;
   roles: ControlRoomRoleCatalogEntry[];
 }
+
+export interface ControlRoomReviewerSelection {
+  personaId: string;
+  personaLabel: string;
+  modelId: string;
+  modelLabel: string;
+  providerKind: ControlRoomModelProviderKind;
+  advisoryOnly: true;
+  providerCallEnabled: false;
+}

@@ -1,7 +1,7 @@
 {
   "blockers": [],
   "developerContext": "Developer produced the baseline version evidence.",
-  "developerTaskText": "Prepared next iteration handoff\nSelected base version: v001\nLatest known version: v003\nHistorical versions after selected base: v002, v003\nHuman idea: Make a tiny dungeon loop that can improve through trace-backed review.\nDeveloper context: Developer produced the baseline version evidence.\nReviewer summary: Reviewer flagged shallow item use and limited tactical choices.\nHuman comments: 1\n- v002 2026-05-24T04:09:00.000Z: Human comment: keep the Smoke Bomb clarity improvement.\nEvidence paths: 12\n- present comparison runs/comparisons/v001_vs_v002.json\n- present comparison runs/comparisons/v002_vs_v003.json\n- present developer_notes runs/v001/developer_notes.md\n- present review runs/v001/reviews/seed_001_careful_player.json\n- present scorecard runs/v001/scorecards/seed_001_careful_player.json\n- present trace runs/v001/traces/seed_001_careful_player.json\n- present version_summary runs/v001/version_summary.json\n- present version_summary runs/v001/version_summary.json\n- present changelog runs/v002/changelog.md\n- present acceptance runs/v003/acceptance.md\n- present balance_summary runs/v003/balance_summary.json\n- missing review runs/v003/reviews/missing_optional_review.json",
+  "developerTaskText": "Prepared next iteration handoff\nSelected base version: v001\nLatest known version: v003\nHistorical versions after selected base: v002, v003\nHuman idea: Make a tiny dungeon loop that can improve through trace-backed review.\nDeveloper context: Developer produced the baseline version evidence.\nReviewer summary: Reviewer flagged shallow item use and limited tactical choices.\nReviewer persona metadata: Bug Hunter (bug_hunter)\nReviewer model metadata: gpt-4o-mini (configured_reviewer_model)\nHuman comments: 1\n- v002 2026-05-24T04:09:00.000Z: Human comment: keep the Smoke Bomb clarity improvement.\nEvidence paths: 12\n- present comparison runs/comparisons/v001_vs_v002.json\n- present comparison runs/comparisons/v002_vs_v003.json\n- present developer_notes runs/v001/developer_notes.md\n- present review runs/v001/reviews/seed_001_careful_player.json\n- present scorecard runs/v001/scorecards/seed_001_careful_player.json\n- present trace runs/v001/traces/seed_001_careful_player.json\n- present version_summary runs/v001/version_summary.json\n- present version_summary runs/v001/version_summary.json\n- present changelog runs/v002/changelog.md\n- present acceptance runs/v003/acceptance.md\n- present balance_summary runs/v003/balance_summary.json\n- missing review runs/v003/reviews/missing_optional_review.json",
   "evidence": [
     {
       "kind": "comparison",
@@ -117,6 +117,15 @@
   "humanSummary": "Next iteration is ready from selected base v001; later versions (v002, v003) remain historical evidence.",
   "latestKnownVersion": "v003",
   "preparedAt": "2026-05-24T05:32:22.000Z",
+  "reviewerSelection": {
+    "advisoryOnly": true,
+    "modelId": "configured_reviewer_model",
+    "modelLabel": "gpt-4o-mini",
+    "personaId": "bug_hunter",
+    "personaLabel": "Bug Hunter",
+    "providerCallEnabled": false,
+    "providerKind": "configured_llm_provider"
+  },
   "reviewerSummary": "Reviewer flagged shallow item use and limited tactical choices.",
   "schemaVersion": 1,
   "selectedBaseVersion": "v001",

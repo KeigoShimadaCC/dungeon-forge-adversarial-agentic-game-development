@@ -18,6 +18,8 @@ Options:
   --out <path>            Write prepared handoff JSON under runs/control-room/handoffs/
   --html <path>           Write inert handoff panel HTML under runs/control-room/handoffs/
   --prepared-at <iso>     Stable prepared timestamp
+  --reviewer-persona <id> Reviewer persona metadata for the next handoff
+  --reviewer-model <id>   Reviewer model metadata for the next handoff
   --json                  Print handoff JSON to stdout
   --help, -h              Show this help text
 
@@ -31,6 +33,8 @@ interface ParsedControlRoomHandoffArgs {
   outPath?: string;
   htmlPath?: string;
   preparedAt?: string;
+  reviewerPersonaId?: string;
+  reviewerModelId?: string;
   json: boolean;
   help: boolean;
 }
@@ -66,6 +70,12 @@ export const parseControlRoomHandoffCliArgs = (
       index += 1;
     } else if (arg === '--prepared-at' && hasNext) {
       args.preparedAt = next;
+      index += 1;
+    } else if (arg === '--reviewer-persona' && hasNext) {
+      args.reviewerPersonaId = next;
+      index += 1;
+    } else if (arg === '--reviewer-model' && hasNext) {
+      args.reviewerModelId = next;
       index += 1;
     } else if (arg === '--json') {
       args.json = true;
@@ -106,6 +116,8 @@ export const runControlRoomHandoffCli = async (
 
   const handoff = buildControlRoomPreparedHandoff(loaded.timeline, {
     preparedAt: args.preparedAt,
+    reviewerPersonaId: args.reviewerPersonaId,
+    reviewerModelId: args.reviewerModelId,
     handoffArtifactPath: args.outPath,
     panelArtifactPath: args.htmlPath,
   });

@@ -123,6 +123,18 @@
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 12px;
     }
+    .version-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .version-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcfd;
+      min-height: 160px;
+    }
     .capture-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -194,6 +206,43 @@
   </header>
   <main>
 
+    <section class="panel">
+    <div class="section-heading">
+      <h2>Version Summary Cards</h2>
+      <div class="summary-strip">
+        <span>Total versions: <strong>3</strong></span>
+        <span>Prepared handoff: <strong>ready</strong></span>
+      </div>
+    </div>
+    <div class="version-card-grid"><article class="version-card">
+        <h3>v001</h3>
+        <div class="summary-strip">
+          <span><strong>Active base</strong></span>
+
+
+        </div>
+        <p>Reviewer flagged shallow item use and limited tactical choices.</p>
+        <p class="muted">3 events; 6 evidence link(s); 0 missing.</p>
+      </article><article class="version-card">
+        <h3>v002</h3>
+        <div class="summary-strip">
+
+
+          <span>Historical after base</span>
+        </div>
+        <p>Select v002 as the active base without deleting or rolling back later versions.</p>
+        <p class="muted">2 events; 3 evidence link(s); 0 missing.</p>
+      </article><article class="version-card">
+        <h3>v003</h3>
+        <div class="summary-strip">
+
+          <span><strong>Latest known</strong></span>
+          <span>Historical after base</span>
+        </div>
+        <p>Reviewer summary is linked to expected evidence, with absent optional evidence labeled.</p>
+        <p class="muted">2 events; 3 evidence link(s); 1 missing.</p>
+      </article></div>
+  </section>
     <section class="panel capture-panel" aria-labelledby="human-capture-heading">
     <div class="section-heading">
       <h2 id="human-capture-heading">Human Input</h2>
@@ -219,6 +268,35 @@
         <output class="diagnostic" name="comment-diagnostic">Empty or oversized text is rejected before timeline writes.</output>
       </form>
     </div>
+  </section>
+    <section class="panel capture-panel" aria-labelledby="handoff-heading">
+    <div class="section-heading">
+      <h2 id="handoff-heading">Prepared Handoff</h2>
+      <div class="summary-strip">
+        <span>Status: <strong>ready</strong></span>
+        <span>Reviewer persona: <strong>Careful Player</strong></span>
+        <span>Reviewer model: <strong>deterministic local logic</strong></span>
+      </div>
+    </div>
+    <p>Next iteration is ready from selected base v001; later versions (v002, v003) remain historical evidence.</p>
+    <div class="capture-grid">
+      <form class="capture-form" data-capture-kind="reviewer-metadata">
+        <label for="reviewer-persona">Reviewer persona metadata</label>
+        <select id="reviewer-persona" name="reviewerPersona">
+          <option value="careful_player" selected>Careful Player</option><option value="naive_player">Naive Player</option><option value="bug_hunter">Bug Hunter</option>
+        </select>
+        <label for="reviewer-model">Reviewer model metadata</label>
+        <select id="reviewer-model" name="reviewerModel">
+          <option value="local_deterministic" selected>Local deterministic harness - deterministic local logic</option><option value="configured_reviewer_model">Configured reviewer model - gpt-4o-mini</option>
+        </select>
+        <output class="diagnostic" name="reviewer-metadata-diagnostic">Metadata only; changing these values does not call a provider or execute a reviewer.</output>
+      </form>
+      <div class="capture-form">
+        <strong>Suggested command text</strong>
+        <p><code>pnpm run developer-task -- --target-version v001 --runs-root .</code></p><p><code>pnpm run run-version -- --version v001 --runs-root . --on-existing archive</code></p><p><code>pnpm run compare-versions -- --left v001 --right v003 --runs-root .</code></p>
+      </div>
+    </div>
+
   </section>
     <section class="panel capture-panel" aria-labelledby="base-selection-heading">
       <div class="section-heading">
@@ -369,6 +447,58 @@
 
     <details><summary>Evidence links (1)</summary><ul><li><span class="evidence-kind">acceptance</span> <a href="../../../runs/v003/acceptance.md">v003 acceptance notes</a><code>runs/v003/acceptance.md</code></li></ul></details>
   </article></div>
+  </section>
+    <section class="panel">
+    <h2>Prompt Inspection</h2>
+    <p class="muted">Only safe catalog metadata is shown. Runtime prompts, evidence JSON, environment variables, and credentials are not assembled here.</p>
+    <div class="role-grid">
+      <article class="role-card">
+        <h3>Game Developer - Developer workflow prompt</h3>
+        <p>Repo-stored instructions for bounded developer-agent tasks.</p>
+        <ul class="compact">
+          <li><strong>Visibility</strong><span>safe_repo_reference</span></li>
+          <li><strong>Safe inline text</strong><span>none</span></li>
+          <li><strong>Sources</strong><span>src/agents/prompts/developer.md</span></li>
+        </ul>
+        <p class="diagnostic">Safe repo reference only; consumers should load text deliberately before display.</p>
+      </article><article class="role-card">
+        <h3>Game Reviewer - Reviewer artifact prompt</h3>
+        <p>Repo-stored structured review instructions for trace-backed critique.</p>
+        <ul class="compact">
+          <li><strong>Visibility</strong><span>safe_repo_reference</span></li>
+          <li><strong>Safe inline text</strong><span>none</span></li>
+          <li><strong>Sources</strong><span>src/agents/prompts/reviewer.md</span></li>
+        </ul>
+        <p class="diagnostic">Safe repo reference only; consumers should load text deliberately before display.</p>
+      </article><article class="role-card">
+        <h3>Game Reviewer - LLM reviewer runtime prompt</h3>
+        <p>Runtime prompt builder that includes selected persona, trace, scorecard, and rendered-state evidence.</p>
+        <ul class="compact">
+          <li><strong>Visibility</strong><span>dynamic_runtime_reference</span></li>
+          <li><strong>Safe inline text</strong><span>none</span></li>
+          <li><strong>Sources</strong><span>src/agents/prompts/llm-reviewer.ts</span></li>
+        </ul>
+        <p class="diagnostic">Prompt text is assembled from runtime state and artifact evidence; catalog exposes source references instead of copied prompt text.</p>
+      </article><article class="role-card">
+        <h3>Narrator - Narration role description</h3>
+        <p>No runnable narrator prompt exists yet; later phases should derive narration from version summaries and trace-backed artifacts.</p>
+        <ul class="compact">
+          <li><strong>Visibility</strong><span>safe_repo_reference</span></li>
+          <li><strong>Safe inline text</strong><span>none</span></li>
+          <li><strong>Sources</strong><span>phase-plans/PHASE-27B-NARRATED-VERSION-SUMMARIES.md</span></li>
+        </ul>
+        <p class="diagnostic">Narrator is display metadata in this phase, not an executable agent.</p>
+      </article><article class="role-card">
+        <h3>Human - Human-authored text</h3>
+        <p>Human comments, ideas, and decisions are captured as explicit local artifacts by later control-room phases.</p>
+        <ul class="compact">
+          <li><strong>Visibility</strong><span>not_applicable</span></li>
+          <li><strong>Safe inline text</strong><span>none</span></li>
+          <li><strong>Sources</strong><span>human_input</span></li>
+        </ul>
+
+      </article>
+    </div>
   </section>
     <section class="panel">
     <h2>Roles, Personas, And Models</h2>
