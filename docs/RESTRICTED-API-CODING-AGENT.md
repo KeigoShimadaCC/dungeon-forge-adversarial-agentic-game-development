@@ -24,7 +24,8 @@ deterministic context packaging and bounded read/search helpers. PHASE-29C adds
 a non-mutating dry-run API loop. PHASE-30A adds deterministic source patch
 validation. PHASE-30B adds deterministic application of already-validated patch
 plans inside a worktree. PHASE-30C adds whitelisted check execution and a
-bounded repair loop. These phases still do not integrate with autopilot.
+bounded repair loop. PHASE-31A integrates the restricted agent as an optional,
+default-off Automated Agent Mode delegate.
 
 ## Trust Boundary
 
@@ -340,6 +341,36 @@ The local smoke command uses fake provider mode:
 pnpm run restricted-agent-repair-loop -- --provider fake --phase PHASE-30C --task task-001 --max-attempts 1 --checks focused_tests --out runs/restricted-agent/PHASE-30C/smoke-repair-loop
 ```
 
+## Autopilot Delegate
+
+PHASE-31A adds a `restricted-agent-delegate` stage to Automated Agent Mode. The
+stage runs after `cursor-subtasks` and before `recheck`. It is configured in
+`automation/autopilot-config.json` and remains disabled by default.
+
+The delegate can run only from `accepted-plan/accepted-plan.json`. A task must
+explicitly set `restrictedAgentDelegation.recommended === true`; raw phase-plan
+text or ad hoc task IDs are not enough. Missing accepted-plan evidence, missing
+task IDs, or unmarked tasks do not grant execution authority.
+
+Delegate evidence is written under the phase-runner evidence directory:
+
+```text
+restricted-agent-tasks/
+  restricted-agent-tasks.json
+  task-001/
+    repair-loop-report.json
+```
+
+The restricted delegate cannot bypass release gates. A passing restricted-agent
+report still flows into recheck, local validation, changed-path scan, secret
+scan, local evidence, local gate, PR checks, remote evidence, final gate, merge
+policy, and explicit phase-state completion.
+
+Cursor remains supported. Use Cursor for broader accepted-plan implementation
+subtasks that need normal coding-agent ergonomics; use the restricted delegate
+for small tasks where the model should remain constrained to JSON intent,
+validated patches, whitelisted checks, and evidence.
+
 ## Evidence
 
 Restricted-agent evidence records capture:
@@ -363,5 +394,6 @@ allowed-path search, and exposure evidence. PHASE-29C adds the credential-gated,
 non-mutating dry-run API loop. PHASE-30A adds conservative source patch
 validation. PHASE-30B adds deterministic application of normalized validated
 patch plans with dry-run previews and rollback evidence. PHASE-30C adds
-whitelisted check execution and bounded repair-loop evidence. Later phases will
-add optional autopilot delegate integration.
+whitelisted check execution and bounded repair-loop evidence. PHASE-31A adds
+optional default-off Automated Agent Mode delegation while preserving recheck and
+deterministic gates as release authority.

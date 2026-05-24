@@ -36,6 +36,11 @@ import {
 } from './plan-acceptance.js';
 import { scanChangedPathsForSecrets } from './secret-scan.js';
 import {
+  DEFAULT_RESTRICTED_AGENT_COMMAND_REGISTRY,
+  runRestrictedAgentRepairLoop,
+  type RestrictedAgentTurnInput,
+} from './restricted-agent/index.js';
+import {
   buildPhaseRunBundle,
   defaultRunnerPaths,
   evaluateAutomerge,
@@ -67,6 +72,17 @@ export interface AutopilotConfig {
     defaultTimeoutMs?: number;
     inactivityTimeoutMs?: number;
     maxRetries?: number;
+  };
+  restrictedAgentDelegate?: {
+    enabled: boolean;
+    providerMode: 'fake';
+    maxAttempts: number;
+    commandIds: string[];
+    patchBudget: {
+      maxFiles: number;
+      maxBytes: number;
+    };
+    evidenceDirName: string;
   };
 }
 
@@ -110,6 +126,7 @@ export type ExecuteStageName =
   | 'bootstrap'
   | 'execution'
   | 'cursor-subtasks'
+  | 'restricted-agent-delegate'
   | 'recheck'
   | 'local-validation'
   | 'changed-path-scan'
@@ -220,7 +237,7 @@ const writeDryRunPlan = async (
       '',
       'Stages (no git/agent/pr/merge side effects in dry-run):',
       'bundle -> preflight -> setup -> bootstrap -> planning -> plan-acceptance ->',
-      'execution -> cursor-subtasks -> recheck -> local-validation -> changed-path-scan ->',
+      'execution -> cursor-subtasks -> restricted-agent-delegate -> recheck -> local-validation -> changed-path-scan ->',
       'secret-scan -> local-evidence -> local-gate -> commit -> pr -> checks ->',
       'remote-evidence -> final-gate -> merge -> cleanup -> complete',
       '',
@@ -323,6 +340,25 @@ export const writeCursorSubtaskPrompt = async (
 
 const cursorTaskFilePrefix = (taskNumber: number): string =>
   `task-${String(taskNumber).padStart(3, '0')}`;
+
+interface RestrictedAgentDelegatableTask {
+  id: string;
+  title: string;
+  description: string;
+  allowedPaths: string[];
+  restrictedAgentDelegation?: {
+    recommended: boolean;
+    reason: string;
+  };
+}
+
+const restrictedAgentTaskFilePrefix = (taskId: string): string =>
+  taskId.replace(/[^a-zA-Z0-9._-]/g, '_');
+
+const isRestrictedAgentDelegatableTask = (
+  task: NonNullable<PlannerReport['tasks']>[number],
+): task is NonNullable<PlannerReport['tasks']>[number] & RestrictedAgentDelegatableTask =>
+  (task as RestrictedAgentDelegatableTask).restrictedAgentDelegation?.recommended === true;
 
 const readJsonFile = async <T>(filePath: string): Promise<T | undefined> => {
   try {
@@ -566,7 +602,7 @@ export const executeStage = async (
         path.join(taskDir, 'cursor-subtasks.json'),
         stringifyDeterministicJson({ tasks: [], status: 'none' }),
       );
-      await completeStage('cursor-subtasks', 'recheck');
+      await completeStage('cursor-subtasks', 'restricted-agent-delegate');
     } else {
       const maybeCursorConfig = autopilotConfig.agents.cursorSubtask;
       if (!maybeCursorConfig) {
@@ -628,7 +664,89 @@ export const executeStage = async (
         path.join(taskDir, 'cursor-subtasks.json'),
         stringifyDeterministicJson({ tasks: reports, status: 'pass' }),
       );
-      await completeStage('cursor-subtasks', 'recheck');
+      await completeStage('cursor-subtasks', 'restricted-agent-delegate');
+    }
+  }
+
+  if (stage === 'restricted-agent-delegate') {
+    const acceptedPlanPath = readAcceptedPlanPath(evidenceDir);
+    const maybeAcceptedPlan = await readJsonFile<PlannerReport>(acceptedPlanPath);
+    if (!maybeAcceptedPlan) {
+      await fail('Restricted agent delegate cannot run without accepted-plan/accepted-plan.json');
+      throw new Error('unreachable');
+    }
+    const delegateConfig = autopilotConfig.restrictedAgentDelegate;
+    const taskRoot = path.join(evidenceDir, delegateConfig?.evidenceDirName ?? 'restricted-agent-tasks');
+    await mkdir(taskRoot, { recursive: true });
+    if (!delegateConfig?.enabled || options.safetyFlags.dryRun) {
+      await writeFile(
+        path.join(taskRoot, 'restricted-agent-tasks.json'),
+        stringifyDeterministicJson({ tasks: [], status: 'disabled' }),
+      );
+      await completeStage('restricted-agent-delegate', 'recheck');
+    } else {
+      const acceptedPlan = maybeAcceptedPlan;
+      const restrictedTasks = (acceptedPlan.tasks ?? []).filter(isRestrictedAgentDelegatableTask);
+      const reports: Array<{ taskId: string; status: string; reportPath?: string }> = [];
+      for (const task of restrictedTasks) {
+        const taskDir = path.join(taskRoot, restrictedAgentTaskFilePrefix(task.id));
+        const turnInput: RestrictedAgentTurnInput = {
+          schemaVersion: 1,
+          phase: phaseId,
+          taskId: task.id,
+          objective: task.description || task.title,
+          allowedPaths: task.allowedPaths,
+          forbiddenPaths: ['.env', '.env.*', 'runs/**', 'private/**'],
+          relevantSnippets: [],
+          previousFailedChecks: [],
+          patchBudget: delegateConfig.patchBudget,
+          availableCommands: delegateConfig.commandIds.map((id) => {
+            const command = DEFAULT_RESTRICTED_AGENT_COMMAND_REGISTRY[id];
+            return {
+              id,
+              label: command?.label ?? id,
+              description: command?.description ?? 'Restricted delegate command ID.',
+            };
+          }),
+        };
+        const report = await runRestrictedAgentRepairLoop({
+          turnInput,
+          cwd: bundle.worktreePath,
+          outDir: taskDir,
+          maxAttempts: delegateConfig.maxAttempts,
+          registry: DEFAULT_RESTRICTED_AGENT_COMMAND_REGISTRY,
+          fakeResponses: [
+            stringifyDeterministicJson({
+              schemaVersion: 1,
+              phase: phaseId,
+              taskId: task.id,
+              action: 'request_check',
+              rationale: 'Fake restricted delegate requests configured whitelisted checks.',
+              requestedChecks: delegateConfig.commandIds,
+            }),
+          ],
+        });
+        reports.push({
+          taskId: task.id,
+          status: report.status,
+          reportPath: path.join(taskDir, 'repair-loop-report.json'),
+        });
+        if (report.status !== 'pass') {
+          await writeFile(
+            path.join(taskRoot, 'restricted-agent-tasks.json'),
+            stringifyDeterministicJson({ tasks: reports, status: 'blocked' }),
+          );
+          await fail(`Restricted agent delegate task ${task.id} blocked with status ${report.status}`);
+        }
+      }
+      await writeFile(
+        path.join(taskRoot, 'restricted-agent-tasks.json'),
+        stringifyDeterministicJson({
+          tasks: reports,
+          status: restrictedTasks.length === 0 ? 'none' : 'pass',
+        }),
+      );
+      await completeStage('restricted-agent-delegate', 'recheck');
     }
   }
 
@@ -943,6 +1061,7 @@ const stageOrder: ExecuteStageName[] = [
   'plan-acceptance',
   'execution',
   'cursor-subtasks',
+  'restricted-agent-delegate',
   'recheck',
   'local-validation',
   'changed-path-scan',

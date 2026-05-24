@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-30C - Restricted Check Runner And Repair Loop |
-| Goal | Let the restricted agent request whitelisted check IDs and run a bounded repair loop with harness-owned command execution and evidence. |
-| Branch | `phase/phase-30c-restricted-check-runner-and-repair-loop` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-30c-restricted-check-runner-and-repair-loop-wt` |
-| Base | `origin/main` after PHASE-30B dependency slice |
-| Status | `Implementation in progress after planner question resolution and shell executor recovery` |
+| Phase | PHASE-31A - Restricted Delegate Autopilot Integration |
+| Goal | Integrate the restricted API coding agent as an optional accepted-plan delegate while preserving recheck, validation, gate, PR, merge, and phase-state authority. |
+| Branch | `phase/phase-31a-restricted-delegate-autopilot-integration` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-31a-restricted-delegate-autopilot-integration-wt` |
+| Base | `origin/main` after PHASE-30C dependency slice |
+| Status | `Implementation in progress after shell executor recovery` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-30C-RESTRICTED-CHECK-RUNNER-AND-REPAIR-LOOP.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-30C/2026-05-24T08:15:25Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
+3. Active `phase-plans/PHASE-31A-RESTRICTED-DELEGATE-AUTOPILOT-INTEGRATION.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-31A/2026-05-24T08:33:38Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,9 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 Executor Codex — PHASE-31A task-001/task-002: added default-off restricted delegate config, stage typing, CLI stage support, stage sequencing, and accepted-plan-only task selection via `restrictedAgentDelegation`.
+- [x] 2026-05-24 Executor Codex — PHASE-31A task-003/task-004: added restricted-agent delegate stage evidence under `restricted-agent-tasks/`, repair-loop execution, and continuation into recheck/local/final gates rather than release authority.
+- [x] 2026-05-24 Executor Codex — PHASE-31A task-005/task-006: added focused restricted-agent autopilot tests and documented restricted delegate versus Cursor behavior.
 - [x] 2026-05-24 Executor Codex — PHASE-30C task-001/task-002: added restricted check runner, command-ID validation, injectable execution, check evidence, and failed-check summaries.
 - [x] 2026-05-24 Executor Codex — PHASE-30C task-003/task-005: added bounded repair-loop coordinator, fake-provider smoke CLI, package script, exports, and explicit no commit/merge/phase-state authority in reports.
 - [x] 2026-05-24 Executor Codex — PHASE-30C task-004/task-006: added focused fake-runner tests and documented command-ID-only checks plus repair-loop evidence.
@@ -303,17 +306,17 @@ _(none)_
 
 ## Phase checklist
 
-_PHASE-30C - Restricted Check Runner And Repair Loop._
+_PHASE-31A - Restricted Delegate Autopilot Integration._
 
 - [x] Progress state seeded from accepted runner plan before implementation recovery.
-- [x] Unknown command IDs block before execution.
-- [x] Raw shell-looking requested checks are rejected.
-- [x] Failed checks are summarized into repair context for the next turn.
-- [x] Repair loop stops at max attempts.
-- [x] Passing checks produce evidence.
-- [x] Reports explicitly show the model cannot commit, merge, or change phase state.
-- [x] Documentation describes command-ID-only execution, max attempts, evidence, and authority boundaries.
-- [x] Focused check-runner tests, dependent restricted-agent tests, fake CLI smoke, typecheck, lint, full tests, and `git diff --check` are recorded or blockers are explained.
+- [x] Restricted delegate config is optional and default-off.
+- [x] Restricted delegate cannot run without `accepted-plan/accepted-plan.json`.
+- [x] Restricted delegate runs only accepted-plan tasks marked with `restrictedAgentDelegation.recommended === true`.
+- [x] Restricted delegate evidence is written under phase-runner `restricted-agent-tasks/`.
+- [x] Restricted delegate advances into recheck and cannot bypass local/final gates.
+- [x] Cursor subtask support remains optional and unchanged.
+- [x] Documentation explains restricted delegate versus Cursor usage and authority boundaries.
+- [x] Focused restricted-agent autopilot tests, phase-autopilot regression tests, typecheck, lint, full tests, build, and `git diff --check` are recorded or blockers are explained.
 
 ---
 
@@ -385,6 +388,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-24 — Executor Codex — PHASE-30B validation PASS: `pnpm test tests/restricted-agent-patch-applier.test.ts` (1 file, 5 tests); `pnpm test tests/restricted-agent-patch-validator.test.ts` (1 file, 5 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (57 files, 496 tests); `git diff --check`.
 - 2026-05-24 — Executor Codex — PHASE-30C implementation checkpoint after planner question resolution and shell executor recovery: added `src/harness/restricted-agent/check-runner.ts`, `src/harness/restricted-agent/repair-loop.ts`, `src/harness/restricted-agent/repair-loop-cli.ts`, public exports, package script `restricted-agent-repair-loop`, docs, and `tests/restricted-agent-check-runner.test.ts`. The check runner accepts command IDs only, rejects unknown/raw-shell-looking checks, executes harness-owned argv arrays with injectable fake execution, records bounded check evidence, summarizes failures into repair context, and reports no commit/merge/phase-state authority. No model-authored shell, git authority, package installation, provider credential path, or gameplay behavior change was added.
 - 2026-05-24 — Executor Codex — PHASE-30C validation PASS: `pnpm test tests/restricted-agent-check-runner.test.ts` (1 file, 5 tests); `pnpm test tests/restricted-agent-schemas.test.ts tests/restricted-agent-api-loop.test.ts tests/restricted-agent-patch-validator.test.ts tests/restricted-agent-patch-applier.test.ts` (4 files, 24 tests); `pnpm run restricted-agent-repair-loop -- --provider fake --phase PHASE-30C --task task-001 --max-attempts 1 --checks focused_tests --out runs/restricted-agent/PHASE-30C/smoke-repair-loop` (accepted, wrote ignored local smoke evidence); `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (58 files, 501 tests); `git diff --check`.
+- 2026-05-24 — Executor Codex — PHASE-31A implementation checkpoint after shell executor recovery: added default-off restricted delegate config, `restricted-agent-delegate` runner stage, stage order/CLI/run-state support, accepted-plan-only `restrictedAgentDelegation` task selection, restricted-agent repair-loop evidence under `restricted-agent-tasks/`, focused autopilot tests, and docs for restricted delegate versus Cursor. The delegate cannot run without accepted-plan evidence, cannot select unmarked tasks, and advances to recheck/local/final gates instead of release authority. Cursor subtask support remains available.
+- 2026-05-24 — Executor Codex — PHASE-31A validation PASS: `pnpm test tests/restricted-agent-autopilot.test.ts` (1 file, 3 tests); `pnpm test tests/phase-autopilot.test.ts` (1 file, 28 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (59 files, 504 tests); `pnpm run build`; `git diff --check`.
 
 - 2026-05-24 — Executor Codex — PHASE-28A pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-28A/2026-05-24T06:08:34Z/accepted-plan/accepted-plan.json`. Accepted tasks: validated active-base timeline helper, inert web-shell selector plus timeline-only CLI selection, base-aware prepared handoffs, regenerated sample artifacts/docs, and required validation. Cursor delegation not used; the deterministic runner owns Cursor subtask execution for accepted-plan tasks marked `cursorDelegation.recommended === true`.
 - 2026-05-24 — Executor Codex — PHASE-28A implementation checkpoint: added validated active-base selection helpers in `src/control-room/timeline/**`, base-selection CLI support in the inert control-room web shell, selected-base/historical-version projection fields, base-aware prepared handoff fields/rendering, regenerated sample timeline/web-shell/handoff artifacts, aligned dependent human-feedback/narration fixtures, and documented nondestructive pointer selection in `docs/CONTROL-ROOM-TIMELINE.md`. No delete/rollback/git operation, branch creation, command execution hook, provider call, gameplay behavior change, or acceptance/merge authority was added.
