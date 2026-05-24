@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-23D",
+  "currentPhase": "PHASE-24A",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -251,7 +251,11 @@
       "status": "complete"
     },
     "PHASE-23D": {
-      "status": "planned"
+      "branch": "phase/phase-23d-evidence-validation-hardening",
+      "evidenceDir": "/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-23D/2026-05-24T01:07:08Z",
+      "mergeCommit": "565b65750974fddfb1ec6156ae4951f66ceeac38",
+      "pr": 54,
+      "status": "complete"
     },
     "PHASE-24A": {
       "status": "planned"
