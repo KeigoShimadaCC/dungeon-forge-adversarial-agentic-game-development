@@ -51,3 +51,22 @@ export {
   type RestrictedAgentSearchResult,
   type RestrictedAgentSnippetRequest,
 } from './context-builder.js';
+export {
+  buildDefaultFakeResponse,
+  buildRestrictedAgentPrompt,
+  buildRestrictedAgentPromptContext,
+  createRestrictedAgentFakeClient,
+  parseRestrictedAgentStrictJsonResponse,
+  runRestrictedAgentDryRun,
+  validateRestrictedAgentDryRunResponse,
+  type RestrictedAgentDryRunDecision,
+  type RestrictedAgentDryRunDecisionStatus,
+  type RestrictedAgentDryRunOptions,
+  type RestrictedAgentDryRunProviderMode,
+  type RestrictedAgentDryRunResult,
+  type RestrictedAgentPromptContext,
+} from './api-loop.js';
+export {
+  RESTRICTED_AGENT_DRY_RUN_USAGE,
+  runRestrictedAgentDryRunCli,
+} from './api-loop-cli.js';

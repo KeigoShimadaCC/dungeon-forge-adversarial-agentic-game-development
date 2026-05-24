@@ -8,18 +8,18 @@ Living coordination file for AI agents. One active phase at a time. Update on ev
 
 | Field | Value |
 | --- | --- |
-| Phase | PHASE-29B - Restricted Agent Context Builder |
-| Goal | Build deterministic restricted-agent context packaging, allowed-path search, bounded file-range reads, context budgets, denial diagnostics, and exposure evidence. |
-| Branch | `phase/phase-29b-restricted-agent-context-builder` |
-| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-29b-restricted-agent-context-builder-wt` |
-| Base | `origin/main` after PHASE-29A dependency slice |
-| Status | `Implementation and local validation complete after shell executor recovery; phase runner resume pending` |
+| Phase | PHASE-29C - Restricted Agent API Dry-Run Loop |
+| Goal | Add an explicit credential-gated restricted-agent API dry-run loop with fake-provider tests, strict raw JSON parsing, blocked-output evidence, and no mutation behavior. |
+| Branch | `phase/phase-29c-restricted-agent-api-dry-run-loop` |
+| Worktree | `/Users/keigoshimada/Documents/dungeon-forge-phase-29c-restricted-agent-api-dry-run-loop-wt` |
+| Base | `origin/main` after PHASE-29B dependency slice |
+| Status | `Implementation and local validation complete after planner question resolution; phase runner resume pending` |
 
 ### Contract (read before editing)
 
 1. `concept-and-ideas/` — product intent
 2. `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` — global invariants
-3. Active `phase-plans/PHASE-29B-RESTRICTED-AGENT-CONTEXT-BUILDER.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-29B/2026-05-24T07:10:34Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
+3. Active `phase-plans/PHASE-29C-RESTRICTED-AGENT-API-DRY-RUN-LOOP.md` plus accepted runner plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-29C/2026-05-24T07:29:19Z/accepted-plan/accepted-plan.json` — implementation contract for this slice
 4. `AGENTS.md` / `CLAUDE.md` — repo rules
 5. `.claude/rules/progress-coordination.md` — progress-file edit rules
 6. User task request — overrides only when explicit
@@ -60,6 +60,10 @@ _(none)_
 
 ### Done
 
+- [x] 2026-05-24 Executor Codex — PHASE-29C task-001/task-002: added non-mutating dry-run loop, fake provider harness, strict raw JSON parser, schema validation, and phase/task mismatch diagnostics.
+- [x] 2026-05-24 Executor Codex — PHASE-29C task-003: added dry-run evidence writing for prompt context, raw response, parsed response, validation diagnostics, and final decision only.
+- [x] 2026-05-24 Executor Codex — PHASE-29C task-004/task-005: added explicit `restricted-agent-dry-run` CLI/package script, credential-gated real-provider behavior, docs, and progress evidence.
+- [x] 2026-05-24 Executor Codex — PHASE-29C validation: ran focused API-loop tests, dependent restricted-agent/provider tests, CLI smokes, typecheck, lint, full tests, and `git diff --check`.
 - [x] 2026-05-24 Executor Codex — PHASE-29B task-001/task-002: defined context-builder contracts, diagnostics, and scoped path policy helpers requiring phase and accepted-task path approval.
 - [x] 2026-05-24 Executor Codex — PHASE-29B task-003/task-004: implemented deterministic allowed-path search and bounded file-range reads with budgets and denial diagnostics.
 - [x] 2026-05-24 Executor Codex — PHASE-29B task-005/task-006: built turn input/exposure report packaging, focused context-builder tests, documentation updates, and validation evidence.
@@ -289,17 +293,16 @@ _(none)_
 
 ## Phase checklist
 
-_PHASE-29B - Restricted Agent Context Builder._
+_PHASE-29C - Restricted Agent API Dry-Run Loop._
 
 - [x] Progress state seeded from accepted runner plan before implementation.
-- [x] Context-builder contracts and denial diagnostics exist.
-- [x] Scoped path policy requires phase allowed paths and accepted-task allowed paths.
-- [x] `search_allowed` returns deterministic path/line/preview results within budgets.
-- [x] `read_file_range` enforces explicit bounded ranges, binary/missing/oversized diagnostics, and line/byte budgets.
-- [x] Turn input packaging includes objective, allowed/forbidden paths, snippets, previous failed checks, patch budget, and command IDs.
-- [x] Exposure report records metadata for exposed snippets without hidden snippet text.
-- [x] Documentation describes context-building behavior, denied-context diagnostics, budgets, and no-hidden-context rule.
-- [x] Focused context-builder tests, typecheck, lint, full tests, and `git diff --check` are recorded or blockers are explained.
+- [x] Dry-run loop accepts prebuilt restricted-agent turn input and an injected/fake provider.
+- [x] Strict parser rejects malformed JSON, fenced JSON, surrounding prose, invalid schema output, and phase/task mismatches.
+- [x] Dry-run evidence writes prompt context, raw response, parsed response when valid, validation diagnostics, and final decision only.
+- [x] CLI/package script supports fake provider smokes and explicit real-provider mode.
+- [x] Real-provider mode blocks without credentials before network access.
+- [x] Documentation covers fake/default dry-run behavior, explicit real-provider usage, env vars, evidence files, and non-mutating boundary.
+- [x] Focused API-loop tests, smoke commands, typecheck, lint, full tests, and `git diff --check` are recorded or blockers are explained.
 
 ---
 
@@ -363,6 +366,8 @@ _Append-only evidence for the active phase: commands run, pass/fail, commits, PR
 - 2026-05-24 — Executor Codex — PHASE-29A validation PASS after shell executor recovery: `pnpm test tests/restricted-agent-schemas.test.ts` (1 file, 8 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (53 files, 475 tests); `git diff --check`.
 - 2026-05-24 — Executor Codex — PHASE-29B implementation checkpoint after shell executor recovery: added `src/harness/restricted-agent/context-builder.ts`, exported context-builder APIs, updated `docs/RESTRICTED-API-CODING-AGENT.md`, and added `tests/restricted-agent-context.test.ts`. The context builder uses deterministic path normalization, requires both phase and accepted-task allowed paths, denies credential/private/generated-evidence/out-of-scope paths before reading, supports bounded line-range reads, deterministic allowed search previews, aggregate context budgets, and exposure metadata without hidden snippet text. No real LLM/API calls, patch application, check execution, shell/git authority, provider access, or gameplay behavior changes were added.
 - 2026-05-24 — Executor Codex — PHASE-29B validation PASS after shell executor recovery: `pnpm test tests/restricted-agent-context.test.ts` (1 file, 5 tests); `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (54 files, 480 tests); `git diff --check`.
+- 2026-05-24 — Executor Codex — PHASE-29C implementation checkpoint after planner question resolution: added `src/harness/restricted-agent/api-loop.ts`, `src/harness/restricted-agent/api-loop-cli.ts`, public restricted-agent exports, package script `restricted-agent-dry-run`, `tests/restricted-agent-api-loop.test.ts`, and documentation updates. The restricted-agent API loop is non-mutating, uses fake provider mode for tests, requires raw strict JSON (no fenced JSON/prose), blocks phase/task mismatches and invalid model output, writes dry-run evidence only, and blocks explicit real-provider mode without credentials before network access. No patch application, requested-check execution, git/PR/merge authority, broad context reads, or gameplay behavior changes were added.
+- 2026-05-24 — Executor Codex — PHASE-29C validation PASS: `pnpm test tests/restricted-agent-api-loop.test.ts` (1 file, 6 tests); `pnpm test tests/restricted-agent-schemas.test.ts tests/restricted-agent-context.test.ts tests/llm-provider.test.ts` (3 files, 25 tests); `pnpm run restricted-agent-dry-run -- --provider fake --phase PHASE-29C --task task-001 --out runs/restricted-agent/PHASE-29C/smoke-valid` (accepted); `pnpm run restricted-agent-dry-run -- --provider fake --fake-response malformed --phase PHASE-29C --task task-001 --out runs/restricted-agent/PHASE-29C/smoke-blocked` (expected blocked exit 2); `pnpm run restricted-agent-dry-run -- --provider real --phase PHASE-29C --task task-001 --out runs/restricted-agent/PHASE-29C/smoke-missing-credentials` (expected blocked exit 2 without credentials/network); `pnpm run typecheck`; `pnpm run lint`; `pnpm test` (55 files, 486 tests); `git diff --check`.
 
 - 2026-05-24 — Executor Codex — PHASE-28A pre-implementation seeding complete from deterministic runner accepted plan `/Users/keigoshimada/Documents/dungeon-forge-adversarial-agentic-game-development/runs/phase-runner/PHASE-28A/2026-05-24T06:08:34Z/accepted-plan/accepted-plan.json`. Accepted tasks: validated active-base timeline helper, inert web-shell selector plus timeline-only CLI selection, base-aware prepared handoffs, regenerated sample artifacts/docs, and required validation. Cursor delegation not used; the deterministic runner owns Cursor subtask execution for accepted-plan tasks marked `cursorDelegation.recommended === true`.
 - 2026-05-24 — Executor Codex — PHASE-28A implementation checkpoint: added validated active-base selection helpers in `src/control-room/timeline/**`, base-selection CLI support in the inert control-room web shell, selected-base/historical-version projection fields, base-aware prepared handoff fields/rendering, regenerated sample timeline/web-shell/handoff artifacts, aligned dependent human-feedback/narration fixtures, and documented nondestructive pointer selection in `docs/CONTROL-ROOM-TIMELINE.md`. No delete/rollback/git operation, branch creation, command execution hook, provider call, gameplay behavior change, or acceptance/merge authority was added.
