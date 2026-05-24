@@ -11,7 +11,7 @@ This repo builds an agentic adversarial game-development testbed: a developer ag
 - Read `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` before implementation.
 - Treat the active `phase-plans/PHASE-XX...md` as the task contract.
 - Update `PROGRESS.MD` during work: add tasks, tick checklist items, log verification, defer out-of-scope ideas to Future backlog.
-- Keep MVP work small: TypeScript, Node.js, pnpm, Vitest, local files, text/ASCII game.
+- Keep work small and local-first: TypeScript, Node.js, pnpm, Vitest, local files, text/ASCII game, deterministic evidence.
 - Do not turn roadmap ideas into current scope unless the active phase says so.
 
 ## Source Of Truth
@@ -20,9 +20,10 @@ This repo builds an agentic adversarial game-development testbed: a developer ag
 2. `phase-plans/PHASE-00A...` = global invariants.
 3. Active phase file = implementation contract.
 4. `PROGRESS.MD` = live coordination (tasks, checklist, evidence, backlog)—not product design.
-5. Future `src/game/**` = canonical game rules and `GameEngine`.
-6. Future `src/harness/**` = canonical playthrough, trace, scorecard, and acceptance logic.
-7. Future `runs/**` = derived evidence, not source design truth.
+5. `src/game/**` = canonical game rules and `GameEngine`.
+6. `src/harness/**` = canonical playthrough, trace, scorecard, acceptance, phase automation, and restricted-agent logic.
+7. `src/browser-play/**`, `src/control-room/**`, `src/dashboard/**`, and `src/static-demo/**` = local viewing/control surfaces over existing artifacts.
+8. `runs/**` = derived evidence, not source design truth.
 
 ## Non-Negotiable Rules
 
@@ -44,9 +45,13 @@ Use now:
 - `pnpm test`
 - `pnpm run typecheck`
 - `pnpm run lint`
+- `pnpm run build`
+- `pnpm run check`
+- `pnpm run ci-smoke`
+- `pnpm run verify-acceptance-evidence`
+- `pnpm run phase`
 
-Use after Phase 03A creates harness scripts:
-- Run the documented regression seed simulation command before claiming harness/game changes complete.
+For feature-specific changes, discover and run the relevant package script or focused test from `package.json`, docs, the active phase file, and `PROGRESS.MD`.
 
 ## Workflow
 
@@ -123,5 +128,5 @@ When the user requests Cursor Agent, Composer, or maximum automation, use Cursor
 | `concept-and-ideas/02_STRUCTURE_AND_TECH_SPECS.md` | Planned stack, interfaces, harness, tests |
 | `concept-and-ideas/03_EXAMPLES_SCENARIOS_AND_WORKFLOWS.md` | Version loop examples and artifact shape |
 | `phase-plans/PHASE-00A-PLAN-STANDARDS-AND-GLOBAL-INVARIANTS.md` | Global implementation contract |
-| `phase-plans/PHASE-01A...` through `PHASE-10A...` | Sequential implementation phases |
+| `phase-plans/PHASE-01A...` through latest `PHASE-*` | Sequential implementation phases and later roadmap slices |
 | `PROGRESS.MD` | Active phase, agent task queue, checklist, validation log, future backlog |

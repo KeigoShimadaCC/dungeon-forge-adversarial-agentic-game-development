@@ -2,16 +2,19 @@
 
 ## Repository Purpose
 
-This repo defines and will implement a bounded adversarial game-development loop. A developer agent builds and improves a small text/ASCII turn-based game; a reviewer/player agent plays through a stable interface and critiques trace evidence.
+This repo implements a bounded adversarial game-development loop. A developer agent builds and improves a small text/ASCII turn-based game; a reviewer/player agent plays through a stable structured-action interface and critiques trace evidence.
 
 ## Setup
 
-Phase 01A scaffold exists:
+The repo currently includes:
 - TypeScript
 - Node.js
 - pnpm
 - Vitest
 - ESLint
+- a finite text/ASCII dungeon game under `src/game/**`
+- deterministic harness, evidence, phase automation, and restricted-agent tooling under `src/harness/**`
+- local browser/control-room inspection surfaces under `src/browser-play/**` and `src/control-room/**`
 
 ## Progress Coordination (`PROGRESS.MD`)
 
@@ -67,20 +70,25 @@ Current:
 - `pnpm test`
 - `pnpm run typecheck`
 - `pnpm run lint`
+- `pnpm run build`
+- `pnpm run check`
+- `pnpm run ci-smoke`
+- `pnpm run verify-acceptance-evidence`
+- `pnpm run phase`
 
-Planned after later phases:
-- harness regression seed command once Phase 03A defines it
-
-No canonical build, e2e, Docker, or CI command exists yet.
+There is no Docker or external e2e command in the canonical local gate. Browser/control-room surfaces are local artifact viewers and are covered by targeted tests and smoke commands when relevant.
 
 ## Architecture
 
-Planned boundaries:
+Current boundaries:
 - `src/game/**`: game engine, types, RNG, map, enemies, items, combat, render.
-- `src/harness/**`: playthrough runner, traces, scorecards, reviewer client, validation.
+- `src/harness/**`: playthrough runner, traces, scorecards, reviewer client, validation, version loop, phase automation, restricted-agent harness.
 - `src/agents/prompts/**`: reviewer/developer prompt templates.
+- `src/browser-play/**`: local browser play and read-only replay over structured actions.
+- `src/control-room/**`: local timeline, role metadata, web shell, handoffs, narration, and base-selection artifacts.
+- `src/dashboard/**` and `src/static-demo/**`: generated local evidence viewers.
 - `content/**`: static game data.
-- `tests/**`: contract, engine, and regression-seed tests.
+- `tests/**`: contract, engine, harness, UI/viewer, restricted-agent, and regression tests.
 - `runs/**`: derived traces, reviews, scorecards, changelogs, patch plans, acceptance decisions.
 
 ## Coding Rules
