@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-30A",
+  "currentPhase": "PHASE-30B",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -349,7 +349,11 @@
       "status": "complete"
     },
     "PHASE-30A": {
-      "status": "planned"
+      "branch": "phase/phase-30a-restricted-source-patch-validator",
+      "evidenceDir": "runs/phase-runner/PHASE-30A/2026-05-24T07:44:26Z",
+      "mergeCommit": "8a258808761185c481c8244f7e3f836030e1c85b",
+      "pr": 68,
+      "status": "complete"
     },
     "PHASE-30B": {
       "status": "planned"
