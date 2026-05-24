@@ -73,6 +73,29 @@ const renderVersion = (version: ControlRoomWebShellVersionSection): string =>
     <div class="feed">${version.events.map(renderEvent).join('\n')}</div>
   </section>`;
 
+const renderVersionSummaryCards = (viewModel: ControlRoomWebShellViewModel): string =>
+  `<section class="panel">
+    <div class="section-heading">
+      <h2>Version Summary Cards</h2>
+      <div class="summary-strip">
+        <span>Total versions: <strong>${viewModel.versions.length}</strong></span>
+        <span>Prepared handoff: <strong>${escapeHtml(viewModel.preparedHandoff.status)}</strong></span>
+      </div>
+    </div>
+    ${viewModel.versions.length === 0
+      ? '<p class="missing">No versions are available yet.</p>'
+      : `<div class="version-card-grid">${viewModel.versions.map((version) => `<article class="version-card">
+        <h3>${escapeHtml(version.versionId)}</h3>
+        <div class="summary-strip">
+          ${version.isActiveBase ? '<span><strong>Active base</strong></span>' : ''}
+          ${version.isLatestKnown ? '<span><strong>Latest known</strong></span>' : ''}
+          ${version.isHistoricalAfterActiveBase ? '<span>Historical after base</span>' : ''}
+        </div>
+        <p>${escapeHtml(version.quickSummary)}</p>
+        <p class="muted">${version.eventCount} events; ${version.evidenceCount} evidence link(s); ${version.missingEvidenceCount} missing.</p>
+      </article>`).join('')}</div>`}
+  </section>`;
+
 const renderHumanCaptureControls = (viewModel: ControlRoomWebShellViewModel): string =>
   `<section class="panel capture-panel" aria-labelledby="human-capture-heading">
     <div class="section-heading">
@@ -102,6 +125,42 @@ const renderHumanCaptureControls = (viewModel: ControlRoomWebShellViewModel): st
       </form>
     </div>
   </section>`;
+
+const reviewerRole = (viewModel: ControlRoomWebShellViewModel) =>
+  viewModel.roles.find((role) => role.id === 'game_reviewer');
+
+const renderPreparedHandoffControls = (viewModel: ControlRoomWebShellViewModel): string => {
+  const reviewer = reviewerRole(viewModel);
+  return `<section class="panel capture-panel" aria-labelledby="handoff-heading">
+    <div class="section-heading">
+      <h2 id="handoff-heading">Prepared Handoff</h2>
+      <div class="summary-strip">
+        <span>Status: <strong>${escapeHtml(viewModel.preparedHandoff.status)}</strong></span>
+        <span>Reviewer persona: <strong>${escapeHtml(viewModel.preparedHandoff.reviewerSelection.personaLabel)}</strong></span>
+        <span>Reviewer model: <strong>${escapeHtml(viewModel.preparedHandoff.reviewerSelection.modelLabel)}</strong></span>
+      </div>
+    </div>
+    <p>${escapeHtml(viewModel.preparedHandoff.humanSummary)}</p>
+    <div class="capture-grid">
+      <form class="capture-form" data-capture-kind="reviewer-metadata">
+        <label for="reviewer-persona">Reviewer persona metadata</label>
+        <select id="reviewer-persona" name="reviewerPersona">
+          ${(reviewer?.personas ?? []).map((persona) => `<option value="${escapeHtml(persona.id)}"${persona.id === viewModel.preparedHandoff.reviewerSelection.personaId ? ' selected' : ''}>${escapeHtml(persona.displayName)}</option>`).join('')}
+        </select>
+        <label for="reviewer-model">Reviewer model metadata</label>
+        <select id="reviewer-model" name="reviewerModel">
+          ${(reviewer?.modelChoices ?? []).map((choice) => `<option value="${escapeHtml(choice.id)}"${choice.id === viewModel.preparedHandoff.reviewerSelection.modelId ? ' selected' : ''}>${escapeHtml(choice.displayName)} - ${escapeHtml(choice.modelLabel)}</option>`).join('')}
+        </select>
+        <output class="diagnostic" name="reviewer-metadata-diagnostic">Metadata only; changing these values does not call a provider or execute a reviewer.</output>
+      </form>
+      <div class="capture-form">
+        <strong>Suggested command text</strong>
+        ${viewModel.preparedHandoff.suggestedCommands.map((command) => `<p><code>${escapeHtml(command.command)}</code></p>`).join('')}
+      </div>
+    </div>
+    ${viewModel.preparedHandoff.blockers.length > 0 ? `<ul class="missing-list">${viewModel.preparedHandoff.blockers.map((blocker) => `<li>${escapeHtml(blocker)}</li>`).join('')}</ul>` : ''}
+  </section>`;
+};
 
 const renderPrompt = (roleId: string, label: string, content: string): string =>
   `<li><strong>${escapeHtml(label)}</strong><span>${escapeHtml(content)}</span><code>${escapeHtml(roleId)}</code></li>`;
@@ -156,6 +215,24 @@ const renderRoles = (viewModel: ControlRoomWebShellViewModel): string =>
           </details>
         </article>`)
         .join('\n')}
+    </div>
+  </section>`;
+
+const renderPromptInspection = (viewModel: ControlRoomWebShellViewModel): string =>
+  `<section class="panel">
+    <h2>Prompt Inspection</h2>
+    <p class="muted">Only safe catalog metadata is shown. Runtime prompts, evidence JSON, environment variables, and credentials are not assembled here.</p>
+    <div class="role-grid">
+      ${viewModel.roles.flatMap((role) => role.prompts.map((prompt) => `<article class="role-card">
+        <h3>${escapeHtml(role.displayName)} - ${escapeHtml(prompt.label)}</h3>
+        <p>${escapeHtml(prompt.description)}</p>
+        <ul class="compact">
+          <li><strong>Visibility</strong><span>${escapeHtml(prompt.level)}</span></li>
+          <li><strong>Safe inline text</strong><span>${prompt.safeToDisplayText ? escapeHtml(prompt.safeToDisplayText) : 'none'}</span></li>
+          <li><strong>Sources</strong><span>${escapeHtml(prompt.sourceReferences.map((source) => source.path ?? source.exportName ?? source.kind).join(', '))}</span></li>
+        </ul>
+        ${prompt.diagnostics.length > 0 ? `<p class="diagnostic">${escapeHtml(prompt.diagnostics.join(' '))}</p>` : ''}
+      </article>`)).join('')}
     </div>
   </section>`;
 
@@ -296,6 +373,18 @@ export const renderControlRoomWebShellHtml = (
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 12px;
     }
+    .version-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .version-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcfd;
+      min-height: 160px;
+    }
     .capture-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -367,7 +456,9 @@ export const renderControlRoomWebShellHtml = (
   </header>
   <main>
     ${emptyTimeline}
+    ${renderVersionSummaryCards(viewModel)}
     ${renderHumanCaptureControls(viewModel)}
+    ${renderPreparedHandoffControls(viewModel)}
     <section class="panel capture-panel" aria-labelledby="base-selection-heading">
       <div class="section-heading">
         <h2 id="base-selection-heading">Base Version Selection</h2>
@@ -392,6 +483,7 @@ export const renderControlRoomWebShellHtml = (
       <p class="muted">Chronological local evidence view. Links open source artifacts; this page does not execute commands.</p>
     </section>
     ${viewModel.versions.map(renderVersion).join('\n')}
+    ${renderPromptInspection(viewModel)}
     ${renderRoles(viewModel)}
   </main>
 </body>

@@ -1,4 +1,8 @@
 import type {
+  ControlRoomModelProviderKind,
+  ControlRoomRoleCatalog,
+} from '../roles/index.js';
+import type {
   ControlRoomTimelineEvent,
   ControlRoomTimelineEvidenceRef,
 } from '../timeline/index.js';
@@ -37,6 +41,16 @@ export interface ControlRoomPreparedHandoffCommand {
   reason: string;
 }
 
+export interface ControlRoomPreparedHandoffReviewerSelection {
+  personaId: string;
+  personaLabel: string;
+  modelId: string;
+  modelLabel: string;
+  providerKind: ControlRoomModelProviderKind;
+  advisoryOnly: true;
+  providerCallEnabled: false;
+}
+
 export interface ControlRoomPreparedHandoff {
   schemaVersion: typeof CONTROL_ROOM_HANDOFF_SCHEMA_VERSION;
   preparedAt: string;
@@ -45,6 +59,7 @@ export interface ControlRoomPreparedHandoff {
   selectedBaseVersion?: string;
   latestKnownVersion?: string;
   historicalVersionsAfterSelectedBase: string[];
+  reviewerSelection: ControlRoomPreparedHandoffReviewerSelection;
   humanIdea?: string;
   humanComments: ControlRoomPreparedHandoffComment[];
   reviewerSummary?: string;
@@ -62,6 +77,9 @@ export interface BuildControlRoomPreparedHandoffOptions {
   preparedAt?: string;
   handoffArtifactPath?: string;
   panelArtifactPath?: string;
+  roleCatalog?: ControlRoomRoleCatalog;
+  reviewerPersonaId?: string;
+  reviewerModelId?: string;
 }
 
 export interface ControlRoomHandoffPanelEvidenceLink extends ControlRoomPreparedHandoffEvidence {

@@ -135,6 +135,8 @@ export const renderControlRoomHandoffPanelHtml = (
       <h2>Developer And Reviewer Context</h2>
       <p><strong>Developer:</strong> ${escapeHtml(handoff.developerContext ?? 'None recorded.')}</p>
       <p><strong>Reviewer:</strong> ${escapeHtml(handoff.reviewerSummary ?? 'None recorded.')}</p>
+      <p><strong>Reviewer persona metadata:</strong> ${escapeHtml(handoff.reviewerSelection.personaLabel)} (${escapeHtml(handoff.reviewerSelection.personaId)})</p>
+      <p><strong>Reviewer model metadata:</strong> ${escapeHtml(handoff.reviewerSelection.modelLabel)} (${escapeHtml(handoff.reviewerSelection.modelId)}; provider calls ${handoff.reviewerSelection.providerCallEnabled ? 'enabled' : 'disabled'})</p>
       <p><strong>Version:</strong> ${escapeHtml(handoff.versionSummary ?? 'No selected-base summary recorded.')}</p>
     </section>
     <section class="panel">

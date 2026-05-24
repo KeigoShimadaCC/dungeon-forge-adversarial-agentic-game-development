@@ -1,4 +1,6 @@
 import { buildControlRoomRoleCatalog } from '../roles/index.js';
+import { buildControlRoomPreparedHandoff } from '../handoffs/index.js';
+import type { ControlRoomPreparedHandoff } from '../handoffs/index.js';
 import type {
   ControlRoomRoleCatalog,
   ControlRoomRoleCatalogEntry,
@@ -44,6 +46,7 @@ export interface ControlRoomWebShellVersionSection {
   evidenceCount: number;
   missingEvidenceCount: number;
   summary: string;
+  quickSummary: string;
   isActiveBase: boolean;
   isLatestKnown: boolean;
   isHistoricalAfterActiveBase: boolean;
@@ -63,6 +66,16 @@ export interface ControlRoomWebShellViewModel {
     eventCount: number;
   };
   humanFeedback: ControlRoomHumanFeedbackContext;
+  preparedHandoff: Pick<
+    ControlRoomPreparedHandoff,
+    'status'
+    | 'selectedBaseVersion'
+    | 'latestKnownVersion'
+    | 'reviewerSelection'
+    | 'blockers'
+    | 'suggestedCommands'
+    | 'humanSummary'
+  >;
   unversionedEvents: ControlRoomWebShellEvent[];
   versions: ControlRoomWebShellVersionSection[];
   roles: ControlRoomRoleCatalogEntry[];
@@ -184,6 +197,17 @@ const summarizeVersion = (
   return summary?.summary ?? `${versionId} has no timeline summary.`;
 };
 
+const quickSummaryFor = (
+  versionId: string,
+  events: readonly ControlRoomWebShellEvent[],
+): string => {
+  const reviewer = events.find((event) => event.type === 'reviewer_summary');
+  const developer = events.find((event) => event.type === 'developer_summary');
+  const baseSelection = events.find((event) => event.type === 'version_selected_as_base');
+  const selected = reviewer ?? developer ?? baseSelection ?? events[0];
+  return selected?.summary ?? `${versionId} has no recorded evidence summary.`;
+};
+
 export const buildControlRoomWebShellViewModel = (
   timeline: ControlRoomTimelineArtifact,
   options: BuildControlRoomWebShellViewModelOptions = {},
@@ -222,11 +246,22 @@ export const buildControlRoomWebShellViewModel = (
         0,
       ),
       summary: summarizeVersion(versionId, versionEvents),
+      quickSummary: quickSummaryFor(versionId, versionEvents),
       isActiveBase: versionId === projection.activeBaseVersion,
       isLatestKnown: versionId === projection.latestKnownVersion,
       isHistoricalAfterActiveBase: projection.historicalVersionsAfterActiveBase.includes(versionId),
     };
   });
+  const handoff = buildControlRoomPreparedHandoff(timeline, { roleCatalog });
+  const preparedHandoff = {
+    status: handoff.status,
+    selectedBaseVersion: handoff.selectedBaseVersion,
+    latestKnownVersion: handoff.latestKnownVersion,
+    reviewerSelection: handoff.reviewerSelection,
+    blockers: [...handoff.blockers],
+    suggestedCommands: handoff.suggestedCommands.map((command) => ({ ...command })),
+    humanSummary: handoff.humanSummary,
+  };
 
   return {
     schemaVersion: 1,
@@ -242,6 +277,7 @@ export const buildControlRoomWebShellViewModel = (
       eventCount: events.length,
     },
     humanFeedback,
+    preparedHandoff,
     unversionedEvents: events.filter((event) => !event.versionId),
     versions,
     roles,

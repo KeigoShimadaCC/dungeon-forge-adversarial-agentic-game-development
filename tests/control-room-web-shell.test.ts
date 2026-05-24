@@ -82,7 +82,8 @@ describe('PHASE-26A control-room web shell', () => {
     expect(html).not.toContain('<script');
     expect(html).not.toContain('<button');
     expect(html).not.toContain('Launch Cursor');
-    expect(html).not.toContain('pnpm run');
+    expect(html).toContain('Suggested command text');
+    expect(html).toContain('pnpm run developer-task');
   });
 
   it('renders role, persona, prompt, and model panels without secret-like values', async () => {

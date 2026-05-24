@@ -3,6 +3,12 @@ import path from 'node:path';
 
 import { stringifyDeterministicJson } from '../../harness/json.js';
 import {
+  buildControlRoomRoleCatalog,
+  type ControlRoomModelChoice,
+  type ControlRoomPersonaChoice,
+  type ControlRoomRoleCatalog,
+} from '../roles/index.js';
+import {
   buildTimelineEventId,
   getHistoricalVersionsAfterActiveBase,
   getLatestKnownControlRoomVersion,
@@ -19,6 +25,7 @@ import type {
   ControlRoomPreparedHandoff,
   ControlRoomPreparedHandoffCommand,
   ControlRoomPreparedHandoffEvidence,
+  ControlRoomPreparedHandoffReviewerSelection,
   ControlRoomPreparedHandoffComment,
   ControlRoomHandoffStatus,
 } from './types.js';
@@ -140,6 +147,55 @@ const buildSuggestedCommands = (
   ];
 };
 
+const reviewerRoleFromCatalog = (catalog: ControlRoomRoleCatalog) => {
+  const reviewerRole = catalog.roles.find((role) => role.id === 'game_reviewer');
+  if (!reviewerRole) {
+    throw new Error('Control-room role catalog is missing game_reviewer.');
+  }
+  return reviewerRole;
+};
+
+const selectReviewerPersona = (
+  personas: readonly ControlRoomPersonaChoice[],
+  requestedPersonaId: string | undefined,
+): ControlRoomPersonaChoice => {
+  const personaId = requestedPersonaId ?? personas.find((persona) => persona.selectable)?.id;
+  const persona = personas.find((candidate) => candidate.id === personaId && candidate.selectable);
+  if (!persona) {
+    throw new Error(`Unknown reviewer persona id: ${personaId ?? 'none'}`);
+  }
+  return persona;
+};
+
+const selectReviewerModel = (
+  modelChoices: readonly ControlRoomModelChoice[],
+  requestedModelId: string | undefined,
+): ControlRoomModelChoice => {
+  const modelId = requestedModelId ?? modelChoices.find((choice) => choice.default)?.id;
+  const model = modelChoices.find((candidate) => candidate.id === modelId);
+  if (!model) {
+    throw new Error(`Unknown reviewer model id: ${modelId ?? 'none'}`);
+  }
+  return model;
+};
+
+const buildReviewerSelection = (
+  options: BuildControlRoomPreparedHandoffOptions,
+): ControlRoomPreparedHandoffReviewerSelection => {
+  const reviewerRole = reviewerRoleFromCatalog(options.roleCatalog ?? buildControlRoomRoleCatalog());
+  const persona = selectReviewerPersona(reviewerRole.personas, options.reviewerPersonaId);
+  const model = selectReviewerModel(reviewerRole.modelChoices, options.reviewerModelId);
+  return {
+    personaId: persona.id,
+    personaLabel: persona.displayName,
+    modelId: model.id,
+    modelLabel: model.modelLabel,
+    providerKind: model.providerKind,
+    advisoryOnly: true,
+    providerCallEnabled: false,
+  };
+};
+
 const statusFor = (
   selectedBaseVersion: string | undefined,
   blockers: readonly string[],
@@ -162,6 +218,7 @@ const buildDeveloperTaskText = (input: {
   historicalVersionsAfterSelectedBase: readonly string[];
   humanIdea?: string;
   humanComments: readonly ControlRoomPreparedHandoffComment[];
+  reviewerSelection: ControlRoomPreparedHandoffReviewerSelection;
   reviewerSummary?: string;
   developerContext?: string;
   evidence: readonly ControlRoomPreparedHandoffEvidence[];
@@ -179,6 +236,8 @@ const buildDeveloperTaskText = (input: {
     `Human idea: ${input.humanIdea ?? 'none recorded'}`,
     `Developer context: ${input.developerContext ?? 'none recorded'}`,
     `Reviewer summary: ${input.reviewerSummary ?? 'none recorded'}`,
+    `Reviewer persona metadata: ${input.reviewerSelection.personaLabel} (${input.reviewerSelection.personaId})`,
+    `Reviewer model metadata: ${input.reviewerSelection.modelLabel} (${input.reviewerSelection.modelId})`,
     `Human comments: ${input.humanComments.length}`,
     ...input.humanComments.map((comment) =>
       `- ${comment.targetVersion ?? 'session'} ${comment.timestamp}: ${comment.text}`,
@@ -264,6 +323,7 @@ export const buildControlRoomPreparedHandoff = (
     ? latestEvent(sortedEvents, 'version_selected_as_base', selectedBaseVersion)
     : undefined;
   const evidence = buildEvidence(sortedEvents);
+  const reviewerSelection = buildReviewerSelection(options);
   const humanIdea = projectHumanFeedbackContext(timeline).initialIdea?.text
     ?? timeline.initialGameIdea;
   const humanComments = buildHumanComments(timeline);
@@ -283,6 +343,7 @@ export const buildControlRoomPreparedHandoff = (
     selectedBaseVersion,
     latestKnownVersion,
     historicalVersionsAfterSelectedBase,
+    reviewerSelection,
     humanIdea,
     humanComments,
     reviewerSummary: reviewerEvent?.summary,
