@@ -1,5 +1,5 @@
 {
-  "currentPhase": "PHASE-26B",
+  "currentPhase": "PHASE-27A",
   "lastUpdated": "2026-05-24",
   "phases": {
     "PHASE-00A": {
@@ -293,7 +293,11 @@
       "status": "complete"
     },
     "PHASE-26B": {
-      "status": "planned"
+      "branch": "phase/phase-26b-human-idea-and-feedback-capture",
+      "evidenceDir": "runs/phase-runner/PHASE-26B/2026-05-24T05:09:36Z",
+      "mergeCommit": "2e32abdcc9c511a08a610bdd5582091962abf8e6",
+      "pr": 60,
+      "status": "complete"
     },
     "PHASE-27A": {
       "status": "planned"
