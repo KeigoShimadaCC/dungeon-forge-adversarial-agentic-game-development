@@ -1,4 +1,4 @@
-import { access, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { access, mkdir, mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
@@ -55,9 +55,12 @@ const idea = 'Build a local-first note app with graph and vector search';
 describe('phase plan generator', () => {
   it('dry-runs without writing target repo files', async () => {
     await withTempDir(async (repoRoot) => {
-      await silenceStdout(async () => {
+      const output = await captureStdout(async () => {
         await runPlanCommand(repoRoot, { idea, 'dry-run': true });
       });
+      const parsed = JSON.parse(output) as { planQuality: { kind: string; requiresHumanReview: boolean } };
+      expect(parsed.planQuality.kind).toBe('deterministic-starter');
+      expect(parsed.planQuality.requiresHumanReview).toBe(true);
       expect(await exists(path.join(repoRoot, 'concept-and-ideas', '01_NORTH_STAR_AND_VISION.md'))).toBe(false);
       expect(await exists(path.join(repoRoot, 'automation', 'phase-graph.json'))).toBe(false);
     });
@@ -84,6 +87,10 @@ describe('phase plan generator', () => {
         '"enabled": false',
       );
       expect(await exists(path.join(repoRoot, '.agentic', 'plan-runs'))).toBe(true);
+      const planRuns = await readdir(path.join(repoRoot, '.agentic', 'plan-runs'));
+      await expect(readFile(path.join(repoRoot, '.agentic', 'plan-runs', planRuns[0]!, 'plan-summary.md'), 'utf8')).resolves.toContain(
+        'Agentic Starter Plan Summary',
+      );
     });
   });
 
@@ -166,6 +173,30 @@ describe('phase plan generator', () => {
           });
         }),
       ).rejects.toThrow('must point outside --repo-root');
+    });
+  });
+
+  it('rejects conflicting dry-run and apply flags', async () => {
+    await withTempDir(async (repoRoot) => {
+      await expect(
+        silenceStdout(async () => {
+          await runPlanCommand(repoRoot, { idea, 'dry-run': true, apply: true });
+        }),
+      ).rejects.toThrow('Choose either --dry-run or --apply');
+      expect(await exists(path.join(repoRoot, '.agentic'))).toBe(false);
+    });
+  });
+
+  it('adds stack-aware notes to generated phase plans', async () => {
+    await withTempDir(async (repoRoot) => {
+      await writeFile(path.join(repoRoot, 'package.json'), JSON.stringify({ scripts: { typecheck: 'tsc --noEmit' } }));
+      await writeFile(path.join(repoRoot, 'tsconfig.json'), '{}');
+      await writeFile(path.join(repoRoot, 'next.config.js'), 'module.exports = {};');
+      const profile = await createRepoProfile(repoRoot);
+      const plan = await generateStarterPhasePlan({ repoRoot, idea, profile });
+      const foundation = plan.proposedFiles.find((file) => file.path === 'phase-plans/PHASE-01A-PROJECT-FOUNDATION.md');
+      expect(foundation?.contents).toContain('Preserve app/router or pages/router conventions.');
+      expect(foundation?.contents).toContain('Preserve strict typecheck behavior where configured.');
     });
   });
 });

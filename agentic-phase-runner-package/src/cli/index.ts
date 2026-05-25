@@ -1,26 +1,32 @@
 #!/usr/bin/env node
 import path from 'node:path';
 
+import { runBoomCommand } from './commands/boom.js';
 import { runBundleCommand } from './commands/bundle.js';
 import { runDoctorCommand } from './commands/doctor.js';
 import { runGateCommand } from './commands/gate.js';
 import { runInitCommand } from './commands/init.js';
+import { runInspectCommand } from './commands/inspect.js';
 import { runNextCommand } from './commands/next.js';
 import { runOnboardCommand } from './commands/onboard.js';
 import { runPlanCommand } from './commands/plan.js';
 import { runResumeCommand } from './commands/resume.js';
 import { runRunCommand } from './commands/run.js';
 import { runStatusCommand } from './commands/status.js';
+import { runWhyBlockedCommand } from './commands/why-blocked.js';
 
 const usage = `Usage:
   agentic init [--repo-root <path>] [--force]
   agentic doctor [--repo-root <path>]
   agentic onboard [--repo-root <path>] [--dry-run] [--output <path>]
   agentic plan [--repo-root <path>] --idea "..." [--dry-run] [--apply] [--force] [--output <dir>]
+  agentic boom [--repo-root <path>] --idea "..." [--dry-run] [--apply] [--force] [--output <dir>]
+  agentic inspect [--repo-root <path>] [--phase PHASE-01A] [--run-id <id>] [--latest]
+  agentic why-blocked [--repo-root <path>] [--phase PHASE-01A] [--run-id <id>] [--latest]
   agentic status [--repo-root <path>]
   agentic next [--from PHASE-01A] [--parallel 1]
   agentic bundle --phase PHASE-01A [--output <dir>] [--run-id <id>]
-  agentic run --phase PHASE-01A --dry-run [--run-id <id>] [--mode manual|supervised|auto]
+  agentic run --phase PHASE-01A --dry-run [--run-id <id>] [--mode manual|supervised|auto] [--agents manual|shell]
   agentic run --phase PHASE-01A --allow-agent-execution
   agentic run --from PHASE-01A --until-complete
   agentic resume --phase PHASE-01A --run-id <run-id>
@@ -33,6 +39,7 @@ Safety flags:
   --allow-merge
   --continue-on-blocked
   --mode manual|supervised|auto
+  --agents manual|shell
   --plan-approval auto|manual|disabled
   --planner-agent shell|manual
   --executor-agent shell|manual
@@ -55,6 +62,7 @@ const parseArgs = (argv: string[]): { command: string; repoRoot: string; options
       'force',
       'apply',
       'dry-run',
+      'latest',
       'until-complete',
       'allow-agent-execution',
       'allow-pr',
@@ -88,6 +96,9 @@ export const runCli = async (argv = process.argv.slice(2)): Promise<void> => {
   if (parsed.command === 'doctor') return runDoctorCommand(parsed.repoRoot, parsed.options);
   if (parsed.command === 'onboard') return runOnboardCommand(parsed.repoRoot, parsed.options);
   if (parsed.command === 'plan') return runPlanCommand(parsed.repoRoot, parsed.options);
+  if (parsed.command === 'boom') return runBoomCommand(parsed.repoRoot, parsed.options);
+  if (parsed.command === 'inspect') return runInspectCommand(parsed.repoRoot, parsed.options);
+  if (parsed.command === 'why-blocked') return runWhyBlockedCommand(parsed.repoRoot, parsed.options);
   if (parsed.command === 'status') return runStatusCommand(parsed.repoRoot);
   if (parsed.command === 'next') return runNextCommand(parsed.repoRoot, parsed.options);
   if (parsed.command === 'bundle') return runBundleCommand(parsed.repoRoot, parsed.options);

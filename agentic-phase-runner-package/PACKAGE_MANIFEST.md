@@ -15,12 +15,18 @@
 | `src/harness/plan-acceptance.ts` | `src/core/plan-acceptance.ts` | adapted | imports rewritten |
 | usability layer | `src/core/doctor.ts` | added | deterministic repo health checks; no arbitrary command execution |
 | usability layer | `src/core/repo-profiler.ts` | added | deterministic onboarding profile and validation candidates |
-| usability layer | `src/core/phase-plan-generator.ts` | added | deterministic `plan --idea` starter docs, phases, graph, state, and policy |
-| usability layer | `src/core/file-plan.ts` | added | safe apply/skip/force file-plan behavior, skipped-file reporting, and application report |
+| usability layer | `src/core/phase-plan-generator.ts` | added | deterministic `plan --idea` starter docs, phases, graph, state, policy, plan quality metadata, stack notes, and plan summary |
+| usability layer | `src/core/file-plan.ts` | added | safe apply/skip/force file-plan behavior, skipped-file reporting, application report, and plan-summary writer |
+| usability layer | `src/core/boom.ts` | added | safe first-run macro over doctor, onboarding, and starter planning |
+| usability layer | `src/core/inspect.ts` | added | deterministic phase-state and run-evidence inspection |
+| usability layer | `src/core/blocker-analysis.ts` | added | deterministic blocker-to-suggested-action mapping |
 | usability layer | `src/cli/commands/doctor.ts` | added | JSON CLI wrapper |
 | usability layer | `src/cli/commands/onboard.ts` | added | dry-run and optional output CLI wrapper |
 | usability layer | `src/cli/commands/plan.ts` | added | deterministic planning CLI wrapper |
-| usability layer | `src/cli/commands/run.ts` | adapted | added `--mode manual|supervised|auto` aliases |
+| usability layer | `src/cli/commands/boom.ts` | added | JSON CLI wrapper for first-run macro |
+| usability layer | `src/cli/commands/inspect.ts` | added | JSON CLI wrapper for evidence inspection |
+| usability layer | `src/cli/commands/why-blocked.ts` | added | JSON CLI wrapper for blocker analysis |
+| usability layer | `src/cli/commands/run.ts` | adapted | added `--mode manual|supervised|auto` aliases, mode explanations, and `--agents manual|shell` |
 | `automation/prompts/*` | `templates/automation/prompts/*` | templated | project-specific wording removed |
 | `automation/*.json` | `templates/automation/*.json` | templated | generic phase and conservative defaults |
 | `automation/policies/automerge-policy.json` | `templates/automation/policies/automerge-policy.json` | templated | automerge disabled by default |
@@ -28,6 +34,7 @@
 | package-local usage docs | `QUICKSTART.md`, `FOLDER_OVERVIEW.md` | added | quick usage guide and non-README folder overview |
 | CLI smoke coverage | `tests/package-smoke.test.ts` | adapted | adds compiled CLI smoke, new command smoke, run-mode smoke, and custom-path autopilot coverage |
 | usability tests | `tests/doctor.test.ts`, `tests/repo-profiler.test.ts`, `tests/phase-plan-generator.test.ts`, `tests/run-modes.test.ts` | added | focused coverage for doctor, onboarding, planning, and run aliases |
+| north-star usability tests | `tests/boom.test.ts`, `tests/inspect.test.ts`, `tests/blocker-analysis.test.ts` | added | focused coverage for boom, inspect, and why-blocked behavior |
 
 ## Known TODOs
 
@@ -35,6 +42,8 @@
 - Real end-to-end agent, PR, merge, and cleanup flows must be validated in each target repository before granting authority flags.
 - YAML config support is intentionally minimal.
 - `plan --idea` is deterministic starter planning only; full autonomous LLM planning is not implemented.
+- `boom` is an orchestration macro only; it does not execute agents, create PRs, or merge.
+- `inspect` and `why-blocked` summarize known package evidence shapes; custom target-repo evidence may need adapters later.
 
 ## Excluded
 

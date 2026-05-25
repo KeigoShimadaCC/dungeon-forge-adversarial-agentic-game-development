@@ -9,6 +9,7 @@ describe('run mode aliases', () => {
     expect(resolved.safetyFlags.allowPr).toBe(false);
     expect(resolved.safetyFlags.allowMerge).toBe(false);
     expect(resolved.safetyFlags.planApproval).toBe('manual');
+    expect(resolved.modeExplanation).toContain('No agents');
   });
 
   it('maps supervised mode to agent execution without PR or merge permissions', () => {
@@ -17,6 +18,7 @@ describe('run mode aliases', () => {
     expect(resolved.safetyFlags.allowPr).toBe(false);
     expect(resolved.safetyFlags.allowMerge).toBe(false);
     expect(resolved.safetyFlags.planApproval).toBe('manual');
+    expect(resolved.modeExplanation).toContain('PR creation and merge remain disabled');
   });
 
   it('maps auto mode to agent, PR, and merge permissions while retaining gate warning', () => {
@@ -35,5 +37,25 @@ describe('run mode aliases', () => {
     expect(resolved.safetyFlags.allowPr).toBe(false);
     expect(resolved.safetyFlags.allowMerge).toBe(false);
     expect(resolved.safetyFlags.plannerAgent).toBe('shell');
+  });
+
+  it('maps --agents shell to all agent selectors', () => {
+    const resolved = resolveRunOptions({ mode: 'supervised', agents: 'shell' });
+    expect(resolved.agents).toBe('shell');
+    expect(resolved.safetyFlags.plannerAgent).toBe('shell');
+    expect(resolved.safetyFlags.executorAgent).toBe('shell');
+    expect(resolved.safetyFlags.recheckerAgent).toBe('shell');
+  });
+
+  it('lets explicit role flags override --agents', () => {
+    const resolved = resolveRunOptions({
+      mode: 'supervised',
+      agents: 'shell',
+      'planner-agent': 'manual',
+      'rechecker-agent': 'manual',
+    });
+    expect(resolved.safetyFlags.plannerAgent).toBe('manual');
+    expect(resolved.safetyFlags.executorAgent).toBe('shell');
+    expect(resolved.safetyFlags.recheckerAgent).toBe('manual');
   });
 });

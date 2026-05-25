@@ -16,8 +16,27 @@ export interface StarterPhasePlanInput {
 export interface StarterPhasePlan {
   schemaVersion: 1;
   idea: string;
+  planQuality: PlanQuality;
   proposedFiles: PlannedFile[];
 }
+
+export interface PlanQuality {
+  kind: 'deterministic-starter';
+  confidence: 'medium';
+  requiresHumanReview: true;
+  limitations: string[];
+}
+
+export const PLAN_QUALITY: PlanQuality = {
+  kind: 'deterministic-starter',
+  confidence: 'medium',
+  requiresHumanReview: true,
+  limitations: [
+    'Does not call an LLM.',
+    'Does not deeply inspect source semantics.',
+    'Starter phases should be edited before high-autonomy execution.',
+  ],
+};
 
 const exists = async (filePath: string): Promise<boolean> =>
   access(filePath)
@@ -66,6 +85,25 @@ const forbiddenPaths = (profile: RepoProfile | undefined): string[] =>
     'dist/**',
     'build/**',
   ];
+
+const stackNotes = (profile: RepoProfile | undefined): string[] => {
+  const notes: string[] = [];
+  if (profile?.frameworks.includes('nextjs')) {
+    notes.push('Preserve app/router or pages/router conventions.');
+    notes.push('Validate with build/typecheck if available.');
+    notes.push('Avoid changing deployment config unless phase explicitly allows it.');
+  }
+  if (profile?.languages.includes('python') || profile?.frameworks.includes('fastapi')) {
+    notes.push('Preserve API route contracts.');
+    notes.push('Prefer pytest if configured.');
+    notes.push('Avoid changing virtualenv or generated caches.');
+  }
+  if (profile?.languages.includes('typescript')) {
+    notes.push('Preserve strict typecheck behavior where configured.');
+    notes.push('Prefer small typed modules and focused tests.');
+  }
+  return notes;
+};
 
 const conceptNorthStar = (idea: string): string => `# North Star And Vision
 
@@ -195,6 +233,7 @@ const phasePlan = (input: {
   goal: string;
   allowedPaths: string[];
   forbiddenPaths: string[];
+  stackNotes: string[];
   tasks: string[];
   acceptance: string[];
   commands: string[];
@@ -219,6 +258,10 @@ ${markdownList(input.allowedPaths)}
 ## Forbidden Paths
 
 ${markdownList(input.forbiddenPaths)}
+
+## Stack Notes
+
+${markdownList(input.stackNotes)}
 
 ## Tasks
 
@@ -391,6 +434,7 @@ export const generateStarterPhasePlan = async (
   const graph = graphForStarterPlan(commands, foundationAllowedPaths, corePaths);
   const state = stateForStarterPlan(date);
   const policy = policyForStarterPlan(commands);
+  const notes = stackNotes(input.profile);
 
   const proposedFiles: PlannedFile[] = [
     {
@@ -422,6 +466,7 @@ export const generateStarterPhasePlan = async (
         goal: 'Create or align repo structure, configs, validation scripts, docs, and the minimal product skeleton.',
         allowedPaths: foundationAllowedPaths,
         forbiddenPaths: blockedPaths,
+        stackNotes: notes,
         tasks: [
           'Confirm the initial repo structure for the idea.',
           'Add or align minimal skeleton files needed for the first product slice.',
@@ -450,6 +495,7 @@ export const generateStarterPhasePlan = async (
         goal: 'Implement the first meaningful product slice from the idea.',
         allowedPaths: corePaths,
         forbiddenPaths: blockedPaths,
+        stackNotes: notes,
         tasks: [
           'Implement the smallest useful end-to-end behavior.',
           'Add focused tests or smoke checks for the new behavior.',
@@ -476,6 +522,7 @@ export const generateStarterPhasePlan = async (
         goal: 'Run validations, improve error handling, docs, smoke tests, and package readiness.',
         allowedPaths: graph.phases[2]?.allowedPaths ?? corePaths,
         forbiddenPaths: blockedPaths,
+        stackNotes: notes,
         tasks: [
           'Run the configured validation commands.',
           'Improve error handling around the core workflow.',
@@ -521,6 +568,56 @@ export const generateStarterPhasePlan = async (
   return {
     schemaVersion: 1,
     idea,
+    planQuality: PLAN_QUALITY,
     proposedFiles,
   };
+};
+
+export const buildPlanSummaryMarkdown = (
+  plan: StarterPhasePlan,
+  profile?: RepoProfile,
+): string => {
+  const phaseFiles = plan.proposedFiles
+    .map((file) => file.path)
+    .filter((filePath) => filePath.startsWith('phase-plans/PHASE-01'));
+  const commands = validationCommands(profile);
+
+  return [
+    '# Agentic Starter Plan Summary',
+    '',
+    '## Idea',
+    '',
+    plan.idea,
+    '',
+    '## Plan Quality',
+    '',
+    `- Kind: ${plan.planQuality.kind}`,
+    `- Confidence: ${plan.planQuality.confidence}`,
+    `- Requires human review: ${plan.planQuality.requiresHumanReview}`,
+    '',
+    '## Detected Stack',
+    '',
+    `- Package manager: ${profile?.packageManager ?? 'unknown'}`,
+    `- Languages: ${(profile?.languages.length ? profile.languages : ['unknown']).join(', ')}`,
+    `- Frameworks: ${(profile?.frameworks.length ? profile.frameworks : ['none detected']).join(', ')}`,
+    '',
+    '## Generated Phases',
+    '',
+    ...phaseFiles.map((filePath) => `- ${filePath}`),
+    '',
+    '## Validation Commands',
+    '',
+    ...commands.map((command) => `- ${command}`),
+    '',
+    '## Next Commands',
+    '',
+    '- agentic doctor --repo-root .',
+    '- agentic run --repo-root . --phase PHASE-01A --mode manual --dry-run',
+    '- agentic run --repo-root . --phase PHASE-01A --mode supervised --agents shell',
+    '',
+    '## Limitations',
+    '',
+    ...plan.planQuality.limitations.map((limitation) => `- ${limitation}`),
+    '',
+  ].join('\n');
 };

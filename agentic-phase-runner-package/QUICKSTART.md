@@ -52,11 +52,13 @@ pnpm --dir agentic-phase-runner-package exec agentic onboard --repo-root . --dry
 ## 5. Generate Starter Plans From An Idea
 
 ```bash
+pnpm --dir agentic-phase-runner-package exec agentic boom --repo-root . --idea "Build a local-first note app with graph search" --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic boom --repo-root . --idea "Build a local-first note app with graph search" --apply
 pnpm --dir agentic-phase-runner-package exec agentic plan --repo-root . --idea "Build a local-first note app with graph search" --dry-run
 pnpm --dir agentic-phase-runner-package exec agentic plan --repo-root . --idea "Build a local-first note app with graph search" --apply --force
 ```
 
-`plan --idea` is deterministic starter planning, not full LLM planning. It proposes or writes starter concept docs, three implementation phases, phase graph/state, and a conservative merge policy. Existing files are skipped unless `--force` is passed.
+`boom` runs doctor, onboarding, and deterministic starter planning as one first-run macro. It does not execute agents, create PRs, or merge. `plan --idea` is deterministic starter planning, not full LLM planning. It proposes or writes starter concept docs, three implementation phases, phase graph/state, and a conservative merge policy. Existing files are skipped unless `--force` is passed.
 
 Because `agentic init` creates placeholder workflow files, use `--force` only before editing those placeholders. If you have already customized concept docs, graph/state, or policy, run without `--force`, review skipped files in `.agentic/plan-runs/**/plan-application-report.json`, and merge the proposal manually.
 
@@ -166,6 +168,7 @@ The default `preflightCommands` list only checks Git status. Add tool-specific p
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --allow-agent-execution
 pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode supervised
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode supervised --agents shell
 ```
 
 This allows configured agent execution only. PR creation and merge still require separate flags:
@@ -181,7 +184,19 @@ Run modes are aliases for common safety profiles:
 - `supervised`: agent execution allowed, no PR or merge.
 - `auto`: agent execution, PR, and merge flags enabled, still blocked by deterministic gates.
 
-## 14. Evaluate A Gate
+Use `--agents manual` or `--agents shell` to set planner, executor, and rechecker adapters together. Explicit role flags override `--agents`.
+
+## 14. Inspect And Explain Evidence
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic inspect --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic inspect --repo-root . --phase PHASE-01A --latest
+pnpm --dir agentic-phase-runner-package exec agentic why-blocked --repo-root . --latest
+```
+
+`inspect` summarizes phase state and latest run evidence. `why-blocked` turns known final-decision, local validation, recheck, changed-path, and secret-scan blockers into suggested actions.
+
+## 15. Evaluate A Gate
 
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic gate --repo-root . --phase PHASE-01A --evidence runs/phase-runner/PHASE-01A/<run-id>/phase-merge-evidence.json
@@ -191,7 +206,7 @@ pnpm --dir agentic-phase-runner-package exec agentic gate --repo-root . --phase 
 
 The deterministic gate checks command results, changed paths, secret scan output, acceptance evidence, recheck status, dirty worktree state, and merge policy.
 
-## 15. Resume A Run
+## 16. Resume A Run
 
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic resume --repo-root . --phase PHASE-01A --run-id <run-id>
@@ -199,7 +214,7 @@ pnpm --dir agentic-phase-runner-package exec agentic resume --repo-root . --phas
 
 Resume reads `run-state.json` and continues from the next safe stage. It does not bypass failed gates.
 
-## 16. Run Until Complete
+## 17. Run Until Complete
 
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --from PHASE-01A --until-complete
@@ -208,7 +223,17 @@ pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --from PH
 
 Use this only after one-phase runs are working reliably. Defaults remain conservative, and the runner stops on blocked or failed phases unless explicitly configured otherwise.
 
-## 17. Zip The Package
+## North-Star Workflow
+
+The intended flow is:
+
+```text
+doctor -> onboard -> boom/plan -> inspect -> run supervised -> why-blocked -> resume
+```
+
+`boom` and `plan --idea` are deterministic starter planning. Full LLM planning remains future work, and deterministic gates remain the authority.
+
+## 18. Zip The Package
 
 From the source repo root:
 

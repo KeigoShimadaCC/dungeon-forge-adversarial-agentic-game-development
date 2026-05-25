@@ -55,7 +55,7 @@ agentic-phase-runner-package/
 `src/` contains the reusable runner implementation.
 
 - `src/cli/**` implements the `agentic` command.
-- `src/core/**` handles graph/state loading, phase selection, bundling, run state, runner flow, autopilot orchestration, doctor checks, repo profiling, and deterministic starter plan generation.
+- `src/core/**` handles graph/state loading, phase selection, bundling, run state, runner flow, autopilot orchestration, doctor checks, repo profiling, deterministic starter plan generation, boom orchestration, evidence inspection, and blocker analysis.
 - `src/adapters/**` wraps shell commands, agent command templates, Git, and GitHub CLI behavior.
 - `src/evidence/**` collects changed paths, command results, report parsing, and secret scan data.
 - `src/config/**` loads default paths and package configuration.
@@ -93,7 +93,7 @@ It is not a real product repo. It exists to make smoke testing and migration eas
 
 ## Tests
 
-`tests/` contains package smoke tests and focused unit tests. These check initialization, doctor, onboarding, deterministic planning, status, next-phase selection, bundling, run modes, and safe CLI behavior without invoking real agents.
+`tests/` contains package smoke tests and focused unit tests. These check initialization, doctor, onboarding, deterministic planning, boom, inspect, why-blocked, status, next-phase selection, bundling, run modes, and safe CLI behavior without invoking real agents.
 
 Run them with:
 
@@ -121,18 +121,25 @@ Deterministic evidence is the release gate. Model-written reports can help expla
 3. Run `agentic init`.
 4. Run `agentic doctor --repo-root .`.
 5. Run `agentic onboard --repo-root . --dry-run`.
-6. Run `agentic plan --repo-root . --idea "..." --dry-run`.
+6. Run `agentic boom --repo-root . --idea "..." --dry-run`.
 7. Apply starter plans after review. Use `--force` only when replacing unedited init placeholders.
 8. Fill in or refine concept docs.
-9. Run `agentic status`.
+9. Run `agentic inspect --repo-root .`.
 10. Build a bundle.
 11. Run `agentic run --repo-root . --phase PHASE-01A --mode manual --dry-run`.
-12. Enable supervised agent execution only after configuration is reviewed.
+12. Enable supervised agent execution only after configuration is reviewed, for example `--mode supervised --agents shell`.
 13. Run validation and gate checks.
-14. Resume or continue only from recorded run state.
+14. Use `agentic why-blocked --repo-root . --latest` when evidence blocks.
+15. Resume or continue only from recorded run state.
 
 See `QUICKSTART.md` for concrete commands.
 
-## Toward Plug-And-Boom Workflow
+## North-Star Workflow
 
-The folder is moving toward a `doctor -> onboard -> plan -> dry-run -> supervised execution` workflow. The current `plan --idea` command is deterministic starter planning only; it does not call an LLM or claim to produce a complete product roadmap. `auto` mode still relies on deterministic gates before PR or merge actions can proceed.
+The folder is moving toward:
+
+```text
+doctor -> onboard -> boom/plan -> inspect -> run supervised -> why-blocked -> resume
+```
+
+`boom` is a safe macro over doctor, onboarding, and deterministic starter planning. `boom` does not execute agents, create PRs, or merge. The current `plan --idea` command is deterministic starter planning only; it does not call an LLM or claim to produce a complete product roadmap. `auto` mode still relies on deterministic gates before PR or merge actions can proceed.

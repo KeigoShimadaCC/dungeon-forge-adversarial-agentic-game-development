@@ -26,7 +26,7 @@ export interface AppliedFile {
 
 export interface PlanApplicationReport {
   schemaVersion: 1;
-  status: 'applied';
+  status: 'applied' | 'applied_with_skips';
   dryRun: false;
   appliedAt: string;
   repoRoot: string;
@@ -67,12 +67,12 @@ export const writePlanPreview = async (files: PlannedFile[], outputDir: string):
 export const applyFilePlan = async (
   repoRootInput: string,
   files: PlannedFile[],
-  options: { force?: boolean; timestamp?: string } = {},
-): Promise<{ report: PlanApplicationReport; reportPath: string }> => {
+  options: { force?: boolean; timestamp?: string; appliedAt?: string } = {},
+): Promise<{ report: PlanApplicationReport; reportPath: string; planRunDir: string }> => {
   const repoRoot = path.resolve(repoRootInput);
   const force = options.force === true;
   const timestamp = options.timestamp ?? new Date().toISOString().replace(/[:.]/g, '-');
-  const appliedAt = options.timestamp ?? new Date().toISOString();
+  const appliedAt = options.appliedAt ?? new Date().toISOString();
   const appliedFiles: AppliedFile[] = [];
 
   for (const file of files) {
@@ -98,24 +98,29 @@ export const applyFilePlan = async (
 
   const report: PlanApplicationReport = {
     schemaVersion: 1,
-    status: 'applied',
+    status: appliedFiles.some((file) => file.action === 'skipped') ? 'applied_with_skips' : 'applied',
     dryRun: false,
     appliedAt,
     repoRoot,
     force,
     files: appliedFiles,
   };
-  const reportPath = path.join(
-    repoRoot,
-    '.agentic',
-    'plan-runs',
-    timestamp,
-    'plan-application-report.json',
-  );
+  const planRunDir = path.join(repoRoot, '.agentic', 'plan-runs', timestamp);
+  const reportPath = path.join(planRunDir, 'plan-application-report.json');
   await mkdir(path.dirname(reportPath), { recursive: true });
   const existingReport = await readFile(reportPath, 'utf8').catch(() => undefined);
   if (existingReport !== stringifyDeterministicJson(report)) {
     await writeFile(reportPath, stringifyDeterministicJson(report));
   }
-  return { report, reportPath };
+  return { report, reportPath, planRunDir };
+};
+
+export const writePlanSummary = async (
+  planRunDir: string,
+  contents: string,
+): Promise<string> => {
+  const summaryPath = path.join(planRunDir, 'plan-summary.md');
+  await mkdir(path.dirname(summaryPath), { recursive: true });
+  await writeFile(summaryPath, contents);
+  return summaryPath;
 };

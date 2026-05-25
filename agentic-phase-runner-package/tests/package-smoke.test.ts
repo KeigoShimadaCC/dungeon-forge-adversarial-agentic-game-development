@@ -156,6 +156,30 @@ describe('agentic phase runner package', () => {
       ]);
       expect(onboard.stdout).toContain('"dryRun": true');
 
+      const boomDryRun = await execFileAsync(process.execPath, [
+        builtCliPath,
+        'boom',
+        '--repo-root',
+        repoRoot,
+        '--idea',
+        'Build a local-first note app',
+        '--dry-run',
+      ]);
+      expect(boomDryRun.stdout).toContain('"status": "planned"');
+
+      const boomApply = await execFileAsync(process.execPath, [
+        builtCliPath,
+        'boom',
+        '--repo-root',
+        repoRoot,
+        '--idea',
+        'Build a local-first note app',
+        '--apply',
+        '--force',
+      ]);
+      expect(boomApply.stdout).toContain('"dryRun": false');
+      expect(boomApply.stdout).toContain('"boomReportPath"');
+
       const planDryRun = await execFileAsync(process.execPath, [
         builtCliPath,
         'plan',
@@ -197,6 +221,43 @@ describe('agentic phase runner package', () => {
       ]);
       expect(dryRun.stdout).toContain('"dryRun": true');
       expect(dryRun.stdout).toContain('"mode": "manual"');
+      expect(dryRun.stdout).toContain('"modeExplanation": "No agents, PRs, or merges are allowed."');
+
+      const supervisedDryRun = await execFileAsync(process.execPath, [
+        builtCliPath,
+        'run',
+        '--repo-root',
+        repoRoot,
+        '--phase',
+        'PHASE-01A',
+        '--dry-run',
+        '--mode',
+        'supervised',
+        '--agents',
+        'manual',
+        '--run-id',
+        'built-cli-supervised-dry',
+      ]);
+      expect(supervisedDryRun.stdout).toContain('"mode": "supervised"');
+      expect(supervisedDryRun.stdout).toContain('"agents": "manual"');
+
+      const inspect = await execFileAsync(process.execPath, [
+        builtCliPath,
+        'inspect',
+        '--repo-root',
+        repoRoot,
+        '--latest',
+      ]);
+      expect(inspect.stdout).toContain('"latestRun"');
+
+      const whyBlocked = await execFileAsync(process.execPath, [
+        builtCliPath,
+        'why-blocked',
+        '--repo-root',
+        repoRoot,
+        '--latest',
+      ]);
+      expect(whyBlocked.stdout).toContain('"schemaVersion": 1');
 
       const evidenceDir = path.join(repoRoot, 'runs', 'phase-runner', 'PHASE-01A', 'built-cli-dry');
       await mkdir(evidenceDir, { recursive: true });
