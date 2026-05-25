@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "lastUpdated": "2026-05-24",
+  "currentPhase": "PHASE-01A",
+  "phases": {
+    "PHASE-01A": {
+      "status": "queued"
+    }
+  }
+}

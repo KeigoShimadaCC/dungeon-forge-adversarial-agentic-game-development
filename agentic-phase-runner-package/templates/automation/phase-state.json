@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "lastUpdated": "<YYYY-MM-DD>",
+  "sourceNote": "Initialized from agentic-phase-runner-package templates.",
+  "currentPhase": "PHASE-01A",
+  "phases": {
+    "PHASE-01A": {
+      "status": "queued"
+    }
+  }
+}

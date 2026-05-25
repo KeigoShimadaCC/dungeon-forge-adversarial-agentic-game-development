@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "defaultStartPhase": "PHASE-01A",
+  "defaultParallelism": 1,
+  "globalValidationCommands": [
+    "pnpm test",
+    "pnpm run typecheck",
+    "pnpm run build",
+    "git diff --check"
+  ],
+  "phases": [
+    {
+      "id": "PHASE-01A",
+      "plan": "phase-plans/PHASE-TEMPLATE.md",
+      "dependsOn": [],
+      "allowedPaths": [
+        "src/**",
+        "tests/**",
+        "docs/**",
+        "PROGRESS.md"
+      ],
+      "parallelGroup": "default",
+      "automerge": false
+    }
+  ]
+}

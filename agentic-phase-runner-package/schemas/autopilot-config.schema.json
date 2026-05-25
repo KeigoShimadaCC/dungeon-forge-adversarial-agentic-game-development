@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agentic Autopilot Config",
+  "type": "object",
+  "required": ["schemaVersion", "git", "agents"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "git": {
+      "type": "object",
+      "required": ["baseBranch", "baseRef"],
+      "properties": {
+        "baseBranch": { "type": "string" },
+        "baseRef": { "type": "string" }
+      }
+    },
+    "agents": {
+      "type": "object",
+      "required": ["planner", "executor", "rechecker"],
+      "additionalProperties": {
+        "type": "object",
+        "required": ["provider", "commandTemplate"],
+        "properties": {
+          "provider": { "enum": ["manual", "shell"] },
+          "commandTemplate": { "type": "string" },
+          "timeoutMs": { "type": "integer", "minimum": 1 },
+          "inactivityTimeoutMs": { "type": "integer", "minimum": 1 },
+          "maxRetries": { "type": "integer", "minimum": 0 }
+        }
+      }
+    }
+  }
+}

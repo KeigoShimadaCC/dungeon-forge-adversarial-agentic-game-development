@@ -1,0 +1,3 @@
+# Workflows
+
+Minimal example workflow.

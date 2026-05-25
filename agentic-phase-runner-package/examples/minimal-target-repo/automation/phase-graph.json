@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "defaultStartPhase": "PHASE-01A",
+  "defaultParallelism": 1,
+  "globalValidationCommands": ["git diff --check"],
+  "phases": [
+    {
+      "id": "PHASE-01A",
+      "plan": "phase-plans/PHASE-01A.md",
+      "dependsOn": [],
+      "allowedPaths": ["README.md", "PROGRESS.md"],
+      "parallelGroup": "default",
+      "automerge": false
+    }
+  ]
+}

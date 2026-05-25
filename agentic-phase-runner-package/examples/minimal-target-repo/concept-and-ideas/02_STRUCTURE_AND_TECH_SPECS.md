@@ -1,0 +1,3 @@
+# Structure
+
+Minimal example structure.

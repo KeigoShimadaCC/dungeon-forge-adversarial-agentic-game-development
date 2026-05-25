@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Phase Merge Evidence",
+  "type": "object",
+  "required": ["localCommands", "remoteChecks", "cursorRecheck", "phaseAcceptanceComplete", "changedPaths", "worktreeClean", "secretsDetected", "blockingGaps"],
+  "properties": {
+    "localCommands": { "type": "array" },
+    "remoteChecks": { "enum": ["pass", "fail", "pending", "none"] },
+    "cursorRecheck": { "enum": ["pass", "blocked", "not_run"] },
+    "phaseAcceptanceComplete": { "type": "boolean" },
+    "changedPaths": { "type": "array", "items": { "type": "string" } },
+    "worktreeClean": { "type": "boolean" },
+    "secretsDetected": { "type": "boolean" },
+    "blockingGaps": { "type": "array", "items": { "type": "string" } }
+  }
+}

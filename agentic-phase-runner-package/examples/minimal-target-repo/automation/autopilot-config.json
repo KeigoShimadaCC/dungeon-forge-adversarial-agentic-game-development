@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "git": {
+    "baseBranch": "main",
+    "baseRef": "origin/main"
+  },
+  "agents": {
+    "planner": { "provider": "manual", "commandTemplate": "cat '{{PROMPT_PATH}}'" },
+    "executor": { "provider": "manual", "commandTemplate": "cat '{{PROMPT_PATH}}'" },
+    "rechecker": { "provider": "manual", "commandTemplate": "cat '{{PROMPT_PATH}}'" }
+  },
+  "dependencyBootstrapCommands": []
+}

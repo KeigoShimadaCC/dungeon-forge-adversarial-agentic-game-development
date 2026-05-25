@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "enabled": false,
+  "mergeMethod": "squash",
+  "deleteBranchAfterMerge": false,
+  "removeCleanWorktreeAfterMerge": false,
+  "allowNoRemoteChecksWhenLocalGatePasses": false,
+  "requiredLocalCommands": ["git diff --check"],
+  "requiredPreflight": ["PROGRESS.md read"],
+  "requiredArtifacts": ["phase merge evidence"],
+  "blockMergeWhen": ["local validation fails"],
+  "gapPolicy": {
+    "blocking": "fix_before_merge_or_mark_blocked",
+    "non_blocking": "append_to_PROGRESS_future_backlog_then_allow_merge_if_acceptance_passes",
+    "out_of_scope": "append_to_PROGRESS_future_backlog_then_allow_merge"
+  }
+}

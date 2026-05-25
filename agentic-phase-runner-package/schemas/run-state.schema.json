@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agentic Run State",
+  "type": "object",
+  "required": ["schemaVersion", "phase", "runId", "status", "currentStage", "completedStages", "dryRun", "startedAt", "updatedAt", "safetyFlags"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "phase": { "type": "string" },
+    "runId": { "type": "string" },
+    "status": { "enum": ["not_started", "running", "blocked", "failed", "complete"] },
+    "currentStage": { "type": "string" },
+    "completedStages": { "type": "array", "items": { "type": "string" } },
+    "dryRun": { "type": "boolean" },
+    "lastError": { "type": "string" },
+    "startedAt": { "type": "string" },
+    "updatedAt": { "type": "string" },
+    "safetyFlags": { "type": "object" }
+  }
+}

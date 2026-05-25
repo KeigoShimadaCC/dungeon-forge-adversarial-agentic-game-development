@@ -1,0 +1,12 @@
+schemaVersion: 1
+projectName: minimal-target-repo
+paths:
+  graphPath: automation/phase-graph.json
+  statePath: automation/phase-state.json
+  policyPath: automation/policies/automerge-policy.json
+  promptsDir: automation/prompts
+  autopilotConfigPath: automation/autopilot-config.json
+git:
+  baseBranch: main
+  baseRef: origin/main
+  worktreeRoot: ../

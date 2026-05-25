@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "enabled": false,
+  "mergeMethod": "squash",
+  "deleteBranchAfterMerge": false,
+  "removeCleanWorktreeAfterMerge": false,
+  "allowNoRemoteChecksWhenLocalGatePasses": false,
+  "requiredLocalCommands": [
+    "pnpm test",
+    "pnpm run typecheck",
+    "pnpm run build",
+    "git diff --check"
+  ],
+  "requiredPreflight": [
+    "git status --short --branch",
+    "active phase plan exists",
+    "PROGRESS.md read"
+  ],
+  "requiredArtifacts": [
+    "planner report",
+    "accepted plan",
+    "executor report",
+    "recheck report",
+    "local validation result",
+    "phase merge evidence"
+  ],
+  "blockMergeWhen": [
+    "local validation fails",
+    "remote PR checks fail",
+    "phase acceptance criteria are incomplete",
+    "recheck reports blocking gaps",
+    "diff includes .env or credentials",
+    "diff touches paths outside the phase allowedPaths list",
+    "worktree has uncommitted changes after commit"
+  ],
+  "gapPolicy": {
+    "blocking": "fix_before_merge_or_mark_blocked",
+    "non_blocking": "append_to_PROGRESS_future_backlog_then_allow_merge_if_acceptance_passes",
+    "out_of_scope": "append_to_PROGRESS_future_backlog_then_allow_merge"
+  }
+}
