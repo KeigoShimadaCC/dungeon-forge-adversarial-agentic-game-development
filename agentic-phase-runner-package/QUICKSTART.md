@@ -40,7 +40,27 @@ This creates the default workflow files if they do not already exist:
 
 Use `--force` only if you intentionally want template files to overwrite existing target-repo files.
 
-## 4. Edit Project Intent
+## 4. Run Doctor And Onboard
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic doctor --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic onboard --repo-root . --dry-run
+```
+
+`doctor` checks whether the repo has the files, graph/state consistency, prompt templates, validation command configuration, and optional tool readiness needed for phase execution. `onboard` profiles the repo and suggests validation commands and default path scopes without reading secret contents.
+
+## 5. Generate Starter Plans From An Idea
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic plan --repo-root . --idea "Build a local-first note app with graph search" --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic plan --repo-root . --idea "Build a local-first note app with graph search" --apply --force
+```
+
+`plan --idea` is deterministic starter planning, not full LLM planning. It proposes or writes starter concept docs, three implementation phases, phase graph/state, and a conservative merge policy. Existing files are skipped unless `--force` is passed.
+
+Because `agentic init` creates placeholder workflow files, use `--force` only before editing those placeholders. If you have already customized concept docs, graph/state, or policy, run without `--force`, review skipped files in `.agentic/plan-runs/**/plan-application-report.json`, and merge the proposal manually.
+
+## 6. Edit Project Intent
 
 Fill in:
 
@@ -50,7 +70,7 @@ Fill in:
 
 These files explain what the target project is trying to build. The runner reads them into phase bundles, but they are not generated evidence.
 
-## 5. Create A Phase Plan
+## 7. Create Or Refine Phase Plans
 
 Start from:
 
@@ -77,7 +97,7 @@ automation/phase-graph.json
 automation/phase-state.json
 ```
 
-## 6. Check Status
+## 8. Check Status
 
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic status --repo-root .
@@ -85,7 +105,7 @@ pnpm --dir agentic-phase-runner-package exec agentic status --repo-root .
 
 This validates the graph and state files, then shows queued, blocked, failed, complete, and next-runnable phases.
 
-## 7. Preview The Next Phase
+## 9. Preview The Next Phase
 
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic next --repo-root . --from PHASE-01A
@@ -93,7 +113,7 @@ pnpm --dir agentic-phase-runner-package exec agentic next --repo-root . --from P
 
 Use this before running anything. It shows what the runner believes is eligible.
 
-## 8. Build A Phase Bundle
+## 10. Build A Phase Bundle
 
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic bundle --repo-root . --phase PHASE-01A
@@ -101,10 +121,10 @@ pnpm --dir agentic-phase-runner-package exec agentic bundle --repo-root . --phas
 
 The bundle collects the phase plan, concept docs, progress file, configured prompts, and runner metadata. This is useful for inspection before agent execution.
 
-## 9. Run A Dry Run First
+## 11. Run A Dry Run First
 
 ```bash
-pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode manual --dry-run
 ```
 
 Dry-run mode writes prompts and run state but does not:
@@ -115,7 +135,7 @@ Dry-run mode writes prompts and run state but does not:
 - delete worktrees
 - mark a phase complete
 
-## 10. Configure Agent Commands
+## 12. Configure Agent Commands
 
 Edit:
 
@@ -141,10 +161,11 @@ Keep providers set to `manual` until the target repo has approved shell commands
 
 The default `preflightCommands` list only checks Git status. Add tool-specific preflight commands in `automation/autopilot-config.json` only when those tools are required for the target repo.
 
-## 11. Run One Phase With Explicit Authority
+## 13. Run One Phase With Explicit Authority
 
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --allow-agent-execution
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode supervised
 ```
 
 This allows configured agent execution only. PR creation and merge still require separate flags:
@@ -154,7 +175,13 @@ This allows configured agent execution only. PR creation and merge still require
 --allow-merge
 ```
 
-## 12. Evaluate A Gate
+Run modes are aliases for common safety profiles:
+
+- `manual`: no agent execution, no PR, no merge.
+- `supervised`: agent execution allowed, no PR or merge.
+- `auto`: agent execution, PR, and merge flags enabled, still blocked by deterministic gates.
+
+## 14. Evaluate A Gate
 
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic gate --repo-root . --phase PHASE-01A --evidence runs/phase-runner/PHASE-01A/<run-id>/phase-merge-evidence.json
@@ -164,7 +191,7 @@ pnpm --dir agentic-phase-runner-package exec agentic gate --repo-root . --phase 
 
 The deterministic gate checks command results, changed paths, secret scan output, acceptance evidence, recheck status, dirty worktree state, and merge policy.
 
-## 13. Resume A Run
+## 15. Resume A Run
 
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic resume --repo-root . --phase PHASE-01A --run-id <run-id>
@@ -172,15 +199,16 @@ pnpm --dir agentic-phase-runner-package exec agentic resume --repo-root . --phas
 
 Resume reads `run-state.json` and continues from the next safe stage. It does not bypass failed gates.
 
-## 14. Run Until Complete
+## 16. Run Until Complete
 
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --from PHASE-01A --until-complete
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --from PHASE-01A --until-complete --mode supervised
 ```
 
 Use this only after one-phase runs are working reliably. Defaults remain conservative, and the runner stops on blocked or failed phases unless explicitly configured otherwise.
 
-## 15. Zip The Package
+## 17. Zip The Package
 
 From the source repo root:
 

@@ -16,6 +16,7 @@ The package provides a deterministic TypeScript runner for phase-based agent wor
 8. Collect changed paths and secret-scan evidence.
 9. Evaluate a deterministic merge gate.
 10. Optionally create PRs, watch checks, merge, clean up, update state, and resume.
+11. Inspect repo readiness, profile target repos, and generate deterministic starter plans.
 
 ## Problem It Solves
 
@@ -27,6 +28,7 @@ Agentic coding phases often fail because the model self-reports success without 
 - It does not make agent execution, PR creation, or merging automatic by default.
 - It does not include generated run evidence, secrets, credentials, or local machine paths.
 - It does not replace project-specific phase planning.
+- It does not perform full autonomous idea-to-product LLM planning yet.
 - It does not make restricted-agent delegate internals part of the zip export yet.
 
 ## Required Target Repo Structure
@@ -59,10 +61,14 @@ From a target repo after copying this folder:
 
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic init --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic doctor --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic onboard --repo-root . --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic plan --repo-root . --idea "Build a local-first note app" --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic plan --repo-root . --idea "Build a local-first note app" --apply --force
 pnpm --dir agentic-phase-runner-package exec agentic status --repo-root .
 pnpm --dir agentic-phase-runner-package exec agentic next --repo-root . --from PHASE-01A
 pnpm --dir agentic-phase-runner-package exec agentic bundle --repo-root . --phase PHASE-01A
-pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode manual --dry-run
 ```
 
 If the package is added as a workspace package or `file:` dependency, the shorter `pnpm exec agentic ...` form can be used instead.
@@ -74,6 +80,44 @@ pnpm --dir agentic-phase-runner-package exec agentic init --repo-root .
 ```
 
 This copies generic `AGENTS.md`, `CLAUDE.md`, `PROGRESS.md`, concept docs, phase-plan templates, automation JSON, policies, and prompt templates. Existing files are not overwritten unless `--force` is passed.
+
+## Toward Plug-And-Boom Workflow
+
+The next usability layer is:
+
+```text
+doctor -> onboard -> plan -> dry-run -> supervised execution
+```
+
+Example commands:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic doctor --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic onboard --repo-root . --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic plan --repo-root . --idea "Build a local-first knowledge app" --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic plan --repo-root . --idea "Build a local-first knowledge app" --apply --force
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode manual --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode supervised
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --from PHASE-01A --until-complete --mode supervised
+```
+
+`plan --idea` is deterministic starter planning, not full LLM planning. It uses the idea, repo profile, and package templates to propose concept docs, starter phases, graph/state, and conservative policy. It will not overwrite existing files unless `--force` is passed.
+
+If `agentic init` already created placeholder concept, graph, state, or policy files, `plan --apply` reports those files as skipped. Use `--force` only before editing those placeholders, or merge the proposed content manually.
+
+No real agent execution occurs unless explicitly enabled. `auto` mode still obeys deterministic gates; it does not bypass validation.
+
+## Doctor And Onboard
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic doctor --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic onboard --repo-root . --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic onboard --repo-root . --output .agentic/repo-profile.json
+```
+
+`doctor` emits JSON health checks for repo/git status, workflow files, graph/state/policy/config consistency, prompt templates, validation command configuration, and relevant optional tools. It does not execute validation commands or arbitrary agent commands.
+
+`onboard` emits a deterministic repo profile: package manager, languages, frameworks, source/test/docs dirs, package scripts, validation candidates, and risk indicators. It detects `.env*` filenames but never reads their contents. Relative `--output` paths are resolved against `--repo-root`.
 
 ## Create Phase Plans
 
@@ -91,14 +135,22 @@ Dry-run writes a run plan and prompts under `runs/phase-runner/<phase>/<run-id>/
 
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --allow-agent-execution
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode supervised
 ```
 
 Agent execution remains off unless `--allow-agent-execution` is passed. PR creation and merge still require separate `--allow-pr` and `--allow-merge` flags.
+
+Run mode aliases are:
+
+- `--mode manual`: no agent execution, no PR, no merge, manual approval.
+- `--mode supervised`: agent execution allowed, no PR, no merge, manual approval.
+- `--mode auto`: agent execution, PR, and merge flags enabled, still gated deterministically.
 
 ## Run Until Complete
 
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --from PHASE-01A --until-complete
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --from PHASE-01A --until-complete --mode supervised
 ```
 
 The default parallelism is conservative. The runner stops on blocked or failed phases unless `--continue-on-blocked` is supplied.

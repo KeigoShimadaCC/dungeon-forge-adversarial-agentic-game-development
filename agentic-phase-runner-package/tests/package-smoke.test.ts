@@ -144,6 +144,44 @@ describe('agentic phase runner package', () => {
       const status = await execFileAsync(process.execPath, [builtCliPath, 'status', '--repo-root', repoRoot]);
       expect(status.stdout).toContain('"currentPhase": "PHASE-01A"');
 
+      const doctor = await execFileAsync(process.execPath, [builtCliPath, 'doctor', '--repo-root', repoRoot]);
+      expect(doctor.stdout).toContain('"schemaVersion": 1');
+
+      const onboard = await execFileAsync(process.execPath, [
+        builtCliPath,
+        'onboard',
+        '--repo-root',
+        repoRoot,
+        '--dry-run',
+      ]);
+      expect(onboard.stdout).toContain('"dryRun": true');
+
+      const planDryRun = await execFileAsync(process.execPath, [
+        builtCliPath,
+        'plan',
+        '--repo-root',
+        repoRoot,
+        '--idea',
+        'Build a local-first note app',
+        '--dry-run',
+      ]);
+      expect(planDryRun.stdout).toContain('"status": "planned"');
+
+      const planApply = await execFileAsync(process.execPath, [
+        builtCliPath,
+        'plan',
+        '--repo-root',
+        repoRoot,
+        '--idea',
+        'Build a local-first note app',
+        '--apply',
+        '--force',
+      ]);
+      expect(planApply.stdout).toContain('"status": "applied"');
+      await expect(readFile(path.join(repoRoot, 'automation', 'phase-graph.json'), 'utf8')).resolves.toContain(
+        'PHASE-01B',
+      );
+
       const dryRun = await execFileAsync(process.execPath, [
         builtCliPath,
         'run',
@@ -152,10 +190,13 @@ describe('agentic phase runner package', () => {
         '--phase',
         'PHASE-01A',
         '--dry-run',
+        '--mode',
+        'manual',
         '--run-id',
         'built-cli-dry',
       ]);
       expect(dryRun.stdout).toContain('"dryRun": true');
+      expect(dryRun.stdout).toContain('"mode": "manual"');
 
       const evidenceDir = path.join(repoRoot, 'runs', 'phase-runner', 'PHASE-01A', 'built-cli-dry');
       await mkdir(evidenceDir, { recursive: true });
