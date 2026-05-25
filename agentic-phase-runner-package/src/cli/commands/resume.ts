@@ -5,7 +5,7 @@ export const runResumeCommand = async (
   repoRoot: string,
   options: Record<string, string | boolean>,
 ): Promise<void> => {
-  const { autopilotConfigPath } = await loadRunnerContext(repoRoot);
+  const { autopilotConfigPath, paths } = await loadRunnerContext(repoRoot);
   const autopilotConfig = await loadAutopilotConfig(repoRoot, autopilotConfigPath);
   writeJson(
     await resumeAutopilot(repoRoot, requireOption(options, 'phase'), requireOption(options, 'run-id'), {
@@ -21,7 +21,7 @@ export const runResumeCommand = async (
         executorAgent: (optionValue(options, 'executor-agent') ?? 'manual') as 'shell' | 'manual',
         recheckerAgent: (optionValue(options, 'rechecker-agent') ?? 'manual') as 'shell' | 'manual',
       },
-      deps: { autopilotConfig },
+      deps: { autopilotConfig, runnerPaths: paths },
     }),
   );
 };

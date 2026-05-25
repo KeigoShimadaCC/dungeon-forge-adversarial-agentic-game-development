@@ -125,6 +125,10 @@ export interface PhaseRunBundle {
   };
 }
 
+export interface PhaseRunBundleOptions {
+  preflightCommands?: string[];
+}
+
 export interface CommandEvidence {
   command: string;
   status: 'pass' | 'fail' | 'blocked' | 'not_run';
@@ -157,6 +161,7 @@ export interface PhaseCompletionMetadata {
 }
 
 const DEFAULT_RUN_ID = 'planned';
+export const DEFAULT_PREFLIGHT_COMMANDS = ['git status --short --branch'];
 
 const readJson = async <T>(filePath: string): Promise<T> =>
   JSON.parse(await readFile(filePath, 'utf8')) as T;
@@ -389,6 +394,7 @@ export const buildPhaseRunBundle = async (
   phaseId: string,
   runId = DEFAULT_RUN_ID,
   paths: RunnerPaths = defaultRunnerPaths(repoRoot),
+  options: PhaseRunBundleOptions = {},
 ): Promise<PhaseRunBundle> => {
   const phase = config.graph.phases.find((entry) => entry.id === phaseId);
   if (!phase) {
@@ -425,11 +431,7 @@ export const buildPhaseRunBundle = async (
     cursorImplementationPrompt: renderTemplate(cursorImplementationTemplate, replacements),
     cursorRecheckPrompt: renderTemplate(cursorRecheckTemplate, replacements),
     commands: {
-      preflight: [
-        'git status --short --branch',
-        'command -v agent',
-        'agent --list-models',
-      ],
+      preflight: [...(options.preflightCommands ?? DEFAULT_PREFLIGHT_COMMANDS)],
       setup: [
         'git fetch origin',
         `git worktree add -b ${quoteShell(runnable.branch)} ${quoteShell(runnable.worktreePath)} <BASE_BRANCH>`,

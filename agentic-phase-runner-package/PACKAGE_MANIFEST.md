@@ -18,6 +18,7 @@
 | `automation/policies/automerge-policy.json` | `templates/automation/policies/automerge-policy.json` | templated | automerge disabled by default |
 | `AGENTS.md`, `CLAUDE.md`, `PROGRESS.MD` | `templates/repo-files/*` | templated | generic and tool-neutral where appropriate |
 | package-local usage docs | `QUICKSTART.md`, `FOLDER_OVERVIEW.md` | added | quick usage guide and non-README folder overview |
+| CLI smoke coverage | `tests/package-smoke.test.ts` | adapted | adds compiled CLI smoke and custom-path autopilot coverage |
 
 ## Known TODOs
 

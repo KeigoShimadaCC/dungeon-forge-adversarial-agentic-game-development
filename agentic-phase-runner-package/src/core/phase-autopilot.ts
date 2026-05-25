@@ -48,6 +48,7 @@ import {
   writePhaseRunBundle,
   writePhaseState,
   type RunnablePhase,
+  type RunnerPaths,
 } from './phase-runner.js';
 
 export interface AutopilotConfig {
@@ -56,6 +57,7 @@ export interface AutopilotConfig {
     baseBranch: string;
     baseRef: string;
   };
+  preflightCommands?: string[];
   agents: {
     planner: AgentTemplateConfig;
     executor: AgentTemplateConfig;
@@ -99,6 +101,7 @@ export interface AutopilotDependencies {
   git?: GitAdapter;
   github?: GitHubCliAdapter;
   autopilotConfig?: AutopilotConfig;
+  runnerPaths?: RunnerPaths;
   restrictedAgentCommandExecutor?: unknown;
 }
 
@@ -357,7 +360,8 @@ export const executeStage = async (
     deps?: AutopilotDependencies;
   },
 ): Promise<AutopilotRunSummary> => {
-  const config = await loadPhaseRunnerConfig(repoRoot);
+  const runnerPaths = options.deps?.runnerPaths ?? defaultRunnerPaths(repoRoot);
+  const config = await loadPhaseRunnerConfig(repoRoot, runnerPaths);
   const autopilotConfig =
     options.deps?.autopilotConfig ?? (await loadAutopilotConfig(repoRoot));
   const executor = options.deps?.executor ?? createSpawnCommandExecutor();
@@ -371,7 +375,9 @@ export const executeStage = async (
 
   const runId = options.runId ?? createRunId();
   const evidenceDir = evidenceDirForPhase(repoRoot, phase, runId);
-  const bundle = await buildPhaseRunBundle(config, repoRoot, phaseId, runId);
+  const bundle = await buildPhaseRunBundle(config, repoRoot, phaseId, runId, runnerPaths, {
+    preflightCommands: autopilotConfig.preflightCommands,
+  });
   let runState =
     (await loadRunState(evidenceDir)) ??
     initialRunState({
@@ -1013,7 +1019,10 @@ export const runAutopilotForPhase = async (
     resumeFrom?: AutopilotStage;
   },
 ): Promise<AutopilotRunSummary> => {
-  const config = await loadPhaseRunnerConfig(repoRoot);
+  const runnerPaths = options.deps?.runnerPaths ?? defaultRunnerPaths(repoRoot);
+  const config = await loadPhaseRunnerConfig(repoRoot, runnerPaths);
+  const autopilotConfig =
+    options.deps?.autopilotConfig ?? (await loadAutopilotConfig(repoRoot));
   const phase = config.graph.phases.find((entry) => entry.id === phaseId);
   if (!phase) {
     throw new Error(`Unknown phase: ${phaseId}`);
@@ -1021,7 +1030,9 @@ export const runAutopilotForPhase = async (
 
   const runId = options.runId ?? createRunId();
   const evidenceDir = evidenceDirForPhase(repoRoot, phase, runId);
-  const bundle = await buildPhaseRunBundle(config, repoRoot, phaseId, runId);
+  const bundle = await buildPhaseRunBundle(config, repoRoot, phaseId, runId, runnerPaths, {
+    preflightCommands: autopilotConfig.preflightCommands,
+  });
   const runnable = getRunnablePhases(config, { repoRoot, from: phaseId, parallel: 1, runId })[0];
   if (!runnable && !options.safetyFlags.dryRun) {
     throw new Error(`Phase is not runnable: ${phaseId}`);
@@ -1092,7 +1103,7 @@ export const runAutopilotForPhase = async (
       const summary = await executeStage(repoRoot, phaseId, stage, {
         runId,
         safetyFlags: options.safetyFlags,
-        deps: options.deps,
+        deps: { ...options.deps, autopilotConfig, runnerPaths },
       });
       if (summary.status === 'blocked' || summary.status === 'failed') {
         return summary;
@@ -1101,14 +1112,13 @@ export const runAutopilotForPhase = async (
         (stage === 'local-gate' || stage === 'final-gate') &&
         summary.mergeDecision?.decision === 'block'
       ) {
-        const paths = defaultRunnerPaths(repoRoot);
         const blocked = markPhaseBlocked(
           config.graph,
           config.state,
           phaseId,
           summary.mergeDecision.reasons.join('; '),
         );
-        await writePhaseState(paths.statePath, blocked);
+        await writePhaseState(runnerPaths.statePath, blocked);
         runState = advanceRunState(
           (await loadRunState(evidenceDir)) ?? runState,
           { status: 'blocked', lastError: summary.mergeDecision.reasons.join('; ') },
@@ -1123,12 +1133,11 @@ export const runAutopilotForPhase = async (
     }
 
     await snapshotProgress(repoRoot, evidenceDir, 'after');
-    const paths = defaultRunnerPaths(repoRoot);
     const nextState = markPhaseComplete(config.graph, config.state, phaseId, {
       branch: bundle.branch,
       evidenceDir,
     });
-    await writePhaseState(paths.statePath, nextState);
+    await writePhaseState(runnerPaths.statePath, nextState);
     runState = advanceRunState((await loadRunState(evidenceDir)) ?? runState, {
       status: 'complete',
       currentStage: 'complete',
@@ -1171,7 +1180,8 @@ export const runAutopilotUntilComplete = async (
     deps?: AutopilotDependencies;
   },
 ): Promise<AutopilotRunSummary[]> => {
-  const config = await loadPhaseRunnerConfig(repoRoot);
+  const runnerPaths = options.deps?.runnerPaths ?? defaultRunnerPaths(repoRoot);
+  const config = await loadPhaseRunnerConfig(repoRoot, runnerPaths);
   const parallel = options.safetyFlags.parallel;
   const summaries: AutopilotRunSummary[] = [];
 
@@ -1187,7 +1197,7 @@ export const runAutopilotUntilComplete = async (
     for (const job of runnable.slice(0, parallel)) {
       const summary = await runAutopilotForPhase(repoRoot, job.phase.id, {
         safetyFlags: options.safetyFlags,
-        deps: options.deps,
+        deps: { ...options.deps, runnerPaths },
       });
       summaries.push(summary);
       if (
@@ -1197,7 +1207,7 @@ export const runAutopilotUntilComplete = async (
         return summaries;
       }
     }
-    const refreshed = await loadPhaseRunnerConfig(repoRoot);
+    const refreshed = await loadPhaseRunnerConfig(repoRoot, runnerPaths);
     config.state = refreshed.state;
     if (options.safetyFlags.dryRun) {
       break;

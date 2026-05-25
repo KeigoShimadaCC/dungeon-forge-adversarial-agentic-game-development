@@ -18,10 +18,10 @@ export const runRunCommand = async (
   repoRoot: string,
   options: Record<string, string | boolean>,
 ): Promise<void> => {
-  const { autopilotConfigPath } = await loadRunnerContext(repoRoot);
+  const { autopilotConfigPath, paths } = await loadRunnerContext(repoRoot);
   const autopilotConfig = await loadAutopilotConfig(repoRoot, autopilotConfigPath);
   const safetyFlags = safetyFlagsFromOptions(options);
-  const deps = { autopilotConfig };
+  const deps = { autopilotConfig, runnerPaths: paths };
 
   if (options['until-complete'] === true) {
     writeJson(

@@ -139,6 +139,8 @@ Command templates can use:
 
 Keep providers set to `manual` until the target repo has approved shell commands for its agent tooling.
 
+The default `preflightCommands` list only checks Git status. Add tool-specific preflight commands in `automation/autopilot-config.json` only when those tools are required for the target repo.
+
 ## 11. Run One Phase With Explicit Authority
 
 ```bash
@@ -155,8 +157,10 @@ This allows configured agent execution only. PR creation and merge still require
 ## 12. Evaluate A Gate
 
 ```bash
-pnpm --dir agentic-phase-runner-package exec agentic gate --repo-root . --phase PHASE-01A --evidence runs/phase-runner/PHASE-01A/<run-id>
+pnpm --dir agentic-phase-runner-package exec agentic gate --repo-root . --phase PHASE-01A --evidence runs/phase-runner/PHASE-01A/<run-id>/phase-merge-evidence.json
 ```
+
+`--evidence` can point to either the `phase-merge-evidence.json` file or the run evidence directory that contains it.
 
 The deterministic gate checks command results, changed paths, secret scan output, acceptance evidence, recheck status, dirty worktree state, and merge policy.
 

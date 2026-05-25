@@ -1,18 +1,25 @@
-import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import { mkdir, mkdtemp, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 
 import { describe, expect, it } from 'vitest';
 
 import { runInitCommand } from '../src/cli/commands/init.js';
 import { loadRunnerContext } from '../src/cli/commands/shared.js';
-import { runAutopilotForPhase } from '../src/core/phase-autopilot.js';
+import { loadAutopilotConfig, runAutopilotForPhase } from '../src/core/phase-autopilot.js';
 import {
   buildPhaseRunBundle,
   evaluateAutomerge,
   getRunnablePhases,
   type PhaseMergeEvidence,
 } from '../src/core/phase-runner.js';
+
+const execFileAsync = promisify(execFile);
+const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const builtCliPath = path.join(packageRoot, 'dist', 'src', 'cli', 'index.js');
 
 const withTempRepo = async (fn: (repoRoot: string) => Promise<void>): Promise<void> => {
   const repoRoot = await mkdtemp(path.join(os.tmpdir(), 'agentic-package-smoke-'));
@@ -78,6 +85,108 @@ describe('agentic phase runner package', () => {
         'Dry run: true',
       );
     });
+  });
+
+  it('uses custom agentic.config.yaml runner paths during autopilot dry-run', async () => {
+    await withTempRepo(async (repoRoot) => {
+      await rename(path.join(repoRoot, 'automation'), path.join(repoRoot, 'custom-automation'));
+      await writeFile(
+        path.join(repoRoot, 'agentic.config.yaml'),
+        [
+          'paths:',
+          '  graphPath: custom-automation/phase-graph.json',
+          '  statePath: custom-automation/phase-state.json',
+          '  policyPath: custom-automation/policies/automerge-policy.json',
+          '  promptsDir: custom-automation/prompts',
+          '  autopilotConfigPath: custom-automation/autopilot-config.json',
+          '',
+        ].join('\n'),
+      );
+
+      const { autopilotConfigPath, paths } = await loadRunnerContext(repoRoot);
+      expect(paths.graphPath).toContain('custom-automation');
+      const summary = await runAutopilotForPhase(repoRoot, 'PHASE-01A', {
+        runId: 'custom-paths-dry-smoke',
+        safetyFlags: {
+          allowAgentExecution: false,
+          allowPr: false,
+          allowMerge: false,
+          dryRun: true,
+          continueOnBlocked: false,
+          parallel: 1,
+          planApproval: 'manual',
+          plannerAgent: 'manual',
+          executorAgent: 'manual',
+          recheckerAgent: 'manual',
+        },
+        deps: {
+          autopilotConfig: await loadAutopilotConfig(repoRoot, autopilotConfigPath),
+          runnerPaths: paths,
+        },
+      });
+      expect(summary.status).toBe('complete');
+      await expect(readFile(path.join(summary.evidenceDir, 'phase-run-plan.json'), 'utf8')).resolves.toContain(
+        'git status --short --branch',
+      );
+    });
+  });
+
+  it('executes the built CLI for help, init, status, dry-run, and gate directory input', async () => {
+    await execFileAsync('pnpm', ['--dir', packageRoot, 'run', 'build']);
+    const help = await execFileAsync(process.execPath, [builtCliPath, 'help']);
+    expect(help.stdout).toContain('agentic init');
+
+    const repoRoot = await mkdtemp(path.join(os.tmpdir(), 'agentic-built-cli-smoke-'));
+    try {
+      const init = await execFileAsync(process.execPath, [builtCliPath, 'init', '--repo-root', repoRoot]);
+      expect(init.stdout).toContain('"status": "initialized"');
+
+      const status = await execFileAsync(process.execPath, [builtCliPath, 'status', '--repo-root', repoRoot]);
+      expect(status.stdout).toContain('"currentPhase": "PHASE-01A"');
+
+      const dryRun = await execFileAsync(process.execPath, [
+        builtCliPath,
+        'run',
+        '--repo-root',
+        repoRoot,
+        '--phase',
+        'PHASE-01A',
+        '--dry-run',
+        '--run-id',
+        'built-cli-dry',
+      ]);
+      expect(dryRun.stdout).toContain('"dryRun": true');
+
+      const evidenceDir = path.join(repoRoot, 'runs', 'phase-runner', 'PHASE-01A', 'built-cli-dry');
+      await mkdir(evidenceDir, { recursive: true });
+      const evidence: PhaseMergeEvidence = {
+        localCommands: [{ command: 'git diff --check', status: 'pass' }],
+        remoteChecks: 'none',
+        cursorRecheck: 'pass',
+        phaseAcceptanceComplete: true,
+        changedPaths: ['README.md'],
+        worktreeClean: true,
+        secretsDetected: false,
+        blockingGaps: [],
+      };
+      await writeFile(
+        path.join(evidenceDir, 'phase-merge-evidence.json'),
+        JSON.stringify(evidence, null, 2),
+      );
+      const gate = await execFileAsync(process.execPath, [
+        builtCliPath,
+        'gate',
+        '--repo-root',
+        repoRoot,
+        '--phase',
+        'PHASE-01A',
+        '--evidence',
+        evidenceDir,
+      ]);
+      expect(gate.stdout).toContain('"decision": "block"');
+    } finally {
+      await rm(repoRoot, { recursive: true, force: true });
+    }
   });
 
   it('blocks gate decisions for out-of-scope paths and secrets', async () => {

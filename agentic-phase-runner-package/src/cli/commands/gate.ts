@@ -1,5 +1,15 @@
+import { stat } from 'node:fs/promises';
+import path from 'node:path';
+
 import { evaluateAutomerge, type PhaseMergeEvidence } from '../../core/phase-runner.js';
 import { loadRunnerContext, readJsonFile, requireOption, writeJson } from './shared.js';
+
+const resolveEvidenceFile = async (evidencePath: string): Promise<string> => {
+  const evidenceStat = await stat(evidencePath);
+  return evidenceStat.isDirectory()
+    ? path.join(evidencePath, 'phase-merge-evidence.json')
+    : evidencePath;
+};
 
 export const runGateCommand = async (
   repoRoot: string,
@@ -12,6 +22,6 @@ export const runGateCommand = async (
   if (!phase) {
     throw new Error(`Unknown phase: ${phaseId}`);
   }
-  const evidence = await readJsonFile<PhaseMergeEvidence>(evidencePath);
+  const evidence = await readJsonFile<PhaseMergeEvidence>(await resolveEvidenceFile(evidencePath));
   writeJson(evaluateAutomerge(phase, config.automergePolicy, evidence));
 };

@@ -50,25 +50,27 @@ The default paths can be overridden in `agentic.config.yaml`.
 ## Quick Start
 
 ```bash
-pnpm install
-pnpm build
-pnpm test
+pnpm --dir agentic-phase-runner-package install
+pnpm --dir agentic-phase-runner-package run build
+pnpm --dir agentic-phase-runner-package run test
 ```
 
 From a target repo after copying this folder:
 
 ```bash
-pnpm exec agentic init
-pnpm exec agentic status
-pnpm exec agentic next --from PHASE-01A
-pnpm exec agentic bundle --phase PHASE-01A
-pnpm exec agentic run --phase PHASE-01A --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic init --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic status --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic next --repo-root . --from PHASE-01A
+pnpm --dir agentic-phase-runner-package exec agentic bundle --repo-root . --phase PHASE-01A
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --dry-run
 ```
+
+If the package is added as a workspace package or `file:` dependency, the shorter `pnpm exec agentic ...` form can be used instead.
 
 ## Initialize A Future Repo
 
 ```bash
-pnpm exec agentic init
+pnpm --dir agentic-phase-runner-package exec agentic init --repo-root .
 ```
 
 This copies generic `AGENTS.md`, `CLAUDE.md`, `PROGRESS.md`, concept docs, phase-plan templates, automation JSON, policies, and prompt templates. Existing files are not overwritten unless `--force` is passed.
@@ -80,7 +82,7 @@ Use `phase-plans/PHASE-TEMPLATE.md`. Each phase should define goal, scope, allow
 ## Dry-Run Mode
 
 ```bash
-pnpm exec agentic run --phase PHASE-01A --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --dry-run
 ```
 
 Dry-run writes a run plan and prompts under `runs/phase-runner/<phase>/<run-id>/` without creating branches, invoking agents, opening PRs, merging, or deleting worktrees.
@@ -88,7 +90,7 @@ Dry-run writes a run plan and prompts under `runs/phase-runner/<phase>/<run-id>/
 ## Run One Phase
 
 ```bash
-pnpm exec agentic run --phase PHASE-01A --allow-agent-execution
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --allow-agent-execution
 ```
 
 Agent execution remains off unless `--allow-agent-execution` is passed. PR creation and merge still require separate `--allow-pr` and `--allow-merge` flags.
@@ -96,7 +98,7 @@ Agent execution remains off unless `--allow-agent-execution` is passed. PR creat
 ## Run Until Complete
 
 ```bash
-pnpm exec agentic run --from PHASE-01A --until-complete
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --from PHASE-01A --until-complete
 ```
 
 The default parallelism is conservative. The runner stops on blocked or failed phases unless `--continue-on-blocked` is supplied.
@@ -113,6 +115,8 @@ Edit `automation/autopilot-config.json` or `agentic.config.yaml`. Templates can 
 
 Use `provider: "manual"` for safe default behavior. Use `provider: "shell"` only when the command is approved for the target repo.
 
+Preflight commands are config-driven through `preflightCommands`. The default template only checks `git status --short --branch`; add agent-specific checks such as CLI discovery only when that agent is required in the target repo.
+
 ## AGENTS, CLAUDE, And PROGRESS
 
 `AGENTS.md` and `CLAUDE.md` define operating rules for coding agents. `PROGRESS.md` is a live coordination file: current phase, task queue, checklist, validation log, and deferred backlog. It is not design truth.
@@ -122,8 +126,10 @@ Use `provider: "manual"` for safe default behavior. Use `provider: "shell"` only
 `agentic gate` evaluates `phase-merge-evidence.json` against `automation/policies/automerge-policy.json`. It blocks on failed required commands, failed remote checks, incomplete acceptance, blocked recheck, changed paths outside `allowedPaths`, dirty worktrees, secret hits, and blocking gaps.
 
 ```bash
-pnpm exec agentic gate --phase PHASE-01A --evidence <path>
+pnpm --dir agentic-phase-runner-package exec agentic gate --repo-root . --phase PHASE-01A --evidence runs/phase-runner/PHASE-01A/<run-id>/phase-merge-evidence.json
 ```
+
+`--evidence` accepts either the direct `phase-merge-evidence.json` file or the containing run evidence directory.
 
 ## Evidence
 
@@ -138,7 +144,7 @@ It includes run state, prompts, accepted plan, agent results, command logs, git 
 ## Resume
 
 ```bash
-pnpm exec agentic resume --phase PHASE-01A --run-id <run-id>
+pnpm --dir agentic-phase-runner-package exec agentic resume --repo-root . --phase PHASE-01A --run-id <run-id>
 ```
 
 Resume reads `run-state.json` and continues from the next stage. It does not bypass gates.

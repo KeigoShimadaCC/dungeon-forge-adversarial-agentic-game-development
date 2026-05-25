@@ -4,6 +4,7 @@
     "baseBranch": "main",
     "baseRef": "origin/main"
   },
+  "preflightCommands": ["git status --short --branch"],
   "agents": {
     "planner": { "provider": "manual", "commandTemplate": "cat '{{PROMPT_PATH}}'" },
     "executor": { "provider": "manual", "commandTemplate": "cat '{{PROMPT_PATH}}'" },
