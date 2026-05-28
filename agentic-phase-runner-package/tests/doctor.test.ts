@@ -1,4 +1,4 @@
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
@@ -70,6 +70,20 @@ describe('doctor', () => {
       expect(report.status).toBe('fail');
       expect(report.checks.find((check) => check.id === 'phase-state-matches-graph')?.status).toBe('fail');
       expect(report.checks.find((check) => check.id === 'current-phase-exists')?.status).toBe('fail');
+    });
+  });
+
+  it('surfaces unsafe configured commands', async () => {
+    await withTempDir(async (repoRoot) => {
+      await runInitCommand(repoRoot, {});
+      const graphPath = path.join(repoRoot, 'automation', 'phase-graph.json');
+      const graph = JSON.parse(await readFile(graphPath, 'utf8')) as { globalValidationCommands: string[] };
+      graph.globalValidationCommands = ['git reset --hard'];
+      await writeFile(graphPath, JSON.stringify(graph, null, 2));
+
+      const report = await runDoctor(repoRoot, { commandRunner: fakeGitStatus });
+      expect(report.status).toBe('fail');
+      expect(report.checks.find((check) => check.id === 'command-safety')?.status).toBe('fail');
     });
   });
 });

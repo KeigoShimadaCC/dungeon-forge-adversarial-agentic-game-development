@@ -58,4 +58,24 @@ describe('run mode aliases', () => {
     expect(resolved.safetyFlags.executorAgent).toBe('shell');
     expect(resolved.safetyFlags.recheckerAgent).toBe('manual');
   });
+
+  it('maps --preset codex to shell agents when --agents is omitted', () => {
+    const resolved = resolveRunOptions({ mode: 'supervised', preset: 'codex' });
+    expect(resolved.preset).toBe('codex');
+    expect(resolved.agents).toBe('shell');
+    expect(resolved.safetyFlags.plannerAgent).toBe('shell');
+    expect(resolved.safetyFlags.executorAgent).toBe('shell');
+    expect(resolved.safetyFlags.recheckerAgent).toBe('shell');
+  });
+
+  it('lets explicit role flags override --preset', () => {
+    const resolved = resolveRunOptions({
+      mode: 'supervised',
+      preset: 'codex',
+      'executor-agent': 'manual',
+    });
+    expect(resolved.safetyFlags.plannerAgent).toBe('shell');
+    expect(resolved.safetyFlags.executorAgent).toBe('manual');
+    expect(resolved.safetyFlags.recheckerAgent).toBe('shell');
+  });
 });

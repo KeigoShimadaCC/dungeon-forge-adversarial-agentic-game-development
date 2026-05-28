@@ -3,12 +3,14 @@ import { loadRunnerContext, numberOption, optionValue, requireOption, writeJson 
 
 export type RunMode = 'manual' | 'supervised' | 'auto';
 export type RunAgentSelector = 'manual' | 'shell';
+export type RunPreset = 'manual' | 'codex' | 'cursor' | 'claude-code' | 'mixed-codex-cursor' | 'fake-shell-test';
 
 export interface ResolvedRunOptions {
   mode?: RunMode;
   modeExplanation?: string;
   modeWarning?: string;
   agents?: RunAgentSelector;
+  preset?: RunPreset;
   safetyFlags: {
     allowAgentExecution: boolean;
     allowPr: boolean;
@@ -38,6 +40,21 @@ const parseAgentSelector = (
   throw new Error(`${optionName} must be one of: manual, shell`);
 };
 
+const parseRunPreset = (value: string | undefined): RunPreset | undefined => {
+  if (!value) return undefined;
+  if (
+    value === 'manual' ||
+    value === 'codex' ||
+    value === 'cursor' ||
+    value === 'claude-code' ||
+    value === 'mixed-codex-cursor' ||
+    value === 'fake-shell-test'
+  ) {
+    return value;
+  }
+  throw new Error('--preset must be one of: manual, codex, cursor, claude-code, mixed-codex-cursor, fake-shell-test');
+};
+
 const modeExplanation = (mode: RunMode | undefined): string | undefined => {
   if (mode === 'manual') return 'No agents, PRs, or merges are allowed.';
   if (mode === 'supervised') return 'Agents may run, but PR creation and merge remain disabled.';
@@ -46,7 +63,9 @@ const modeExplanation = (mode: RunMode | undefined): string | undefined => {
 
 export const resolveRunOptions = (options: Record<string, string | boolean>): ResolvedRunOptions => {
   const mode = parseRunMode(optionValue(options, 'mode'));
-  const agents = parseAgentSelector(optionValue(options, 'agents'), '--agents');
+  const preset = parseRunPreset(optionValue(options, 'preset'));
+  const presetAgents: RunAgentSelector | undefined = preset ? (preset === 'manual' ? 'manual' : 'shell') : undefined;
+  const agents = parseAgentSelector(optionValue(options, 'agents'), '--agents') ?? presetAgents;
   const modeAllowsAgentExecution = mode === 'supervised' || mode === 'auto';
   const modeAllowsPr = mode === 'auto';
   const modeAllowsMerge = mode === 'auto';
@@ -56,6 +75,7 @@ export const resolveRunOptions = (options: Record<string, string | boolean>): Re
   return {
     ...(mode ? { mode } : {}),
     ...(agents ? { agents } : {}),
+    ...(preset ? { preset } : {}),
     ...(modeExplanation(mode) ? { modeExplanation: modeExplanation(mode) } : {}),
     ...(mode === 'auto'
       ? {
@@ -89,6 +109,7 @@ const withModeMetadata = <T>(value: T, resolved: ResolvedRunOptions): T | (T & R
           ...(entry as Record<string, unknown>),
           mode: resolved.mode,
           ...(resolved.agents ? { agents: resolved.agents } : {}),
+          ...(resolved.preset ? { preset: resolved.preset } : {}),
           ...(resolved.modeExplanation ? { modeExplanation: resolved.modeExplanation } : {}),
           ...(resolved.modeWarning ? { modeWarning: resolved.modeWarning } : {}),
         }

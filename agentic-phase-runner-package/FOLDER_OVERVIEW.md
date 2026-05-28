@@ -54,8 +54,8 @@ agentic-phase-runner-package/
 
 `src/` contains the reusable runner implementation.
 
-- `src/cli/**` implements the `agentic` command.
-- `src/core/**` handles graph/state loading, phase selection, bundling, run state, runner flow, autopilot orchestration, doctor checks, repo profiling, deterministic starter plan generation, boom orchestration, evidence inspection, and blocker analysis.
+- `src/cli/**` implements the `agentic` command and the `create-agentic-runner` scaffold copier.
+- `src/core/**` handles graph/state loading, phase selection, bundling, run state, runner flow, autopilot orchestration, doctor checks, repo profiling, deterministic starter plan generation, boom orchestration, evidence inspection, blocker analysis, provider presets, migration checks, Markdown reports, package copying, version metadata, and command-safety checks.
 - `src/adapters/**` wraps shell commands, agent command templates, Git, and GitHub CLI behavior.
 - `src/evidence/**` collects changed paths, command results, report parsing, and secret scan data.
 - `src/config/**` loads default paths and package configuration.
@@ -93,7 +93,9 @@ It is not a real product repo. It exists to make smoke testing and migration eas
 
 ## Tests
 
-`tests/` contains package smoke tests and focused unit tests. These check initialization, doctor, onboarding, deterministic planning, boom, inspect, why-blocked, status, next-phase selection, bundling, run modes, and safe CLI behavior without invoking real agents.
+`tests/` contains package smoke tests and focused unit tests. These check initialization, doctor, onboarding, deterministic planning, boom, inspect, why-blocked, reports, migrations, provider presets, package copying, status, next-phase selection, bundling, run modes, command safety, and safe CLI behavior without invoking real agents.
+
+`tests/fixtures/fake-agents/**` contains local fake shell agents used only by tests. They write structured reports and a trivial docs file so supervised execution can be exercised without real LLMs or coding agents.
 
 Run them with:
 
@@ -125,12 +127,15 @@ Deterministic evidence is the release gate. Model-written reports can help expla
 7. Apply starter plans after review. Use `--force` only when replacing unedited init placeholders.
 8. Fill in or refine concept docs.
 9. Run `agentic inspect --repo-root .`.
-10. Build a bundle.
-11. Run `agentic run --repo-root . --phase PHASE-01A --mode manual --dry-run`.
-12. Enable supervised agent execution only after configuration is reviewed, for example `--mode supervised --agents shell`.
-13. Run validation and gate checks.
-14. Use `agentic why-blocked --repo-root . --latest` when evidence blocks.
-15. Resume or continue only from recorded run state.
+10. Run `agentic migrate --repo-root . --dry-run` if doctor reports drift.
+11. Build a bundle.
+12. Run `agentic run --repo-root . --phase PHASE-01A --mode manual --dry-run`.
+13. Configure a provider preset only after reviewing shell commands.
+14. Enable supervised agent execution only after configuration is reviewed, for example `--mode supervised --agents shell`.
+15. Run validation and gate checks.
+16. Use `agentic why-blocked --repo-root . --latest` when evidence blocks.
+17. Use `agentic report --repo-root . --latest --output .agentic/reports/latest-run.md` for a human-readable run report.
+18. Resume or continue only from recorded run state.
 
 See `QUICKSTART.md` for concrete commands.
 
@@ -143,3 +148,16 @@ doctor -> onboard -> boom/plan -> inspect -> run supervised -> why-blocked -> re
 ```
 
 `boom` is a safe macro over doctor, onboarding, and deterministic starter planning. `boom` does not execute agents, create PRs, or merge. The current `plan --idea` command is deterministic starter planning only; it does not call an LLM or claim to produce a complete product roadmap. `auto` mode still relies on deterministic gates before PR or merge actions can proceed.
+
+## Product-Hardening Commands
+
+- `agentic version` reports package and schema capability.
+- `agentic presets` lists built-in provider presets.
+- `agentic configure-agent` applies a preset to the configured autopilot config without rewriting unrelated fields.
+- `agentic migrate` applies conservative config repairs for schema/default drift.
+- `agentic report` generates a Markdown evidence summary.
+- `create-agentic-runner` copies this package folder into another repo while filtering generated and sensitive paths.
+
+## Security Model Details
+
+Doctor checks configured validation, preflight, and shell-agent command templates for obvious destructive patterns. The command-safety matcher is intentionally simple and deterministic; it catches high-risk strings but does not replace human review or OS-level sandboxing.

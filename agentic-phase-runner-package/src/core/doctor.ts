@@ -16,6 +16,8 @@ import {
   type PhaseState,
   type RunnerPaths,
 } from './phase-runner.js';
+import { summarizeCommandSafety } from './command-safety.js';
+import { detectMigrations } from './migrate.js';
 
 export type DoctorCheckStatus = 'pass' | 'warn' | 'fail';
 
@@ -171,6 +173,113 @@ const commandTemplateChecks = (config: AutopilotConfig | undefined): DoctorCheck
     id: 'agent-command-templates-valid',
     status: 'pass',
     message: 'Configured shell agent command templates are non-empty.',
+  };
+};
+
+const schemaVersionCheck = (
+  graph: PhaseGraph | undefined,
+  state: PhaseState | undefined,
+  policy: AutomergePolicy | undefined,
+  autopilotConfig: AutopilotConfig | undefined,
+): DoctorCheck => {
+  const missing = [
+    ['phaseGraph', graph],
+    ['phaseState', state],
+    ['automergePolicy', policy],
+    ['autopilotConfig', autopilotConfig],
+  ]
+    .filter(([, value]) => !isRecord(value) || value.schemaVersion !== 1)
+    .map(([name]) => name);
+
+  return missing.length === 0
+    ? {
+        id: 'schema-version-present',
+        status: 'pass',
+        message: 'Workflow config schema versions are present.',
+      }
+    : {
+        id: 'schema-version-present',
+        status: 'warn',
+        message: 'Some workflow config files are missing schemaVersion: 1.',
+        details: { missing },
+      };
+};
+
+const policySafeDefaultsCheck = (policy: AutomergePolicy | undefined): DoctorCheck => {
+  if (!policy) {
+    return {
+      id: 'policy-safe-merge-defaults',
+      status: 'warn',
+      message: 'Policy is unavailable, so safe merge defaults could not be checked.',
+    };
+  }
+  const unsafe = {
+    enabled: policy.enabled !== false,
+    allowNoRemoteChecksWhenLocalGatePasses: policy.allowNoRemoteChecksWhenLocalGatePasses !== false,
+    deleteBranchAfterMerge: policy.deleteBranchAfterMerge !== false,
+    removeCleanWorktreeAfterMerge: policy.removeCleanWorktreeAfterMerge !== false,
+  };
+  const unsafeFields = Object.entries(unsafe)
+    .filter(([, value]) => value)
+    .map(([field]) => field);
+  return unsafeFields.length === 0
+    ? {
+        id: 'policy-safe-merge-defaults',
+        status: 'pass',
+        message: 'Policy keeps conservative merge defaults.',
+      }
+    : {
+        id: 'policy-safe-merge-defaults',
+        status: 'warn',
+        message: 'Policy has merge automation fields that should be reviewed.',
+        details: { unsafeFields },
+      };
+};
+
+const commandSafetyCheck = (
+  graph: PhaseGraph | undefined,
+  policy: AutomergePolicy | undefined,
+  autopilotConfig: AutopilotConfig | undefined,
+): DoctorCheck => {
+  const commands = [
+    ...(graph?.globalValidationCommands ?? []),
+    ...(policy?.requiredLocalCommands ?? []),
+    ...(policy?.requiredPreflight ?? []),
+    ...(autopilotConfig?.preflightCommands ?? []),
+    ...Object.values(autopilotConfig?.agents ?? {})
+      .filter((agent) => agent?.provider === 'shell')
+      .map((agent) => agent.commandTemplate),
+  ].filter((command): command is string => typeof command === 'string' && command.trim().length > 0);
+
+  if (commands.length === 0) {
+    return {
+      id: 'command-safety',
+      status: 'pass',
+      message: 'No configured shell commands require safety review.',
+    };
+  }
+
+  const reports = summarizeCommandSafety(commands).filter((report) => report.status !== 'safe');
+  if (reports.some((report) => report.status === 'blocked')) {
+    return {
+      id: 'command-safety',
+      status: 'fail',
+      message: 'Configured commands include blocked destructive patterns.',
+      details: { reports },
+    };
+  }
+  if (reports.length > 0) {
+    return {
+      id: 'command-safety',
+      status: 'warn',
+      message: 'Configured commands include patterns that should be reviewed before supervised execution.',
+      details: { reports },
+    };
+  }
+  return {
+    id: 'command-safety',
+    status: 'pass',
+    message: 'Configured commands do not match known unsafe patterns.',
   };
 };
 
@@ -489,13 +598,32 @@ export const runDoctor = async (
         }
       : {
           id: 'preflight-commands-present',
-          status: 'pass',
-          message: 'Preflight commands are defaultable to git status.',
+          status: 'warn',
+          message: 'Preflight commands are missing and should be migrated to an explicit safe default.',
           details: { default: ['git status --short --branch'] },
         },
   );
 
+  checks.push(schemaVersionCheck(graph, state, policy, autopilotConfig));
+  checks.push(policySafeDefaultsCheck(policy));
   checks.push(commandTemplateChecks(autopilotConfig));
+  checks.push(commandSafetyCheck(graph, policy, autopilotConfig));
+
+  const migrations = await detectMigrations(repoRoot).catch(() => []);
+  checks.push(
+    migrations.length === 0
+      ? {
+          id: 'config-migrations-available',
+          status: 'pass',
+          message: 'No known schema or safe-default migrations are needed.',
+        }
+      : {
+          id: 'config-migrations-available',
+          status: 'warn',
+          message: 'Fixable workflow config drift was detected.',
+          details: { migrations },
+        },
+  );
 
   if (githubRelevant(policy)) {
     const gh = await commandRunner('gh', ['--version'], { cwd: repoRoot });
@@ -533,6 +661,9 @@ export const runDoctor = async (
 
   if (isRecord(autopilotConfig) && autopilotConfig.agents === undefined) {
     recommendedNextActions.push('Review automation/autopilot-config.json before enabling agent execution.');
+  }
+  if (migrations.length > 0) {
+    recommendedNextActions.push('Run agentic migrate --repo-root . --dry-run to review safe config repairs.');
   }
 
   return {

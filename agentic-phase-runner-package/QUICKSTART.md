@@ -2,6 +2,177 @@
 
 This guide shows the shortest safe path for using `agentic-phase-runner-package/` in a future repository.
 
+## Use This In A Repo
+
+This is the practical first-run path when you have a repository and want to turn it into an agentic phase-runner repo.
+
+### 1. Put The Package In Your Repo
+
+Your target repo should contain the package folder at the repo root:
+
+```text
+my-repo/
+  agentic-phase-runner-package/
+```
+
+If you already have a built copy of the package somewhere else, you can scaffold-copy it:
+
+```bash
+pnpm --dir agentic-phase-runner-package run build
+pnpm --dir agentic-phase-runner-package exec create-agentic-runner --target /path/to/my-repo --dry-run
+pnpm --dir agentic-phase-runner-package exec create-agentic-runner --target /path/to/my-repo --apply
+```
+
+### 2. Install And Build
+
+From the target repo root:
+
+```bash
+pnpm --dir agentic-phase-runner-package install
+pnpm --dir agentic-phase-runner-package run build
+pnpm --dir agentic-phase-runner-package exec agentic version
+```
+
+### 3. Initialize Workflow Files
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic init --repo-root .
+```
+
+This creates the default operating files, concept docs, phase-plan templates, automation config, policies, and prompts if they are missing. Do not use `--force` unless you intentionally want to overwrite existing workflow files.
+
+### 4. Check And Profile The Repo
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic doctor --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic onboard --repo-root . --dry-run
+```
+
+If `doctor` recommends migration:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic migrate --repo-root . --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic migrate --repo-root . --apply
+```
+
+### 5. Generate A Starter Plan From Your Idea
+
+Dry-run first:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic boom --repo-root . \
+  --idea "Build a local-first knowledge management app with graph search" \
+  --dry-run
+```
+
+Then apply after review:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic boom --repo-root . \
+  --idea "Build a local-first knowledge management app with graph search" \
+  --apply
+```
+
+If you just ran `init` and want to replace unedited placeholder starter files:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic boom --repo-root . \
+  --idea "Build a local-first knowledge management app with graph search" \
+  --apply --force
+```
+
+### 6. Review The Generated Workflow
+
+Before running agents, review and edit:
+
+```text
+concept-and-ideas/**
+phase-plans/**
+automation/phase-graph.json
+automation/phase-state.json
+automation/policies/automerge-policy.json
+automation/autopilot-config.json
+PROGRESS.md
+```
+
+### 7. Inspect And Dry-Run The First Phase
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic status --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic next --repo-root . --from PHASE-01A
+pnpm --dir agentic-phase-runner-package exec agentic inspect --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . \
+  --phase PHASE-01A \
+  --mode manual \
+  --dry-run
+```
+
+Dry-run writes evidence and prompts but does not invoke agents, create PRs, merge, or delete worktrees.
+
+### 8. Optional: Configure Agents
+
+List presets:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic presets
+```
+
+Preview a provider preset:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic configure-agent --repo-root . \
+  --preset codex \
+  --dry-run
+```
+
+Apply only after reviewing the command templates:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic configure-agent --repo-root . \
+  --preset codex \
+  --apply
+```
+
+### 9. Run Supervised Execution
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . \
+  --phase PHASE-01A \
+  --mode supervised \
+  --agents shell
+```
+
+Supervised mode may run configured shell agents, but it still does not create PRs or merge.
+
+### 10. Diagnose Or Report A Run
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic why-blocked --repo-root . --latest
+pnpm --dir agentic-phase-runner-package exec agentic report --repo-root . --latest \
+  --output .agentic/reports/latest-run.md
+```
+
+Resume after fixing blockers:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic resume --repo-root . \
+  --phase PHASE-01A \
+  --run-id <run-id>
+```
+
+### Safe Default Command Sequence
+
+```bash
+pnpm --dir agentic-phase-runner-package install
+pnpm --dir agentic-phase-runner-package run build
+pnpm --dir agentic-phase-runner-package exec agentic init --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic doctor --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic onboard --repo-root . --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic boom --repo-root . --idea "Build X" --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic boom --repo-root . --idea "Build X" --apply --force
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode manual --dry-run
+```
+
 ## 1. Copy The Folder
 
 Copy or unzip `agentic-phase-runner-package/` into the root of the target repository.
@@ -19,6 +190,7 @@ From the target repo root:
 pnpm --dir agentic-phase-runner-package install
 pnpm --dir agentic-phase-runner-package run build
 pnpm --dir agentic-phase-runner-package run test
+pnpm --dir agentic-phase-runner-package exec agentic version
 ```
 
 This installs dependencies only for the package folder and builds the local `agentic` CLI.
@@ -48,6 +220,15 @@ pnpm --dir agentic-phase-runner-package exec agentic onboard --repo-root . --dry
 ```
 
 `doctor` checks whether the repo has the files, graph/state consistency, prompt templates, validation command configuration, and optional tool readiness needed for phase execution. `onboard` profiles the repo and suggests validation commands and default path scopes without reading secret contents.
+
+If doctor reports config drift:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic migrate --repo-root . --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic migrate --repo-root . --apply
+```
+
+Migrate currently adds only safe missing defaults: preflight commands, missing phase-state entries, valid current phase, and conservative automerge-policy fields.
 
 ## 5. Generate Starter Plans From An Idea
 
@@ -139,7 +320,17 @@ Dry-run mode writes prompts and run state but does not:
 
 ## 12. Configure Agent Commands
 
-Edit:
+Start with presets:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic presets
+pnpm --dir agentic-phase-runner-package exec agentic configure-agent --repo-root . --preset manual --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic configure-agent --repo-root . --preset codex --apply
+```
+
+`configure-agent` updates only the agent command-template section of the configured autopilot config. It preserves git, preflight, bootstrap, executor, and restricted-delegate settings. Presets are local templates; review shell commands before supervised execution.
+
+You can also edit:
 
 ```text
 automation/autopilot-config.json
@@ -186,15 +377,23 @@ Run modes are aliases for common safety profiles:
 
 Use `--agents manual` or `--agents shell` to set planner, executor, and rechecker adapters together. Explicit role flags override `--agents`.
 
+After applying a shell preset, the practical supervised form is:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode supervised --agents shell
+```
+
 ## 14. Inspect And Explain Evidence
 
 ```bash
 pnpm --dir agentic-phase-runner-package exec agentic inspect --repo-root .
 pnpm --dir agentic-phase-runner-package exec agentic inspect --repo-root . --phase PHASE-01A --latest
 pnpm --dir agentic-phase-runner-package exec agentic why-blocked --repo-root . --latest
+pnpm --dir agentic-phase-runner-package exec agentic report --repo-root . --latest
+pnpm --dir agentic-phase-runner-package exec agentic report --repo-root . --latest --output .agentic/reports/latest-run.md
 ```
 
-`inspect` summarizes phase state and latest run evidence. `why-blocked` turns known final-decision, local validation, recheck, changed-path, and secret-scan blockers into suggested actions.
+`inspect` summarizes phase state and latest run evidence. `why-blocked` turns known final-decision, local validation, recheck, changed-path, and secret-scan blockers into suggested actions. `report` creates a single Markdown report without embedding full logs or secret material.
 
 ## 15. Evaluate A Gate
 
@@ -232,6 +431,55 @@ doctor -> onboard -> boom/plan -> inspect -> run supervised -> why-blocked -> re
 ```
 
 `boom` and `plan --idea` are deterministic starter planning. Full LLM planning remains future work, and deterministic gates remain the authority.
+
+## First 10 Minutes
+
+```bash
+pnpm --dir agentic-phase-runner-package run build
+pnpm --dir agentic-phase-runner-package exec agentic version
+pnpm --dir agentic-phase-runner-package exec agentic doctor --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic boom --repo-root . --idea "Build X" --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic boom --repo-root . --idea "Build X" --apply
+pnpm --dir agentic-phase-runner-package exec agentic inspect --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode manual --dry-run
+```
+
+## Clean Repo Workflow
+
+Run `init`, then `boom --dry-run`, then `boom --apply` after review. Keep the first run manual and dry-run only.
+
+## Existing Repo Workflow
+
+Run `doctor`, `onboard`, and `migrate --dry-run` before applying generated starter files. Apply without `--force` first so authored files are skipped instead of overwritten.
+
+## Supervised Agent Workflow
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic configure-agent --repo-root . --preset codex --apply
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode supervised --agents shell
+```
+
+Supervised mode can invoke configured shell agents. It still does not create PRs or merge.
+
+## Fake-Agent Test Workflow
+
+```bash
+pnpm --dir agentic-phase-runner-package exec vitest run tests/fake-agent-supervised.test.ts
+```
+
+This uses local fake scripts only. It is a package confidence test, not a real implementation preset.
+
+## Evidence Reports
+
+Use `agentic report --latest --output .agentic/reports/latest-run.md` after blocked or completed runs to get a human-readable summary with evidence file paths.
+
+## Provider Presets
+
+Available presets include `manual`, `codex`, `cursor`, `claude-code`, `mixed-codex-cursor`, and `fake-shell-test`. `claude-code` is a placeholder that must be edited locally; `fake-shell-test` is test-only.
+
+## Security Model
+
+The runner defaults to no agents, no PR, and no merge. Doctor warns or fails on known unsafe command-template patterns, but this is a guardrail rather than a full shell sandbox.
 
 ## 18. Zip The Package
 

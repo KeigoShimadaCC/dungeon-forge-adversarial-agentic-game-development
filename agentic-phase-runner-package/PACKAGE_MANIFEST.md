@@ -20,12 +20,24 @@
 | usability layer | `src/core/boom.ts` | added | safe first-run macro over doctor, onboarding, and starter planning |
 | usability layer | `src/core/inspect.ts` | added | deterministic phase-state and run-evidence inspection |
 | usability layer | `src/core/blocker-analysis.ts` | added | deterministic blocker-to-suggested-action mapping |
+| product hardening | `src/core/version.ts` | added | package and schema capability metadata |
+| product hardening | `src/core/agent-presets.ts` | added | manual, Codex, Cursor, Claude placeholder, mixed, and fake-shell-test presets |
+| product hardening | `src/core/migrate.ts` | added | conservative schema/default drift detection and repair |
+| product hardening | `src/core/report.ts` | added | Markdown run report generation from inspect and blocker evidence |
+| product hardening | `src/core/package-installer.ts` | added | filtered package-folder copier for install/scaffold UX |
+| product hardening | `src/core/command-safety.ts` | added | deterministic high-risk shell command pattern checks |
 | usability layer | `src/cli/commands/doctor.ts` | added | JSON CLI wrapper |
 | usability layer | `src/cli/commands/onboard.ts` | added | dry-run and optional output CLI wrapper |
 | usability layer | `src/cli/commands/plan.ts` | added | deterministic planning CLI wrapper |
 | usability layer | `src/cli/commands/boom.ts` | added | JSON CLI wrapper for first-run macro |
 | usability layer | `src/cli/commands/inspect.ts` | added | JSON CLI wrapper for evidence inspection |
 | usability layer | `src/cli/commands/why-blocked.ts` | added | JSON CLI wrapper for blocker analysis |
+| product hardening | `src/cli/commands/version.ts` | added | `agentic version` wrapper |
+| product hardening | `src/cli/commands/presets.ts` | added | `agentic presets` wrapper |
+| product hardening | `src/cli/commands/configure-agent.ts` | added | `agentic configure-agent` wrapper |
+| product hardening | `src/cli/commands/migrate.ts` | added | `agentic migrate` wrapper |
+| product hardening | `src/cli/commands/report.ts` | added | `agentic report` wrapper |
+| product hardening | `src/cli/create-agentic-runner.ts` | added | standalone scaffold-copy CLI |
 | usability layer | `src/cli/commands/run.ts` | adapted | added `--mode manual|supervised|auto` aliases, mode explanations, and `--agents manual|shell` |
 | `automation/prompts/*` | `templates/automation/prompts/*` | templated | project-specific wording removed |
 | `automation/*.json` | `templates/automation/*.json` | templated | generic phase and conservative defaults |
@@ -35,6 +47,8 @@
 | CLI smoke coverage | `tests/package-smoke.test.ts` | adapted | adds compiled CLI smoke, new command smoke, run-mode smoke, and custom-path autopilot coverage |
 | usability tests | `tests/doctor.test.ts`, `tests/repo-profiler.test.ts`, `tests/phase-plan-generator.test.ts`, `tests/run-modes.test.ts` | added | focused coverage for doctor, onboarding, planning, and run aliases |
 | north-star usability tests | `tests/boom.test.ts`, `tests/inspect.test.ts`, `tests/blocker-analysis.test.ts` | added | focused coverage for boom, inspect, and why-blocked behavior |
+| product hardening tests | `tests/agent-presets.test.ts`, `tests/migrate.test.ts`, `tests/report.test.ts`, `tests/command-safety.test.ts`, `tests/create-runner.test.ts`, `tests/fake-agent-supervised.test.ts` | added | presets, migration, reporting, command safety, scaffold copying, and fake shell-agent supervised execution |
+| fake agent fixtures | `tests/fixtures/fake-agents/*` | added | local test-only planner/executor/rechecker scripts |
 
 ## Known TODOs
 
@@ -44,6 +58,9 @@
 - `plan --idea` is deterministic starter planning only; full autonomous LLM planning is not implemented.
 - `boom` is an orchestration macro only; it does not execute agents, create PRs, or merge.
 - `inspect` and `why-blocked` summarize known package evidence shapes; custom target-repo evidence may need adapters later.
+- `create-agentic-runner` is a local folder copier, not a package manager installer.
+- Provider presets are command-template starters only; target repos still need local review before supervised shell execution.
+- Command-safety checks are deterministic pattern matching, not a full shell parser or sandbox.
 
 ## Excluded
 

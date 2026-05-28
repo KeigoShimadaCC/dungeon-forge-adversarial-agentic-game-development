@@ -60,6 +60,7 @@ pnpm --dir agentic-phase-runner-package run test
 From a target repo after copying this folder:
 
 ```bash
+pnpm --dir agentic-phase-runner-package exec agentic version
 pnpm --dir agentic-phase-runner-package exec agentic init --repo-root .
 pnpm --dir agentic-phase-runner-package exec agentic doctor --repo-root .
 pnpm --dir agentic-phase-runner-package exec agentic onboard --repo-root . --dry-run
@@ -73,9 +74,36 @@ pnpm --dir agentic-phase-runner-package exec agentic bundle --repo-root . --phas
 pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode manual --dry-run
 pnpm --dir agentic-phase-runner-package exec agentic inspect --repo-root . --latest
 pnpm --dir agentic-phase-runner-package exec agentic why-blocked --repo-root . --latest
+pnpm --dir agentic-phase-runner-package exec agentic report --repo-root . --latest --output .agentic/reports/latest-run.md
 ```
 
 If the package is added as a workspace package or `file:` dependency, the shorter `pnpm exec agentic ...` form can be used instead.
+
+## First 10 Minutes
+
+```bash
+pnpm --dir agentic-phase-runner-package run build
+pnpm --dir agentic-phase-runner-package exec agentic version
+pnpm --dir agentic-phase-runner-package exec agentic doctor --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic boom --repo-root . --idea "Build X" --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic boom --repo-root . --idea "Build X" --apply
+pnpm --dir agentic-phase-runner-package exec agentic inspect --repo-root .
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode manual --dry-run
+```
+
+For a fresh repo, run `agentic init` before `boom --apply` if you want the default operating files and prompt templates installed first. For an existing repo, start with `doctor` and `onboard`, then use `boom --dry-run` to review proposed files before writing anything.
+
+## Install And Distribution UX
+
+This package still works as a zip-ready folder, but it now also includes a scaffold copier:
+
+```bash
+pnpm --dir agentic-phase-runner-package run build
+pnpm --dir agentic-phase-runner-package exec create-agentic-runner --target /path/to/repo --dry-run
+pnpm --dir agentic-phase-runner-package exec create-agentic-runner --target /path/to/repo --apply
+```
+
+`create-agentic-runner` copies the package folder into another repo while excluding `node_modules/`, `dist/`, `coverage/`, generated `runs/`, logs, and `.env*` files. It does not initialize that target repo; run `agentic init` inside the copied package afterward.
 
 ## Initialize A Future Repo
 
@@ -184,7 +212,19 @@ The default parallelism is conservative. The runner stops on blocked or failed p
 
 ## Configure Agent Command Templates
 
-Edit `automation/autopilot-config.json` or `agentic.config.yaml`. Templates can use:
+Use provider presets for common starting points:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic presets
+pnpm --dir agentic-phase-runner-package exec agentic configure-agent --repo-root . --preset manual --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic configure-agent --repo-root . --preset codex --apply
+pnpm --dir agentic-phase-runner-package exec agentic configure-agent --repo-root . --preset cursor --apply
+pnpm --dir agentic-phase-runner-package exec agentic configure-agent --repo-root . --preset mixed-codex-cursor --apply
+```
+
+Presets update only the `agents` section of `automation/autopilot-config.json`, preserving git, preflight, bootstrap, executor, and restricted-delegate config. `claude-code` is a placeholder preset and must be reviewed locally before use. `fake-shell-test` is for package tests only.
+
+You can also edit `automation/autopilot-config.json` or `agentic.config.yaml` directly. Templates can use:
 
 - `{{WORKSPACE}}`
 - `{{PROMPT_PATH}}`
@@ -195,6 +235,15 @@ Edit `automation/autopilot-config.json` or `agentic.config.yaml`. Templates can 
 Use `provider: "manual"` for safe default behavior. Use `provider: "shell"` only when the command is approved for the target repo.
 
 Preflight commands are config-driven through `preflightCommands`. The default template only checks `git status --short --branch`; add agent-specific checks such as CLI discovery only when that agent is required in the target repo.
+
+The practical supervised shell-agent flow is:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic configure-agent --repo-root . --preset codex --apply
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode supervised --agents shell
+```
+
+`--preset codex` on `agentic run` is a convenience selector for shell adapters, but it does not rewrite config. Run `configure-agent` first to install command templates.
 
 ## AGENTS, CLAUDE, And PROGRESS
 
@@ -226,9 +275,66 @@ Inspect evidence without manually opening JSON files:
 pnpm --dir agentic-phase-runner-package exec agentic inspect --repo-root .
 pnpm --dir agentic-phase-runner-package exec agentic inspect --repo-root . --phase PHASE-01A --latest
 pnpm --dir agentic-phase-runner-package exec agentic why-blocked --repo-root . --phase PHASE-01A --latest
+pnpm --dir agentic-phase-runner-package exec agentic report --repo-root . --latest
+pnpm --dir agentic-phase-runner-package exec agentic report --repo-root . --latest --output .agentic/reports/latest-run.md
 ```
 
 `inspect` summarizes phase state, next runnable phases, and latest run evidence. `why-blocked` maps known final-decision, local validation, changed-path, recheck, and secret-scan blockers to suggested actions.
+
+`report` creates a Markdown run report with summary, changed evidence, validation, blockers, next actions, and paths to evidence files. It includes evidence paths, not full command logs or secret material.
+
+## Migration And Schema Drift
+
+Use `migrate` when `doctor` reports fixable config drift:
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic migrate --repo-root . --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic migrate --repo-root . --apply
+```
+
+The current migration layer only applies conservative repairs: missing `preflightCommands`, missing phase-state entries from the graph, invalid `currentPhase`, and safe automerge-policy defaults. It does not rewrite arbitrary files.
+
+## Clean Repo Workflow
+
+1. Copy or scaffold the package.
+2. Run `agentic init --repo-root .`.
+3. Run `agentic boom --repo-root . --idea "Build X" --dry-run`.
+4. Apply starter files after review.
+5. Run `agentic run --repo-root . --phase PHASE-01A --mode manual --dry-run`.
+6. Configure a provider preset only after command templates are reviewed.
+
+## Existing Repo Workflow
+
+1. Run `agentic doctor --repo-root .`.
+2. Run `agentic onboard --repo-root . --dry-run`.
+3. Run `agentic migrate --repo-root . --dry-run` if doctor recommends it.
+4. Run `agentic boom --repo-root . --idea "Build X" --dry-run`.
+5. Apply without `--force` first so existing files are skipped.
+6. Merge proposed starter content manually where the repo already has authored docs/config.
+
+## Supervised Agent Workflow
+
+```bash
+pnpm --dir agentic-phase-runner-package exec agentic configure-agent --repo-root . --preset codex --dry-run
+pnpm --dir agentic-phase-runner-package exec agentic configure-agent --repo-root . --preset codex --apply
+pnpm --dir agentic-phase-runner-package exec agentic run --repo-root . --phase PHASE-01A --mode supervised --agents shell
+```
+
+Supervised mode can run configured shell commands. It does not create PRs or merge. `auto` mode still obeys deterministic gates and should be reserved for target repos with validated policy, checks, and rollback practices.
+
+## Fake-Agent Test Workflow
+
+The package test suite includes `fake-shell-test`, a local-only preset that invokes fixture scripts under `tests/fixtures/fake-agents/`. It proves the planner/executor/rechecker shell path can run, parse reports, write evidence, and reach deterministic gate behavior without calling real agents.
+
+```bash
+pnpm --dir agentic-phase-runner-package exec vitest run tests/fake-agent-supervised.test.ts
+```
+
+Do not use `fake-shell-test` for real implementation work.
+
+## Security Model
+
+Doctor performs lightweight command-safety checks over configured validation, preflight, and shell-agent templates. It blocks obvious destructive patterns such as `rm -rf /`, `git reset --hard`, `git push --force`, and pipe-to-shell install commands, and warns on commands that require review. This is not a full shell parser; treat it as a guardrail, not a sandbox.
 
 ## Resume
 

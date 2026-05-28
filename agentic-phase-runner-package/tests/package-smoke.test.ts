@@ -20,6 +20,7 @@ import {
 const execFileAsync = promisify(execFile);
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const builtCliPath = path.join(packageRoot, 'dist', 'src', 'cli', 'index.js');
+const builtCreateRunnerPath = path.join(packageRoot, 'dist', 'src', 'cli', 'create-agentic-runner.js');
 
 const withTempRepo = async (fn: (repoRoot: string) => Promise<void>): Promise<void> => {
   const repoRoot = await mkdtemp(path.join(os.tmpdir(), 'agentic-package-smoke-'));
@@ -135,6 +136,17 @@ describe('agentic phase runner package', () => {
     await execFileAsync('pnpm', ['--dir', packageRoot, 'run', 'build']);
     const help = await execFileAsync(process.execPath, [builtCliPath, 'help']);
     expect(help.stdout).toContain('agentic init');
+    expect(help.stdout).toContain('agentic version');
+    expect(help.stdout).toContain('agentic presets');
+    expect(help.stdout).toContain('agentic configure-agent');
+    expect(help.stdout).toContain('agentic migrate');
+    expect(help.stdout).toContain('agentic report');
+
+    const version = await execFileAsync(process.execPath, [builtCliPath, 'version', '--json']);
+    expect(version.stdout).toContain('"packageName": "agentic-phase-runner-package"');
+
+    const presets = await execFileAsync(process.execPath, [builtCliPath, 'presets', '--json']);
+    expect(presets.stdout).toContain('"id": "codex"');
 
     const repoRoot = await mkdtemp(path.join(os.tmpdir(), 'agentic-built-cli-smoke-'));
     try {
@@ -146,6 +158,37 @@ describe('agentic phase runner package', () => {
 
       const doctor = await execFileAsync(process.execPath, [builtCliPath, 'doctor', '--repo-root', repoRoot]);
       expect(doctor.stdout).toContain('"schemaVersion": 1');
+
+      const configureDryRun = await execFileAsync(process.execPath, [
+        builtCliPath,
+        'configure-agent',
+        '--repo-root',
+        repoRoot,
+        '--preset',
+        'manual',
+        '--dry-run',
+      ]);
+      expect(configureDryRun.stdout).toContain('"status": "planned"');
+
+      const configureApply = await execFileAsync(process.execPath, [
+        builtCliPath,
+        'configure-agent',
+        '--repo-root',
+        repoRoot,
+        '--preset',
+        'manual',
+        '--apply',
+      ]);
+      expect(configureApply.stdout).toContain('"status": "applied"');
+
+      const migrate = await execFileAsync(process.execPath, [
+        builtCliPath,
+        'migrate',
+        '--repo-root',
+        repoRoot,
+        '--dry-run',
+      ]);
+      expect(migrate.stdout).toContain('"schemaVersion": 1');
 
       const onboard = await execFileAsync(process.execPath, [
         builtCliPath,
@@ -250,6 +293,15 @@ describe('agentic phase runner package', () => {
       ]);
       expect(inspect.stdout).toContain('"latestRun"');
 
+      const report = await execFileAsync(process.execPath, [
+        builtCliPath,
+        'report',
+        '--repo-root',
+        repoRoot,
+        '--latest',
+      ]);
+      expect(report.stdout).toContain('# Agentic Run Report');
+
       const whyBlocked = await execFileAsync(process.execPath, [
         builtCliPath,
         'why-blocked',
@@ -286,6 +338,14 @@ describe('agentic phase runner package', () => {
         evidenceDir,
       ]);
       expect(gate.stdout).toContain('"decision": "block"');
+
+      const createRunner = await execFileAsync(process.execPath, [
+        builtCreateRunnerPath,
+        '--target',
+        repoRoot,
+        '--dry-run',
+      ]);
+      expect(createRunner.stdout).toContain('"status": "planned"');
     } finally {
       await rm(repoRoot, { recursive: true, force: true });
     }
